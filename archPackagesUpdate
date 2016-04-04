@@ -98,6 +98,8 @@ done
 
 if ${aufRechenknecht}
 then
+  sudo pacman -Syy
+
 # build packages
   for ((i=0; i<${#pakete[@]}; i++))
   do
