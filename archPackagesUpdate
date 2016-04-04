@@ -1,0 +1,23 @@
+#!/bin/bash
+
+cd $(dirname $0)/archPackages
+
+tmpDir="$(mktemp -d /tmp/archive.XXXXXX)"
+
+# extract git HEAD
+
+git archive --format tar HEAD | \
+  tar -x -C "${tmpDir}" -f -
+
+cd "${tmpDir}"
+
+# update $0
+if [ -e "$(basename $0)" ] && ! diff -q "$(basename $0)" "$0" &> /dev/null
+then
+  cp "$(basename $0)" "$0"
+  $0
+  exit $?
+fi
+
+
+rm -rf "${tmpDir}"
