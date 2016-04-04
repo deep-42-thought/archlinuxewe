@@ -1,53 +1,71 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-svn
 pkgver=27534
-pkgrel=1
+pkgrel=2
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64')
 url="http://www.openttd.org"
-license=('')
+license=('GPL2')
 groups=()
 depends=(
     'sdl'
-    'libpng'
+    'xz'
+    'icu'
     'fontconfig'
     'lzo'
 )
-makedepends=()
+makedepends=('subversion')
 checkdepends=()
 optdepends=()
-provides=()
+provides=('openttd')
 conflicts=()
 replaces=()
 backup=()
 options=()
-gfxversion=0.5.2
-sfxversion=0.2.3
-msxversion=0.3.1
+_gfxversion=0.5.2
+_sfxversion=0.2.3
+_msxversion=0.3.1
 source=(
-    "http://binaries.openttd.org/extra/opengfx/$gfxversion/opengfx-$gfxversion-all.zip"
-    "http://binaries.openttd.org/extra/opensfx/$sfxversion/opensfx-$sfxversion-all.zip"
-    "http://binaries.openttd.org/extra/openmsx/$msxversion/openmsx-$msxversion-all.zip"
+    "http://binaries.openttd.org/extra/opengfx/$_gfxversion/opengfx-$_gfxversion-all.zip"
+    "http://binaries.openttd.org/extra/opensfx/$_sfxversion/opensfx-$_sfxversion-all.zip"
+    "http://binaries.openttd.org/extra/openmsx/$_msxversion/openmsx-$_msxversion-all.zip"
     "everything.patch"
+    "version.patch"
     "clipboard.grf"
 )
 sha256sums=('19be61f1cb04cbb3cb9602f0b8eb6e6f56ecbefbfdd6e0e03f9579e5a5c1cbc8'
             '6831b651b3dc8b494026f7277989a1d757961b67c17b75d3c2e097451f75af02'
             '92e293ae89f13ad679f43185e83fb81fb8cad47fe63f4af3d3d9f955130460f5'
             '87c17a36bbc0f401e3aad88402e68cbc5ff743c728e403e5492879c931f08757'
+            '69a604a37db76337a2709a0e63f5ca09b325af294225c42f4b7faf43c93ecc4c'
             '12b90fe53f2d61d2d45d74ecc6b97d3a5f041c4215a5c1b02a6b1ba162e4572a')
 
-package() {
+prepare() {
 
-    tar -xf opengfx-$gfxversion.tar
+    tar -xf opengfx-$_gfxversion.tar
 
-    git clone "https://git.openttd.org/trunk.git" $pkgname
+    svn export "svn://svn.openttd.org/trunk@r${pkgver}" trunk
+    cd trunk
 
-    cd $pkgname
-    git checkout 76fc2426669d3a52d392ab6838ebf30326294589
+    cat $srcdir/everything.patch | \
+      (
+        read zeile
+        while read zeile
+        do
+          [[ "${zeile}" == "diff --git a/"* ]] && break
+        done
+        echo "${zeile}"
+        cat
+      ) | \
+      patch -p1
 
-    patch -p1 < $srcdir/everything.patch
+    patch -p2 < $srcdir/version.patch
 
+}
+
+build() {
+
+    cd trunk
     ./configure --prefix-dir=/usr \
                 --binary-dir=bin \
                 --data-dir=share/openttd \
@@ -55,23 +73,28 @@ package() {
                 --man-dir=share/man \
                 --personal-dir=.openttd \
                 --install-dir=$pkgdir \
-
     make
+
+}
+
+package() {
+
+    cd trunk
     make DESTDIR=$pkgdir install
 
     # Install OpenGFX
-    install -d $pkgdir/usr/share/openttd/data/opengfx-$gfxversion
-    install -m 644 $srcdir/opengfx-$gfxversion/* $pkgdir/usr/share/openttd/data/opengfx-$gfxversion
-    chown -R root:root $pkgdir/usr/share/openttd/data/opengfx-$gfxversion
+    install -d $pkgdir/usr/share/openttd/data/opengfx-$_gfxversion
+    install -m 644 $srcdir/opengfx-$_gfxversion/* $pkgdir/usr/share/openttd/data/opengfx-$_gfxversion
+    chown -R root:root $pkgdir/usr/share/openttd/data/opengfx-$_gfxversion
 
     # Install OpenSFX
-    install -d $pkgdir/usr/share/openttd/data/opensfx-$sfxversion
-    install -m 644 $srcdir/opensfx-$sfxversion/* $pkgdir/usr/share/openttd/data/opensfx-$sfxversion
-    chown -R root:root $pkgdir/usr/share/openttd/data/opensfx-$sfxversion
+    install -d $pkgdir/usr/share/openttd/data/opensfx-$_sfxversion
+    install -m 644 $srcdir/opensfx-$_sfxversion/* $pkgdir/usr/share/openttd/data/opensfx-$_sfxversion
+    chown -R root:root $pkgdir/usr/share/openttd/data/opensfx-$_sfxversion
 
     # Install OpenMSX
     install -d $pkgdir/usr/share/openttd/gm
-    install -m 644 $srcdir/openmsx-$msxversion/* $pkgdir/usr/share/openttd/gm
+    install -m 644 $srcdir/openmsx-$_msxversion/* $pkgdir/usr/share/openttd/gm
     chown -R root:root $pkgdir/usr/share/openttd/gm/*
     install -m644 $srcdir/clipboard.grf $pkgdir/usr/share/openttd/baseset/
 
@@ -83,8 +106,8 @@ package() {
     # Remove junk
     rm -rf $pkgdir/usr/share/doc
     rm -rf $pkgdir/usr/share/openttd/scripts
-    rm $pkgdir/usr/share/openttd/data/opengfx-$gfxversion/{changelog,readme}.txt
-    rm $pkgdir/usr/share/openttd/data/opensfx-$sfxversion/{changelog,readme}.txt
+    rm $pkgdir/usr/share/openttd/data/opengfx-$_gfxversion/{changelog,readme}.txt
+    rm $pkgdir/usr/share/openttd/data/opensfx-$_sfxversion/{changelog,readme}.txt
     rm $pkgdir/usr/share/openttd/gm/{changelog,readme}.txt
 
 }
