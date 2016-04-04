@@ -2,7 +2,7 @@
 
 # init variables
 tmpDir="$(mktemp -d /tmp/archive.XXXXXX)"
-pkgDir="/srv/arch-mirror/arch/arch/archlinuxewe/os/x86_64"
+pkgDir="/srv/arch-mirror/arch/arch/archlinuxewe/os"
 pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
 [ "$(hostname)" == "rechenknecht" ] && aufRechenknecht=true || aufRechenknecht=false
 force=false
@@ -10,7 +10,8 @@ upload=true
 updateMe=true
 
 # parse arguments
-eval set -- "$(getopt -o f --long force,no-upload,no-selfUpdate -n "$(basename "$0")" -- "$@")"
+eval set -- "$(getopt -o f --long force,no-upload,no-selfUpdate -n "$(basename "$0")" -- "$@" || echo "exit $?")"
+
 while true
 do
   case $1 in
@@ -61,63 +62,117 @@ then
   exit ${err}
 fi
 
+unset pakete
+unset archs
+unset verss
+
 # collect packages
-pakete="$( \
-  for paket in $( \
-    echo */PKGBUILD | \
-      sed "s|/PKGBUILD||g" \
-    )
-  do
-    [ -d "${paket}" ] || continue
-    . ${paket}/PKGBUILD
-    pkgFile="${paket}-${pkgver}-${pkgrel}-${arch[0]}.pkg.tar.xz"
-    ${force} || \
-      ! ${aufRechenknecht} || \
-      [ ! -e "${pkgDir}/${pkgFile}" ] && \
-        echo "${paket}"
-  done
-  )"
+for paket in $( \
+  echo */PKGBUILD | \
+    sed "s|/PKGBUILD||g" \
+  )
+do
+  [ -d "${paket}" ] || continue
+  . ${paket}/PKGBUILD
+  pkgFile="${paket}-${pkgver}-${pkgrel}-${arch[0]}.pkg.tar.xz"
+
+  allExist=true
+  [ "${arch[0]}" == "any" ] && \
+    for dir in ${pkgDir}/*
+    do
+      [ "${dir}" == "any" ] && continue
+      [ ! -d "${dir}" ] && continue
+      [ ! -e "${dir}/${pkgFile}" ] && allExist=false
+    done
+
+  if ${force} || \
+    ! ${aufRechenknecht} || \
+    [ ! -e "${pkgDir}/${arch[0]}/${pkgFile}" ] || \
+    ! ${allExist}
+  then
+    pakete[${#pakete[@]}]="${paket}"
+    archs[${#archs[@]}]="${arch[0]}"
+    verss[${#verss[@]}]="${pkgver}-${pkgrel}"
+  fi
+done
 
 if ${aufRechenknecht}
 then
 # build packages
-  for paket in ${pakete}
+  for ((i=0; i<${#pakete[@]}; i++))
   do
+    paket="${pakete[${i}]}"
+    arch="${archs[${i}]}"
+    vers="${verss[${i}]}"
+
     cd "${tmpDir}/${paket}"
-    rm -f ${paket}-*.pkg.tyr.xz
+    rm -f ${paket}-*.pkg.tar.xz
     makepkg -fcsr || exit $?
-    ${upload} && scp ${tmpDir}/${paket}/${paket}-*.pkg.tar.xz paule@127.0.0.1:${pkgDir}/
-  done
 
 # upload packages
-  ${upload} && ssh paule@127.0.0.1 ' \
-    cd "'${pkgDir}'"
-    for paket in '${pakete}'
+    if ${upload}
+    then
+      scp ${tmpDir}/${paket}/${paket}-${vers}-${arch}.pkg.tar.xz paule@127.0.0.1:${pkgDir}/${arch}/
+      [ "${arch}" == "any" ] && ssh paule@127.0.0.1 '\
+        cd '${pkgDir}'
+        for dir in *
+        do
+          [ "${dir}" == "any" ] && continue
+          [ ! -d "${dir}" ] && continue
+          ln -s "'"${pkgDir}/${arch}/${paket}-${vers}-${arch}.pkg.tar.xz"'" "'"${pkgDir}"'/${dir}/"
+        done \
+      '
+    fi
+  done
+
+# update packagedb
+  if ${upload}
+  then
+    for ((i=0; i<${#pakete[@]}; i++))
     do
-      alles="$(ls ${paket}*.pkg.tar.xz)"
-      anz="$(echo "${alles}" | wc -l)"
-      for version in $( \
-        echo "${alles}" | \
-          sed "s|^.*-\([^-]*-[^-]*\)-[^-]*\$|\1|" | \
-          sort -V | \
-          head -n$[${anz}-1] \
-        )
-      do
-        rm ${paket}-${version}-*.pkg.tar.xz
-      done
-    done
+      echo "${pakete[${i}]}"
+      echo "${verss[${i}]}"
+      echo "${archs[${i}]}"
+    done | \
+      ssh paule@127.0.0.1 ' \
+        cd "'"${pkgDir}"'"
+        while read paket
+        do
+          read vers || break
+          read oarch || break
+
+          for arch in *
+          do
+            [ ! -d "${arch}" ] && continue
+            [ ! "${arch}" == "any" ] && [ ! "${arch}" == "${oarch}" ] && continue
+
+            ls ${arch}/${paket}-*-${oarch}.pkg.tar.xz | \
+              grep -v "${arch}/${paket}-${vers}-${oarch}.pkg.tar.xz" | \
+              xargs -rn1 rm
+          done
+        done 
 
 # update db
-    repo-add \
-      '${pkgDir}'/archlinuxewe.db.tar.gz \
-      '${pkgDir}'/*.pkg.tar.xz
-  '
+        
+        for arch in *
+        do
+          [ "${arch}" == "any" ] && continue
+          [ ! -d "${arch}" ] && continue
+          repo-add \
+            '${pkgDir}'/${arch}/archlinuxewe.db.tar.gz \
+            '${pkgDir}'/${arch}/*.pkg.tar.xz
+        done
+      '
+  fi
+
 else
 
 # check packages
   err=false
-  for paket in ${pakete}
+  for ((i=0; i<${#pakete[@]}; i++))
   do
+    paket="${pakete[${i}]}"
+
     . ${paket}/PKGBUILD
     echo "${source}" | \
       grep -q "opensources\.eckner\.net" || \
@@ -137,7 +192,7 @@ else
 
   ${force} && opts="-f" || opts=""
 
-  ssh rechenknecht ~/archPackagesUpdate ${opts} || exit $?
+  ssh rechenknecht "~/archPackagesUpdate" ${opts} || exit $?
 fi
 
 # clean up
