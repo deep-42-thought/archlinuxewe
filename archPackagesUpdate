@@ -86,7 +86,7 @@ then
     cd "${tmpDir}/${paket}"
     rm -f ${paket}-*.pkg.tyr.xz
     makepkg -fcsr || exit $?
-    ${upload} && scp ${tmpDir}/${paket}/${paket}-*.pkg.tyr.xz paule@127.0.0.1:${pkgDir}/
+    ${upload} && scp ${tmpDir}/${paket}/${paket}-*.pkg.tar.xz paule@127.0.0.1:${pkgDir}/
   done
 
 # upload packages
