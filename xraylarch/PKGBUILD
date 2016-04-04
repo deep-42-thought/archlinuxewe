@@ -1,0 +1,40 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=xraylarch
+pkgver=0.9.27
+pkgrel=1
+pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
+arch=('any')
+url=""
+license=('BSD')
+groups=()
+depends=('python2' 'python2-sqlalchemy-git' 'python2-scipy' 'python2-matplotlib' 'python2-h5py' 'python2-numpy')
+makedepends=()
+checkdepends=()
+optdepends=(
+  'python2-termcolor:  needed for color-enhanced error messages'
+  'python2-epics:  needed for using the EPICS control system'
+  'python2-wxutils:  needed for graphics and plotting'
+  'python2-wxmplot:  needed for graphics and plotting'
+)
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://github.com/xraypy/${pkgname}/archive/${pkgver}.tar.gz"
+)
+sha256sums=(
+    "df85ba8002eda05d388f9564f01881b5ee2ff5eb86c8577c9e35592bc13cc67f"
+)
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+
+#    sed "s|DEBUG = False|DEBUG = True|" -i setup.py
+
+    python2 setup.py build
+    python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+
+}

@@ -1,0 +1,49 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=demeter
+pkgver=0.9.24
+pkgrel=1
+pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
+arch=('any')
+url="https://bruceravel.github.io/demeter"
+license=('BSD')
+groups=()
+depends=('xraylarch')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://github.com/bruceravel/${pkgname}/archive/${pkgver}.tar.gz"
+)
+sha256sums=('f85262921e9eb646c7989ee73da760edc5fa27d5b97d1a4b3e597cd750920d8a')
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+
+ls
+
+    perl ./Build.PL
+
+ls
+
+    ./Build
+
+ls
+
+    ./Build test
+
+ls
+
+    ./Build install --help
+
+#    sed "s|DEBUG = False|DEBUG = True|" -i setup.py
+
+#    python2 setup.py build
+#    python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+
+}

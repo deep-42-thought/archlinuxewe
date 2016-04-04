@@ -1,0 +1,33 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=sendmailadvanced
+pkgver=1.0.1
+pkgrel=3
+pkgdesc="Wrapper for sendmail, which generates stamps and encrypts."
+arch=('any')
+url=""
+license=('GPL')
+groups=()
+depends=('gnupg' 'hashcash')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=('etc/sendmailadvanced.conf')
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::http://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+)
+sha256sums=(
+    "9215b3c04ad4cab091cb7f62e8b565ced4d2f18904a0257cf1d012517db62334"
+)
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+
+    install -D -t $pkgdir/usr/bin/ sendmailadvanced
+    install -D -t $pkgdir/etc/ sendmailadvanced.conf
+
+}

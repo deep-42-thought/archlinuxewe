@@ -1,0 +1,652 @@
+#!/bin/bash
+#
+# Program: Expiration Check for Cryptographic Keys and Certificates
+# <crypt-expiry-check>
+#
+# Author of ssl-cert-check: Matty < matty91 at gmail dot com >
+# Maintainer of crypt-expiry-check: Erich < crux at eckner dot net >
+#
+# Purpose: 
+#  crypt-expiry-check checks to see if a digital certificate in X.509 format
+#  or a GnuPG-key has expired. ssl-cert-check can be run in interactive 
+#  and batch mode, and provides facilities to alarm if a certificate is 
+#  about to expire.
+#
+# License: 
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#
+# Requirements:
+#   Requires openssl gnupg
+# 
+# Installation: 
+#   Copy the shell script to a suitable location
+#
+# Usage:
+#  Refer to the usage() sub-routine, or invoke crypt-expiry-check 
+#  with the "-h" option.
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/ssl/bin:/usr/sfw/bin
+export PATH
+
+# Who to page when an expired certificate is detected (cmdline: -e)
+ADMIN="root"
+
+# Number of days in the warning threshhold  (cmdline: -x)
+WARNDAYS=30
+
+# If QUIET is set to true, don't print anything on the console (cmdline: -q)
+QUIET=false
+
+# Don't send E-mail by default (cmdline: -a)
+ALARM=false
+
+# Don't run as a Nagios plugin by default (cmdline: -n)
+NAGIOS=false
+
+# Don't print issuer by default
+ISSUER=false
+
+# Print header by default
+NOHEADER=false
+
+# Do not validate by default
+VALIDATION=false
+
+# NULL out the PKCSDBPASSWD variable for later use (cmdline: -k)
+PKCSDBPASSWD=""
+
+# Type of certificate (PEM, DER, NET) (cmdline: -t)
+CERTTYPE="pem"
+
+# Protocol version to use (cmdline: -v)
+VERSION=""
+
+# Enable debugging
+DEBUG=false
+
+# Location of system binaries
+AWK=$(which awk)
+DATE=$(which date)
+GREP=$(which grep)
+OPENSSL=$(which openssl)
+PRINTF=$(which printf)
+SED=$(which sed)
+TEE=$(which tee)
+SORT=$(which sort)
+TAIL=$(which tail)
+MKTEMP=$(which mktemp)
+GPG=$(which gpg)
+
+# Try to find a mail client
+MAIL="cantfindit"
+for executable in sendmailadvanced sendmail mailx mail
+do
+    for prefix in /usr/bin /bin /usr/sbin /sbin
+    do
+        [ "${MAIL}" == "cantfindit" ] && [ -f "${prefix}/${executable}" ] && MAIL="${prefix}/${executable}"
+    done
+done
+
+# Return code used by nagios. Initialize to 0.
+RETCODE=0
+
+# Set the default umask to be somewhat restrictive
+umask 077
+
+#####################################################################
+# Purpose: set RETCODE at least to the given value
+# Arguments:
+#   $1 -> minimal RETCODE
+#####################################################################
+set_retcode()
+{
+    [ ${RETCODE} -lt $1 ] && RETCODE=$1
+}
+
+#####################################################################
+# Purpose: Print a line with the expiraton interval
+# Arguments:
+#   $1 -> Hostname
+#   $2 -> TCP Port 
+#   $3 -> Status of certification (e.g., expired or valid)
+#   $4 -> Date when certificate will expire
+#   $5 -> Days left until the certificate will expire 
+#   $6 -> Issuer of the certificate
+#####################################################################
+prints() 
+{
+    if ${ISSUER} && ! ${VALIDATION}
+    then
+        MIN_DATE=$(echo $4 | ${AWK} '{ print $1, $2, $4 }')
+        if ${NAGIOS}
+        then
+            ${PRINTF} "%-35s %-17s %-8s %-11s %-4s %-30s\n" "$1:$2" "$6" "$3" "${MIN_DATE}" \|days="$5" >> ${STDOUT_TMP}
+        else
+            ${PRINTF} "%-35s %-17s %-8s %-11s %-4s %-30s\n" "$1:$2" "$6" "$3" "${MIN_DATE}" "$5" >> ${STDOUT_TMP}
+        fi
+    elif ${ISSUER} && ${VALIDATION}
+    then
+        ${PRINTF} "%-35s %-35s %-32s %-17s\n" "$1:$2" "$7" "$8" "$6" >> ${STDOUT_TMP}
+
+    elif ! ${VALIDATION}
+    then
+        MIN_DATE=$(echo $4 | ${AWK} '{ print $1, $2, $4 }')
+        if ${NAGIOS}
+        then
+            ${PRINTF} "%-47s %-12s %-12s %-4s %-30s\n" "$1:$2" "$3" "${MIN_DATE}" \|days="$5" >> ${STDOUT_TMP}
+        else
+            ${PRINTF} "%-47s %-12s %-12s %-4s %-30s\n" "$1:$2" "$3" "${MIN_DATE}" "$5" >> ${STDOUT_TMP}
+        fi  
+    else
+        ${PRINTF} "%-35s %-35s %-32s\n" "$1:$2" "$7" "$8" >> ${STDOUT_TMP}
+    fi
+}
+
+
+####################################################
+# Purpose: Print a heading with the relevant columns
+# Arguments:
+#   None
+####################################################
+print_heading() 
+{
+    if ! ${NOHEADER}
+    then 
+       if ${ISSUER} && ! ${NAGIOS} && ! ${VALIDATION}
+       then
+           ${PRINTF} "\n%-35s %-17s %-8s %-11s %-4s\n" "Host" "Issuer" "Status" "Expires" "Days" >> ${STDOUT_TMP}
+           echo "----------------------------------- ----------------- -------- ----------- ----" >> ${STDOUT_TMP}
+
+       elif ${ISSUER} && ! ${NAGIOS} && ${VALIDATION}
+       then
+           ${PRINTF} "\n%-35s %-35s %-32s %-17s\n" "Host" "Common Name" "Serial #" "Issuer" >> ${STDOUT_TMP}
+           echo "----------------------------------- ----------------------------------- -------------------------------- -----------------" >> ${STDOUT_TMP}
+    
+       elif ! ${NAGIOS} && ! ${VALIDATION}
+       then
+           ${PRINTF} "\n%-47s %-12s %-12s %-4s\n" "Host" "Status" "Expires" "Days" >> ${STDOUT_TMP}
+           echo "----------------------------------------------- ------------ ------------ ----" >> ${STDOUT_TMP}
+    
+       elif ! ${NAGIOS} && ${VALIDATION}
+       then
+           ${PRINTF} "\n%-35s %-35s %-32s\n" "Host" "Common Name" "Serial #" >> ${STDOUT_TMP}
+           echo "----------------------------------- ----------------------------------- --------------------------------" >> ${STDOUT_TMP}
+       fi
+       echo "Dear admin," >> ${MAILOUT_TMP}
+    fi
+}
+
+
+##########################################
+# Purpose: Describe how the script works
+# Arguments:
+#   None
+##########################################
+usage() 
+{
+    >&2 echo "Usage: $0 [ -e email address ] [ -x days ] [-q] [-a] [-b] [-h] [-i] [-n] [-v]"
+    >&2 echo "       { [ -s common_name:port] } || { [ -f cert_file ] } || { [ -c certificate file ] } || { [ -g email address ] }" 
+    >&2 echo ""
+    >&2 echo "  -a                   : Send a warning message through E-mail"
+    >&2 echo "  -b                   : Will not print header"
+    >&2 echo "  -c cert file         : Print the expiration date for the PEM or PKCS12 formatted certificate in cert file"
+    >&2 echo "  -e E-mail address    : E-mail address to send expiration notices"
+    >&2 echo "  -f cert file         : File with a list of FQDNs and ports"
+    >&2 echo "  -g E-mail address    : E-mail address to check expiry of gpg-key from"
+    >&2 echo "  -h                   : Print this screen"
+    >&2 echo "  -i                   : Print the issuer of the certificate"
+    >&2 echo "  -k password          : PKCS12 file password"
+    >&2 echo "  -n                   : Run as a Nagios plugin"
+    >&2 echo "  -s commmon_name:port : Server and Port to connect to (interactive mode)"
+    >&2 echo "  -t type              : Specify the certificate type"
+    >&2 echo "  -q                   : Don't print anything on the console"
+    >&2 echo "  -v                   : Specify a specific protocol version to use (tls, ssl2, ssl3)"
+    >&2 echo "  -V                   : Only print validation data"
+    >&2 echo "  -x days              : Certificate expiration interval (eg. if cert_date < days)"
+    >&2 echo ""
+}
+
+
+##########################################################################
+# Purpose: Connect to a server ($1) and port ($2) to see if a certificate
+#          has expired
+# Arguments:
+#   $1 -> Server name
+#   $2 -> TCP port to connect to
+##########################################################################
+check_server_status() {
+
+    if [ "_${2}" = "_smtp" -o "_${2}" = "_25" ]
+    then
+        TLSFLAG="-starttls smtp"
+
+    elif [ "_${2}" = "_ftp" -o "_${2}" = "_21" ]
+    then
+        TLSFLAG="-starttls ftp"
+
+    elif [ "_${2}" = "_pop3" -o "_${2}" = "_110" ]
+    then
+        TLSFLAG="-starttls pop3"
+    
+    elif [ "_${2}" = "_imap" -o "_${2}" = "_143" ]
+    then
+        TLSFLAG="-starttls imap"
+
+    elif [ "_${2}" = "_submission" -o "_${2}" = "_587" ]
+    then
+        TLSFLAG="-starttls smtp -port ${2}"
+    else
+        TLSFLAG=""
+    fi
+
+    if [ "${VERSION}" != "" ]
+    then
+        VER="-${VERSION}"
+    fi
+
+    if ${TLSSERVERNAME}
+    then
+         TLSFLAG="${TLSFLAG} -servername $1"
+    fi
+
+    echo "" | ${OPENSSL} s_client ${VER} -connect ${1}:${2} ${TLSFLAG} 2> ${ERROR_TMP} 1> ${CERT_TMP}
+
+    if ${GREP} -iq  "Connection refused" ${ERROR_TMP}
+    then
+        prints ${1} ${2} "Connection refused" "Unknown" | ${TEE} -a ${MAILOUT_TMP} >> ${STDOUT_TMP}
+        set_retcode 3
+
+    elif ${GREP} -iq "No route to host" ${ERROR_TMP}
+    then
+        prints ${1} ${2} "No route to host" "Unknown" | ${TEE} -a ${MAILOUT_TMP} >> ${STDOUT_TMP}
+        set_retcode 3
+
+    elif ${GREP} -iq "gethostbyname failure" ${ERROR_TMP}
+    then
+        prints ${1} ${2} "Cannot resolve domain" "Unknown" | ${TEE} -a ${MAILOUT_TMP} >> ${STDOUT_TMP}
+        set_retcode 3
+    
+    elif ${GREP} -iq "Operation timed out" ${ERROR_TMP}
+    then
+        prints ${1} ${2} "Operation timed out" "Unknown" | ${TEE} -a ${MAILOUT_TMP} >> ${STDOUT_TMP}
+        set_retcode 3
+ 
+    elif ${GREP} -iq "ssl handshake failure" ${ERROR_TMP}
+    then
+        prints ${1} ${2} "SSL handshake failed" "Unknown" | ${TEE} -a ${MAILOUT_TMP} >> ${STDOUT_TMP}
+        set_retcode 3
+
+    elif ${GREP} -iq "connect: Connection timed out" ${ERROR_TMP}
+    then
+        prints ${1} ${2} "Connection timed out" "Unknown" | ${TEE} -a ${MAILOUT_TMP} >> ${STDOUT_TMP}
+        set_retcode 3
+    
+    else
+        check_file_status ${CERT_TMP} $1 $2
+    fi
+}
+
+#####################################################
+### Check the expiration status of a certificate file
+### Accepts three parameters:
+###  $1 -> certificate file to process
+###  $2 -> Server name
+###  $3 -> Port number of certificate
+#####################################################
+check_file_status() {
+
+    CERTFILE=${1}
+    HOST=${2}
+    PORT=${3}
+
+    ### Check to make sure the certificate file exists
+    if [ ! -r ${CERTFILE} ] || [ ! -s ${CERTFILE} ]
+    then
+        >&2 echo "ERROR: The file named ${CERTFILE} is unreadable or doesn't exist" | ${TEE} -a ${MAILOUT_TMP}
+        >&2 echo "ERROR: Please check to make sure the certificate for ${HOST}:${PORT} is valid" | ${TEE} -a ${MAILOUT_TMP}
+        set_retcode 1
+        return
+    fi
+
+    ### Grab the expiration date from the X.509 certificate
+    if [ "${PKCSDBPASSWD}" != "" ]
+    then
+        # Extract the certificate from the PKCS#12 database, and
+        # send the informational message to /dev/null
+        ${OPENSSL} pkcs12 -nokeys -in ${CERTFILE} \
+                   -out ${CERT_TMP} -clcerts -password pass:${PKCSDBPASSWD} 2> /dev/null
+           
+        # Extract the expiration date from the certificate
+        CERTDATE=$(${OPENSSL} x509 -in ${CERT_TMP} -enddate -noout | \
+                 ${SED} 's/notAfter\=//')
+
+        # Extract the issuer from the certificate
+        CERTISSUER=$(${OPENSSL} x509 -in ${CERT_TMP} -issuer -noout | \
+                    ${AWK} 'BEGIN {RS="/" } $0 ~ /^O=/ \
+                                  { print substr($0,3,17)}')
+
+        ### Grab the common name (CN) from the X.509 certificate
+        COMMONNAME=$(${OPENSSL} x509 -in ${CERT_TMP} -subject -noout | \
+                   ${SED} -e 's/.*CN=//' | \
+				   ${SED} -e 's/\/.*//')
+        
+	### Grab the serial number from the X.509 certificate
+        SERIAL=$(${OPENSSL} x509 -in ${CERT_TMP} -serial -noout | \
+                   ${SED} -e 's/serial=//')
+    else
+        # Extract the expiration date from the ceriticate
+        CERTDATE=$(${OPENSSL} x509 -in ${CERTFILE} -enddate -noout -inform ${CERTTYPE} | \
+                 ${SED} 's/notAfter\=//')
+
+        # Extract the issuer from the certificate
+        CERTISSUER=$(${OPENSSL} x509 -in ${CERTFILE} -issuer -noout -inform ${CERTTYPE} | \
+                   ${AWK} 'BEGIN {RS="/" } $0 ~ /^O=/ { print substr($0,3,17)}')
+
+        ### Grab the common name (CN) from the X.509 certificate
+        COMMONNAME=$(${OPENSSL} x509 -in ${CERTFILE} -subject -noout -inform ${CERTTYPE} | \
+                   ${SED} -e 's/.*CN=//' | \
+				   ${SED} -e 's/\/.*//')
+	### Grab the serial number from the X.509 certificate
+        SERIAL=$(${OPENSSL} x509 -in ${CERTFILE} -serial -noout -inform ${CERTTYPE} | \
+                   ${SED} -e 's/serial=//')
+    fi
+
+    # Convert the date to seconds, and get the diff between NOW and the expiration date
+    CERTDIFF=$[$(date +%s -d "${CERTDATE}") - $(date +%s)]
+    if [ ${CERTDIFF} -lt 0 ]
+    then
+        CERTDIFF=$[$[${CERTDIFF}+1]/3600/24-1]
+    else
+        CERTDIFF=$[${CERTDIFF}/3600/24]
+    fi
+
+    if [ ${CERTDIFF} -lt 0 ]
+    then
+        echo "The SSL certificate for ${HOST} \"(CN: ${COMMONNAME})\" has expired!" >> ${MAILOUT_TMP}
+        prints ${HOST} ${PORT} "Expired" "${CERTDATE}" "${CERTDIFF}" "${CERTISSUER}" "${COMMONNAME}" "${SERIAL}" >> ${STDOUT_TMP}
+        set_retcode 2
+
+    elif [ ${CERTDIFF} -lt ${WARNDAYS} ]
+    then
+        echo "The SSL certificate for ${HOST} \"(CN: ${COMMONNAME})\" will expire on ${CERTDATE}" >> ${MAILOUT_TMP}
+        prints ${HOST} ${PORT} "Expiring" "${CERTDATE}" "${CERTDIFF}" "${CERTISSUER}" "${COMMONNAME}" "${SERIAL}" >> ${STDOUT_TMP}
+        set_retcode 1
+
+    else
+        prints ${HOST} ${PORT} "Valid" "${CERTDATE}" "${CERTDIFF}" "${CERTISSUER}" "${COMMONNAME}" "${SERIAL}" >> ${STDOUT_TMP}
+    fi
+}
+
+#####################################################
+### Check the expiration status of a gpg-key
+### Accepts one parameters:
+###  $1 -> E-mail address to check
+#####################################################
+check_gpg_key_status() {
+
+    ### Check to make sure gpg is available
+    if [ ! -f ${GPG} ]
+    then
+        >&2 echo "ERROR: The gnupg binary does not exist in ${GPG}."
+        >&2 echo "FIX: Please modify the \${GPG} variable in the program header or ommit testing of gpg-keys."
+        exit 1
+    fi
+
+    GPG_ADDRESS="${1}"
+    KEY_INFO="$(${GPG} --list-keys ${GPG_ADDRESS})"
+
+    KEY_DATE_STR="$(
+        echo "${KEY_INFO}" | \
+            ${GREP} "\[\(expire[ds]\|verfallen\|verf..\?llt\):[^]]*]" | \
+            ${SED} "s#^.*\[\(expire[ds]\|verfallen\|verf..\?llt\):\s*\(\S[^]]*\)].*\$#\2#" | \
+            ${SORT} | \
+            ${TAIL} -n1
+        )"
+    if [ -z "${KEY_DATE_STR}" ]
+    then
+        echo "No valid gpg-key found for ${GPG_ADDRESS}." | ${TEE} -a ${MAILOUT_TMP} >> ${STDOUT_TMP}
+        set_retcode 2
+    else
+        KEY_DATE=$(date +%s -ud "${KEY_DATE_STR}")
+    fi
+
+    KEY_DIFF=$[${KEY_DATE} - $(date +%s)]
+    if [ ${KEY_DIFF} -lt 0 ]
+    then
+        KEY_DIFF=$[$[${KEY_DIFF}+1]/3600/24-1]
+    else
+        KEY_DIFF=$[${KEY_DIFF}/3600/24]
+    fi
+
+    if [ ${KEY_DIFF} -lt 0 ]
+    then
+        echo "The GPG key for ${GPG_ADDRESS} has expired!" >> ${MAILOUT_TMP}
+        prints "GPG" " ${GPG_ADDRESS}" "Expired" "${KEY_DATE_STR}" "${KEY_DIFF}" "" "" "" >> ${STDOUT_TMP}
+        set_retcode 2
+
+    elif [ ${KEY_DIFF} -lt ${WARNDAYS} ]
+    then
+        echo "The GPG key for ${GPG_ADDRESS} will expire on ${KEY_DATE_STR}" >> ${MAILOUT_TMP}
+        prints "GPG" " ${GPG_ADDRESS}" "Expiring" "${KEY_DATE_STR}" "${KEY_DIFF}" "" "" "" >> ${STDOUT_TMP}
+        set_retcode 1
+
+    else
+        prints "GPG" " ${GPG_ADDRESS}" "Valid" "${KEY_DATE_STR}" "${KEY_DIFF}" "" "" "" >> ${STDOUT_TMP}
+    fi
+}
+
+#################################
+### Start of main program
+#################################
+while getopts abc:e:f:g:hik:nqs:t:x:v:V option
+do
+    case "${option}"
+    in
+        a)
+            ALARM=true
+            ;;
+        b)
+            NOHEADER=true
+            ;;
+        c)
+            CERTFILES[${#CERTFILES[@]}]=${OPTARG}
+            ;;
+        e)
+            ADMIN=${OPTARG}
+            ;;
+        f)
+            SERVERFILES[${#SERVERFILES[@]}]=${OPTARG}
+            ;;
+        g)
+            CHECKADDRESSES[${#CHECKADDRESSES[@]}]=${OPTARG}
+            ;;
+        i)
+            ISSUER=true
+            ;;
+        k)
+            PKCSDBPASSWD=${OPTARG}
+            ;;
+        n)
+            NAGIOS=true
+            ;;
+        q)
+            QUIET=true
+            ;;
+        s)
+            HOSTS[${#HOSTS[@]}]=${OPTARG%:*}
+            PORTS[${#PORTS[@]}]=${OPTARG#*:}
+            ;;
+        t)
+            CERTTYPE=${OPTARG}
+            ;;
+        v)
+            VERSION=${OPTARG}
+            ;;
+        V)
+            VALIDATION=true
+            ;;
+        x)
+            WARNDAYS=${OPTARG}
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+if [ ${OPTIND} -le $# ]
+then
+    >&2 echo "ERROR: Too many arguments."
+    exit 1
+fi
+
+### Check to make sure a openssl utility is available
+if [ ! -f ${OPENSSL} ]
+then
+    >&2 echo "ERROR: The openssl binary does not exist in ${OPENSSL}."
+    >&2 echo "FIX: Please modify the \${OPENSSL} variable in the program header."
+    exit 1
+fi
+
+### Check to make sure a date utility is available
+if [ ! -f ${DATE} ]
+then
+    >&2 echo "ERROR: The date binary does not exist in ${DATE} ."
+    >&2 echo "FIX: Please modify the \${DATE} variable in the program header."
+    exit 1
+fi
+
+### Check to make sure a grep utility is available
+if [ ! -f ${GREP} ]
+then
+    >&2 echo "ERROR: The grep binary does not exist in ${GREP} ."
+    >&2 echo "FIX: Please modify the \${GREP} variable in the program header."
+    exit 1
+fi
+
+### Check to make sure the mktemp and printf utilities are available
+if [ ! -f ${MKTEMP} ] || [ ! -f ${PRINTF} ]
+then
+    >&2 echo "ERROR: Unable to locate the mktemp or printf binary."
+    >&2 echo "FIX: Please modify the \${MKTEMP} and \${PRINTF} variables in the program header."
+    exit 1
+fi
+
+### Check to make sure the sed and awk binaries are available
+if [ ! -f ${SED} ] || [ ! -f ${AWK} ] || [ ! -f ${TEE} ] || [ ! -f ${SORT} ] || [ ! -f ${TAIL} ]
+then
+    >&2 echo "ERROR: Unable to locate the sed, awk, tee, sort or tail binary."
+    >&2 echo "FIX: Please modify the \${SED}, \${AWK}, \${TEE}, \${SORT}, \${TAIL} variables in the program header."
+    exit 1
+fi
+
+### Check to make sure a mail client is available if automated notifications are requested
+if ${ALARM} && [ ! -f ${MAIL} ]
+then
+    >&2 echo "ERROR: You enabled automated alerts, but the mail binary could not be found."
+    >&2 echo "FIX: Please modify the \${MAIL} variable in the program header."
+    exit 1
+fi
+
+# Send along the servername when TLS is used
+TLSSERVERNAME=${OPENSSL} s_client -h 2>&1 | grep -q -- '-servername'
+
+# Place to stash temporary files
+CERT_TMP=$(${MKTEMP}  /var/tmp/cert.XXXXXX)
+ERROR_TMP=$(${MKTEMP} /var/tmp/error.XXXXXX)
+STDOUT_TMP=$(${MKTEMP} /var/tmp/stdout.XXXXXX)
+MAILOUT_TMP=$(${MKTEMP} /var/tmp/mailout.XXXXXX)
+
+### Touch the files prior to using them
+if [ ! -z "${CERT_TMP}" ] && [ ! -z "${ERROR_TMP}" ] && [ ! -z "${STDOUT_TMP}" ] && [ ! -z "${MAILOUT_TMP}" ]
+then
+    touch ${CERT_TMP} ${ERROR_TMP} ${STDOUT_TMP} ${MAILOUT_TMP}
+else
+    >&2 echo "ERROR: Problem creating temporary files"
+    >&2 echo "FIX: Check that mktemp works on your system"
+    exit 1
+fi
+
+if [ $[${#HOSTS[@]} + ${#SERVERFILES[@]} + ${#CERTFILES[@]} + ${#CHECKADDRESSES[@]}] -eq 0 ]
+then
+    >&2 echo "ERROR: Nothing to check."
+    usage
+    exit 1
+fi
+
+print_heading
+
+for (( i=0; i<${#HOSTS[@]}; i++ ))
+do
+    check_server_status "${HOSTS[${i}]}" "${PORTS[${i}]}"
+done
+
+for (( i=0; i<${#SERVERFILES[@]}; i++ ))
+do
+    while read HOST PORT
+    do
+        if [ "${PORT}" = "FILE" ]
+        then
+            check_file_status "${HOST}" "FILE" "${HOST}"
+        elif [ "${PORT}" = "GPG" ]
+        then
+            check_gpg_key_status "${HOST}"
+        else
+            check_server_status "${HOST}" "${PORT}"
+        fi
+    done <<< "$(egrep -v '(^#|^$)' ${SERVERFILES[${i}]})"
+done
+
+for (( i=0; i<${#CERTFILES[@]}; i++ ))
+do
+    check_file_status "${CERTFILES[${i}]}" "FILE"  "${CERTFILES[${i}]}"
+done
+
+for (( i=0; i<${#CHECKADDRESSES[@]}; i++ ))
+do
+    check_gpg_key_status "${CHECKADDRESSES[${i}]}"
+done
+
+if ! ${QUIET}
+then
+    cat ${STDOUT_TMP}
+fi
+
+if ${ALARM} && [ ${RETCODE} -gt 0 ]
+then
+    (
+        echo "To: ${ADMIN}"
+        echo "From: $(whoami)@$(hostname)"
+        echo "Subject: $(basename $0) at $(date)"
+        echo ""
+        cat ${MAILOUT_TMP}
+    ) | ${MAIL} -t
+fi
+
+### Remove the temporary files
+if ${DEBUG}
+then
+    echo "DEBUG: Certificate temporary file:"
+    cat ${CERT_TMP}
+    echo "DEBUG: Runtime information file:"
+    cat ${ERROR_TMP}
+fi
+
+rm -f ${CERT_TMP} ${ERROR_TMP} ${STDOUT_TMP} ${MAILOUT_TMP}
+
+### Exit with a success indicator
+if ${NAGIOS}
+then
+    exit ${RETCODE}
+else
+    exit 0
+fi
