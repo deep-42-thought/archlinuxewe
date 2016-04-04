@@ -1,0 +1,36 @@
+# $Id$
+# Contributor: Dan McGee <dan@archlinux.org>
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname=pacman-mirrorlist
+pkgver=20160404
+pkgrel=1
+pkgdesc="Arch Linux mirror list for use by pacman"
+arch=('any')
+url="https://www.archlinux.org/mirrorlist/"
+license=('GPL')
+backup=(etc/pacman.d/mirrorlist)
+source=("${pkgname}-${pkgver}-${pkgrel}-any-original.pkg.tar.xz::https://arch.eckner.net/core/os/x86_64/${pkgname}-${pkgver}-${pkgrel}-any.pkg.tar.xz")
+
+package() {
+  mkdir -p $pkgdir/etc/pacman.d
+  tar -xJf ${pkgname}-${pkgver}-${pkgrel}-any-original.pkg.tar.xz
+  cat etc/pacman.d/mirrorlist | \
+    (
+      while read s
+      do
+        echo "${s}"
+        if [ -z "${s}" ]
+        then
+          echo 'Server = https://arch.eckner.net/$repo/os/$arch'
+          echo ''
+          break
+        fi
+      done
+      cat
+    ) \
+    > mirrorlist
+  install -m644 mirrorlist $pkgdir/etc/pacman.d/
+}
+
+sha256sums=('b20c13149d816245d92db5c3d7e4a81babebd70cf842e633f0997a7327d1ecf9')
