@@ -135,7 +135,9 @@ else
   cd "${pkgSrcDir}"
   git push || exit $?
 
-  ssh rechenknecht "~/archPackagesUpdate" || exit $?
+  ${force} && opts="-f" || opts=""
+
+  ssh rechenknecht ~/archPackagesUpdate ${opts} || exit $?
 fi
 
 # clean up
