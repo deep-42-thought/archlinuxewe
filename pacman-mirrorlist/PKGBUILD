@@ -10,7 +10,7 @@ arch=('any')
 url="https://www.archlinux.org/mirrorlist/"
 license=('GPL')
 backup=(etc/pacman.d/mirrorlist)
-source=("${pkgname}-${pkgver}-${pkgrel}-any-original.pkg.tar.xz::https://arch.eckner.net/core/os/x86_64/${pkgname}-${pkgver}-${pkgrel}-any.pkg.tar.xz")
+source=("${pkgname}-${pkgver}-${pkgrel}-any-original.pkg.tar.xz::http://arch.eckner.net/core/os/x86_64/${pkgname}-${pkgver}-${pkgrel}-any.pkg.tar.xz")
 
 package() {
   mkdir -p $pkgdir/etc/pacman.d
