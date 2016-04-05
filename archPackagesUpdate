@@ -124,7 +124,7 @@ then
 
     cd "${tmpDir}/${paket}"
     rm -f ${paket}-*.pkg.tar.xz
-    makepkg -fcsr || exit $?
+    makepkg -fcsr --noconfirm || exit $?
 
 # upload packages
     if ${upload}
