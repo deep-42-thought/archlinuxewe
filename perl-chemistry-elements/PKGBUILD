@@ -1,0 +1,49 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=perl-chemistry-elements
+pkgver=1.062
+pkgrel=1
+pkgdesc="Perl extension for working with Chemical Elements"
+arch=('any')
+url="https://github.com/briandfoy/chemistry-elements"
+license=('GPL' 'PerlArtistic')
+groups=()
+depends=('perl')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "http://search.cpan.org/CPAN/authors/id/B/BD/BDFOY/Chemistry-Elements-${pkgver}.tar.gz"
+)
+sha256sums=(
+    '01fbad697ecb8204395427dbae76c23dafbe6dca6070731db3e09102cd33385b'
+)
+
+build() {
+
+    cd Chemistry-Elements-${pkgver}
+
+    perl Makefile.PL
+    make
+
+}
+
+check() {
+
+    cd Chemistry-Elements-${pkgver}
+
+    make test
+
+}
+
+package() {
+
+    cd Chemistry-Elements-${pkgver}
+
+    make DESTDIR="${pkgdir}" install
+
+}
