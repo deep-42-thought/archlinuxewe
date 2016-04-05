@@ -136,6 +136,7 @@ then
         do
           [ "${dir}" == "any" ] && continue
           [ ! -d "${dir}" ] && continue
+          [ -e "'"${pkgDir}"'/${dir}/'"${paket}-${vers}-${arch}.pkg.tar.xz"'" ] && rm "'"${pkgDir}"'/${dir}/'"${paket}-${vers}-${arch}.pkg.tar.xz"'"
           ln -s "'"${pkgDir}/${arch}/${paket}-${vers}-${arch}.pkg.tar.xz"'" "'"${pkgDir}"'/${dir}/"
         done \
       '
