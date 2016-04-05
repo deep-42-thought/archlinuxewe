@@ -1,0 +1,52 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=perl-config-ini
+pkgver=0.025
+pkgrel=1
+pkgdesc="Perl extension for config ini's"
+arch=('any')
+url="https://github.com/rjbs/Config-INI"
+license=('GPL' 'PerlArtistic')
+groups=()
+depends=(
+    'perl'
+    'perl-mixin-linewise'
+)
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/Config-INI-${pkgver}.tar.gz"
+)
+sha256sums=(
+    '628bf76d5b91f89dde22d4813ec033026ebf71b772bb61ccda909da00c869732'
+)
+
+build() {
+
+    cd Config-INI-${pkgver}
+
+    perl Makefile.PL
+    make
+
+}
+
+check() {
+
+    cd Config-INI-${pkgver}
+
+    make test
+
+}
+
+package() {
+
+    cd Config-INI-${pkgver}
+
+    make DESTDIR="${pkgdir}" install
+
+}
