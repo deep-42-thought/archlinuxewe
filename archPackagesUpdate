@@ -176,14 +176,36 @@ else
     paket="${pakete[${i}]}"
 
     . ${paket}/PKGBUILD
-    echo "${source}" | \
-      grep -q "opensources\.eckner\.net" || \
-        continue
-    remSum="$(curl -o - "${source#*::}&post=sha256sum" 2> /dev/null)"
-    if [ ! "${remSum}" == "${sha256sums}" ]
+
+    if echo "${source}" | grep -q "://opensources\.eckner\.net/"
     then
-      echo "sha256sum von ${pkgname} stimmt nicht: ${remSum} vs. ${sha256sums}."
-      err=true
+
+# one of Erich's packages
+
+      remSum="$(curl -o - "${source#*::}&post=sha256sum" 2> /dev/null)"
+      if [ ! "${remSum}" == "${sha256sums}" ]
+      then
+        >&2 echo "sha256sum von ${pkgname} stimmt nicht: ${remSum} vs. ${sha256sums}."
+        err=true
+      fi
+
+    elif echo "${source}" | grep -q "://arch\.eckner\.net/"
+    then
+
+# a modified official package
+
+      offVer="$( \
+        ssh paule@jeti100 'ls '"${pkgDir}"'/*/'"${paket}"'-*.pkg.tar.xz' | \
+          xargs -n1 basename | \
+          sort -V | \
+          tail -n1 \
+        )"
+      if [ ! "${offVer}" == "${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.xz" ]
+      then
+        >&2 echo "${pkgname} ist in den offiziellen Quellen aktueller: ${offVer}."
+        err=true
+      fi
+
     fi
 
   done
