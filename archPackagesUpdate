@@ -9,8 +9,23 @@ force=false
 upload=true
 updateMe=true
 
+# print help screen
+usage()
+{
+  >&2 echo ''
+  >&2 echo 'Skript zum Updaten der selbsterstellten Archlinux-Pakete'
+  >&2 echo ''
+  >&2 echo 'Verwendung:'
+  >&2 echo '  '"$0"' [ -f|--force ] [ --no-upload ] [ --no-selfUpdate ]'
+  >&2 echo '    -f|--force:       rebuild packages even if they look up to date'
+  >&2 echo '    --no-upload:      do not upload built packages from rechenknecht to jeti100'
+  >&2 echo '    --no-selfUpdate:  do not update this script from git'
+  >&2 echo ''
+  exit 1
+}
+
 # parse arguments
-eval set -- "$(getopt -o f --long force,no-upload,no-selfUpdate -n "$(basename "$0")" -- "$@" || echo "exit $?")"
+eval set -- "$(getopt -o f --long force,no-upload,no-selfUpdate -n "$(basename "$0")" -- "$@" || echo "usage")"
 
 while true
 do
