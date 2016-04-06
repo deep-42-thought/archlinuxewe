@@ -11,6 +11,7 @@ pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
 force=false
 upload=true
 updateMe=true
+abortOnMakepkgError=true
 
 # print help screen
 usage()
@@ -19,16 +20,17 @@ usage()
   >&2 echo 'Skript zum Updaten der selbsterstellten Archlinux-Pakete'
   >&2 echo ''
   >&2 echo 'Verwendung:'
-  >&2 echo '  '"$0"' [ -f|--force ] [ --no-upload ] [ --no-selfUpdate ]'
-  >&2 echo '    -f|--force:       rebuild packages even if they look up to date'
-  >&2 echo '    --no-upload:      do not upload built packages from rechenknecht to jeti100'
-  >&2 echo '    --no-selfUpdate:  do not update this script from git'
+  >&2 echo '  '"$0"' [ -f|--force ] [ --no-upload ] [ --no-selfUpdate ] [ --no-abortOnMakepkgError ]'
+  >&2 echo '    -f|--force:                rebuild packages even if they look up to date'
+  >&2 echo '    --no-upload:               do not upload built packages from rechenknecht to jeti100'
+  >&2 echo '    --no-selfUpdate:           do not update this script from git'
+  >&2 echo '    --no-abortOnMakepkgError:  do not abort when makepkg returns non-zero'
   >&2 echo ''
   exit 1
 }
 
 # parse arguments
-eval set -- "$(getopt -o f --long force,no-upload,no-selfUpdate -n "$(basename "$0")" -- "$@" || echo "usage")"
+eval set -- "$(getopt -o f --long force,no-upload,no-selfUpdate,no-abortOnMakepkgError -n "$(basename "$0")" -- "$@" || echo "usage")"
 
 while true
 do
@@ -43,6 +45,10 @@ do
     ;;
     --no-selfUpdate)
       updateMe=false
+      shift
+    ;;
+    --no-abortOnMakepkgError)
+      abortOnMakepkgError=false
       shift
     ;;
     --)
@@ -127,6 +133,7 @@ done
 if ${aufRechenknecht}
 then
   sudo pacman -Syy
+  err=0
 
 # build packages
   for ((i=0; i<${#pakete[@]}; i++))
@@ -142,14 +149,18 @@ then
     then
       # 32-bit is built in chroot
       echo 'cd "'"${tmpDir}/${paket}"'" && makepkg -fcsr --noconfirm && exit' | \
-        chrootUnpriv || exit $?
+        chrootUnpriv
+      tmpErr=$?
     else
       # everything else is built directly
-      makepkg -fcsr --noconfirm || exit $?
+      makepkg -fcsr --noconfirm
+      tmpErr=$?
     fi
+    ${abortOnMakepkgError} && [ ${tmpErr} -ne 0 ] && exit ${tmpErr}
+    [ ${tmpErr} -gt ${err} ] && err=${tmpErr}
 
 # upload packages
-    if ${upload}
+    if ${upload} && [ ${tmpErr} -eq 0 ]
     then
       scp ${tmpDir}/${paket}/${paket}-${vers}-${arch}.pkg.tar.xz paule@127.0.0.1:${pkgDir}/${arch}/
       [ "${arch}" == "any" ] && ssh paule@127.0.0.1 '\
@@ -164,6 +175,8 @@ then
       '
     fi
   done
+
+  [ ${err} -ne 0 ] && exit ${err}
 
 # update packagedb
   if ${upload}
