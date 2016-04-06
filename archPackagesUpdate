@@ -142,7 +142,7 @@ done
 if ${aufRechenknecht}
 then
   sudo pacman -Syy
-  err=0
+  maxErr=0
 
 # build packages
   for ((i=0; i<${#pakete[@]}; i++))
@@ -159,17 +159,17 @@ then
       # 32-bit is built in chroot
       echo 'cd "'"${tmpDir}/${paket}"'" && makepkg -fcsr --noconfirm && exit' | \
         chrootUnpriv
-      tmpErr=$?
+      err[${i}]=$?
     else
       # everything else is built directly
       makepkg -fcsr --noconfirm
-      tmpErr=$?
+      err[${i}]=$?
     fi
-    ${abortOnMakepkgError} && [ ${tmpErr} -ne 0 ] && exit ${tmpErr}
-    [ ${tmpErr} -gt ${err} ] && err=${tmpErr}
+    ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ] && exit ${err[${i}]}
+    [ ${err[${i}]} -gt ${maxErr} ] && maxErr=${err[${i}]}
 
 # upload packages
-    if ${upload} && [ ${tmpErr} -eq 0 ]
+    if ${upload} && [ ${err[${i}]} -eq 0 ]
     then
       scp ${tmpDir}/${paket}/${paket}-${vers}-${arch}.pkg.tar.xz paule@127.0.0.1:${pkgDir}/${arch}/
       [ "${arch}" == "any" ] && ssh paule@127.0.0.1 '\
@@ -185,13 +185,12 @@ then
     fi
   done
 
-  [ ${err} -ne 0 ] && exit ${err}
-
 # update packagedb
   if ${upload}
   then
     for ((i=0; i<${#pakete[@]}; i++))
     do
+      [ ${err[${i}]} == 0 ] || continue
       echo "${pakete[${i}]}"
       echo "${verss[${i}]}"
       echo "${archs[${i}]}"
@@ -235,6 +234,8 @@ then
         done
       '
   fi
+
+  [ ${maxErr} -ne 0 ] && exit ${maxErr}
 
 else
 
