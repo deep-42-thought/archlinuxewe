@@ -66,7 +66,8 @@ prepare() {
 build() {
 
     cd trunk
-    ./configure --prefix-dir=/usr \
+    ./configure ${_targetHost} \
+		--prefix-dir=/usr \
                 --binary-dir=bin \
                 --data-dir=share/openttd \
                 --icon-dir=share/openttd \

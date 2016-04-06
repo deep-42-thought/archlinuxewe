@@ -157,7 +157,11 @@ then
     if [ "${arch}" == "i686" ]
     then
       # 32-bit is built in chroot
-      echo 'cd "'"${tmpDir}/${paket}"'" && makepkg -fcsr --noconfirm && exit' | \
+      echo '\
+        cd "'"${tmpDir}/${paket}"'" && \
+        _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg -fcsr --noconfirm && \
+        exit\
+      ' | \
         chrootUnpriv
       err[${i}]=$?
     else
