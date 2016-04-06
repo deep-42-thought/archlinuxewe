@@ -96,7 +96,10 @@ do
   for singleArch in "${arch[@]}"
   do
 
-    [ ! "${singleArch}" == "any" ] && [ ! "${singleArch}" == "$(uname -m)" ] && continue
+    [ "${singleArch}" == "x86_64" ] || \
+      [ "${singleArch}" == "i686" ] || \
+      [ "${singleArch}" == "any" ] || \
+      continue
 
     pkgFile="${paket}-${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
 
@@ -134,7 +137,16 @@ then
 
     cd "${tmpDir}/${paket}"
     rm -f ${paket}-*-${arch}.pkg.tar.xz
-    makepkg -fcsr --noconfirm || exit $?
+
+    if [ "${arch}" == "i686" ]
+    then
+      # 32-bit is built in chroot
+      echo 'cd "'"${tmpDir}/${paket}"'" && makepkg -fcsr --noconfirm && exit' | \
+        chrootUnpriv || exit $?
+    else
+      # everything else is built directly
+      makepkg -fcsr --noconfirm || exit $?
+    fi
 
 # upload packages
     if ${upload}
