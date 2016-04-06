@@ -30,7 +30,7 @@ usage()
   exit 1
 }
 
-# parse arguments
+echo 'parse arguments ...'
 eval set -- "$(getopt -o f --long force,no-upload,no-selfUpdate,no-abortOnMakepkgError -n "$(basename "$0")" -- "$@" || echo "usage")"
 args=("$@")
 
@@ -38,18 +38,22 @@ while true
 do
   case $1 in
     -f|--force)
+      echo '"force" erkannt'
       force=true
       shift
     ;;
     --no-upload)
+      echo '"no-upload" erkannt'
       upload=false
       shift
     ;;
     --no-selfUpdate)
+      echo '"no-selfUpdate" erkannt'
       updateMe=false
       shift
     ;;
     --no-abortOnMakepkgError)
+      echo '"no-abortOnMakepkgError" erkannt'
       abortOnMakepkgError=false
       shift
     ;;
@@ -69,6 +73,8 @@ then
   >&2 echo 'FEHLER: Zu viele Argumente! Ich beende.'
   usage
 fi
+
+echo '... done'
 
 $aufRechenknecht && pkgSrcDir="${pkgSrcDir}/archPackages"
 cd "${pkgSrcDir}"
