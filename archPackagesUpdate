@@ -263,7 +263,7 @@ else
 
   ${force} && opts="-f" || opts=""
 
-  ssh rechenknecht "~/archPackagesUpdate" ${opts} || exit $?
+  ssh -p 22222 141.35.51.219 "~/archPackagesUpdate" ${opts} || exit $?
 fi
 
 # clean up
