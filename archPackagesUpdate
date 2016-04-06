@@ -26,11 +26,13 @@ usage()
   >&2 echo '    --no-selfUpdate:           do not update this script from git'
   >&2 echo '    --no-abortOnMakepkgError:  do not abort when makepkg returns non-zero'
   >&2 echo ''
+  rm -rf "${tmpDir}"
   exit 1
 }
 
 # parse arguments
 eval set -- "$(getopt -o f --long force,no-upload,no-selfUpdate,no-abortOnMakepkgError -n "$(basename "$0")" -- "$@" || echo "usage")"
+args=("$@")
 
 while true
 do
@@ -57,6 +59,7 @@ do
     ;;
     *)
       >&2 echo "FEHLER: Verstehe Option \"$1\" doch nicht! Ich beende."
+      rm -rf "${tmpDir}"
       exit 1
   esac
 done
@@ -64,7 +67,7 @@ done
 if [ ! $# -eq 0 ]
 then
   >&2 echo 'FEHLER: Zu viele Argumente! Ich beende.'
-  exit 1
+  usage
 fi
 
 $aufRechenknecht && pkgSrcDir="${pkgSrcDir}/archPackages"
@@ -80,7 +83,7 @@ cd "${tmpDir}"
 if ${updateMe} && ${aufRechenknecht} && [ -e "$(basename $0)" ] && ! diff -q "$(basename $0)" "$0" &> /dev/null
 then
   cp "$(basename $0)" "$0"
-  $0 $@
+  $0 "${args}"
   err=$?
   rm -rf "${tmpDir}"
   exit ${err}
@@ -269,14 +272,28 @@ else
     fi
 
   done
-  ${err} && exit 1
+  if ${err}
+  then
+    rm -rf "${tmpDir}"
+    exit 1
+  fi
 
   cd "${pkgSrcDir}"
-  git push || exit $?
+  git push
+  err=$?
+  if [ ${err} -ne 0 ]
+  then
+    rm -rf "${tmpDir}"
+    exit ${err}
+  fi
 
-  ${force} && opts="-f" || opts=""
-
-  ssh -p 22222 141.35.51.219 "~/archPackagesUpdate" ${opts} || exit $?
+  ssh -p 22222 141.35.51.219 "~/archPackagesUpdate" "${args}"
+  err=$?
+  if [ ${err} -ne 0 ]
+  then
+    rm -rf "${tmpDir}"
+    exit ${err}
+  fi
 fi
 
 # clean up
