@@ -92,26 +92,33 @@ for paket in $( \
 do
   [ -d "${paket}" ] || continue
   . ${paket}/PKGBUILD
-  pkgFile="${paket}-${pkgver}-${pkgrel}-${arch[0]}.pkg.tar.xz"
 
-  allExist=true
-  [ "${arch[0]}" == "any" ] && \
-    for dir in ${pkgDir}/*
-    do
-      [ "${dir}" == "any" ] && continue
-      [ ! -d "${dir}" ] && continue
-      [ ! -e "${dir}/${pkgFile}" ] && allExist=false
-    done
+  for singleArch in "${arch[@]}"
+  do
 
-  if ${force} || \
-    ! ${aufRechenknecht} || \
-    [ ! -e "${pkgDir}/${arch[0]}/${pkgFile}" ] || \
-    ! ${allExist}
-  then
-    pakete[${#pakete[@]}]="${paket}"
-    archs[${#archs[@]}]="${arch[0]}"
-    verss[${#verss[@]}]="${pkgver}-${pkgrel}"
-  fi
+    [ ! "${singleArch}" == "any" ] && [ ! "${singleArch}" == "$(uname -m)" ] && continue
+
+    pkgFile="${paket}-${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
+
+    allExist=true
+    [ "${singleArch}" == "any" ] && \
+      for dir in ${pkgDir}/*
+      do
+        [ "${dir}" == "any" ] && continue
+        [ ! -d "${dir}" ] && continue
+        [ ! -e "${dir}/${pkgFile}" ] && allExist=false
+      done
+
+    if ${force} || \
+      ! ${aufRechenknecht} || \
+      [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ] || \
+      ! ${allExist}
+    then
+      pakete[${#pakete[@]}]="${paket}"
+      archs[${#archs[@]}]="${singleArch}"
+      verss[${#verss[@]}]="${pkgver}-${pkgrel}"
+    fi
+  done
 done
 
 if ${aufRechenknecht}
@@ -126,7 +133,7 @@ then
     vers="${verss[${i}]}"
 
     cd "${tmpDir}/${paket}"
-    rm -f ${paket}-*.pkg.tar.xz
+    rm -f ${paket}-*-${arch}.pkg.tar.xz
     makepkg -fcsr --noconfirm || exit $?
 
 # upload packages
@@ -162,14 +169,23 @@ then
           read vers || break
           read oarch || break
 
+# delete old versions of packages
+
           for arch in *
           do
             [ ! -d "${arch}" ] && continue
             [ ! "${arch}" == "any" ] && [ ! "${arch}" == "${oarch}" ] && continue
 
-            ls ${arch}/${paket}-*-${oarch}.pkg.tar.xz | \
-              grep -v "${arch}/${paket}-${vers}-${oarch}.pkg.tar.xz" | \
-              xargs -rn1 rm
+            for zuLoeschen in $( \
+              ls ${arch}/${paket}-*-${oarch}.pkg.tar.xz | \
+                grep -v "${arch}/${paket}-${vers}-${oarch}.pkg.tar.xz" \
+              )
+            do
+              repo-remove \
+                "${arch}/archlinuxewe.db.tar.gz" \
+                "${zuLoeschen}"
+              rm "${zuLoeschen}"
+            done
           done
         done 
 
