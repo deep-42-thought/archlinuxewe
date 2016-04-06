@@ -4,7 +4,10 @@
 tmpDir="$(mktemp -d /tmp/archive.XXXXXX)"
 pkgDir="/srv/arch-mirror/arch/arch/archlinuxewe/os"
 pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
-[ "$(hostname)" == "rechenknecht" ] && aufRechenknecht=true || aufRechenknecht=false
+[ "$(hostname)" == "rechenknecht" ] && \
+  [ "${pkgSrcDir}" == "${HOME}" ] && \
+    aufRechenknecht=true || \
+    aufRechenknecht=false
 force=false
 upload=true
 updateMe=true
