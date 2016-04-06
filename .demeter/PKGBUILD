@@ -7,7 +7,10 @@ arch=('any')
 url="https://bruceravel.github.io/demeter"
 license=('BSD')
 groups=()
-depends=('xraylarch')
+depends=(
+    'ifeffit'
+    'perl-module-build'
+)
 makedepends=()
 checkdepends=()
 optdepends=()
@@ -21,24 +24,36 @@ source=(
 )
 sha256sums=('f85262921e9eb646c7989ee73da760edc5fa27d5b97d1a4b3e597cd750920d8a')
 
+prepare() {
+
+    cd ${pkgname}-${pkgver}
+    rm t/t
+
+}
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd ${pkgname}-${pkgver}
+    perl ./Build.PL
+    ./Build
+  )
+}
+
+check() {
+
+    cd ${pkgname}-${pkgver}
+    ./Build test
+
+}
+
 package() {
 
     cd ${pkgname}-${pkgver}
-
-ls
-
-    perl ./Build.PL
-
-ls
-
-    ./Build
-
-ls
-
-    ./Build test
-
-ls
-
     ./Build install --help
 
 #    sed "s|DEBUG = False|DEBUG = True|" -i setup.py
