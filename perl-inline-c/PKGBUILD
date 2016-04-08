@@ -1,0 +1,46 @@
+# CPAN Name  : Inline::C
+# Contributor: Anton Leontiev <bunder /at/ t-25.ru>
+# Generator  : CPANPLUS::Dist::Arch 1.30
+
+pkgname=perl-inline-c
+pkgver=0.76
+pkgrel=1
+pkgdesc='Perl module providing a way to write Perl subroutines in C'
+arch=('any')
+url='https://metacpan.org/release/Inline-C'
+license=('PerlArtistic' 'GPL')
+options=(!emptydirs)
+depends=(
+	'perl>=5.21.6'
+	'perl-inline>=0.79'
+	'perl-parse-recdescent>=1.967009'
+	'perl-pegex>=0.58')
+checkdepends=(
+	'perl-file-copy-recursive'
+	'perl-io-all'
+	'perl-test-warn>=0.23'
+	'perl-yaml-libyaml')
+source=(http://search.cpan.org/CPAN/authors/id/I/IN/INGY/Inline-C-${pkgver}.tar.gz)
+sha512sums=('43bf0bc6addf08c4c3347b074babdc514b1d6cee052d1124c5d9d4a4b52bd0e92ac79f8393f35252a98ef337fb18a9da47cdf545b1010b3f0d9c4b7fd9eb8c6d')
+
+build() {
+	cd Inline-C-${pkgver}
+	unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
+	export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps
+	/usr/bin/perl Makefile.PL INSTALLDIRS=vendor
+	make
+}
+
+check() {
+	cd Inline-C-${pkgver}
+	unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
+	export PERL_MM_USE_DEFAULT=1
+	make test
+}
+
+package() {
+	cd Inline-C-${pkgver}
+	unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
+	make install DESTDIR="$pkgdir"
+	find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
