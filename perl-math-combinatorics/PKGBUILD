@@ -1,0 +1,46 @@
+pkgname='perl-math-combinatorics'
+pkgver='0.09'
+pkgrel='1'
+pkgdesc="Perform combinations and permutations on lists"
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=()
+url='http://search.mcpan.org/dist/Math-Combinatorics'
+source=("https://cpan.metacpan.org/authors/id/A/AL/ALLENDAY/Math-Combinatorics-${pkgver}.tar.gz")
+sha512sums=('6d2727f4c74242ef3b74d2ca453eab4dc08bc7bf783f27564dee0617c52936477ca120740faca7337e5e5690abe3fcc062d4a3ad90bbb06b04f66bf435357b9e')
+_distdir="Math-Combinatorics-${pkgver}"
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
