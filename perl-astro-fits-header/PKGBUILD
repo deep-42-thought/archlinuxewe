@@ -1,0 +1,39 @@
+pkgname=perl-astro-fits-header
+_pkgname='Astro-FITS-Header'
+pkgver=3.07
+pkgrel=1
+pkgdesc="Object Orientated interface to FITS HDUs"
+arch=('x86_64' 'i686')
+url="http://pdl.perl.org/"
+license=('GPL' 'PerlArtistic')
+depends=('perl')
+makedepends=()
+options=('!emptydirs')
+source=("http://search.cpan.org/CPAN/authors/id/T/TJ/TJENNESS/${_pkgname}-${pkgver}.tar.gz")
+sha256sums=('530d59ef0c0935f9862d187187a2d7583b12c639bb67db14f983322b161892d9')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+    perl Build.PL
+    perl Build
+  )
+}
+
+check() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    perl Build test
+  )
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  perl Build install
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
