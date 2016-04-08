@@ -1,0 +1,38 @@
+--- gsl_sf_ellint.pd_orig	2015-11-15 10:46:20 +1100
++++ gsl_sf_ellint.pd	2015-11-15 10:54:47 +1100
+@@ -82,6 +82,10 @@
+        Doc =>'Legendre form of incomplete elliptic integrals P(phi,k,n) = Integral[(1 + n Sin[t]^2)^(-1)/Sqrt[1 - k^2 Sin[t]^2], {t, 0, phi}]'
+       );
+ 
++my $v = `gsl-config --version`;
++
++if($v < 2.0) {
++
+ pp_def('gsl_sf_ellint_D',
+        GenericTypes => [D],
+        Pars=>'double phi(); double k(); double n();
+@@ -95,6 +99,24 @@
+        Doc =>'Legendre form of incomplete elliptic integrals D(phi,k,n)'
+       );
+ 
++}
++else {
++
++pp_def('gsl_sf_ellint_D',
++       GenericTypes => [D],
++       Pars=>'double phi(); double k();
++              double [o]y(); double [o]e()',
++       Code =>'
++gsl_sf_result r;
++GSLERR(gsl_sf_ellint_D_e,($phi(),$k(),GSL_PREC_DOUBLE,&r))
++$y() = r.val;
++$e() = r.err; 
++',
++       Doc =>'Legendre form of incomplete elliptic integrals D(phi,k)'
++      );
++
++}
++
+ pp_def('gsl_sf_ellint_RC',
+        GenericTypes => [D],
+        Pars=>'double x(); double yy(); double [o]y(); double [o]e()',

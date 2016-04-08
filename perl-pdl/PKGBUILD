@@ -1,0 +1,50 @@
+pkgname=perl-pdl
+_pkgname='PDL'
+pkgver=2.015
+pkgrel=1
+pkgdesc="the Perl Data Language"
+arch=('x86_64' 'i686')
+url="http://pdl.perl.org/"
+license=('GPL' 'PerlArtistic')
+depends=('perl-devel-checklib' 'perl-astro-fits-header' 
+'perl-convert-uu' 'perl-file-map' 'perl-inline-c' 'perl-module-compile' 
+'hdf4' 'perl-gd')
+makedepends=('perl-extutils-f77' 'perl-test-exception' 'perl-test-warn' 'perl-test-deep' 'perl-file-map')
+options=('!emptydirs')
+source=("http://search.cpan.org/CPAN/authors/id/C/CH/CHM/${_pkgname}-${pkgver}.tar.gz"
+        "gsl_sf_ellint.pd.diff")
+sha256sums=('0b7ef32e443e62c62569b8092f507f1a035d990430c80bdcb263dc7a2e85b684'
+            '54f2096547bf2518ad4f8390897c81cc8b904a407b5cd07c8f8387a8a6a4c3fb')
+
+prepare() {
+
+  cd ${srcdir}/${_pkgname}-${pkgver}/Lib/GSL/SF/ellint
+  patch -p0 < ${srcdir}/gsl_sf_ellint.pd.diff
+
+}
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  make pure_install
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
