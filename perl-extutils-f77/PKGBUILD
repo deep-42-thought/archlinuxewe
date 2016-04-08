@@ -1,0 +1,40 @@
+# CPAN Name  : ExtUtils::F77
+# Contributor: Anton Leontiev <bunder /at/ t-25.ru>
+# Generator  : CPANPLUS::Dist::Arch 1.30
+
+pkgname=perl-extutils-f77
+pkgver=1.19
+pkgrel=1
+pkgdesc='Perl module providing simple interface to F77 libraries'
+arch=('x86_64' 'i686')
+url='https://metacpan.org/release/ExtUtils-F77'
+license=('PerlArtistic' 'GPL')
+depends=('perl' 'gcc-fortran')
+source=(http://search.cpan.org/CPAN/authors/id/C/CH/CHM/ExtUtils-F77-${pkgver}.tar.gz)
+options=(!emptydirs)
+sha512sums=('f103c94d8074fc3ca6f6afecc394608a61f08949f3d19e40ea66db2ddc7af4e17f429783e8ac9c8a76ebe98863b7295df8a7f9ba3f8eb967e4f19a168d5a7d81')
+
+sanitize() {
+	unset PERL5LIB PERL_MM_OPT PERL_MB_OPT PERL_LOCAL_LIB_ROOT
+	export PERL_MM_USE_DEFAULT=1
+}
+
+build() {
+	cd ExtUtils-F77-${pkgver}
+	sanitize
+	perl Makefile.PL INSTALLDIRS=vendor
+	make
+}
+
+check() {
+	cd ExtUtils-F77-${pkgver}
+	sanitize
+	F77LIBS='-lgfortran -lm' make test
+}
+
+package() {
+	cd ExtUtils-F77-${pkgver}
+	sanitize
+	make install DESTDIR="$pkgdir"
+	find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
