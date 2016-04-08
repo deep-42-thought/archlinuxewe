@@ -1,0 +1,47 @@
+pkgname='perl-css-tiny'
+pkgver='1.20'
+pkgrel='1'
+pkgdesc="Read/Write .css files with as little code as possible"
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=()
+checkdepends=()
+url='https://github.com/chorny/CSS-Tiny'
+source=("http://search.mcpan.org/CPAN/authors/id/C/CH/CHORNY/CSS-Tiny-${pkgver}.tar.gz")
+sha512sums=('22913c13d6df3e5ffb73fa5bbb60aeede9e7bd44a59031c566da882015e24ff839968aac211c4fd2aa8570b23ee4bd4df2828e366371218cbee18ce85cfab2b6')
+_distdir="CSS-Tiny-${pkgver}"
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
