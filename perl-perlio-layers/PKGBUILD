@@ -1,0 +1,39 @@
+pkgname=perl-perlio-layers
+_pkgname='PerlIO-Layers'
+pkgver=0.011
+pkgrel=1
+pkgdesc="Querying your filehandle's capabilities"
+arch=('x86_64' 'i686')
+url="https://github.com/Leont/perlio-layers"
+license=('GPL' 'PerlArtistic')
+depends=('perl')
+makedepends=('perl-digest-sha1')
+options=('!emptydirs')
+source=("http://search.cpan.org/CPAN/authors/id/L/LE/LEONT/${_pkgname}-${pkgver}.tar.gz")
+sha256sums=('1d77e164aa5d5d24699a5479a423abdc1b07973fbe5a22d304fef2c560254b42')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+    perl Build.PL
+    perl Build
+  )
+}
+
+check() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    perl Build test
+  )
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  perl Build install
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
