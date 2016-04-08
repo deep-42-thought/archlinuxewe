@@ -1,0 +1,46 @@
+pkgname='perl-regexp-assemble'
+pkgver='0.36'
+pkgrel='1'
+pkgdesc="Assemble multiple Regular Expressions into a single RE"
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=()
+url='https://metacpan.org/pod/Regexp::Assemble'
+source=("https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/Regexp-Assemble-${pkgver}.tgz")
+sha512sums=('4680d836cceee08a761f0618afba97f4e405934c138a1e9879e25ca63a20e92ee6c8df734fcfbfbc34c086e6c614fe8ac0f0b7e90af5309827503efd8bdadac9')
+_distdir="Regexp-Assemble-${pkgver}"
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
