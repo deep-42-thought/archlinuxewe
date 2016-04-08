@@ -1,0 +1,39 @@
+pkgname=perl-module-compile
+_pkgname='Module-Compile'
+pkgver=0.35
+pkgrel=1
+pkgdesc="Perl Module Compilation"
+arch=('x86_64' 'i686')
+url="http://pdl.perl.org/"
+license=('GPL' 'PerlArtistic')
+depends=('perl')
+makedepends=('perl-digest-sha1')
+options=('!emptydirs')
+source=("http://search.cpan.org/CPAN/authors/id/I/IN/INGY/${_pkgname}-${pkgver}.tar.gz")
+sha256sums=('224205297e1d85e4c7821e551d94fa76c43f9b89a0c6fbb0b4a741ced5d896cb')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  make install
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
