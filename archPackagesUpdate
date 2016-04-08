@@ -170,7 +170,11 @@ then
       makepkg -fcsr --noconfirm
       err[${i}]=$?
     fi
-    ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ] && exit ${err[${i}]}
+    if ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ]
+    then
+      rm -rf "${tmpDir}"
+      exit ${err[${i}]}
+    fi
     [ ${err[${i}]} -gt ${maxErr} ] && maxErr=${err[${i}]}
 
 # upload packages
@@ -240,7 +244,11 @@ then
       '
   fi
 
-  [ ${maxErr} -ne 0 ] && exit ${maxErr}
+  if [ ${maxErr} -ne 0 ]
+  then
+    rm -rf "${tmpDir}"
+    exit ${maxErr}
+  fi
 
 else
 
