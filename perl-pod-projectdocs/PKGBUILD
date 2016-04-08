@@ -1,0 +1,47 @@
+pkgname='perl-pod-projectdocs'
+pkgver='0.40'
+pkgrel='1'
+pkgdesc="generates CPAN like pod pages"
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=('perl-class-accessor' 'perl-class-data-inheritable' 'perl-readonly' 'perl-template-toolkit')
+checkdepends=('perl-json' 'perl-uri-escape')
+url='http://search.cpan.org/~lyokato/Pod-ProjectDocs-0.40/'
+source=("http://search.mcpan.org/CPAN/authors/id/L/LY/LYOKATO/Pod-ProjectDocs-${pkgver}.tar.gz")
+sha512sums=('b62156c491707aa355f2b1136b073f10c3b96ae2c86350552f7638d0ba5799a18ec30772a1121959c207934084b6343b331db0a40df2c54bbd7d3d80f1950aa3')
+_distdir="Pod-ProjectDocs-${pkgver}"
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
