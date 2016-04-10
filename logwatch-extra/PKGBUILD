@@ -1,0 +1,34 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=logwatch-extra
+pkgver=0.1
+pkgrel=1
+pkgdesc="extra-capabilities for logwatch: better cron-frontend"
+arch=('any')
+url=""
+license=('GPL')
+groups=()
+depends=('logwatch')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=('var/cache/logwatch/letzteMeldung')
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::http://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+)
+sha256sums=(
+    "f5af9b42d609225e96ce050617d57da67942b24c4dd83094de31188cd70f3802"
+)
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+
+    install -D -t $pkgdir/usr/bin/ doalogwatch
+    install -d $pkgdir/var/cache/logwatch
+    date +%F > $pkgdir/var/cache/logwatch/letzteMeldung
+
+}
