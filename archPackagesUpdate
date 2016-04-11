@@ -237,7 +237,7 @@ then
         do
           [ "${arch}" == "any" ] && continue
           [ ! -d "${arch}" ] && continue
-          repo-add \
+          repo-add -q \
             '${pkgDir}'/${arch}/archlinuxewe.db.tar.gz \
             '${pkgDir}'/${arch}/*.pkg.tar.xz
         done
