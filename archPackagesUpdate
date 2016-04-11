@@ -219,7 +219,7 @@ then
             [ ! "${arch}" == "any" ] && [ ! "${arch}" == "${oarch}" ] && continue
 
             for zuLoeschen in $( \
-              ls ${arch}/${paket}-*-${oarch}.pkg.tar.xz | \
+              ls ${arch}/${paket}-*-${oarch}.pkg.tar.xz 2> /dev/null | \
                 grep -v "${arch}/${paket}-${vers}-${oarch}.pkg.tar.xz" \
               )
             do
