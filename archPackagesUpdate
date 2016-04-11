@@ -229,18 +229,53 @@ then
               rm "${zuLoeschen}"
             done
           done
-        done 
 
 # update db
-        
+
+          for arch in *
+          do
+            [ ! -d "${arch}" ] && continue
+            [ "${arch}" == "any" ] && continue
+            [ ! "${oarch}" == "any" ] && [ ! "${arch}" == "${oarch}" ] && continue
+
+            repo-add \
+              '${pkgDir}'/${arch}/archlinuxewe.db.tar.gz \
+              '${pkgDir}'/${arch}/${paket}-${vers}-${oarch}.pkg.tar.xz
+
+          done
+
+        done
+
+# check db
+        err=0
+
         for arch in *
         do
-          [ "${arch}" == "any" ] && continue
           [ ! -d "${arch}" ] && continue
-          repo-add -q \
-            '${pkgDir}'/${arch}/archlinuxewe.db.tar.gz \
-            '${pkgDir}'/${arch}/*.pkg.tar.xz
+          [ "${arch}" == "any" ] && continue
+
+          for warnungen in $( \
+            (
+              tar -Oxzf '${pkgDir}'/${arch}/archlinuxewe.db.tar.gz | \
+                grep -A1 "^%FILENAME%\$" | \
+                grep -v "^%FILENAME%\$" | \
+                grep -v -- "^--\$"
+              ls '${pkgDir}'/${arch} | \
+                grep "^.*\.pkg\.tar\.xz\$"
+            ) | \
+              sort | \
+              uniq -u
+         )
+         do
+
+           err=1
+           >&2 echo "FEHLER: Paket '${pkgDir}'/${arch}/${warnungen} ist entweder nur in der Datenbank oder nur im Verzeichnisbaum vorhanden."
+
+         done
+
         done
+
+        exit ${err}
       '
   fi
 
