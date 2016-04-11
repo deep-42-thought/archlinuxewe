@@ -1,0 +1,204 @@
+#!/bin/bash
+
+cd $(dirname $(readlink -f $0))
+
+if [ $# -eq 0 ]
+then
+  $0 $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||")
+  exit $?
+elif [ $# -eq 1 ]
+then
+  . $1/PKGBUILD
+
+  srcKnown=false
+
+  for src in "${source[@]}"
+  do
+
+    if echo "${src}" | \
+      grep -q "//opensources\.eckner\.net/"
+    then
+      qu=${src#*::}
+      qu=${qu%-*}
+      remVer=$( \
+        curl -o - "$(\
+          echo "${qu}" | \
+            sed "s|\?dl=|?ls=|" \
+          )" 2> /dev/null | \
+          tr "<>" "\n\n" | \
+          grep "^${pkgname}-" | \
+          sed "s|^${pkgname}-||" | \
+          sort -V | \
+          tail -n1 \
+      )
+    elif echo "${src}" | \
+      grep -q "//search\.m\?cpan\.org/CPAN/authors/\|//cpan\.metacpan\.org/authors/"
+    then
+      quVer=$( \
+        echo "${src%/*}" | \
+          sed "s#//search\.m\?cpan\.org/CPAN/\|//cpan.metacpan.org/#//www.cpan.org/#" | \
+          sed "s|^https:|http:|" | \
+          sed "s|\([^/]\)\$|\1/|"
+      )
+      quNam=${src##*/}
+      quNam=${quNam%-*}
+      quEnd=$( \
+        echo "${src##*-}" |
+          sed "s|^v\?[0-9.]*||"
+      )
+      remVer=$( \
+        curl -o - "${quVer}" 2> /dev/null | \
+          tr "\"" "\n" | \
+          grep "^${quNam}-v\?[0-9.-]*\.${quEnd}\$" | \
+          sed "s|^${quNam}-v\?\(.*\)\.${quEnd}\$|\1|" | \
+          sort -V | \
+          tail -n1 \
+      )
+    elif echo "${src}" | \
+      grep -q "//cpan\.org/"
+    then
+      quVer=$( \
+        echo "${src%/*}/" | \
+          sed "s|//cpan|//www.cpan|"
+      )
+      quNam=${src##*/}
+      quNam=${quNam%-*}
+      quEnd=$( \
+        echo "${src##*-}" |
+          sed "s|^v\?[0-9.]*||"
+      )
+      remVer=$( \
+        curl -o - "${quVer}" 2> /dev/null | \
+          tr "\"" "\n" | \
+          grep "^${quNam}-v\?[0-9.-]*\.${quEnd}\$" | \
+          sed "s|^${quNam}-v\?\(.*\)\.${quEnd}\$|\1|" | \
+          sort -V | \
+          tail -n1 \
+      )
+    elif echo "${src}" | \
+      grep -q "ftp://"
+    then
+      quVer="${src%/*}/"
+      quNam=${src##*/}
+      quEnd=$( \
+        echo "${quNam}" |
+          sed "s|^.*v\?[0-9.]*[0-9]||" \
+      )
+      quNam=$( \
+        echo ${quNam} | \
+          sed "s|v\?[0-9.]\+.*\$||" \
+      )
+      tmpVer=$( \
+        curl -o - "${quVer}" 2> /dev/null | \
+          awk '{print $9}' | \
+          grep "^${quNam}v\?[0-9.]*${quEnd}\$" | \
+          sed "s|^${quNam}v\?\([0-9.]*\)${quEnd}\$|\1|" | \
+          sort -V | \
+          tail -n1 \
+      )
+      [ "${pkgname}" == "pgplot" ] && remVer="${tmpVer:0:1}.${tmpVer:1:1}.${tmpVer:2}" || remVer="${tmpVer}"
+    elif echo "${src}" | \
+      grep -q "//arch\.eckner\.net/"
+    then
+      quVer="${src%/*}"
+      quVer="${quVer#*::}"
+      quNam=${src##*/}
+      quNam=${quNam%-*}
+      quNam=${quNam%-*}
+      quNam=${quNam%-*}
+      quEnd=${src##*-}
+      quEnd=${quEnd#*.}
+      remVer=$( \
+        curl -o - "${quVer}/" 2> /dev/null | \
+          tr "\"" "\n" | \
+          grep "^${quNam}\(-[^-]*\)\{3\}\.${quEnd}\$" | \
+          sed "s|^${quNam}-\([^-]*\)\(-[^-]*\)\{2\}\.${quEnd}\$|\1|" | \
+          sort -V | \
+          tail -n1 \
+      )
+    elif echo "${src}" | \
+      grep -q "//github.com/"
+    then
+      quVer=$(
+        echo "${src#*::}" | \
+          sed "s|/archive/[^/]*\$|/releases|"
+      )
+      quNam=/${quVer#*.com/}/tag/
+      remVer=$( \
+        curl -o - "${quVer}" 2> /dev/null | \
+          tr "\"" "\n" | \
+          grep "^${quNam}" | \
+          sed "s|^${quNam}||" | \
+          sort -V | \
+          tail -n1 \
+      )
+    elif echo "${src}" | \
+      grep -q "//downloads\.sourceforge\.net/sourceforge/"
+    then
+      quVer=$( \
+        echo "${src}" | \
+          sed "s|//downloads\.sourceforge\.net/sourceforge/\([^/]*\)/[^/]*\$|//sourceforge.net/projects/\1/files/\1/|" | \
+          sed "s|^http:|https:|"
+      )
+      remVer=$( \
+        curl -o - "${quVer}" 2> /dev/null | \
+          tr "\"" "\n" | \
+          grep "^${quVer#*sourceforge.net}[0-9.-]" | \
+          sed "s|^${quVer#*sourceforge.net}\([0-9.-]\+\).*\$|\1|" | \
+          sed "s|-\$||" | \
+          sort -V | \
+          tail -n1 \
+      )
+    elif echo "${src}" | \
+      grep -q "//www\.hdfgroup\.org/"
+    then
+      quVer="${src%/*}/"
+      quNam="${src##*/}"
+      quNam="${quNam%-*}"
+      quEnd=$( \
+        echo "${src}" | \
+          sed "s|^.*[0-9]||"
+      )
+      mainVer=${pkgname#hdf}
+      remVer=$( \
+        curl -o - "${quVer}" 2> /dev/null | \
+          tr "\"" "\n" | \
+          grep "^${quNam}-${mainVer}\.\(.*\)${quEnd}\$" | \
+          sed "s|^${quNam}-${mainVer}\.\(.*\)${quEnd}\$|\1|" \
+      )
+    elif [ "${pkgname}" == "openttd-svn" ]
+    then
+      remVer=$( \
+        eval $(grep "^\s*svn " $1/PKGBUILD | \
+          sed "s|export|log|; s|\s*trunk\$||") | \
+          grep -v "^-.* WebTranslator " | \
+          grep -v "^-.* Eints:" | \
+          grep "^-[^-]" -B10 -m1 | \
+          grep "^r" | \
+          tail -n1 | \
+          sed "s|^r\([[:digit:]]\+\)\s.*\$|\1|" \
+        )
+    else
+      continue
+    fi
+    srcKnown=true
+    break
+  done
+
+  if ! ${srcKnown}
+  then
+    echo "Unknown src: '${source[@]}'"
+    exit 1
+  fi
+
+  if [ ! "${pkgver}" == "${remVer}" ]
+  then
+    echo "${pkgname} ist neuer verfügbar: ${remVer} vs. ${pkgver}"
+  fi
+
+else
+  echo $* | \
+    tr " " "\n" | \
+    parallel -j0 $0 {} \;
+  exit $?
+fi
