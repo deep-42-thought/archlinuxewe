@@ -185,7 +185,7 @@ then
         ssh paule@127.0.0.1 '
 
           rmPaket() {
-            repo-remove archlinuxewe.db.tar.gz "$1"
+            repo-remove archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.xz}"
             rm "$1"
           }
 
