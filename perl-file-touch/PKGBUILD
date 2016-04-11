@@ -2,8 +2,8 @@
 # Generator  : CPANPLUS::Dist::Arch 1.28
 
 pkgname='perl-file-touch'
-pkgver='0.09'
-pkgrel='2'
+pkgver='0.11'
+pkgrel='1'
 pkgdesc="update file access and modification times, optionally creating files if needed"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,9 +11,9 @@ options=('!emptydirs')
 depends=('perl>=5.006')
 makedepends=()
 url='http://search.mcpan.org/dist/File-Touch'
-source=('http://search.mcpan.org/CPAN/authors/id/N/NE/NEILB/File-Touch-0.09.tar.gz')
-sha512sums=('f2bd4e53ff1b57d9295e08a6445406bde1cd9e10860450612086c20177542ec3e954043be405e262ea39f331d6b51b3ea21ce3183e8538c046d5799af106d053')
-_distdir="File-Touch-0.09"
+source=("http://search.mcpan.org/CPAN/authors/id/N/NE/NEILB/File-Touch-${pkgver}.tar.gz")
+sha512sums=('7f1d46fe26de863388854e222b0229e29f0575ee0d8ed59f8cc447a39bc40d7fda425a394a4c3bbc9f561370b6c82cec9c65f4bb784ebba4ff72dbcb5c0a4cd0')
+_distdir="File-Touch-${pkgver}"
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
