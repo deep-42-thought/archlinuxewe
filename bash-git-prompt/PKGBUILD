@@ -1,0 +1,30 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=bash-git-prompt
+pkgver=0.0
+pkgrel=1
+pkgdesc="nice, git-aware prompt for bash"
+arch=('any')
+url=""
+license=('GPL')
+groups=()
+depends=()
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::http://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+)
+sha256sums=('9e49c44e0d464360cfd8f806b1e9046efd21d0b5b48729f02f910f9b5d92def9')
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+
+    install -D -t $pkgdir/usr/bin/ bash-git-prompt
+
+}
