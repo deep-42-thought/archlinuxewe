@@ -1,13 +1,70 @@
 #!/bin/bash
 
 me="$(readlink -f $0)"
-cd $(dirname ${me})
+cd $(dirname "${me}")
+versionenDatei="/var/cache/$(basename "$(dirname "${me}")").lastVersions"
+
+usage() {
+  >&2 echo 'Verwendung: '
+  >&2 echo "  $0"' [-f|--force]'
+  >&2 echo '    -f|--force:  prüfe Versionen unhabhängig von Zeit der letzten Prüfung'
+  exit 1
+}
+
+[ ! -r "${versionenDatei}" ] && force=true || force=false
+
+eval set -- "$(getopt -o f --long force -n "$(basename "$0")" -- "$@" || echo "usage")"
+args=("$@")
+
+while true
+do
+  case $1 in
+    -f|--force)
+      force=true
+      shift
+    ;;
+    --)
+      shift
+      break
+    ;;
+    *)
+      >&2 echo "FEHLER: Verstehe Option \"$1\" doch nicht! Ich beende."
+      rm -rf "${tmpDir}"
+      usage
+  esac
+done
+
+versionenErmitteln=${force}
+[ $(head -n1 "${versionenDatei}") -le $[$(date "+%s")-300] ] && versionenErmitteln=true
+versionenSchreiben=${versionenErmitteln}
+[ ! -w "${versionenDatei}" ] && versionenSchreiben=false
 
 if [ $# -eq 0 ]
 then
-  ${me} $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||")
-  exit $?
-elif [ $# -eq 1 ]
+  if ${versionenSchreiben}
+  then
+    tmpFile="$(mktemp /tmp/versionen.XXXXXX)"
+    date "+%s" > "${tmpFile}"
+    set -o pipefail
+    ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||") | tee -a "${tmpFile}"
+    err=$?
+    set +o pipefail
+    cat "${tmpFile}" > "${versionenDatei}"
+    rm "${tmpFile}"
+  elif ! ${versionenErmitteln}
+  then
+    cat "${versionenDatei}" | \
+      ( \
+        read dummy
+        cat
+      )
+    err=$?
+  else
+    ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||")
+    err=$?
+  fi
+  exit ${err}
+elif [ $# -eq 1 ] && ${versionenErmitteln}
 then
   . $1/PKGBUILD
 
@@ -188,18 +245,25 @@ then
 
   if ! ${srcKnown}
   then
-    echo "Unknown src: '${source[@]}'"
+    echo "$1: Unknown src: '${source[@]}'"
     exit 1
   fi
 
   if [ ! "${pkgver}" == "${remVer}" ]
   then
-    echo "${pkgname} ist neuer verfügbar: ${remVer} vs. ${pkgver}"
+    echo "$1: ${pkgname} ist neuer verfügbar: ${remVer} vs. ${pkgver}"
   fi
 
-else
-  echo $* | \
+elif ${versionenErmitteln}
+then
+  echo "$@" | \
     tr " " "\n" | \
     parallel -j0 $0 {} \;
   exit $?
+
+else
+  for s in "$@"
+  do
+    grep "^${s}:" "${versionenDatei}"
+  done
 fi
