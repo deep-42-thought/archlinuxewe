@@ -143,6 +143,13 @@ if ${aufRechenknecht}
 then
   maxErr=0
 
+# generate current makepkg.conf and makepkg32.conf
+  cd "${tmpDir}"
+  cp /etc/makepkg.conf .
+  patch -p0 -i makepkgSystem.patch
+  cp makepkg{,32}.conf
+  patch -p0 -i makepkg32.patch
+
 # build packages
   for ((i=0; i<${#pakete[@]}; i++))
   do
@@ -159,7 +166,7 @@ then
       echo '\
         sudo pacman -Sy && \
         cd "'"${tmpDir}/${paket}"'" && \
-        _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg -fcsr --noconfirm && \
+        _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg --config "'"${tmpDir}"'/makepkg32.conf" -fcsr --noconfirm && \
         exit\
       ' | \
         chrootUnpriv
@@ -167,7 +174,7 @@ then
     else
       # everything else is built directly
       sudo pacman -Sy
-      makepkg -fcsr --noconfirm
+      makepkg --config "${tmpDir}/makepkg.conf" -fcsr --noconfirm
       err[${i}]=$?
     fi
     if ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ]
