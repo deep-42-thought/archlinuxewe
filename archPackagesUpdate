@@ -193,12 +193,14 @@ then
         ssh paule@127.0.0.1 '
 
           rmPaket() {
+            [ "$(basename "$(pwd)")" == "any" ] && return
             repo-remove -v -s -k 0x20194BA1 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.xz}"
             rm "$1"
             [ -e "$1.sig" ] && rm "$1.sig"
           }
 
           addPaket() {
+            [ "$(basename "$(pwd)")" == "any" ] && return
             neu="$1"
             for alt in $(ls ${neu%-*-*-*.pkg.tar.xz}-*.pkg.tar.xz)
             do
