@@ -3,17 +3,19 @@
 me="$(readlink -f $0)"
 cd $(dirname "${me}")
 versionenDatei="/var/cache/$(basename "$(dirname "${me}")").lastVersions"
+jobs=0
 
 usage() {
   >&2 echo 'Verwendung: '
-  >&2 echo "  $0"' [-f|--force]'
+  >&2 echo "  $0"' [-f|--force] [-j|--jobs=${jobs}]'
   >&2 echo '    -f|--force:  prüfe Versionen unhabhängig von Zeit der letzten Prüfung'
+  >&2 echo '    -j|--jobs:   Anzahl parallel auszufuehrender Anfragen'
   exit 1
 }
 
 [ ! -r "${versionenDatei}" ] && force=true || force=false
 
-eval set -- "$(getopt -o f --long force -n "$(basename "$0")" -- "$@" || echo "usage")"
+eval set -- "$(getopt -o fj: --long force,jobs: -n "$(basename "$0")" -- "$@" || echo "usage")"
 args=("$@")
 
 while true
@@ -21,6 +23,11 @@ do
   case $1 in
     -f|--force)
       force=true
+      shift
+    ;;
+    -j|--jobs)
+      shift
+      jobs="$1"
       shift
     ;;
     --)
@@ -35,7 +42,7 @@ do
 done
 
 versionenErmitteln=${force}
-[ $(head -n1 "${versionenDatei}") -le $[$(date "+%s")-300] ] && versionenErmitteln=true
+! ${versionenErmitteln} && [ $(head -n1 "${versionenDatei}") -le $[$(date "+%s")-300] ] && versionenErmitteln=true
 versionenSchreiben=${versionenErmitteln}
 [ ! -w "${versionenDatei}" ] && versionenSchreiben=false
 
@@ -258,7 +265,7 @@ elif ${versionenErmitteln}
 then
   echo "$@" | \
     tr " " "\n" | \
-    parallel -j0 $0 {} \;
+    parallel -j${jobs} $0 {} \;
   exit $?
 
 else
