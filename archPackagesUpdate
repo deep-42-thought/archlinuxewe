@@ -12,6 +12,7 @@ force=false
 upload=true
 updateMe=true
 abortOnMakepkgError=true
+cleanUnsigned=false
 
 # print help screen
 usage()
@@ -20,18 +21,19 @@ usage()
   >&2 echo 'Skript zum Updaten der selbsterstellten Archlinux-Pakete'
   >&2 echo ''
   >&2 echo 'Verwendung:'
-  >&2 echo '  '"$0"' [ -f|--force ] [ --no-upload ] [ --no-selfUpdate ] [ --no-abortOnMakepkgError ]'
+  >&2 echo '  '"$0"' [ -f|--force ] [ --no-upload ] [ --no-selfUpdate ] [ --no-abortOnMakepkgError ] [ -c|--cleanUnsigned ]'
   >&2 echo '    -f|--force:                rebuild packages even if they look up to date'
   >&2 echo '    --no-upload:               do not upload built packages from rechenknecht to jeti100'
   >&2 echo '    --no-selfUpdate:           do not update this script from git'
   >&2 echo '    --no-abortOnMakepkgError:  do not abort when makepkg returns non-zero'
+  >&2 echo '    -c|--cleanUnsigned:        remove unsigned Packages first'
   >&2 echo ''
   rm -rf "${tmpDir}"
   exit 1
 }
 
 echo 'parse arguments ...'
-eval set -- "$(getopt -o f --long force,no-upload,no-selfUpdate,no-abortOnMakepkgError -n "$(basename "$0")" -- "$@" || echo "usage")"
+eval set -- "$(getopt -o fc --long force,no-upload,no-selfUpdate,no-abortOnMakepkgError,cleanUnsigned -n "$(basename "$0")" -- "$@" || echo "usage")"
 args=("$@")
 
 while true
@@ -40,6 +42,11 @@ do
     -f|--force)
       echo '"force" erkannt'
       force=true
+      shift
+    ;;
+    -c|--cleanUnsigned)
+      echo '"cleanUnsigned" erkannt'
+      cleanUnsigned=true
       shift
     ;;
     --no-upload)
@@ -93,6 +100,32 @@ then
   err=$?
   rm -rf "${tmpDir}"
   exit ${err}
+fi
+
+# clean unsigned packages
+if ${cleanUnsigned} && ${aufRechenknecht}
+then
+  ssh paule@127.0.0.1 '
+    rmPaket() {
+      [ "$(basename "$(pwd)")" == "any" ] && return
+      repo-remove -v -s -k 0x20194BA1 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.xz}"
+      rm "$1"
+      [ -e "$1.sig" ] && rm "$1.sig"
+    }
+
+    cd "'${pkgDir}'"
+    for arch in *
+    do
+      [ -d "${arch}" ] || continue
+      cd "${arch}"
+      for paket in *.pkg.tar.xz
+      do
+        [ -e "${paket}.sig" ] && continue
+        rmPaket ${paket}
+      done
+      cd ..
+    done
+  '
 fi
 
 unset pakete
