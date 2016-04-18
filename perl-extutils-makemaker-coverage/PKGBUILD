@@ -2,18 +2,18 @@
 # Generator  : CPANPLUS::Dist::Arch 1.27
 
 pkgname='perl-extutils-makemaker-coverage'
-pkgver='0.04'
+pkgver='0.05'
 pkgrel='1'
 pkgdesc='add a Makefile target to determine test coverage using Devel::Cover'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
+depends=('perl-object-accessor')
 makedepends=('perl-devel-cover')
-url='https://metacpan.org/release/SMPETERS/ExtUtils-MakeMaker-Coverage-0.04'
 _perlName="ExtUtils-MakeMaker-Coverage"
+url="https://metacpan.org/release/SMPETERS/${_perlName}-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SM/SMPETERS/${_perlName}-${pkgver}.tar.gz")
-sha512sums=('52392c24f649ae4d15e6d53b65f757c9c789ad6c588df77abf08fa650907040954227d854441946bc7b4c2219ce158a6bd05976beeecc6c388c43d3457138c26')
+sha512sums=('37a05344af5090417cd1b30130eaa12c1a88776b3d770e9dc5fa454159166369fd2ba9d9c0ab0b63428a7fbac91c003e306c55d9ac1a25d327e35c2f689a2661')
 _distdir="${_perlName}-${pkgver}"
 
 build() {
