@@ -100,11 +100,11 @@ then
           tail -n1 \
       )
     elif echo "${src}" | \
-      grep -q "//search\.m\?cpan\.org/CPAN/authors/\|//cpan\.metacpan\.org/authors/"
+      grep -q "//search\.m\?cpan\.org/CPAN/authors/"
     then
       quVer=$( \
         echo "${src%/*}" | \
-          sed "s#//search\.m\?cpan\.org/CPAN/\|//cpan.metacpan.org/#//www.cpan.org/#" | \
+          sed "s#//search\.m\?cpan\.org/CPAN/#//www.cpan.org/#" | \
           sed "s|^https:|http:|" | \
           sed "s|\([^/]\)\$|\1/|"
       )
@@ -123,11 +123,11 @@ then
           tail -n1 \
       )
     elif echo "${src}" | \
-      grep -q "//cpan\.org/"
+      grep -q "//cpan\.org/\|//cpan\.metacpan\.org/authors/"
     then
       quVer=$( \
         echo "${src%/*}/" | \
-          sed "s|//cpan|//www.cpan|"
+          sed "s|//cpan\.org/|//www.cpan.org/|"
       )
       quNam=${src##*/}
       quNam=${quNam%-*}
