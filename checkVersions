@@ -17,17 +17,20 @@ usage() {
 
 eval set -- "$(getopt -o fj: --long force,jobs: -n "$(basename "$0")" -- "$@" || echo "usage")"
 args=("$@")
+optArgs=()
 
 while true
 do
   case $1 in
     -f|--force)
       force=true
+      optArgs[${#optArgs[@]}]="-f"
       shift
     ;;
     -j|--jobs)
       shift
       jobs="$1"
+      optArgs[${#optArgs[@]}]="-j $1"
       shift
     ;;
     --)
@@ -258,14 +261,15 @@ then
 
   if [ ! "${pkgver}" == "${remVer}" ]
   then
-    echo "$1: ${pkgname} ist neuer verfügbar: ${remVer} vs. ${pkgver}"
+    echo "$1: ${pkgname}: ${remVer} vs. ${pkgver}" | \
+      sed "s|^\([^:]\+\): \1:|\1:|"
   fi
 
 elif ${versionenErmitteln}
 then
   echo "$@" | \
     tr " " "\n" | \
-    parallel -j${jobs} $0 {} \;
+    parallel -j${jobs} "${me}" "${optArgs[@]}" {} \;
   exit $?
 
 else
