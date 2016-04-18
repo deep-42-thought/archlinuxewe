@@ -1,0 +1,50 @@
+# Contributor: John D Jones III <jnbek1972 -_AT_- g m a i l -_Dot_- com>
+# Generator  : CPANPLUS::Dist::Arch 1.27
+
+pkgname='perl-extutils-makemaker-coverage'
+pkgver='0.04'
+pkgrel='1'
+pkgdesc='add a Makefile target to determine test coverage using Devel::Cover'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=('perl-devel-cover')
+url='https://metacpan.org/release/SMPETERS/ExtUtils-MakeMaker-Coverage-0.04'
+_perlName="ExtUtils-MakeMaker-Coverage"
+source=("https://cpan.metacpan.org/authors/id/S/SM/SMPETERS/${_perlName}-${pkgver}.tar.gz")
+sha512sums=('52392c24f649ae4d15e6d53b65f757c9c789ad6c588df77abf08fa650907040954227d854441946bc7b4c2219ce158a6bd05976beeecc6c388c43d3457138c26')
+_distdir="${_perlName}-${pkgver}"
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
