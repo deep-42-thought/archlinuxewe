@@ -2,7 +2,8 @@
 
 # init variables
 tmpDir="$(mktemp -d /tmp/archive.XXXXXX)"
-pkgDir="/srv/arch-mirror/arch/arch/archlinuxewe/os"
+pkgDirBase="/srv/arch-mirror/arch/arch"
+pkgDir="${pkgDirBase}/archlinuxewe/os"
 pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
 [ "$(hostname)" == "rechenknecht" ] && \
   [ "${pkgSrcDir}" == "${HOME}" ] && \
@@ -375,8 +376,7 @@ else
 # a modified official package
 
       offVer="$( \
-        ssh paule@jeti100 'ls '"${pkgDir}"'/*/'"${paket}"'-*.pkg.tar.xz' | \
-          xargs -n1 basename | \
+        ssh paule@jeti100 'find '"${pkgDirBase}"' -type f -name "'"${paket}"'-*.pkg.tar.xz" -exec basename "{}" \; ' | \
           sort -V | \
           tail -n1 \
         )"
