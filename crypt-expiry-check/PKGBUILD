@@ -4,7 +4,7 @@ pkgver=4.0.1
 pkgrel=2
 pkgdesc="Surveilance of expiry of gpg-keys and X.509 certificates"
 arch=('any')
-url=""
+url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
 license=('GPL')
 groups=()
 depends=('openssl' 'gnupg')
@@ -20,7 +20,7 @@ backup=(
 )
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::http://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
 )
 sha256sums=(
     "c0cb97f22d14305784f778fb4fbc05867f6f05d588461126a278d2dc54970428"

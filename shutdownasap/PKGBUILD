@@ -4,7 +4,7 @@ pkgver=0.1
 pkgrel=1
 pkgdesc="simple script for shutdown waiting for certain processes and files to disapear"
 arch=('any')
-url=""
+url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
 license=('GPL')
 groups=()
 depends=()
@@ -17,7 +17,7 @@ replaces=()
 backup=('etc/shutdownasap.conf')
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::http://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
 )
 sha256sums=(
     "46b96789476a0be581801e88454d03eb18c2796aa3033f21ad7a67e9b599f2fd"
