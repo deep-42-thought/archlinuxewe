@@ -1,5 +1,5 @@
 pkgname='perl-regexp-assemble'
-pkgver='0.36'
+pkgver='0.37'
 pkgrel='1'
 pkgdesc="Assemble multiple Regular Expressions into a single RE"
 arch=('any')
@@ -7,9 +7,14 @@ license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=('perl')
 makedepends=()
+checkdepends=(
+    'perl-extutils-makemaker'
+    'perl-extutils-makemaker-coverage'
+    'perl-test-pod'
+)
 url='https://metacpan.org/pod/Regexp::Assemble'
 source=("https://cpan.metacpan.org/authors/id/R/RS/RSAVAGE/Regexp-Assemble-${pkgver}.tgz")
-sha512sums=('4680d836cceee08a761f0618afba97f4e405934c138a1e9879e25ca63a20e92ee6c8df734fcfbfbc34c086e6c614fe8ac0f0b7e90af5309827503efd8bdadac9')
+sha512sums=('2b21154c814fec9b0fc0affc3c7751e17bd93e5d0b42c13379131498ea2c4ea340316a01045d936dbc9b0e8cfdb1afa7b778936083d04cc533766942fd46c407')
 _distdir="Regexp-Assemble-${pkgver}"
 
 build() {
