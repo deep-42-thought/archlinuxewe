@@ -24,8 +24,13 @@ cd "$1"
 # sed ':begin;$!N;s@^\s*\(sha[[:digit:]]\+sums=\|md5sums=\)\([^)]*\)\n\(.*\)$@sha512sums=\2 \3@;tbegin;P;D' PKGBUILD
 sed 's|pkgver=.*$|pkgver='"${remVer}"'|;
   s|pkgrel=.*$|pkgrel=1|;
+  s@^\s*\(sha[[:digit:]]\+sums\|md5sums\)=@sha512sums=@
+' -i PKGBUILD
+
+sed '
   :begin;
-    $!N;s@^\s*\(sha[[:digit:]]\+sums=\|md5sums=\)\([^)]*\)\n\(.*\)$@sha512sums=\2 \3@;
+    $!N;
+    s@^sha512sums=\([^)]*\)\n\(.*\)$@sha512sums=\1 \2@;
   tbegin;
   P;
   D
