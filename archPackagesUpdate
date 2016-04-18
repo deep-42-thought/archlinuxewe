@@ -363,10 +363,19 @@ else
 
 # one of Erich's packages
 
-      remSum="$(curl -o - "${source#*::}&post=sha256sum" 2> /dev/null)"
-      if [ ! "${remSum}" == "${sha256sums}" ]
+      if grep -q "sha512sums" ${paket}/PKGBUILD
       then
-        >&2 echo "sha256sum von ${pkgname} stimmt nicht: ${remSum} vs. ${sha256sums}."
+        sumTyp="sha512sum"
+        pkgSum="${sha512sums[@]}"
+      elif grep -q "sha256sums" ${paket}/PKGBUILD
+      then
+        sumTyp="sha256sum"
+        pkgSum="${sha256sums[@]}"
+      fi
+      remSum="$(curl -o - "${source#*::}&post=${sumTyp}" 2> /dev/null)"
+      if [ ! "${remSum}" == "${pkgSum}" ]
+      then
+        >&2 echo "${sumTyp}s von ${pkgname} stimmt nicht: ${remSum} vs. ${pkgSum}."
         err=true
       fi
 
