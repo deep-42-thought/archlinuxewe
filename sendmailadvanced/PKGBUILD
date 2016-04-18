@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=sendmailadvanced
-pkgver=1.0.1
-pkgrel=3
+pkgver=1.0.2
+pkgrel=1
 pkgdesc="Wrapper for sendmail, which generates stamps and encrypts."
 arch=('any')
 url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
@@ -19,9 +19,7 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
 )
-sha256sums=(
-    "9215b3c04ad4cab091cb7f62e8b565ced4d2f18904a0257cf1d012517db62334"
-)
+sha256sums=('986cd253cf196286cbc93ef318bd66357c2f550a6085fe6b6fc407c1b65e5455')
 
 package() {
 
