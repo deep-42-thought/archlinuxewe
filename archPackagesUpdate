@@ -23,20 +23,21 @@ usage()
   >&2 echo 'Skript zum Updaten der selbsterstellten Archlinux-Pakete'
   >&2 echo ''
   >&2 echo 'Verwendung:'
-  >&2 echo '  '"$0"' [ -f|--force ] [ --ignore-wrong-db-signature ] [ --no-upload ] [ --no-selfUpdate ] [ --no-abortOnMakepkgError ] [ -c|--cleanUnsigned ]'
+  >&2 echo '  '"$0"' [ -c|--cleanUnsigned ] [ -f|--force ] [ --ignore-wrong-db-signature ] [ --no-upload ] [ --no-selfUpdate ] [ --no-abortOnMakepkgError ] [ --only $package ]'
+  >&2 echo '    -c|--cleanUnsigned:           remove unsigned Packages first'
   >&2 echo '    -f|--force:                   rebuild packages even if they look up to date'
   >&2 echo '    --ignore-wrong-db-signature:  do not verify old database signature'
   >&2 echo '    --no-upload:                  do not upload built packages from rechenknecht to jeti100'
   >&2 echo '    --no-selfUpdate:              do not update this script from git'
   >&2 echo '    --no-abortOnMakepkgError:     do not abort when makepkg returns non-zero'
-  >&2 echo '    -c|--cleanUnsigned:           remove unsigned Packages first'
+  >&2 echo '    --only $package:              only consider $package for build and update process'
   >&2 echo ''
   rm -rf "${tmpDir}"
   exit 1
 }
 
 echo 'parse arguments ...'
-eval set -- "$(getopt -o fc --long force,ignore-wrong-db-signature,no-upload,no-selfUpdate,no-abortOnMakepkgError,cleanUnsigned -n "$(basename "$0")" -- "$@" || echo "usage")"
+eval set -- "$(getopt -o cf --long cleanUnsigned,force,ignore-wrong-db-signature,no-upload,no-selfUpdate,no-abortOnMakepkgError,only: -n "$(basename "$0")" -- "$@" || echo "usage")"
 args=("$@")
 
 while true
@@ -45,32 +46,31 @@ do
     -f|--force)
       echo '"force" erkannt'
       force=true
-      shift
     ;;
     -c|--cleanUnsigned)
       echo '"cleanUnsigned" erkannt'
       cleanUnsigned=true
-      shift
     ;;
     --no-upload)
       echo '"no-upload" erkannt'
       upload=false
-      shift
     ;;
     --ignore-wrong-db-signature)
       echo '"ignore-wrong-db-signature" erkannt'
       checkDbSig=''
-      shift
     ;;
     --no-selfUpdate)
       echo '"no-selfUpdate" erkannt'
       updateMe=false
-      shift
     ;;
     --no-abortOnMakepkgError)
       echo '"no-abortOnMakepkgError" erkannt'
       abortOnMakepkgError=false
+    ;;
+    --only)
       shift
+      echo '"only" erkannt'
+      onlyPackages[${#onlyPackages[@]}]="$1"
     ;;
     --)
       shift
@@ -81,6 +81,7 @@ do
       rm -rf "${tmpDir}"
       exit 1
   esac
+  shift
 done
 
 if [ ! $# -eq 0 ]
@@ -147,6 +148,13 @@ for paket in $( \
   )
 do
   [ -d "${paket}" ] || continue
+  [ ${#onlyPackages[@]} -eq 0 ] && consider=true || consider=false
+  for ((i=0; i<${#onlyPackages[@]}; i++))
+  do
+    [ "${onlyPackages[${i}]}" == "${paket}" ] && consider=true
+  done
+  ${consider} || continue
+
   . ${paket}/PKGBUILD
 
   for singleArch in "${arch[@]}"
