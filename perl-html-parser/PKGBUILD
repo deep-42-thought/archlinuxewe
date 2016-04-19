@@ -4,13 +4,14 @@
 
 pkgname='perl-html-parser'
 pkgver='3.72'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Encode or decode strings with HTML entities"
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=('perl')
 makedepends=('perl-html-tagset')
+checkdepends=('perl-test-pod')
 url='http://search.mcpan.org/dist/Mixin-Linewise'
 source=("https://cpan.metacpan.org/authors/id/G/GA/GAAS/HTML-Parser-${pkgver}.tar.gz")
 sha512sums=('9fded69219791af085018ffbe6737e74e370c543af52aa221aec174daf52d1b8d3cdd07f025176c0212ae572a924555262f2eefc73781f82cdb7d9cff58ae716')
