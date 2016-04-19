@@ -270,19 +270,24 @@ then
 
     if [ "${arch}" == "i686" ]
     then
-      # 32-bit is built in chroot
+      # 32-bit is built in chroot /opt/arch32
       echo '\
         sudo pacman -Sy && \
         cd "'"${tmpDir}/${paket}"'" && \
-        _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg --config "'"${tmpDir}"'/makepkg32.conf" --sign -fcsr --noconfirm && \
-        exit\
+        _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg --config "'"${tmpDir}"'/makepkg32.conf" --sign -fcsr --noconfirm
+        exit $?
       ' | \
         chrootUnpriv /opt/arch32
       err[${i}]=$?
     else
-      # everything else is built directly
-      sudo pacman -Sy
-      makepkg --config "${tmpDir}/makepkg.conf" --sign -fcsr --noconfirm
+      # 64-bit is built in chroot /opt/arch64
+      echo '\
+        sudo pacman -Sy && \
+        cd "'"${tmpDir}/${paket}"'" && \
+        makepkg --config "'"${tmpDir}"'/makepkg.conf" --sign -fcsr --noconfirm
+        exit $?
+      ' | \
+        chrootUnpriv /opt/arch64
       err[${i}]=$?
     fi
     if ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ]
