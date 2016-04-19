@@ -321,8 +321,8 @@ then
         ssh paule@127.0.0.1 '
 
           rmPaket() {
-            [ "$(basename "$(pwd)")" == "any" ] && return
-            repo-remove '${checkDbSig}' -s -k 0x20194BA1 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.xz}"
+            [ "$(basename "$(pwd)")" == "any" ] || \
+              repo-remove '${checkDbSig}' -s -k 0x20194BA1 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.xz}"
             rm "$1"
             [ -e "$1.sig" ] && rm "$1.sig"
           }
