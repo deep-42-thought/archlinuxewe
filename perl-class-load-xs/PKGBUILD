@@ -5,7 +5,7 @@ pkgname=perl-class-load-xs
 _lastauthor=E/ET/ETHER
 _pkgname=Class-Load-XS
 pkgver=0.09
-pkgrel=3
+pkgrel=4
 pkgdesc="XS implementation of parts of Class::Load"
 arch=('x86_64' 'i686')
 license=('PerlArtistic2')
@@ -13,7 +13,7 @@ options=('!emptydirs')
 # https://bugs.archlinux.org/task/43204
 # perl-class-load should depend on perl-namespace-clean
 depends=('perl-class-load' 'perl-namespace-clean')
-checkdepends=('perl-module-implementation' 'perl-test-fatal' 'perl-test-requires')
+checkdepends=('perl-module-implementation' 'perl-test-fatal' 'perl-test-requires' 'perl-test-without-module')
 url="https://metacpan.org/release/${_pkgname}"
 source=(https://cpan.metacpan.org/authors/id/${_lastauthor}/${_pkgname}-${pkgver}.tar.gz)
 sha512sums=('9b24637cf7b035ba369f05e42c0bd5a8590e001f2395b46df078635a50bb3df58ad57850be0010d092ae2530d9a545bbcc5f0055f6ae7f166c93905c022d469d')
