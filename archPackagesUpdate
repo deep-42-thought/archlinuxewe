@@ -175,72 +175,77 @@ done
 
 if ${aufRechenknecht}
 then
-# check sanity of build-chroots
-  basePakete="$(
-    echo '
-      pacman -Qg base base-devel | \
-        cut -d " " -f 2 | \
-        sort -u
-      exit
-    ' | \
-      chrootUnpriv
-  )"
-  explizitinstalliertePakete="$(
-    echo '
-      pacman -Qtt | \
-        cut -d " " -f 1
-      exit
-    ' | \
-      chrootUnpriv
-  )"
-  alleinstalliertenPakete="$(
-    echo '
-      pacman -Q | \
-        cut -d " " -f 1
-      exit
-    ' | \
-      chrootUnpriv
-  )"
-  zuvielePakete="$(
-    (
-      (
-        echo "${explizitinstalliertePakete}"
-        echo "${basePakete}"
-      ) | \
-        sort | \
-        uniq -d
-      echo "${explizitinstalliertePakete}"
-    ) | \
-      sort | \
-      uniq -u
-  )"
-  zuwenigePakete="$(
-    (
-      (
-        echo "${alleinstalliertenPakete}"
-        echo "${basePakete}"
-      ) | \
-        sort | \
-        uniq -d
-      echo "${basePakete}"
-    ) | \
-      sort | \
-      uniq -u
-  )"
 
+# check sanity of build-chroots
   err=false
-  if [ -n "${zuvielePakete}" ]
-  then
-    >&2 echo 'zu viele Pakete installiert:'
-    >&2 echo "${zuvielePakete}"
-    err=true
-  fi
-  if [ -n "${zuwenigePakete}" ]
-  then
-    >&2 echo 'zu wenige Pakete installiert:'
-    >&2 echo "${zuwenigePakete}"
-    err=true
-  fi
+  for chrootDir in /opt/arch*
+  do
+    [ -d "${chrootDir}" ] || continue
+    basePakete="$(
+      echo '
+        pacman -Qg base base-devel | \
+          cut -d " " -f 2 | \
+          sort -u
+        exit
+      ' | \
+        chrootUnpriv "${chrootDir}"
+    )"
+    explizitinstalliertePakete="$(
+      echo '
+        pacman -Qtt | \
+          cut -d " " -f 1
+        exit
+      ' | \
+        chrootUnpriv "${chrootDir}"
+    )"
+    alleinstalliertenPakete="$(
+      echo '
+        pacman -Q | \
+          cut -d " " -f 1
+        exit
+      ' | \
+        chrootUnpriv "${chrootDir}"
+    )"
+    zuvielePakete="$(
+      (
+        (
+          echo "${explizitinstalliertePakete}"
+          echo "${basePakete}"
+        ) | \
+          sort | \
+          uniq -d
+        echo "${explizitinstalliertePakete}"
+      ) | \
+        sort | \
+        uniq -u
+    )"
+    zuwenigePakete="$(
+      (
+        (
+          echo "${alleinstalliertenPakete}"
+          echo "${basePakete}"
+        ) | \
+          sort | \
+          uniq -d
+        echo "${basePakete}"
+      ) | \
+        sort | \
+        uniq -u
+    )"
+
+    if [ -n "${zuvielePakete}" ]
+    then
+      >&2 echo 'zu viele Pakete in "'${chrootDir}'" installiert:'
+      >&2 echo "${zuvielePakete}"
+      err=true
+    fi
+    if [ -n "${zuwenigePakete}" ]
+    then
+      >&2 echo 'zu wenige Pakete in "'${chrootDir}'" installiert:'
+      >&2 echo "${zuwenigePakete}"
+      err=true
+    fi
+  done
 
   ${err} && exit 1
 
@@ -272,7 +277,7 @@ then
         _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg --config "'"${tmpDir}"'/makepkg32.conf" --sign -fcsr --noconfirm && \
         exit\
       ' | \
-        chrootUnpriv
+        chrootUnpriv /opt/arch32
       err[${i}]=$?
     else
       # everything else is built directly
