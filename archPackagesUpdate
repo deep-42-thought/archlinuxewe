@@ -250,13 +250,13 @@ then
 
     if [ -n "${zuvielePakete}" ]
     then
-      >&2 echo 'zu viele Pakete in "'/opt/arch${chrootDir}'" installiert:'
+      >&2 echo 'zu viele Pakete in "'/opt/arch${chrootArch}'" installiert:'
       >&2 echo "${zuvielePakete}"
       err=true
     fi
     if [ -n "${zuwenigePakete}" ]
     then
-      >&2 echo 'zu wenige Pakete in "'/opt/arch${chrootDir}'" installiert:'
+      >&2 echo 'zu wenige Pakete in "'/opt/arch${chrootArch}'" installiert:'
       >&2 echo "${zuwenigePakete}"
       err=true
     fi
