@@ -97,7 +97,7 @@ cd "${tmpDir}"
 if ${updateMe} && ${aufRechenknecht} && [ -e "$(basename $0)" ] && ! diff -q "$(basename $0)" "$0" &> /dev/null
 then
   cp "$(basename $0)" "$0"
-  $0 "${args}"
+  $0 "${args[@]}"
   err=$?
   rm -rf "${tmpDir}"
   exit ${err}
@@ -492,7 +492,7 @@ else
     exit ${err}
   fi
 
-  ssh -p 22222 141.35.51.219 "~/archPackagesUpdate" "${args}"
+  ssh -p 22222 141.35.51.219 "~/archPackagesUpdate" "${args[@]}"
   err=$?
   if [ ${err} -ne 0 ]
   then
