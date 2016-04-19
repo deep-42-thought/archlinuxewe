@@ -175,6 +175,75 @@ done
 
 if ${aufRechenknecht}
 then
+# check sanity of build-chroots
+  basePakete="$(
+    echo '
+      pacman -Qg base base-devel | \
+        cut -d " " -f 2 | \
+        sort -u
+      exit
+    ' | \
+      chrootUnpriv
+  )"
+  explizitinstalliertePakete="$(
+    echo '
+      pacman -Qtt | \
+        cut -d " " -f 1
+      exit
+    ' | \
+      chrootUnpriv
+  )"
+  alleinstalliertenPakete="$(
+    echo '
+      pacman -Q | \
+        cut -d " " -f 1
+      exit
+    ' | \
+      chrootUnpriv
+  )"
+  zuvielePakete="$(
+    (
+      (
+        echo "${explizitinstalliertePakete}"
+        echo "${basePakete}"
+      ) | \
+        sort | \
+        uniq -d
+      echo "${explizitinstalliertePakete}"
+    ) | \
+      sort | \
+      uniq -u
+  )"
+  zuwenigePakete="$(
+    (
+      (
+        echo "${alleinstalliertenPakete}"
+        echo "${basePakete}"
+      ) | \
+        sort | \
+        uniq -d
+      echo "${basePakete}"
+    ) | \
+      sort | \
+      uniq -u
+  )"
+
+  err=false
+  if [ -n "${zuvielePakete}" ]
+  then
+    >&2 echo 'zu viele Pakete installiert:'
+    >&2 echo "${zuvielePakete}"
+    err=true
+  fi
+  if [ -n "${zuwenigePakete}" ]
+  then
+    >&2 echo 'zu wenige Pakete installiert:'
+    >&2 echo "${zuwenigePakete}"
+    err=true
+  fi
+
+  ${err} && exit 1
+
   maxErr=0
 
 # generate current makepkg.conf and makepkg32.conf
