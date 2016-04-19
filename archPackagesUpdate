@@ -15,6 +15,7 @@ updateMe=true
 abortOnMakepkgError=true
 cleanUnsigned=false
 checkDbSig='-v'
+rmAddPkgs=false
 
 # print help screen
 usage()
@@ -23,7 +24,7 @@ usage()
   >&2 echo 'Skript zum Updaten der selbsterstellten Archlinux-Pakete'
   >&2 echo ''
   >&2 echo 'Verwendung:'
-  >&2 echo '  '"$0"' [ -c|--cleanUnsigned ] [ -f|--force ] [ --ignore-wrong-db-signature ] [ --no-upload ] [ --no-selfUpdate ] [ --no-abortOnMakepkgError ] [ --only $package ]'
+  >&2 echo '  '"$0"' [ -c|--cleanUnsigned ] [ -f|--force ] [ --ignore-wrong-db-signature ] [ --no-upload ] [ --no-selfUpdate ] [ --no-abortOnMakepkgError ] [ --only $package ] [ -r|--removeAdditionalPackages ]'
   >&2 echo '    -c|--cleanUnsigned:           remove unsigned Packages first'
   >&2 echo '    -f|--force:                   rebuild packages even if they look up to date'
   >&2 echo '    --ignore-wrong-db-signature:  do not verify old database signature'
@@ -37,7 +38,7 @@ usage()
 }
 
 echo 'parse arguments ...'
-eval set -- "$(getopt -o cf --long cleanUnsigned,force,ignore-wrong-db-signature,no-upload,no-selfUpdate,no-abortOnMakepkgError,only: -n "$(basename "$0")" -- "$@" || echo "usage")"
+eval set -- "$(getopt -o cfr --long cleanUnsigned,force,ignore-wrong-db-signature,no-upload,no-selfUpdate,no-abortOnMakepkgError,only:,removeAdditionalPackages -n "$(basename "$0")" -- "$@" || echo "usage")"
 args=("$@")
 
 while true
@@ -71,6 +72,10 @@ do
       shift
       echo '"only" erkannt'
       onlyPackages[${#onlyPackages[@]}]="$1"
+    ;;
+    -r|--removeAdditionalPackages)
+      echo '"removeAdditionalPackages" erkannt'
+      rmAddPkgs=true
     ;;
     --)
       shift
@@ -252,6 +257,16 @@ then
     then
       >&2 echo 'zu viele Pakete in "'/opt/arch${chrootArch}'" installiert:'
       >&2 echo "${zuvielePakete}"
+      if ${rmAddPkgs}
+      then
+        echo '
+          echo "'"${zuvielePakete}"'" | \
+            xargs -n1 sudo pacman -Rs --noconfirm
+          exit
+        ' | \
+          chrootUnpriv "${chrootArch}"
+      fi
+
       err=true
     fi
     if [ -n "${zuwenigePakete}" ]
