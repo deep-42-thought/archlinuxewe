@@ -402,9 +402,9 @@ then
           err=1
           if [ -e "'${pkgDir}'/${arch}/${paketFehler}" ]
           then
-            >&2 echo "FEHLER: Paket '${pkgDir}'/${arch}/${paketFehler} ist entweder nur im Verzeichnisbaum vorhanden."
+            >&2 echo "FEHLER: Paket '${pkgDir}'/${arch}/${paketFehler} ist nur im Verzeichnisbaum vorhanden."
           else
-            >&2 echo "FEHLER: Paket '${pkgDir}'/${arch}/${paketFehler} ist entweder nur in der Datenbank vorhanden."
+            >&2 echo "FEHLER: Paket '${pkgDir}'/${arch}/${paketFehler} ist nur in der Datenbank vorhanden."
           fi
 
         done
