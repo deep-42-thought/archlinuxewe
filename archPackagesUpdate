@@ -297,7 +297,7 @@ then
     vers="${verss[${i}]}"
 
     cd "${tmpDir}/${paket}"
-    rm -f ${paket}-*-${arch}.pkg.tar.xz
+    rm -f ${paket}-*-${arch}.pkg.tar.xz*
 
     if [ "${arch}" == "i686" ]
     then
@@ -327,6 +327,16 @@ then
       exit ${err[${i}]}
     fi
     [ ${err[${i}]} -gt ${maxErr} ] && maxErr=${err[${i}]}
+
+    if ! gpg --verify ${paket}-${vers}-${arch}.pkg.tar.xz{.sig,} &> /dev/null
+    then
+      key="$(
+        grep '^GPGKEY=' "${tmpDir}/makepkg.conf" | \
+          sed 's|^GPGKEY=\s*"\(.*\)"\s*$|0x\1|'
+      )"
+      rm -f "${paket}-${vers}-${arch}.pkg.tar.xz.sig"
+      gpg --detach-sign -u "${key}" --no-armor ${paket}-${vers}-${arch}.pkg.tar.xz
+    fi
 
     if ${upload} && [ ${err[${i}]} -eq 0 ]
     then
