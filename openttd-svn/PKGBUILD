@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-svn
-pkgver=27546
+pkgver=27547
 pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686')
@@ -16,33 +16,26 @@ depends=(
 )
 makedepends=('subversion')
 checkdepends=()
-optdepends=()
+optdepends=(
+    'openttd-opengfx: free graphics'
+    'openttd-opensfx: free soundset'
+    'openttd-openmsx: free music'
+)
 provides=('openttd')
 conflicts=('openttd')
 replaces=()
 backup=()
 options=()
-_gfxversion=0.5.2
-_sfxversion=0.2.3
-_msxversion=0.3.1
 source=(
-    "http://binaries.openttd.org/extra/opengfx/$_gfxversion/opengfx-$_gfxversion-all.zip"
-    "http://binaries.openttd.org/extra/opensfx/$_sfxversion/opensfx-$_sfxversion-all.zip"
-    "http://binaries.openttd.org/extra/openmsx/$_msxversion/openmsx-$_msxversion-all.zip"
     "everything.patch"
     "version.patch"
     "clipboard.grf"
 )
-sha256sums=('19be61f1cb04cbb3cb9602f0b8eb6e6f56ecbefbfdd6e0e03f9579e5a5c1cbc8'
-            '6831b651b3dc8b494026f7277989a1d757961b67c17b75d3c2e097451f75af02'
-            '92e293ae89f13ad679f43185e83fb81fb8cad47fe63f4af3d3d9f955130460f5'
-            'ef8545afbf3d7b036cb7d347aacdead521d063f477d0561124763804ad78596a'
+sha256sums=('ef8545afbf3d7b036cb7d347aacdead521d063f477d0561124763804ad78596a'
             '69a604a37db76337a2709a0e63f5ca09b325af294225c42f4b7faf43c93ecc4c'
             '12b90fe53f2d61d2d45d74ecc6b97d3a5f041c4215a5c1b02a6b1ba162e4572a')
 
 prepare() {
-
-    tar -xf opengfx-$_gfxversion.tar
 
     svn export "svn://svn.openttd.org/trunk@r${pkgver}" trunk
     cd trunk
@@ -82,21 +75,6 @@ package() {
 
     cd trunk
     make DESTDIR=$pkgdir install
-
-    # Install OpenGFX
-    install -d $pkgdir/usr/share/openttd/data/opengfx-$_gfxversion
-    install -m 644 $srcdir/opengfx-$_gfxversion/* $pkgdir/usr/share/openttd/data/opengfx-$_gfxversion
-    chown -R root:root $pkgdir/usr/share/openttd/data/opengfx-$_gfxversion
-
-    # Install OpenSFX
-    install -d $pkgdir/usr/share/openttd/data/opensfx-$_sfxversion
-    install -m 644 $srcdir/opensfx-$_sfxversion/* $pkgdir/usr/share/openttd/data/opensfx-$_sfxversion
-    chown -R root:root $pkgdir/usr/share/openttd/data/opensfx-$_sfxversion
-
-    # Install OpenMSX
-    install -d $pkgdir/usr/share/openttd/gm
-    install -m 644 $srcdir/openmsx-$_msxversion/* $pkgdir/usr/share/openttd/gm
-    chown -R root:root $pkgdir/usr/share/openttd/gm/*
     install -m644 $srcdir/clipboard.grf $pkgdir/usr/share/openttd/baseset/
 
     # Remove unnecessary languages
@@ -107,8 +85,5 @@ package() {
     # Remove junk
     rm -rf $pkgdir/usr/share/doc
     rm -rf $pkgdir/usr/share/openttd/scripts
-    rm $pkgdir/usr/share/openttd/data/opengfx-$_gfxversion/{changelog,readme}.txt
-    rm $pkgdir/usr/share/openttd/data/opensfx-$_sfxversion/{changelog,readme}.txt
-    rm $pkgdir/usr/share/openttd/gm/{changelog,readme}.txt
 
 }
