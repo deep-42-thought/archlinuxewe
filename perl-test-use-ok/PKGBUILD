@@ -1,0 +1,34 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-test-use-ok'
+_realname='Test-use-ok'
+pkgver='0.11'
+pkgrel=2
+pkgdesc="Alternative to Test::More::use_ok"
+arch=('any')
+license=('perl')
+url="http://search.cpan.org/~audreyt/Test-use-ok"
+options=(!emptydirs)
+
+depends=('perl>=5.8.9')
+
+provides=('test-use-ok=0.11' 'ok=0.11' 'perl-ok=0.11' 'Test::use::ok=0.11' 'perl-test-use-ok=0.11')
+
+source=("http://search.cpan.org/CPAN/authors/id/A/AU/AUDREYT/${_realname}-${pkgver}.tar.gz")
+sha512sums=('ff831546c7a34edfd1a9e574300f6b299fa280ea7d3be6b3285cf173f8695d2dc51a302954dae95d2b1bb5c3f1b945081a06dc703c465ac0d4e229ce81d45293')
+
+build() {
+cd "$_realname-$pkgver"
+# install module in vendor directories.
+export PERL_MM_USE_DEFAULT=1
+perl Makefile.PL
+make
+}
+package() {
+cd "$_realname-$pkgver"
+make install INSTALLDIRS=vendor DESTDIR=${pkgdir}
+
+# remove perllocal.pod and .packlist
+find ${pkgdir} -name perllocal.pod -delete
+find ${pkgdir} -name .packlist -delete
+}
