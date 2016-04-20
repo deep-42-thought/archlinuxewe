@@ -2,13 +2,14 @@
 pkgname=perl-convert-uu
 _pkgname='Convert-UU'
 pkgver=0.5201
-pkgrel=1
+pkgrel=2
 pkgdesc="Perl module for uuencode and uudecode"
 arch=('any')
 url="http://search.cpan.org/~andk/Convert-UU-0.5201/"
 license=('GPL' 'PerlArtistic')
 depends=('perl')
 makedepends=()
+checkdepends=('perl-test-pod>=1.00' 'perl-test-pod-coverage')
 options=('!emptydirs')
 source=("http://search.cpan.org/CPAN/authors/id/A/AN/ANDK/${_pkgname}-${pkgver}.tar.gz")
 sha256sums=('92329ce1c32b5952c48e1223db018c8c58ceafef03bfa0fd4817cd89c355a3bd')
