@@ -91,6 +91,21 @@ then
   do
 
     if echo "${src}" | \
+      grep -q "//bundles\.openttdcoop\.org/"
+    then
+      qu="$(
+        echo "${src}" | \
+          sed 's|^\(https\?://\([^/]\+/\)\{3\}\).*$|\1|'
+      )"
+      remVer="$(
+        curl -o - "${qu}" 2> /dev/null | \
+          tr "\"" "\n" | \
+          grep '^[0-9.]\+/$' | \
+          sed 's|/$||' | \
+          sort -V | \
+          tail -n1
+      )"
+    elif echo "${src}" | \
       grep -q "//opensources\.eckner\.net/"
     then
       qu=${src#*::}
