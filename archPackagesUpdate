@@ -285,6 +285,7 @@ then
   cd "${tmpDir}"
   cp /etc/makepkg.conf .
   patch -p0 -i makepkgSystem.patch
+  sed 's|^\(BUILDENV=.*\)!sign|\1sign|' -i makepkg.conf
   cp makepkg{,32}.conf
   patch -p0 -i makepkg32.patch
 
@@ -304,7 +305,7 @@ then
       echo '\
         sudo pacman -Sy && \
         cd "'"${tmpDir}/${paket}"'" && \
-        _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg --config "'"${tmpDir}"'/makepkg32.conf" --sign -fcsr --noconfirm
+        _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg --config "'"${tmpDir}"'/makepkg32.conf" -fcsr --noconfirm
         exit $?
       ' | \
         chrootUnpriv 32
@@ -314,7 +315,7 @@ then
       echo '\
         sudo pacman -Sy && \
         cd "'"${tmpDir}/${paket}"'" && \
-        makepkg --config "'"${tmpDir}"'/makepkg.conf" --sign -fcsr --noconfirm
+        makepkg --config "'"${tmpDir}"'/makepkg.conf" -fcsr --noconfirm
         exit $?
       ' | \
         chrootUnpriv 64
