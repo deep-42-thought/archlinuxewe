@@ -248,15 +248,25 @@ then
     zuvielePakete="$(
       (
         (
+          (
+            echo "${explizitinstalliertePakete}"
+            echo "${basePakete}"
+          ) | \
+            sort | \
+            uniq -d
           echo "${explizitinstalliertePakete}"
-          echo "${basePakete}"
         ) | \
           sort | \
-          uniq -d
-        echo "${explizitinstalliertePakete}"
+          uniq -u
+        echo '
+          pacman -Qdt | \
+            cut -d " " -f 1 | \
+            tr "\n" " "
+          exit
+        ' | \
+          chrootUnpriv "${chrootArch}"
       ) | \
-        sort | \
-        uniq -u
+        sort -u
     )"
     zuwenigePakete="$(
       (
