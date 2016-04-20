@@ -4,13 +4,14 @@
 
 pkgname='perl-devel-cover'
 pkgver='1.22'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Code coverage metrics for Perl'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=('perl')
 makedepends=()
+checkdepends=('perl-html-parser')
 url='https://metacpan.org/pod/Devel::Cover'
 _perlName='Devel-Cover'
 source=("https://cpan.metacpan.org/authors/id/P/PJ/PJCJ/${_perlName}-${pkgver}.tar.gz")
