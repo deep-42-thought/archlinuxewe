@@ -372,6 +372,7 @@ then
 
     cd "${tmpDir}/${paket}"
     rm -f ${paket}-*-${arch}.pkg.tar.xz*
+    rm -rf src pkg
 
     if [ "${arch}" == "i686" ]
     then
@@ -382,7 +383,7 @@ then
         echo '\
           sudo pacman -Sy && \
           cd "'"${tmpDir}/${paket}"'" && \
-          _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg '${log}' --config "'"${tmpDir}"'/makepkg32.conf" -fcsr --noconfirm
+          _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg '${log}' --config "'"${tmpDir}"'/makepkg32.conf" -fsr --noconfirm
           exit $?
         '
       ) | \
@@ -396,7 +397,7 @@ then
         echo '\
           sudo pacman -Sy && \
           cd "'"${tmpDir}/${paket}"'" && \
-          makepkg '${log}' --config "'"${tmpDir}"'/makepkg.conf" -fcsr --noconfirm
+          makepkg '${log}' --config "'"${tmpDir}"'/makepkg.conf" -fsr --noconfirm
           exit $?
         '
       ) | \
