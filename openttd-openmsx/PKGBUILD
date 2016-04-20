@@ -1,0 +1,27 @@
+# Contributor: Tilo Brueckner  blueperil at gmx de
+# Maintainer:  Erich Eckner    arch at eckner dot net
+
+pkgname=openttd-openmsx
+pkgver=0.3.1
+pkgrel=2
+pkgdesc="Free music set for openttd"
+arch=('any')
+url="http://www.openttd.org"
+license=('GPL')
+source=(http://bundles.openttdcoop.org/openmsx/releases/${pkgver}/openmsx-${pkgver}.zip)
+sha512sums=('d17856fc70796eadb798b133af8a987ff9887c7f0d736e48bd27e9451eb122935271779b65e098e061c1316def455f56da6caa1d448e2bf111ecf8c189d3fbc8')
+depends=('timidity++' 'timidity-freepats')
+
+build() {
+	cd ${srcdir}/openmsx-${pkgver}
+
+	chmod 0644 * || return 1
+}
+
+package() {
+	cd ${srcdir}/openmsx-${pkgver}
+
+	mkdir -pm0755 ${pkgdir}/usr/share/openttd/gm   
+	cp openmsx.* ${pkgdir}/usr/share/openttd/gm/ || return 1
+	cp *.mid ${pkgdir}/usr/share/openttd/gm/ || return 1
+}
