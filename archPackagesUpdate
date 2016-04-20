@@ -17,6 +17,8 @@ cleanCache=false
 cleanUnsigned=false
 checkDbSig='-v'
 rmAddPkgs=false
+log=""
+logFile=""
 
 # print help screen
 usage()
@@ -24,36 +26,69 @@ usage()
   >&2 echo ''
   >&2 echo 'Skript zum Updaten der selbsterstellten Archlinux-Pakete'
   >&2 echo ''
-  >&2 echo 'Verwendung:'
-  >&2 echo '  '"$0"' [ -c|--cleanUnsigned ] [ -f|--force ] [ --ignore-wrong-db-signature ]' \
-                    '[ --no-upload ] [ --no-selfUpdate ] [ --no-abortOnMakepkgError ]' \
-                    '[ --only $package ] [ -r|--removeAdditionalPackages ]' \
-                    '[ --cleanCache ]'
+  >&2 echo 'Optionen:'
+  >&2 echo '    --cleanCache:'
+  >&2 echo '      clean up pacman cache in build environments'
   >&2 echo '    -c|--cleanUnsigned:'
   >&2 echo '      remove unsigned Packages first'
   >&2 echo '    -f|--force:'
   >&2 echo '      rebuild packages even if they look up to date'
   >&2 echo '    --ignore-wrong-db-signature:'
   >&2 echo '      do not verify old database signature'
-  >&2 echo '    --no-upload:'
-  >&2 echo '      do not upload built packages from rechenknecht to jeti100'
-  >&2 echo '    --no-selfUpdate:'
-  >&2 echo '      do not update this script from git'
+  >&2 echo '    -L|--log [file]:'
+  >&2 echo '      generate logfile of makepkg-runs'
   >&2 echo '    --no-abortOnMakepkgError:'
   >&2 echo '      do not abort when makepkg returns non-zero'
+  >&2 echo '    --no-selfUpdate:'
+  >&2 echo '      do not update this script from git'
+  >&2 echo '    --no-upload:'
+  >&2 echo '      do not upload built packages from rechenknecht to jeti100'
   >&2 echo '    --only $package:'
   >&2 echo '      only consider $package for build and update process'
   >&2 echo '    -r|--removeAdditionalPackages:'
   >&2 echo '      remove additional packages from build environments'
-  >&2 echo '    --cleanCache:'
-  >&2 echo '      clean up pacman cache in build environments'
   >&2 echo ''
   rm -rf "${tmpDir}"
   exit 1
 }
 
+# clean up before exit
+cleanUp () {
+  if [ -n "${log}" ]
+  then
+    [ -z "${logFile}" ] && logFile="/tmp/$(date '+%F-%T')"
+    [[ "${logFile}" == *".tar.gz" ]] || logFile="${logFile}.tar.gz"
+    cd "${tmpDir}"
+    logFiles="$(
+      find * -type f -name "*.log" | \
+        tr "\n" " "
+    )"
+    if [ -n "${logFiles}" ]
+    then
+      tar -czf "${logFile}" ${logFiles}
+      echo 'Logfiles saved to "'"${logFile}"'".'
+    fi
+  fi
+  rm -rf "${tmpDir}"
+}
+
 echo 'parse arguments ...'
-eval set -- "$(getopt -o cfr --long cleanCache,cleanUnsigned,force,ignore-wrong-db-signature,no-upload,no-selfUpdate,no-abortOnMakepkgError,only:,removeAdditionalPackages -n "$(basename "$0")" -- "$@" || echo "usage")"
+eval set -- "$(
+  getopt -o cfL::r \
+    --long cleanCache \
+    --long cleanUnsigned \
+    --long force \
+    --long ignore-wrong-db-signature \
+    --long log:: \
+    --long no-abortOnMakepkgError \
+    --long no-selfUpdate \
+    --long no-upload \
+    --long only: \
+    --long removeAdditionalPackages \
+    -n "$(basename "$0")" \
+    -- "$@" \
+    || echo "usage"
+)"
 args=("$@")
 
 while true
@@ -70,6 +105,12 @@ do
     -c|--cleanUnsigned)
       echo '"cleanUnsigned" erkannt'
       cleanUnsigned=true
+    ;;
+    -L|--log)
+      shift
+      echo '"log" erkannt'
+      log='-L'
+      logFile="$1"
     ;;
     --no-upload)
       echo '"no-upload" erkannt'
@@ -306,7 +347,11 @@ then
     fi
   done
 
-  ${err} && exit 1
+  if ${err}
+  then
+    cleanUp
+    exit 1
+  fi
 
   maxErr=0
 
@@ -337,7 +382,7 @@ then
         echo '\
           sudo pacman -Sy && \
           cd "'"${tmpDir}/${paket}"'" && \
-          _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg --config "'"${tmpDir}"'/makepkg32.conf" -fcsr --noconfirm
+          _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg '${log}' --config "'"${tmpDir}"'/makepkg32.conf" -fcsr --noconfirm
           exit $?
         '
       ) | \
@@ -351,7 +396,7 @@ then
         echo '\
           sudo pacman -Sy && \
           cd "'"${tmpDir}/${paket}"'" && \
-          makepkg --config "'"${tmpDir}"'/makepkg.conf" -fcsr --noconfirm
+          makepkg '${log}' --config "'"${tmpDir}"'/makepkg.conf" -fcsr --noconfirm
           exit $?
         '
       ) | \
@@ -360,7 +405,7 @@ then
     fi
     if ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ]
     then
-      rm -rf "${tmpDir}"
+      cleanUp
       exit ${err[${i}]}
     fi
     [ ${err[${i}]} -gt ${maxErr} ] && maxErr=${err[${i}]}
@@ -497,11 +542,8 @@ then
     '
   fi
 
-  if [ ${maxErr} -ne 0 ]
-  then
-    rm -rf "${tmpDir}"
-    exit ${maxErr}
-  fi
+  cleanUp
+  exit ${maxErr}
 
 else
 
@@ -577,7 +619,8 @@ else
     rm -rf "${tmpDir}"
     exit ${err}
   fi
-fi
 
 # clean up
-rm -rf "${tmpDir}"
+  rm -rf "${tmpDir}"
+
+fi
