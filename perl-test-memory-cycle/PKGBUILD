@@ -1,0 +1,51 @@
+# Contributor: John D Jones III AKA jnbek <jnbek1972 -_AT_- g m a i l -_Dot_- com>
+# Generator  : CPANPLUS::Dist::Arch 1.32
+# Maintainer:  Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-test-memory-cycle'
+pkgver='1.04'
+pkgrel='1'
+pkgdesc="Verifies code hasn't left circular references"
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-devel-cycle>=1.07' 'perl-padwalker' 'perl-cgi')
+makedepends=()
+checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
+url='https://metacpan.org/release/Test-Memory-Cycle'
+source=("http://search.cpan.org/CPAN/authors/id/P/PE/PETDANCE/Test-Memory-Cycle-${pkgver}.tar.gz")
+sha512sums=('f3f55947ab9440b66062036ecc6e61206a114aaf46c39a38fb3cbe727ddbb374e80dc138a066c249ef17cfb227109a28d7a7608423037b39dd05b361b1a69155')
+_distdir="Test-Memory-Cycle-${pkgver}"
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
