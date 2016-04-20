@@ -13,6 +13,7 @@ force=false
 upload=true
 updateMe=true
 abortOnMakepkgError=true
+cleanCache=false
 cleanUnsigned=false
 checkDbSig='-v'
 rmAddPkgs=false
@@ -24,7 +25,10 @@ usage()
   >&2 echo 'Skript zum Updaten der selbsterstellten Archlinux-Pakete'
   >&2 echo ''
   >&2 echo 'Verwendung:'
-  >&2 echo '  '"$0"' [ -c|--cleanUnsigned ] [ -f|--force ] [ --ignore-wrong-db-signature ] [ --no-upload ] [ --no-selfUpdate ] [ --no-abortOnMakepkgError ] [ --only $package ] [ -r|--removeAdditionalPackages ]'
+  >&2 echo '  '"$0"' [ -c|--cleanUnsigned ] [ -f|--force ] [ --ignore-wrong-db-signature ]' \
+                    '[ --no-upload ] [ --no-selfUpdate ] [ --no-abortOnMakepkgError ]' \
+                    '[ --only $package ] [ -r|--removeAdditionalPackages ]' \
+                    '[ --cleanCache ]'
   >&2 echo '    -c|--cleanUnsigned:'
   >&2 echo '      remove unsigned Packages first'
   >&2 echo '    -f|--force:'
@@ -41,13 +45,15 @@ usage()
   >&2 echo '      only consider $package for build and update process'
   >&2 echo '    -r|--removeAdditionalPackages:'
   >&2 echo '      remove additional packages from build environments'
+  >&2 echo '    --cleanCache:'
+  >&2 echo '      clean up pacman cache in build environments'
   >&2 echo ''
   rm -rf "${tmpDir}"
   exit 1
 }
 
 echo 'parse arguments ...'
-eval set -- "$(getopt -o cfr --long cleanUnsigned,force,ignore-wrong-db-signature,no-upload,no-selfUpdate,no-abortOnMakepkgError,only:,removeAdditionalPackages -n "$(basename "$0")" -- "$@" || echo "usage")"
+eval set -- "$(getopt -o cfr --long cleanCache,cleanUnsigned,force,ignore-wrong-db-signature,no-upload,no-selfUpdate,no-abortOnMakepkgError,only:,removeAdditionalPackages -n "$(basename "$0")" -- "$@" || echo "usage")"
 args=("$@")
 
 while true
@@ -56,6 +62,10 @@ do
     -f|--force)
       echo '"force" erkannt'
       force=true
+    ;;
+    --cleanCache)
+      echo '"cleanCache" erkannt'
+      cleanCache=true
     ;;
     -c|--cleanUnsigned)
       echo '"cleanUnsigned" erkannt'
@@ -287,6 +297,19 @@ then
   done
 
   ${err} && exit 1
+
+# clean pacman cache
+  if ${cleanCache}
+  then
+    for chrootArch in 32 64
+    do
+      echo '
+        sudo pacman -Sc --noconfirm
+        exit
+      ' | \
+        chrootUnpriv "${chrootArch}"
+    done
+  fi
 
   maxErr=0
 
