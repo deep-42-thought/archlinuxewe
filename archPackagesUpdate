@@ -56,11 +56,14 @@ usage()
 cleanUp () {
   if [ -n "${log}" ]
   then
-    [ -z "${logFile}" ] && logFile="/tmp/$(date '+%F-%T')"
+    [ -z "${logFile}" ] && logFile="/tmp/$(date '+%F-%H-%M-%S')"
     [[ "${logFile}" == *".tar.gz" ]] || logFile="${logFile}.tar.gz"
     cd "${tmpDir}"
     logFiles="$(
-      find * -type f -name "*.log" | \
+      for s in */*.log
+      do
+        [ -r "${s}" ] && echo "${s}"
+      done | \
         tr "\n" " "
     )"
     if [ -n "${logFiles}" ]
