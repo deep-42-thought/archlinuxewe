@@ -298,19 +298,6 @@ then
 
   ${err} && exit 1
 
-# clean pacman cache
-  if ${cleanCache}
-  then
-    for chrootArch in 32 64
-    do
-      echo '
-        sudo pacman -Sc --noconfirm
-        exit
-      ' | \
-        chrootUnpriv "${chrootArch}"
-    done
-  fi
-
   maxErr=0
 
 # generate current makepkg.conf and makepkg32.conf
@@ -334,22 +321,30 @@ then
     if [ "${arch}" == "i686" ]
     then
       # 32-bit is built in chroot /opt/arch32
-      echo '\
-        sudo pacman -Sy && \
-        cd "'"${tmpDir}/${paket}"'" && \
-        _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg --config "'"${tmpDir}"'/makepkg32.conf" -fcsr --noconfirm
-        exit $?
-      ' | \
+      (
+        ${cleanCache} && \
+          echo 'sudo pacman -Sc --noconfirm && \'
+        echo '\
+          sudo pacman -Sy && \
+          cd "'"${tmpDir}/${paket}"'" && \
+          _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg --config "'"${tmpDir}"'/makepkg32.conf" -fcsr --noconfirm
+          exit $?
+        '
+      ) | \
         chrootUnpriv 32
       err[${i}]=$?
     else
       # 64-bit is built in chroot /opt/arch64
-      echo '\
-        sudo pacman -Sy && \
-        cd "'"${tmpDir}/${paket}"'" && \
-        makepkg --config "'"${tmpDir}"'/makepkg.conf" -fcsr --noconfirm
-        exit $?
-      ' | \
+      (
+        ${cleanCache} && \
+          echo 'sudo pacman -Sc --noconfirm && \'
+        echo '\
+          sudo pacman -Sy && \
+          cd "'"${tmpDir}/${paket}"'" && \
+          makepkg --config "'"${tmpDir}"'/makepkg.conf" -fcsr --noconfirm
+          exit $?
+        '
+      ) | \
         chrootUnpriv 64
       err[${i}]=$?
     fi
