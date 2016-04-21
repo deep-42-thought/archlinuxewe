@@ -442,7 +442,10 @@ then
           addPaket() {
             [ "$(basename "$(pwd)")" == "any" ] && return
             neu="$1"
-            for alt in $(ls ${neu%-*-*-*.pkg.tar.xz}-*.pkg.tar.xz)
+            for alt in $(
+              ls -1 | \
+                grep "^${neu%-*-*-*.pkg.tar.xz}-[^-]\+-[^-]\+-${arch}\.pkg\.tar\.xz\$"
+            )
             do
               [ "${alt}" == "${neu}" ] && continue
               rmPaket "${alt}"
