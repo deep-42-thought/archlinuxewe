@@ -12,9 +12,9 @@ options=('!emptydirs')
 depends=('perl-sub-exporter>=0.978' 'perl-sub-name' 'perl-namespace-autoclean')
 makedepends=()
 url='https://metacpan.org/release/Sub-Exporter-ForMethods'
-source=('http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/Sub-Exporter-ForMethods-0.100052.tar.gz')
+_distdir="Sub-Exporter-ForMethods-${pkgver}"
+source=("http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
 sha512sums=('75dc9d150f0d0fe33f727363582f99f1ca5c4b76e789e33e640f648588c23531516a99affd9097bc38e175e099dac817d307406dd2380f422aae401f3b5405ca')
-_distdir="Sub-Exporter-ForMethods-0.100052"
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
