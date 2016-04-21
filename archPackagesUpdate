@@ -16,6 +16,7 @@ abortOnMakepkgError=true
 cleanCache=false
 cleanUnsigned=false
 checkDbSig='-v'
+checkMakepkg='--check'
 rmAddPkgs=false
 log=""
 logFile=""
@@ -39,6 +40,8 @@ usage()
   >&2 echo '      generate logfile of makepkg-runs'
   >&2 echo '    --no-abortOnMakepkgError:'
   >&2 echo '      do not abort when makepkg returns non-zero'
+  >&2 echo '    --no-check:'
+  >&2 echo '      pass --nocheck to makepkg'
   >&2 echo '    --no-selfUpdate:'
   >&2 echo '      do not update this script from git'
   >&2 echo '    --no-upload:'
@@ -84,6 +87,7 @@ eval set -- "$(
     --long ignore-wrong-db-signature \
     --long log:: \
     --long no-abortOnMakepkgError \
+    --long no-check \
     --long no-selfUpdate \
     --long no-upload \
     --long only: \
@@ -97,10 +101,6 @@ args=("$@")
 while true
 do
   case $1 in
-    -f|--force)
-      echo '"force" erkannt'
-      force=true
-    ;;
     --cleanCache)
       echo '"cleanCache" erkannt'
       cleanCache=true
@@ -109,27 +109,35 @@ do
       echo '"cleanUnsigned" erkannt'
       cleanUnsigned=true
     ;;
+    -f|--force)
+      echo '"force" erkannt'
+      force=true
+    ;;
+    --ignore-wrong-db-signature)
+      echo '"ignore-wrong-db-signature" erkannt'
+      checkDbSig=''
+    ;;
     -L|--log)
       shift
       echo '"log" erkannt'
       log='-L'
       logFile="$1"
     ;;
-    --no-upload)
-      echo '"no-upload" erkannt'
-      upload=false
+    --no-abortOnMakepkgError)
+      echo '"no-abortOnMakepkgError" erkannt'
+      abortOnMakepkgError=false
     ;;
-    --ignore-wrong-db-signature)
-      echo '"ignore-wrong-db-signature" erkannt'
-      checkDbSig=''
+    --no-check)
+      echo '"no-check" erkannt'
+      checkMakepkg='--nocheck'
     ;;
     --no-selfUpdate)
       echo '"no-selfUpdate" erkannt'
       updateMe=false
     ;;
-    --no-abortOnMakepkgError)
-      echo '"no-abortOnMakepkgError" erkannt'
-      abortOnMakepkgError=false
+    --no-upload)
+      echo '"no-upload" erkannt'
+      upload=false
     ;;
     --only)
       shift
@@ -385,7 +393,7 @@ then
         echo '\
           sudo pacman -Sy && \
           cd "'"${tmpDir}/${paket}"'" && \
-          _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg '${log}' --config "'"${tmpDir}"'/makepkg32.conf" -fsr --noconfirm
+          _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg '${log} ${checkMakepkg}' --config "'"${tmpDir}"'/makepkg32.conf" -fsr --noconfirm
           exit $?
         '
       ) | \
@@ -399,7 +407,7 @@ then
         echo '\
           sudo pacman -Sy && \
           cd "'"${tmpDir}/${paket}"'" && \
-          makepkg '${log}' --config "'"${tmpDir}"'/makepkg.conf" -fsr --noconfirm
+          makepkg '${log} ${checkMakepkg}' --config "'"${tmpDir}"'/makepkg.conf" -fsr --noconfirm
           exit $?
         '
       ) | \
