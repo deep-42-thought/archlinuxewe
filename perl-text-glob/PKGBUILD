@@ -12,9 +12,9 @@ options=('!emptydirs')
 depends=('perl')
 makedepends=()
 url='http://search.mcpan.org/dist/Text-Glob'
-source=('http://search.mcpan.org/CPAN/authors/id/R/RC/RCLAMP/Text-Glob-0.09.tar.gz')
+_distdir="Text-Glob-${pkgver}"
+source=("http://search.mcpan.org/CPAN/authors/id/R/RC/RCLAMP/${_distdir}.tar.gz")
 sha512sums=('9b729e4ece88ad79e1b637c7f35e5e1ecae3fd7f62c408ed4f3fcac2e8e8afff32d7d805e1b0269800aada5ae609d03335d42ac54def2797d301e91fa488ae47')
-_distdir="Text-Glob-0.09"
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
