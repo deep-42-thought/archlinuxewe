@@ -439,7 +439,6 @@ then
           }
 
           addPaket() {
-            [ "$(basename "$(pwd)")" == "any" ] && return
             neu="$1"
             for alt in $(
               ls -1 | \
@@ -449,7 +448,8 @@ then
               [ "${alt}" == "${neu}" ] && continue
               rmPaket "${alt}"
             done
-            repo-add '${checkDbSig}' -s -k 0x20194BA1 archlinuxewe.db.tar.gz "${neu}"
+            [ "$(basename "$(pwd)")" == "any" ] || \
+              repo-add '${checkDbSig}' -s -k 0x20194BA1 archlinuxewe.db.tar.gz "${neu}"
           }
 
           cd '${pkgDir}/${arch}/'
