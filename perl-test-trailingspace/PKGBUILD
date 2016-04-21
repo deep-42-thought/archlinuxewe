@@ -1,0 +1,48 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-test-trailingspace'
+pkgver='0.0205'
+pkgrel='1'
+pkgdesc="test for trailing space in source files."
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-file-find-object-rule')
+makedepends=()
+url='http://search.cpan.org/~shlomif/Test-TrailingSpace-0.0205/'
+_distdir="Test-TrailingSpace-${pkgver}"
+source=("http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
+sha512sums=('433b87f8dd6aa4727842cb68e2b8c7d05b6c7a60f7aa47d8c7f4da562adb711c1b346ceea9ae1a6e6824b8057a9d45d5af62327c3e0ef11594205349d2795b92')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
