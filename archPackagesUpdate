@@ -304,8 +304,7 @@ then
           uniq -u
         echo '
           pacman -Qdt | \
-            cut -d " " -f 1 | \
-            tr "\n" " "
+            cut -d " " -f 1
           exit
         ' | \
           chrootUnpriv "${chrootArch}"
