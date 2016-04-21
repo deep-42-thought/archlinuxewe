@@ -1,0 +1,49 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-file-find-object-rule'
+pkgver='0.0305'
+pkgrel='1'
+pkgdesc="Alternative interface to File::Find::Object"
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-class-xsaccessor' 'perl-file-find-object' 'perl-number-compare' 'perl-text-glob')
+makedepends=('perl-module-build')
+checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
+url='http://search.cpan.org/~shlomif/File-Find-Object-Rule-0.0305/'
+_distdir="File-Find-Object-Rule-${pkgver}"
+source=("http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
+sha512sums=('6c19fdaf61b3c09e0c5943717beab70304a7934de482c3a7859caa89bdb82c34d19ad8f3b45dc0a797da31be358c17f3307a48830bec91332bbcf1e66f54ba47')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Build.PL
+    perl Build
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    perl Build test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  perl Build install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
