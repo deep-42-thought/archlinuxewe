@@ -4,7 +4,7 @@
 # Maintainer : Erich Eckner <arch at eckner dot net>
 
 pkgname=perl-dbm-deep
-pkgver=2.0012
+pkgver=2.0013
 pkgrel=1
 pkgdesc='A pure Perl multi-level hash/array DBM that supports transactions'
 arch=('any')
@@ -16,7 +16,7 @@ makedepends=('perl-module-build>=0.42')
 _distdir="DBM-Deep-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/R/RK/RKINYON/${_distdir}.tar.gz")
 options=(!emptydirs)
-sha512sums=('6a57a3c819493b9b1f3276aa72e8508c6080e9ac07a3543cf4948de98a9f7946b09489d2f00aa0b2f2511858d00bdae0bc6922464d6bced1703749ef7beb3cfd')
+sha512sums=('67ba8ed0057004620255ffe013379b2f08c0f1878ec921b9c2d97b80b0b68e66e9b8018a3beab1875899863638a500781e6ec19c71ce6cd91583415dacb4e32c')
 
 sanitize() {
 	unset PERL5LIB PERL_MM_OPT PERL_MB_OPT PERL_LOCAL_LIB_ROOT
