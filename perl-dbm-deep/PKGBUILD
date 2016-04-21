@@ -1,0 +1,45 @@
+# CPAN Name  : DBM::Deep
+# Contributor: Anton Leontiev <bunder /at/ t-25.ru>
+# Generator  : CPANPLUS::Dist::Arch 1.30
+# Maintainer : Erich Eckner <arch at eckner dot net>
+
+pkgname=perl-dbm-deep
+pkgver=2.0012
+pkgrel=1
+pkgdesc='A pure Perl multi-level hash/array DBM that supports transactions'
+arch=('any')
+url='https://metacpan.org/release/DBM-Deep'
+license=('PerlArtistic' 'GPL')
+depends=('perl-dbd-mysql' 'perl-dbd-sqlite')
+checkdepends=('perl-test-deep' 'perl-test-warn' 'perl-test-exception' 'perl-test-pod' 'perl-test-pod-coverage')
+makedepends=('perl-module-build>=0.42')
+_distdir="DBM-Deep-${pkgver}"
+source=("http://search.cpan.org/CPAN/authors/id/R/RK/RKINYON/${_distdir}.tar.gz")
+options=(!emptydirs)
+sha512sums=('6a57a3c819493b9b1f3276aa72e8508c6080e9ac07a3543cf4948de98a9f7946b09489d2f00aa0b2f2511858d00bdae0bc6922464d6bced1703749ef7beb3cfd')
+
+sanitize() {
+	unset PERL5LIB PERL_MM_OPT PERL_MB_OPT PERL_LOCAL_LIB_ROOT
+	export PERL_MM_USE_DEFAULT=1
+	export LONG_TESTS=1
+}
+
+build() {
+	cd ${_distdir}
+	sanitize
+	perl Build.PL --installdirs vendor --destdir "$pkgdir"
+	perl Build
+}
+
+check() {
+	cd ${_distdir}
+	sanitize
+	perl Build test
+}
+
+package() {
+	cd ${_distdir}
+	sanitize
+	perl Build install
+	find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
