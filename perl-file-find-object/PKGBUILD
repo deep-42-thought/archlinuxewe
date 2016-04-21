@@ -2,7 +2,7 @@
 # Contributor: Piotr Rogoża <piotr dot r dot public at gmail dot com>
 
 pkgname=perl-file-find-object
-pkgver=0.2.12
+pkgver=0.2.13
 pkgrel=1
 _author="S/SH/SHLOMIF"
 _perlmod="File-Find-Object"
@@ -11,8 +11,8 @@ arch=('any')
 url="http://search.cpan.org/dist/File-Find-Object/"
 license=('GPL' 'PerlArtistic')
 depends=(perl)
-checkdepends=('perl-cpan-changes' 'perl-test-pod' 'perl-test-pod-coverage')
-makedepends=(perl-class-xsaccessor)
+checkdepends=('perl-cpan-changes' 'perl-test-pod' 'perl-test-pod-coverage' 'perl-test-trailingspace')
+makedepends=('perl-class-xsaccessor')
 provides=(
 perl-file-find-object-base
 perl-file-find-object-deeppath
@@ -22,7 +22,7 @@ perl-file-find-object-toppath
 )
 options=(!emptydirs)
 source=("http://search.cpan.org/CPAN/authors/id/$_author/$_perlmod-v$pkgver.tar.gz")
-sha256sums=('c11275cbc4456956bbe2b39630ed2be1bfa4da46e467babfd3e048f23ad1c9f2')
+sha512sums=('4d3dd12d0e80ac0873182667efabeafd411204332374f81a339bf1b7dd82258567745aaddf026207da449cc99248679d8ff4e80951a2096327afdc9a760b6cfd')
 build(){
   cd "$srcdir"/$_perlmod-v$pkgver
 
