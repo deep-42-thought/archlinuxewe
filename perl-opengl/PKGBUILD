@@ -13,7 +13,7 @@ depends=('perl' 'freeglut>=2.8.1' 'glu>=9.0.0')
 [ -z "$DISPLAY" ] && makedepends+=('xorg-server-xvfb')
 url='https://metacpan.org/release/OpenGL/'
 source=("https://cpan.metacpan.org/authors/id/C/CH/CHM/OpenGL-${pkgver}.tar.gz" \
-        'OpenGL-0.6704-Delete-functions-removed-from-Mesa.patch::http://pkgs.fedoraproject.org/cgit/perl-OpenGL.git/plain/OpenGL-0.6704-Delete-functions-removed-from-Mesa.patch?id=7498635332872268a0d4519723b44725e9a496dc')
+        "OpenGL-${pkgver}-Delete-functions-removed-from-Mesa.patch::http://pkgs.fedoraproject.org/cgit/perl-OpenGL.git/plain/OpenGL-${pkgver}-Delete-functions-removed-from-Mesa.patch?id=7498635332872268a0d4519723b44725e9a496dc")
 sha512sums=('3a2c9970802242ebae58256cd80dc81ac04a2af974105d3fbdf4dfcf1aa64a769b1ffcb5b0156eceb6bf7aed6eb6b2eb9332ec9f4724b0a1bc61d15f0de99d09'
             '8c96d5766ab36b63dab607427785c6ed74834a6172896ef3e17e9bdd698ecc66dea5efb9358289ce382fa453c13945e4804631f30f392fcdbafb80a0eb1edbd5')
 _distdir="OpenGL-$pkgver"
@@ -26,7 +26,7 @@ prepare() {
     MODULEBUILDRC=/dev/null
   # Patch for newer mesa
   cd "$srcdir/$_distdir"
-  patch -p1 < "$srcdir"'/OpenGL-0.6704-Delete-functions-removed-from-Mesa.patch'
+  patch -p1 < "$srcdir/OpenGL-${pkgver}-Delete-functions-removed-from-Mesa.patch"
 }
 
 build() {
