@@ -13,9 +13,9 @@ depends=('perl')
 makedepends=()
 checkdepends=('perl-test-pod-coverage>=1.00' 'perl-test-pod>=1.00')
 url='https://metacpan.org/release/Graph'
-source=('http://search.cpan.org/CPAN/authors/id/J/JH/JHI/Graph-0.9704.tar.gz')
+_distdir="Graph-${pkgver}"
+source=("http://search.cpan.org/CPAN/authors/id/J/JH/JHI/${_distdir}.tar.gz")
 sha512sums=('1eed5049577112cc2e41a83f6b3b6a22a08170597b5cb89e2eab6cc68386bfd989d3953d7ceab85bcfbd7d097a6925bd8eb43f48eed1ac07469ea4b2432149da')
-_distdir="Graph-0.9704"
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
