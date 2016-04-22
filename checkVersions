@@ -145,7 +145,7 @@ then
           tail -n1 \
       )
     elif echo "${src}" | \
-      grep -q "//cpan\.org/\|//cpan\.metacpan\.org/authors/"
+      grep -q "//cpan\.org/\|//cpan\.metacpan\.org/authors/\|cpan\.org/modules/by-module/"
     then
       quVer=$( \
         echo "${src%/*}/" | \
