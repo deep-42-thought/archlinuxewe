@@ -345,9 +345,9 @@ then
           exit
         ' | \
           chrootUnpriv "${chrootArch}"
+      else
+        err=true
       fi
-
-      err=true
     fi
     if [ -n "${zuwenigePakete}" ]
     then
