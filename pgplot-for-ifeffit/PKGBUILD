@@ -1,0 +1,45 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='pgplot-for-ifeffit'
+pkgver='5.2'
+_ifeffitver=1.2.13
+pkgrel='1'
+pkgdesc='pgplot as ifeffit needs it'
+arch=('x86_64' 'i686')
+license=('GPL')
+options=('!emptydirs')
+depends=()
+makedepends=('libx11' 'ncurses' 'libpng' 'wxgtk' 'gcc-fortran' 'xorg-server-devel')
+url='http://cars.uchicago.edu/ifeffit/Ifeffit'
+source=(
+    "ftp://ftp.astro.caltech.edu/pub/pgplot/pgplot${pkgver}.tar.gz"
+    "PGPLOT_install"
+    "pndriv.c.patch"
+)
+noextract=("pgplot${pkgver}.tar.gz")
+sha512sums=('03a075c84506ead1d665a7105cd41c7cfbe19d12094cb36fb7459a0f6ee0df0638543b7eca92aaf80677984cc47a07b968f854db8eaa90ec605f78d89c615d1f'
+            '836da765e8d4534beced44c3c5170f5ba86d163609053c32975310642156fdd3584b9e2e26e69cb92222f6f84216c448dda18a87cc7c26caec31a164faec1306'
+            '726a5ae38b98b3ef8327ceda5edd094b128a126eca7f54994069ac8097fbc651a43506a70f8c26a7994cb4f08bd75f11fc50c8c73df4a377b8dda1afc067a0a2')
+
+prepare() {
+  true
+#  mv ifeffit-${_ifeffitver}/PGPLOT_install .
+#  patch -p0 -i ${srcdir}/pndriv.c.patch
+}
+
+build() {
+  true
+}
+
+package() {
+  _pkgdir=$(mktemp -u /tmp/XXX)
+  ln -s "${pkgdir}" "${_pkgdir}"
+  ./PGPLOT_install --prefix="${_pkgdir}/usr" # --no-png
+  rm -f "${_pkgdir}"
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
