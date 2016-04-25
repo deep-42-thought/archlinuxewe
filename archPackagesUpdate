@@ -9,6 +9,7 @@ pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
   [ "${pkgSrcDir}" == "${HOME}" ] && \
     aufRechenknecht=true || \
     aufRechenknecht=false
+branch="HEAD"
 force=false
 upload=true
 updateMe=true
@@ -28,6 +29,8 @@ usage()
   >&2 echo 'Skript zum Updaten der selbsterstellten Archlinux-Pakete'
   >&2 echo ''
   >&2 echo 'Optionen:'
+  >&2 echo '    -b|--branch [commitish]:'
+  >&2 echo '      branch to check out - defaults to "HEAD"'
   >&2 echo '    --cleanCache:'
   >&2 echo '      clean up pacman cache in build environments'
   >&2 echo '    -c|--cleanUnsigned:'
@@ -80,7 +83,8 @@ cleanUp () {
 
 echo 'parse arguments ...'
 eval set -- "$(
-  getopt -o cfL::r \
+  getopt -o b:cfL::r \
+    --long branch: \
     --long cleanCache \
     --long cleanUnsigned \
     --long force \
@@ -101,6 +105,11 @@ args=("$@")
 while true
 do
   case $1 in
+    -b|--branch)
+      shift
+      branch="$1"
+      echo '"branch '"${branch}"'" erkannt'
+    ;;
     --cleanCache)
       echo '"cleanCache" erkannt'
       cleanCache=true
@@ -171,8 +180,8 @@ echo '... done'
 $aufRechenknecht && pkgSrcDir="${pkgSrcDir}/archPackages"
 cd "${pkgSrcDir}"
 
-# extract git HEAD
-git archive --format tar HEAD | \
+# extract git ${branch}
+git archive --format tar "${branch}" | \
   tar -x -C "${tmpDir}" -f -
 
 cd "${tmpDir}"
