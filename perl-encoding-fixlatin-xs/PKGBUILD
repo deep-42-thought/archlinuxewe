@@ -1,0 +1,48 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-encoding-fixlatin-xs'
+pkgver='1.01'
+pkgrel='1'
+pkgdesc='XS implementation layer for Encoding::FixLatin'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=('perl-encoding-fixlatin')
+url='http://github.com/grantm/encoding-fixlatin-xs'
+_distdir="Encoding-FixLatin-XS-${pkgver}"
+source=("http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/${_distdir}.tar.gz")
+sha512sums=('d9aafa94c884b11f64b29eda89389c823a8849db99b25e58e890fc2e1b9fdb5ed2fc025491e4d9cb9b4d4f17f8a70ab069de4b56c0c8935387652a1293fca4e4')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
