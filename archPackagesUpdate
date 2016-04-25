@@ -459,7 +459,7 @@ then
             neu="$1"
             for alt in $(
               ls -1 | \
-                grep "^${neu%-*-*-*.pkg.tar.xz}-[^-]\+-[^-]\+-${arch}\.pkg\.tar\.xz\$"
+                grep "^${neu%-*-*-*.pkg.tar.xz}-[^-]\+-[^-]\+-'${arch}'\.pkg\.tar\.xz\$"
             )
             do
               [ "${alt}" == "${neu}" ] && continue
