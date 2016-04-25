@@ -90,7 +90,16 @@ then
   for src in "${source[@]}"
   do
 
-    if echo "${src}" | \
+    if [ "${pkgname}" == "pgplot-for-ifeffit" ]
+    then
+      remVer="$(
+        curl -o - "ftp://ftp.astro.caltech.edu/pub/pgplot/" | \
+          grep "\spgplot[0-9.]\+\.tar\.gz -> \S\+\$" | \
+          sed "s|^.*\spgplot\([0-9.]\+\)\.tar\.gz -> \S\+\$|\1|" | \
+          sort -V | \
+          tail -n1
+      )"
+    elif echo "${src}" | \
       grep -q "//bundles\.openttdcoop\.org/"
     then
       qu="$(
