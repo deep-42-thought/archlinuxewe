@@ -1,0 +1,53 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-file-monitor-lite'
+pkgver='0.652003'
+pkgrel='1'
+pkgdesc="Monitor file changes"
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=(
+    'perl-file-find-rule'
+    'perl-class-accessor-fast'
+    'perl-file-monitor'
+    'perl-file-touch'
+)
+url='http://search.cpan.org/~dryman/File-Monitor-Lite-0.652003/'
+_distdir="File-Monitor-Lite-${pkgver}"
+source=("http://search.cpan.org/CPAN/authors/id/D/DR/DRYMAN/${_distdir}.tar.gz")
+sha512sums=('78a2aa47d7a3900c47798d2e129dd2384d345cdd5d3d5c67dc2a44d8ebf7b49f44ea880379c351917c225f5ad6c56d0a1db50fd11eac3db9fa5d4af2f6564a69')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    /usr/bin/perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
