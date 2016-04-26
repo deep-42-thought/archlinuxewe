@@ -3,7 +3,7 @@
 pkgname='pgplot-for-ifeffit'
 pkgver='5.2'
 _ifeffitver=1.2.13
-pkgrel='1'
+pkgrel='2'
 pkgdesc='pgplot as ifeffit needs it'
 arch=('x86_64' 'i686')
 license=('GPL')
@@ -23,8 +23,6 @@ sha512sums=('03a075c84506ead1d665a7105cd41c7cfbe19d12094cb36fb7459a0f6ee0df06385
 
 prepare() {
   true
-#  mv ifeffit-${_ifeffitver}/PGPLOT_install .
-#  patch -p0 -i ${srcdir}/pndriv.c.patch
 }
 
 build() {
@@ -32,10 +30,11 @@ build() {
 }
 
 package() {
-  _pkgdir=$(mktemp -u /tmp/XXX)
-  ln -s "${pkgdir}" "${_pkgdir}"
-  ./PGPLOT_install --prefix="${_pkgdir}/usr" # --no-png
-  rm -f "${_pkgdir}"
+  ./PGPLOT_install \
+    --with-fflagc='-ffixed-line-length-none -ffree-line-length-none -Wall -O -fPIC' \
+    --prefix="${pkgdir}/usr" \
+    --with-gif
+   # --no-png
 }
 
 # Local Variables:
