@@ -3,12 +3,11 @@ pkgname=demeter
 pkgver=0.9.24
 pkgrel=1
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
-arch=('any')
+arch=('x86_64' 'i686')
 url="https://bruceravel.github.io/demeter"
 license=('BSD')
 groups=()
 depends=(
-    'xraylarch'
     'ifeffit'
     'perl-module-build'
     'perl-archive-zip'
@@ -89,6 +88,7 @@ prepare() {
 
     cd ${pkgname}-${pkgver}
     rm t/t
+    export PGPLOT_DIR='/usr/lib'
 
 }
 
