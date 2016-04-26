@@ -102,6 +102,21 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
+      grep -q "^https://pypi\.python\.org/packages/"
+    then
+      qu="$(
+        echo "${src}" | \
+          sed 's|^\(.*\)/packages/.*/\([^/]\+\)-[^/-]\+\.tar\.gz$|\1/pypi/\2/|'
+      )"
+      remVer="$(
+        curl -o - "${qu}" 2> /dev/null | \
+          tr "\"" "\n" | \
+          grep "^/pypi/${pkgname#*-}/[0-9.-]\+\$" | \
+          sed "s|^/pypi/${pkgname#*-}/\([0-9.-]\+\)\$|\1|" | \
+          sort -V | \
+          tail -n1
+      )"
+    elif echo "${src}" | \
       grep -q "//bundles\.openttdcoop\.org/"
     then
       qu="$(
