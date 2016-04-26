@@ -90,10 +90,12 @@ then
   for src in "${source[@]}"
   do
 
+    src="${src#*::}"
+
     if [ "${pkgname}" == "pgplot-for-ifeffit" ]
     then
       remVer="$(
-        curl -o - "ftp://ftp.astro.caltech.edu/pub/pgplot/" | \
+        curl -o - "ftp://ftp.astro.caltech.edu/pub/pgplot/" 2> /dev/null | \
           grep "\spgplot[0-9.]\+\.tar\.gz -> \S\+\$" | \
           sed "s|^.*\spgplot\([0-9.]\+\)\.tar\.gz -> \S\+\$|\1|" | \
           sort -V | \
