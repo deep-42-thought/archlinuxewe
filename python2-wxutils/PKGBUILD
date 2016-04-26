@@ -1,0 +1,41 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=python2-wxutils
+pkgver=0.1.2
+pkgrel=1
+pkgdesc='A library of convenience functions for wxPython'
+arch=('any')
+url='https://pypi.python.org/pypi/wxutils/0.1.2'
+license=('BSD')
+groups=()
+depends=(
+  'python2'
+  'wxpython'
+)
+makedepends=(
+  'python2-setuptools'
+)
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://pypi.python.org/packages/d3/50/4a4dbe01b3b7adfab8653723342124ff2cdc0b06bcdf2d8d27038c075646/${pkgname#*-}-${pkgver}.tar.gz"
+)
+sha512sums=('0b851fc87d6f3da26fa985fb731c4d9064d8522f2caf5e2e1b737bc99cec5705c4fb872a5749ecc119b54cbc9b2679290a18d711e4a9a60767482300e6d87cb4')
+
+build() {
+
+    cd ${pkgname#*-}-${pkgver}
+    python2 setup.py build
+
+}
+
+package() {
+
+    cd ${pkgname#*-}-${pkgver}
+    python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+
+}
