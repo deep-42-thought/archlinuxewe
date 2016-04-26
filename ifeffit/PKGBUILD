@@ -2,12 +2,12 @@
 
 pkgname='ifeffit'
 pkgver='1.2.13'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="a suite of interactive programs for XAFS analysis"
 arch=('x86_64' 'i686')
 license=('GPL')
 options=('!emptydirs')
-depends=('pgplot')
+depends=('pgplot-for-ifeffit')
 makedepends=('libx11' 'ncurses' 'libpng' 'wxgtk' 'gcc-fortran' 'xorg-server-devel')
 url='http://cars.uchicago.edu/ifeffit/Ifeffit'
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/newville/ifeffit/archive/${pkgver}.tar.gz")
@@ -16,8 +16,11 @@ sha512sums=('c903228f4f20f161722e57d34631ceee785293604afd15647ef4a5c456207e8bd34
 prepare() {
   cd ${pkgname}-${pkgver}
   ./configure \
-    --prefix="${pkgdir}/usr" \
-    --with-pgplot-link='-L/usr/lib/libpgplot -lpgplot -lpng -lz -lX11'
+    --prefix=/usr \
+    --with-arraysize=huge
+#    --with-pgplot=/usr/lib
+#    --with-pgplot-link='-L/usr/lib/libpgplott -lpgplot -lpng -lz -lX11'
+#    --with-pgplot=/usr/share/ifeffit/pgplot
 }
 
 build() {
@@ -27,7 +30,7 @@ build() {
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  make distdir="${pkgdir}" install
+  make install DESTDIR="${pkgdir}"
 }
 
 # Local Variables:
