@@ -7,7 +7,7 @@ pkgdesc="a suite of interactive programs for XAFS analysis"
 arch=('x86_64' 'i686')
 license=('GPL')
 options=('!emptydirs')
-depends=('pgplot-for-ifeffit')
+depends=('pgplot')
 makedepends=('libx11' 'ncurses' 'libpng' 'wxgtk' 'gcc-fortran' 'xorg-server-devel')
 url='http://cars.uchicago.edu/ifeffit/Ifeffit'
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/newville/ifeffit/archive/${pkgver}.tar.gz")
@@ -17,10 +17,8 @@ prepare() {
   cd ${pkgname}-${pkgver}
   ./configure \
     --prefix=/usr \
-    --with-arraysize=huge
-#    --with-pgplot=/usr/lib
-#    --with-pgplot-link='-L/usr/lib/libpgplott -lpgplot -lpng -lz -lX11'
-#    --with-pgplot=/usr/share/ifeffit/pgplot
+    --with-arraysize=huge \
+    --with-pgplot-link='-L/usr/lib -lpgplot -lpng -lz -lX11'
 }
 
 build() {
