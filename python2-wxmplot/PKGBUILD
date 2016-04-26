@@ -1,0 +1,42 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=python2-wxmplot
+pkgver=0.9.18
+pkgrel=1
+pkgdesc='A library for plotting in wxPython using matplotlib'
+arch=('any')
+url='https://pypi.python.org/pypi/wxmplot/0.9.18'
+license=('OSI Approved :: MIT License')
+groups=()
+depends=(
+  'python2'
+  'wxpython'
+  'python2-matplotlib'
+)
+makedepends=(
+  'python2-setuptools'
+)
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://pypi.python.org/packages/66/0a/ced8cb55f294ee4ac22ace0b4534f4110a2d088557beb28fc3693166b9d6/${pkgname#*-}-${pkgver}.tar.gz"
+)
+sha512sums=('bcbcf3e5434e069ef70e3f8db565c0f7a5e006cd35d016a89b81216fc7e92c9ee6a4b8ae5c80f013ab95f9bc4e93d8620899a901447aa27c01eb5453d4b6659c')
+
+build() {
+
+    cd ${pkgname#*-}-${pkgver}
+    python2 setup.py build
+
+}
+
+package() {
+
+    cd ${pkgname#*-}-${pkgver}
+    python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+
+}
