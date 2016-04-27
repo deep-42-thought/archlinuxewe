@@ -448,32 +448,33 @@ then
       tar -cf - ${paket}-${vers}-${arch}.pkg.tar.xz{,.sig} |
         ssh paule@127.0.0.1 '
 
-          rmPaket() {
-            [ "$(basename "$(pwd)")" == "any" ] || \
-              repo-remove '${checkDbSig}' -s -k 0x20194BA1 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.xz}"
-            rm "$1"
-            [ -e "$1.sig" ] && rm "$1.sig"
+          entferneAltePakete() {
+            altePakete=$(
+              ls -1 | \
+                grep "^$1-[^-]\+-[^-]\+-$2\.pkg\.tar\.xz\$"
+            )
+            if [ -n "${altePakete}" ]
+            then
+              [ "$(basename "$(pwd)")" == "any" ] || \
+                repo-remove '${checkDbSig}' -s -k 0x20194BA1 archlinuxewe.db.tar.gz "$1"
+              for altesPaket in ${altePakete}
+              do
+                rm "${altesPaket}"
+                if [ -e "${altesPaket}.sig" ] || [ -h "${altesPaket}.sig" ]
+                then
+                  rm "${altesPaket}.sig"
+                fi
+              done
+            fi
           }
 
           addPaket() {
-            neu="$1"
-            for alt in $(
-              ls -1 | \
-                grep "^${neu%-*-*-*.pkg.tar.xz}-[^-]\+-[^-]\+-'${arch}'\.pkg\.tar\.xz\$"
-            )
-            do
-              [ "${alt}" == "${neu}" ] && continue
-              rmPaket "${alt}"
-            done
             [ "$(basename "$(pwd)")" == "any" ] || \
-              repo-add '${checkDbSig}' -s -k 0x20194BA1 archlinuxewe.db.tar.gz "${neu}"
+              repo-add '${checkDbSig}' -s -k 0x20194BA1 archlinuxewe.db.tar.gz "$1"
           }
 
           cd '${pkgDir}/${arch}/'
-          if [ -e "'${paket}-${vers}-${arch}.pkg.tar.xz'" ]
-          then
-            rmPaket "'${paket}-${vers}-${arch}.pkg.tar.xz'"
-          fi
+          entferneAltePakete "'${paket}'" "'${arch}'"
           tar -xf -
           addPaket "'${paket}-${vers}-${arch}.pkg.tar.xz'"
 
@@ -486,10 +487,7 @@ then
               [ "${lArch}" == "any" ] && continue
               cd "${lArch}"
 
-              if [ -e "'${paket}-${vers}-${arch}.pkg.tar.xz'" ]
-              then
-                rmPaket "'${paket}-${vers}-${arch}.pkg.tar.xz'"
-              fi
+              entferneAltePakete "'${paket}'" "'${arch}'"
               ln -s "'${pkgDir}/any/${paket}-${vers}-${arch}.pkg.tar.xz'" "'${paket}-${vers}-${arch}.pkg.tar.xz'"
               if [ -e "'${pkgDir}/any/${paket}-${vers}-${arch}.pkg.tar.xz.sig'" ]
               then
