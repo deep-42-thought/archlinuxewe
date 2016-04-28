@@ -6,9 +6,9 @@ then
   exit 1
 fi
 
-cpanName="$1"
+cpanName="$(echo "$1" | sed 's|::|-|g')"
 url="https://metacpan.org/release/${cpanName}"
-pkgname="perl-$(echo "${cpanName,,}" | sed 's|::|-|g')"
+pkgname="perl-${cpanName,,}"
 
 me="$(readlink -f "$0")"
 cd "$(dirname "${me}")"
