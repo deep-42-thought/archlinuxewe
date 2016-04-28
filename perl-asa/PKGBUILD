@@ -1,0 +1,50 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-asa'
+pkgver='1.03'
+pkgrel='1'
+pkgdesc='Lets your class/object say it works like something else'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl'
+)
+checkdepends=()
+url='https://metacpan.org/release/asa'
+_distdir="asa-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/A/AD/ADAMK/${_distdir}.tar.gz")
+sha512sums=('22cbccb93c8c9e96ec6e2cfa159f20a5220d722eb369a3c28a9ebae246fa145fb915db5d043722d52894d45f58015cc549f6aa0ba1dd4cbe498ad73cee918a1c')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
