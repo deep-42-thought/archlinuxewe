@@ -1,0 +1,50 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-mojolicious'
+pkgver='6.60'
+pkgrel='1'
+pkgdesc='Web development toolkit'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl'
+)
+checkdepends=()
+url='https://metacpan.org/release/Mojolicious'
+_distdir="Mojolicious-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/S/SR/SRI/${_distdir}.tar.gz")
+sha512sums=('de3bbf31b495e9b35b5070d5262e0cf73e40bf51e83c6eb00ee1a1a1703642513fe3c4cfe9060b472eb3cd66fd79283ccd5a9b4980f73f66ac59b4e912657196')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
