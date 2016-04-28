@@ -1,0 +1,62 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-search-elasticsearch'
+pkgver='2.02'
+pkgrel='1'
+pkgdesc='The official client for Elasticsearch'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-any-uri-escape'
+  'perl-json-maybexs'
+  'perl-log-any'
+  'perl-moo'
+  'perl-json-xs'
+)
+checkdepends=(
+  'perl-test-sharedfork'
+  'perl-test-deep'
+  'perl-test-exception'
+  'perl-log-any-adapter-callback'
+  'perl-namespace-clean'
+  'perl-uri'
+  'perl-io-socket-ssl'
+)
+url='https://metacpan.org/release/Search-Elasticsearch'
+_distdir="Search-Elasticsearch-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DR/DRTECH/${_distdir}.tar.gz")
+sha512sums=('4daed10a8df807eed45b2bd87815828937bdf7d203a3ae43a999b2624ccac9d890427ffe4af92010af8e4a7a230bf91372f5ada7feb3b78bb3a831bfcbb7568f')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
