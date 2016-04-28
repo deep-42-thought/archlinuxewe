@@ -1,0 +1,53 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-cache-cache'
+pkgver='1.08'
+pkgrel='1'
+pkgdesc='implements the Cache interface'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-ipc-sharelite'
+)
+checkdepends=(
+  'perl-error'
+  'perl-digest-sha1'
+)
+url='https://metacpan.org/release/Cache-Cache'
+_distdir="Cache-Cache-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
+sha512sums=('7b0f215b9c765840a1ca1e831735aeff610288048c352889408d514d41820b9315d2de03712b4ad6637d9f0db59467240a0918c22c1257a3f87bc62add4f0e06')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
