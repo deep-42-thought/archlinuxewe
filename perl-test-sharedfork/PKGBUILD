@@ -1,0 +1,52 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-test-sharedfork'
+pkgver='0.35'
+pkgrel='1'
+pkgdesc='fork test'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl'
+)
+checkdepends=(
+  'perl-test-requires'
+)
+url='https://metacpan.org/release/Test-SharedFork'
+_distdir="Test-SharedFork-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/E/EX/EXODIST/${_distdir}.tar.gz")
+sha512sums=('e5948dfb34cfaf35a2fb2783c726f1cea2ae2f4bbdc4cbb912f83c877422ceabb3e0323c8c669b3c3a08e6d2a12106309528f0f674657001e6aeb3cb3c1dfd9f')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
