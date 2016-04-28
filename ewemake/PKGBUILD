@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=ewemake
 _srcpkgname='Make'
-pkgver=1.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc="somewhat more powerfull alternative to 'make'"
 arch=('x86_64' 'i686')
@@ -22,7 +22,7 @@ source=(
 noextract=(
     "${_srcpkgname}-${pkgver}.tar.gz"
 )
-sha512sums=('15848e3fac0d19fc07e64a36ad95435b636b519bd765bdea01348d7c8cea493cb13a3da2728bca1b8a24f7b34a200bff0a71fddd24e8d7cef768f20d7e960b05')
+sha512sums=('e762d0ea89fc3ccf3f1fd16e4fa4b249a5752577c265063271fa6eff2f15a473b1ae7824e5fec34abd0fac6c1d365e559a0507bcea92fb889e704aa06dc316e9')
 
 prepare() {
 
@@ -33,13 +33,13 @@ prepare() {
 build() {
 
     cd ${_srcpkgname}-${pkgver}
-    fpc ${_srcpkgname}.lpr
+    make
 
 }
 
 package() {
 
     cd ${_srcpkgname}-${pkgver}
-    install -D -t $pkgdir/usr/bin/ ${_srcpkgname}
+    make DESTDIR=$pkgdir install
 
 }
