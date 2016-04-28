@@ -4,7 +4,7 @@
 
 pkgname='perl-moose'
 pkgver='2.1605'
-pkgrel='5'
+pkgrel='6'
 pkgdesc="A postmodern object system for Perl 5"
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -32,6 +32,13 @@ checkdepends=(
     'perl-data-visitor'
 #    'perl-specio'
     'perl-dbm-deep'
+    'perl-test-dependentmodules'
+    'perl-datetime-calendar-mayan'
+    'perl-http-message'
+    'perl-locale-us'
+    'perl-moosex-nonmoose'
+    'perl-params-coerce'
+    'perl-uri'
 )
 url='https://metacpan.org/release/Moose'
 _distdir="Moose-${pkgver}"
