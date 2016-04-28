@@ -1,0 +1,44 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (f491a18e07c10dc3afc2c601f6c928d4c12bffdefac18b868c0517faf8aae4d0e1a3637e244440eb73c0aa479b46161763c3bed0364a2edbed54625dd937ffcf)
+
+pkgname='perl-uri-query'
+pkgver='0.15'
+pkgrel='1'
+pkgdesc='class providing URI query string manipulation'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=('perl-uri-escape')
+checkdepends=()
+url='https://metacpan.org/release/URI-Query'
+_distdir="URI-Query-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/G/GA/GAVINC/${_distdir}.tar.gz")
+sha512sums=('2750239f4cd6b29b61f3aab82fdff01d63f4d5188673d550f1342f81c7d3fe0aff5845938f840fba31dcc30fa39af97e9acb4afba4dfb77986f13b3b3ee9ec53')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "${srcdir}/${_distdir}"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+  make install
+
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
