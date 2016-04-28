@@ -1,0 +1,53 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-io-handle-util'
+pkgver='0.01'
+pkgrel='1'
+pkgdesc='Functions for working with IO::Handle like objects.'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-io-string'
+  'perl-asa'
+)
+checkdepends=(
+  'perl-sub-exporter'
+)
+url='https://metacpan.org/release/IO-Handle-Util'
+_distdir="IO-Handle-Util-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/${_distdir}.tar.gz")
+sha512sums=('45e139d2d287e27bb64b262172a02d2df2f5ca159a9233a51a830a57a21f3a14b802c579aa311dbee878f19eedbeb0049c7881081349356c59e1a31fbed351a9')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
