@@ -1,0 +1,53 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-json-maybexs'
+pkgver='1.003005'
+pkgrel='1'
+pkgdesc='Use Cpanel::JSON::XS with a fallback to JSON::XS and JSON::PP'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-cpanel-json-xs'
+)
+checkdepends=(
+  'perl-test-without-module'
+  'perl-json-xs'
+)
+url='https://metacpan.org/release/JSON-MaybeXS'
+_distdir="JSON-MaybeXS-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
+sha512sums=('101b5b693eabeaf4e8417d021b3d311b9c8669a0121b97af7781cfbdb3ba24b8aef80d15a3cf4d78b40e47230e9f1c4450c73741675ec6d5ea018c6b06ea49d7')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
