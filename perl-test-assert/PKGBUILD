@@ -1,0 +1,55 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-test-assert'
+pkgver='0.0504'
+pkgrel='1'
+pkgdesc='Assertion methods for those who like JUnit'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-exception-base'
+  'perl-constant-boolean'
+  'perl-symbol-util'
+)
+checkdepends=(
+  'perl-test-unit-lite'
+  'perl-class-inspector'
+)
+url='https://metacpan.org/pod/Test::Assert'
+_distdir="Test-Assert-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DE/DEXTER/${_distdir}.tar.gz")
+sha512sums=('c630568cf483879c8180537ba0f9444b7e574de05be954e508a061889578c510689d4516ae22f49b824c20fbc8da1b25a8cc56f1f62e04353ee5c3e24fcb2a79')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
