@@ -226,55 +226,55 @@ unset pakete
 unset archs
 unset verss
 
-# collect packages
-for paket in $( \
-  echo */PKGBUILD | \
-    sed "s|/PKGBUILD||g" \
-  )
-do
-  [ -d "${paket}" ] || continue
-  [ ${#onlyPackages[@]} -eq 0 ] && consider=true || consider=false
-  for ((i=0; i<${#onlyPackages[@]}; i++))
-  do
-    [ "${onlyPackages[${i}]}" == "${paket}" ] && consider=true
-  done
-  ${consider} || continue
-
-  . ${paket}/PKGBUILD
-
-  for singleArch in "${arch[@]}"
-  do
-
-    [ "${singleArch}" == "x86_64" ] || \
-      [ "${singleArch}" == "i686" ] || \
-      [ "${singleArch}" == "any" ] || \
-      continue
-
-    pkgFile="${paket}-${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
-
-    allExist=true
-    [ "${singleArch}" == "any" ] && \
-      for dir in ${pkgDir}/*
-      do
-        [ "${dir}" == "any" ] && continue
-        [ ! -d "${dir}" ] && continue
-        [ ! -e "${dir}/${pkgFile}" ] && allExist=false
-      done
-
-    if ${force} || \
-      ! ${aufRechenknecht} || \
-      [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ] || \
-      ! ${allExist}
-    then
-      pakete[${#pakete[@]}]="${paket}"
-      archs[${#archs[@]}]="${singleArch}"
-      verss[${#verss[@]}]="${pkgver}-${pkgrel}"
-    fi
-  done
-done
-
 if ${aufRechenknecht}
 then
+
+# collect packages
+  for paket in $( \
+    echo */PKGBUILD | \
+      sed "s|/PKGBUILD||g" \
+    )
+  do
+    [ -d "${paket}" ] || continue
+    [ ${#onlyPackages[@]} -eq 0 ] && consider=true || consider=false
+    for ((i=0; i<${#onlyPackages[@]}; i++))
+    do
+      [ "${onlyPackages[${i}]}" == "${paket}" ] && consider=true
+    done
+    ${consider} || continue
+
+    . ${paket}/PKGBUILD
+
+    for singleArch in "${arch[@]}"
+    do
+
+      [ "${singleArch}" == "x86_64" ] || \
+        [ "${singleArch}" == "i686" ] || \
+        [ "${singleArch}" == "any" ] || \
+        continue
+
+      pkgFile="${paket}-${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
+
+      allExist=true
+      [ "${singleArch}" == "any" ] && \
+        for dir in ${pkgDir}/*
+        do
+          [ "${dir}" == "any" ] && continue
+          [ ! -d "${dir}" ] && continue
+          [ ! -e "${dir}/${pkgFile}" ] && allExist=false
+        done
+
+      if ${force} || \
+        ! ${aufRechenknecht} || \
+        [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ] || \
+        ! ${allExist}
+      then
+        pakete[${#pakete[@]}]="${paket}"
+        archs[${#archs[@]}]="${singleArch}"
+        verss[${#verss[@]}]="${pkgver}-${pkgrel}"
+      fi
+    done
+  done
 
 # check sanity of build-chroots
   err=false
@@ -568,13 +568,21 @@ then
 
 else
 
-  namcap */PKGBUILD
-
 # check packages
   err=false
-  for ((i=0; i<${#pakete[@]}; i++))
+
+  namcap */PKGBUILD || err=true
+
+  for paket in *
   do
-    paket="${pakete[${i}]}"
+    [ -r "${paket}/PKGBUILD" ] || continue
+
+    if ! grep -q "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$" ${paket}/PKGBUILD || \
+       grep "^# Maintainer\s*:" ${paket}/PKGBUILD | grep -vq "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$"
+    then
+      >&2 echo "${paket}/PKGBUILD hat falsche(n) Maintainer"
+      err=true
+    fi
 
     . ${paket}/PKGBUILD
 
