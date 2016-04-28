@@ -1,0 +1,50 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-hash-util-fieldhash-compat'
+pkgver='0.10'
+pkgrel='1'
+pkgdesc='Use Hash::Util::FieldHash or ties, depending on availability'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-tie-refhash-weak'
+)
+checkdepends=()
+url='https://metacpan.org/release/Hash-Util-FieldHash-Compat'
+_distdir="Hash-Util-FieldHash-Compat-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
+sha512sums=('559cb4eb50523ab78e69802298ef721a5760350b69a22ff58f0dcc6a4d2474a348b868e3ba937b749be0a26520ffcb1f11c0c92e24b1d2cb0c6d012c62169a61')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
