@@ -1,0 +1,44 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (53a4b3dbf91e50da515b6ec94fbd3044454d68ce67b4faf1406dd314dbd1c658a8b69f094c8647bc8e977b1abc69e4a04d8a638eae1861c5a8a4c44d81770a8f)
+
+pkgname='perl-file-homedir'
+pkgver='1.00'
+pkgrel='1'
+pkgdesc='Find your home and other directories on any platform'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=()
+checkdepends=('perl-file-which')
+url='https://metacpan.org/release/File-HomeDir'
+_distdir="File-HomeDir-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/A/AD/ADAMK/${_distdir}.tar.gz")
+sha512sums=('e033b9a60583a76e7b270b99bc113b5dfd616853e7a9e05c34e03bff3cabfa15f8e50a84a932dfb6ed7c2df0aceba3d0c16cd99e08d82a02c9fbe3747af7e994')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "${srcdir}/${_distdir}"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+  make install
+
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
