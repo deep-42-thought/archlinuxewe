@@ -1,0 +1,53 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-tie-refhash-weak'
+pkgver='0.09'
+pkgrel='1'
+pkgdesc='A Tie::RefHash subclass with weakened references in the keys.'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-scalar-list-utils'
+  'perl-task-weaken'
+  'perl-tie-refhash'
+  'perl-variable-magic'
+)
+checkdepends=()
+url='https://metacpan.org/release/Tie-RefHash-Weak'
+_distdir="Tie-RefHash-Weak-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/N/NU/NUFFIN/${_distdir}.tar.gz")
+sha512sums=('d4a5d45829d2bad34a876ad6fbeccb499b962e2b078de28a13a134bb27834f3334b5dbbb4b9de608c7e1db3113628f15d28ec4b9aa564f56585d9ae9ec6864d2')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
