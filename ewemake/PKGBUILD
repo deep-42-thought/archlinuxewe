@@ -1,0 +1,45 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=ewemake
+_srcpkgname='Make'
+pkgver=1.0
+pkgrel=1
+pkgdesc="somewhat more powerfull alternative to 'make'"
+arch=('x86_64' 'i686')
+url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+license=('GPL')
+groups=()
+depends=()
+makedepends=('fpc')
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+options=()
+source=(
+    "${_srcpkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${_srcpkgname}-${pkgver}"
+)
+noextract=(
+    "${_srcpkgname}-${pkgver}.tar.gz"
+)
+sha512sums=('15848e3fac0d19fc07e64a36ad95435b636b519bd765bdea01348d7c8cea493cb13a3da2728bca1b8a24f7b34a200bff0a71fddd24e8d7cef768f20d7e960b05')
+
+prepare() {
+
+    tar -ixzf "${_srcpkgname}-${pkgver}.tar.gz"
+
+}
+
+build() {
+
+    cd ${_srcpkgname}-${pkgver}
+    fpc ${_srcpkgname}.lpr
+
+}
+
+package() {
+
+    cd ${_srcpkgname}-${pkgver}
+    install -D -t $pkgdir/usr/bin/ ${_srcpkgname}
+
+}
