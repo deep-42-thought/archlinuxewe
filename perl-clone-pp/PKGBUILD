@@ -1,0 +1,44 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (f491a18e07c10dc3afc2c601f6c928d4c12bffdefac18b868c0517faf8aae4d0e1a3637e244440eb73c0aa479b46161763c3bed0364a2edbed54625dd937ffcf)
+
+pkgname='perl-clone-pp'
+pkgver='1.06'
+pkgrel='1'
+pkgdesc='Recursively copy Perl datatypes'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=()
+checkdepends=()
+url='https://metacpan.org/release/Clone-PP'
+_distdir="Clone-PP-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/N/NE/NEILB/${_distdir}.tar.gz")
+sha512sums=('5b495f3107be41bf75101a115523d5f0c56db9c4f7cd47828917134bc11fb2c231bb1d8b3f64edb63e85f1e8d99f99150463294a6015c61c5835fe6d5e21e0be')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "${srcdir}/${_distdir}"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+  make install
+
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
