@@ -1,0 +1,52 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-moosex-insideout'
+pkgver='0.106'
+pkgrel='1'
+pkgdesc='inside-out objects with Moose'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-hash-util-fieldhash-compat'
+  'perl-moose'
+  'perl-namespace-clean'
+)
+checkdepends=()
+url='https://metacpan.org/release/MooseX-InsideOut'
+_distdir="MooseX-InsideOut-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DO/DOY/${_distdir}.tar.gz")
+sha512sums=('066189328ad43830500c4c50ccb231b605148547993996d0fc6a7665b1117cd88c217b05c472f15ae82691c88a986062303e14449ed60f86bd86a4379638d12b')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
