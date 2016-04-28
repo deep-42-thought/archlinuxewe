@@ -136,14 +136,15 @@ then
     then
       qu=${src#*::}
       qu=${qu%-*}
+      quNam=${qu#*=}
       remVer=$( \
         curl -o - "$(\
           echo "${qu}" | \
             sed "s|\?dl=|?ls=|" \
           )" 2> /dev/null | \
           tr "<>" "\n\n" | \
-          grep "^${pkgname}-" | \
-          sed "s|^${pkgname}-||" | \
+          grep "^${quNam}-" | \
+          sed "s|^${quNam}-||" | \
           sort -V | \
           tail -n1 \
       )
