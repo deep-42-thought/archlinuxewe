@@ -1,0 +1,50 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-find-lib'
+pkgver='1.04'
+pkgrel='1'
+pkgdesc='Helper to smartly find libs to use in the filesystem tree'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl'
+)
+checkdepends=()
+url='https://metacpan.org/release/Find-Lib'
+_distdir="Find-Lib-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/Y/YA/YANNK/${_distdir}.tar.gz")
+sha512sums=('b2527acce31a88c5855a83cd3e8e8af9b62b2dc6ff4a29264443dc4e85ab921a644f27d8b5774ddbdc755b51fd5dded5fa6fa7bc98dffcf41c4d2bc53fed1e43')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
