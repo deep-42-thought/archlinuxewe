@@ -1,0 +1,52 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-params-coerce'
+pkgver='0.14'
+pkgrel='1'
+pkgdesc='Allows your classes to do coercion of parameters'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-carp'
+  'perl-params-util'
+  'perl-scalar-list-utils'
+)
+checkdepends=()
+url='https://metacpan.org/release/Params-Coerce'
+_distdir="Params-Coerce-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/A/AD/ADAMK/${_distdir}.tar.gz")
+sha512sums=('48a606a0116e77a13b93b788d714c3204cb912af1d8877604e0dd5029ec2ff6498df3e6c3a9236448071ae7972f4377397712f5710905372522c5c85c2761e80')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
