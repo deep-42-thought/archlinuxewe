@@ -1,0 +1,61 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-specio'
+pkgver='0.12'
+pkgrel='1'
+pkgdesc='Type constraints and coercions for Perl'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-class-method-modifiers'
+  'perl-devel-partialdump'
+  'perl-lingua-en-inflect'
+  'perl-role-tiny'
+  'perl-moo'
+  'perl-class-load'
+  'perl-devel-stacktrace'
+  'perl-eval-closure'
+)
+checkdepends=(
+  'perl-test-requires'
+  'perl-test-fatal'
+  'perl-namespace-autoclean'
+)
+url='https://metacpan.org/release/Specio'
+_distdir="Specio-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
+sha512sums=('daaefafbf6cfd19e4b99036781d1470f7d30ae2d46f0ebae0c1149b9e0d711800a46cac029110561abb3409839d9c7e56f58a0c5b95bf74ed58db8b6c6941653')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
