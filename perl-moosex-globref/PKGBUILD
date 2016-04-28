@@ -1,0 +1,53 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-moosex-globref'
+pkgver='0.0701'
+pkgrel='1'
+pkgdesc='Store a Moose object in glob reference'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-moose'
+)
+checkdepends=(
+  'perl-test-unit-lite'
+  'perl-test-assert'
+)
+url='https://metacpan.org/pod/MooseX::GlobRef'
+_distdir="MooseX-GlobRef-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DE/DEXTER/${_distdir}.tar.gz")
+sha512sums=('c5485f4ee2d5c7fa60e7003d727d37858b4e82ff9536a8e45b1d04b726a476224f21645fb0bea70b092d4d0ba26e8c3bc8fd3410eed9cd92e15d200c860d7446')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
