@@ -1,0 +1,44 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (f491a18e07c10dc3afc2c601f6c928d4c12bffdefac18b868c0517faf8aae4d0e1a3637e244440eb73c0aa479b46161763c3bed0364a2edbed54625dd937ffcf)
+
+pkgname='perl-parse-mime'
+pkgver='1.003'
+pkgrel='1'
+pkgdesc='Parse mime-types, match against media ranges'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=()
+checkdepends=('perl-json-xs')
+url='https://metacpan.org/release/Parse-MIME'
+_distdir="Parse-MIME-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/A/AR/ARISTOTLE/${_distdir}.tar.gz")
+sha512sums=('6ffec28a1450134a3e6f9564a25b3e5e3910ff3b65b3edaf710bb24f178a6655cc1726e3513eec3e1bd59d7e2ab766d0e0657e10e718e23eabdbb23181594cab')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "${srcdir}/${_distdir}"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+  make install
+
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
