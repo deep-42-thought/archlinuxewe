@@ -1,0 +1,135 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+  >&2 echo "Verwendung: neuesPerlPaket cpan-Name"
+  exit 1
+fi
+
+cpanName="$1"
+url="https://metacpan.org/release/${cpanName}"
+pkgname="perl-$(echo "${cpanName,,}" | sed 's|::|-|g')"
+
+me="$(readlink -f "$0")"
+cd "$(dirname "${me}")"
+
+if [[ "$1" == "perl-"* ]]
+then
+  >&2 echo "${1} beginnt mit 'perl-', sollte es aber nicht"
+  exit 1
+fi
+
+if [ -e "${pkgname}" ] || pacman -Ss "${pkgname}" > /dev/null
+then
+  >&2 echo "${cpanName} gibt es womöglich schon"
+  exit 1
+fi
+
+seitenInhalt="$(curl -o - "${url}" 2> /dev/null)"
+
+pkgver="$(
+  echo "${seitenInhalt}" | \
+    grep "<title>${cpanName}-" | \
+    sed "s|^.*<title>${cpanName}-\([0-9.-]\+\)\s.*|\1|"
+)"
+
+pkgdesc="$(
+  echo "${seitenInhalt}" | \
+    grep "<title>${cpanName}-" | \
+    sed "s|^.*<title>${cpanName}-[0-9.-]\+\s\+-\s\+\(\S.*\S\)\s\+-\s\+metacpan\.org</title>.*|\1|"
+)"
+
+dlUrl="$(
+  echo "${seitenInhalt}" | \
+    grep "href=\"https://cpan.metacpan.org/authors/id/[^/]/[^/]\{2\}/[^/]\+/${cpanName}-[0-9.]\+\.tar\.gz\">" | \
+    sed "s|^.*href=\"\(https://cpan.metacpan.org/authors/id/[^/]/[^/]\{2\}/[^/]\+/${cpanName}-[0-9.]\+\.tar\.gz\)\">.*\$|\1|" | \
+    tail -n1
+)"
+
+dlUrlForPKGBUILD="$(
+  echo "${dlUrl}" | \
+    sed "s|/${cpanName}-[0-9.]\+\.tar\.gz|/\${_distdir}.tar.gz|"
+)"
+
+sha512sum="$(
+  curl -o - "${dlUrl}" 2> /dev/null | \
+    sha512sum - | \
+    cut -d " " -f 1
+)"
+
+mkdir "${pkgname}"
+cd "${pkgname}"
+
+(
+  echo '# Maintainer: Erich Eckner <arch at eckner dot net>'
+  echo '# Generator : neuesPerlPaket ('"$(sha512sum "${me}" | cut -d " " -f 1)"')'
+  echo ''
+  echo "pkgname='${pkgname}'"
+  echo "pkgver='${pkgver}'"
+  echo "pkgrel='1'"
+  echo "pkgdesc='${pkgdesc}'"
+  echo "arch=('x86_64' 'i686')"
+  echo "license=('PerlArtistic' 'GPL')"
+  echo "options=('!emptydirs')"
+  echo "depends=('perl')"
+  echo "makedepends=()"
+  echo "checkdepends=()"
+  echo "url='${url}'"
+  echo "_distdir=\"${cpanName}-\${pkgver}\""
+  echo "source=(\"${dlUrlForPKGBUILD}\")"
+  echo "sha512sums=('${sha512sum}')"
+  echo ''
+  echo 'build() {'
+  echo '  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \'
+  echo '      PERL_AUTOINSTALL=--skipdeps                            \'
+  echo "      PERL_MM_OPT=\"INSTALLDIRS=vendor DESTDIR='\$pkgdir'\"     \\"
+  echo "      PERL_MB_OPT=\"--installdirs vendor --destdir '\$pkgdir'\" \\"
+  echo '      MODULEBUILDRC=/dev/null'
+  echo ''
+  echo '    cd "${srcdir}/${_distdir}"'
+  echo '    perl Makefile.PL'
+  echo '    make'
+  echo '  )'
+  echo '}'
+  echo ''
+  echo 'check() {'
+  echo '  cd "${srcdir}/${_distdir}"'
+  echo '  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""'
+  echo '    make test'
+  echo '  )'
+  echo '}'
+  echo ''
+  echo 'package() {'
+  echo '  cd "${srcdir}/${_distdir}"'
+  echo '  make install'
+  echo ''
+  echo '  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete'
+  echo '}'
+) > PKGBUILD
+
+makepkg -fcrs || exit 1
+
+echo ''
+echo 'sieht soweit erst mal gut aus, oder?'
+read antwort
+
+if [ -n "${antwort}" ]
+then
+  echo 'ok, dann nicht ...'
+  exit 1
+fi
+
+pacman -Qlp ${pkgname}-*.pkg.tar.xz
+
+echo ''
+echo 'auch hier alles in Ordnung, oder?'
+read antwort
+
+if [ -n "${antwort}" ]
+then
+  echo 'ok, dann nicht ...'
+  exit 1
+fi
+
+git add PKGBUILD
+git commit -m "${pkgname} neu"
