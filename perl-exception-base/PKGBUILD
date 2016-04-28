@@ -1,0 +1,52 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-exception-base'
+pkgver='0.2501'
+pkgrel='1'
+pkgdesc='Lightweight exceptions'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl'
+)
+checkdepends=(
+  'perl-test-unit-lite'
+)
+url='https://metacpan.org/pod/Exception::Base'
+_distdir="Exception-Base-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DE/DEXTER/${_distdir}.tar.gz")
+sha512sums=('848993b3d72f3a8f79467c69afdff848e61aed7d24977bafe4cfea56631a5c4746f9993330a4373a1c727f440c0cdc70e4001d7841f17125cf603772a6805acd')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
