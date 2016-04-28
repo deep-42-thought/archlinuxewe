@@ -1,0 +1,74 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='perl-lwp-consolelogger'
+pkgver='0.000024'
+pkgrel='1'
+pkgdesc='Easy LWP tracing and debugging'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-data-printer'
+  'perl-html-restrict'
+  'perl-http-body'
+  'perl-http-cookiemonster'
+  'perl-log-dispatch'
+  'perl-moox-strictconstructor'
+  'perl-parse-mime'
+  'perl-string-trim'
+  'perl-term-size-any'
+  'perl-text-simpletable-autowidth'
+  'perl-type-tiny'
+  'perl-uri-query'
+  'perl-xml-simple'
+)
+checkdepends=(
+  'perl-datetime'
+  'perl-html-formattext-withlinks'
+  'perl-path-tiny'
+  'perl-log-dispatch-array'
+  'perl-test-most'
+  'perl-http-server-simple-psgi'
+  'perl-plack'
+  'perl-plack-test-agent'
+  'perl-test-failwarnings'
+  'perl-json-maybexs'
+  'perl-cgi'
+  'perl-file-which')
+url='https://metacpan.org/release/LWP-ConsoleLogger'
+_distdir="LWP-ConsoleLogger-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
+sha512sums=('a26a5a2eeddecec02337061669c63711762b5b43eef286f1316747279030855b283516a7b3cdc7ce03c6d0d4f08289856e78659e851db6be2fc80c7aa1f11652')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "$srcdir/$_distdir"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "$srcdir/$_distdir"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    make test
+  )
+}
+
+package() {
+  cd "$srcdir/$_distdir"
+  make install
+
+  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+}
+
+# Local Variables:
+# mode: shell-script
+# sh-basic-offset: 2
+# End:
+# vim:set ts=2 sw=2 et:
