@@ -1,0 +1,64 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
+
+pkgname='perl-test-most'
+pkgver='0.34'
+pkgrel='1'
+pkgdesc='Most commonly needed test functions and features.'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-exception-class>=1.14' 'perl-test-deep>=0.106' 'perl-test-differences>=0.61' 'perl-test-exception>=0.31' 'perl-test-harness>=3.21' 'perl-test-simple>=0.88' 'perl-test-warn>=0.23')
+makedepends=('perl-extutils-makemaker' 'perl-extutils-makemaker')
+checkdepends=('perl-data-dumper-names')
+url='https://metacpan.org/release/Test-Most'
+_distdir="Test-Most-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/O/OV/OVID/${_distdir}.tar.gz")
+sha512sums=('00706bb25e6b9f806b536f75f66356413cdbcb19efd1c8b163fbd3357f61abe9e06e57c311eff216d36962ce74beb996db6cd4f0d2e5ed58fa5c0a0af32a33ef')
+
+build(){
+  cd "${srcdir}/${_distdir}"
+  
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package(){
+  cd "${srcdir}/${_distdir}"
+  
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
