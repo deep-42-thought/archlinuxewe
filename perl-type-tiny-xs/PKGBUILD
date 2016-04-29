@@ -1,0 +1,63 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (b6b38950d6596a6b9c7daebff086e87ac7c52d7c67341448ddbf27cfc93ad0836e7e1ff0466576da6e0329a31218720cd80cb90d767a4433e8394147ba1195b2)
+
+pkgname='perl-type-tiny-xs'
+pkgver='0.012'
+pkgrel='1'
+pkgdesc='provides an XS boost for some of Type::Tiny'"'"'s built-in type constraints'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=('perl-extutils-makemaker>=6.17')
+url='https://metacpan.org/release/Type-Tiny-XS'
+_distdir="Type-Tiny-XS-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/${_distdir}.tar.gz")
+sha512sums=('488925d913872f1f5bf73d8b165b1e04bd8f86bda44d594819120760f79c877d4b1be9f2924712ceabaead8822710bd8851f8ff5bb79f91b07fa253ce9ef7a33')
+
+build(){
+  cd "${srcdir}/${_distdir}"
+  
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package(){
+  cd "${srcdir}/${_distdir}"
+  
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
