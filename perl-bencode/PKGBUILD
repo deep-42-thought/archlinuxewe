@@ -1,0 +1,63 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (4de8707cf4c65a042fa6ff8598da0f5c4a8b1e5488e04c9b9e32c5842e96d326d7ef31924ace51ac0f80cb3d322ffa8d1f5cfb5532731d1215e562424d5245f0)
+
+pkgname='perl-bencode'
+pkgver='1.402'
+pkgrel='1'
+pkgdesc='BitTorrent serialisation format'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-carp' 'perl-exporter-tidy')
+makedepends=('perl-file-temp' 'perl-test-differences' 'perl-test-simple>=0.88' 'perl-extutils-makemaker')
+url='https://metacpan.org/release/Bencode'
+_distdir="Bencode-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/A/AR/ARISTOTLE/${_distdir}.tar.gz")
+sha512sums=('969367c178418623d505aec8f9b93a8d55c26b8c67d4755c029ba279594fc924e1e4b01e19216cd830c0fbb1f997b041e3431a35bd58d1cb6491be6de49c8f67')
+
+build(){
+  cd "${srcdir}/${_distdir}"
+  
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package(){
+  cd "${srcdir}/${_distdir}"
+  
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
