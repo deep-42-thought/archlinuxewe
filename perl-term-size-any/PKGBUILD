@@ -1,0 +1,63 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (d004a3633c882df1d7fb921ddb8a08ccdbd8fcf488cb3ecaea07299ac8d285c0e7e482a1e5d5923dc1b34380f98caa27bc9cee8f2e1718aea9e36c454af84e08)
+
+pkgname='perl-term-size-any'
+pkgver='0.002'
+pkgrel='1'
+pkgdesc='Retrieve terminal size'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-devel-hide' 'perl-module-load-conditional' 'perl-term-size-perl' 'perl-test-simple')
+makedepends=('perl-extutils-makemaker' 'perl-extutils-makemaker')
+url='https://metacpan.org/release/Term-Size-Any'
+_distdir="Term-Size-Any-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/${_distdir}.tar.gz")
+sha512sums=('e34d7e8d03e71e9f1758551e702711550804560a3165e0e9cea6756a7d87043e0408123b8c7997c79d6d77e7d48f167ed5aa12e4d572b1d787ef638ff71a3a1d')
+
+build(){
+  cd "${srcdir}/${_distdir}"
+  
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package(){
+  cd "${srcdir}/${_distdir}"
+  
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
