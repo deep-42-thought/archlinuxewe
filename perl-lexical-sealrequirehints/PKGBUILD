@@ -1,0 +1,65 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
+
+pkgname='perl-lexical-sealrequirehints'
+pkgver='0.010'
+pkgrel='1'
+pkgdesc='prevent leakage of lexical hints'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-xsloader')
+makedepends=('perl-module-build' 'perl-test-simple>=0.41' 'perl-module-build')
+checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
+conflicts=('perl-b-hooks-op-check>=<0.19')
+url='https://metacpan.org/release/Lexical-SealRequireHints'
+_distdir="Lexical-SealRequireHints-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/${_distdir}.tar.gz")
+sha512sums=('4c71a22397ae689349bf45c1b2177108008158052b341f9d9b09e5d97c55cd538bb427c041389c4edf8584be292bf4b1f42abdff573510a0a64fb69e5166aecd')
+
+build(){
+  cd "${srcdir}/${_distdir}"
+  
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package(){
+  cd "${srcdir}/${_distdir}"
+  
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
