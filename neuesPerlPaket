@@ -51,14 +51,81 @@ dlUrlForPKGBUILD="$(
     sed "s|/${cpanName}-[0-9.]\+\.tar\.gz|/\${_distdir}.tar.gz|"
 )"
 
+mkdir "${pkgname}"
+cd "${pkgname}"
+
+wget -nd "${dlUrl}"
+
 sha512sum="$(
-  curl -o - "${dlUrl}" 2> /dev/null | \
-    sha512sum - | \
+  sha512sum "${cpanName}-${pkgver}.tar.gz" | \
     cut -d " " -f 1
 )"
 
-mkdir "${pkgname}"
-cd "${pkgname}"
+oifs="${IFS}"
+IFS=''
+wasSammeln=''
+unset makedepends
+unset conflicts
+unset depends
+unset provides
+while read s
+do
+  if [[ "${s}" == " "* ]]
+  then
+    key="$(
+      echo "${s}" | \
+        sed "s|^\s*\(\S\+\):\s\+'\?\([^']\+\)'\?\$|\1|" | \
+        sed "s|::|-|g" | \
+        tr "[[:upper:]]" "[[:lower:]]"
+    )"
+    [ "${key}" == "perl" ] && continue
+    key="perl-${key}"
+    value="$(
+      echo "${s}" | \
+        sed "s|^\s*\(\S\+:\)\s\+'\?\([^']\+\)'\?\$|\2|" | \
+        sed "s|\s||g"
+    )"
+    if [ "${value}" == "0" ]
+    then
+      value=""
+    else
+      echo "${value}" | \
+        grep -q "<=" ||
+          value=">=${value}"
+    fi
+    case "${wasSammeln}" in
+      "build_requires:"|"configure_requires:")
+        makedepends="${makedepends} '${key}${value}'"
+      ;;
+      "conflicts:")
+        conflicts="${conflicts} '${key}${value}'"
+      ;;
+      "provides:")
+        echo "${s}" | \
+          grep -q "^  \S" && \
+            provides="${provides} '${key}'"
+      ;;
+      "recommends:"|"requires:")
+        depends="${depends} '${key}${value}'"
+      ;;
+    esac
+  else
+    case "${s}" in
+      "build_requires:"|"configure_requires:"|"conflicts:"|"recommends:"|"requires:"|"provides:")
+        wasSammeln="${s}"
+      ;;
+      *)
+        wasSammeln=''
+      ;;
+    esac
+  fi
+done < <(tar -Oxzf "${cpanName}-${pkgver}.tar.gz" "${cpanName}-${pkgver}/META.yml")
+IFS="${oifs}"
+
+makedepends="${makedepends# }"
+conflicts="${conflicts# }"
+depends="${depends# }"
+[ -z "${depends}" ] && depends="'perl'"
 
 (
   echo '# Maintainer: Erich Eckner <arch at eckner dot net>'
@@ -71,38 +138,60 @@ cd "${pkgname}"
   echo "arch=('x86_64' 'i686')"
   echo "license=('PerlArtistic' 'GPL')"
   echo "options=('!emptydirs')"
-  echo "depends=('perl')"
-  echo "makedepends=()"
-  echo "checkdepends=()"
+  echo "depends=(${depends})"
+  [ -n "${makedepends}" ] && \
+    echo "makedepends=(${makedepends})"
+  [ -n "${conflicts}" ] && \
+    echo "conflicts=(${conflicts})"
   echo "url='${url}'"
   echo "_distdir=\"${cpanName}-\${pkgver}\""
   echo "source=(\"${dlUrlForPKGBUILD}\")"
   echo "sha512sums=('${sha512sum}')"
   echo ''
-  echo 'build() {'
-  echo '  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \'
-  echo '      PERL_AUTOINSTALL=--skipdeps                            \'
-  echo "      PERL_MM_OPT=\"INSTALLDIRS=vendor DESTDIR='\$pkgdir'\"     \\"
-  echo "      PERL_MB_OPT=\"--installdirs vendor --destdir '\$pkgdir'\" \\"
-  echo '      MODULEBUILDRC=/dev/null'
+  echo 'build(){'
+  echo '  cd "${srcdir}/${_distdir}"'
+  echo '  '
+  echo "  # Setting these env variables overwrites any command-line-options we don't want..."
+  echo '  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \'
+  echo "    PERL_MM_OPT=\"INSTALLDIRS=vendor DESTDIR='\${pkgdir}'\" \\"
+  echo "    PERL_MB_OPT=\"--installdirs vendor --destdir '\${pkgdir}'\" \\"
+  echo '    MODULEBUILDRC=/dev/null'
   echo ''
-  echo '    cd "${srcdir}/${_distdir}"'
+  echo '  # If using Makefile.PL'
+  echo '  if [ -r Makefile.PL ]; then'
   echo '    perl Makefile.PL'
   echo '    make'
-  echo '  )'
+  echo '  # If using Build.PL'
+  echo '  elif [ -r Build.PL ]; then'
+  echo '    perl Build.PL'
+  echo '    perl Build'
+  echo '  fi'
   echo '}'
   echo ''
-  echo 'check() {'
+  echo 'check(){'
   echo '  cd "${srcdir}/${_distdir}"'
-  echo '  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""'
+  echo ''
+  echo '  # If using Makefile.PL'
+  echo '  if [ -r Makefile.PL ]; then'
   echo '    make test'
-  echo '  )'
+  echo '  # If using Build.PL'
+  echo '  elif [ -r Build.PL ]; then'
+  echo '    perl Build test'
+  echo '  fi'
   echo '}'
   echo ''
-  echo 'package() {'
+  echo 'package(){'
   echo '  cd "${srcdir}/${_distdir}"'
-  echo '  make install'
+  echo '  '
+  echo '  # If using Makefile.PL'
+  echo '  if [ -r Makefile.PL ]; then'
+  echo '    make install'
+  echo '  # If using Build.PL'
+  echo '  elif [ -r Build.PL ]; then'
+  echo '    perl Build install'
+  echo '  fi'
   echo ''
+  echo '  # remove perllocal.pod and .packlist'
   echo '  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete'
   echo '}'
 ) > PKGBUILD
