@@ -6,6 +6,17 @@ then
   exit 1
 fi
 
+declare -A substitutionen
+
+substitutionen["perl"]="%skip"
+substitutionen["strict"]="%skip"
+substitutionen["warnings"]="%skip"
+substitutionen["test-more"]="test-simple"
+substitutionen["http-headers"]="http-message"
+substitutionen["http-request-common"]="http-message"
+substitutionen["io-file"]="io"
+substitutionen["file-spec-functions"]="pathtools"
+
 cpanName="$(echo "$1" | sed 's|::|-|g')"
 url="https://metacpan.org/release/${cpanName}"
 pkgname="perl-${cpanName,,}"
@@ -79,8 +90,11 @@ do
         sed "s|::|-|g" | \
         tr "[[:upper:]]" "[[:lower:]]"
     )"
-    [ "${key}" == "perl" ] && continue
-    [ "${key}" == "test-more" ] && continue
+    [ -n "${substitutionen["${key}"]}" ] && \
+      key="${substitutionen["${key}"]}"
+
+    [ "${key}" == "%skip" ] && continue
+
     key="perl-${key}"
     value="$(
       echo "${s}" | \
