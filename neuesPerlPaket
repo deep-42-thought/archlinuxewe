@@ -36,7 +36,8 @@ pkgver="$(
 pkgdesc="$(
   echo "${seitenInhalt}" | \
     grep "<title>${cpanName}-" | \
-    sed "s|^.*<title>${cpanName}-[0-9.-]\+\s\+-\s\+\(\S.*\S\)\s\+-\s\+metacpan\.org</title>.*|\1|"
+    sed "s|^.*<title>${cpanName}-[0-9.-]\+\s\+-\s\+\(\S.*\S\)\s\+-\s\+metacpan\.org</title>.*|\1|" | \
+    sed "s|'|'\"'\"'|g"
 )"
 
 dlUrl="$(
@@ -79,6 +80,7 @@ do
         tr "[[:upper:]]" "[[:lower:]]"
     )"
     [ "${key}" == "perl" ] && continue
+    [ "${key}" == "test-more" ] && continue
     key="perl-${key}"
     value="$(
       echo "${s}" | \
