@@ -1,0 +1,63 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
+
+pkgname='perl-data-taxi'
+pkgver='0.96'
+pkgrel='1'
+pkgdesc='Taint-aware, XML-ish data serialization'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl')
+makedepends=('perl-debug-showstuff')
+url='https://metacpan.org/release/Data-Taxi'
+_distdir="Data-Taxi-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/M/MI/MIKO/${_distdir}.tar.gz")
+sha512sums=('660d6bb8e10ad5666428e0b110b0117d6b122d343c79fbe14b54177486a3cb2fbd9070626eec90a0cf28b600bcaeb685bfb7e0722c83f9e19f1cfa32ddf2124c')
+
+build(){
+  cd "${srcdir}/${_distdir}"
+  
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package(){
+  cd "${srcdir}/${_distdir}"
+  
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
