@@ -9,14 +9,39 @@ fi
 declare -A substitutionen
 
 substitutionen["perl"]="%skip"
+substitutionen["b"]="%skip"
 substitutionen["strict"]="%skip"
 substitutionen["warnings"]="%skip"
+substitutionen["ipc-open3"]="%skip"
+substitutionen["filehandle"]="%skip"
+substitutionen["file-glob"]="%skip"
+substitutionen["file-find"]="%skip"
+
+substitutionen["moo-role"]="moo"
+
 substitutionen["test-more"]="test-simple"
+substitutionen["test-builder"]="test-simple"
+substitutionen["test-builder-tester"]="test-simple"
+
 substitutionen["http-headers"]="http-message"
 substitutionen["http-request-common"]="http-message"
+
 substitutionen["io-file"]="io"
+substitutionen["io-handle"]="io"
+
 substitutionen["file-spec-functions"]="pathtools"
+substitutionen["file-spec"]="pathtools"
+
 substitutionen["list-util"]="scalar-list-utils"
+substitutionen["scalar-util"]="scalar-list-utils"
+
+substitutionen["pod-coverage-countparents"]="pod-coverage"
+
+substitutionen["pod-find"]="pod-parser"
+
+substitutionen["pod-eventual-simple"]="pod-eventual"
+
+substitutionen["compress-zlib"]="io-compress"
 
 cpanName="$(echo "$1" | sed 's|::|-|g')"
 url="https://metacpan.org/release/${cpanName}"
