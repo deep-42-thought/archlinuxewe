@@ -1,0 +1,45 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (53a4b3dbf91e50da515b6ec94fbd3044454d68ce67b4faf1406dd314dbd1c658a8b69f094c8647bc8e977b1abc69e4a04d8a638eae1861c5a8a4c44d81770a8f)
+
+pkgname='perl-io-pty-easy'
+pkgver='0.09'
+pkgrel='1'
+pkgdesc='Easy interface to IO::Pty'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-io-tty')
+makedepends=()
+checkdepends=()
+url='https://metacpan.org/release/IO-Pty-Easy'
+_distdir="IO-Pty-Easy-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DO/DOY/${_distdir}.tar.gz")
+sha512sums=('4339749780949fe37f1c9c348e7e4efb44b0e421f0169def4a896889ce74a37a2f3d64f1b4ad08cb05967cf166ad2aa979964caf2ebb98210317c11251a4f2cb')
+
+build() {
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+      PERL_AUTOINSTALL=--skipdeps                            \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+      MODULEBUILDRC=/dev/null
+
+    cd "${srcdir}/${_distdir}"
+    perl Makefile.PL
+    make
+  )
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    rm t/read-write.t
+    make test
+  )
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+  make install
+
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
