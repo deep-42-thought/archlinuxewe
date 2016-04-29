@@ -1,0 +1,63 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (e520087d22896debe22f9376d2e46ee8f7a57ce44debdfc7a7d1c414a9fd5b5f75c8ce9350f4e793cd6356e6207c8cca7930b0b973dbd8a9dc2068472324bb72)
+
+pkgname='perl-moox-strictconstructor'
+pkgver='0.008'
+pkgrel='1'
+pkgdesc='Make your Moo-based object constructors blow up on unknown attributes.'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-class-method-modifiers' 'perl-moo>=1.001000' 'perl-moo' 'perl-bareword-filehandles' 'perl-constant' 'perl-indirect' 'perl-multidimensional' 'perl-strictures>=1')
+makedepends=('perl-pathtools' 'perl-file-temp' 'perl-io' 'perl-module-build>=0.28' 'perl-pod-coverage-trustpod' 'perl-test-cpan-meta' 'perl-test-fatal' 'perl-test-simple>=0.88' 'perl-test-pod' 'perl-test-pod-coverage' 'perl-extutils-makemaker' 'perl-module-build>=0.28')
+url='https://metacpan.org/release/MooX-StrictConstructor'
+_distdir="MooX-StrictConstructor-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/H/HA/HARTZELL/${_distdir}.tar.gz")
+sha512sums=('e1400fee3af182d34e8f5b709b2c16f3675ff75502e4ca7841dd0b3be9c2e090a4e13f881c2f5a6b15b925264f03ee0ce2c27a25b7262b1a17485e7a33057a20')
+
+build(){
+  cd "${srcdir}/${_distdir}"
+  
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package(){
+  cd "${srcdir}/${_distdir}"
+  
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
