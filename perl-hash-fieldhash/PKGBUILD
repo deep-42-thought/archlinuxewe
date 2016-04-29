@@ -1,0 +1,63 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (7a589202ce266b15e6e8f34ddfb805093ba7f16e64bbfa81b115133edde2e298f11971b376ba22faf61d0371b1e3eddcf51bc530a4c5bd76e486299dde8985ee)
+
+pkgname='perl-hash-fieldhash'
+pkgver='0.14'
+pkgrel='1'
+pkgdesc='Lightweight field hash for inside-out objects'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-xsloader>=0.02' 'perl-parent>=0.221')
+makedepends=('perl-devel-ppport>=3.19' 'perl-extutils-makemaker>=6.59' 'perl-extutils-parsexs>=2.21' 'perl-test-leaktrace>=0.07' 'perl-cpan-meta' 'perl-module-build>=0.38')
+url='https://metacpan.org/release/Hash-FieldHash'
+_distdir="Hash-FieldHash-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/G/GF/GFUJI/${_distdir}.tar.gz")
+sha512sums=('25c13a103ee8e643ae08ad47b5ba2f9f35a43c2f1ac3812b52c8893f15cc52aabf6f923282491839feb306294dae6878e3a102e21e78d51eebc9e954b4792d99')
+
+build(){
+  cd "${srcdir}/${_distdir}"
+  
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package(){
+  cd "${srcdir}/${_distdir}"
+  
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
