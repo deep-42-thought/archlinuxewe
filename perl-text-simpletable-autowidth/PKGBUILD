@@ -1,0 +1,64 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (40a8f99027f342d539fce68e973afc99ce56bc736c4f47345b882e6fe99a91deb415bed40acb1ab7deb714d5a9ac6d7d7f795ce07fc69fe662cd69d300c96a6e)
+
+pkgname='perl-text-simpletable-autowidth'
+pkgver='0.09'
+pkgrel='1'
+pkgdesc='Text::SimpleTable::AutoWidth - Simple eyecandy ASCII tables with auto-width selection'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-scalar-list-utils' 'perl-moo' 'perl-text-simpletable')
+makedepends=('perl-test-simple' 'perl-extutils-makemaker')
+checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
+url='https://metacpan.org/release/Text-SimpleTable-AutoWidth'
+_distdir="Text-SimpleTable-AutoWidth-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/C/CU/CUB/${_distdir}.tar.gz")
+sha512sums=('b35d80ee1040ab744b53d29381034ea7ac67c5a6973516efda67b2ab34412bbadec6397d91a452488dd99158b2a4ee84115f3a52c12cb0e771f77fdc05cfb9ab')
+
+build(){
+  cd "${srcdir}/${_distdir}"
+  
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 TEST_POD=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package(){
+  cd "${srcdir}/${_distdir}"
+  
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
