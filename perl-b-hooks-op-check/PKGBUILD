@@ -1,0 +1,63 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
+
+pkgname='perl-b-hooks-op-check'
+pkgver='0.19'
+pkgrel='1'
+pkgdesc='Wrap OP check callbacks'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-parent')
+makedepends=('perl-extutils-makemaker>=6.42' 'perl-test-simple' 'perl-extutils-depends>=0.302' 'perl-extutils-makemaker>=6.42')
+url='https://metacpan.org/release/B-Hooks-OP-Check'
+_distdir="B-Hooks-OP-Check-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/${_distdir}.tar.gz")
+sha512sums=('3356c875698cdfbada191ba2dcbbf472a743650b68220b499e30198f2bc39e82df72fc6727e2acbf6c4a8d25706c7cf74c7ffd0ffa52dbba3e874195bba63d0c')
+
+build(){
+  cd "${srcdir}/${_distdir}"
+  
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package(){
+  cd "${srcdir}/${_distdir}"
+  
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
