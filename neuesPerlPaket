@@ -7,14 +7,25 @@ then
 fi
 
 substituiere() {
+  dep="$1"
+  name=${dep%>=*}
+  dep=${dep#${name}}
   erg="$(
     cat "$(dirname "${me}")/perlSubstitutionen" | \
       sed 's|#.*$||' | \
-      grep "\s$1\(\s\|\$\)" | \
-      cut -d ':' -f 1
+      grep "\s${name}\(\s\|\$\)" | \
+      sed "s|^\([^:]\+\):.*\$|perl-\1|" | \
+      sed "s|^:.*\$|perl|"
   )"
-  [ -z "${erg}" ] && erg="$1"
-  key="${erg}"
+  [ -z "${erg}" ] && erg="perl-${name}"
+  if [ "${erg}" == "perl" ] && echo "${dep}" | grep -q "^[^.]*\.\(0[[:digit:]]\{2\}\)\{2\}"
+  then
+    dep="$(
+      echo "${dep}" | \
+        sed "s@^\([^.]*\....\)0\+@\1.@; s@^\([^.]*\.\)0\+@\1@"
+    )"
+  fi
+  erg="${erg}${dep}"
 }
 
 cpanName="$(echo "$1" | sed 's|::|-|g')"
@@ -30,9 +41,25 @@ then
   exit 1
 fi
 
-if [ -e "${pkgname}" ] || pacman -Ss "${pkgname}" > /dev/null
+if [ -e "${pkgname}" ]
 then
-  >&2 echo "${cpanName} gibt es womöglich schon"
+  >&2 echo "${cpanName} gibt es von ewe schon"
+  exit 1
+fi
+
+if cat $(ls /var/lib/pacman/sync/*.db | grep -v "/archlinuxewe\.db\$") | \
+  tar -Oixz --wildcards "*/desc" | \
+  sed '
+    :begin;
+      $!N;
+      s@^\(%[^%]*%.*\)\n\(.\+\)$@\1 \2@;
+    tbegin;
+    P;
+    D
+  ' | \
+  grep -q "^%\(NAME% ${pkgname}\|PROVIDES%.* ${pkgname}\([= ].*\)\?\)\$"
+then
+  >&2 echo "${cpanName} gibt es schon offiziell"
   exit 1
 fi
 
@@ -73,74 +100,69 @@ sha512sum="$(
     cut -d " " -f 1
 )"
 
+echo "META.yml lesen ..."
+
 oifs="${IFS}"
-IFS=''
-wasSammeln=''
-unset makedepends
-unset conflicts
-unset depends
-unset provides
-while read s
+
+meta="$(
+  tar -Oxzf "${cpanName}-${pkgver}.tar.gz" "${cpanName}-${pkgver}/META.yml" | \
+    grep -v "^    file:" | \
+    grep -v "^    version:" | \
+    sed '
+      :begin;
+        $!N;
+        s@^\(\S.*\)\n\s\+\(\S.*\)$@\1 \2@;
+      tbegin;
+      P;
+      D
+    ' | \
+    sed "/^provides: /s@:\(\s\|\$\)@: '0'\1@g" | \
+    sed "s|^provides: '0' |provides: |"
+)"
+
+echo "... fertig, verarbeiten ..."
+
+declare -A metaInfos
+declare -A metaRegexe
+declare -A metaSubst
+
+metaRegexe["makedepends"]="\(build\|configure\)_requires"
+metaSubst["makedepends"]=true
+metaRegexe["depends"]="requires"
+metaSubst["depends"]=true
+metaRegexe["optdepends"]="recommends"
+metaSubst["optdepends"]=true
+metaRegexe["conflicts"]="conflicts"
+metaSubst["conflicts"]=true
+metaRegexe["provides"]="provides"
+metaSubst["provides"]=false
+
+for sucheWonach in "${!metaRegexe[@]}"
 do
-  if [[ "${s}" == " "* ]]
-  then
-    key="$(
-      echo "${s}" | \
-        sed "s|^\s*\(\S\+\):\s\+'\?\([^']\+\)'\?\$|\1|" | \
-        sed "s|::|-|g" | \
-        tr "[[:upper:]]" "[[:lower:]]"
-    )"
-    substituiere "${key}"
-
-    [ "${key}" == "%skip" ] && continue
-
-    key="perl-${key}"
-    value="$(
-      echo "${s}" | \
-        sed "s|^\s*\(\S\+:\)\s\+'\?\([^']\+\)'\?\$|\2|" | \
-        sed "s|\s||g"
-    )"
-    if [ "${value}" == "0" ]
+  metaInfos["${sucheWonach}"]=""
+  for was in $(
+    echo "${meta}" | \
+      grep "^${metaRegexe["${sucheWonach}"]}:" | \
+      sed "s@^${metaRegexe["${sucheWonach}"]}:\s*@@" | \
+      sed "s@\(\S\+\):\s\+'\?\([0-9.]*\)'\?\(\s\|\$\)@\L\1>=\L\2\n@g" | \
+      sed "s@::@-@g" | \
+      sed "s|>=0\$||" | \
+      grep -v "^$"
+  )
+  do
+    if ${metaSubst["${sucheWonach}"]}
     then
-      value=""
+      substituiere "${was}"
     else
-      echo "${value}" | \
-        grep -q "<=" ||
-          value=">=${value}"
+      erg="perl-${was}"
     fi
-    case "${wasSammeln}" in
-      "build_requires:"|"configure_requires:")
-        makedepends="${makedepends} '${key}${value}'"
-      ;;
-      "conflicts:")
-        conflicts="${conflicts} '${key}${value}'"
-      ;;
-      "provides:")
-        echo "${s}" | \
-          grep -q "^  \S" && \
-            provides="${provides} '${key}'"
-      ;;
-      "recommends:"|"requires:")
-        depends="${depends} '${key}${value}'"
-      ;;
-    esac
-  else
-    case "${s}" in
-      "build_requires:"|"configure_requires:"|"conflicts:"|"recommends:"|"requires:"|"provides:")
-        wasSammeln="${s}"
-      ;;
-      *)
-        wasSammeln=''
-      ;;
-    esac
-  fi
-done < <(tar -Oxzf "${cpanName}-${pkgver}.tar.gz" "${cpanName}-${pkgver}/META.yml")
-IFS="${oifs}"
+    [[ "${erg}" == "perl-%skip"* ]] ||
+      metaInfos["${sucheWonach}"]="${metaInfos["${sucheWonach}"]} '${erg}'"
+  done
+  metaInfos["${sucheWonach}"]="${metaInfos["${sucheWonach}"]# }"
+done
 
-makedepends="${makedepends# }"
-conflicts="${conflicts# }"
-depends="${depends# }"
-[ -z "${depends}" ] && depends="'perl'"
+echo "... fertig"
 
 (
   echo '# Maintainer: Erich Eckner <arch at eckner dot net>'
@@ -153,19 +175,24 @@ depends="${depends# }"
   echo "arch=('x86_64' 'i686')"
   echo "license=('PerlArtistic' 'GPL')"
   echo "options=('!emptydirs')"
-  echo "depends=(${depends})"
-  [ -n "${makedepends}" ] && \
-    echo "makedepends=(${makedepends})"
-  [ -n "${conflicts}" ] && \
-    echo "conflicts=(${conflicts})"
+  for wasAusgeben in "${!metaRegexe[@]}"
+  do
+    if [ -n "${metaInfos["${wasAusgeben}"]}" ]
+    then
+      echo "${wasAusgeben}=("
+      echo "${metaInfos["${wasAusgeben}"]})" | \
+        tr " " "\n" | \
+        sed "s|^|  |"
+    fi
+  done
   echo "url='${url}'"
   echo "_distdir=\"${cpanName}-\${pkgver}\""
   echo "source=(\"${dlUrlForPKGBUILD}\")"
   echo "sha512sums=('${sha512sum}')"
   echo ''
-  echo 'build(){'
+  echo 'build() {'
   echo '  cd "${srcdir}/${_distdir}"'
-  echo '  '
+  echo ''
   echo "  # Setting these env variables overwrites any command-line-options we don't want..."
   echo '  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \'
   echo "    PERL_MM_OPT=\"INSTALLDIRS=vendor DESTDIR='\${pkgdir}'\" \\"
@@ -183,7 +210,7 @@ depends="${depends# }"
   echo '  fi'
   echo '}'
   echo ''
-  echo 'check(){'
+  echo 'check() {'
   echo '  cd "${srcdir}/${_distdir}"'
   echo ''
   echo '  # If using Makefile.PL'
@@ -195,9 +222,9 @@ depends="${depends# }"
   echo '  fi'
   echo '}'
   echo ''
-  echo 'package(){'
+  echo 'package() {'
   echo '  cd "${srcdir}/${_distdir}"'
-  echo '  '
+  echo ''
   echo '  # If using Makefile.PL'
   echo '  if [ -r Makefile.PL ]; then'
   echo '    make install'
