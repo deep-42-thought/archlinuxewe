@@ -1,0 +1,181 @@
+#!/bin/bash
+
+usage() {
+  >&2 echo 'Verwendung:'
+  >&2 echo "${ich} [-d|--download URL] [-a|--alle] [-s|--suche wonach] [-i|--intensiv] [-x|--exakt]"
+  exit 1
+}
+
+verpackung() {
+  typ="$(file -bizL "$1")"
+  case "${typ}" in
+    "application/x-tar; charset=binary compressed-encoding=application/x-xz; charset=binary")
+      echo "-J"
+    ;;
+    "application/x-tar; charset=binary compressed-encoding=application/x-gzip; charset=binary" | \
+    "application/octet-stream; charset=binary compressed-encoding=application/x-gzip; charset=binary")
+      echo "-z"
+    ;;
+    "ERROR: (null)" | \
+    "inode/x-empty; charset=binary")
+    ;;
+    *)
+      >&2 echo "FEHLER: Unbekannter Verpackungstyp '${typ}'"
+    ;;
+  esac
+}
+
+ich="$(readlink -f "$0")"
+pfad="$(dirname "${ich}")/.checkAllRepos"
+[ ! -d "${pfad}" ] && mkdir -p "${pfad}"
+
+eval set -- "$(
+  getopt -o ad:is:x \
+    --long alle \
+    --long download: \
+    --long exakt \
+    --long intensiv \
+    --long suche: \
+    -n "$(basename "$0")" \
+    -- "$@" \
+    || echo "usage"
+)"
+args=("$@")
+
+unset downloads suchen
+alle=false
+exakt=false
+intensiv=false
+
+while true
+do
+  case "$1" in
+    -d|--download)
+      shift
+      if [ -n "$1" ]
+      then
+        downloads[${#downloads[@]}]="$1"
+      fi
+    ;;
+    -a|--alle)
+      alle=true
+    ;;
+    -x|--exakt)
+      exakt=true
+    ;;
+    -i|--intensiv)
+      intensiv=true
+    ;;
+    -s|--suche)
+      shift
+      if [ -n "$1" ]
+      then
+        suchen[${#suchen[@]}]="$1"
+      fi
+    ;;
+    --)
+      shift
+      break
+    ;;
+    *)
+      >&2 echo "FEHLER: Kenne Option '$1' doch nicht"
+      exit 1
+    ;;
+  esac
+  shift
+done
+
+if [ $# -ne 0 ]
+then
+  echo 'FEHLER: Zu viele Argumente'
+  usage
+fi
+
+if ${alle}
+then
+  curl -o - "https://wiki.archlinux.org/index.php/Unofficial_user_repositories" 2> /dev/null | \
+    sed 's|#.*$||' | \
+    sed '
+      :begin;
+        $!N;
+        s@^\(<pre>.*\)\n\([^<]\+\)$@\1 \2@;
+      tbegin;
+      P;
+      D
+    ' | \
+    grep "^<pre>" | \
+    sed "s|^<pre> \[\([^]]*\)].*\sServer = \(\S\+\)\(\s.*\)\?\$|\1 \2/\1.db|" | \
+    sed "s|^\(\S\+\)\s\+\(.*\)\$repo|\1 \2\1|; s|\$arch|x86_64|" | \
+    sed "s|^\S\+\s\+||" | \
+    parallel -j0 "${ich} -d {}"
+fi
+
+for ((i=0;i<${#downloads[@]};i++))
+do
+  err=false
+  ziel="${pfad}/${downloads[${i}]##*/}"
+  curl -o "${ziel}" "${downloads[${i}]}" 2> /dev/null || err=true
+  if ! ${err}
+  then
+    verp=$(verpackung "${ziel}")
+    if ! tar ${verp} -tf "${ziel}" &> /dev/null
+    then
+      [ -n "${verp}" ] && \
+        echo tar ${verp} -tf "${ziel}" || \
+      err=true
+    fi
+  fi
+  if ${err}
+  then
+    rm -f "${ziel}"
+  else
+    echo "${ziel##*/} erfolgreich heruntergeladen"
+  fi
+done
+
+for ((i=0;i<${#suchen[@]};i++))
+do
+  suchName="${suchen[${i}]}"
+  ${exakt} && suchName="^\(${suchName}\)-[^-]\+-[^-]\+\$"
+  for db in ${pfad}/*.db
+  do
+    if tar $(verpackung "${db}") -tf "${db}" | \
+      grep "/\$" |
+      sed "s|/\$||" |
+      grep -q "${suchName}"
+    then
+      echo "'$(basename "${db}" .db)' enthält ein Paket, welches auf '${suchen[${i}]}' passt:"
+      tar $(verpackung "${db}") -tf "${db}" | \
+        grep "/\$" |
+        sed "s|/\$||" |
+        grep "${suchName}" | \
+        sed "s|^\(.*\)\$|  '\1'|"
+    fi
+    if ${intensiv}
+    then
+      for pkg in $(tar $(verpackung "${db}") -tf "${db}" --wildcards "*/desc")
+      do
+        inhalt="$(
+          tar $(verpackung "${db}") -Oxf "${db}" "${pkg}" | \
+            sed '
+              :begin;
+                $!N;
+                s@^\(%[^ %]*%.*\)\n\(.*\S.*\)$@\1 \2@;
+              tbegin;
+              P;
+              D
+            ' | \
+          grep "^%DESC%" | \
+            sed "s|^%DESC%\s*||"
+        )"
+        if echo "${inhalt}" | \
+          grep -q "${suchen[${i}]}"
+        then
+          echo "Die Beschreibung von Paket '${pkg%/desc}' aus '$(basename "${db}" .db)' passt auf '${suchen[${i}]}':"
+          echo "  ${inhalt}" | \
+            grep --color=auto "${suchen[${i}]}"
+        fi
+      done
+    fi
+  done
+done
