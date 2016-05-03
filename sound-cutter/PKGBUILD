@@ -1,0 +1,30 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=sound-cutter
+pkgver=1.0
+pkgrel=1
+pkgdesc="Wrapper for sox for mastering stereo music (a.k.a. CDs) from multi channel records"
+arch=('any')
+url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+license=('GPL')
+groups=()
+depends=('sox')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+)
+sha512sums=('8712c9558b0824300a843a2cf707d3ce62aa87d5a937102c9c9dc9c320a1d6b7de7ed3ec1d86657c9da0a737bd46153cf7c627d2316515c38638c7872f3f1fbe')
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+
+    install -D -t $pkgdir/usr/bin/ soundCutter
+
+}
