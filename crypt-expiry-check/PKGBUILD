@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=crypt-expiry-check
-pkgver=4.0.1
-pkgrel=2
+pkgver=4.0.2
+pkgrel=1
 pkgdesc="Surveilance of expiry of gpg-keys and X.509 certificates"
 arch=('any')
 url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
@@ -22,15 +22,18 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
 )
-sha256sums=(
-    "c0cb97f22d14305784f778fb4fbc05867f6f05d588461126a278d2dc54970428"
-)
+sha512sums=('5d7e058793b91e4cf1afc20e715f65e0909fea95847f3b5128823324bd45fa0b2bfd2da6265510b54ba1ce686949ebf852d7523a3d1cbaef13b6700ce7e12add')
+
+build () {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
 
 package() {
 
     cd ${pkgname}-${pkgver}
-    install -D -t $pkgdir/usr/bin/ crypt-expiry-check
-    install -D crypt-expiry-check.cron $pkgdir/etc/cron.daily/crypt-expiry-check
-    touch $pkgdir/etc/crypt-expiry.checks
+    make DESTDIR="${pkgdir}" install
 
 }
