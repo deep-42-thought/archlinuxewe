@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=logwatch-extra
-pkgver=0.1
+pkgver=0.2
 pkgrel=1
 pkgdesc="extra-capabilities for logwatch: better cron-frontend"
 arch=('any')
@@ -19,16 +19,18 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
 )
-sha256sums=(
-    "f5af9b42d609225e96ce050617d57da67942b24c4dd83094de31188cd70f3802"
-)
+sha512sums=('7a0cb57d4ffd90afa19da134d8fd30627795e88bbb37ea09ea5efa3381c9e9c23c29b7be612dcf7320934f4ad7edb7567142436650f86a7ef790e0039ba889a2')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
 
 package() {
 
     cd ${pkgname}-${pkgver}
-
-    install -D -t $pkgdir/usr/bin/ doalogwatch
-    install -d $pkgdir/var/cache/logwatch
-    date +%F > $pkgdir/var/cache/logwatch/letzteMeldung
+    make DESTDIR=${pkgdir} install
 
 }
