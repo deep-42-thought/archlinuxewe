@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=bash-git-prompt
-pkgver=0.8
+pkgver=0.9
 pkgrel=1
 pkgdesc="nice, git-aware prompt for bash"
 arch=('any')
@@ -19,12 +19,18 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
 )
-sha512sums=('8d5bdd843e03c338368728d5d7f40b50d041c5a8a63725d96e482f503ccc5489de5635837e186e5c4a3868148e967d452e39159d4fb20536699c334a425c82fe')
+sha512sums=('c0e72754b9e736e74309dafe1a9fb94f13d02db2ac079a7d659ae04c7a265d9ad0e7897d35b6d57a4e4c98332c0f1664ba314323a360690223ccaf578aab47a4')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
 
 package() {
 
     cd ${pkgname}-${pkgver}
-
-    install -D -t $pkgdir/usr/bin/ bash-git-prompt
+    make DESTDIR="${pkgdir}" install
 
 }
