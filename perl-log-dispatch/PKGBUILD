@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-log-dispatch'
-pkgver='2.54'
-pkgrel='1'
+pkgver=2.56
+pkgrel=1
 pkgdesc='Dispatches messages to one or more outputs'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -21,7 +21,7 @@ checkdepends=(
 url='https://metacpan.org/release/Log-Dispatch'
 _distdir="Log-Dispatch-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
-sha512sums=('67dd4bf15899fa441ecd725305b443873c77fcf8eeff44e53408637f81dc14c3375bdf52514214c111d1692a7087efb929ecdc411771dd413fef10bb034dc45b')
+sha512sums=('daac593ed158f7e648464fce5dd23485902c45339b70ddc78cc3c712744de30d981beeb5c646dda04290d409e3141f5ab5b0995aa34d048c41c97f70a4c25619')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
