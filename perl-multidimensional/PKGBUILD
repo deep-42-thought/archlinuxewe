@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
 
 pkgname='perl-multidimensional'
-pkgver='0.011'
-pkgrel='1'
+pkgver=0.012
+pkgrel=1
 pkgdesc='disables multidimensional array emulation'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -13,7 +13,7 @@ makedepends=('perl-test-simple>=0.88' 'perl-b-hooks-op-check' 'perl-cpan-meta>=2
 url='https://metacpan.org/release/multidimensional'
 _distdir="multidimensional-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/I/IL/ILMARI/${_distdir}.tar.gz")
-sha512sums=('8e121388b1325b6cfb73a74a9655f28ce52059096a9a8326bbe743cf663523812f3d171c1cf5d1b4841b98ec57c4240130d6def3e064e809db1d1bd4c4510081')
+sha512sums=('5f70d4978836b8d38939d436a2c248863a15506c442bd648633ce287377566b33901164238c71d113b6292b9f4ec448a9c53be5bf29bece791de6747de463a13')
 
 build(){
   cd "${srcdir}/${_distdir}"
