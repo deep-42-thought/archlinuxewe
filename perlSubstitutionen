@@ -1,5 +1,5 @@
 : perl
-%skip: b blib dynaloader fcntl file-copy file-find file-glob filehandle ipc-open3 overload strict vars warnings
+%skip: b blib dynaloader fcntl file-basename file-copy file-find file-glob filehandle ipc-open3 open overload strict vars warnings
 cache-cache: cache-filecache
 cpan: cpan-shell
 html-tree: html-treebuilder
@@ -9,7 +9,7 @@ io-compress: compress-zlib
 lwp-consolelogger: lwp-consolelogger-easy
 moo: moo-role
 moox-types-mooselike: moox-types-mooselike-base
-pathtools: file-spec-functions file-spec cwd
+pathtools: file-spec file-spec-functions file-spec-unix cwd
 pod-coverage: pod-coverage-countparents
 pod-eventual: pod-eventual-simple
 pod-parser: pod-find
