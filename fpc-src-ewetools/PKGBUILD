@@ -1,0 +1,31 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=fpc-src-ewetools
+_srcpkgname='units'
+pkgver=0.0
+pkgrel=1
+pkgdesc='fpc sources of some useful tools'
+arch=('any')
+url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+license=('GPL')
+groups=()
+depends=()
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+options=()
+source=(
+    "${_srcpkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${_srcpkgname}-${pkgver}"
+)
+sha512sums=('a28a3c46d2c3c17fceab0a1a075c159fa1b631c2786508865194206a1be2a93b43147f5ebc99f4f92a81cef9f010ed42e988bd3c54d3db750bc1788e9c6bdf15')
+
+package() {
+
+    ls -la
+
+    cd ${_srcpkgname}-${pkgver}
+    make DESTDIR=$pkgdir install
+
+}
