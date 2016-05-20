@@ -1,15 +1,17 @@
 : perl
-%skip: b strict warnings ipc-open3 filehandle file-glob file-find
+%skip: b blib file-find file-glob filehandle ipc-open3 strict warnings
+cpan: cpan-shell
 html-tree: html-treebuilder
 http-message: http-headers http-request-common
 io: io-file io-handle
 io-compress: compress-zlib
 moo: moo-role
-pathtools: file-spec-functions file-spec
+pathtools: file-spec-functions file-spec cwd
 pod-coverage: pod-coverage-countparents
 pod-eventual: pod-eventual-simple
 pod-parser: pod-find
 scalar-list-utils: list-util scalar-util
+search-elasticsearch: search-elasticsearch-scroll
 test-simple: test-more test-builder test-builder-tester
 uri: uri-withbase
 yaml-syck: json-syck
