@@ -1,0 +1,92 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (5872fdbe767f20dd006eece094815303adfcd3b336cb5ad02d10742b82e6f11e31530fef3b41a2af59678d729daebff83cde847dab68d62647f62cf8dc586685)
+
+pkgname='perl-test-dependentmodules'
+pkgver='0.26'
+pkgrel='1'
+pkgdesc='Test all modules which depend on your module'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-test-dependentmodules')
+depends=(
+  'perl-cpan'
+  'perl-cpan'
+  'perl-capture-tiny'
+  'perl-pathtools'
+  'perl-exporter'
+  'perl-file-path'
+  'perl-pathtools'
+  'perl-file-temp'
+  'perl-file-chdir'
+  'perl-io-handle-util'
+  'perl-ipc-run3'
+  'perl-log-dispatch'
+  'perl-metacpan-client'
+  'perl-test-simple'
+  'perl-try-tiny'
+  'perl-autodie')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-file-copy-recursive'
+  'perl-pathtools'
+  'perl-module-build'
+  'perl-module-build-tiny'
+  'perl-test-simple>=0.96'
+  'perl-extutils-makemaker')
+optdepends=(
+  'perl-parallel-forkmanager>=0.7.6')
+checkdepends=(
+  'perl-namespace-clean')
+url='https://metacpan.org/release/Test-DependentModules'
+_distdir="Test-DependentModules-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
+sha512sums=('255e193bbe1234c1b09af92e526fa9873b7cfba8031620fcce821f85d13614159409d54aaeeaa2fdf6eec16f89962a4540e0f13514a9f78a5f22af9fc3da8ee9')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
