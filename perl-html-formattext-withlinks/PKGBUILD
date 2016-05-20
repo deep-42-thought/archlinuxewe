@@ -3,7 +3,7 @@
 
 pkgname='perl-html-formattext-withlinks'
 pkgver='0.15'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='HTML to text conversion with links as footnotes'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -18,6 +18,8 @@ makedepends=(
   'perl-test-simple'
   'perl-module-build>=0.38')
 checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage'
   'perl-test-mockobject')
 url='https://metacpan.org/release/HTML-FormatText-WithLinks'
 _distdir="HTML-FormatText-WithLinks-${pkgver}"
