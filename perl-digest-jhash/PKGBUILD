@@ -1,0 +1,76 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (5872fdbe767f20dd006eece094815303adfcd3b336cb5ad02d10742b82e6f11e31530fef3b41a2af59678d729daebff83cde847dab68d62647f62cf8dc586685)
+
+pkgname='perl-digest-jhash'
+pkgver='0.09'
+pkgrel='1'
+pkgdesc='Perl extension for 32 bit Jenkins Hashing Algorithm'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-digest-jhash')
+depends=(
+  'perl-exporter'
+  'perl>=5.008')
+makedepends=(
+  'perl-pathtools'
+  'perl-pathtools'
+  'perl-file-temp'
+  'perl-io'
+  'perl-test'
+  'perl-test-simple'
+  'perl-extutils-makemaker')
+checkdepends=(
+  'perl-cpan-changes')
+url='https://metacpan.org/release/Digest-JHash'
+_distdir="Digest-JHash-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
+sha512sums=('2490abd0bbd2a83e6eb2aa1a856e428ae945b103c1b05959f0fd5e13db4999123dd5222b04aaa1efd846b5f6c7c9865154ec8fb0e4e7ea526d8f126e6963d921')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
