@@ -1,0 +1,77 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
+
+pkgname='perl-test-tcp'
+pkgver='2.16'
+pkgrel='1'
+pkgdesc='testing TCP program'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-net-emptyport'
+  'perl-test-tcp'
+  'perl-test-tcp-checkport')
+depends=(
+  'perl-io'
+  'perl-io-socket-ip'
+  'perl-test-simple'
+  'perl-test-sharedfork>=0.29'
+  'perl-time-hires'
+  'perl>=5.8.1')
+makedepends=(
+  'perl-file-temp'
+  'perl-socket'
+  'perl-test-simple>=0.98'
+  'perl-extutils-makemaker>=6.64')
+url='https://metacpan.org/release/Test-TCP'
+_distdir="Test-TCP-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/${_distdir}.tar.gz")
+sha512sums=('927eb18dd929478de7c50eb5facdb006c92ffb018b63c4c394a35e9a5b57bfbc2cea8ca0355d49ea5aa7a6f0cc0893c1b55e698b5e0fefeb2a45ae72efb40123')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
