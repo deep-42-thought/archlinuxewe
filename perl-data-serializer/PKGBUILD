@@ -1,0 +1,64 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (200622b8ed8a0a6a22eb14f088df6dc74c80677dc763caa0d96fd7c958ef45e2bb730584c916d8d940419fafbb27975ac4c7caf1cf3efa677c6e51def3f9c3ac)
+
+pkgname='perl-data-serializer'
+pkgver='0.60'
+pkgrel='1'
+pkgdesc='Modules that serialize data structures'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=('perl-autoloader' 'perl-data-dumper>=2.08' 'perl-digest-sha' 'perl-exporter' 'perl-io' 'perl-bencode' 'perl-io-compress' 'perl-config-general' 'perl-convert-bencode' 'perl-convert-bencode_xs' 'perl-crypt-blowfish' 'perl-crypt-cbc' 'perl-data-denter' 'perl-data-taxi' 'perl-freezethaw' 'perl-json' 'perl-yaml-syck' 'perl-json-xs' 'perl-mime-base64' 'perl-php-serialization' 'perl-storable' 'perl-xml-dumper' 'perl-xml-simple' 'perl-yaml' 'perl-yaml-syck')
+makedepends=('perl-pathtools' 'perl-io' 'perl-test-simple' 'perl-module-build>=0.35')
+checkdepends=('perl-digest-sha1')
+url='https://metacpan.org/release/Data-Serializer'
+_distdir="Data-Serializer-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/N/NE/NEELY/${_distdir}.tar.gz")
+sha512sums=('85211d2ca5db19219f89da5300b93835866baa5e12237efa61ea82d2b841f6b5a05bca889d98878151d1f7517b2af5d9a1535e7bbcd64245936b270a82be21bb')
+
+build(){
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package(){
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
