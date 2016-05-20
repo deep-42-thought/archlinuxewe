@@ -2,14 +2,14 @@
 pkgname=ewemake
 _srcpkgname='Make'
 pkgver=1.1.2
-pkgrel=1
+pkgrel=2
 pkgdesc="somewhat more powerfull alternative to 'make'"
 arch=('x86_64' 'i686')
 url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
 license=('GPL')
 groups=()
 depends=()
-makedepends=('fpc')
+makedepends=('fpc' 'fpc-src-ewetools')
 checkdepends=()
 optdepends=()
 provides=()
@@ -19,16 +19,7 @@ options=()
 source=(
     "${_srcpkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${_srcpkgname}-${pkgver}"
 )
-noextract=(
-    "${_srcpkgname}-${pkgver}.tar.gz"
-)
-sha512sums=('5b4cb1d79639c7efec287195d0b568cb795b9478bb2e4d981ada2b3a2ffca316cd6457f3066dbb35c3129c8138d5e6b34b2201a57516da2123e8b55be3796071')
-
-prepare() {
-
-    tar -ixzf "${_srcpkgname}-${pkgver}.tar.gz"
-
-}
+sha512sums=('88538329da08ad95bfbeec1a72bd596fc7ec6330d1353acaa7d5330a4844e9b5cdabf24227db047ba24b54b196d394fd8b04f4449ded5ff764df50f9d77842c8')
 
 build() {
 
