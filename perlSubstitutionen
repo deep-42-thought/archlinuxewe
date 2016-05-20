@@ -1,11 +1,14 @@
 : perl
-%skip: b blib file-find file-glob filehandle ipc-open3 strict warnings
+%skip: b blib file-find file-glob filehandle ipc-open3 strict vars warnings
+cache-cache: cache-filecache
 cpan: cpan-shell
 html-tree: html-treebuilder
-http-message: http-headers http-request-common
+http-message: http-headers http-request http-request-common
 io: io-file io-handle
 io-compress: compress-zlib
+lwp-consolelogger: lwp-consolelogger-easy
 moo: moo-role
+moox-types-mooselike: moox-types-mooselike-base
 pathtools: file-spec-functions file-spec cwd
 pod-coverage: pod-coverage-countparents
 pod-eventual: pod-eventual-simple
