@@ -128,9 +128,9 @@ do
     ;;
     -L|--log)
       shift
-      echo '"log" erkannt'
       log='-L'
       logFile="$1"
+      echo '"log '"${logFile}"'" erkannt'
     ;;
     --no-abortOnMakepkgError)
       echo '"no-abortOnMakepkgError" erkannt'
@@ -150,7 +150,7 @@ do
     ;;
     --only)
       shift
-      echo '"only" erkannt'
+      echo '"only '"$1"'" erkannt'
       onlyPackages[${#onlyPackages[@]}]="$1"
     ;;
     -r|--removeAdditionalPackages)
