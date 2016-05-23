@@ -1,0 +1,66 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (26868319ab6f7aba04cb43bf9fbc3434e9e80c8cfed6e09e7659dbd88c6784b580a77b2c8ef11b54037d13ace52fa9b63b59b328e17a6247db0912feb0e5db08)
+
+pkgname='perl-datetime-calendar-mayan'
+pkgver='0.0601'
+pkgrel='1'
+pkgdesc='        <title>DateTime-Calendar-Mayan-0.0601 -  - metacpan.org</title>'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-datetime-calendar-mayan')
+depends=(
+  'perl-datetime>=0.15'
+  'perl-params-validate>=0.64')
+url='https://metacpan.org/release/DateTime-Calendar-Mayan'
+_distdir="DateTime-Calendar-Mayan-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/J/JH/JHOBLITT/${_distdir}.tar.gz")
+sha512sums=('464bbdc20f1cd3ce60dc3fb7d3b08abeccd9b07eeec510ff66899e1dc2a2d0ff0d28f9bf9d74640c64b3116bd8fb16286a9fa0109f8bd62108559e49c506c2c9')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
