@@ -1,0 +1,83 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
+
+pkgname='perl-html-lint'
+pkgver='2.22'
+pkgrel='1'
+pkgdesc='check for HTML errors in a string or file'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-exporter'
+  'perl-html-parser'
+  'perl-html-parser>=3.47'
+  'perl-html-tagset>=3.03'
+  'perl-test-simple'
+  'perl-test-simple')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-extutils-makemaker')
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage')
+url='https://metacpan.org/release/HTML-Lint'
+_distdir="HTML-Lint-${pkgver}"
+source=(
+  "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/${_distdir}.tar.gz"
+  'test-order.patch')
+sha512sums=('9bd4ed5df27ba232e886f4017d54637020fcf22ed31794e5b3121fdd147215af95e29c10330bc892dea84bf4f90b467523fd8c31792461873cbea5eacd058bf4'
+            '491ef36aa8de926b7ef2d1e2dbf974fd36654b357e2a0521d76be4e49d875101637b706623c46d9468fa4033d7c05a1aa004cb5a673c57acda5f2e9c6fd504b2')
+
+prepare() {
+  cd "${srcdir}/${_distdir}"
+
+  patch -p1 -i "${srcdir}/test-order.patch"
+}
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}

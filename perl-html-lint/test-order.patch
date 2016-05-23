@@ -1,0 +1,33 @@
+diff -purdw HTML-Lint-2.22/t/LintTest.pl HTML-Lint-2.22-r67MGf/t/LintTest.pl
+--- HTML-Lint-2.22/t/LintTest.pl        2015-04-02 23:50:54.000000000 +0200
++++ HTML-Lint-2.22-r67MGf/t/LintTest.pl 2015-05-06 14:53:09.333360048 +0200
+@@ -18,7 +18,14 @@ sub checkit {
+         $lint->eof;
+     }
+
+-    my @errors = $lint->errors();
++    my @errors = sort {
++       $a->{_file}    cmp $b->{_file}    ||
++       $a->{_line}    <=> $b->{_line}    ||
++       $a->{_column}  <=> $b->{_column}  ||
++       $a->{_type}    <=> $b->{_type}    ||
++       $a->{_errcode} cmp $b->{_errcode} ||
++       $a->{_errtext} cmp $b->{_errtext}
++       } $lint->errors();
+     is( scalar @errors, scalar @expected, 'Right # of errors' );
+
+     while ( @errors && @expected ) {
+diff -purdw HTML-Lint-2.22/t/text-use-entity.t HTML-Lint-2.22-r67MGf/t/text-use-entity.t
+--- HTML-Lint-2.22/t/text-use-entity.t	2016-05-23 11:21:05.231716145 +0200
++++ HTML-Lint-2.22/t/text-use-entity.t	2016-05-23 11:21:06.928387849 +0200
+@@ -5,9 +5,9 @@
+ checkit( [
+     [ 'text-use-entity'      => qr/Character "\\x0B" should be written as &#11;/ ],
+     [ 'text-use-entity'      => qr/Character "\\xF1" should be written as &ntilde;/ ],
++    [ 'text-unclosed-entity' => qr/Entity &ouml; is missing its closing semicolon/ ],
+     [ 'text-use-entity'      => qr/Character "&" should be written as &amp;/ ],
+     [ 'text-use-entity'      => qr/Character "&" should be written as &amp;/ ],
+-    [ 'text-unclosed-entity' => qr/Entity &ouml; is missing its closing semicolon/ ],
+ ], [<DATA>] );
+ 
+ __DATA__
