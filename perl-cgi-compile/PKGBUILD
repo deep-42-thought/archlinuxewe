@@ -3,7 +3,7 @@
 
 pkgname='perl-cgi-compile'
 pkgver='0.21'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Compile .cgi scripts to a code reference like ModPerl::Registry'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -18,7 +18,8 @@ makedepends=(
   'perl-module-build-tiny>=0.034')
 checkdepends=(
   'perl-cgi'
-  'perl-switch')
+  'perl-switch'
+  'perl-cgi-emulate-psgi')
 url='https://metacpan.org/release/CGI-Compile'
 _distdir="CGI-Compile-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
