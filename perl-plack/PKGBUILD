@@ -1,0 +1,96 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
+
+pkgname='perl-plack'
+pkgver='1.0039'
+pkgrel='1'
+pkgdesc='Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-apache-logformat-compiler>=0.12'
+  'perl-cookie-baker>=0.05'
+  'perl-devel-stacktrace>=1.23'
+  'perl-devel-stacktrace-ashtml>=0.11'
+  'perl-file-sharedir>=1.00'
+  'perl-filesys-notify-simple'
+  'perl-http-body>=1.06'
+  'perl-http-headers-fast>=0.18'
+  'perl-http-message>=5.814'
+  'perl-http-tiny>=0.034'
+  'perl-hash-multivalue>=0.05'
+  'perl-pod-usage>=1.36'
+  'perl-stream-buffered>=0.02'
+  'perl-test-tcp>=2.00'
+  'perl-try-tiny'
+  'perl-uri>=1.59'
+  'perl-parent'
+  'perl>=5.8.1')
+makedepends=(
+  'perl-test-simple>=0.88'
+  'perl-test-requires'
+  'perl-extutils-makemaker'
+  'perl-file-sharedir-install>=0.06')
+checkdepends=(
+  'perl-http-request-ascgi'
+  'perl-fcgi'
+  'perl-authen-simple-passwd'
+  'perl-cgi-compile'
+  'perl-io-handle-util'
+  'perl-log-log4perl'
+  'perl-log-dispatch-array'
+  'perl-module-refresh'
+  'perl-cgi-emulate-psgi'
+  'perl-mime-types')
+url='https://metacpan.org/release/Plack'
+_distdir="Plack-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
+sha512sums=('963e30ec721a96f99ac9524b1b38861965aa84878062551ae77e62c7b2724cf00d6e7e265dde1c88f3e1aa3da7ca41bb5a392e990409380de09c1c1b769b5387')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
