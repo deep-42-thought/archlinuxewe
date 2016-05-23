@@ -159,7 +159,12 @@ do
     [[ "${erg}" == "perl-%skip"* ]] ||
       metaInfos["${sucheWonach}"]="${metaInfos["${sucheWonach}"]} '${erg}'"
   done
-  metaInfos["${sucheWonach}"]="${metaInfos["${sucheWonach}"]# }"
+  metaInfos["${sucheWonach}"]="$(
+    echo "${metaInfos["${sucheWonach}"]}" | \
+      tr ' ' '\n' | \
+      sort -u | \
+      grep -v '^\s*$'
+  )"
 done
 
 echo "... fertig"
@@ -181,7 +186,6 @@ echo "... fertig"
     then
       echo "${wasAusgeben}=("
       echo "${metaInfos["${wasAusgeben}"]})" | \
-        tr " " "\n" | \
         sed "s|^|  |"
     fi
   done
@@ -238,7 +242,7 @@ echo "... fertig"
   echo '}'
 ) > PKGBUILD
 
-makepkg -fcrs || exit 1
+makepkg -fcrs --noconfirm || exit 1
 
 echo ''
 echo 'sieht soweit erst mal gut aus, oder?'
