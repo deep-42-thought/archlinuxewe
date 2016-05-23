@@ -1,5 +1,5 @@
 : perl
-%skip: b blib dynaloader fcntl file-basename file-copy file-find file-glob filehandle ipc-open3 open overload posix strict vars warnings
+%skip: b blib dynaloader fcntl feature file-basename file-copy file-find file-glob filehandle ipc-open3 mro open overload posix strict utf8 vars warnings
 cache-cache: cache-filecache
 cpan: cpan-shell
 html-tree: html-treebuilder
@@ -14,7 +14,7 @@ lwp-consolelogger: lwp-consolelogger-easy
 moo: moo-role
 moox-types-mooselike: moox-types-mooselike-base
 pathtools: file-spec file-spec-functions file-spec-unix cwd
-plack: perl-http-message-psgi plack-loader plack-util-accessor
+plack: http-message-psgi plack-loader plack-request plack-util-accessor
 pod-coverage: pod-coverage-countparents
 pod-eventual: pod-eventual-simple
 pod-parser: pod-find
