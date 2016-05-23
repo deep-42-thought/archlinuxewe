@@ -20,8 +20,8 @@ checkDbSig='-v'
 checkMakepkg='--check'
 checkSanity=true
 rmAddPkgs=false
-log=""
-logFile=""
+log=''
+logFile='-'
 
 # print help screen
 usage()
@@ -40,8 +40,8 @@ usage()
   >&2 echo '      rebuild packages even if they look up to date'
   >&2 echo '    --ignore-wrong-db-signature:'
   >&2 echo '      do not verify old database signature'
-  >&2 echo '    -L|--log [file]:'
-  >&2 echo '      generate logfile of makepkg-runs'
+  >&2 echo '    -L|--log file:'
+  >&2 echo '      generate logfile of makepkg-runs ("-" as file autogenerates name)'
   >&2 echo '    --no-abortOnMakepkgError:'
   >&2 echo '      do not abort when makepkg returns non-zero'
   >&2 echo '    --no-check:'
@@ -65,7 +65,7 @@ usage()
 cleanUp () {
   if [ -n "${log}" ]
   then
-    [ -z "${logFile}" ] && logFile="/tmp/$(date '+%F-%H-%M-%S')"
+    [ "a${logFile}" == 'a-' ] && logFile="/tmp/$(date '+%F-%H-%M-%S')"
     [[ "${logFile}" == *".tar.gz" ]] || logFile="${logFile}.tar.gz"
     cd "${tmpDir}"
     logFiles="$(
@@ -86,13 +86,13 @@ cleanUp () {
 
 echo 'parse arguments ...'
 eval set -- "$(
-  getopt -o b:cfL::r \
+  getopt -o b:cfL:r \
     --long branch: \
     --long cleanCache \
     --long cleanUnsigned \
     --long force \
     --long ignore-wrong-db-signature \
-    --long log:: \
+    --long log: \
     --long no-abortOnMakepkgError \
     --long no-check \
     --long no-sanity-check \
@@ -179,7 +179,12 @@ done
 
 if [ ! $# -eq 0 ]
 then
-  >&2 echo 'FEHLER: Zu viele Argumente! Ich beende.'
+  >&2 echo 'FEHLER: Zu viele ('$#') Argumente:'
+  for ((i=1; i<=$#; i++))
+  do
+    >&2 echo "'${!i}'"
+  done
+  >&2 echo 'Ich beende.'
   usage
 fi
 
