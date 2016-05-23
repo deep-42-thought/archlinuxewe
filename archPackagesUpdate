@@ -257,7 +257,7 @@ then
     [ ${#onlyPackages[@]} -eq 0 ] && consider=true || consider=false
     for ((i=0; i<${#onlyPackages[@]}; i++))
     do
-      [ "${onlyPackages[${i}]}" == "${paket}" ] && consider=true
+      [[ "${paket}" == ${onlyPackages[${i}]} ]] && consider=true
     done
     ${consider} || continue
 
