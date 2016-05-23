@@ -18,6 +18,7 @@ cleanCache=false
 cleanUnsigned=false
 checkDbSig='-v'
 checkMakepkg='--check'
+checkSanity=true
 rmAddPkgs=false
 log=""
 logFile=""
@@ -45,6 +46,8 @@ usage()
   >&2 echo '      do not abort when makepkg returns non-zero'
   >&2 echo '    --no-check:'
   >&2 echo '      pass --nocheck to makepkg'
+  >&2 echo '    --no-sanity-check:'
+  >&2 echo '      skip check for sanity of packages'
   >&2 echo '    --no-selfUpdate:'
   >&2 echo '      do not update this script from git'
   >&2 echo '    --no-upload:'
@@ -92,6 +95,7 @@ eval set -- "$(
     --long log:: \
     --long no-abortOnMakepkgError \
     --long no-check \
+    --long no-sanity-check \
     --long no-selfUpdate \
     --long no-upload \
     --long only: \
@@ -140,6 +144,10 @@ do
       echo '"no-check" erkannt'
       checkMakepkg='--nocheck'
     ;;
+    --no-sanity-check)
+      echo '"no-sanity-check" erkannt'
+      checkSanity=false
+    ;;
     --no-selfUpdate)
       echo '"no-selfUpdate" erkannt'
       updateMe=false
@@ -173,6 +181,16 @@ if [ ! $# -eq 0 ]
 then
   >&2 echo 'FEHLER: Zu viele Argumente! Ich beende.'
   usage
+fi
+
+if ! ${checkSanity}
+then
+  if ${upload} || ${updateMe}
+  then
+    >&2 echo 'FEHLER: "--no-sanity-check" geht nur zusammen mit "--no-upload" und "--no-selfUpdate"! Ich beende.'
+    rm -rf "${tmpDir}"
+    exit 1
+  fi
 fi
 
 echo '... done'
@@ -568,68 +586,73 @@ then
 
 else
 
+  if ${checkSanity}
+  then
+
 # check packages
-  err=false
+    err=false
 
-  namcap */PKGBUILD || err=true
+    namcap */PKGBUILD || err=true
 
-  for paket in *
-  do
-    [ -r "${paket}/PKGBUILD" ] || continue
+    for paket in *
+    do
+      [ -r "${paket}/PKGBUILD" ] || continue
 
-    if ! grep -q "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$" ${paket}/PKGBUILD || \
-       grep "^# Maintainer\s*:" ${paket}/PKGBUILD | grep -vq "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$"
-    then
-      >&2 echo "${paket}/PKGBUILD hat falsche(n) Maintainer"
-      err=true
-    fi
+      if ! grep -q "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$" ${paket}/PKGBUILD || \
+         grep "^# Maintainer\s*:" ${paket}/PKGBUILD | grep -vq "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$"
+      then
+        >&2 echo "${paket}/PKGBUILD hat falsche(n) Maintainer"
+        err=true
+      fi
 
-    . ${paket}/PKGBUILD
+      . ${paket}/PKGBUILD
 
-    if echo "${source}" | grep -q "://opensources\.eckner\.net/"
-    then
+      if echo "${source}" | grep -q "://opensources\.eckner\.net/"
+      then
 
 # one of Erich's packages
 
-      if grep -q "sha512sums" ${paket}/PKGBUILD
-      then
-        sumTyp="sha512sum"
-        pkgSum="${sha512sums[@]}"
-      elif grep -q "sha256sums" ${paket}/PKGBUILD
-      then
-        sumTyp="sha256sum"
-        pkgSum="${sha256sums[@]}"
-      fi
-      remSum="$(curl -o - "${source#*::}&post=${sumTyp}" 2> /dev/null)"
-      if [ ! "${remSum}" == "${pkgSum}" ]
-      then
-        >&2 echo "${sumTyp}s von ${pkgname} stimmt nicht: ${remSum} vs. ${pkgSum}."
-        err=true
-      fi
+        if grep -q "sha512sums" ${paket}/PKGBUILD
+        then
+          sumTyp="sha512sum"
+          pkgSum="${sha512sums[@]}"
+        elif grep -q "sha256sums" ${paket}/PKGBUILD
+        then
+          sumTyp="sha256sum"
+          pkgSum="${sha256sums[@]}"
+        fi
+        remSum="$(curl -o - "${source#*::}&post=${sumTyp}" 2> /dev/null)"
+        if [ ! "${remSum}" == "${pkgSum}" ]
+        then
+          >&2 echo "${sumTyp}s von ${pkgname} stimmt nicht: ${remSum} vs. ${pkgSum}."
+          err=true
+        fi
 
-    elif echo "${source}" | grep -q "://arch\.eckner\.net/"
-    then
+      elif echo "${source}" | grep -q "://arch\.eckner\.net/"
+      then
 
 # a modified official package
 
-      offVer="$( \
-        ssh paule@jeti100 'find '"${pkgDirBase}"' -type f -name "'"${paket}"'-*.pkg.tar.xz" -exec basename "{}" \; ' | \
-          sort -V | \
-          tail -n1 \
-        )"
-      if [ ! "${offVer}" == "${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.xz" ]
-      then
-        >&2 echo "${pkgname} ist in den offiziellen Quellen aktueller: ${offVer}."
-        err=true
+        offVer="$( \
+          ssh paule@jeti100 'find '"${pkgDirBase}"' -type f -name "'"${paket}"'-*.pkg.tar.xz" -exec basename "{}" \; ' | \
+            sort -V | \
+            tail -n1 \
+          )"
+        if [ ! "${offVer}" == "${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.xz" ]
+        then
+          >&2 echo "${pkgname} ist in den offiziellen Quellen aktueller: ${offVer}."
+          err=true
+        fi
+
       fi
 
+    done
+    if ${err}
+    then
+      rm -rf "${tmpDir}"
+      exit 1
     fi
 
-  done
-  if ${err}
-  then
-    rm -rf "${tmpDir}"
-    exit 1
   fi
 
   cd "${pkgSrcDir}"
