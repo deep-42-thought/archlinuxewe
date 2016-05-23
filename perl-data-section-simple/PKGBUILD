@@ -1,0 +1,67 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (c01a155a4a3ac9b4e6f3b86920feab9e7fa63609dda8dafccec8a0d8c3f724d82550d84cbffd3f45d42c28254f99564b66edb653c2788689601b7960db2b4e47)
+
+pkgname='perl-data-section-simple'
+pkgver='0.07'
+pkgrel='1'
+pkgdesc='Read data from __DATA__'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.8.1')
+makedepends=(
+  'perl-extutils-makemaker>=6.30'
+  'perl-test-requires'
+  'perl-test-simple>=0.88')
+url='https://metacpan.org/release/Data-Section-Simple'
+_distdir="Data-Section-Simple-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
+sha512sums=('77478498b3d760423794581e4b4589072ea31f3f536bc2def9336aaee32c007624f3fcc66978c9a8a90cdd4ff91edfb95347afaf48d386271e1594eaaf4420fb')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
