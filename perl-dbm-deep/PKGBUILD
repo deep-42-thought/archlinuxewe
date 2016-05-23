@@ -5,13 +5,13 @@
 
 pkgname=perl-dbm-deep
 pkgver=2.0013
-pkgrel=1
+pkgrel=2
 pkgdesc='A pure Perl multi-level hash/array DBM that supports transactions'
 arch=('any')
 url='https://metacpan.org/release/DBM-Deep'
 license=('PerlArtistic' 'GPL')
 depends=('perl-dbd-mysql' 'perl-dbd-sqlite')
-checkdepends=('perl-test-deep' 'perl-test-warn' 'perl-test-exception' 'perl-test-pod' 'perl-test-pod-coverage')
+checkdepends=('perl-test-deep' 'perl-test-warn' 'perl-test-exception' 'perl-test-pod' 'perl-test-pod-coverage' 'perl-filehandle-fmode')
 makedepends=('perl-module-build>=0.42')
 _distdir="DBM-Deep-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/R/RK/RKINYON/${_distdir}.tar.gz")
