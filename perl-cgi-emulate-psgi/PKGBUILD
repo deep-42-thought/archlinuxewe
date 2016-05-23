@@ -3,7 +3,7 @@
 
 pkgname='perl-cgi-emulate-psgi'
 pkgver='0.21'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='PSGI adapter for CGI'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -16,6 +16,8 @@ makedepends=(
   'perl-test-simple>=0.88'
   'perl-test-requires>=0.08'
   'perl-extutils-makemaker')
+checkdepends=(
+  'perl-plack')
 url='https://metacpan.org/release/CGI-Emulate-PSGI'
 _distdir="CGI-Emulate-PSGI-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
