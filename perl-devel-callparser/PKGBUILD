@@ -1,0 +1,86 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (bf2733a102062a385eddd895dbaa335600ff70606b3b635eb342fa32832aa63915279c0b835b7fa766269f8f9facc36aed01e36c995ce8d9c7a91a0f5e636d67)
+
+pkgname='perl-devel-callparser'
+pkgver='0.002'
+pkgrel='1'
+pkgdesc='custom parsing attached to subroutines'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-devel-callparser')
+depends=(
+  'perl>=5.11.2'
+  'perl-devel-callchecker>=0.002'
+  'perl-dynaloader-functions>=0.001'
+  'perl-exporter'
+  'perl-parent')
+makedepends=(
+  'perl>=5.11.2'
+  'perl-devel-callchecker>=0.002'
+  'perl-extutils-cbuilder>=0.15'
+  'perl-extutils-parsexs'
+  'perl-io>=1.03'
+  'perl-module-build'
+  'perl-pathtools'
+  'perl-test-simple'
+  'perl-data-alias'
+  'perl-devel-declare'
+  'perl-indirect'
+  'perl-sub-strictdecl')
+conflicts=(
+  'perl-data-alias<1.13'
+  'perl-devel-declare<0.006004'
+  'perl-indirect<0.27')
+url='https://metacpan.org/release/Devel-CallParser'
+_distdir="Devel-CallParser-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/${_distdir}.tar.gz")
+sha512sums=('ab1f89a618149789a99903e69c913af5d558125a67ef064ecd5a26d25a7553115a1f519d76cf401ad68fb19096155b9c6ea248a9b5286c2113e1d6570338ca2a')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
