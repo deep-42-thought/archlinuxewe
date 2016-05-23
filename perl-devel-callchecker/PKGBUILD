@@ -3,7 +3,7 @@
 
 pkgname='perl-devel-callchecker'
 pkgver='0.007'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='custom op checking attached to subroutines'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -23,6 +23,9 @@ makedepends=(
   'perl-module-build'
   'perl-pathtools'
   'perl-test-simple')
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage')
 conflicts=(
   'perl-0.19'
   'perl-b-hooks-op-check<<')
