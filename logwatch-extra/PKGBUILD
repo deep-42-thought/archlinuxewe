@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=logwatch-extra
-pkgver=0.4
+pkgver=0.5
 pkgrel=1
 pkgdesc="extra-capabilities for logwatch: better cron-frontend"
 arch=('any')
@@ -14,12 +14,12 @@ optdepends=()
 provides=()
 conflicts=()
 replaces=()
-backup=('var/cache/logwatch/letzteMeldung')
+backup=()
 options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
 )
-sha512sums=('cbebb5ef250aacf3adfdfe938d6710b2a510795a59572eb0386407133daab06ec32908ed9f05e7f72b66f92dfc634b1942b5974e36dfff1124768f75f36abb6f')
+sha512sums=('a3ca4267e1ad2fff0295b17f6be3361858fb83127ffaa8d8168e2f557390ce5a0d0703b2a76c48081487b19e25c1593e56ae201641b26c38b952e2ebabcdc5d0')
 
 build() {
 
