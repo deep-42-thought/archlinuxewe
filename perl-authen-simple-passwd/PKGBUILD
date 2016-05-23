@@ -3,7 +3,7 @@
 
 pkgname='perl-authen-simple-passwd'
 pkgver='0.6'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Simple Passwd authentication'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -13,6 +13,9 @@ provides=(
 depends=(
   'perl-authen-simple>=0.3'
   'perl-io')
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage')
 url='https://metacpan.org/release/Authen-Simple-Passwd'
 _distdir="Authen-Simple-Passwd-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/C/CH/CHANSEN/${_distdir}.tar.gz")
