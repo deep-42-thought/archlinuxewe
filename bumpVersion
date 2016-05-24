@@ -1,6 +1,11 @@
 #!/bin/bash
 
-if [ $# -ne 1 ]
+if [ $# -eq 0 ]
+then
+  >&2 echo 'bumping versions of all packages ...'
+  $0 $(ls "$(dirname "$(readlink -f "$0")")"/*/PKGBUILD | sed 's|^.*/\([^/]\+\)/PKGBUILD$|\1|')
+  exit $?
+elif [ $# -gt 1 ]
 then
   err=0
   for pkg in "$@"
@@ -13,12 +18,14 @@ then
 fi
 
 paket="${1%/}"
+>&2 echo "bumping '${paket}' ..."
 
 cd "$(dirname "$(readlink -f "$0")")"
 [ -r "${paket}/PKGBUILD" ] || exit 1
 eval $(./checkVersions -m "${paket}")
 if [ "${remVer}" == "${pkgver}" ]
 then
+  >&2 echo '... nothing to do here.'
   exit 0
 fi
 
@@ -54,3 +61,5 @@ rm -rf pkg src
 sudo pacman -Sy
 makepkg -fcsr --noconfirm --asdeps || exit 1
 git commit PKGBUILD -m "${paket} ${pkgver} -> ${remVer}"
+
+>&2 echo '... done'
