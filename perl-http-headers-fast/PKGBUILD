@@ -17,6 +17,9 @@ makedepends=(
   'perl-test-simple>=0.98'
   'perl-test-requires'
   'perl-module-build>=0.38')
+checkdepends=(
+  'perl-http-message'
+  'perl-uri')
 url='https://metacpan.org/release/HTTP-Headers-Fast'
 _distdir="HTTP-Headers-Fast-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/${_distdir}.tar.gz")
