@@ -102,6 +102,17 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
+      grep -q 'git://anonscm\.debian\.org/'
+    then
+      remVer="$(
+        git ls-remote --tags "${src%#*}" | \
+          awk '{print $2}' | \
+          grep '^refs/tags/v[0-9.]\+$' | \
+          sed 's|^refs/tags/v\([0-9.]\+\)$|\1|' | \
+          sort -V | \
+          tail -n1
+      )"
+    elif echo "${src}" | \
       grep -q "^https://pypi\.python\.org/packages/"
     then
       qu="$(
