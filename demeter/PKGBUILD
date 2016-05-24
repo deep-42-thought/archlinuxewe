@@ -66,6 +66,7 @@ makedepends=(
     'perl-template-toolkit'
 )
 checkdepends=()
+[ -z "$DISPLAY" ] && checkdepends+=('xorg-server-xvfb')
 optdepends=(
     'perl-encoding-fixlatin-xs'
     'perl-file-monitor-lite'
@@ -100,15 +101,26 @@ build() {
       MODULEBUILDRC=/dev/null
 
     cd ${pkgname}-${pkgver}
-    perl ./Build.PL
-    ./Build
+    if [ -z "$DISPLAY" ]; then
+      warning "Empty \$DISPLAY - falling back to xvfb-run (xorg-server-xvfb)"
+      xvfb-run -a -s "+extension GLX -screen 0 1280x1024x24" perl ./Build.PL
+      xvfb-run -a -s "+extension GLX -screen 0 1280x1024x24" ./Build
+    else
+      perl ./Build.PL
+      ./Build
+    fi
   )
 }
 
 check() {
 
     cd ${pkgname}-${pkgver}
-    ./Build test
+    if [ -z "$DISPLAY" ]; then
+      warning "Empty \$DISPLAY - falling back to xvfb-run (xorg-server-xvfb)"
+      xvfb-run -a -s "+extension GLX -screen 0 1280x1024x24" ./Build test
+    else
+      ./Build test
+    fi
 
 }
 
