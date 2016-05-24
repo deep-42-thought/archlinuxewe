@@ -1,0 +1,69 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (2234e1f408ad7a30313e9b3c153aadde5d1eb68bc0adcb75ee52d2927ebb42e5676317181b669be39442d556f1e0c24b108d6d45021c1dbc41e2f79c705c7ca7)
+
+pkgname='perl-string-rewriteprefix'
+pkgver='0.007'
+pkgrel='1'
+pkgdesc='rewrite strings based on a set of known prefixes'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-carp'
+  'perl-sub-exporter>=0.972')
+makedepends=(
+  'perl-extutils-makemaker>=6.30'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-simple>=0.96')
+url='https://metacpan.org/release/String-RewritePrefix'
+_distdir="String-RewritePrefix-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
+sha512sums=('c5f2eb6c7661809b4783378a4a33445dfd91fea22cd0a11c9e8d42683879fd6f95c465f7902db2573d5939dc18b250c1fd787d63e3c8a2e15febfd2c8fbd5a10')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
