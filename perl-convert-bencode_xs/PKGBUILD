@@ -3,7 +3,7 @@
 
 pkgname='perl-convert-bencode_xs'
 pkgver='0.06'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Faster conversions to/from Bencode format'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -12,8 +12,17 @@ depends=('perl-bencode' 'perl-test-simple')
 checkdepends=('perl-convert-bencode')
 url='https://metacpan.org/release/Convert-Bencode_XS'
 _distdir="Convert-Bencode_XS-${pkgver}"
-source=("https://cpan.metacpan.org/authors/id/I/IW/IWADE/${_distdir}.tar.gz")
-sha512sums=('0f7a0afa3e5a270b982852903d5809c7964c174886cb99fa5a3e5e1e62a10ba9f68791c2a7d31b1f56ecbcac307b949dfc4660c613510d06a99f56dffd33adde')
+source=(
+  "https://cpan.metacpan.org/authors/id/I/IW/IWADE/${_distdir}.tar.gz"
+  'test-order.patch')
+sha512sums=('0f7a0afa3e5a270b982852903d5809c7964c174886cb99fa5a3e5e1e62a10ba9f68791c2a7d31b1f56ecbcac307b949dfc4660c613510d06a99f56dffd33adde'
+            '713653dbaa741ace8ea84e66ec0167a57e635db064ceb839580b8295d1f2cc27b989aa06689c033011066b6c4ee4a9df4e6b2c1bc08cfc48fe96140bdb42af44')
+
+prepare() {
+  cd "${srcdir}/${_distdir}"
+
+  patch -p0 -i "${srcdir}/test-order.patch"
+}
 
 build(){
   cd "${srcdir}/${_distdir}"
@@ -35,7 +44,7 @@ build(){
   fi
 }
 
-check(){
+check() {
   cd "${srcdir}/${_distdir}"
 
   # If using Makefile.PL
@@ -47,9 +56,9 @@ check(){
   fi
 }
 
-package(){
+package() {
   cd "${srcdir}/${_distdir}"
-  
+
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
     make install
