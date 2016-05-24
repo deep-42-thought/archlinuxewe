@@ -283,14 +283,14 @@ then
           grep "^${quNam}-${mainVer}\.\(.*\)${quEnd}\$" | \
           sed "s|^${quNam}-${mainVer}\.\(.*\)${quEnd}\$|\1|" \
       )
-    elif [ "${pkgname}" == "openttd-svn" ]
+    elif echo "${src}" | \
+      grep -q "svn://svn\.openttd\.org"
     then
       remVer=$( \
-        eval $(grep "^\s*svn " $1/PKGBUILD | \
-          sed "s|export|log|; s|\s*trunk\$||") | \
+        svn log "${src%#*}" | \
           grep -v "^-.* WebTranslator " | \
           grep -v "^-.* Eints:" | \
-          grep "^-[^-]" -B10 -m1 | \
+          grep -B10 -m1 -- "^-[^-]" | \
           grep "^r" | \
           tail -n1 | \
           sed "s|^r\([[:digit:]]\+\)\s.*\$|\1|" \
