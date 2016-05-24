@@ -115,11 +115,6 @@ check() {
 package() {
 
     cd ${pkgname}-${pkgver}
-    ./Build install --help
-
-#    sed "s|DEBUG = False|DEBUG = True|" -i setup.py
-
-#    python2 setup.py build
-#    python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+    ./Build install
 
 }
