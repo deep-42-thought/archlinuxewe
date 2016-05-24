@@ -244,7 +244,7 @@ then
       remVer=$( \
         curl -o - "${quVer}" 2> /dev/null | \
           tr "\"" "\n" | \
-          grep "^${quNam}" | \
+          grep "^${quNam}[0-9.]\+\$" | \
           sed "s|^${quNam}||" | \
           sort -V | \
           tail -n1 \
@@ -295,6 +295,18 @@ then
           tail -n1 | \
           sed "s|^r\([[:digit:]]\+\)\s.*\$|\1|" \
         )
+    elif echo "${src}" | \
+      grep -q "http://\(bindfs\|www\.iozone\)\.org/"
+    then
+      quVer="${src%/*}/"
+      remVer="$( \
+        curl "${quVer}" 2> /dev/null | \
+          tr '"<>' '\n\n\n' | \
+          grep "^${pkgname}-\?[0-9._]\+\.tar\(\.gz\)\?\$" | \
+          sed "s|^${pkgname}-\?\([0-9._]\+\)\.tar\(\.gz\)\?\$|\1|" | \
+          sort -V | \
+          tail -n1
+      )"
     else
       continue
     fi
