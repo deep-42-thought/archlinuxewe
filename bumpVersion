@@ -42,5 +42,5 @@ sed 's|sha512sums=.*$|'"${summen}"'|' -i PKGBUILD
 
 rm -rf pkg src
 sudo pacman -Sy
-makepkg -fcsr || exit 1
+makepkg -fcsr --noconfirm --asdeps || exit 1
 git commit PKGBUILD -m "${paket} ${pkgver} -> ${remVer}"
