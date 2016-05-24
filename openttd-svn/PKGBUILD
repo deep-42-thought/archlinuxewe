@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-svn
-pkgver=27553
+pkgver=27581
 pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686')
@@ -27,18 +27,19 @@ replaces=()
 backup=()
 options=()
 source=(
+    "svn://svn.openttd.org/trunk#revision=r${pkgver}"
     "everything.patch"
     "version.patch"
     "clipboard.grf"
 )
-sha256sums=('ef8545afbf3d7b036cb7d347aacdead521d063f477d0561124763804ad78596a'
-            '69a604a37db76337a2709a0e63f5ca09b325af294225c42f4b7faf43c93ecc4c'
-            '12b90fe53f2d61d2d45d74ecc6b97d3a5f041c4215a5c1b02a6b1ba162e4572a')
+sha512sums=('SKIP'
+            '88a00fc76d5cc91a47b0f291731672d380807e3a25d645989adc650fe9700004a46a91e785fcbf43074a266fd7aefa58a7562b595191ebafdf5cf9a37ac3d72a'
+            '69ac38abc75d728ae3a4b131e819223f496f3e6554d2e8e35e6950c6ceb41a293af2aec6df2ef4b82a9e5d12ed87026e85e181adb0fc142407da94ad4d70d2b6'
+            'aa1f5d5c4fd9ff487bc03ed5c10701e99ae9fd29ae0cd65a06171486298558d1c26ced49ac8687acc5b1003a6538f6c83917992348cbd2b7426afdf0759cb1a5')
 
 prepare() {
 
-    svn export "svn://svn.openttd.org/trunk@r${pkgver}" trunk
-    cd trunk
+    cd $srcdir/trunk
 
     cat $srcdir/everything.patch | \
       (
