@@ -37,7 +37,17 @@ sed '
   P;
   D
 ' -i PKGBUILD
-summen="$(makepkg -g)"
+
+summen="$( \
+  makepkg -g | \
+    sed ':begin;
+        $!N;
+        s@^sha512sums=\([^)]*\)\n\(.*\)$@sha512sums=\1\\n\2@;
+      tbegin;
+      P;
+      D
+    ' \
+)"
 sed 's|sha512sums=.*$|'"${summen}"'|' -i PKGBUILD
 
 rm -rf pkg src
