@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-search-elasticsearch'
-pkgver='2.02'
-pkgrel='1'
+pkgver=2.03
+pkgrel=1
 pkgdesc='The official client for Elasticsearch'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -26,7 +26,7 @@ checkdepends=(
 url='https://metacpan.org/release/Search-Elasticsearch'
 _distdir="Search-Elasticsearch-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DRTECH/${_distdir}.tar.gz")
-sha512sums=('4daed10a8df807eed45b2bd87815828937bdf7d203a3ae43a999b2624ccac9d890427ffe4af92010af8e4a7a230bf91372f5ada7feb3b78bb3a831bfcbb7568f')
+sha512sums=('5b71922b55a8028e77220758ccb079f539be9f8dd7ab3a4ca340aaa2c658529deea41cd87c48409cb61bc715420c0d2c1c0150f4f499e2ab1b5645ebfe4eb65f')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
