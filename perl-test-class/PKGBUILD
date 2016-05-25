@@ -3,7 +3,7 @@
 
 pkgname='perl-test-class'
 pkgver='0.50'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Easily create test classes in an xUnit/JUnit style'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -27,6 +27,8 @@ makedepends=(
   'perl-test'
   'perl-test-exception>=0.25'
   'perl-test-simple>=0.78')
+checkdepends=(
+  'perl-contextual-return')
 url='https://metacpan.org/release/Test-Class'
 _distdir="Test-Class-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
