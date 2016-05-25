@@ -87,7 +87,7 @@ then
 
   srcKnown=false
 
-  for src in "${source[@]}"
+  for src in "${source[@]}" "${source_i686[@]}" "${source_x86_64[@]}"
   do
 
     src="${src#*::}"
@@ -98,6 +98,43 @@ then
         curl -o - "ftp://ftp.astro.caltech.edu/pub/pgplot/" 2> /dev/null | \
           grep "\spgplot[0-9.]\+\.tar\.gz -> \S\+\$" | \
           sed "s|^.*\spgplot\([0-9.]\+\)\.tar\.gz -> \S\+\$|\1|" | \
+          sort -V | \
+          tail -n1
+      )"
+    elif [ "${pkgname}" == "adduser" ]
+    then
+      remVer="$(
+        wget -O - "${source[0]}" 2> /dev/null | \
+          grep '^# Version: ' | \
+          sed 's|^# Version: \+||'
+      )"
+    elif [ "${pkgname}" == "g95" ]
+    then
+      remVer='0.94'
+    elif echo "${src}" | \
+      grep -q "//www\.mpich\.org/"
+    then
+      quVer="${src%/*/*}/"
+      aVers="$(
+        curl "${quVer}" 2> /dev/null | \
+          tr '"' '\n' | \
+          grep '^[0-9.]\+/$' | \
+          sed 's|/$||'
+      )"
+      if [ ! "${pkgname}" == "mpich" ]
+      then
+        aVers="$(
+          (
+            echo "${aVers}"
+            echo "${pkgname#mpich} %%%SCHNIPP%%%"
+          ) |
+            sort -V | \
+            sed '/%%%SCHNIPP%%%/q' | \
+            grep -v '%%%SCHNIPP%%%'
+        )"
+      fi
+      remVer="$(
+        echo "${aVers}" | \
           sort -V | \
           tail -n1
       )"
@@ -250,17 +287,19 @@ then
           tail -n1 \
       )
     elif echo "${src}" | \
-      grep -q "//downloads\.sourceforge\.net/sourceforge/"
+      grep -q "//downloads\.sourceforge\.net/"
     then
       quVer=$( \
         echo "${src}" | \
-          sed "s|//downloads\.sourceforge\.net/sourceforge/\([^/]*\)/[^/]*\$|//sourceforge.net/projects/\1/files/\1/|" | \
+          sed 's|/sourceforge/|/|' | \
+          sed "s|//downloads\.sourceforge\.net/\([^/]*\)/[^/]*\$|//sourceforge.net/projects/\1/files/\1/|" | \
           sed "s|^http:|https:|"
       )
       remVer=$( \
-        curl -o - "${quVer}" 2> /dev/null | \
+        curl "${quVer}" 2> /dev/null | \
           tr "\"" "\n" | \
-          grep "^${quVer#*sourceforge.net}[0-9.-]" | \
+          grep "^${quVer#*sourceforge.net}\(${pkgname}\(-\|%20\)\)\?[0-9.-]" | \
+          sed "s@/${pkgname}\(-\|%20\)@/@" | \
           sed "s|^${quVer#*sourceforge.net}\([0-9.-]\+\).*\$|\1|" | \
           sed "s|-\$||" | \
           sort -V | \
@@ -296,7 +335,7 @@ then
           sed "s|^r\([[:digit:]]\+\)\s.*\$|\1|" \
         )
     elif echo "${src}" | \
-      grep -q "http://\(bindfs\|www\.iozone\)\.org/"
+      grep -q "http://\(\(bindfs\|www\.iozone\)\.org\|www\.cybernoia\.de\|isl\.gforge\.inria\.fr\)/"
     then
       quVer="${src%/*}/"
       remVer="$( \
@@ -316,7 +355,7 @@ then
 
   if ! ${srcKnown}
   then
-    echo "$1: Unknown src: '${source[@]}'"
+    echo "$1: Unknown src: '${source[@]}' '${source_i686[@]}' '${source_x86_64[@]}'"
     exit 1
   fi
 
