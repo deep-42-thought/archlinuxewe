@@ -1,0 +1,69 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (2234e1f408ad7a30313e9b3c153aadde5d1eb68bc0adcb75ee52d2927ebb42e5676317181b669be39442d556f1e0c24b108d6d45021c1dbc41e2f79c705c7ca7)
+
+pkgname='perl-time-duration-parse'
+pkgver='0.13'
+pkgrel='1'
+pkgdesc='Parse string that represents time duration'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.006'
+  'perl-carp'
+  'perl-exporter-lite')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-simple>=0.88'
+  'perl-time-duration')
+url='https://metacpan.org/release/Time-Duration-Parse'
+_distdir="Time-Duration-Parse-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/N/NE/NEILB/${_distdir}.tar.gz")
+sha512sums=('2732f6053dbc672d92a4efddab6e767f81bf1386f7b232fe1d1debe551d406b27c222c2173f9771f302bb928dac96edeb1ef3dfd0fe67d46315f671c7ad1a5b4')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
