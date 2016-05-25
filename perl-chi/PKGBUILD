@@ -1,0 +1,91 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (2234e1f408ad7a30313e9b3c153aadde5d1eb68bc0adcb75ee52d2927ebb42e5676317181b669be39442d556f1e0c24b108d6d45021c1dbc41e2f79c705c7ca7)
+
+pkgname='perl-chi'
+pkgver='0.60'
+pkgrel='1'
+pkgdesc='Unified cache handling interface'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-carp-assert>=0.20'
+  'perl-class-load'
+  'perl-data-uuid'
+  'perl-digest-jhash'
+  'perl-digest-md5'
+  'perl-hash-moreutils'
+  'perl-json-maybexs>=1.003003'
+  'perl-list-moreutils>=0.13'
+  'perl-log-any>=0.08'
+  'perl-moo>=1.003'
+  'perl-moox-types-mooselike'
+  'perl-moox-types-mooselike>=0.23'
+  'perl-moox-types-mooselike-numeric'
+  'perl-pathtools>=0.80'
+  'perl-storable'
+  'perl-string-rewriteprefix'
+  'perl-task-weaken'
+  'perl-time-duration>=1.06'
+  'perl-time-duration-parse>=0.03'
+  'perl-time-hires>=1.30'
+  'perl-try-tiny>=0.05')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-class'
+  'perl-test-deep'
+  'perl-test-exception'
+  'perl-test-simple'
+  'perl-test-warn'
+  'perl-timedate')
+url='https://metacpan.org/release/CHI'
+_distdir="CHI-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/J/JS/JSWARTZ/${_distdir}.tar.gz")
+sha512sums=('06d3f22465f38868795a4ee97e1b3e40e66d423c4e28c066c2f11721b770e77c6134ad122ec9a7ea6a7e215d0b712e57c54d91bae02770fbc61e3c10a465b29d')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
