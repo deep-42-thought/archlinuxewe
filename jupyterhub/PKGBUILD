@@ -9,8 +9,8 @@ arch=(any)
 license=('BSD')
 depends=('python-tornado' 'python-jinja' 'ipython' 'python-pamela' 'python-sqlalchemy' 'python-requests' 'nodejs-configurable-http-proxy')
 makedepends=('bower' 'npm')
-source=("https://github.com/jupyter/jupyterhub/archive/${pkgver}.tar.gz")
-md5sums=('9dcbec101e4e28065aafbac3672eb391')
+source=("https://github.com/jupyterhub/jupyterhub/archive/${pkgver}.tar.gz")
+sha512sums=('6f37f1ebf1306a08516072fb78ab006a35bbdd84936945bf734bc9e8ae1d4d41f958e9e11548cdeaa4ce5e4b7accf2b4dd42f4406ec50b40c96b3140c7e208a9')
 
 build() {
   cd "${srcdir}/jupyterhub-$pkgver"
