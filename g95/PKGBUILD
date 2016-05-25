@@ -1,0 +1,38 @@
+# Maintainer:  Erich Eckner <arch at eckner dot net>
+# Contributor: Eduardo Martins Lopes < edumlopes at gmail dot com >
+# Contributor: Daan van Rossum <d.r.vanrossum at gmx.de>
+
+pkgname=g95
+pkgver=0.94
+pkgrel=3
+pkgdesc="A stable, production Fortran 95 compiler available for multiple cpu architectures and operating systems"
+arch=('i686' 'x86_64')
+url="http://g95.sourceforge.net"
+license=("GPL")
+depends=('blas' 'lapack' 'gcc-libs' )
+provides=('g95')
+
+source=(g95.install)
+source_i686=(http://ftp.g95.org/g95-x86-linux.tgz)
+source_x86_64=(http://ftp.g95.org/g95-x86_64-64-linux.tgz)
+sha512sums=('b9be25d747ed39adda5c435ed2d735db20358556fae8a007ad5626910a59d8ea0d4b611e870e899edf6b6eeedadb36d3ef880e06f488a7fe90ce3c1adb59a796')
+sha512sums_i686=('de21f538cf02207c5b857224d4a8f04d41c9658a933494033e98a79fd69afc813d23e6d43a5881ea442b9261791b8784b83f7c563c37859d592ba9792bc71507')
+sha512sums_x86_64=('b0c99fda1e6d12ab845b8ba030f8013f53e85a17763dcd702f2f92b7e886ed9459f3a5a46c50cebd93b47442925382760a0a35f2cac1d5f1f8b7c4522a6a242c')
+
+build() {
+  mkdir -p ${srcdir}/g95-install/share/doc
+  mv -f ${srcdir}/g95-install/{INSTALL,G95Manual.pdf}  ${srcdir}/g95-install/share/doc/
+}
+package() {
+  mkdir -p ${pkgdir}/usr
+  cp -r ${srcdir}/g95-install/* ${pkgdir}/usr
+  cd ${pkgdir}/usr/bin
+if [ "$CARCH" = "i686" ]; then  
+  ln -s i686-pc-linux-gnu-g95 g95
+
+fi
+
+if [ "$CARCH" = "x86_64" ]; then
+  ln -s x86_64-unknown-linux-gnu-g95 g95
+fi
+}
