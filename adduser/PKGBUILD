@@ -1,0 +1,20 @@
+# Maintainer:  Erich Eckner <arch at eckner dot net>
+# Contributor: Josh VanderLinden <arch@cloudlery.com>
+
+pkgname=adduser
+pkgver=1.15
+pkgrel=5
+pkgdesc="Interactive front end to /usr/bin/useradd from Slackware Linux"
+arch=('any')
+url="http://www.slackware.com/"
+license=('BSD')
+provides=('adduser')
+depends=('gawk' 'shadow>=4.1.5.1-3')
+source=("http://mirrors.slackware.com/slackware/slackware64-current/source/a/shadow/adduser")
+sha512sums=('0187b3d85f6f8ff956c3612ad937c9645d8d6423382def5ae00a9528bad1c9d06a1c0ef01e12da010de2c2eac527eac26282d1ff5c71492671c14ebd5923827b')
+
+package() {
+  install -D -m755 adduser "${pkgdir}/usr/bin/adduser"
+  sed '/^###/q;1,2d;s/^# *//' adduser | head -n -2 > LICENSE
+  install -D LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
