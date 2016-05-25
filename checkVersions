@@ -160,48 +160,37 @@ then
           tail -n1 \
       )
     elif echo "${src}" | \
-      grep -q "//search\.m\?cpan\.org/CPAN/authors/"
-    then
-      quVer=$( \
-        echo "${src%/*}" | \
-          sed "s#//search\.m\?cpan\.org/CPAN/#//www.cpan.org/#" | \
-          sed "s|^https:|http:|" | \
-          sed "s|\([^/]\)\$|\1/|"
-      )
-      quNam=${src##*/}
-      quNam=${quNam%-*}
-      quEnd=$( \
-        echo "${src##*-}" |
-          sed "s|^v\?[0-9.]*||"
-      )
-      remVer=$( \
-        curl -o - "${quVer}" 2> /dev/null | \
-          tr "\"" "\n" | \
-          grep "^${quNam}-v\?[0-9.-]*\.${quEnd}\$" | \
-          sed "s|^${quNam}-v\?\(.*\)\.${quEnd}\$|\1|" | \
-          sort -V | \
-          tail -n1 \
-      )
-    elif echo "${src}" | \
-      grep -q "//cpan\.org/\|//cpan\.metacpan\.org/authors/\|cpan\.org/modules/by-module/"
+      grep -q "//\(search\.m\?\)\?cpan\.org/\|//cpan\.metacpan\.org/authors/\|cpan\.org/modules/by-module/"
     then
       quVer=$( \
         echo "${src%/*}/" | \
-          sed "s|//cpan\.org/|//www.cpan.org/|"
+          sed 's|//\(search\.m\?\)\?cpan\.org/|//www.cpan.org/|' | \
+          sed 's|/CPAN/|/|'
       )
       quNam=${src##*/}
       quNam=${quNam%-*}
       quEnd=$( \
-        echo "${src##*-}" |
-          sed "s|^v\?[0-9.]*||"
+        echo "${src##*-}" | \
+          sed "s|^v\?[0-9.]*||" | \
+          sed 's|\.|\\\.|'
       )
+      if [ "${pkgname}" == 'perl-chi' ]
+      then
+        pre='s|\(\...\)$|\10|'
+        post='s|\(\...\)0$|\1|'
+      else
+        pre=''
+        post=''
+      fi
       remVer=$( \
-        curl -o - "${quVer}" 2> /dev/null | \
+        curl "${quVer}" 2> /dev/null | \
           tr "\"" "\n" | \
           grep "^${quNam}-v\?[0-9.-]*\.${quEnd}\$" | \
-          sed "s|^${quNam}-v\?\(.*\)\.${quEnd}\$|\1|" | \
+          sed "s|^${quNam}-v\?\([0-9.-]*\)\.${quEnd}\$|\1|" | \
+          sed "${pre}" | \
           sort -V | \
-          tail -n1 \
+          tail -n1 | \
+          sed "${post}"
       )
     elif echo "${src}" | \
       grep -q "ftp://"
