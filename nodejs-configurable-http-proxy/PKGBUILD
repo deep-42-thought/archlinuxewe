@@ -1,0 +1,28 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname=nodejs-configurable-http-proxy
+pkgver=0.3.0
+pkgrel=1
+pkgdesc="node-http-proxy plus a REST API"
+url="https://github.com/jupyter/configurable-http-proxy"
+arch=(any)
+license=('BSD')
+depends=('nodejs')
+makedepends=('npm')
+source=("https://github.com/jupyter/configurable-http-proxy/archive/${pkgver}.tar.gz")
+sha512sums=('49a063d102d9f5abd10554b08a0bd72a308499b915cfe0ad8344e25f77b163a96932bfc0dff9fc020c8889ecf8081b4ad2c96de1b2b949122e10e3b00907a9b3')
+_npmname=configurable-http-proxy
+
+package() {
+  cd $srcdir
+  local _npmdir="$pkgdir/usr/lib/node_modules/"
+  mkdir -p $_npmdir
+  cd $_npmdir
+  npm install -g --prefix "$pkgdir/usr" $_npmname@$pkgver
+
+  rm -rf "$pkgdir/usr/etc"
+  chown -R root:root "$pkgdir/usr"
+  cd "$srcdir/$_npmname-$pkgver"
+  install -Dm644 COPYING.md "${pkgdir}"/usr/share/licenses/$pkgname/COPYING.md
+}
+
