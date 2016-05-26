@@ -92,7 +92,28 @@ then
 
     src="${src#*::}"
 
-    if [ "${pkgname}" == "pgplot-for-ifeffit" ]
+    if [ "${pkgname}" == "adduser" ]
+    then
+      remVer="$(
+        wget -O - "${source[0]}" 2> /dev/null | \
+          grep '^# Version: ' | \
+          sed 's|^# Version: \+||'
+      )"
+    elif [ "${pkgname}" == "dropbox" ]
+    then
+      remVer="$(
+        curl "https://www.dropbox.com/release_notes" 2> /dev/null | \
+          tr '\n/"' ' \n\n' | \
+          grep -- '-Stable-Build-[0-9-]\+$' | \
+          sed 's|^.*-Stable-Build-\([0-9-]\+\)$|\1|' | \
+          tr '-' '.' | \
+          sort -V | \
+          tail -n1
+      )"
+    elif [ "${pkgname}" == "g95" ]
+    then
+      remVer='0.94'
+    elif [ "${pkgname}" == "pgplot-for-ifeffit" ]
     then
       remVer="$(
         curl -o - "ftp://ftp.astro.caltech.edu/pub/pgplot/" 2> /dev/null | \
@@ -101,16 +122,6 @@ then
           sort -V | \
           tail -n1
       )"
-    elif [ "${pkgname}" == "adduser" ]
-    then
-      remVer="$(
-        wget -O - "${source[0]}" 2> /dev/null | \
-          grep '^# Version: ' | \
-          sed 's|^# Version: \+||'
-      )"
-    elif [ "${pkgname}" == "g95" ]
-    then
-      remVer='0.94'
     elif echo "${src}" | \
       grep -q "//www\.mpich\.org/"
     then
