@@ -3,9 +3,9 @@
 usage() {
   >&2 echo 'Verwendung: '
   >&2 echo "  $0"' [-f|--force] [-j|--jobs=${jobs}]'
-  >&2 echo '    -f|--force:  prüfe Versionen unhabhängig von Zeit der letzten Prüfung'
-  >&2 echo '    -j|--jobs:   Anzahl parallel auszufuehrender Anfragen'
-  >&2 echo '    -m:          maschinenlesbare Ausgabe erzeugen'
+  >&2 echo '    -f|--force|--noUpdate:  prüfe Versionen unhabhängig von Zeit der letzten Prüfung'
+  >&2 echo '    -j|--jobs:              Anzahl parallel auszufuehrender Anfragen'
+  >&2 echo '    -m:                     maschinenlesbare Ausgabe erzeugen'
   exit 1
 }
 
@@ -15,8 +15,9 @@ versionenDatei="/var/cache/$(basename "$(dirname "${me}")").lastVersions"
 jobs=0
 maschinenlesbar=false
 [ ! -r "${versionenDatei}" ] && force=true || force=false
+unForce=false
 
-eval set -- "$(getopt -o fj:m --long force,jobs: -n "$(basename "$0")" -- "$@" || echo "usage")"
+eval set -- "$(getopt -o fj:m --long force,jobs:,noUpdate -n "$(basename "$0")" -- "$@" || echo "usage")"
 args=("$@")
 optArgs=()
 
@@ -26,6 +27,10 @@ do
     -f|--force)
       force=true
       optArgs[${#optArgs[@]}]="-f"
+    ;;
+    --noUpdate)
+      unForce=true
+      optArgs[${#optArgs[@]}]="--noUpdate"
     ;;
     -j|--jobs)
       shift
@@ -52,6 +57,7 @@ done
 versionenErmitteln=${force}
 ! ${versionenErmitteln} && [ $(head -n1 "${versionenDatei}") -le $[$(date "+%s")-300] ] && versionenErmitteln=true
 ${maschinenlesbar} && versionenErmitteln=true
+${unForce} && versionenErmitteln=false
 versionenSchreiben=${versionenErmitteln}
 [ ! -w "${versionenDatei}" ] && versionenSchreiben=false
 ${maschinenlesbar} && versionenSchreiben=false
