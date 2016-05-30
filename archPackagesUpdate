@@ -454,6 +454,11 @@ then
         chrootUnpriv 64
       err[${i}]=$?
     fi
+    if [ ${err[${i}]} -eq 0 ]
+    then
+      namcap "${tmpDir}/${paket}"/*-${arch}.pkg.tar.xz
+      err[${i}]=$?
+    fi
     if ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ]
     then
       cleanUp
