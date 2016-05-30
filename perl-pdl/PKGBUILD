@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=perl-pdl
 _pkgname='PDL'
-pkgver=2.015
+pkgver=2.016
 pkgrel=1
 pkgdesc="the Perl Data Language"
 arch=('x86_64' 'i686')
@@ -12,17 +12,8 @@ depends=('perl-devel-checklib' 'perl-astro-fits-header'
 'hdf4' 'perl-gd')
 makedepends=('perl-extutils-f77' 'perl-test-exception' 'perl-test-warn' 'perl-test-deep' 'perl-file-map')
 options=('!emptydirs')
-source=("http://search.cpan.org/CPAN/authors/id/C/CH/CHM/${_pkgname}-${pkgver}.tar.gz"
-        "gsl_sf_ellint.pd.diff")
-sha256sums=('0b7ef32e443e62c62569b8092f507f1a035d990430c80bdcb263dc7a2e85b684'
-            '54f2096547bf2518ad4f8390897c81cc8b904a407b5cd07c8f8387a8a6a4c3fb')
-
-prepare() {
-
-  cd ${srcdir}/${_pkgname}-${pkgver}/Lib/GSL/SF/ellint
-  patch -p0 < ${srcdir}/gsl_sf_ellint.pd.diff
-
-}
+source=("http://search.cpan.org/CPAN/authors/id/C/CH/CHM/${_pkgname}-${pkgver}.tar.gz")
+sha512sums=('7822e12688ed94c4c2fdd4937d7ec3869b08d9831ddd7307706e404e11c6f8b40792912d05b6022ede982ba870aae426141d0fd4030d43aef72ca0be46f673c8')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
