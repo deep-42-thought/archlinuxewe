@@ -31,11 +31,7 @@ sha512sums_i686=('f7e1b04bc1b5c90175b56a33b5c414cb3d5845acccb58d6614c95c9b0a0889
 sha512sums_x86_64=('01898af0a59f8fabe2d1f7512d96157411550e81f8cfc2f250ec0eeac1e93ad77efdee053c449c1384d70ba3fa52e97aa3ffaac8cb546e369afa2a516f12820d')
 
 package() {
-	if [ "$CARCH" = "x86_64" ]; then
-		_source_arch="x86_64"
-	else
-		_source_arch="x86"
-	fi
+	_source_arch="${CARCH/i6/x}"
 
 	install -d "$pkgdir"/opt
 	cp -R "$srcdir"/.dropbox-dist/dropbox-lnx.$_source_arch-$pkgver "$pkgdir"/opt/dropbox
