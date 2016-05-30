@@ -400,10 +400,18 @@ then
 # generate current makepkg.conf and makepkg32.conf
   cd "${tmpDir}"
   cp /etc/makepkg.conf .
-  patch -p0 -i makepkgSystem.patch
+  if ! patch -p0 -i makepkgSystem.patch
+  then
+    cleanUp
+    exit 1
+  fi
   sed 's|^\(BUILDENV=.*\)!sign|\1sign|' -i makepkg.conf
   cp makepkg{,32}.conf
-  patch -p0 -i makepkg32.patch
+  if ! patch -p0 -i makepkg32.patch
+  then
+    cleanUp
+    exit 1
+  fi
 
 # build packages
   for ((i=0; i<${#pakete[@]}; i++))
