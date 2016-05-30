@@ -458,6 +458,10 @@ then
     then
       namcap "${tmpDir}/${paket}"/*-${arch}.pkg.tar.xz
       err[${i}]=$?
+      if [ -n "${log}" ]
+      then
+        namcap "${tmpDir}/${paket}"/*-${arch}.pkg.tar.xz > "${tmpDir}/${paket}/${paket}-namcap-${arch}.log"
+      fi
     fi
     if ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ]
     then
