@@ -1,18 +1,20 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-svn
 pkgver=27594
-pkgrel=1
+pkgrel=2
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686')
 url="http://www.openttd.org"
 license=('GPL2')
 groups=()
 depends=(
+    'fontconfig'
+    'hicolor-icon-theme'
+    'icu'
+    'libpng'
+    'lzo'
     'sdl'
     'xz'
-    'icu'
-    'fontconfig'
-    'lzo'
 )
 makedepends=('subversion')
 checkdepends=()
