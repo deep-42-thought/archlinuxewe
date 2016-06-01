@@ -50,7 +50,7 @@ summen="$( \
   makepkg -g | \
     sed ':begin;
         $!N;
-        s@^sha512sums=\([^)]*\)\n\(.*\)$@sha512sums=\1\\n\2@;
+        s@^\(.*\)\n\(.*\)$@\1\\n\2@;
       tbegin;
       P;
       D
