@@ -118,13 +118,18 @@ do
     fi
     if [[ "${erg}" != "perl-%skip"* ]]
     then
-      metaInfos["${sucheWonach}"]="${metaInfos["${sucheWonach}"]} '${erg}'"
+      metaInfos["${sucheWonach}"]="${metaInfos["${sucheWonach}"]} ${erg}"
     fi
   done
   metaInfos["${sucheWonach}"]="$(
     echo "${metaInfos["${sucheWonach}"]}" | \
       tr ' ' '\n' | \
-      sort -u | \
+      sort -rV | \
+      sed 's@^\(.*\)\(\(>=\|=\|<\)[0-9.]*\)$@\1\2 \1@' | \
+      sed 's|^\(\S*\)$|\1 \1|' | \
+      uniq -f1 | \
+      awk '{print $1}' | \
+      sort | \
       grep -v '^\s*$'
   )"
 done
@@ -136,22 +141,26 @@ do
   eval tmp=( '"${'${wasAusgeben}'[@]}"' )
   pkgBuild["${wasAusgeben}"]="$(
     echo "${tmp[@]}" | \
-      tr ' ' '\n' | \
+      tr " '" '\n\n' | \
       grep -v '^$' | \
-      sed "s|^\(.*\)\$|  '\1'|" | \
       sort -u
   )"
+
   metaYml["${wasAusgeben}"]="$(
     (
       echo "${metaInfos["${wasAusgeben}"]}" | \
         grep -v '^$' | \
-        grep "^\s*'\?perl-" | \
-        sed 's|^|  |'
+        grep '^\s*perl-'
       echo "${pkgBuild["${wasAusgeben}"]}" | \
-        grep -v "^\s*'perl-"
+        grep -v '^\s*perl-'
     ) | \
-      grep -v '^$' | \
-      sort -u
+      sort -rV | \
+      sed 's@^\([^>]*\)\(\(>=\|=\|<\)[0-9.]*\)$@\1\2 \1@' | \
+      sed 's|^\(\S*\)$|\1 \1|' | \
+      uniq -f1 | \
+      awk '{print $1}' | \
+      sort | \
+      grep -v '^\s*$'
   )"
   probleme="$(
     (
@@ -183,7 +192,8 @@ then
       if [ -n "${metaYml["${wasAusgeben}"]}" ]
       then
         echo "${wasAusgeben}=("
-        echo "${metaYml["${wasAusgeben}"]})"
+        echo "${metaYml["${wasAusgeben}"]})" | \
+          sed "s|^\s*||; s|\s*\$||; s|^\(.*[^)]\)\()\?\)\$|  '\1'\2|"
       fi
     done | \
       sed ':begin;
