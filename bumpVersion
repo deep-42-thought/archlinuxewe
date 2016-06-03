@@ -1,16 +1,19 @@
 #!/bin/bash
 
+me="$(readlink -f "$0")"
+myDir="$(dirname "${me}")"
+
 if [ $# -eq 0 ]
 then
   >&2 echo 'bumping versions of all packages ...'
-  $0 $(ls "$(dirname "$(readlink -f "$0")")"/*/PKGBUILD | sed 's|^.*/\([^/]\+\)/PKGBUILD$|\1|')
+  "${me}" $(ls "${myDir}"/*/PKGBUILD | sed 's|^.*/\([^/]\+\)/PKGBUILD$|\1|')
   exit $?
 elif [ $# -gt 1 ]
 then
   err=0
   for pkg in "$@"
   do
-    $0 "${pkg}"
+    "${me}" "${pkg}"
     cErr=$?
     [ ${cErr} -gt ${err} ] && err=${cErr}
   done
@@ -20,7 +23,7 @@ fi
 paket="${1%/}"
 >&2 echo "bumping '${paket}' ..."
 
-cd "$(dirname "$(readlink -f "$0")")"
+cd "${myDir}"
 [ -r "${paket}/PKGBUILD" ] || exit 1
 eval $(./checkVersions -m "${paket}")
 if [ "${remVer}" == "${pkgver}" ]
@@ -59,7 +62,7 @@ summen="$( \
 sed 's|sha512sums=.*$|'"${summen}"'|' -i PKGBUILD
 
 (
-  if ! "$(dirname "$(readlink -f "$0")")/testeAbhaengigkeiten" "${paket}"
+  if ! "${myDir}/testeAbhaengigkeiten" "${paket}"
   then
     was=''
     ec[0]='jJyY'
