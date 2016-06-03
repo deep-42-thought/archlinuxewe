@@ -1,7 +1,9 @@
 : perl
-%skip: b blib dynaloader fcntl feature file-basename file-copy file-find file-glob filehandle ipc-open3 mro open overload posix strict utf8 vars warnings
+%skip: b benchmark blib dynaloader fcntl feature file-basename file-copy file-find file-glob filehandle ipc-open3
+%skip: mro open overload pod-text posix strict subs utf8 vars warnings
 cache-cache: cache-filecache
 cpan: cpan-shell
+cpan-meta: cpan-meta-prereqs
 html-tree: html-treebuilder
 html-parser: html-entities
 http-message: http-headers http-request http-request-common http-response
@@ -11,6 +13,7 @@ io-compress: compress-zlib
 libwww: lwp
 log-dispatch: log-dispatch-output
 lwp-consolelogger: lwp-consolelogger-easy
+mixin-linewise: mixin-linewise-readers mixin-linewise-writers
 moo: moo-role
 moox-types-mooselike: moox-types-mooselike-base
 pathtools: file-spec file-spec-functions file-spec-unix cwd
