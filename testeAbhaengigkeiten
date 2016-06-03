@@ -149,7 +149,7 @@ do
   )"
   if [ -n "${probleme}" ]
   then
-    >&2 echo "${wasAusgeben} unterscheidet sich:"
+    >&2 echo "${wasAusgeben} in ${paket}/PKGBUILD unterscheidet sich:"
     >&2 echo '-------------------------------------'
     >&2 echo "${metaYml}"
     >&2 echo '^^^ META.yml ^^^ vs. vvv PKGBUILD vvv'
