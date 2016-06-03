@@ -102,8 +102,6 @@ sha512sum="$(
 
 echo "META.yml lesen ..."
 
-oifs="${IFS}"
-
 meta="$(
   tar -Oxzf "${cpanName}-${pkgver}.tar.gz" "${cpanName}-${pkgver}/META.yml" | \
     grep -v "^    file:" | \
