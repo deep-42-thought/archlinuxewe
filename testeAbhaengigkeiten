@@ -66,7 +66,7 @@ meta="$(
       P;
       D
     ' | \
-    sed "/^provides: /s@\(\s\S\+\):\s\+version: '\?\([0-9.]\+\)'\?@\1=\2@g"
+    sed "/^provides: /s@\(\s\S\+\):\s\+version: '\?\([0-9.]\+\)'\?@\L\1=\2@g"
 )"
 
 echo "... fertig, verarbeiten ..."
