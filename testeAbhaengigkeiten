@@ -1,0 +1,165 @@
+#!/bin/bash
+
+set -e
+
+if [ $# -ne 1 ]
+then
+  >&2 echo "Verwendung: testeAbhaengigkeiten paket"
+  exit 1
+fi
+
+substituiere() {
+  dep="$1"
+  name=${dep%>=*}
+  dep=${dep#${name}}
+  erg="$(
+    cat "$(dirname "${me}")/perlSubstitutionen" | \
+      sed 's|#.*$||' | \
+      grep "\s${name}\(\s\|\$\)" | \
+      sed "s|^\([^:]\+\):.*\$|perl-\1|" | \
+      sed "s|^:.*\$|perl|"
+  )"
+  [ -z "${erg}" ] && erg="perl-${name}"
+  if [ "${erg}" == "perl" ] && echo "${dep}" | grep -q "^[^.]*\.\(0[[:digit:]]\{2\}\)\{2\}"
+  then
+    dep="$(
+      echo "${dep}" | \
+        sed "s@^\([^.]*\....\)0\+@\1.@; s@^\([^.]*\.\)0\+@\1@"
+    )"
+  fi
+  erg="${erg}${dep}"
+}
+
+paket="$1"
+
+if [[ "${paket}" != "perl-"* ]]
+then
+# noch zu implementieren / zur Zeit unnötig
+  exit 0
+fi
+
+me="$(readlink -f "$0")"
+cd "$(dirname "${me}")"
+cd "${paket}"
+
+makepkg -f --verifysource
+
+. PKGBUILD
+
+if [ ! -r "${_distdir}.tar.gz" ]
+then
+  >&2 echo "Kann Datei '${_distdir}.tar.gz' nicht lesen!"
+  exit 1
+fi
+
+echo "META.yml lesen ..."
+
+meta="$(
+  tar -Oxzf "${_distdir}.tar.gz" "${_distdir}/META.yml" | \
+    grep -v "^    file:" | \
+    grep -v "^    version:" | \
+    sed '
+      :begin;
+        $!N;
+        s@^\(\S.*\)\n\s\+\(\S.*\)$@\1 \2@;
+      tbegin;
+      P;
+      D
+    ' | \
+    sed "/^provides: /s@:\(\s\|\$\)@: '0'\1@g" | \
+    sed "s|^provides: '0' |provides: |"
+)"
+
+echo "... fertig, verarbeiten ..."
+
+declare -A metaInfos
+declare -A metaRegexe
+declare -A metaSubst
+
+metaRegexe["makedepends"]="\(build\|configure\)_requires"
+metaSubst["makedepends"]=true
+metaRegexe["depends"]="requires"
+metaSubst["depends"]=true
+metaRegexe["optdepends"]="recommends"
+metaSubst["optdepends"]=true
+metaRegexe["conflicts"]="conflicts"
+metaSubst["conflicts"]=true
+metaRegexe["provides"]="provides"
+metaSubst["provides"]=false
+
+set +e
+
+for sucheWonach in "${!metaRegexe[@]}"
+do
+  metaInfos["${sucheWonach}"]=""
+  for was in $(
+    echo "${meta}" | \
+      grep "^${metaRegexe["${sucheWonach}"]}:" | \
+      sed "s@^${metaRegexe["${sucheWonach}"]}:\s*@@" | \
+      sed "s@\(\S\+\):\s\+'\?\([0-9.]*\)'\?\(\s\|\$\)@\L\1>=\L\2\n@g" | \
+      sed "s@\(\S\+\):\s\+'<\s*\([0-9.]\+\)'\(\s\|\$\)@\L\1<\L\2\n@g" | \
+      sed "s@::@-@g" | \
+      sed "s|>=0\$||" | \
+      grep -v "^\({}\)\?$"
+  )
+  do
+    if ${metaSubst["${sucheWonach}"]}
+    then
+      substituiere "${was}"
+    else
+      erg="perl-${was}"
+    fi
+    if [[ "${erg}" != "perl-%skip"* ]]
+    then
+      metaInfos["${sucheWonach}"]="${metaInfos["${sucheWonach}"]} '${erg}'"
+    fi
+  done
+  metaInfos["${sucheWonach}"]="$(
+    echo "${metaInfos["${sucheWonach}"]}" | \
+      tr ' ' '\n' | \
+      sort -u | \
+      grep -v '^\s*$'
+  )"
+done
+
+err=0
+
+for wasAusgeben in "${!metaRegexe[@]}"
+do
+  eval pkgBuild=( '"${'${wasAusgeben}'[@]}"' )
+  pkgBuild="$(
+    echo "${pkgBuild[@]}" | \
+      tr ' ' '\n' | \
+      grep -v '^$' | \
+      sed "s|^\(.*\)$|'\1'|" | \
+      sort -u
+  )"
+  metaYml="$(
+    echo "${metaInfos["${wasAusgeben}"]}" | \
+      grep -v '^$' | \
+      sort -u;
+  )"
+  probleme="$(
+    (
+      echo "${pkgBuild}"
+      echo "${metaYml}"
+    ) | \
+      sort | \
+      uniq -u
+  )"
+  if [ -n "${probleme}" ]
+  then
+    >&2 echo "${wasAusgeben} unterscheidet sich:"
+    >&2 echo '-------------------------------------'
+    >&2 echo "${metaYml}"
+    >&2 echo '^^^ META.yml ^^^ vs. vvv PKGBUILD vvv'
+    >&2 echo "${pkgBuild}"
+    >&2 echo "====================================="
+    >&2 echo "${probleme}"
+    >&2 echo "====================================="
+    err=1
+  fi
+done
+
+echo "... fertig"
+exit ${err}

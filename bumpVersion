@@ -58,6 +58,20 @@ summen="$( \
 )"
 sed 's|sha512sums=.*$|'"${summen}"'|' -i PKGBUILD
 
+(
+  if ! "$(dirname "$(readlink -f "$0")")/testeAbhaengigkeiten" "${paket}"
+  then
+    was=''
+    ec[0]='jJyY'
+    ec[1]='nN'
+    while [[ "${ec[0]}" != *"${was}"* ]] && [[ "${ec[1]}" != *"${was}"* ]] || [ -z "${was}" ]
+    do
+      read -p 'Trotzdem weiter machen (j/y/n)? ' was
+    done
+    [[ "${ec[0]}" == *"${was}"* ]]
+  fi
+) || exit $?
+
 rm -rf pkg src
 sudo pacman -Sy
 makepkg -fcsr --noconfirm --asdeps || exit 1
