@@ -9,13 +9,19 @@ arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl-carp'
   'perl-clone-pp'
-  'perl-file-homedir'
+  'perl-file-homedir>=0.91'
+  'perl-file-temp'
+  'perl-package-stash>=0.3'
+  'perl-pathtools'
+  'perl-scalar-list-utils'
   'perl-sort-naturally'
-  'perl-io-tty'
-  'perl-package-stash'
-)
-makedepends=()
+  'perl-term-ansicolor>=3'
+  'perl-test-simple>=0.88'
+  'perl-version>=0.77')
+makedepends=(
+  'perl-extutils-makemaker')
 checkdepends=(
   'perl-io-pty-easy'
   'perl-yaml-syck'

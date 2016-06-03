@@ -8,7 +8,12 @@ pkgdesc='Dump variables with names (no source filter)'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-padwalker>=0.13' 'perl-scalar-list-utils' 'perl-test-simple')
+provides=(
+  'perl-data-dumper-names=0.03')
+depends=(
+  'perl-padwalker>=0.13'
+  'perl-scalar-list-utils'
+  'perl-test-simple')
 checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
 url='https://metacpan.org/release/Data-Dumper-Names'
 _distdir="Data-Dumper-Names-${pkgver}"

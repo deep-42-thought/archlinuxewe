@@ -9,7 +9,20 @@ pkgdesc="Minimalist class construction"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
+provides=(
+  'perl-class-tiny=1.004'
+  'perl-class-tiny-object=1.004')
+depends=(
+  'perl'
+  'perl-carp')
+makedepends=(
+  'perl-base'
+  'perl-exporter'
+  'perl-extutils-makemaker'
+  'perl-extutils-makemaker>=6.17'
+  'perl-lib'
+  'perl-pathtools'
+  'perl-test-simple>=0.96')
 checkdepends=('perl-test-failwarnings')
 url='https://metacpan.org/release/Class-Tiny'
 _distdir="Class-Tiny-${pkgver}"

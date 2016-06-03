@@ -9,8 +9,20 @@ pkgdesc="Use shorter versions of class names."
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=('perl-module-build-tiny')
+provides=(
+  'perl-aliased=0.34')
+depends=(
+  'perl>=5.006'
+  'perl-carp'
+  'perl-exporter')
+makedepends=(
+  'perl>=5.006'
+  'perl-extutils-makemaker'
+  'perl-if'
+  'perl-lib'
+  'perl-module-build-tiny>=0.039'
+  'perl-pathtools'
+  'perl-test-simple')
 url='http://search.mcpan.org/dist/aliased'
 source=("http://search.mcpan.org/CPAN/authors/id/E/ET/ETHER/aliased-${pkgver}.tar.gz")
 sha512sums=('65bc3f6401a0c2119105261112a3d9612abb98c874cd3409c6a1a9a0974aae902f30b6041121be6a74ee28584cf0c7ef506fe8318ab35ac550f70b4b387744f6')

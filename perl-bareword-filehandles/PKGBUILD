@@ -8,8 +8,15 @@ pkgdesc='disables bareword filehandles'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-b-hooks-op-check' 'perl-lexical-sealrequirehints' 'perl-xsloader')
-makedepends=('perl-test-simple>=0.88' 'perl-b-hooks-op-check' 'perl-extutils-depends' 'perl-extutils-makemaker>=6.31')
+depends=(
+  'perl-b-hooks-op-check'
+  'perl-lexical-sealrequirehints'
+  'perl-xsloader')
+makedepends=(
+  'perl-b-hooks-op-check'
+  'perl-extutils-depends'
+  'perl-extutils-makemaker'
+  'perl-test-simple>=0.88')
 url='https://metacpan.org/release/bareword-filehandles'
 _distdir="bareword-filehandles-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/I/IL/ILMARI/${_distdir}.tar.gz")

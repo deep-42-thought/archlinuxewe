@@ -8,8 +8,59 @@ pkgdesc='Modules that serialize data structures'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-autoloader' 'perl-data-dumper>=2.08' 'perl-digest-sha' 'perl-exporter' 'perl-io' 'perl-bencode' 'perl-io-compress' 'perl-config-general' 'perl-convert-bencode' 'perl-convert-bencode_xs' 'perl-crypt-blowfish' 'perl-crypt-cbc' 'perl-data-denter' 'perl-data-taxi' 'perl-freezethaw' 'perl-json' 'perl-yaml-syck' 'perl-json-xs' 'perl-mime-base64' 'perl-php-serialization' 'perl-storable' 'perl-xml-dumper' 'perl-xml-simple' 'perl-yaml' 'perl-yaml-syck')
-makedepends=('perl-pathtools' 'perl-io' 'perl-test-simple' 'perl-module-build>=0.35')
+provides=(
+  'perl-data-serializer=0.60'
+  'perl-data-serializer-bencode=0.03'
+  'perl-data-serializer-config-general=0.02'
+  'perl-data-serializer-convert-bencode=0.03'
+  'perl-data-serializer-convert-bencode_xs=0.03'
+  'perl-data-serializer-cookbook=0.05'
+  'perl-data-serializer-data-denter=0.02'
+  'perl-data-serializer-data-dumper=0.05'
+  'perl-data-serializer-data-taxi=0.02'
+  'perl-data-serializer-freezethaw=0.02'
+  'perl-data-serializer-json=0.04'
+  'perl-data-serializer-json-syck=0.02'
+  'perl-data-serializer-persistent=0.01'
+  'perl-data-serializer-php-serialization=0.02'
+  'perl-data-serializer-raw=0.02'
+  'perl-data-serializer-storable=0.03'
+  'perl-data-serializer-xml-dumper=0.02'
+  'perl-data-serializer-xml-simple=0.03'
+  'perl-data-serializer-yaml=0.02'
+  'perl-data-serializer-yaml-syck=0.02')
+depends=(
+  'perl-autoloader'
+  'perl-data-dumper>=2.08'
+  'perl-digest-sha'
+  'perl-exporter'
+  'perl-io')
+makedepends=(
+  'perl-io'
+  'perl-module-build>=0.35'
+  'perl-pathtools'
+  'perl-test-simple')
+optdepends=(
+  'perl-bencode'
+  'perl-compress-ppmd'
+  'perl-config-general'
+  'perl-convert-bencode'
+  'perl-convert-bencode_xs'
+  'perl-crypt-blowfish'
+  'perl-crypt-cbc'
+  'perl-data-denter'
+  'perl-data-taxi'
+  'perl-freezethaw'
+  'perl-io-compress'
+  'perl-json'
+  'perl-json-xs'
+  'perl-mime-base64'
+  'perl-php-serialization'
+  'perl-storable'
+  'perl-xml-dumper'
+  'perl-xml-simple'
+  'perl-yaml'
+  'perl-yaml-syck')
 checkdepends=('perl-digest-sha1')
 url='https://metacpan.org/release/Data-Serializer'
 _distdir="Data-Serializer-${pkgver}"

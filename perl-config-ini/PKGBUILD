@@ -8,14 +8,15 @@ url="https://github.com/rjbs/Config-INI"
 license=('GPL' 'PerlArtistic')
 groups=()
 depends=(
-    'perl'
-    'perl-mixin-linewise'
-)
-makedepends=()
+  'perl'
+  'perl-carp'
+  'perl-mixin-linewise>=0.105')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-simple>=0.96')
 checkdepends=()
-optdepends=()
-provides=()
-conflicts=()
 replaces=()
 backup=()
 options=()

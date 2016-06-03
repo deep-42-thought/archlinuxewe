@@ -8,8 +8,12 @@ arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl'
-)
+  'perl')
+makedepends=(
+  'perl-base'
+  'perl-extutils-makemaker>=6.42'
+  'perl-pathtools>=0.80'
+  'perl-test-simple>=0.47')
 checkdepends=()
 url='https://metacpan.org/release/asa'
 _distdir="asa-${pkgver}"

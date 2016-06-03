@@ -9,10 +9,11 @@ license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
   'perl'
-)
+  'perl-uri-escape')
+makedepends=(
+  'perl-extutils-makemaker')
 checkdepends=(
-  'perl-uri-escape'
-)
+  'perl-uri-escape')
 url='https://metacpan.org/release/Any-URI-Escape'
 _distdir="Any-URI-Escape-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PH/PHRED/${_distdir}.tar.gz")

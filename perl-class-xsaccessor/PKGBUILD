@@ -9,8 +9,13 @@ pkgdesc="Generate fast XS accessors without runtime compilation"
 arch=('i686' 'x86_64')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+depends=(
+  'perl'
+  'perl-time-hires'
+  'perl-xsloader')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-simple')
 url='https://metacpan.org/release/Class-XSAccessor'
 _distdir="Class-XSAccessor-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/S/SM/SMUELLER/${_distdir}.tar.gz")

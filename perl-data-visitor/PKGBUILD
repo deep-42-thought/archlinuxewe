@@ -10,8 +10,16 @@ pkgdesc="Visitor style traversal of Perl data structures"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-class-load>=0.06' 'perl-moose>=0.89' 'perl-namespace-clean>=0.19' 'perl-task-weaken' 'perl-tie-toobject>=0.01')
-makedepends=('perl-test-requires')
+depends=(
+  'perl-class-load>=0.06'
+  'perl-moose>=0.89'
+  'perl-namespace-clean>=0.19'
+  'perl-task-weaken'
+  'perl-tie-toobject>=0.01')
+makedepends=(
+  'perl-extutils-makemaker>=6.30'
+  'perl-test-requires'
+  'perl-test-simple>=0.88')
 checkdepends=('perl-data-alias')
 url='http://search.cpan.org/dist/Data-Visitor'
 _distdir="Data-Visitor-${pkgver}"

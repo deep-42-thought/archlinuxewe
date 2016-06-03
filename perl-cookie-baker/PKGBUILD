@@ -9,15 +9,15 @@ arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-cookie-baker')
+  'perl-cookie-baker=0.06')
 depends=(
+  'perl>=5.8.1'
   'perl-exporter'
-  'perl-uri-escape'
-  'perl>=5.8.1')
+  'perl-uri-escape')
 makedepends=(
+  'perl-module-build>=0.38'
   'perl-test-simple>=0.98'
-  'perl-test-time'
-  'perl-module-build>=0.38')
+  'perl-test-time')
 url='https://metacpan.org/release/Cookie-Baker'
 _distdir="Cookie-Baker-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/K/KA/KAZEBURO/${_distdir}.tar.gz")

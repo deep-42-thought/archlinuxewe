@@ -8,12 +8,16 @@ arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl-ipc-sharelite'
-)
+  'perl-digest-sha1>=2.02'
+  'perl-error>=0.15'
+  'perl-ipc-sharelite>=0.09'
+  'perl-pathtools>=0.82'
+  'perl-storable>=1.014')
+makedepends=(
+  'perl-extutils-makemaker')
 checkdepends=(
   'perl-error'
-  'perl-digest-sha1'
-)
+  'perl-digest-sha1')
 url='https://metacpan.org/release/Cache-Cache'
 _distdir="Cache-Cache-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")

@@ -9,15 +9,14 @@ arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.6.0'
   'perl-exporter'
   'perl-scalar-list-utils'
-  'perl-task-weaken'
-  'perl>=5.6.0')
+  'perl-task-weaken')
 makedepends=(
   'perl-extutils-cbuilder'
-  'perl-test-simple'
-  'perl-extutils-cbuilder'
-  'perl-extutils-depends>=0.301')
+  'perl-extutils-depends>=0.301'
+  'perl-test-simple')
 url='https://metacpan.org/release/B-Utils'
 _distdir="B-Utils-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz")

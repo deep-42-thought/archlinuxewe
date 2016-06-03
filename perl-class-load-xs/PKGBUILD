@@ -12,7 +12,21 @@ license=('PerlArtistic2')
 options=('!emptydirs')
 # https://bugs.archlinux.org/task/43204
 # perl-class-load should depend on perl-namespace-clean
-depends=('perl-class-load' 'perl-namespace-clean')
+provides=(
+  'perl-class-load-xs=0.09')
+depends=(
+  'perl-class-load>=0.20'
+  'perl-xsloader')
+makedepends=(
+  'perl-constant'
+  'perl-extutils-makemaker'
+  'perl-lib'
+  'perl-module-implementation>=0.04'
+  'perl-pathtools'
+  'perl-test-fatal'
+  'perl-test-requires'
+  'perl-test-simple>=0.88'
+  'perl-version')
 checkdepends=('perl-module-implementation' 'perl-test-fatal' 'perl-test-requires' 'perl-test-without-module')
 url="https://metacpan.org/release/${_pkgname}"
 _distdir="${_pkgname}-${pkgver}"

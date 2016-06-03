@@ -8,8 +8,21 @@ pkgdesc="Verify requirements in a CPAN::Meta object"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=('perl-test-deep')
+provides=(
+  'perl-cpan-meta-check=0.012')
+depends=(
+  'perl'
+  'perl-base'
+  'perl-cpan-meta>=2.132830'
+  'perl-cpan-meta-requirements>=2.121'
+  'perl-exporter'
+  'perl-module-metadata>=1.000023')
+makedepends=(
+  'perl-cpan-meta>=2.120920'
+  'perl-env'
+  'perl-extutils-makemaker'
+  'perl-test-deep'
+  'perl-test-simple>=0.88')
 url='http://search.cpan.org/dist/CPAN-Meta-Check'
 _distdir="CPAN-Meta-Check-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/L/LE/LEONT/${_distdir}.tar.gz")

@@ -7,9 +7,10 @@ pkgdesc='Define TRUE and FALSE constants'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+provides=(
+  'perl-constant-boolean=0.02')
 depends=(
-  'perl-symbol-util'
-)
+  'perl-symbol-util>=0.02')
 checkdepends=()
 url='https://metacpan.org/pod/constant::boolean'
 _distdir="constant-boolean-${pkgver}"

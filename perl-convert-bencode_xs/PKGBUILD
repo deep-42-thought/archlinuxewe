@@ -8,7 +8,8 @@ pkgdesc='Faster conversions to/from Bencode format'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-bencode' 'perl-test-simple')
+depends=(
+  'perl-test-simple')
 checkdepends=('perl-convert-bencode')
 url='https://metacpan.org/release/Convert-Bencode_XS'
 _distdir="Convert-Bencode_XS-${pkgver}"
