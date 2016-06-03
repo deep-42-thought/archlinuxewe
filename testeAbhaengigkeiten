@@ -52,6 +52,12 @@ then
   exit 1
 fi
 
+if ! tar -tzf "${_distdir}.tar.gz" "${_distdir}/META.yml"
+then
+# da kann ich nichts machen
+  exit 0
+fi
+
 echo "META.yml lesen ..."
 
 meta="$(
