@@ -122,7 +122,7 @@ do
   )"
 done
 
-err=0
+err=false
 
 for wasAusgeben in "${!metaRegexe[@]}"
 do
@@ -131,12 +131,13 @@ do
     echo "${pkgBuild[@]}" | \
       tr ' ' '\n' | \
       grep -v '^$' | \
-      sed "s|^\(.*\)$|'\1'|" | \
+      sed "s|^\(.*\)\$|  '\1'|" | \
       sort -u
   )"
   metaYml="$(
     echo "${metaInfos["${wasAusgeben}"]}" | \
       grep -v '^$' | \
+      sed 's|^|  |' | \
       sort -u;
   )"
   probleme="$(
@@ -157,9 +158,25 @@ do
     >&2 echo "====================================="
     >&2 echo "${probleme}"
     >&2 echo "====================================="
-    err=1
+    err=true
   fi
 done
 
+if ${err}
+then
+  >&2 echo 'neu könnte das etwa so aussehen:'
+  >&2 echo '-------------------------------------'
+  for wasAusgeben in "${!metaRegexe[@]}"
+  do
+    if [ -n "${metaInfos["${wasAusgeben}"]}" ]
+    then
+      >&2 echo "${wasAusgeben}=("
+      echo "${metaInfos["${wasAusgeben}"]})" | \
+        sed "s|^|  |" >& 2
+    fi
+  done
+  >&2 echo '-------------------------------------'
+  exit 1
+fi
+
 echo "... fertig"
-exit ${err}
