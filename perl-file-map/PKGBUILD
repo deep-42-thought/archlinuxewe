@@ -3,6 +3,7 @@ pkgname=perl-file-map
 _pkgname='File-Map'
 pkgver=0.64
 pkgrel=1
+_distdir="${_pkgname}-${pkgver}"
 pkgdesc="Memory mapping made simple and safe."
 arch=('x86_64' 'i686')
 url="https://github.com/Leont/file-map"
@@ -11,7 +12,7 @@ depends=('perl')
 makedepends=('perl-perlio-layers' 'perl-test-warnings' 'perl-module-build')
 checkdepends=('perl-sub-exporter-progressive' 'perl-test-fatal')
 options=('!emptydirs')
-source=("http://search.cpan.org/CPAN/authors/id/L/LE/LEONT/${_pkgname}-${pkgver}.tar.gz")
+source=("http://search.cpan.org/CPAN/authors/id/L/LE/LEONT/${_distdir}.tar.gz")
 sha256sums=('03e42eb2de185b1e257c7a0ed9761a20b7d51f522464c713b20f43d47491a8c9')
 
 build() {
@@ -21,21 +22,21 @@ build() {
       PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
       MODULEBUILDRC=/dev/null
 
-    cd "${srcdir}/${_pkgname}-${pkgver}"
+    cd "${srcdir}/${_distdir}"
     perl Build.PL
     perl Build
   )
 }
 
 check() {
-  cd "${srcdir}/${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
     perl Build test
   )
 }
 
 package() {
-  cd "${srcdir}/${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   perl Build install
   find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
 }

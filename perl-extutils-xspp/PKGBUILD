@@ -6,7 +6,7 @@ pkgname=perl-extutils-xspp
 pkgver=0.18
 pkgrel=1
 _author=S/SM/SMUELLER
-_perlmod=ExtUtils-XSpp
+_distdir="ExtUtils-XSpp-${pkgver}"
 pkgdesc='ExtUtils::XSpp - XS for C++'
 arch=('any')
 url="http://search.cpan.org/dist/ExtUtils-XSpp/"
@@ -67,11 +67,11 @@ perl-extutils-xspp-typemap-simple
 perl-extutils-xspp-typemap-wrapper
 )
 options=(!emptydirs)
-source=("http://search.cpan.org/CPAN/authors/id/$_author/$_perlmod-$pkgver.tar.gz")
+source=("http://search.cpan.org/CPAN/authors/id/$_author/${_distdir}.tar.gz")
 sha256sums=('9176ad646729e3bd27cf7abf114bedd3424bff1ba61185cfc7d54f3a9223a8ff')
 
 build(){
-  cd "$srcdir"/$_perlmod-$pkgver
+  cd "$srcdir/${_distdir}"
 
   # Setting these env variables overwrites any command-line-options we don't want...
   export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
@@ -83,11 +83,11 @@ build(){
   perl Build
 }
 check(){
-  cd "$srcdir"/$_perlmod-$pkgver
+  cd "$srcdir/${_distdir}"
   perl Build test
 }
 package(){
-  cd "$srcdir"/$_perlmod-$pkgver
+  cd "$srcdir/${_distdir}"
   perl Build install
   # remove perllocal.pod and .packlist
   find "$pkgdir" -name .packlist -o -name perllocal.pod -delete

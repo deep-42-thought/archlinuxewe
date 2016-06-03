@@ -6,6 +6,7 @@
 pkgname=perl-inline-c
 pkgver=0.76
 pkgrel=2
+_distdir="Inline-C-${pkgver}"
 pkgdesc='Perl module providing a way to write Perl subroutines in C'
 arch=('any')
 url='https://metacpan.org/release/Inline-C'
@@ -21,11 +22,11 @@ checkdepends=(
 	'perl-io-all'
 	'perl-test-warn>=0.23'
 	'perl-yaml-libyaml')
-source=(http://search.cpan.org/CPAN/authors/id/I/IN/INGY/Inline-C-${pkgver}.tar.gz)
+source=(http://search.cpan.org/CPAN/authors/id/I/IN/INGY/${_distdir}.tar.gz)
 sha512sums=('43bf0bc6addf08c4c3347b074babdc514b1d6cee052d1124c5d9d4a4b52bd0e92ac79f8393f35252a98ef337fb18a9da47cdf545b1010b3f0d9c4b7fd9eb8c6d')
 
 build() {
-	cd Inline-C-${pkgver}
+	cd ${_distdir}
 	unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
 	export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps
 	/usr/bin/perl Makefile.PL INSTALLDIRS=vendor
@@ -33,14 +34,14 @@ build() {
 }
 
 check() {
-	cd Inline-C-${pkgver}
+	cd ${_distdir}
 	unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
 	export PERL_MM_USE_DEFAULT=1
 	make test
 }
 
 package() {
-	cd Inline-C-${pkgver}
+	cd ${_distdir}
 	unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
 	make install DESTDIR="$pkgdir"
 	find "$pkgdir" -name .packlist -o -name perllocal.pod -delete

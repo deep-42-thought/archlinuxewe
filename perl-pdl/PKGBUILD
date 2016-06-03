@@ -3,6 +3,7 @@ pkgname=perl-pdl
 _pkgname='PDL'
 pkgver=2.016
 pkgrel=1
+_distdir="${_pkgname}-${pkgver}"
 pkgdesc="the Perl Data Language"
 arch=('x86_64' 'i686')
 url="http://pdl.perl.org/"
@@ -12,7 +13,7 @@ depends=('perl-devel-checklib' 'perl-astro-fits-header'
 'hdf4' 'perl-gd')
 makedepends=('perl-extutils-f77' 'perl-test-exception' 'perl-test-warn' 'perl-test-deep' 'perl-file-map')
 options=('!emptydirs')
-source=("http://search.cpan.org/CPAN/authors/id/C/CH/CHM/${_pkgname}-${pkgver}.tar.gz")
+source=("http://search.cpan.org/CPAN/authors/id/C/CH/CHM/${_distdir}.tar.gz")
 sha512sums=('7822e12688ed94c4c2fdd4937d7ec3869b08d9831ddd7307706e404e11c6f8b40792912d05b6022ede982ba870aae426141d0fd4030d43aef72ca0be46f673c8')
 
 build() {
@@ -22,21 +23,21 @@ build() {
       PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
       MODULEBUILDRC=/dev/null
 
-    cd "${srcdir}/${_pkgname}-${pkgver}"
+    cd "${srcdir}/${_distdir}"
     /usr/bin/perl Makefile.PL
     make
   )
 }
 
 check() {
-  cd "${srcdir}/${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
     make test
   )
 }
 
 package() {
-  cd "${srcdir}/${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   make pure_install
   find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
 }

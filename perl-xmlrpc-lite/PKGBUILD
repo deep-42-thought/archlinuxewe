@@ -1,32 +1,33 @@
 # Maintainer:  Erich Eckner <arch at eckner dot net>
 # Contributor: Yardena Cohen <yardenack at gmail dot com>
 
-_cpaname=XMLRPC-Lite
+_cpanname=XMLRPC-Lite
 _cpanauthor=PHRED
 pkgname=perl-xmlrpc-lite
 pkgver=0.717
 pkgrel=1
+_distdir="${_cpanname}-${pkgver}"
 pkgdesc="client and server implementation of XML-RPC protocol"
 arch=('any')
-url="http://search.cpan.org/dist/${_cpaname}/"
+url="http://search.cpan.org/dist/${_cpanname}/"
 license=('unknown')
 options=('!emptydirs')
 depends=('perl' 'perl-soap-lite')
-source=("http://search.cpan.org/CPAN/authors/id/${_cpanauthor::1}/${_cpanauthor::2}/${_cpanauthor}/${_cpaname}-${pkgver}.tar.gz")
+source=("http://search.cpan.org/CPAN/authors/id/${_cpanauthor::1}/${_cpanauthor::2}/${_cpanauthor}/${_distdir}.tar.gz")
 sha256sums=('3a9fa5f2cb1faf8b7c66b4c386eab35cac6088afc4dbc757d4f77d284dab4524')
 
 build() {
-	 cd "${srcdir}/${_cpaname}-${pkgver}"
+	 cd "${srcdir}/${_distdir}"
 	 perl Makefile.PL
 	 make
 }
 
 check() {
-	 cd "${srcdir}/${_cpaname}-${pkgver}"
+	 cd "${srcdir}/${_distdir}"
 	 make test
 }
 
 package () {
-	 cd "${srcdir}/${_cpaname}-${pkgver}"
+	 cd "${srcdir}/${_distdir}"
 	 make install INSTALLDIRS=vendor DESTDIR="${pkgdir}"
 }

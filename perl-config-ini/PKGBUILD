@@ -19,16 +19,13 @@ conflicts=()
 replaces=()
 backup=()
 options=()
-source=(
-    "http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/Config-INI-${pkgver}.tar.gz"
-)
-sha256sums=(
-    '628bf76d5b91f89dde22d4813ec033026ebf71b772bb61ccda909da00c869732'
-)
+_distdir="Config-INI-${pkgver}"
+source=("http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
+sha256sums=('628bf76d5b91f89dde22d4813ec033026ebf71b772bb61ccda909da00c869732')
 
 build() {
 
-    cd Config-INI-${pkgver}
+    cd ${_distdir}
 
     perl Makefile.PL
     make
@@ -37,7 +34,7 @@ build() {
 
 check() {
 
-    cd Config-INI-${pkgver}
+    cd ${_distdir}
 
     make test
 
@@ -45,7 +42,7 @@ check() {
 
 package() {
 
-    cd Config-INI-${pkgver}
+    cd ${_distdir}
 
     make DESTDIR="${pkgdir}" install
 

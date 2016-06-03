@@ -6,6 +6,7 @@ pkgver=0.9928
 _author=M/MD/MDOOTSON
 _perlmod=Wx
 pkgrel=3
+_distdir="${_perlmod}-${pkgver}"
 pkgdesc="Wx - interface to the wxWidgets GUI toolkit"
 arch=('i686' 'x86_64')
 url="http://search.cpan.org/dist/Wx"
@@ -89,18 +90,19 @@ perl-build-wx-xsp-overload
 perl-build-wx-xsp-virtual
 )
 options=('!emptydirs')
-source=("http://search.cpan.org/CPAN/authors/id/$_author/$_perlmod-$pkgver.tar.gz")
+source=("http://search.cpan.org/CPAN/authors/id/$_author/${_distdir}.tar.gz")
 sha256sums=('58e06c094c07817617b1e69fa0501f2cee80cd4700ac7a62c516179f7aa85b42')
 
 build(){
-  cd "$srcdir"/$_perlmod-$pkgver
+  cd "${srcdir}/${_distdir}"
   unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
   export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps
   /usr/bin/perl Makefile.PL
   make
 }
+
 check(){
-  cd "$srcdir"/$_perlmod-$pkgver
+  cd "${srcdir}/${_distdir}"
   if [[ -z "$DISPLAY" || -x /usr/bin/xvfb-run ]]; then
 #     warning 'Empty $DISPLAY - falling back to xvfb-run (xorg-server-xvfb)'
     xvfb-run -a -s "+extension GLX -screen 0 1280x1024x24" make test
@@ -108,8 +110,9 @@ check(){
     make test
   fi
 }
+
 package(){
-  cd "$srcdir"/$_perlmod-$pkgver
+  cd "${srcdir}/${_distdir}"
   unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
   make install INSTALLDIRS=vendor DESTDIR="$pkgdir"
 }

@@ -16,14 +16,13 @@ conflicts=()
 replaces=()
 backup=()
 options=()
-source=(
-    "http://search.cpan.org/CPAN/authors/id/B/BD/BDFOY/Chemistry-Elements-${pkgver}.tar.gz"
-)
+_distdir="Chemistry-Elements-${pkgver}"
+source=("http://search.cpan.org/CPAN/authors/id/B/BD/BDFOY/${_distdir}.tar.gz")
 sha512sums=('bfed7ab91c2554f01cb8923ac311dae8986fdbdbde35f6868aa59d3c1b9c10ac047e222b5473204fd4b464e3fc93ac7fb80a907b57ceeb9bea3afb1d7850445f')
 
 build() {
 
-    cd Chemistry-Elements-${pkgver}
+    cd ${_distdir}
 
     perl Makefile.PL
     make
@@ -32,7 +31,7 @@ build() {
 
 check() {
 
-    cd Chemistry-Elements-${pkgver}
+    cd ${_distdir}
 
     make test
 
@@ -40,7 +39,7 @@ check() {
 
 package() {
 
-    cd Chemistry-Elements-${pkgver}
+    cd ${_distdir}
 
     make DESTDIR="${pkgdir}" install
 

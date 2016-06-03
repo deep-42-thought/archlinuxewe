@@ -11,7 +11,8 @@ depends=('perl')
 makedepends=('perl-module-build')
 checkdepends=('perl-starlink-ast' 'perl-astro-fits-cfitsio') # 'perl-gsd' 'perl-ndf')
 options=('!emptydirs')
-source=("http://search.cpan.org/CPAN/authors/id/T/TJ/TJENNESS/${_pkgname}-${pkgver}.tar.gz")
+_distdir="${_pkgname}-${pkgver}"
+source=("http://search.cpan.org/CPAN/authors/id/T/TJ/TJENNESS/${_distdir}.tar.gz")
 sha256sums=('530d59ef0c0935f9862d187187a2d7583b12c639bb67db14f983322b161892d9')
 
 build() {
@@ -21,21 +22,21 @@ build() {
       PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
       MODULEBUILDRC=/dev/null
 
-    cd "${srcdir}/${_pkgname}-${pkgver}"
+    cd "${srcdir}/${_distdir}"
     perl Build.PL
     perl Build
   )
 }
 
 check() {
-  cd "${srcdir}/${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
     perl Build test
   )
 }
 
 package() {
-  cd "${srcdir}/${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   perl Build install
   find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
 }

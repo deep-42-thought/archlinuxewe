@@ -13,7 +13,8 @@ options=('!emptydirs')
 depends=('perl-try-tiny' 'perl-sub-exporter')
 checkdepends=('perl-test-requires' 'perl-test-fatal' 'perl-test-output' 'perl-devel-lexalias' 'perl-padwalker')
 url="https://metacpan.org/release/${_pkgname}"
-source=(https://cpan.metacpan.org/authors/id/${_lastauthor}/${_pkgname}-${pkgver}.tar.gz)
+_distdir="${_pkgname}-${pkgver}"
+source=(https://cpan.metacpan.org/authors/id/${_lastauthor}/${_distdir}.tar.gz)
 sha512sums=('fc55206bd39c4cb39360d06b6f39a65743f34b5e59d1a1ce99bf5831b9d88a03fb6dadf32fa9f0868e140fce719d53a7b13027f397cdd7f6ca05cc81277bdc08')
 
 build() {
@@ -22,15 +23,15 @@ build() {
     PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
     MODULEBUILDRC=/dev/null
 
-  cd "${srcdir}/${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   perl Makefile.PL
   make
 }
 check() {
-  cd "${srcdir}/${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   make test
 }
 package() {
-  cd "${srcdir}/${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   make install
 }

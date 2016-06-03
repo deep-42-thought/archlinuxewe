@@ -11,7 +11,8 @@ arch=('any')
 url='https://metacpan.org/release/ExtUtils-F77'
 license=('PerlArtistic' 'GPL')
 depends=('perl' 'gcc-fortran')
-source=(http://search.cpan.org/CPAN/authors/id/C/CH/CHM/ExtUtils-F77-${pkgver}.tar.gz)
+_distdir="ExtUtils-F77-${pkgver}"
+source=(http://search.cpan.org/CPAN/authors/id/C/CH/CHM/${_distdir}.tar.gz)
 options=(!emptydirs)
 sha512sums=('0d7cf351d84676d3dea2ec781b1e230ab4a737d34de4c15c5045603ac6e6e411b5d9b235e68bb9ba0552cc4de0ea67c8355c160840b3205429802ea1569f0400')
 
@@ -21,20 +22,20 @@ sanitize() {
 }
 
 build() {
-	cd ExtUtils-F77-${pkgver}
+	cd ${_distdir}
 	sanitize
 	perl Makefile.PL INSTALLDIRS=vendor
 	make
 }
 
 check() {
-	cd ExtUtils-F77-${pkgver}
+	cd ${_distdir}
 	sanitize
 	F77LIBS='-lgfortran -lm' make test
 }
 
 package() {
-	cd ExtUtils-F77-${pkgver}
+	cd ${_distdir}
 	sanitize
 	make install DESTDIR="$pkgdir"
 	find "$pkgdir" -name .packlist -o -name perllocal.pod -delete

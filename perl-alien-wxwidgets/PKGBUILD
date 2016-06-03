@@ -15,12 +15,11 @@ depends=('perl>=5.10.0' 'wxgtk' 'perl-module-pluggable') # Install perl-module-p
 makedepends=('perl-module-build')
 checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
 options=(!emptydirs)
-source=("http://www.cpan.org/modules/by-module/${_cpan_name%%-*}/${_cpan_name}-${pkgver}.tar.gz"
-       )
+_distdir="${_cpan_name}-${pkgver}"
+source=("http://www.cpan.org/modules/by-module/${_cpan_name%%-*}/${_distdir}.tar.gz")
 sha512sums=('633547a4417a42e96621a9409a83e736ba94c8692b7791a1887cf8497aaade9bc827a1279db169f737e834c5070c6f0d485c005133708bbf76a279acf1684092')
 
 prepare() {
-  export _src_dir="${_cpan_name}-${pkgver}"
   # Setting these env variables overwrites any command-line-options we don't want...
   export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
     PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'" \
@@ -38,26 +37,25 @@ prepare() {
 # https://rt.cpan.org/Public/Bug/Display.html?id=94367
 # https://rt.cpan.org/Public/Bug/Display.html?id=87202
 # {
-#   cd "$_src_dir"
+#   cd "$_distdir"
 #   patch < ${srcdir}/wx-config-version-and-env.patch
 #   patch ./lib/Alien/wxWidgets/Utility.pm < ${srcdir}/Alien-wxWidgets-0.64-returnor.patch
 # }
 }
 
 build() {
-  cd "$_src_dir"
+  cd "$_distdir"
   /usr/bin/perl Makefile.PL
   make
 }
 
 check () {
-  cd "$_src_dir"
+  cd "$_distdir"
   make test
 }
 
 package () {
-  cd "$_src_dir"
-  echo "$_src_dir"
+  cd "$_distdir"
   make install
 
   # remove perllocal.pod and .packlist

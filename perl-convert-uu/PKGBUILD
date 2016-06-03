@@ -11,31 +11,32 @@ depends=('perl')
 makedepends=()
 checkdepends=('perl-test-pod>=1.00' 'perl-test-pod-coverage')
 options=('!emptydirs')
-source=("http://search.cpan.org/CPAN/authors/id/A/AN/ANDK/${_pkgname}-${pkgver}.tar.gz")
+_distdir="${_pkgname}-${pkgver}"
+source=("http://search.cpan.org/CPAN/authors/id/A/AN/ANDK/${_distdir}.tar.gz")
 sha256sums=('92329ce1c32b5952c48e1223db018c8c58ceafef03bfa0fd4817cd89c355a3bd')
 
 build() {
-  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
-      PERL_AUTOINSTALL=--skipdeps                            \
-      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
-      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                   \
+      PERL_AUTOINSTALL=--skipdeps                              \
+      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'"     \
+      PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
       MODULEBUILDRC=/dev/null
 
-    cd "${srcdir}/${_pkgname}-${pkgver}"
-    /usr/bin/perl Makefile.PL
+    cd "${srcdir}/${_distdir}"
+    perl Makefile.PL
     make
   )
 }
 
 check() {
-  cd "${srcdir}/${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
     make test
   )
 }
 
 package() {
-  cd "${srcdir}/${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   make install
-  find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
 }

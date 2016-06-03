@@ -7,6 +7,7 @@
 pkgname=perl-module-refresh
 pkgver=0.17
 pkgrel=1
+_distdir="Module-Refresh-${pkgver}"
 pkgdesc="Perl module to refresh %INC files when updated on disk"
 arch=("any")
 license=("GPL" "PerlArtistic")
@@ -14,22 +15,22 @@ url="http://search.cpan.org/dist/Module-Refresh"
 options=(!emptydirs)
 depends=("perl")
 checkdepends=("perl-path-class") # 'perl' provides 'perl-test-simple' and 'perl-file-temp'
-source=("http://search.cpan.org/CPAN/authors/id/A/AL/ALEXMV/Module-Refresh-${pkgver}.tar.gz")
+source=("http://search.cpan.org/CPAN/authors/id/A/AL/ALEXMV/${_distdir}.tar.gz")
 sha512sums=('48bbcf14d5c6f13217b41c9a4683fd5ff492d3d33f8d6d50e89eae8a6336f306358e0070ecf1617d68c6eb9f91caaec6e1048e09b741d3fa0a19f6d38a75f17f')
 
 build() {
-  cd "$srcdir/Module-Refresh-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
   make
 }
 
 check() {
-  cd "$srcdir/Module-Refresh-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   make test
 }
 
 package() {
-  cd "$srcdir/Module-Refresh-${pkgver}"
+  cd "${srcdir}/${_distdir}"
   make install DESTDIR="$pkgdir"
   find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
 }
