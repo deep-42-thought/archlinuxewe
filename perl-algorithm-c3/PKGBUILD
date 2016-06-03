@@ -8,7 +8,12 @@ arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl-carp'
+  'perl>=5.006'
+  'perl-carp>=0.01'
+)
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-simple>=0.47'
 )
 checkdepends=()
 url='https://metacpan.org/release/Algorithm-C3'
