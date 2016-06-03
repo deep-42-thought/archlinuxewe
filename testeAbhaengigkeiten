@@ -56,8 +56,8 @@ echo "META.yml lesen ..."
 
 meta="$(
   tar -Oxzf "${_distdir}.tar.gz" "${_distdir}/META.yml" | \
+    tr '\r' ' ' | \
     grep -v "^    file:" | \
-    grep -v "^    version:" | \
     sed '
       :begin;
         $!N;
@@ -66,8 +66,7 @@ meta="$(
       P;
       D
     ' | \
-    sed "/^provides: /s@:\(\s\|\$\)@: '0'\1@g" | \
-    sed "s|^provides: '0' |provides: |"
+    sed "/^provides: /s@\(\s\S\+\):\s\+version: '\?\([0-9.]\+\)'\?@\1=\2@g"
 )"
 
 echo "... fertig, verarbeiten ..."
@@ -75,6 +74,8 @@ echo "... fertig, verarbeiten ..."
 declare -A metaInfos
 declare -A metaRegexe
 declare -A metaSubst
+declare -A metaYml
+declare -A pkgBuild
 
 metaRegexe["makedepends"]="\(build\|configure\)_requires"
 metaSubst["makedepends"]=true
@@ -126,35 +127,40 @@ err=false
 
 for wasAusgeben in "${!metaRegexe[@]}"
 do
-  eval pkgBuild=( '"${'${wasAusgeben}'[@]}"' )
-  pkgBuild="$(
-    echo "${pkgBuild[@]}" | \
+  eval tmp=( '"${'${wasAusgeben}'[@]}"' )
+  pkgBuild["${wasAusgeben}"]="$(
+    echo "${tmp[@]}" | \
       tr ' ' '\n' | \
       grep -v '^$' | \
       sed "s|^\(.*\)\$|  '\1'|" | \
       sort -u
   )"
-  metaYml="$(
-    echo "${metaInfos["${wasAusgeben}"]}" | \
-      grep -v '^$' | \
-      sed 's|^|  |' | \
-      sort -u;
+  metaYml["${wasAusgeben}"]="$(
+    (
+      echo "${metaInfos["${wasAusgeben}"]}" | \
+        grep -v '^$' | \
+        grep "^\s*'\?perl-" | \
+        sed 's|^|  |'
+      echo "${pkgBuild["${wasAusgeben}"]}" | \
+        grep -v "^\s*'perl-"
+    ) | \
+      sort -u
   )"
   probleme="$(
     (
-      echo "${pkgBuild}"
-      echo "${metaYml}"
+      echo "${pkgBuild["${wasAusgeben}"]}"
+      echo "${metaYml["${wasAusgeben}"]}"
     ) | \
       sort | \
-      uniq -u
+      uniq -u \
   )"
   if [ -n "${probleme}" ]
   then
     >&2 echo "${wasAusgeben} in ${paket}/PKGBUILD unterscheidet sich:"
     >&2 echo '-------------------------------------'
-    >&2 echo "${metaYml}"
+    >&2 echo "${metaYml["${wasAusgeben}"]}"
     >&2 echo '^^^ META.yml ^^^ vs. vvv PKGBUILD vvv'
-    >&2 echo "${pkgBuild}"
+    >&2 echo "${pkgBuild["${wasAusgeben}"]}"
     >&2 echo "====================================="
     >&2 echo "${probleme}"
     >&2 echo "====================================="
@@ -168,11 +174,11 @@ then
   >&2 echo '-------------------------------------'
   for wasAusgeben in "${!metaRegexe[@]}"
   do
-    if [ -n "${metaInfos["${wasAusgeben}"]}" ]
+    if [ -n "${metaYml["${wasAusgeben}"]}" ]
     then
       >&2 echo "${wasAusgeben}=("
-      echo "${metaInfos["${wasAusgeben}"]})" | \
-        sed "s|^|  |" >& 2
+      echo "${metaYml["${wasAusgeben}"]})" | \
+        grep -v '^$' >& 2
     fi
   done
   >&2 echo '-------------------------------------'
