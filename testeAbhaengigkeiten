@@ -63,7 +63,8 @@ echo "META.yml lesen ..."
 meta="$(
   tar -Oxzf "${_distdir}.tar.gz" "${_distdir}/META.yml" | \
     tr '\r' ' ' | \
-    grep -v "^    file:" | \
+    grep -v "^\s*file:" | \
+    grep -v "^version:" | \
     sed '
       :begin;
         $!N;
@@ -75,6 +76,7 @@ meta="$(
     sed "/^provides: /s@\(\s\S\+\):\s\+version: '\?\([0-9.]\+\)'\?@\L\1=\2@g" | \
     sed "/^provides: /s@\s@  @g" | \
     sed "/^provides: /s@\(\s[^= ]\+\):\+\(\s\|\$\)@\L\1=${pkgver}\2@g" | \
+    sed "s@\(\sperl:\s\+\)\([[:digit:]]\+\)\.\([[:digit:]]\{3\}\)\([[:digit:]]\+\(\s\|\$\)\)@\1\2.\3.\4@" | \
     sed "s@\(\sperl:\s\+\)\([[:digit:]]\+\)[._]0*\([1-9][[:digit:]]*\)[._]0*\([1-9][[:digit:]]*\(\s\|\$\)\)@\1'\2.\3.\4'@"
 )"
 
@@ -132,7 +134,7 @@ do
     echo "${metaInfos["${sucheWonach}"]}" | \
       tr ' ' '\n' | \
       sort -rV | \
-      sed 's@^\(.*\)\(\(>=\|=\|<\)[0-9.]*\)$@\1\2 \1@' | \
+      sed 's@^\([^<=>]*\)\(\(>=\|=\|<\)[0-9.]*\)$@\1\2 \1@' | \
       sed 's|^\(\S*\)$|\1 \1|' | \
       uniq -f1 | \
       awk '{print $1}' | \
@@ -157,12 +159,12 @@ do
     (
       echo "${metaInfos["${wasAusgeben}"]}" | \
         grep -v '^$' | \
-        grep '^\s*perl-'
+        grep '^\s*perl'
       echo "${pkgBuild["${wasAusgeben}"]}" | \
-        grep -v '^\s*perl-'
+        grep -v '^\s*perl'
     ) | \
       sort -rV | \
-      sed 's@^\([^>]*\)\(\(>=\|=\|<\)[0-9.]*\)$@\1\2 \1@' | \
+      sed 's@^\([^<=>]*\)\(\(>=\|=\|<\)[0-9.]*\)$@\1\2 \1@' | \
       sed 's|^\(\S*\)$|\1 \1|' | \
       uniq -f1 | \
       awk '{print $1}' | \
