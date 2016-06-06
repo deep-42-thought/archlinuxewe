@@ -46,13 +46,16 @@ makepkg -f --verifysource
 
 . PKGBUILD
 
-if [ ! -r "${_distdir}.tar.gz" ]
+archiv="${_distdir}.tar.gz"
+[ -r "${archiv}" ] || archiv="${_distdir}.tgz"
+
+if [ ! -r "${archiv}" ]
 then
-  >&2 echo "Kann Datei '${_distdir}.tar.gz' nicht lesen!"
+  >&2 echo "Kann Quelldatei nicht finden!"
   exit 1
 fi
 
-if ! tar -tzf "${_distdir}.tar.gz" "${_distdir}/META.yml"
+if ! tar -tzf "${archiv}" "${_distdir}/META.yml"
 then
 # da kann ich nichts machen
   exit 0
@@ -61,7 +64,7 @@ fi
 echo "META.yml lesen ..."
 
 meta="$(
-  tar -Oxzf "${_distdir}.tar.gz" "${_distdir}/META.yml" | \
+  tar -Oxzf "${archiv}" "${_distdir}/META.yml" | \
     tr '\r' ' ' | \
     grep -v "^\s*file:" | \
     grep -v "^version:" | \
