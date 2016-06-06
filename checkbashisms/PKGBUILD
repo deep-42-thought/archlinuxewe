@@ -6,8 +6,8 @@
 # Contributor: Andres Perera <aepd87@gmail.com>
 
 pkgname='checkbashisms'
-pkgver='2.16.4'
-pkgrel='1'
+pkgver=2.16.5
+pkgrel=1
 pkgdesc='Debian script that checks for bashisms'
 arch=('any')
 url='http://packages.qa.debian.org/d/devscripts.html'
@@ -16,7 +16,7 @@ depends=('perl')
 makedepends=('git')
 conflicts=('devscripts')
 source=("git://anonscm.debian.org/collab-maint/devscripts.git#tag=v${pkgver}")
-sha256sums=('SKIP')
+sha512sums=('SKIP')
 
 build () {
   cd "${srcdir}/devscripts/scripts"
