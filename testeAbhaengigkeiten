@@ -73,7 +73,7 @@ meta="$(
       P;
       D
     ' | \
-    sed "/^provides: /s@\(\s\S\+\):\s\+version: '\?\([0-9.]\+\)'\?@\L\1=\2@g" | \
+    sed "/^provides: /s@\(\s\S\+\):\s\+version: '\?v\?\([0-9.]\+\)'\?@\L\1=\2@g" | \
     sed "/^provides: /s@\s@  @g" | \
     sed "/^provides: /s@\(\s[^= ]\+\):\+\(\s\|\$\)@\L\1=${pkgver}\2@g" | \
     sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)\.\([[:digit:]]\{3\}\)'\?\(\s\|\$\)@\1\2.\3.0\4@" | \
