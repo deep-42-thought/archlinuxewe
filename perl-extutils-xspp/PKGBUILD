@@ -4,67 +4,63 @@
 
 pkgname=perl-extutils-xspp
 pkgver=0.18
-pkgrel=1
+pkgrel='2'
 _author=S/SM/SMUELLER
 _distdir="ExtUtils-XSpp-${pkgver}"
 pkgdesc='ExtUtils::XSpp - XS for C++'
 arch=('any')
 url="http://search.cpan.org/dist/ExtUtils-XSpp/"
 license=('GPL' 'PerlArtistic')
+provides=(
+  'perl-extutils-xspp-cmd=0'
+  'perl-extutils-xspp-driver=0'
+  'perl-extutils-xspp-exception=0'
+  'perl-extutils-xspp-exception-code=0'
+  'perl-extutils-xspp-exception-object=0'
+  'perl-extutils-xspp-exception-perlcode=0'
+  'perl-extutils-xspp-exception-simple=0'
+  'perl-extutils-xspp-exception-stdmessage=0'
+  'perl-extutils-xspp-exception-unknown=0'
+  'perl-extutils-xspp-grammar=0'
+  'perl-extutils-xspp-grammar-yappdriver=1.05'
+  'perl-extutils-xspp-lexer=0'
+  'perl-extutils-xspp-node=0'
+  'perl-extutils-xspp-node-access=0'
+  'perl-extutils-xspp-node-argument=0'
+  'perl-extutils-xspp-node-class=0'
+  'perl-extutils-xspp-node-comment=0'
+  'perl-extutils-xspp-node-constructor=0'
+  'perl-extutils-xspp-node-destructor=0'
+  'perl-extutils-xspp-node-enum=0'
+  'perl-extutils-xspp-node-enumvalue=0'
+  'perl-extutils-xspp-node-file=0'
+  'perl-extutils-xspp-node-function=0'
+  'perl-extutils-xspp-node-member=0'
+  'perl-extutils-xspp-node-method=0'
+  'perl-extutils-xspp-node-module=0'
+  'perl-extutils-xspp-node-package=0'
+  'perl-extutils-xspp-node-percany=0'
+  'perl-extutils-xspp-node-preprocessor=0'
+  'perl-extutils-xspp-node-raw=0'
+  'perl-extutils-xspp-node-type=0'
+  'perl-extutils-xspp-parser=0'
+  'perl-extutils-xspp-plugin-feature-default_xs_typemap=0'
+  'perl-extutils-xspp-typemap=0'
+  'perl-extutils-xspp-typemap-parsed=0'
+  'perl-extutils-xspp-typemap-reference=0'
+  'perl-extutils-xspp-typemap-simple=0'
+  'perl-extutils-xspp-typemap-wrapper=0')
 depends=(
-perl
-# perl-extutils-parsexs → perl
-# perl-extutils-typemaps → perl
-# perl-digest-md5 → perl
-)
+  'perl>=5.6.1'
+  'perl-digest-md5>=2.0'
+  'perl-extutils-parsexs>=3.07')
+makedepends=(
+  'perl-module-build>=0.40'
+  'perl-test-base'
+  'perl-test-differences')
 checkdepends=(
 perl-test-base
 perl-test-differences
-)
-makedepends=(
-perl-module-build
-# perl-module-build → perl
-)
-optdepends=()
-provides=(
-perl-extutils-xspp-cmd
-perl-extutils-xspp-driver
-perl-extutils-xspp-exception
-perl-extutils-xspp-exception-code
-perl-extutils-xspp-exception-object
-perl-extutils-xspp-exception-perlcode
-perl-extutils-xspp-exception-simple
-perl-extutils-xspp-exception-stdmessage
-perl-extutils-xspp-exception-unknown
-perl-extutils-xspp-grammar
-perl-extutils-xspp-grammar-yappdriver
-perl-extutils-xspp-lexer
-perl-extutils-xspp-node
-perl-extutils-xspp-node-access
-perl-extutils-xspp-node-argument
-perl-extutils-xspp-node-class
-perl-extutils-xspp-node-comment
-perl-extutils-xspp-node-constructor
-perl-extutils-xspp-node-destructor
-perl-extutils-xspp-node-enum
-perl-extutils-xspp-node-enumvalue
-perl-extutils-xspp-node-file
-perl-extutils-xspp-node-function
-perl-extutils-xspp-node-member
-perl-extutils-xspp-node-method
-perl-extutils-xspp-node-module
-perl-extutils-xspp-node-package
-perl-extutils-xspp-node-percany
-perl-extutils-xspp-node-preprocessor
-perl-extutils-xspp-node-raw
-perl-extutils-xspp-node-type
-perl-extutils-xspp-parser
-perl-extutils-xspp-plugin-feature-default_xs_typemap
-perl-extutils-xspp-typemap
-perl-extutils-xspp-typemap-parsed
-perl-extutils-xspp-typemap-reference
-perl-extutils-xspp-typemap-simple
-perl-extutils-xspp-typemap-wrapper
 )
 options=(!emptydirs)
 source=("http://search.cpan.org/CPAN/authors/id/$_author/${_distdir}.tar.gz")
