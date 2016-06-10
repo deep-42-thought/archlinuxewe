@@ -2,13 +2,17 @@
 
 pkgname='perl-encoding-fixlatin-xs'
 pkgver='1.01'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='XS implementation layer for Encoding::FixLatin'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=('perl-encoding-fixlatin')
+depends=(
+  'perl>=5.14.0'
+  'perl-encoding-fixlatin>=1.03')
+makedepends=(
+  'perl-extutils-makemaker>=6.30'
+  'perl-test-simple>=0.90')
 url='http://github.com/grantm/encoding-fixlatin-xs'
 _distdir="Encoding-FixLatin-XS-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/${_distdir}.tar.gz")
