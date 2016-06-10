@@ -2,17 +2,31 @@
 
 pkgname='perl-moosex-nonmoose'
 pkgver='0.26'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='easy subclassing of non-Moose classes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+provides=(
+  'perl-moosex-nonmoose-insideout=0.26'
+  'perl-moosex-nonmoose-meta-role-class=0.26'
+  'perl-moosex-nonmoose-meta-role-constructor=0.26')
 depends=(
   'perl-list-moreutils'
   'perl-module-runtime'
+  'perl-moose-exporter'
+  'perl-moose-role>=2.0000'
+  'perl-moose-util'
+  'perl-try-tiny')
+makedepends=(
+  'perl-base'
+  'perl-extutils-makemaker>=6.30'
+  'perl-io'
   'perl-moose'
-  'perl-try-tiny'
-)
+  'perl-pathtools'
+  'perl-test-fatal'
+  'perl-test-moose'
+  'perl-test-simple>=0.88')
 checkdepends=(
   'perl-moosex-globref'
   'perl-moosex-insideout'
