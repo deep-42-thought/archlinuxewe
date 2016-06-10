@@ -3,7 +3,7 @@
 
 pkgname='perl-http-server-simple-psgi'
 pkgver='0.16'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='PSGI handler for HTTP::Server::Simple'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,8 @@ depends=(
   'perl-http-server-simple>=0.42')
 makedepends=(
   'perl-extutils-makemaker>=6.30')
+provides=(
+  'perl-plack-handler-http-server-simple=0.16')
 url='https://metacpan.org/release/HTTP-Server-Simple-PSGI'
 _distdir="HTTP-Server-Simple-PSGI-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
