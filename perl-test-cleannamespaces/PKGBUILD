@@ -4,13 +4,37 @@
 
 pkgname='perl-test-cleannamespaces'
 pkgver='0.18'
-pkgrel='4'
+pkgrel='5'
 pkgdesc="Check for uncleaned imports"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-file-find-rule' 'perl-file-find-rule-perl' 'perl-module-runtime' 'perl-package-stash>=0.14' 'perl-role-tiny>=1.003000' 'perl-sub-exporter' 'perl-sub-identify' 'perl-test-deep' 'perl-test-requires' 'perl-test-tester' 'perl-test-warnings>=0.009' 'perl-namespace-clean')
-makedepends=()
+depends=(
+  'perl>=5.6.0'
+  'perl-file-find-rule'
+  'perl-file-find-rule-perl'
+  'perl-module-runtime'
+  'perl-namespace-clean'
+  'perl-package-stash>=0.14'
+  'perl-pathtools'
+  'perl-sub-exporter'
+  'perl-sub-identify'
+  'perl-test-simple')
+makedepends=(
+  'perl-constant'
+  'perl-exporter'
+  'perl-extutils-makemaker'
+  'perl-if'
+  'perl-lib'
+  'perl-parent'
+  'perl-scalar-list-utils'
+  'perl-test-deep'
+  'perl-test-requires'
+  'perl-test-simple>=0.88'
+  'perl-test-tester'
+  'perl-test-warnings>=0.009')
+optdepends=(
+  'perl-package-stash-xs')
 checkdepends=('perl-moo' 'perl-moose' 'perl-mouse' 'perl-moosex-role-parameterized')
 url='http://search.mcpan.org/dist/Test-CleanNamespaces'
 source=("http://search.mcpan.org/CPAN/authors/id/E/ET/ETHER/Test-CleanNamespaces-${pkgver}.tar.gz")
