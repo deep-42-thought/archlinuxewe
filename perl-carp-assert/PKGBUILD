@@ -3,19 +3,18 @@
 
 pkgname='perl-carp-assert'
 pkgver='0.21'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='executable comments'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.6.0'
   'perl-carp'
-  'perl-exporter'
-  'perl>=5.006')
+  'perl-exporter')
 makedepends=(
   'perl-extutils-makemaker'
-  'perl-test-simple>=0.88'
-  'perl-extutils-makemaker')
+  'perl-test-simple>=0.88')
 url='https://metacpan.org/release/Carp-Assert'
 _distdir="Carp-Assert-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/N/NE/NEILB/${_distdir}.tar.gz")
