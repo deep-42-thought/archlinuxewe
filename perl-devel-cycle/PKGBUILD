@@ -4,13 +4,16 @@
 
 pkgname='perl-devel-cycle'
 pkgver='1.12'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Find memory cycles in objects"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+depends=(
+  'perl-scalar-list-utils'
+  'perl-test-simple')
+makedepends=(
+  'perl-extutils-makemaker')
 url='https://metacpan.org/release/Devel-Cycle'
 source=("http://search.cpan.org/CPAN/authors/id/L/LD/LDS/Devel-Cycle-${pkgver}.tar.gz")
 sha512sums=('e2c83829905449d13c86233ad5bfce28e7b4eca61a8ac1e2f73e3c906a2d8580f66ae84d865ef876c38c2d25f0a5a8adeb05f6e94594274d8a5fa1739842d08d')
