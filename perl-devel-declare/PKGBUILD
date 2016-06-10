@@ -3,13 +3,21 @@
 
 pkgname='perl-devel-declare'
 pkgver='0.006018'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Adding keywords to perl, in perl'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-b-hooks-endofscope>=0.05' 'perl-b-hooks-op-check>=0.19' 'perl-scalar-list-utils>=1.11' 'perl-sub-name')
-makedepends=('perl-b-hooks-op-check>=0.19' 'perl-test-simple>=0.88' 'perl-test-requires' 'perl-b-hooks-op-check>=0.19' 'perl-extutils-depends>=0.302')
+depends=(
+  'perl>=5.8.1'
+  'perl-b-hooks-endofscope>=0.05'
+  'perl-b-hooks-op-check>=0.19'
+  'perl-scalar-list-utils>=1.11'
+  'perl-sub-name')
+makedepends=(
+  'perl-extutils-depends>=0.302'
+  'perl-test-requires'
+  'perl-test-simple>=0.88')
 checkdepends=('perl-devel-callparser' 'perl-b-compiling')
 url='https://metacpan.org/release/Devel-Declare'
 _distdir="Devel-Declare-${pkgver}"
