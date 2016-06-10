@@ -3,25 +3,21 @@
 
 pkgname='perl-sub-strictdecl'
 pkgver='0.004'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='detect undeclared subroutines in compilation'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-sub-strictdecl')
 depends=(
-  'perl>=5.006'
+  'perl>=5.6.0'
   'perl-lexical-sealrequirehints>=0.008'
   'perl-xsloader')
 makedepends=(
-  'perl>=5.006'
   'perl-extutils-cbuilder>=0.15'
   'perl-module-build'
   'perl-test-simple')
 conflicts=(
-  'perl-0.19'
-  'perl-b-hooks-op-check<<')
+  'perl-b-hooks-op-check<0.19')
 url='https://metacpan.org/release/Sub-StrictDecl'
 _distdir="Sub-StrictDecl-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/${_distdir}.tar.gz")
