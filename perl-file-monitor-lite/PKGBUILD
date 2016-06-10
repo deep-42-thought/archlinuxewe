@@ -2,18 +2,17 @@
 
 pkgname='perl-file-monitor-lite'
 pkgver='0.652003'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Monitor file changes"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=(
-    'perl-file-find-rule'
-    'perl-class-accessor-fast'
-    'perl-file-monitor'
-    'perl-file-touch'
-)
+depends=(
+  'perl-class-accessor-fast'
+  'perl-file-find-rule'
+  'perl-file-monitor'
+  'perl-file-touch'
+  'perl-pathtools')
 url='http://search.cpan.org/~dryman/File-Monitor-Lite-0.652003/'
 _distdir="File-Monitor-Lite-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/D/DR/DRYMAN/${_distdir}.tar.gz")
