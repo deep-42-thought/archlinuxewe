@@ -2,16 +2,22 @@
 
 pkgname='perl-test-assert'
 pkgver='0.0504'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Assertion methods for those who like JUnit'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+provides=(
+  'perl-exception-assertion=0.0504')
 depends=(
-  'perl-exception-base'
-  'perl-constant-boolean'
-  'perl-symbol-util'
-)
+  'perl>=5.6.0'
+  'perl-constant-boolean>=0.02'
+  'perl-exception-base>=0.21'
+  'perl-symbol-util>=0.0202')
+makedepends=(
+  'perl-class-inspector'
+  'perl-parent'
+  'perl-test-unit-lite>=0.11')
 checkdepends=(
   'perl-test-unit-lite'
   'perl-class-inspector'
