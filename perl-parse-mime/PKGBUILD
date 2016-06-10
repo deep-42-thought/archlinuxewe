@@ -3,13 +3,22 @@
 
 pkgname='perl-parse-mime'
 pkgver='1.003'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Parse mime-types, match against media ranges'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+depends=(
+  'perl>=5.6.0'
+  'perl-exporter')
+makedepends=(
+  'perl-constant'
+  'perl-extutils-makemaker'
+  'perl-file-temp'
+  'perl-json-xs'
+  'perl-lib'
+  'perl-scalar-list-utils'
+  'perl-test-simple')
 checkdepends=('perl-json-xs')
 url='https://metacpan.org/release/Parse-MIME'
 _distdir="Parse-MIME-${pkgver}"
