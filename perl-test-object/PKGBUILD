@@ -4,13 +4,18 @@
 
 pkgname='perl-test-object'
 pkgver='0.07'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Thoroughly testing objects via registered handlers"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+depends=(
+  'perl>=5.5.0'
+  'perl-carp'
+  'perl-exporter'
+  'perl-pathtools>=0.80'
+  'perl-scalar-list-utils>=1.16'
+  'perl-test-simple>=1.02')
 url='http://search.cpan.org/dist/Test-Object'
 source=("http://search.cpan.org/CPAN/authors/id/A/AD/ADAMK/Test-Object-${pkgver}.tar.gz")
 sha512sums=('51a77e882ce427ffae5bf1fb1550d96f96b25faf764018056e22ae040c11be189ffe91cf9338b4deb3f62cc0657a7f321138208556910a5d43355953d02399e5')
