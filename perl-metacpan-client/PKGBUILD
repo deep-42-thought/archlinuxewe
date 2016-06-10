@@ -3,31 +3,28 @@
 
 pkgname='perl-metacpan-client'
 pkgver='1.014000'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='A comprehensive, DWIM-featured client to the MetaCPAN API'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.8.0'
   'perl-carp'
   'perl-http-tiny'
   'perl-json-maybexs'
   'perl-moo'
-  'perl-moo'
   'perl-safe-isa'
   'perl-search-elasticsearch>=2.02'
-  'perl-try-tiny'
-  'perl>=5.008')
+  'perl-try-tiny')
 makedepends=(
-  'perl-pathtools'
-  'perl-io'
-  'perl-search-elasticsearch'
-  'perl-test-fatal'
-  'perl-test-simple'
-  'perl-test-requires'
   'perl-base'
-  'perl>=5.008'
-  'perl-extutils-makemaker')
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-fatal'
+  'perl-test-requires'
+  'perl-test-simple')
 checkdepends=(
   'perl-namespace-clean'
   'perl-uri')
