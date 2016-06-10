@@ -3,13 +3,19 @@
 
 pkgname='perl-uri-query'
 pkgver='0.15'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='class providing URI query string manipulation'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=('perl-uri-escape')
+depends=(
+  'perl>=5.5.3'
+  'perl-carp'
+  'perl-uri-escape')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-simple>=0.88'
+  'perl-yaml')
 checkdepends=()
 url='https://metacpan.org/release/URI-Query'
 _distdir="URI-Query-${pkgver}"
