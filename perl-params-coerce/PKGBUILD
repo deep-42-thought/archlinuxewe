@@ -2,16 +2,18 @@
 
 pkgname='perl-params-coerce'
 pkgver='0.14'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Allows your classes to do coercion of parameters'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.5.0'
   'perl-carp'
-  'perl-params-util'
-  'perl-scalar-list-utils'
-)
+  'perl-params-util>=0.05'
+  'perl-scalar-list-utils>=1.11')
+makedepends=(
+  'perl-test-simple>=0.47')
 checkdepends=()
 url='https://metacpan.org/release/Params-Coerce'
 _distdir="Params-Coerce-${pkgver}"
