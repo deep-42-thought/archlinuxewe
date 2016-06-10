@@ -3,13 +3,13 @@
 
 pkgname='perl-php-serialization'
 pkgver='0.34'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='simple flexible means of converting the output of PHP'"'"'s serialize() into the equivalent Perl memory structure, and vice versa.'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=('perl-extutils-makemaker' 'perl-extutils-makemaker')
+makedepends=(
+  'perl-extutils-makemaker')
 url='https://metacpan.org/release/PHP-Serialization'
 _distdir="PHP-Serialization-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/B/BO/BOBTFISH/${_distdir}.tar.gz")
