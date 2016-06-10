@@ -1,6 +1,6 @@
 : perl
-%skip: b benchmark blib dynaloader extutils-typemaps fcntl feature file-basename file-copy file-find file-glob filehandle findbin ipc-open3
-%skip: mro open overload perlio pod-text posix strict subs symbol utf8 vars warnings {}
+%skip: b benchmark blib charnames config dynaloader extutils-typemaps fcntl feature file-basename file-copy file-find file-glob filehandle findbin ipc-open3
+%skip: mro open overload perlio pod-text posix re strict subs symbol utf8 vars warnings {}
 cache-cache: cache-filecache
 cpan: cpan-shell
 cpan-meta: cpan-meta-prereqs
@@ -8,24 +8,26 @@ html-tree: html-treebuilder
 html-parser: html-entities
 http-message: http-headers http-request http-request-common http-response
 http-server-simple: http-server-simple-cgi
-io: io-file io-handle io-socket-inet
-io-compress: compress-zlib
+io: io-dir io-file io-handle io-select io-socket io-socket-inet
+io-compress: compress-zlib io-uncompress-inflate
 io-tty: io-pty
-libwww: lwp
+libwww: lwp lwp-useragent
 log-dispatch: log-dispatch-output
 lwp-consolelogger: lwp-consolelogger-easy
 mixin-linewise: mixin-linewise-readers mixin-linewise-writers
-moo: moo-role
+moo: moo-role sub-quote
 moox-types-mooselike: moox-types-mooselike-base
 pathtools: file-spec file-spec-functions file-spec-unix cwd
-plack: http-message-psgi plack-loader plack-request plack-util-accessor
+plack: http-message-psgi plack-loader plack-request plack-test plack-util-accessor
 pod-coverage: pod-coverage-countparents
 pod-eventual: pod-eventual-simple
-pod-parser: pod-find
+pod-parser: pod-find pod-parseutils
+role-tiny: role-tiny-with
 scalar-list-utils: list-util scalar-util
 search-elasticsearch: search-elasticsearch-scroll
 soap-lite: soap-transport-tcp
+template-toolkit: template
 test-simple: ok test-more test-builder test-builder-tester
 timedate: date-parse
-uri: uri-withbase uri-file
+uri: uri-file uri-queryparam uri-withbase
 yaml-syck: json-syck
