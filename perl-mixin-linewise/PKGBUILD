@@ -4,13 +4,23 @@
 
 pkgname='perl-mixin-linewise'
 pkgver='0.108'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="write your linewise code for handles; this does the rest"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-perlio-utf8-strict' 'perl-sub-exporter')
-makedepends=()
+depends=(
+  'perl>=5.8.1'
+  'perl-carp'
+  'perl-io'
+  'perl-perlio-utf8_strict'
+  'perl-sub-exporter')
+makedepends=(
+  'perl-encode'
+  'perl-extutils-makemaker'
+  'perl-lib'
+  'perl-pathtools'
+  'perl-test-simple>=0.96')
 url='http://search.mcpan.org/dist/Mixin-Linewise'
 source=("http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/Mixin-Linewise-${pkgver}.tar.gz")
 sha512sums=('2789126737e2798a94ab6d90614503717dbc6c4178d19a9dd1e32689869e8e1298ec168fd6ab53580e65b5ad7ff94e065dca4afb7b71c2bb453810da61d29450')
