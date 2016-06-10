@@ -3,13 +3,46 @@
 # Contributor: chimeracoder <dev@chimeracoder.net
 pkgname='perl-moosex-types'
 pkgver='0.46'
-pkgrel='3'
+pkgrel='4'
 pkgdesc="Organise your Moose types in libraries"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-carp-clan>=6.00' 'perl-namespace-clean>=0.19' 'perl-sub-install>=0.924' 'perl-sub-name' 'perl-sub-exporter-formethods')
-makedepends=('perl-moose' 'perl-test-fatal' 'perl-test-requires')
+provides=(
+  'perl-moosex-types-base=0.46'
+  'perl-moosex-types-checkedutilexports=0.46'
+  'perl-moosex-types-combine=0.46'
+  'perl-moosex-types-moose=0.46'
+  'perl-moosex-types-typedecorator=0.46'
+  'perl-moosex-types-undefinedtype=0.46'
+  'perl-moosex-types-util=0.46'
+  'perl-moosex-types-wrapper=0.46')
+depends=(
+  'perl>=5.8.0'
+  'perl-base'
+  'perl-carp'
+  'perl-carp-clan>=6.00'
+  'perl-exporter'
+  'perl-module-runtime'
+  'perl-moose>=1.06'
+  'perl-moose-exporter'
+  'perl-moose-meta-typeconstraint-union'
+  'perl-moose-util-typeconstraints'
+  'perl-namespace-autoclean>=0.16'
+  'perl-scalar-list-utils>=1.19'
+  'perl-sub-exporter'
+  'perl-sub-exporter-formethods>=0.100052'
+  'perl-sub-name')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-if'
+  'perl-lib'
+  'perl-module-build-tiny>=0.007'
+  'perl-moose-role'
+  'perl-pathtools'
+  'perl-test-fatal'
+  'perl-test-requires'
+  'perl-test-simple>=0.88')
 url='http://search.cpan.org/dist/MooseX-Types'
 source=("http://search.cpan.org/CPAN/authors/id/E/ET/ETHER/MooseX-Types-${pkgver}.tar.gz")
 sha512sums=('9eee2afb7122d63a43af8c193c82fd9bf3600245956b7878badedf42280aa38814bf7370da31ede0f437e44f368d68d9c600a4f90bf42f95fa8fdb16b1056d4e')
