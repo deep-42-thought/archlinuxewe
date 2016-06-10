@@ -5,7 +5,7 @@
 
 pkgname=perl-inline-c
 pkgver=0.76
-pkgrel=2
+pkgrel='3'
 _distdir="Inline-C-${pkgver}"
 pkgdesc='Perl module providing a way to write Perl subroutines in C'
 arch=('any')
@@ -13,10 +13,21 @@ url='https://metacpan.org/release/Inline-C'
 license=('PerlArtistic' 'GPL')
 options=(!emptydirs)
 depends=(
-	'perl>=5.21.6'
-	'perl-inline>=0.79'
-	'perl-parse-recdescent>=1.967009'
-	'perl-pegex>=0.58')
+  'perl>=5.8.1'
+  'perl-extutils-makemaker>=7.00'
+  'perl-inline>=0.79'
+  'perl-parse-recdescent>=1.967009'
+  'perl-pathtools>=0.8'
+  'perl-pegex>=0.58')
+makedepends=(
+  'perl-autodie'
+  'perl-file-copy-recursive'
+  'perl-file-sharedir-install>=0.06'
+  'perl-io-all'
+  'perl-test-simple>=0.88'
+  'perl-test-warn>=0.23'
+  'perl-version>=0.77'
+  'perl-yaml-xs')
 checkdepends=(
 	'perl-file-copy-recursive'
 	'perl-io-all'
