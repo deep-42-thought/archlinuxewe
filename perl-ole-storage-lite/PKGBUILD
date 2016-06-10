@@ -4,13 +4,16 @@
 pkgname=perl-ole-storage-lite
 _pkgname='OLE-Storage_Lite'
 pkgver=0.19
-pkgrel=2
+pkgrel='3'
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Simple Class for OLE document interface"
 arch=('any')
 url="http://search.cpan.org/dist/OLE-Storage_Lite/"
 license=('GPL' 'PerlArtistic')
-depends=('perl')
+depends=(
+  'perl')
+makedepends=(
+  'perl-extutils-makemaker')
 options=('!emptydirs')
 source=("http://search.cpan.org/CPAN/authors/id/J/JM/JMCNAMARA/${_distdir}.tar.gz")
 sha256sums=('e72e055c35bd85ad7c20cf2adb6c89bdbf5725df969484fa6dc981d531ef2c9d')
