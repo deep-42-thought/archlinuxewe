@@ -5,16 +5,15 @@ pkgname=perl-class-load-xs
 _lastauthor=E/ET/ETHER
 _pkgname=Class-Load-XS
 pkgver=0.09
-pkgrel=4
+pkgrel='5'
 pkgdesc="XS implementation of parts of Class::Load"
 arch=('x86_64' 'i686')
 license=('PerlArtistic2')
 options=('!emptydirs')
 # https://bugs.archlinux.org/task/43204
 # perl-class-load should depend on perl-namespace-clean
-provides=(
-  'perl-class-load-xs=0.09')
 depends=(
+  'perl>=5.6.0'
   'perl-class-load>=0.20'
   'perl-xsloader')
 makedepends=(
