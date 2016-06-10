@@ -2,18 +2,49 @@
 
 pkgname='perl-search-elasticsearch'
 pkgver=2.03
-pkgrel=1
+pkgrel='2'
 pkgdesc='The official client for Elasticsearch'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
   'perl-any-uri-escape'
-  'perl-json-maybexs'
-  'perl-log-any'
-  'perl-moo'
-  'perl-json-xs'
-)
+  'perl-data-dumper'
+  'perl-devel-globaldestruction'
+  'perl-encode'
+  'perl-file-temp'
+  'perl-http-message'
+  'perl-http-tiny>=0.043'
+  'perl-io'
+  'perl-io-compress'
+  'perl-json-maybexs>=1.002002'
+  'perl-json-pp'
+  'perl-libwww'
+  'perl-log-any>=1.02'
+  'perl-log-any-adapter'
+  'perl-mime-base64'
+  'perl-module-runtime'
+  'perl-moo>=1.003'
+  'perl-namespace-clean'
+  'perl-package-stash>=0.34'
+  'perl-scalar-list-utils'
+  'perl-sub-exporter'
+  'perl-time-hires'
+  'perl-try-tiny'
+  'perl-uri')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-io-socket-ssl'
+  'perl-lib'
+  'perl-log-any-adapter-callback>=0.09'
+  'perl-test-deep'
+  'perl-test-exception'
+  'perl-test-sharedfork'
+  'perl-test-simple>=0.98')
+optdepends=(
+  'perl-hijk>=0.25'
+  'perl-io-socket-ip>=0.37'
+  'perl-uri-escape-xs')
 checkdepends=(
   'perl-test-sharedfork'
   'perl-test-deep'
