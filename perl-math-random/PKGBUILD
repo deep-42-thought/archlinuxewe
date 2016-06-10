@@ -4,13 +4,15 @@
 
 pkgname='perl-math-random'
 pkgver='0.72'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Random Number Generators"
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+depends=(
+  'perl')
+makedepends=(
+  'perl-extutils-makemaker')
 url='http://search.cpan.org/~grommel/Math-Random-0.72/'
 source=("http://search.cpan.org/CPAN/authors/id/G/GR/GROMMEL/Math-Random-${pkgver}.tar.gz")
 sha512sums=('6a24f59ba06b93027fe5907d41a36b2142c20c2813813a34a5adfa9ee06de25902d5f544009f307b518905c614238f63ad3717a1f199513f455f4c53119e2088')
