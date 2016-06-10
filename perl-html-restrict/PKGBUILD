@@ -3,13 +3,28 @@
 
 pkgname='perl-html-restrict'
 pkgver='2.2.2'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Strip unwanted HTML tags and attributes'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-carp' 'perl-data-dump' 'perl-html-parser' 'perl-list-moreutils' 'perl-moo>=1.002000' 'perl-scalar-list-utils' 'perl-moo' 'perl-type-tiny>=1.000001' 'perl-uri' 'perl-namespace-clean')
-makedepends=('perl-module-build>=0.28' 'perl-test-fatal' 'perl-test-simple' 'perl-extutils-makemaker' 'perl-module-build>=0.28' 'perl-test-pod')
+depends=(
+  'perl>=5.6.0'
+  'perl-carp'
+  'perl-data-dump'
+  'perl-html-parser'
+  'perl-list-moreutils'
+  'perl-moo>=1.002000'
+  'perl-namespace-clean'
+  'perl-scalar-list-utils'
+  'perl-types-standard'
+  'perl-type-tiny>=1.000001'
+  'perl-uri')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-module-build>=0.28'
+  'perl-test-fatal'
+  'perl-test-simple')
 url='https://metacpan.org/release/HTML-Restrict'
 _distdir="HTML-Restrict-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
