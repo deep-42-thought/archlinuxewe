@@ -2,26 +2,53 @@
 
 pkgname='perl-lwp-consolelogger'
 pkgver='0.000024'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Easy LWP tracing and debugging'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl-data-printer'
+  'perl>=5.6.0'
+  'perl-data-printer>=0.36'
+  'perl-datetime'
   'perl-html-restrict'
   'perl-http-body'
   'perl-http-cookiemonster'
+  'perl-json-maybexs>=1.003005'
+  'perl-list-allutils'
   'perl-log-dispatch'
+  'perl-module-load-conditional'
+  'perl-moo'
   'perl-moox-strictconstructor'
   'perl-parse-mime'
   'perl-string-trim'
+  'perl-sub-exporter'
   'perl-term-size-any'
-  'perl-text-simpletable-autowidth'
+  'perl-text-simpletable-autowidth>=0.09'
+  'perl-try-tiny'
+  'perl-types-common-numeric'
+  'perl-types-standard'
   'perl-type-tiny'
+  'perl-uri'
   'perl-uri-query'
-  'perl-xml-simple'
-)
+  'perl-xml-simple')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-html-formattext-withlinks'
+  'perl-http-message'
+  'perl-libwww'
+  'perl-log-dispatch-array'
+  'perl-module-build>=0.28'
+  'perl-path-tiny'
+  'perl-plack'
+  'perl-plack-handler-http-server-simple>=0.016'
+  'perl-plack-test-agent'
+  'perl-test-failwarnings'
+  'perl-test-fatal'
+  'perl-test-most'
+  'perl-www-mechanize')
+optdepends=(
+  'perl-html-formattext-lynx>=23')
 checkdepends=(
   'perl-datetime'
   'perl-html-formattext-withlinks'
