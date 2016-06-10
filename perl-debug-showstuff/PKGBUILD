@@ -3,12 +3,22 @@
 
 pkgname='perl-debug-showstuff'
 pkgver='1.16'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Debug::ShowStuff - A collection of handy debugging routines for displaying the values of variables with a minimum of coding.'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-class-isa' 'perl-devel-stacktrace' 'perl-scalar-list-utils' 'perl-string-util' 'perl-term-readkey' 'perl-text-tabulardisplay' 'perl-tie-ixhash')
+provides=(
+  'perl-debug-showstuff-showvar=0.11')
+depends=(
+  'perl>=5.3.0'
+  'perl-class-isa'
+  'perl-devel-stacktrace'
+  'perl-scalar-list-utils'
+  'perl-string-util'
+  'perl-term-readkey'
+  'perl-text-tabulardisplay'
+  'perl-tie-ixhash')
 url='https://metacpan.org/release/Debug-ShowStuff'
 _distdir="Debug-ShowStuff-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIKO/${_distdir}.tar.gz")
