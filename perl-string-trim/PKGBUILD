@@ -3,13 +3,19 @@
 
 pkgname='perl-string-trim'
 pkgver='0.005'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='trim whitespace from your strings'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+depends=(
+  'perl>=5.6.0'
+  'perl-exporter>=5.57')
+makedepends=(
+  'perl-data-dumper'
+  'perl-extutils-makemaker>=6.31'
+  'perl-file-temp'
+  'perl-test-simple>=0.94')
 checkdepends=()
 url='https://metacpan.org/release/String-Trim'
 _distdir="String-Trim-${pkgver}"
