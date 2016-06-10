@@ -3,13 +3,23 @@
 
 pkgname='perl-test-cpan-meta'
 pkgver='0.25'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Validate your CPAN META.json files'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-parse-cpan-meta>=0.02' 'perl-test-simple' 'perl-test-pod>=1.00' 'perl-test-pod-coverage>=0.08')
-makedepends=('perl-io' 'perl-test-simple>=0.70' 'perl-test-simple')
+provides=(
+  'perl-test-cpan-meta-version=0.25')
+depends=(
+  'perl>=5.6.0'
+  'perl-parse-cpan-meta>=0.02'
+  'perl-test-simple')
+makedepends=(
+  'perl-io'
+  'perl-test-simple>=0.70')
+optdepends=(
+  'perl-test-pod>=1.00'
+  'perl-test-pod-coverage>=0.08')
 url='https://metacpan.org/release/Test-CPAN-Meta'
 _distdir="Test-CPAN-Meta-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/B/BA/BARBIE/${_distdir}.tar.gz")
