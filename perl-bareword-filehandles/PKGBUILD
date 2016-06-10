@@ -3,17 +3,17 @@
 
 pkgname='perl-bareword-filehandles'
 pkgver=0.004
-pkgrel=1
+pkgrel='2'
 pkgdesc='disables bareword filehandles'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.8.1'
   'perl-b-hooks-op-check'
   'perl-lexical-sealrequirehints'
   'perl-xsloader')
 makedepends=(
-  'perl-b-hooks-op-check'
   'perl-extutils-depends'
   'perl-extutils-makemaker'
   'perl-test-simple>=0.88')
