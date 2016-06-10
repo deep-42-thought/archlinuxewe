@@ -2,13 +2,75 @@
 
 pkgname='perl-starlink-ast'
 pkgver='1.05'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Interface to the Starlink AST library'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl' 'perl-astro-fits-cfitsio' 'perl-tk') # 'perl-tk-zinc')
-makedepends=('perl-test-deep' 'perl-test-number-delta' 'perl-module-build')
+provides=(
+  'perl-starlink-ast-axis=1.00'
+  'perl-starlink-ast-box=1.00'
+  'perl-starlink-ast-channel=1.00'
+  'perl-starlink-ast-circle=1.00'
+  'perl-starlink-ast-cmpframe=1.00'
+  'perl-starlink-ast-cmpmap=1.00'
+  'perl-starlink-ast-cmpregion=1.00'
+  'perl-starlink-ast-dsbspecframe=1.00'
+  'perl-starlink-ast-dssmap=1.00'
+  'perl-starlink-ast-ellipse=1.00'
+  'perl-starlink-ast-fitschan=1.00'
+  'perl-starlink-ast-fluxframe=1.00'
+  'perl-starlink-ast-frame=1.00'
+  'perl-starlink-ast-frameset=1.00'
+  'perl-starlink-ast-grismmap=1.00'
+  'perl-starlink-ast-interval=1.00'
+  'perl-starlink-ast-intramap=1.00'
+  'perl-starlink-ast-keymap=1.00'
+  'perl-starlink-ast-keymap-tie=1.00'
+  'perl-starlink-ast-lutmap=1.00'
+  'perl-starlink-ast-mapping=1.00'
+  'perl-starlink-ast-mathmap=1.00'
+  'perl-starlink-ast-matrixmap=1.00'
+  'perl-starlink-ast-nullregion=1.00'
+  'perl-starlink-ast-pcdmap=1.00'
+  'perl-starlink-ast-permmap=1.00'
+  'perl-starlink-ast-pgplot=2.00'
+  'perl-starlink-ast-plot=1.00'
+  'perl-starlink-ast-plplot=2.00'
+  'perl-starlink-ast-polygon=1.00'
+  'perl-starlink-ast-polymap=1.00'
+  'perl-starlink-ast-prism=1.00'
+  'perl-starlink-ast-ratemap=1.00'
+  'perl-starlink-ast-region=1.00'
+  'perl-starlink-ast-shiftmap=1.00'
+  'perl-starlink-ast-skyaxis=1.00'
+  'perl-starlink-ast-skyframe=1.00'
+  'perl-starlink-ast-slamap=1.00'
+  'perl-starlink-ast-specfluxframe=1.00'
+  'perl-starlink-ast-specframe=1.00'
+  'perl-starlink-ast-specmap=1.00'
+  'perl-starlink-ast-sphmap=1.00'
+  'perl-starlink-ast-stcschan=1.00'
+  'perl-starlink-ast-timeframe=1.00'
+  'perl-starlink-ast-timemap=1.00'
+  'perl-starlink-ast-tk=2.00'
+  'perl-starlink-ast-unitmap=1.00'
+  'perl-starlink-ast-wcsmap=1.00'
+  'perl-starlink-ast-winmap=1.00'
+  'perl-starlink-ast-xmlchan=1.00'
+  'perl-starlink-ast-zoommap=1.00')
+makedepends=(
+  'perl>=5.8.0'
+  'perl-extutils-cbuilder'
+  'perl-module-build>=0.3604'
+  'perl-test-deep'
+  'perl-test-number-delta'
+  'perl-test-simple')
+optdepends=(
+  'perl-astro-fits-cfitsio'
+  'perl-astro-fits-header'
+  'perl-tk'
+  'perl-tk-zinc')
 url='https://metacpan.org/release/Starlink-AST'
 _distdir="Starlink-AST-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TJ/TJENNESS/${_distdir}.tar.gz")
