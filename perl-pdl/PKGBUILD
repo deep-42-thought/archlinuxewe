@@ -2,16 +2,46 @@
 pkgname=perl-pdl
 _pkgname='PDL'
 pkgver=2.016
-pkgrel=1
+pkgrel='2'
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="the Perl Data Language"
 arch=('x86_64' 'i686')
 url="http://pdl.perl.org/"
 license=('GPL' 'PerlArtistic')
-depends=('perl-devel-checklib' 'perl-astro-fits-header' 
-'perl-convert-uu' 'perl-file-map' 'perl-inline-c' 'perl-module-compile' 
-'hdf4' 'perl-gd')
-makedepends=('perl-extutils-f77' 'perl-test-exception' 'perl-test-warn' 'perl-test-deep' 'perl-file-map')
+depends=(
+  'hdf4'
+  'perl>=5.10.0'
+  'perl-astro-fits-header'
+  'perl-carp'
+  'perl-convert-uu'
+  'perl-data-dumper>=2.121'
+  'perl-extutils-makemaker>=6.56'
+  'perl-extutils-manifest'
+  'perl-file-map>=0.57'
+  'perl-file-path'
+  'perl-file-temp'
+  'perl-filter-simple>=0.88'
+  'perl-filter-util-call'
+  'perl-inline>=0.68'
+  'perl-inline-c>=0.62'
+  'perl-module-compile>=0.23'
+  'perl-opengl>=0.6702'
+  'perl-pathtools>=0.6'
+  'perl-pod-parser'
+  'perl-scalar-list-utils'
+  'perl-storable>=1.03'
+  'perl-text-balanced>=1.89')
+makedepends=(
+  'perl-carp>=1.2'
+  'perl-cpan-meta>=2.120900'
+  'perl-devel-checklib>=1.01'
+  'perl-extutils-parsexs>=3.01'
+  'perl-ipc-cmd>=0.72'
+  'perl-test-deep'
+  'perl-test-exception'
+  'perl-test-warn')
+provides=(
+  'perl-pdl-core=2.016')
 options=('!emptydirs')
 source=("http://search.cpan.org/CPAN/authors/id/C/CH/CHM/${_distdir}.tar.gz")
 sha512sums=('7822e12688ed94c4c2fdd4937d7ec3869b08d9831ddd7307706e404e11c6f8b40792912d05b6022ede982ba870aae426141d0fd4030d43aef72ca0be46f673c8')
