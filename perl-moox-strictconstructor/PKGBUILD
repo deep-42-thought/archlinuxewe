@@ -3,13 +3,34 @@
 
 pkgname='perl-moox-strictconstructor'
 pkgver='0.008'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Make your Moo-based object constructors blow up on unknown attributes.'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-class-method-modifiers' 'perl-moo>=1.001000' 'perl-moo' 'perl-bareword-filehandles' 'perl-constant' 'perl-indirect' 'perl-multidimensional' 'perl-strictures>=1')
-makedepends=('perl-pathtools' 'perl-file-temp' 'perl-io' 'perl-module-build>=0.28' 'perl-pod-coverage-trustpod' 'perl-test-cpan-meta' 'perl-test-fatal' 'perl-test-simple>=0.88' 'perl-test-pod' 'perl-test-pod-coverage' 'perl-extutils-makemaker' 'perl-module-build>=0.28')
+provides=(
+  'perl-method-generate-constructor-role-strictconstructor=0.008')
+depends=(
+  'perl>=5.6.0'
+  'perl-bareword-filehandles'
+  'perl-class-method-modifiers'
+  'perl-constant'
+  'perl-indirect'
+  'perl-moo>=1.001000'
+  'perl-multidimensional'
+  'perl-strictures>=1')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-file-temp'
+  'perl-io'
+  'perl-module-build>=0.28'
+  'perl-pathtools'
+  'perl-pod-coverage-trustpod'
+  'perl-test-cpan-meta'
+  'perl-test-fatal'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-simple>=0.88')
 url='https://metacpan.org/release/MooX-StrictConstructor'
 _distdir="MooX-StrictConstructor-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/H/HA/HARTZELL/${_distdir}.tar.gz")
