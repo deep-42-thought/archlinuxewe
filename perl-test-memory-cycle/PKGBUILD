@@ -4,13 +4,18 @@
 
 pkgname='perl-test-memory-cycle'
 pkgver=1.06
-pkgrel=1
+pkgrel='2'
 pkgdesc="Verifies code hasn't left circular references"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-devel-cycle>=1.07' 'perl-padwalker' 'perl-cgi')
-makedepends=()
+depends=(
+  'perl-devel-cycle>=1.07'
+  'perl-getopt-long'
+  'perl-padwalker'
+  'perl-test-simple>=0.62')
+makedepends=(
+  'perl-extutils-makemaker')
 checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
 url='https://metacpan.org/release/Test-Memory-Cycle'
 source=("http://search.cpan.org/CPAN/authors/id/P/PE/PETDANCE/Test-Memory-Cycle-${pkgver}.tar.gz")
