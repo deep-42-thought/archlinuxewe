@@ -3,13 +3,13 @@
 
 pkgname='perl-exporter-tidy'
 pkgver='0.08'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Another way of exporting symbols'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=('perl-extutils-makemaker' 'perl-extutils-makemaker')
+makedepends=(
+  'perl-extutils-makemaker')
 url='https://metacpan.org/release/Exporter-Tidy'
 _distdir="Exporter-Tidy-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/J/JU/JUERD/${_distdir}.tar.gz")
