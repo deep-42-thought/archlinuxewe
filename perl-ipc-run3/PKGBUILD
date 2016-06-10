@@ -2,14 +2,16 @@
 
 pkgname='perl-ipc-run3'
 pkgver='0.048'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='run a subprocess with input/ouput redirection'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl-time-hires'
-)
+  'perl-test-simple>=0.31'
+  'perl-time-hires')
+makedepends=(
+  'perl-extutils-makemaker')
 checkdepends=()
 url='https://metacpan.org/release/IPC-Run3'
 _distdir="IPC-Run3-${pkgver}"
