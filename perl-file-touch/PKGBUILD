@@ -4,13 +4,20 @@
 
 pkgname='perl-file-touch'
 pkgver='0.11'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="update file access and modification times, optionally creating files if needed"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl>=5.006')
-makedepends=()
+depends=(
+  'perl>=5.6.0'
+  'perl-carp'
+  'perl-exporter'
+  'perl-file-stat'
+  'perl-io')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-simple>=0.88')
 url='http://search.mcpan.org/dist/File-Touch'
 source=("http://search.mcpan.org/CPAN/authors/id/N/NE/NEILB/File-Touch-${pkgver}.tar.gz")
 sha512sums=('7f1d46fe26de863388854e222b0229e29f0575ee0d8ed59f8cc447a39bc40d7fda425a394a4c3bbc9f561370b6c82cec9c65f4bb784ebba4ff72dbcb5c0a4cd0')
