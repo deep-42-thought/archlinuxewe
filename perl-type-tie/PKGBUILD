@@ -3,13 +3,26 @@
 
 pkgname='perl-type-tie'
 pkgver='0.009'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='tie a variable to a type constraint'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-hash-fieldhash' 'perl-exporter-tiny>=0.026')
-makedepends=('perl-test-fatal' 'perl-test-requires' 'perl-extutils-makemaker>=6.17')
+provides=(
+  'perl-type-tie-array=0.009'
+  'perl-type-tie-base=0.009'
+  'perl-type-tie-hash=0.009'
+  'perl-type-tie-scalar=0.009')
+depends=(
+  'perl>=5.8.5'
+  'perl-exporter-tiny>=0.026')
+makedepends=(
+  'perl-extutils-makemaker>=6.17'
+  'perl-test-fatal'
+  'perl-test-requires'
+  'perl-test-simple>=0.96')
+optdepends=(
+  'perl-hash-fieldhash')
 url='https://metacpan.org/release/Type-Tie'
 _distdir="Type-Tie-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/${_distdir}.tar.gz")
