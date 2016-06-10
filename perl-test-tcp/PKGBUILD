@@ -3,27 +3,26 @@
 
 pkgname='perl-test-tcp'
 pkgver='2.16'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='testing TCP program'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-net-emptyport'
-  'perl-test-tcp'
-  'perl-test-tcp-checkport')
+  'perl-net-emptyport=2.16'
+  'perl-test-tcp-checkport=2.16')
 depends=(
+  'perl>=5.8.1'
   'perl-io'
   'perl-io-socket-ip'
-  'perl-test-simple'
   'perl-test-sharedfork>=0.29'
-  'perl-time-hires'
-  'perl>=5.8.1')
+  'perl-test-simple'
+  'perl-time-hires')
 makedepends=(
+  'perl-extutils-makemaker>=6.64'
   'perl-file-temp'
   'perl-socket'
-  'perl-test-simple>=0.98'
-  'perl-extutils-makemaker>=6.64')
+  'perl-test-simple>=0.98')
 url='https://metacpan.org/release/Test-TCP'
 _distdir="Test-TCP-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/${_distdir}.tar.gz")
