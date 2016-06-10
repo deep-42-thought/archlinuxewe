@@ -4,13 +4,17 @@
 
 pkgname='perl-pegex'
 pkgver='0.60'
-pkgrel='2'
+pkgrel='3'
 pkgdesc="Acmeist PEG Parser Framework"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-yaml-libyaml' 'perl-file-sharedir-install')
-makedepends=()
+depends=(
+  'perl>=5.8.1')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-file-sharedir-install>=0.06'
+  'perl-yaml-xs')
 url='https://metacpan.org/release/Pegex'
 source=("http://search.cpan.org/CPAN/authors/id/I/IN/INGY/Pegex-${pkgver}.tar.gz")
 sha512sums=('e0ea53d38ad889cef33d3121acbc0dd265cea3a9396100266be9c3f1a2b4d43fc18f752087d8f95830783d18b9d18bcecd36a91bde756b6eb5dd900b661338c5')
