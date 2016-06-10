@@ -2,13 +2,22 @@
 
 pkgname='perl-test-trailingspace'
 pkgver=0.0300
-pkgrel=1
+pkgrel='2'
 pkgdesc="test for trailing space in source files."
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-file-find-object-rule')
-makedepends=()
+depends=(
+  'perl>=5.8.0'
+  'perl-autodie'
+  'perl-file-find-object-rule>=0.0301'
+  'perl-test-simple')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-file-path'
+  'perl-lib'
+  'perl-module-build>=0.28'
+  'perl-pathtools')
 url='http://search.cpan.org/~shlomif/Test-TrailingSpace-0.0205/'
 _distdir="Test-TrailingSpace-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
