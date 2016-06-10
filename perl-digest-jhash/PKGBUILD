@@ -3,24 +3,21 @@
 
 pkgname='perl-digest-jhash'
 pkgver='0.09'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Perl extension for 32 bit Jenkins Hashing Algorithm'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-digest-jhash')
 depends=(
-  'perl-exporter'
-  'perl>=5.008')
+  'perl>=5.8.0'
+  'perl-exporter')
 makedepends=(
-  'perl-pathtools'
-  'perl-pathtools'
+  'perl-extutils-makemaker'
   'perl-file-temp'
   'perl-io'
+  'perl-pathtools'
   'perl-test'
-  'perl-test-simple'
-  'perl-extutils-makemaker')
+  'perl-test-simple')
 checkdepends=(
   'perl-cpan-changes'
   'perl-test-pod')
