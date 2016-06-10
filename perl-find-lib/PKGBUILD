@@ -2,14 +2,16 @@
 
 pkgname='perl-find-lib'
 pkgver='1.04'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Helper to smartly find libs to use in the filesystem tree'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl'
-)
+  'perl-pathtools'
+  'perl-test-simple')
+makedepends=(
+  'perl-extutils-makemaker')
 checkdepends=()
 url='https://metacpan.org/release/Find-Lib'
 _distdir="Find-Lib-${pkgver}"
