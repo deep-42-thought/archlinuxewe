@@ -4,13 +4,13 @@
 
 pkgname='perl-want'
 pkgver='0.29'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="A generalisation of wantarray"
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+makedepends=(
+  'perl-extutils-makemaker')
 url='https://metacpan.org/release/Want'
 source=("http://search.cpan.org/CPAN/authors/id/R/RO/ROBIN/Want-${pkgver}.tar.gz")
 sha512sums=('08df985de16b5e9dd67d6ed38d319da2511e92098f95a861a5a695eed8d77eaf412671b626e4da29b536147ad4da4a8cfdfd789ef204dac240073091481f3c1a')
