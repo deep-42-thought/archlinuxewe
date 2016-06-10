@@ -2,14 +2,37 @@
 
 pkgname='perl-log-any'
 pkgver='1.040'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Bringing loggers and listeners together'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+provides=(
+  'perl-log-any-adapter=1.040'
+  'perl-log-any-adapter-base=1.040'
+  'perl-log-any-adapter-file=1.040'
+  'perl-log-any-adapter-null=1.040'
+  'perl-log-any-adapter-stderr=1.040'
+  'perl-log-any-adapter-stdout=1.040'
+  'perl-log-any-adapter-test=1.040'
+  'perl-log-any-adapter-util=1.040'
+  'perl-log-any-manager=1.040'
+  'perl-log-any-proxy=1.040'
+  'perl-log-any-proxy-test=1.040'
+  'perl-log-any-test=1.040')
 depends=(
-  'perl'
-)
+  'perl>=5.8.1'
+  'perl-carp'
+  'perl-constant'
+  'perl-data-dumper'
+  'perl-exporter'
+  'perl-io'
+  'perl-test-simple')
+makedepends=(
+  'perl-base'
+  'perl-extutils-makemaker>=6.17'
+  'perl-file-temp'
+  'perl-pathtools')
 checkdepends=()
 url='https://metacpan.org/release/Log-Any'
 _distdir="Log-Any-${pkgver}"
