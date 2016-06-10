@@ -4,13 +4,24 @@
 
 pkgname='perl-perlio-utf8-strict'
 pkgver='0.006'
-pkgrel='3'
+pkgrel='4'
 pkgdesc="Fast and correct UTF-8 IO"
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+provides=(
+  'perl-perlio-utf8_strict=0.006')
+depends=(
+  'perl>=5.8.0'
+  'perl-xsloader')
+makedepends=(
+  'perl-carp'
+  'perl-exporter'
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-exception'
+  'perl-test-simple>=0.88')
 checkdepends=('perl-test-exception')
 url='https://metacpan.org/release/PerlIO-utf8_strict'
 _distdir="PerlIO-utf8_strict-${pkgver}"
