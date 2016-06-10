@@ -4,12 +4,17 @@
 
 pkgname='perl-opengl'
 pkgver='0.6704'
-pkgrel='2'
+pkgrel='3'
 pkgdesc="Interface to OpenGL drawing/imaging library"
 arch=('i686' 'x86_64')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl' 'freeglut>=2.8.1' 'glu>=9.0.0')
+depends=(
+  'freeglut>=2.8.1'
+  'glu>=9.0.0'
+  'perl-test-simple')
+makedepends=(
+  'perl-extutils-makemaker')
 [ -z "$DISPLAY" ] && makedepends+=('xorg-server-xvfb')
 url='https://metacpan.org/release/OpenGL/'
 source=("https://cpan.metacpan.org/authors/id/C/CH/CHM/OpenGL-${pkgver}.tar.gz" \
