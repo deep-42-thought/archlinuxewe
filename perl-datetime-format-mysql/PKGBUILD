@@ -3,19 +3,16 @@
 
 pkgname=perl-datetime-format-mysql
 pkgver='0.06'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Parse and format MySQL dates and times"
 arch=(i686 x86_64)
 license=('perl')
 url="http://search.cpan.org/~drolsky/DateTime-Format-MySQL"
 options=(!emptydirs)
-provides=(
-  'perl-datetime-format-mysql=0.06')
 depends=(
   'perl-datetime'
   'perl-datetime-format-builder>=0.6')
 makedepends=(
-  'perl-module-build'
   'perl-module-build>=0.42')
 _distdir="DateTime-Format-MySQL-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/X/XM/XMIKEW/${_distdir}.tar.gz")
