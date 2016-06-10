@@ -3,20 +3,17 @@
 
 pkgname='perl-dynaloader-functions'
 pkgver='0.002'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='deconstructed dynamic C library loading'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-dynaloader-functions')
 depends=(
-  'perl>=5.006'
+  'perl>=5.6.0'
   'perl-carp'
   'perl-exporter'
   'perl-parent')
 makedepends=(
-  'perl>=5.006'
   'perl-module-build'
   'perl-test-simple')
 checkdepends=(
