@@ -1,13 +1,17 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname='perl-regexp-assemble'
 pkgver='0.37'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Assemble multiple Regular Expressions into a single RE"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+depends=(
+  'perl-constant'
+  'perl-test-pod>=1.48'
+  'perl-test-simple>=1.001014')
+makedepends=(
+  'perl-extutils-makemaker')
 checkdepends=(
     'perl-extutils-makemaker'
     'perl-extutils-makemaker-coverage'
