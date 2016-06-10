@@ -3,21 +3,19 @@
 
 pkgname='perl-posix-strftime-compiler'
 pkgver='0.41'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='GNU C library compatible strftime for loggers and servers'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-posix-strftime-compiler')
 depends=(
+  'perl>=5.8.1'
   'perl-carp'
   'perl-exporter'
-  'perl-time-local'
-  'perl>=5.8.1')
+  'perl-time-local')
 makedepends=(
-  'perl-test-simple>=0.98'
-  'perl-module-build>=0.38')
+  'perl-module-build>=0.38'
+  'perl-test-simple>=0.98')
 url='https://metacpan.org/release/POSIX-strftime-Compiler'
 _distdir="POSIX-strftime-Compiler-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/K/KA/KAZEBURO/${_distdir}.tar.gz")
