@@ -4,13 +4,24 @@
 
 pkgname='perl-devel-partialdump'
 pkgver=0.18
-pkgrel=1
+pkgrel='2'
 pkgdesc="Partial dumping of data structures, optimized for argument printing."
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-class-tiny' 'perl-sub-exporter' 'perl-test-use-ok' 'perl-namespace-clean')
-makedepends=()
+depends=(
+  'perl>=5.6.1'
+  'perl-carp'
+  'perl-class-tiny'
+  'perl-namespace-clean>=0.19'
+  'perl-scalar-list-utils'
+  'perl-sub-exporter')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-if'
+  'perl-pathtools'
+  'perl-test-simple'
+  'perl-test-warn')
 checkdepends=('perl-test-warn')
 url='http://search.mcpan.org/dist/Devel-PartialDump'
 _distdir="Devel-PartialDump-${pkgver}"
