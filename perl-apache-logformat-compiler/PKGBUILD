@@ -3,25 +3,23 @@
 
 pkgname='perl-apache-logformat-compiler'
 pkgver='0.33'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Compile a log format string to perl-code'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-apache-logformat-compiler=0.33')
 depends=(
+  'perl>=5.8.1'
   'perl-posix-strftime-compiler>=0.30'
-  'perl-time-local'
-  'perl>=5.8.1')
+  'perl-time-local')
 makedepends=(
   'perl-http-message'
+  'perl-module-build>=0.38'
   'perl-test-mocktime'
-  'perl-test-simple>=0.98'
   'perl-test-requires'
+  'perl-test-simple>=0.98'
   'perl-try-tiny>=0.12'
-  'perl-uri-escape>=1.60'
-  'perl-module-build>=0.38')
+  'perl-uri-escape>=1.60')
 url='https://metacpan.org/release/Apache-LogFormat-Compiler'
 _distdir="Apache-LogFormat-Compiler-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/K/KA/KAZEBURO/${_distdir}.tar.gz")
