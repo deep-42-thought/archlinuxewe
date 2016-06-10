@@ -4,13 +4,18 @@
 
 pkgname='perl-tree-simple'
 pkgver=1.29
-pkgrel=1
+pkgrel='2'
 pkgdesc="A simple tree object"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+depends=(
+  'perl-constant'
+  'perl-scalar-list-utils>=1.18')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-exception>=0.15'
+  'perl-test-simple>=1.001014')
 checkdepends=('perl-test-exception>=0.15' 'perl-test-memory-cycle')
 url='https://metacpan.org/release/Tree-Simple'
 source=("http://search.cpan.org/CPAN/authors/id/R/RS/RSAVAGE/Tree-Simple-${pkgver}.tgz")
