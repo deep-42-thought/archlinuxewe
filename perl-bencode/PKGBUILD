@@ -3,13 +3,20 @@
 
 pkgname='perl-bencode'
 pkgver='1.402'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='BitTorrent serialisation format'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-carp' 'perl-exporter-tidy')
-makedepends=('perl-file-temp' 'perl-test-differences' 'perl-test-simple>=0.88' 'perl-extutils-makemaker')
+depends=(
+  'perl>=5.6.0'
+  'perl-carp'
+  'perl-exporter-tidy')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-file-temp'
+  'perl-test-differences'
+  'perl-test-simple>=0.88')
 url='https://metacpan.org/release/Bencode'
 _distdir="Bencode-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/A/AR/ARISTOTLE/${_distdir}.tar.gz")
