@@ -4,13 +4,24 @@
 
 pkgname='perl-devel-overloadinfo'
 pkgver='0.004'
-pkgrel='2'
+pkgrel='3'
 pkgdesc="introspect overloaded operators"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-mro-compat' 'perl-package-stash>=0.14' 'perl-sub-identify' 'perl>=5.006')
-makedepends=()
+depends=(
+  'perl>=5.6.0'
+  'perl-exporter>=5.57'
+  'perl-mro-compat'
+  'perl-package-stash>=0.14'
+  'perl-scalar-list-utils'
+  'perl-sub-identify')
+makedepends=(
+  'perl-base'
+  'perl-extutils-makemaker'
+  'perl-parent'
+  'perl-test-fatal'
+  'perl-test-simple>=0.88')
 checkdepends=('perl-test-fatal')
 url='https://metacpan.org/release/Devel-OverloadInfo'
 _distdir="Devel-OverloadInfo-${pkgver}"
