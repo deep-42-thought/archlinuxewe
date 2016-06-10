@@ -6,13 +6,21 @@
 pkgname='perl-io-captureoutput'
 _realname='IO-CaptureOutput'
 pkgver='1.1104'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="capture STDOUT and STDERR from Perl code, subprocesses or XS"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl>=0')
-makedepends=()
+depends=(
+  'perl>=5.6.0'
+  'perl-carp'
+  'perl-exporter'
+  'perl-file-temp>=0.16')
+makedepends=(
+  'perl-extutils-makemaker>=6.17'
+  'perl-io'
+  'perl-pathtools>=3.27'
+  'perl-test-simple>=0.62')
 url="http://search.cpan.org/dist/$_realname"
 source=("http://search.cpan.org/CPAN/authors/id/D/DA/DAGOLDEN/$_realname-$pkgver.tar.gz")
 sha512sums=('5694635c91e4dd11279c33fb9d58e2eb27014f4ea0a976e62c23505524e3d37264aab6d6b1cfe5d925e123d6aa240e574dbc4f489c6c1007da09631368af94f5')
