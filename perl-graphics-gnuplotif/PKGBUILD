@@ -2,13 +2,17 @@
 
 pkgname='perl-graphics-gnuplotif'
 pkgver='1.8'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="A dynamic Perl interface to gnuplot"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl' 'gnuplot')
-makedepends=()
+depends=(
+  'gnuplot'
+  'perl-test-simple'
+  'perl-version')
+makedepends=(
+  'perl-extutils-makemaker')
 checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
 url='http://search.cpan.org/~mehner/Graphics-GnuplotIF-1.8/'
 _distdir="Graphics-GnuplotIF-${pkgver}"
