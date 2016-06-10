@@ -3,13 +3,18 @@
 
 pkgname='perl-devel-hide'
 pkgver='0.0009'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Forces the unavailability of specified Perl modules (for testing)'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-test-pod>=1.18' 'perl-test-pod-coverage>=1.04' 'perl-test-simple')
-makedepends=('perl-extutils-makemaker' 'perl-extutils-makemaker')
+depends=(
+  'perl-test-simple')
+makedepends=(
+  'perl-extutils-makemaker')
+optdepends=(
+  'perl-test-pod>=1.18'
+  'perl-test-pod-coverage>=1.04')
 url='https://metacpan.org/release/Devel-Hide'
 _distdir="Devel-Hide-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/${_distdir}.tar.gz")
