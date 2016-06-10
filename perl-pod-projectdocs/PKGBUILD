@@ -1,13 +1,21 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname='perl-pod-projectdocs'
 pkgver='0.40'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="generates CPAN like pod pages"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=('perl-class-accessor' 'perl-class-data-inheritable' 'perl-readonly' 'perl-template-toolkit')
+depends=(
+  'perl-class-accessor-fast'
+  'perl-class-data-inheritable'
+  'perl-json>=0.991'
+  'perl-mime-base64'
+  'perl-pathtools'
+  'perl-pod-parser>=1.32'
+  'perl-readonly'
+  'perl-template-toolkit'
+  'perl-uri-escape')
 checkdepends=('perl-json' 'perl-uri-escape')
 url='http://search.cpan.org/~lyokato/Pod-ProjectDocs-0.40/'
 source=("http://search.mcpan.org/CPAN/authors/id/L/LY/LYOKATO/Pod-ProjectDocs-${pkgver}.tar.gz")
