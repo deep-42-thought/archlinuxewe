@@ -3,32 +3,28 @@
 
 pkgname='perl-devel-callchecker'
 pkgver='0.007'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='custom op checking attached to subroutines'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-devel-callchecker')
 depends=(
-  'perl>=5.006'
+  'perl>=5.6.0'
   'perl-dynaloader-functions>=0.001'
   'perl-exporter'
   'perl-parent')
 makedepends=(
-  'perl>=5.006'
   'perl-extutils-cbuilder>=0.15'
   'perl-extutils-parsexs'
   'perl-io>=1.03'
   'perl-module-build'
   'perl-pathtools'
   'perl-test-simple')
+conflicts=(
+  'perl-b-hooks-op-check<0.19')
 checkdepends=(
   'perl-test-pod'
   'perl-test-pod-coverage')
-conflicts=(
-  'perl-0.19'
-  'perl-b-hooks-op-check<<')
 url='https://metacpan.org/release/Devel-CallChecker'
 _distdir="Devel-CallChecker-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/${_distdir}.tar.gz")
