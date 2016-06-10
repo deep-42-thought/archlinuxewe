@@ -4,19 +4,16 @@
 
 pkgname='perl-aliased'
 pkgver='0.34'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Use shorter versions of class names."
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-aliased=0.34')
 depends=(
-  'perl>=5.006'
+  'perl>=5.6.0'
   'perl-carp'
   'perl-exporter')
 makedepends=(
-  'perl>=5.006'
   'perl-extutils-makemaker'
   'perl-if'
   'perl-lib'
