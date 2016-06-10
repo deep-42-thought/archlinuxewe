@@ -2,13 +2,15 @@
 
 pkgname='perl-term-twiddle'
 pkgver='2.73'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Twiddles a thingy while-u-wait"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+depends=(
+  'perl-time-hires>=1.3')
+makedepends=(
+  'perl-extutils-makemaker')
 url='http://search.cpan.org/~scottw/Term-Twiddle/'
 _distdir="Term-Twiddle-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/S/SC/SCOTTW/$_distdir.tar.gz")
