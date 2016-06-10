@@ -3,13 +3,13 @@
 
 pkgname='perl-clone-pp'
 pkgver='1.06'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Recursively copy Perl datatypes'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl'
+  'perl>=5.6.0'
   'perl-exporter')
 makedepends=(
   'perl-carp'
