@@ -3,7 +3,7 @@
 
 pkgname='perl-test-class'
 pkgver='0.50'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Easily create test classes in an xUnit/JUnit style'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -17,7 +17,6 @@ depends=(
   'perl-mro-compat>=0.11'
   'perl-pathtools'
   'perl-storable>=2.04'
-  'perl-test-simple>=0.78'
   'perl-test-simple>=1.02'
   'perl-try-tiny')
 makedepends=(
@@ -25,8 +24,7 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-io>=1.09'
   'perl-test'
-  'perl-test-exception>=0.25'
-  'perl-test-simple>=0.78')
+  'perl-test-exception>=0.25')
 checkdepends=(
   'perl-contextual-return')
 url='https://metacpan.org/release/Test-Class'
