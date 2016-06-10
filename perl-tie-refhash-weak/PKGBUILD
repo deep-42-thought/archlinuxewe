@@ -2,7 +2,7 @@
 
 pkgname='perl-tie-refhash-weak'
 pkgver='0.09'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='A Tie::RefHash subclass with weakened references in the keys.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -10,9 +10,8 @@ options=('!emptydirs')
 depends=(
   'perl-scalar-list-utils'
   'perl-task-weaken'
-  'perl-tie-refhash'
-  'perl-variable-magic'
-)
+  'perl-tie-refhash>=1.34'
+  'perl-variable-magic')
 checkdepends=()
 url='https://metacpan.org/release/Tie-RefHash-Weak'
 _distdir="Tie-RefHash-Weak-${pkgver}"
