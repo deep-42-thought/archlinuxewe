@@ -3,13 +3,22 @@
 
 pkgname='perl-io-pty-easy'
 pkgver=0.10
-pkgrel=1
+pkgrel='2'
 pkgdesc='Easy interface to IO::Pty'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-io-tty')
-makedepends=()
+depends=(
+  'perl-base'
+  'perl-carp'
+  'perl-io-tty'
+  'perl-scalar-list-utils')
+makedepends=(
+  'perl>=5.6.0'
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-simple>=0.88')
 checkdepends=()
 url='https://metacpan.org/release/IO-Pty-Easy'
 _distdir="IO-Pty-Easy-${pkgver}"
