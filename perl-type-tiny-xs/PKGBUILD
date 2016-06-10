@@ -3,13 +3,18 @@
 
 pkgname='perl-type-tiny-xs'
 pkgver='0.012'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='provides an XS boost for some of Type::Tiny'"'"'s built-in type constraints'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=('perl-extutils-makemaker>=6.17')
+provides=(
+  'perl-type-tiny-xs-util=0.012')
+depends=(
+  'perl>=5.10.1')
+makedepends=(
+  'perl-extutils-makemaker>=6.17'
+  'perl-test-simple>=0.92')
 url='https://metacpan.org/release/Type-Tiny-XS'
 _distdir="Type-Tiny-XS-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/${_distdir}.tar.gz")
