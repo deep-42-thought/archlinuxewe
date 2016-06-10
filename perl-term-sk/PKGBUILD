@@ -2,13 +2,17 @@
 
 pkgname='perl-term-sk'
 pkgver='0.18'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Perl extension for displaying a progress indicator on a terminal."
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+depends=(
+  'perl-exporter'
+  'perl-time-hires')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-simple')
 url='http://search.cpan.org/~keichner/Term-Sk-0.18/'
 _distdir="Term-Sk-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/K/KE/KEICHNER/${_distdir}.tar.gz")
