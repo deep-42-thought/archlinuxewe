@@ -3,24 +3,21 @@
 
 pkgname='perl-test-mockrandom'
 pkgver='1.01'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Replaces random number generation with non-random number generation'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-test-mockrandom')
 depends=(
-  'perl-carp'
-  'perl>=5.006')
+  'perl>=5.6.0'
+  'perl-carp')
 makedepends=(
-  'perl-extutils-makemaker'
+  'perl-extutils-makemaker>=6.17'
+  'perl-lib'
   'perl-pathtools'
   'perl-scalar-list-utils'
   'perl-test-simple'
-  'perl-lib'
-  'perl-version'
-  'perl-extutils-makemaker>=6.17')
+  'perl-version')
 url='https://metacpan.org/release/Test-MockRandom'
 _distdir="Test-MockRandom-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/${_distdir}.tar.gz")
