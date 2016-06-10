@@ -3,25 +3,22 @@
 
 pkgname='perl-test-www-mechanize'
 pkgver='1.44'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Testing-specific WWW::Mechanize subclass'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.8.0'
   'perl-carp-assert-more'
   'perl-html-tree'
   'perl-http-server-simple>=0.42'
-  'perl-http-server-simple'
   'perl-libwww>=6.02'
-  'perl-test-simple>=1.09'
   'perl-test-longstring>=0.15'
-  'perl-test-simple>=0.96'
+  'perl-test-simple>=1.09'
   'perl-uri'
-  'perl-www-mechanize>=1.68'
-  'perl>=5.008')
+  'perl-www-mechanize>=1.68')
 makedepends=(
-  'perl-extutils-makemaker'
   'perl-extutils-makemaker')
 checkdepends=(
   'perl-cgi')
