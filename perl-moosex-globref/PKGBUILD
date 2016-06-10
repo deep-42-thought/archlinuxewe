@@ -2,14 +2,22 @@
 
 pkgname='perl-moosex-globref'
 pkgver='0.0701'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Store a Moose object in glob reference'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+provides=(
+  'perl-moosex-globref-object=0.0701'
+  'perl-moosex-globref-role-meta-instance=0.0701'
+  'perl-moosex-globref-role-object=0.0701')
 depends=(
-  'perl-moose'
-)
+  'perl>=5.6.0'
+  'perl-moose>=0.94')
+makedepends=(
+  'perl-parent'
+  'perl-test-assert'
+  'perl-test-unit-lite>=0.12')
 checkdepends=(
   'perl-test-unit-lite'
   'perl-test-assert'
