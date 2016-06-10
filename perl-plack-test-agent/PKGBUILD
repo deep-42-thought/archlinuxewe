@@ -3,34 +3,28 @@
 
 pkgname='perl-plack-test-agent'
 pkgver='1.4'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='OO interface for testing low-level Plack/PSGI apps'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-plack-test-agent')
 depends=(
-  'perl-plack'
+  'perl>=5.8.0'
   'perl-http-message'
-  'perl-test-tcp'
-  'perl-test-www-mechanize'
   'perl-parent'
-  'perl>=5.008')
+  'perl-plack'
+  'perl-test-tcp'
+  'perl-test-www-mechanize')
 makedepends=(
   'perl-extutils-makemaker'
-  'perl-pathtools'
   'perl-http-cookies'
   'perl-http-server-simple-psgi'
   'perl-io'
   'perl-modern-perl'
-  'perl-plack'
+  'perl-pathtools'
   'perl-test-memory-cycle'
-  'perl-test-simple>=0.88'
   'perl-test-requires'
-  'perl>=5.008'
-  'perl-extutils-makemaker'
-  'perl>=5.006')
+  'perl-test-simple>=0.88')
 url='https://metacpan.org/release/Plack-Test-Agent'
 _distdir="Plack-Test-Agent-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
