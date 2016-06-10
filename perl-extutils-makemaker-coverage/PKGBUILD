@@ -4,13 +4,15 @@
 
 pkgname='perl-extutils-makemaker-coverage'
 pkgver='0.05'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='add a Makefile target to determine test coverage using Devel::Cover'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-object-accessor')
-makedepends=('perl-devel-cover')
+depends=(
+  'perl-devel-cover'
+  'perl-object-accessor'
+  'perl-test-simple')
 checkdepends=('perl-test-pod-coverage' 'perl-test-pod')
 _perlName="ExtUtils-MakeMaker-Coverage"
 url="https://metacpan.org/release/SMPETERS/${_perlName}-${pkgver}"
