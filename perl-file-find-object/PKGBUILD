@@ -3,23 +3,31 @@
 
 pkgname=perl-file-find-object
 pkgver=0.2.13
-pkgrel=1
+pkgrel='2'
 _author="S/SH/SHLOMIF"
 _distdir="File-Find-Object-v${pkgver}"
 pkgdesc="File::Find::Object - An object oriented File::Find replacement"
 arch=('any')
 url="http://search.cpan.org/dist/File-Find-Object/"
 license=('GPL' 'PerlArtistic')
-depends=(perl)
-checkdepends=('perl-cpan-changes' 'perl-test-pod' 'perl-test-pod-coverage' 'perl-test-trailingspace')
-makedepends=('perl-class-xsaccessor')
 provides=(
-perl-file-find-object-base
-perl-file-find-object-deeppath
-perl-file-find-object-pathcomp
-perl-file-find-object-result
-perl-file-find-object-toppath
-)
+  'perl-file-find-object-base=0.2.13'
+  'perl-file-find-object-deeppath=0.2.13'
+  'perl-file-find-object-pathcomp=0.2.13'
+  'perl-file-find-object-result=0.2.13'
+  'perl-file-find-object-toppath=0.2.13')
+depends=(
+  'perl>=5.8.0'
+  'perl-carp'
+  'perl-class-xsaccessor'
+  'perl-parent'
+  'perl-pathtools'
+  'perl-scalar-list-utils')
+makedepends=(
+  'perl-file-path'
+  'perl-module-build>=0.36'
+  'perl-test-simple')
+checkdepends=('perl-cpan-changes' 'perl-test-pod' 'perl-test-pod-coverage' 'perl-test-trailingspace')
 options=(!emptydirs)
 source=("http://search.cpan.org/CPAN/authors/id/$_author/${_distdir}.tar.gz")
 sha512sums=('4d3dd12d0e80ac0873182667efabeafd411204332374f81a339bf1b7dd82258567745aaddf026207da449cc99248679d8ff4e80951a2096327afdc9a760b6cfd')
