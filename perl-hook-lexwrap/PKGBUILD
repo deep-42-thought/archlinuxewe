@@ -4,13 +4,21 @@
 
 pkgname='perl-hook-lexwrap'
 pkgver='0.25'
-pkgrel='2'
+pkgrel='3'
 pkgdesc="Lexically scoped subroutine wrappers"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl>=5.006')
-makedepends=('perl-module-build-tiny>=0.039')
+provides=(
+  'perl-hook-lexwrap-cleanup=0.25')
+depends=(
+  'perl>=5.6.0'
+  'perl-carp')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-module-build-tiny>=0.039'
+  'perl-pathtools'
+  'perl-test-simple')
 checkdepends=('perl-test-pod>=1.14')
 url='https://metacpan.org/release/Hook-LexWrap'
 source=("http://search.cpan.org/CPAN/authors/id/E/ET/ETHER/Hook-LexWrap-${pkgver}.tar.gz")
