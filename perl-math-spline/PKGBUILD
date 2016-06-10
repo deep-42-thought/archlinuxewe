@@ -1,13 +1,19 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname='perl-math-spline'
 pkgver='0.02'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Cubic Spline Interpolation of data"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=('perl-math-derivative')
+depends=(
+  'perl>=5.6.0'
+  'perl-carp'
+  'perl-exporter>=5.57'
+  'perl-math-derivative')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-simple')
 url='http://search.mcpan.org/dist/Math-Spline'
 source=("https://cpan.metacpan.org/authors/id/C/CH/CHORNY/Math-Spline-${pkgver}.tar.gz")
 sha512sums=('089c013cedb5e2a87bd144e6f294a7257cb87763221ad7a9069aec7fdb41b6de9714b3a8f66a7e819c4c08739222808420c685ab02e5a1a881e38b086c945bce')
