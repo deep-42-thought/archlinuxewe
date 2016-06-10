@@ -5,13 +5,19 @@
 pkgname=perl-task-weaken
 _cpanname="Task-Weaken"
 pkgver=1.04
-pkgrel='3'
+pkgrel='4'
 _distdir="${_cpanname}-${pkgver}"
 pkgdesc="Ensure that a platform has weaken support"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl>=5.5.0')
+depends=(
+  'perl>=5.5.0'
+  'perl-scalar-list-utils>=1.14')
+makedepends=(
+  'perl-extutils-makemaker>=6.42'
+  'perl-pathtools>=0.80'
+  'perl-test-simple>=0.42')
 url="http://search.cpan.org/dist/$_cpanname"
 source=("http://search.cpan.org/CPAN/authors/id/A/AD/ADAMK/${_distdir}.tar.gz")
 sha512sums=('19749fada2b030a082d745abbc172125c3e195be5e1166ff02511fbf08aa8d37092cb0ea2cbf95452fef70f2e1cd0062d32f04d74aa52b30f6e85108f9ca80ff')
