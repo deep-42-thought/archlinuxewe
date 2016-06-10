@@ -4,13 +4,22 @@
 
 pkgname='perl-sub-exporter-formethods'
 pkgver='0.100052'
-pkgrel='2'
+pkgrel='3'
 pkgdesc="helper routines for using Sub::Exporter to build methods"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-sub-exporter>=0.978' 'perl-sub-name' 'perl-namespace-autoclean')
-makedepends=()
+depends=(
+  'perl-scalar-list-utils'
+  'perl-sub-exporter>=0.978'
+  'perl-sub-name')
+makedepends=(
+  'perl-carp'
+  'perl-extutils-makemaker'
+  'perl-lib'
+  'perl-namespace-autoclean'
+  'perl-pathtools'
+  'perl-test-simple>=0.96')
 url='https://metacpan.org/release/Sub-Exporter-ForMethods'
 _distdir="Sub-Exporter-ForMethods-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
