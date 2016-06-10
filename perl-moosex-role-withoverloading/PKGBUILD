@@ -4,13 +4,40 @@
 
 pkgname='perl-moosex-role-withoverloading'
 pkgver=0.17
-pkgrel=1
+pkgrel='2'
 pkgdesc="Roles which support overloading"
 arch=('i686' 'x86_64')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-moose>=0.94' 'perl-aliased' 'perl-namespace-autoclean>=0.16' 'perl-namespace-clean')
-makedepends=('perl-pod-coverage')
+provides=(
+  'perl-moosex-role-withoverloading-meta-role=0.17'
+  'perl-moosex-role-withoverloading-meta-role-application=0.17'
+  'perl-moosex-role-withoverloading-meta-role-application-composite=0.17'
+  'perl-moosex-role-withoverloading-meta-role-application-composite-toclass=0.17'
+  'perl-moosex-role-withoverloading-meta-role-application-composite-toinstance=0.17'
+  'perl-moosex-role-withoverloading-meta-role-application-composite-torole=0.17'
+  'perl-moosex-role-withoverloading-meta-role-application-fixoverloadedrefs=0.17'
+  'perl-moosex-role-withoverloading-meta-role-application-toclass=0.17'
+  'perl-moosex-role-withoverloading-meta-role-application-toinstance=0.17'
+  'perl-moosex-role-withoverloading-meta-role-application-torole=0.17'
+  'perl-moosex-role-withoverloading-meta-role-composite=0.17')
+depends=(
+  'perl>=5.6.0'
+  'perl-aliased'
+  'perl-moose>=0.94'
+  'perl-moose-exporter'
+  'perl-moose-role>=1.15'
+  'perl-namespace-autoclean>=0.16'
+  'perl-namespace-clean>=0.19')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-if'
+  'perl-lib'
+  'perl-pathtools'
+  'perl-test-simple>=0.96')
+optdepends=(
+  'perl-moose-util-metarole'
+  'perl-xsloader')
 url='https://metacpan.org/release/MooseX-Role-WithOverloading'
 source=("http://search.cpan.org/CPAN/authors/id/E/ET/ETHER/MooseX-Role-WithOverloading-${pkgver}.tar.gz")
 sha512sums=('510c243dc561b82ee50934e802e697d1fcd4db35c6a4cd8044f5cd5668c890e38a6ba38648f8ca0f11ac55dfddc3d4fa94f2e6ed90871547d76e3b5953e54155')
