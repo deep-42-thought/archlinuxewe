@@ -3,13 +3,21 @@
 
 pkgname='perl-file-homedir'
 pkgver='1.00'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Find your home and other directories on any platform'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=()
+depends=(
+  'perl>=5.5.3'
+  'perl-carp'
+  'perl-file-path>=2.01'
+  'perl-file-temp>=0.19'
+  'perl-file-which>=0.05'
+  'perl-pathtools>=3.12')
+makedepends=(
+  'perl-extutils-makemaker>=6.36'
+  'perl-test-simple>=0.47')
 checkdepends=('perl-file-which')
 url='https://metacpan.org/release/File-HomeDir'
 _distdir="File-HomeDir-${pkgver}"
