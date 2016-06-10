@@ -5,13 +5,42 @@
 
 pkgname='perl-moosex-role-parameterized'
 pkgver=1.08
-pkgrel=2
+pkgrel='3'
 pkgdesc="roles with composition parameters"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl>=5.8.1' 'perl-namespace-autoclean')
-makedepends=('perl-moose')
+provides=(
+  'perl-moosex-role-parameterized-meta-role-parameterized=1.08'
+  'perl-moosex-role-parameterized-meta-trait-parameterizable=1.08'
+  'perl-moosex-role-parameterized-meta-trait-parameterized=1.08'
+  'perl-moosex-role-parameterized-parameters=1.08')
+depends=(
+  'perl>=5.8.1'
+  'perl-carp'
+  'perl-module-runtime'
+  'perl-moose>=2.0300'
+  'perl-moose-exporter'
+  'perl-moose-meta-role'
+  'perl-moose-role'
+  'perl-moose-util'
+  'perl-namespace-autoclean'
+  'perl-namespace-clean')
+makedepends=(
+  'perl-cpan-meta-check>=0.007'
+  'perl-cpan-meta-requirements'
+  'perl-data-dumper'
+  'perl-extutils-makemaker'
+  'perl-lib'
+  'perl-module-build-tiny>=0.037'
+  'perl-moose-util-typeconstraints'
+  'perl-moosex-role-withoverloading'
+  'perl-pathtools'
+  'perl-storable'
+  'perl-test-fatal'
+  'perl-test-moose'
+  'perl-test-requires'
+  'perl-test-simple>=0.96')
 checkdepends=('perl-test-fatal' 'perl-test-requires' 'perl-moosex-role-withoverloading')
 url='http://search.cpan.org/dist/MooseX-Role-Parameterized'
 source=("http://search.cpan.org/CPAN/authors/id/E/ET/ETHER/MooseX-Role-Parameterized-${pkgver}.tar.gz")
