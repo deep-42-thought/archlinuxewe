@@ -3,13 +3,13 @@
 
 pkgname='perl-text-tabulardisplay'
 pkgver='1.38'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Display text in formatted table output'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=('perl-extutils-makemaker' 'perl-extutils-makemaker')
+makedepends=(
+  'perl-extutils-makemaker')
 url='https://metacpan.org/release/Text-TabularDisplay'
 _distdir="Text-TabularDisplay-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DA/DARREN/${_distdir}.tar.gz")
