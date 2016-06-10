@@ -3,13 +3,12 @@
 
 pkgname='perl-data-serializer'
 pkgver='0.60'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Modules that serialize data structures'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-data-serializer=0.60'
   'perl-data-serializer-bencode=0.03'
   'perl-data-serializer-config-general=0.02'
   'perl-data-serializer-convert-bencode=0.03'
@@ -36,7 +35,6 @@ depends=(
   'perl-exporter'
   'perl-io')
 makedepends=(
-  'perl-io'
   'perl-module-build>=0.35'
   'perl-pathtools'
   'perl-test-simple')
