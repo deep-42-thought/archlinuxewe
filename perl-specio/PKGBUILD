@@ -2,21 +2,63 @@
 
 pkgname='perl-specio'
 pkgver=0.17
-pkgrel=1
+pkgrel='2'
 pkgdesc='Type constraints and coercions for Perl'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+provides=(
+  'perl-specio-coercion=0.17'
+  'perl-specio-constraint-anycan=0.17'
+  'perl-specio-constraint-anydoes=0.17'
+  'perl-specio-constraint-anyisa=0.17'
+  'perl-specio-constraint-enum=0.17'
+  'perl-specio-constraint-objectcan=0.17'
+  'perl-specio-constraint-objectdoes=0.17'
+  'perl-specio-constraint-objectisa=0.17'
+  'perl-specio-constraint-parameterizable=0.17'
+  'perl-specio-constraint-parameterized=0.17'
+  'perl-specio-constraint-role-cantype=0.17'
+  'perl-specio-constraint-role-doestype=0.17'
+  'perl-specio-constraint-role-interface=0.17'
+  'perl-specio-constraint-role-isatype=0.17'
+  'perl-specio-constraint-simple=0.17'
+  'perl-specio-declare=0.17'
+  'perl-specio-declaredat=0.17'
+  'perl-specio-exception=0.17'
+  'perl-specio-exporter=0.17'
+  'perl-specio-helpers=0.17'
+  'perl-specio-library-builtins=0.17'
+  'perl-specio-library-numeric=0.17'
+  'perl-specio-library-perl=0.17'
+  'perl-specio-library-string=0.17'
+  'perl-specio-oo=0.17'
+  'perl-specio-registry=0.17'
+  'perl-specio-role-inlinable=0.17'
+  'perl-specio-typechecks=0.17')
 depends=(
+  'perl>=5.10.0'
+  'perl-carp'
   'perl-class-method-modifiers'
   'perl-devel-partialdump'
-  'perl-lingua-en-inflect'
-  'perl-role-tiny'
-  'perl-moo'
-  'perl-class-load'
   'perl-devel-stacktrace'
   'perl-eval-closure'
-)
+  'perl-exporter'
+  'perl-moo'
+  'perl-parent'
+  'perl-role-tiny'
+  'perl-scalar-list-utils>=1.33'
+  'perl-storable'
+  'perl-test-simple>=0.96'
+  'perl-version')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-lib'
+  'perl-namespace-autoclean'
+  'perl-pathtools'
+  'perl-test-fatal'
+  'perl-test-requires')
 checkdepends=(
   'perl-test-requires'
   'perl-test-fatal'
