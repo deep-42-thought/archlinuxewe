@@ -4,13 +4,18 @@
 
 pkgname='perl-file-find-rule'
 pkgver='0.34'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Alternative interface to File::Find"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-number-compare' 'perl-text-glob>=0.07')
-makedepends=()
+depends=(
+  'perl-number-compare'
+  'perl-pathtools'
+  'perl-test-simple'
+  'perl-text-glob>=0.07')
+makedepends=(
+  'perl-extutils-makemaker')
 url='http://search.mcpan.org/dist/File-Find-Rule'
 source=("http://search.mcpan.org/CPAN/authors/id/R/RC/RCLAMP/File-Find-Rule-${pkgver}.tar.gz")
 sha512sums=('97328a86578942d214f7ac530cc88fc84dc7ef2018db06b8c0c58907a4045e90c9c97d1848ed4f16838bd8ca591aca4fa9f24649c81fd8dfe9efe7a2f9f2722c')
