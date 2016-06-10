@@ -3,13 +3,15 @@
 
 pkgname='perl-strictures'
 pkgver='2.000003'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='turn on strict and make most warnings fatal'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
-makedepends=('perl-test-simple')
+depends=(
+  'perl>=5.6.0')
+makedepends=(
+  'perl-test-simple')
 url='https://metacpan.org/release/strictures'
 _distdir="strictures-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/H/HA/HAARG/${_distdir}.tar.gz")
