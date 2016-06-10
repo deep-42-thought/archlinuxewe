@@ -4,13 +4,26 @@
 
 pkgname='perl-statistics-descriptive'
 pkgver='3.0612'
-pkgrel='3'
+pkgrel='4'
 pkgdesc="Module of basic descriptive statistical functions."
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-list-moreutils>=0')
-makedepends=()
+provides=(
+  'perl-statistics-descriptive-full=3.0612'
+  'perl-statistics-descriptive-smoother=3.0612'
+  'perl-statistics-descriptive-smoother-exponential=3.0612'
+  'perl-statistics-descriptive-smoother-weightedexponential=3.0612'
+  'perl-statistics-descriptive-sparse=3.0612')
+depends=(
+  'perl>=5.6.0'
+  'perl-carp'
+  'perl-list-moreutils'
+  'perl-scalar-list-utils')
+makedepends=(
+  'perl-lib'
+  'perl-module-build>=0.36'
+  'perl-test-simple')
 checkdepends=('perl-test-pod>=1.22' 'perl-test-pod-coverage>=1.08' 'perl-cpan-changes' 'perl-test-trailingspace')
 url='https://metacpan.org/release/Statistics-Descriptive'
 source=("http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/Statistics-Descriptive-${pkgver}.tar.gz")
