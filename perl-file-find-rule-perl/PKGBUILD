@@ -4,13 +4,20 @@
 
 pkgname='perl-file-find-rule-perl'
 pkgver='1.13'
-pkgrel='2'
+pkgrel='3'
 pkgdesc="Common rules for searching for Perl things"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-file-find-rule>=0.20' 'perl-params-util>=0.38' 'perl')
-makedepends=()
+depends=(
+  'perl>=5.5.3'
+  'perl-file-find-rule>=0.20'
+  'perl-params-util>=0.38'
+  'perl-parse-cpan-meta>=1.38'
+  'perl-pathtools>=0.82')
+makedepends=(
+  'perl-extutils-makemaker>=6.36'
+  'perl-test-simple>=0.47')
 url='http://search.mcpan.org/dist/File-Find-Rule-Perl'
 _distdir="File-Find-Rule-Perl-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/A/AD/ADAMK/${_distdir}.tar.gz")
