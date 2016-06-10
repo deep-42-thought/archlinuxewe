@@ -3,20 +3,18 @@
 
 pkgname='perl-http-headers-fast'
 pkgver='0.20'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='faster implementation of HTTP::Headers'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-http-headers-fast')
 depends=(
-  'perl-http-date'
-  'perl>=5.8.1')
+  'perl>=5.8.1'
+  'perl-http-date')
 makedepends=(
-  'perl-test-simple>=0.98'
+  'perl-module-build>=0.38'
   'perl-test-requires'
-  'perl-module-build>=0.38')
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-http-message'
   'perl-uri')
