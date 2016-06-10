@@ -5,12 +5,25 @@
 
 pkgname=perl-test-failwarnings
 pkgver=0.008
-pkgrel=1
+pkgrel='2'
 pkgdesc='A Perl package that add test failures if warnings are caught'
 arch=('any')
 url='http://search.cpan.org/dist/Test-FailWarnings'
 license=('Apache')
-depends=('perl>=5.10.1')
+depends=(
+  'perl>=5.8.1'
+  'perl-carp'
+  'perl-pathtools'
+  'perl-test-simple>=0.86')
+makedepends=(
+  'perl-capture-tiny>=0.12'
+  'perl-constant'
+  'perl-extutils-makemaker>=6.17'
+  'perl-file-temp'
+  'perl-io'
+  'perl-lib'
+  'perl-scalar-list-utils'
+  'perl-test-simple>=0.96')
 checkdepends=('perl>=5.13.4' 'perl-capture-tiny>=0.12')
 _distdir="Test-FailWarnings-${pkgver}"
 source=(http://search.cpan.org/CPAN/authors/id/D/DA/DAGOLDEN/${_distdir}.tar.gz)
