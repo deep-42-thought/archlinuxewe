@@ -3,20 +3,18 @@
 
 pkgname='perl-html-formattext-withlinks'
 pkgver='0.15'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='HTML to text conversion with links as footnotes'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-html-formattext-withlinks')
 depends=(
   'perl-html-formattext>=2'
   'perl-html-tree'
   'perl-uri')
 makedepends=(
-  'perl-test-simple'
-  'perl-module-build>=0.38')
+  'perl-module-build>=0.38'
+  'perl-test-simple')
 checkdepends=(
   'perl-test-pod'
   'perl-test-pod-coverage'
