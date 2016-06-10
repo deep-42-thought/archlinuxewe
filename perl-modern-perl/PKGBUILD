@@ -3,21 +3,19 @@
 
 pkgname='perl-modern-perl'
 pkgver='1.20150127'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='enable all of the features of Modern Perl with one import'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl-io'
-  'perl-io'
+  'perl>=5.10.0'
   'perl-autodie>=2.22'
-  'perl>=5.010')
+  'perl-io')
 makedepends=(
-  'perl-module-build>=0.28'
-  'perl-test-simple>=0.98'
   'perl-extutils-makemaker'
-  'perl-module-build>=0.28')
+  'perl-module-build>=0.28'
+  'perl-test-simple>=0.98')
 url='https://metacpan.org/release/Modern-Perl'
 _distdir="Modern-Perl-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/${_distdir}.tar.gz")
