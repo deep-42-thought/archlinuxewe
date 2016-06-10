@@ -5,12 +5,15 @@
 
 pkgname=perl-extutils-f77
 pkgver=1.20
-pkgrel=1
+pkgrel='2'
 pkgdesc='Perl module providing simple interface to F77 libraries'
 arch=('any')
 url='https://metacpan.org/release/ExtUtils-F77'
 license=('PerlArtistic' 'GPL')
-depends=('perl' 'gcc-fortran')
+depends=(
+  'gcc-fortran')
+makedepends=(
+  'perl-extutils-makemaker')
 _distdir="ExtUtils-F77-${pkgver}"
 source=(http://search.cpan.org/CPAN/authors/id/C/CH/CHM/${_distdir}.tar.gz)
 options=(!emptydirs)
