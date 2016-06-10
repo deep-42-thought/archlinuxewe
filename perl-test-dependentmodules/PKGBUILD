@@ -3,38 +3,32 @@
 
 pkgname='perl-test-dependentmodules'
 pkgver='0.26'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Test all modules which depend on your module'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-test-dependentmodules')
 depends=(
-  'perl-cpan'
-  'perl-cpan'
+  'perl-autodie'
   'perl-capture-tiny'
-  'perl-pathtools'
+  'perl-cpan'
   'perl-exporter'
-  'perl-file-path'
-  'perl-pathtools'
-  'perl-file-temp'
   'perl-file-chdir'
+  'perl-file-path'
+  'perl-file-temp'
   'perl-io-handle-util'
   'perl-ipc-run3'
   'perl-log-dispatch'
   'perl-metacpan-client'
+  'perl-pathtools'
   'perl-test-simple'
-  'perl-try-tiny'
-  'perl-autodie')
+  'perl-try-tiny')
 makedepends=(
   'perl-extutils-makemaker'
   'perl-file-copy-recursive'
-  'perl-pathtools'
   'perl-module-build'
   'perl-module-build-tiny'
-  'perl-test-simple>=0.96'
-  'perl-extutils-makemaker')
+  'perl-test-simple>=0.96')
 optdepends=(
   'perl-parallel-forkmanager>=0.7.6')
 checkdepends=(
