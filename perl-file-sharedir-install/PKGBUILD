@@ -5,11 +5,15 @@
 _perlmod=File-ShareDir-Install
 pkgname=perl-file-sharedir-install
 pkgver=0.10
-pkgrel=1
+pkgrel='2'
 pkgdesc="File::ShareDir::Install - Install read-only data files from a distribution"
 arch=('any')
 url="http://search.cpan.org/dist/${_perlmod}"
 license=('GPL' 'PerlArtistic')
+depends=(
+  'perl-extutils-makemaker>=6.11'
+  'perl-io'
+  'perl-pathtools')
 checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
 options=('!emptydirs')
 _distdir="${_perlmod}-${pkgver}"
