@@ -2,14 +2,25 @@
 
 pkgname='perl-json-maybexs'
 pkgver='1.003005'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Use Cpanel::JSON::XS with a fallback to JSON::XS and JSON::PP'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl-cpanel-json-xs'
-)
+  'perl>=5.6.0'
+  'perl-carp'
+  'perl-json-pp>=2.27202'
+  'perl-scalar-list-utils')
+makedepends=(
+  'perl-extutils-cbuilder>=0.27'
+  'perl-extutils-makemaker'
+  'perl-file-temp'
+  'perl-pathtools'
+  'perl-test-simple>=0.88'
+  'perl-test-without-module>=0.17')
+optdepends=(
+  'perl-cpanel-json-xs>=2.3310')
 checkdepends=(
   'perl-test-without-module'
   'perl-json-xs'
