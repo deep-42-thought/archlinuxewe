@@ -4,13 +4,21 @@
 
 pkgname='perl-module-runtime-conflicts'
 pkgver='0.002'
-pkgrel='3'
+pkgrel='4'
 pkgdesc="Provide information on conflicts for Module::Runtime"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-dist-checkconflicts' 'perl-module-runtime' 'perl-module-build-tiny')
-makedepends=()
+depends=(
+  'perl>=5.6.0'
+  'perl-dist-checkconflicts'
+  'perl-module-runtime')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-if'
+  'perl-module-build-tiny>=0.039'
+  'perl-pathtools'
+  'perl-test-simple>=0.88')
 url='https://metacpan.org/release/Module-Runtime-Conflicts'
 _distdir="Module-Runtime-Conflicts-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
