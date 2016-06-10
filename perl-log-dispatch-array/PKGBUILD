@@ -3,7 +3,7 @@
 
 pkgname='perl-log-dispatch-array'
 pkgver='1.003'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='log events to an array (reference)'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -12,9 +12,9 @@ depends=(
   'perl-log-dispatch'
   'perl-parent')
 makedepends=(
+  'perl-extutils-makemaker>=6.30'
   'perl-test-deep'
-  'perl-test-simple>=0.96'
-  'perl-extutils-makemaker>=6.30')
+  'perl-test-simple>=0.96')
 url='https://metacpan.org/release/Log-Dispatch-Array'
 _distdir="Log-Dispatch-Array-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
