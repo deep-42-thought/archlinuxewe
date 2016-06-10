@@ -2,15 +2,21 @@
 
 pkgname='perl-io-handle-util'
 pkgver='0.01'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Functions for working with IO::Handle like objects.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl-io-string'
   'perl-asa'
-)
+  'perl-io-string'
+  'perl-parent'
+  'perl-scalar-list-utils'
+  'perl-sub-exporter'
+  'perl-test-simple>=0.88'
+  'perl-test-use-ok')
+makedepends=(
+  'perl-extutils-makemaker')
 checkdepends=(
   'perl-sub-exporter'
 )
