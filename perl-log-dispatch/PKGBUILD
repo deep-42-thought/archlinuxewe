@@ -2,17 +2,52 @@
 
 pkgname='perl-log-dispatch'
 pkgver=2.56
-pkgrel=1
+pkgrel='2'
 pkgdesc='Dispatches messages to one or more outputs'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+provides=(
+  'perl-log-dispatch-apachelog=2.56'
+  'perl-log-dispatch-base=2.56'
+  'perl-log-dispatch-code=2.56'
+  'perl-log-dispatch-email=2.56'
+  'perl-log-dispatch-email-mailsend=2.56'
+  'perl-log-dispatch-email-mailsender=2.56'
+  'perl-log-dispatch-email-mailsendmail=2.56'
+  'perl-log-dispatch-email-mimelite=2.56'
+  'perl-log-dispatch-file=2.56'
+  'perl-log-dispatch-file-locked=2.56'
+  'perl-log-dispatch-handle=2.56'
+  'perl-log-dispatch-null=2.56'
+  'perl-log-dispatch-output=2.56'
+  'perl-log-dispatch-screen=2.56'
+  'perl-log-dispatch-syslog=2.56'
+  'perl-log-dispatch-vars=2.56')
 depends=(
-  'perl-dist-checkconflicts'
+  'perl>=5.6.0'
+  'perl-base'
+  'perl-carp'
   'perl-devel-globaldestruction'
+  'perl-dist-checkconflicts>=0.02'
+  'perl-encode'
+  'perl-exporter'
+  'perl-io'
   'perl-module-runtime'
-  'perl-params-validate'
-)
+  'perl-params-validate>=1.03'
+  'perl-scalar-list-utils'
+  'perl-sys-syslog>=0.28')
+makedepends=(
+  'perl-data-dumper'
+  'perl-extutils-makemaker'
+  'perl-file-temp'
+  'perl-getopt-long'
+  'perl-ipc-run3'
+  'perl-lib'
+  'perl-pathtools'
+  'perl-test-fatal'
+  'perl-test-requires'
+  'perl-test-simple>=0.96')
 checkdepends=(
   'perl-test-requires'
   'perl-ipc-run3'
