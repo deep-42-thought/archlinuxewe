@@ -9,12 +9,11 @@ arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.6.0'
   'perl-b-utils'
   'perl-test-simple'
-  'perl-xsloader'
-  'perl>=5.6.0')
+  'perl-xsloader')
 makedepends=(
-  'perl-test-simple'
   'perl-extutils-makemaker>=6.31')
 url='https://metacpan.org/release/UNIVERSAL-ref'
 _distdir="UNIVERSAL-ref-${pkgver}"
