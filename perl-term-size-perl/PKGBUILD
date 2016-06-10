@@ -3,12 +3,15 @@
 
 pkgname='perl-term-size-perl'
 pkgver=0.0201
-pkgrel=1
+pkgrel='2'
 pkgdesc='Perl extension for retrieving terminal size (Perl version)'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
+depends=(
+  'perl-exporter'
+  'perl-extutils-cbuilder'
+  'perl-test-simple')
 url='https://metacpan.org/release/Term-Size-Perl'
 _distdir="Term-Size-Perl-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/${_distdir}.tar.gz")
