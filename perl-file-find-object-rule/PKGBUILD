@@ -2,13 +2,22 @@
 
 pkgname='perl-file-find-object-rule'
 pkgver='0.0305'
-pkgrel='2'
+pkgrel='3'
 pkgdesc="Alternative interface to File::Find::Object"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-class-xsaccessor' 'perl-file-find-object' 'perl-number-compare' 'perl-text-glob')
-makedepends=('perl-module-build')
+depends=(
+  'perl>=5.8.0'
+  'perl-carp'
+  'perl-class-xsaccessor'
+  'perl-file-find-object>=0.2.1'
+  'perl-number-compare'
+  'perl-pathtools'
+  'perl-text-glob')
+makedepends=(
+  'perl-module-build>=0.36'
+  'perl-test-simple')
 checkdepends=('perl-test-pod' 'perl-test-pod-coverage' 'perl-test-trailingspace')
 url='http://search.cpan.org/~shlomif/File-Find-Object-Rule-0.0305/'
 _distdir="File-Find-Object-Rule-${pkgver}"
