@@ -2,14 +2,24 @@
 
 pkgname='perl-hash-util-fieldhash-compat'
 pkgver='0.10'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Use Hash::Util::FieldHash or ties, depending on availability'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+provides=(
+  'perl-hash-util-fieldhash-compat-heavy=0.10')
 depends=(
-  'perl-tie-refhash-weak'
-)
+  'perl>=5.6.0'
+  'perl-constant'
+  'perl-exporter'
+  'perl-parent')
+makedepends=(
+  'perl-cpan-meta-requirements>=2.120'
+  'perl-extutils-makemaker'
+  'perl-module-metadata'
+  'perl-pathtools'
+  'perl-test-simple')
 checkdepends=()
 url='https://metacpan.org/release/Hash-Util-FieldHash-Compat'
 _distdir="Hash-Util-FieldHash-Compat-${pkgver}"
