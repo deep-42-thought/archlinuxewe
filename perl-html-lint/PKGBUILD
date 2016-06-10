@@ -3,20 +3,17 @@
 
 pkgname='perl-html-lint'
 pkgver='2.22'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='check for HTML errors in a string or file'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
   'perl-exporter'
-  'perl-html-parser'
   'perl-html-parser>=3.47'
   'perl-html-tagset>=3.03'
-  'perl-test-simple'
   'perl-test-simple')
 makedepends=(
-  'perl-extutils-makemaker'
   'perl-extutils-makemaker')
 checkdepends=(
   'perl-test-pod'
