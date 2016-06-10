@@ -3,13 +3,20 @@
 
 pkgname='perl-ppi-html'
 pkgver='1.08'
-pkgrel='1'
+pkgrel='2'
 pkgdesc="Generate syntax-hightlighted HTML for Perl using PPI"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-ppi' 'perl-css-tiny')
-makedepends=('')
+depends=(
+  'perl>=5.5.0'
+  'perl-css-tiny>=1.10'
+  'perl-params-util>=0.05'
+  'perl-ppi>=0.990')
+makedepends=(
+  'perl-extutils-makemaker>=6.42'
+  'perl-pathtools>=0.80'
+  'perl-test-simple>=0.47')
 checkdepends=('')
 url='http://svn.ali.as/cpan/trunk/PPI-HTML'
 source=("http://search.mcpan.org/CPAN/authors/id/A/AD/ADAMK/PPI-HTML-${pkgver}.tar.gz")
