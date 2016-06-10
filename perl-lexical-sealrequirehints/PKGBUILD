@@ -3,15 +3,21 @@
 
 pkgname='perl-lexical-sealrequirehints'
 pkgver='0.010'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='prevent leakage of lexical hints'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-xsloader')
-makedepends=('perl-module-build' 'perl-test-simple>=0.41' 'perl-module-build')
+depends=(
+  'perl>=5.6.0')
+makedepends=(
+  'perl-module-build'
+  'perl-test-simple>=0.41')
+conflicts=(
+  'perl-b-hooks-op-check<0.19')
+optdepends=(
+  'perl-xsloader')
 checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
-conflicts=('perl-b-hooks-op-check>=<0.19')
 url='https://metacpan.org/release/Lexical-SealRequireHints'
 _distdir="Lexical-SealRequireHints-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/${_distdir}.tar.gz")
