@@ -2,14 +2,28 @@
 pkgname=perl-file-map
 _pkgname='File-Map'
 pkgver=0.64
-pkgrel=1
+pkgrel='2'
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Memory mapping made simple and safe."
 arch=('x86_64' 'i686')
 url="https://github.com/Leont/file-map"
 license=('GPL' 'PerlArtistic')
-depends=('perl')
-makedepends=('perl-perlio-layers' 'perl-test-warnings' 'perl-module-build')
+depends=(
+  'perl>=5.8.0'
+  'perl-carp'
+  'perl-perlio-layers'
+  'perl-sub-exporter-progressive>=0.001005'
+  'perl-xsloader')
+makedepends=(
+  'perl-io'
+  'perl-module-build>=0.28'
+  'perl-scalar-list-utils'
+  'perl-test-fatal'
+  'perl-test-simple'
+  'perl-test-warnings>=0.005'
+  'perl-time-hires')
+optdepends=(
+  'perl>=5.8.8')
 checkdepends=('perl-sub-exporter-progressive' 'perl-test-fatal')
 options=('!emptydirs')
 source=("http://search.cpan.org/CPAN/authors/id/L/LE/LEONT/${_distdir}.tar.gz")
