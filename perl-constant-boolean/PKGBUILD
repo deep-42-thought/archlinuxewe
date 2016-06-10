@@ -2,14 +2,13 @@
 
 pkgname='perl-constant-boolean'
 pkgver='0.02'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Define TRUE and FALSE constants'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-constant-boolean=0.02')
 depends=(
+  'perl>=5.6.0'
   'perl-symbol-util>=0.02')
 checkdepends=()
 url='https://metacpan.org/pod/constant::boolean'
