@@ -2,14 +2,16 @@
 
 pkgname='perl-ipc-sharelite'
 pkgver='0.17'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Lightweight interface to shared memory'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl'
-)
+  'perl-pathtools'
+  'perl-test-simple')
+makedepends=(
+  'perl-extutils-makemaker')
 checkdepends=(
   'perl-test-pod'
 )
