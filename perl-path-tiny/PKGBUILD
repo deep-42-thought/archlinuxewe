@@ -3,43 +3,34 @@
 
 pkgname='perl-path-tiny'
 pkgver=0.094
-pkgrel=1
+pkgrel='2'
 pkgdesc='File path utility'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-path-tiny'
-  'perl-path-tiny-error')
+  'perl-path-tiny-error=0.094')
 depends=(
+  'perl>=5.8.1'
   'perl-carp'
-  'perl-pathtools'
+  'perl-constant'
   'perl-digest>=1.03'
   'perl-digest-sha>=5.45'
   'perl-exporter>=5.57'
   'perl-file-path>=2.07'
-  'perl-pathtools>=0.86'
-  'perl-file-temp>=0.19'
   'perl-file-stat'
-  'perl-constant'
-  'perl-if'
-  'perl>=5.8.1')
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-pathtools>=0.86'
-  'perl-pathtools'
-  'perl-pathtools'
   'perl-file-temp>=0.19'
-  'perl-test-simple>=0.96'
-  'perl-lib'
-  'perl>=5.8.1'
+  'perl-if'
+  'perl-pathtools>=0.86')
+makedepends=(
   'perl-extutils-makemaker>=6.17'
-  'perl>=5.8.1')
+  'perl-lib'
+  'perl-test-simple>=0.96')
+optdepends=(
+  'perl-unicode-utf8>=0.58')
 checkdepends=(
   'perl-test-failwarnings'
   'perl-test-mockrandom')
-optdepends=(
-  'perl-unicode-utf8>=0.58')
 url='https://metacpan.org/release/Path-Tiny'
 _distdir="Path-Tiny-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/${_distdir}.tar.gz")
