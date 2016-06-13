@@ -1,45 +1,10 @@
 #!/bin/bash
 
-set -e
-
 if [ $# -ne 1 ]
 then
   >&2 echo "Verwendung: testeAbhaengigkeiten paket"
   exit 1
 fi
-
-substituiere() {
-  dep="$1"
-  name=${dep%>=*}
-  dep=${dep#${name}}
-  erg="$(
-    cat "$(dirname "${me}")/perlSubstitutionen" | \
-      sed 's|#.*$||' | \
-      grep "\s${name}\(\s\|\$\)" | \
-      sed "s|^\([^:]\+\):.*\$|perl-\1|" | \
-      sed "s|^:.*\$|perl|"
-  )"
-  [ -z "${erg}" ] && erg="perl-${name}"
-  if [ "${erg}" == "perl" ] && echo "${dep}" | grep -q "^[^.]*\.\(0[[:digit:]]\{2\}\)\{2\}"
-  then
-    dep="$(
-      echo "${dep}" | \
-        sed "s@^\([^.]*\....\)0\+@\1.@; s@^\([^.]*\.\)0\+@\1@"
-    )"
-  fi
-  erg="${erg}${dep}"
-}
-
-versionsUniq() {
-  tr ' ' '\n' | \
-  sort -rV | \
-  sed 's@^\([^<=>]*\)\(\(>=\|=\|<\)[0-9.]*\)$@\1\2 \1@' | \
-  sed 's|^\(\S*\)$|\1 \1|' | \
-  uniq -f1 "$@" | \
-  awk '{print $1}' | \
-  sort | \
-  grep -v '^\s*$'
-}
 
 paket="$1"
 
@@ -51,160 +16,16 @@ fi
 
 me="$(readlink -f "$0")"
 cd "$(dirname "${me}")"
-cd "${paket}"
+. perlFunktionen
 
-makepkg -f --verifysource
+ladePkgbuild "${paket}" || exit $[$?-1]
 
-. PKGBUILD
-
-archiv="${_distdir}.tar.gz"
-[ -r "${archiv}" ] || archiv="${_distdir}.tgz"
-
-if [ ! -r "${archiv}" ]
-then
-  >&2 echo "Kann Quelldatei nicht finden!"
-  exit 1
-fi
-
-if ! tar -tzf "${archiv}" "${_distdir}/META.yml"
-then
-# da kann ich nichts machen
-  exit 0
-fi
-
-echo "META.yml lesen ..."
-
-meta="$(
-  tar -Oxzf "${archiv}" "${_distdir}/META.yml" | \
-    tr '\r' ' ' | \
-    grep -v "^\s*file:" | \
-    grep -v "^version:" | \
-    sed '
-      :begin;
-        $!N;
-        s@^\(\S.*\)\n\s\+\(\S.*\)$@\1 \2@;
-      tbegin;
-      P;
-      D
-    ' | \
-    sed "/^provides: /s@\(\s\S\+\):\s\+version:\s\+'\?v\?\([0-9.]\+\)'\?@\L\1=\2@g" | \
-    sed "/^provides: /s@\s@  @g" | \
-    sed "/^provides: /s@\(\s[^= ]\+\):\+\(\s\|\$\)@\L\1=${pkgver}\2@g" | \
-    sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)\.\([[:digit:]]\{3\}\)'\?\(\s\|\$\)@\1\2.\3.0\4@" | \
-    sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)\.\([[:digit:]]\{3\}\)\([[:digit:]]\+\)'\?\(\s\|\$\)@\1\2.\3.\4\5@" | \
-    sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)[._]0*\([1-9][[:digit:]]*\)[._]0*\([1-9][[:digit:]]*\)'\?\(\s\|\$\)@\1\2.\3.\4\5@" | \
-    sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)[._]0*\([1-9][[:digit:]]*\)[._]0\+'\?\(\s\|\$\)@\1\2.\3.0\4@"
-)"
-
-echo "... fertig, verarbeiten ..."
-
-declare -A metaInfos
-declare -A metaRegexe
-declare -A metaSubst
-declare -A metaYml
-declare -A pkgBuild
-
-metaRegexe["depends"]="requires"
-metaSubst["depends"]=true
-metaRegexe["makedepends"]="\(build\|configure\)_requires"
-metaSubst["makedepends"]=true
-metaRegexe["optdepends"]="recommends"
-metaSubst["optdepends"]=true
-metaRegexe["conflicts"]="conflicts"
-metaSubst["conflicts"]=true
-metaRegexe["provides"]="provides"
-metaSubst["provides"]=false
-
-set +e
-
-for sucheWonach in "${!metaRegexe[@]}"
-do
-  metaInfos["${sucheWonach}"]=""
-  for was in $(
-    echo "${meta}" | \
-      grep "^${metaRegexe["${sucheWonach}"]}:" | \
-      sed "s@^${metaRegexe["${sucheWonach}"]}:\s*@@" | \
-      sed "s@\(\S\+\):\s\+'\?v\?\([0-9.]*\)'\?\(\s\|\$\)@\L\1>=\L\2\n@g" | \
-      sed "s@\(\S\+\):\s\+'\(<=\?\)\s*v\?\([0-9.]\+\)'\(\s\|\$\)@\L\1\2\L\3\n@g" | \
-      sed "s@::@-@g" | \
-      sed "s|>=0\$||" | \
-      grep -v "^\({}\)\?$"
-  )
-  do
-    if ${metaSubst["${sucheWonach}"]}
-    then
-      substituiere "${was}"
-    else
-      erg="perl-${was}"
-      if [[ "${erg}" == "${pkgname}="* ]]
-      then
-        erg="perl-%skip"
-      fi
-    fi
-    if [[ "${erg}" != "perl-%skip"* ]]
-    then
-      metaInfos["${sucheWonach}"]="${metaInfos["${sucheWonach}"]} ${erg}"
-    fi
-  done
-  metaInfos["${sucheWonach}"]="$(
-    echo "${metaInfos["${sucheWonach}"]}" | \
-      versionsUniq
-  )"
-done
+versteheMetaYml "${paket}" || exit $[$?-1]
 
 err=false
 
 for wasAusgeben in "${!metaRegexe[@]}"
 do
-  eval tmp=( '"${'${wasAusgeben}'[@]}"' )
-  pkgBuild["${wasAusgeben}"]="$(
-    echo "${tmp[@]}" | \
-      tr " '" '\n\n' | \
-      grep -v '^$' | \
-      sort -u
-  )"
-  if [ -z "${pkgBuild["${wasAusgeben}"]}" ] && \
-    [ "${wasAusgeben}" == "depends" ]
-  then
-    pkgBuild["${wasAusgeben}"]="perl"
-  fi
-
-  metaYml["${wasAusgeben}"]="$(
-    (
-      echo "${metaInfos["${wasAusgeben}"]}" | \
-        grep -v '^$' | \
-        grep '^\s*perl'
-      echo "${pkgBuild["${wasAusgeben}"]}" | \
-        grep -v '^\s*perl'
-    ) | \
-      versionsUniq
-  )"
-  if [ -z "${metaYml["${wasAusgeben}"]}" ] && \
-    [ "${wasAusgeben}" == "depends" ]
-  then
-    metaYml["${wasAusgeben}"]="perl"
-  fi
-  if [ "${wasAusgeben}" == "makedepends" ]
-  then
-    metaYml["${wasAusgeben}"]="$(
-      (
-        (
-          (
-            echo "${metaYml["${wasAusgeben}"]}"
-            echo "${metaYml["depends"]}"
-          ) | \
-            versionsUniq
-          echo "${metaYml["depends"]}"
-        ) | \
-          sort | \
-          uniq -d | \
-          sed 'p'
-        echo "${metaYml["${wasAusgeben}"]}"
-      ) | \
-        versionsUniq -u
-    )"
-  fi
-
   probleme="$(
     (
       echo "${pkgBuild["${wasAusgeben}"]}"
@@ -269,5 +90,3 @@ then
   sed "s|^depends=.*\$|${ersatz}|" -i PKGBUILD
   "${me}" "$@"
 fi
-
-echo "... fertig"
