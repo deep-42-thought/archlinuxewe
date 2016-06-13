@@ -6,28 +6,6 @@ then
   exit 1
 fi
 
-substituiere() {
-  dep="$1"
-  name=${dep%>=*}
-  dep=${dep#${name}}
-  erg="$(
-    cat "$(dirname "${me}")/perlSubstitutionen" | \
-      sed 's|#.*$||' | \
-      grep "\s${name}\(\s\|\$\)" | \
-      sed "s|^\([^:]\+\):.*\$|perl-\1|" | \
-      sed "s|^:.*\$|perl|"
-  )"
-  [ -z "${erg}" ] && erg="perl-${name}"
-  if [ "${erg}" == "perl" ] && echo "${dep}" | grep -q "^[^.]*\.\(0[[:digit:]]\{2\}\)\{2\}"
-  then
-    dep="$(
-      echo "${dep}" | \
-        sed "s@^\([^.]*\....\)0\+@\1.@; s@^\([^.]*\.\)0\+@\1@"
-    )"
-  fi
-  erg="${erg}${dep}"
-}
-
 cpanName="$(echo "$1" | sed 's|::|-|g')"
 url="https://metacpan.org/release/${cpanName}"
 pkgname="perl-${cpanName,,}"
@@ -62,6 +40,8 @@ then
   >&2 echo "${cpanName} gibt es schon offiziell"
   exit 1
 fi
+
+. perlFunktionen
 
 seitenInhalt="$(curl -o - "${url}" 2> /dev/null)"
 
@@ -102,71 +82,8 @@ sha512sum="$(
 
 echo "META.yml lesen ..."
 
-meta="$(
-  tar -Oxzf "${cpanName}-${pkgver}.tar.gz" "${cpanName}-${pkgver}/META.yml" | \
-    grep -v "^    file:" | \
-    grep -v "^    version:" | \
-    sed '
-      :begin;
-        $!N;
-        s@^\(\S.*\)\n\s\+\(\S.*\)$@\1 \2@;
-      tbegin;
-      P;
-      D
-    ' | \
-    sed "/^provides: /s@:\(\s\|\$\)@: '0'\1@g" | \
-    sed "s|^provides: '0' |provides: |"
-)"
-
-echo "... fertig, verarbeiten ..."
-
-declare -A metaInfos
-declare -A metaRegexe
-declare -A metaSubst
-
-metaRegexe["makedepends"]="\(build\|configure\)_requires"
-metaSubst["makedepends"]=true
-metaRegexe["depends"]="requires"
-metaSubst["depends"]=true
-metaRegexe["optdepends"]="recommends"
-metaSubst["optdepends"]=true
-metaRegexe["conflicts"]="conflicts"
-metaSubst["conflicts"]=true
-metaRegexe["provides"]="provides"
-metaSubst["provides"]=false
-
-for sucheWonach in "${!metaRegexe[@]}"
-do
-  metaInfos["${sucheWonach}"]=""
-  for was in $(
-    echo "${meta}" | \
-      grep "^${metaRegexe["${sucheWonach}"]}:" | \
-      sed "s@^${metaRegexe["${sucheWonach}"]}:\s*@@" | \
-      sed "s@\(\S\+\):\s\+'\?\([0-9.]*\)'\?\(\s\|\$\)@\L\1>=\L\2\n@g" | \
-      sed "s@\(\S\+\):\s\+'<\s*\([0-9.]\+\)'\(\s\|\$\)@\L\1<\L\2\n@g" | \
-      sed "s@::@-@g" | \
-      sed "s|>=0\$||" | \
-      grep -v "^\({}\)\?$"
-  )
-  do
-    if ${metaSubst["${sucheWonach}"]}
-    then
-      substituiere "${was}"
-    else
-      erg="perl-${was}"
-    fi
-    [[ "${erg}" == "perl-%skip"* ]] ||
-      metaInfos["${sucheWonach}"]="${metaInfos["${sucheWonach}"]} '${erg}'"
-  done
-  metaInfos["${sucheWonach}"]="$(
-    echo "${metaInfos["${sucheWonach}"]}" | \
-      tr ' ' '\n' | \
-      sort -u | \
-      grep -v '^\s*$'
-  )"
-done
-
-echo "... fertig"
+_distdir="${cpanName}-${pkgver}"
+versteheMetaYml
 
 (
   echo '# Maintainer: Erich Eckner <arch at eckner dot net>'
