@@ -1,9 +1,10 @@
-: perl test-builder-module
-%skip: b benchmark blib charnames config dynaloader extutils-typemaps fcntl feature file-basename file-copy file-find file-glob filehandle findbin ipc-open3
-%skip: mro open overload perlio pod-text posix re strict subs symbol utf8 vars warnings {}
+: b benchmark blib charnames dynaloader fcntl feature file-basename file-copy file-find file-glob filehandle findbin ipc-open3
+: mro open overload perl perlio posix re strict subs symbol utf8 vars warnings
+%skip: config {}
 cache-cache: cache-filecache
 cpan: cpan-shell
 cpan-meta: cpan-meta-prereqs
+extutils-parsexs: extutils-typemaps
 html-tree: html-treebuilder
 html-parser: html-entities
 http-message: http-headers http-request http-request-common http-response
@@ -22,13 +23,14 @@ plack: http-message-psgi plack-loader plack-request plack-test plack-util-access
 pod-coverage: pod-coverage-countparents
 pod-eventual: pod-eventual-simple
 pod-parser: pod-find pod-parseutils
+podlators: pod-text
 role-tiny: role-tiny-with
 scalar-list-utils: list-util scalar-util
 search-elasticsearch: search-elasticsearch-scroll
 soap-lite: soap-transport-tcp
 template-toolkit: template
 test-harness: app-prove
-test-simple: ok test-more test-builder test-builder-tester
+test-simple: ok test-more test-builder test-builder-module test-builder-tester
 timedate: date-parse
 uri: uri-file uri-queryparam uri-withbase
 yaml-syck: json-syck
