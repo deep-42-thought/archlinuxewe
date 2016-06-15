@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=xraylarch
-pkgver=0.9.27
-pkgrel=4
+pkgver=0.9.28
+pkgrel=1
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('any')
 url="http://xraypy.github.io/xraylarch/"
@@ -32,9 +32,7 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/xraypy/${pkgname}/archive/${pkgver}.tar.gz"
 )
-sha256sums=(
-    "df85ba8002eda05d388f9564f01881b5ee2ff5eb86c8577c9e35592bc13cc67f"
-)
+sha512sums=('f1af402e82f38934b9ee72daa406aa4ea57cf0787113f39fa2ffd3abd7c4d4002ce25d6b5c6975875557d23f1d8f18f1cc7e04acfeb447aecdbff6da79bdc9a8')
 
 build() {
 
