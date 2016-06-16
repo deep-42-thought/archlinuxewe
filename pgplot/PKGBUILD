@@ -14,7 +14,7 @@ arch=('i686' 'x86_64')
 makedepends=('gcc-fortran')
 depends=('libpng' 'libx11')
 changelog=ChangeLog
-source=(ftp://ftp.astro.caltech.edu/pub/pgplot/${pkgname}522.tar.gz pndriv.c.patch)
+source=(ftp://ftp.astro.caltech.edu/pub/pgplot/${pkgname}${pkgver//./}.tar.gz pndriv.c.patch)
 md5sums=('e8a6e8d0d5ef9d1709dfb567724525ae' '25535f059b2e39ea44f93c24a41abacd')
 
 build() {
