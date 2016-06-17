@@ -1,46 +1,46 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-specio'
-pkgver=0.18
+pkgver=0.19
 pkgrel=1
 pkgdesc='Type constraints and coercions for Perl'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-specio-coercion=0.18'
-  'perl-specio-constraint-anycan=0.18'
-  'perl-specio-constraint-anydoes=0.18'
-  'perl-specio-constraint-anyisa=0.18'
-  'perl-specio-constraint-enum=0.18'
-  'perl-specio-constraint-objectcan=0.18'
-  'perl-specio-constraint-objectdoes=0.18'
-  'perl-specio-constraint-objectisa=0.18'
-  'perl-specio-constraint-parameterizable=0.18'
-  'perl-specio-constraint-parameterized=0.18'
-  'perl-specio-constraint-role-cantype=0.18'
-  'perl-specio-constraint-role-doestype=0.18'
-  'perl-specio-constraint-role-interface=0.18'
-  'perl-specio-constraint-role-isatype=0.18'
-  'perl-specio-constraint-simple=0.18'
-  'perl-specio-constraint-union=0.18'
-  'perl-specio-declare=0.18'
-  'perl-specio-declaredat=0.18'
-  'perl-specio-exception=0.18'
-  'perl-specio-exporter=0.18'
-  'perl-specio-helpers=0.18'
-  'perl-specio-library-builtins=0.18'
-  'perl-specio-library-numeric=0.18'
-  'perl-specio-library-perl=0.18'
-  'perl-specio-library-string=0.18'
-  'perl-specio-oo=0.18'
-  'perl-specio-registry=0.18'
-  'perl-specio-role-inlinable=0.18'
-  'perl-specio-typechecks=0.18')
+  'perl-specio-coercion=0.19'
+  'perl-specio-constraint-anycan=0.19'
+  'perl-specio-constraint-anydoes=0.19'
+  'perl-specio-constraint-anyisa=0.19'
+  'perl-specio-constraint-enum=0.19'
+  'perl-specio-constraint-objectcan=0.19'
+  'perl-specio-constraint-objectdoes=0.19'
+  'perl-specio-constraint-objectisa=0.19'
+  'perl-specio-constraint-parameterizable=0.19'
+  'perl-specio-constraint-parameterized=0.19'
+  'perl-specio-constraint-role-cantype=0.19'
+  'perl-specio-constraint-role-doestype=0.19'
+  'perl-specio-constraint-role-interface=0.19'
+  'perl-specio-constraint-role-isatype=0.19'
+  'perl-specio-constraint-simple=0.19'
+  'perl-specio-constraint-union=0.19'
+  'perl-specio-declare=0.19'
+  'perl-specio-declaredat=0.19'
+  'perl-specio-exception=0.19'
+  'perl-specio-exporter=0.19'
+  'perl-specio-helpers=0.19'
+  'perl-specio-library-builtins=0.19'
+  'perl-specio-library-numeric=0.19'
+  'perl-specio-library-perl=0.19'
+  'perl-specio-library-string=0.19'
+  'perl-specio-oo=0.19'
+  'perl-specio-partialdump=0.19'
+  'perl-specio-registry=0.19'
+  'perl-specio-role-inlinable=0.19'
+  'perl-specio-typechecks=0.19')
 depends=(
   'perl>=5.8.0'
   'perl-carp'
-  'perl-devel-partialdump'
   'perl-devel-stacktrace'
   'perl-eval-closure'
   'perl-exporter'
@@ -69,7 +69,7 @@ checkdepends=(
 url='https://metacpan.org/release/Specio'
 _distdir="Specio-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
-sha512sums=('91b0f8444a7b2a9a54b80283cb630ca011856e3a6fd4b29c4acc34202b81ab5781875ee1307ed9eed199373a1f67868ffc5cc14d5b39b0280e6f0dc0c8e788a5')
+sha512sums=('edd22eb6d8dae153ae3c3367ba2552939b3c987b39ad87412d05d40d86ca124e508502d3312140d339ed527f88f718943d3b8d9148429e95389c9dc7b12761ed')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
