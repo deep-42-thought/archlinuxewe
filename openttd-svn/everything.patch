@@ -14001,10 +14001,10 @@ index 7ca9bd7..9dbc7bf 100644
  /**
   * Make the given tile an oilrig tile.
 diff --git a/src/strings.cpp b/src/strings.cpp
-index d2ce762..1e3b9b4 100644
+index 8cd071d..21f99d3 100644
 --- a/src/strings.cpp
 +++ b/src/strings.cpp
-@@ -1154,6 +1154,8 @@ static char *FormatString(char *buff, const char *str_arg, StringParameters *arg
+@@ -1156,6 +1156,8 @@ static char *FormatString(char *buff, const char *str_arg, StringParameters *arg
  
  				const CargoSpec *cs;
  				FOR_ALL_SORTED_CARGOSPECS(cs) {
@@ -14013,7 +14013,7 @@ index d2ce762..1e3b9b4 100644
  					if (!HasBit(cmask, cs->Index())) continue;
  
  					if (buff >= last - 2) break; // ',' and ' '
-@@ -1167,6 +1169,20 @@ static char *FormatString(char *buff, const char *str_arg, StringParameters *arg
+@@ -1169,6 +1171,20 @@ static char *FormatString(char *buff, const char *str_arg, StringParameters *arg
  					}
  
  					buff = GetStringWithArgs(buff, cs->name, args, last, next_substr_case_index, game_script);
