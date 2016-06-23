@@ -3,8 +3,8 @@
 # Generator  : CPANPLUS::Dist::Arch 1.30
 
 pkgname='perl-module-runtime-conflicts'
-pkgver='0.002'
-pkgrel='4'
+pkgver=0.003
+pkgrel=1
 pkgdesc="Provide information on conflicts for Module::Runtime"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -16,13 +16,13 @@ depends=(
 makedepends=(
   'perl-extutils-makemaker'
   'perl-if'
-  'perl-module-build-tiny>=0.039'
+  'perl-module-metadata'
   'perl-pathtools'
   'perl-test-simple>=0.88')
 url='https://metacpan.org/release/Module-Runtime-Conflicts'
 _distdir="Module-Runtime-Conflicts-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
-sha512sums=('e07ee4e7707b6c8ee52afc01f7fb7e8a04fc9ab3f3e4624fa7f4011bb314aa77aa0e060c58592e3bc21d9fb6d9d83190bb655b43940e79a4d95557ce720530af')
+sha512sums=('1b72ea7cc9516721290d5ea433169697b4134b5fc77872d6822e4c395a154bf956d469ab5da2802d587d60dfb13b9784014fe492988cf3f8b5820da2d63e8ca1')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
