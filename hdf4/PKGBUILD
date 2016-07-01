@@ -1,7 +1,7 @@
 # Maintainer:  Erich Eckner <arch at eckner dot net>
 # Contributor: David Scholl <djscholl at gmail dot com>
 pkgname=hdf4
-pkgver=2.11
+pkgver=2.12
 pkgrel=1
 pkgdesc="General purpose library and file format for storing scientific data."
 arch=('i686' 'x86_64')
@@ -11,7 +11,7 @@ depends=('zlib' 'libjpeg-turbo')
 makedepends=('gcc-libs' 'gcc-fortran' 'flex' 'bison')
 conflicts=('netcdf')
 source=("http://www.hdfgroup.org/ftp/HDF/HDF_Current/src/hdf-4.$pkgver.tar.gz")
-sha256sums=('c3f7753b2fb9b27d09eced4d2164605f111f270c9a60b37a578f7de02de86d24')
+sha512sums=('0a1416d6289c92d979310372bdf46e62ac5018d31a1deff407d2f7695522b6f3ede208309049cac0ca96135950e398bbc796d5f2cae55d4ab39f48b06f9eb6a3')
 
 build() {
   cd $srcdir/hdf-4.$pkgver
