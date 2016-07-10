@@ -2,18 +2,22 @@
 # Generator : neuesPerlPaket (44fe7942abbb0fd0a7ebc4db3cb2dbb3657cb2a99cc44d6f905094a5b8d0616a916209a65266f8ab8a9631e7de44a9d949f4b537dc6067cc03cd091a1ce51113)
 
 pkgname='perl-config-general'
-pkgver='2.61'
-pkgrel='1'
+pkgver=2.62
+pkgrel=1
 pkgdesc='Generic Config Module'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-pathtools' 'perl-io')
-makedepends=('perl-extutils-makemaker' 'perl-extutils-makemaker')
+depends=(
+  'perl'
+  'perl-io'
+  'perl-pathtools')
+makedepends=(
+  'perl-extutils-makemaker')
 url='https://metacpan.org/release/Config-General'
 _distdir="Config-General-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TL/TLINDEN/${_distdir}.tar.gz")
-sha512sums=('288d18f9e82513ee6fc1b66565060d800b784b4801678e31beaed5ccd891bc01eaa0bc6521fa470f41848ca2e28f51f29e64c0315a57d8d5b4fcbcefaaf1a57c')
+sha512sums=('cdf41ef80f47b778ee00826771e6a62d542cc9f5d8561d08083f9f34ebbe9d8ea0bcfc1a983bc1bc510820b3250666cea9f6dee30b0c780e5417520570340075')
 
 build(){
   cd "${srcdir}/${_distdir}"
