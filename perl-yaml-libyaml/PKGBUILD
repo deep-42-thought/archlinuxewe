@@ -3,8 +3,8 @@
 # Generator  : CPANPLUS::Dist::Arch 1.32
 
 pkgname='perl-yaml-libyaml'
-pkgver='0.62'
-pkgrel='2'
+pkgver=0.63
+pkgrel=1
 pkgdesc="Perl YAML Serialization using XS and libyaml"
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -13,11 +13,9 @@ depends=(
   'perl>=5.8.1')
 makedepends=(
   'perl-extutils-makemaker')
-provides=(
-  'perl-yaml-xs')
 url='https://metacpan.org/release/YAML-LibYAML'
 source=("http://search.cpan.org/CPAN/authors/id/T/TI/TINITA/YAML-LibYAML-${pkgver}.tar.gz")
-sha512sums=('05d2fa1e656034da0c903a267037a08855040843dc6ec68d91e99df5c64f6896d29be0d170b5c08c0d601a1c87b595c90786a7ff1a12a33fa2bfff21f86aec81')
+sha512sums=('c1161ac72f678e4531f8fe5daf09553ba946513c3d1efa1d354ea17ef4dfefd4281a2d77e2fe49960388d338681a24d7547b36dc08ad8993651e807a303df954')
 _distdir="YAML-LibYAML-${pkgver}"
 
 build() {
