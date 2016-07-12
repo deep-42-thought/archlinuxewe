@@ -2,10 +2,10 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-posix-strftime-compiler'
-pkgver='0.41'
-pkgrel='2'
+pkgver=0.42
+pkgrel=1
 pkgdesc='GNU C library compatible strftime for loggers and servers'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
@@ -19,7 +19,7 @@ makedepends=(
 url='https://metacpan.org/release/POSIX-strftime-Compiler'
 _distdir="POSIX-strftime-Compiler-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/K/KA/KAZEBURO/${_distdir}.tar.gz")
-sha512sums=('b613de3fb332313318cca8a6c8912b64e9dac702d5681d252dc8eb919c7b102354ad25f60b537cdfa66203e01826b34a5a349a2fac856a6affb40d5f160725fe')
+sha512sums=('0c07f1b8589b067533c65a023dd634a29640cb8992aae8047aa1063affe6b30b95930479829982a30a13b87bc7c9ebf82ca4837726bd29658d85d718164e3c76')
 
 build() {
   cd "${srcdir}/${_distdir}"
