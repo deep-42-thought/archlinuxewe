@@ -305,13 +305,17 @@ then
   do
     [ -d "/opt/arch${chrootArch}" ] || continue
     basePakete="$(
-      echo '
-        pacman -Qg base base-devel | \
-          cut -d " " -f 2 | \
-          sort -u
-        exit
-      ' | \
-        chrootUnpriv "${chrootArch}"
+      (
+        echo '
+          pacman -Qg base base-devel | \
+            cut -d " " -f 2 | \
+            sort -u
+          exit
+        ' | \
+          chrootUnpriv "${chrootArch}"
+        echo 'update-all'
+      ) | \
+        sort -u
     )"
     explizitinstalliertePakete="$(
       echo '
