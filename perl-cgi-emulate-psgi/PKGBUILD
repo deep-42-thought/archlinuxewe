@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-cgi-emulate-psgi'
-pkgver='0.21'
-pkgrel='2'
+pkgver=0.22
+pkgrel=1
 pkgdesc='PSGI adapter for CGI'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -21,7 +21,7 @@ checkdepends=(
 url='https://metacpan.org/release/CGI-Emulate-PSGI'
 _distdir="CGI-Emulate-PSGI-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
-sha512sums=('598355fe77f3fa2b71d713809fd73909bbb74b317dc34fb0febed851fc25cfb56ac622d070551f8bdb582ba0ab0bbd69b0e9185d059d5351f02faffe75ea2be8')
+sha512sums=('a0adf28a49f71702439258cd0bbf510c322b7856b18f01d977613e6d8aeab43daf2f956f67c1491e19945b79f40d8229fb928653864de35faed4c13284b70401')
 
 build() {
   cd "${srcdir}/${_distdir}"
