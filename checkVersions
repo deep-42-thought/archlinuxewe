@@ -360,6 +360,7 @@ then
           tr '"<>' '\n\n\n' | \
           grep "^${pkgname}-\?[0-9._]\+\.tar\(\.gz\)\?\$" | \
           sed "s|^${pkgname}-\?\([0-9._]\+\)\.tar\(\.gz\)\?\$|\1|" | \
+          tr '_' '.' | \
           sort -V | \
           tail -n1
       )"
