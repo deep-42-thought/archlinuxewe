@@ -3,19 +3,19 @@
 # Past maintainer: Joris Steyn <jorissteyn@gmail.com>
 # Contributor: TDY <tdy@gmx.com>
 pkgname=iozone
-pkgver=3_434
-pkgrel=2
+pkgver=3.446
+pkgrel=1
 pkgdesc="A filesystem benchmark tool"
 arch=('i686' 'x86_64')
 url="http://www.iozone.org/"
 license=('custom')
 depends=('sh')
 optdepends=('gnuplot: for generating graph reports')
-source=("http://www.${pkgname}.org/src/current/${pkgname}${pkgver}.tar")
-sha512sums=('75c75a3a59aedc007222d2e6877631d41afd89f1e6702deca3f7e815a6586ad57bcc1ca55f01656bcfa9f733fda74edcc3fe241c7bef143a9aa60527e6865f59')
+source=("http://www.${pkgname}.org/src/current/${pkgname}${pkgver/./_}.tar")
+sha512sums=('671c681ffa6a5801b37318553de3e1081c201d9a4d0a2269480a54cfa3d72bd879d3ccc694957d676cbc72df00b4579b5ff9e8bd1ee66d6b3fb56c0ca1797d7d')
 
 build() {
-  cd "${srcdir}/${pkgname}${pkgver}/src/current"
+  cd "${srcdir}/${pkgname}${pkgver/./_}/src/current"
 
   if [[ "${CARCH}" == 'x86_64' ]];
   then
@@ -28,9 +28,9 @@ build() {
 }
 
 package() {
-  cd "${srcdir}/${pkgname}${pkgver}/src/current"
+  cd "${srcdir}/${pkgname}${pkgver/./_}/src/current"
   install -D -m 755 -t ${pkgdir}/usr/bin/ iozone fileop pit_server
 
-  cd "${srcdir}/${pkgname}${pkgver}/docs"
+  cd "${srcdir}/${pkgname}${pkgver/./_}/docs"
   install -D -m 644 -t ${pkgdir}/usr/share/man/man1/ iozone.1
 }
