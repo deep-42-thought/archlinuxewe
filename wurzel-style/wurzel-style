@@ -1,0 +1,19 @@
+#!/bin/sh
+
+_refresh() {
+  TEXMFLOCAL="$(texconfig conf | grep TEXMFLOCAL | cut -f2 -d'=' | sed 's|^.*:||')"
+  echo "Rebuilding tex filename database"
+  texhash --quiet "${TEXMFLOCAL}"
+}
+
+post_install() {
+  _refresh "$@"
+}
+
+post_upgrade() {
+  _refresh "$@"
+}
+
+post_remove() {
+  _refresh "$@"
+}

@@ -1,0 +1,37 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Packager: Markus Oehme, <mo at wurzel dot org>
+pkgname=wurzel-old
+pkgver=0.1
+pkgrel=1
+pkgdesc="Wurzel Klasse fuer LaTeX fuer aeltere Wurzeln"
+arch=('any')
+url="http://www.wurzel.org"
+license=('GPL')
+groups=('wurzel')
+depends=('bash')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install='wurzel-old'
+source=(
+    "http://www.wurzel.org/distfiles/${pkgname}-${pkgver}.tar.bz2"
+)
+sha512sums=('3ce0f980d6c56f7ea43155a2bd7cef0b8560b31ce2ac3f8d1bc8f857c3dbbf0a2d8b358bc0a25c449855a78381d4c5c2b44f308175274c2bb93024773b7f530c')
+
+package() {
+
+    TEXMFLOCAL="/usr/share/texmf"
+    cd "${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/doc" "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/tex" "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/metapost" "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/metafont" "${pkgdir}/${TEXMFLOCAL}"
+    install -D -m644 -t"${pkgdir}/usr/share/doc/wurzel/old/" "doc/README"
+
+}

@@ -1,0 +1,34 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Packager: Markus Oehme, <mo at wurzel dot org>
+pkgname=wurzel-misc
+pkgver=0.2
+pkgrel=1
+pkgdesc="Wurzel Dateien fuer LaTeX (diverses)"
+arch=('any')
+url="http://www.wurzel.org"
+license=('GPL')
+groups=('wurzel')
+depends=('bash')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install='wurzel-misc'
+source=(
+    "http://www.wurzel.org/distfiles/${pkgname}-${pkgver}.tar.bz2"
+)
+sha512sums=('283b9150528ec8604fa49fd8209905741ad1f932727ed9f5d1a2a476d48e03fdfbfce76bd5d9b2289593820f2d9b5a1091edcc49391e1f869a08e3fd960dc6d3')
+
+package() {
+
+    TEXMFLOCAL="/usr/share/texmf"
+    cd "${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/doc" "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/tex" "${pkgdir}/${TEXMFLOCAL}"
+
+}

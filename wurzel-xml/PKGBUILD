@@ -1,0 +1,35 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Packager: Markus Oehme, <mo at wurzel dot org>
+pkgname=wurzel-xml
+pkgver=0.1
+pkgrel=1
+pkgdesc="Wurzel Interface fuer XML fuer LaTeX"
+arch=('any')
+url="http://www.wurzel.org"
+license=('GPL')
+groups=('wurzel')
+depends=('bash')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install='wurzel-xml'
+source=(
+    "http://www.wurzel.org/distfiles/${pkgname}-${pkgver}.tar.bz2"
+)
+sha512sums=('6466c390f1af5464b12ddedb1979aab4c99387461b79464344a8b55614ca86c437303e22a0051619324a880098e1b5d4319e1e226480c50be2cdbb409704126e')
+
+package() {
+
+    TEXMFLOCAL="/usr/share/texmf"
+    cd "${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/doc" "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/tex" "${pkgdir}/${TEXMFLOCAL}"
+    install -D -m644 -t "${pkgdir}/usr/share/doc/wurzel/xml/" "doc/changes"
+
+}

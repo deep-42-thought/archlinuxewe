@@ -1,0 +1,37 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Packager: Markus Oehme, <mo at wurzel dot org>
+pkgname=wurzel-style
+pkgver=2008.4
+pkgrel=1
+pkgdesc="Wurzel Klasse fuer LaTeX"
+arch=('any')
+url="http://www.wurzel.org"
+license=('GPL')
+groups=('wurzel')
+depends=('bash')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install='wurzel-style'
+source=(
+    "http://www.wurzel.org/distfiles/${pkgname}-${pkgver}.tar.bz2"
+)
+sha512sums=('ae198295ed76ef97d3f6a2355482c2e968b967ce25e552a22adbc5fc3e7d21c3004c8223b459dcbd8098956d9b35dd7c057d8a8a7a6962c4d99117ca05c72718')
+
+package() {
+
+    TEXMFLOCAL="/usr/share/texmf"
+    cd "${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/doc" "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/tex" "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/metapost" "${pkgdir}/${TEXMFLOCAL}"
+    install -D -m755 -t "${pkgdir}/usr/bin" "bin/wzlclean" "bin/wzldoublepdf" "bin/wzlfinalpdf" "bin/wzlimagetopdf"
+    install -D -m644 -t "${pkgdir}/usr/share/doc/wurzel/style/" "doc/README" "doc/changelog"
+
+}

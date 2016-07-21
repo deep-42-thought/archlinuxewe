@@ -1,0 +1,35 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Packager: Markus Oehme, <mo at wurzel dot org>
+pkgname=wurzel-mp
+pkgver=0.3
+pkgrel=1
+pkgdesc="Wurzel Klasse fuer Metapost"
+arch=('any')
+url="http://www.wurzel.org"
+license=('GPL')
+groups=('wurzel')
+depends=('bash')
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install='wurzel-mp'
+source=(
+    "http://www.wurzel.org/distfiles/${pkgname}-${pkgver}.tar.bz2"
+)
+sha512sums=('57e0397802b1d22625f5fee437857d688bf75bb679d5b3aca369969642417ee5921e8401943bc52eeda8c2fea459791ccb4bd49a70d460f7f3f12850477b89d6')
+
+package() {
+
+    TEXMFLOCAL="/usr/share/texmf"
+    cd "${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/doc" "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/metapost" "${pkgdir}/${TEXMFLOCAL}"
+    cp -R "tex-files/tex" "${pkgdir}/${TEXMFLOCAL}"
+
+}
