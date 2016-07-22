@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Packager: Markus Oehme, <mo at wurzel dot org>
 pkgname=wurzel-mp
-pkgver=0.3
+pkgver=0.4
 pkgrel=1
 pkgdesc="Wurzel Klasse fuer Metapost"
 arch=('any')
@@ -21,15 +21,11 @@ install='wurzel-mp'
 source=(
     "http://www.wurzel.org/distfiles/${pkgname}-${pkgver}.tar.bz2"
 )
-sha512sums=('57e0397802b1d22625f5fee437857d688bf75bb679d5b3aca369969642417ee5921e8401943bc52eeda8c2fea459791ccb4bd49a70d460f7f3f12850477b89d6')
+sha512sums=('f186772394949b06d71b0fd194ab9cd8a425e12acaa982ad684d0213944b382bdabf5d9d3b00ce7992a586511bd479abee5a24914553bcf4d59f86f80f28221f')
 
 package() {
 
-    TEXMFLOCAL="/usr/share/texmf"
     cd "${pkgname}-${pkgver}"
-    mkdir -p "${pkgdir}/${TEXMFLOCAL}"
-    cp -R "tex-files/doc" "${pkgdir}/${TEXMFLOCAL}"
-    cp -R "tex-files/metapost" "${pkgdir}/${TEXMFLOCAL}"
-    cp -R "tex-files/tex" "${pkgdir}/${TEXMFLOCAL}"
+    make DESTDIR="${pkgdir}" TEXMFLOCAL="/usr/share/texmf" install
 
 }

@@ -21,15 +21,11 @@ install='wurzel-xml'
 source=(
     "http://www.wurzel.org/distfiles/${pkgname}-${pkgver}.tar.bz2"
 )
-sha512sums=('6466c390f1af5464b12ddedb1979aab4c99387461b79464344a8b55614ca86c437303e22a0051619324a880098e1b5d4319e1e226480c50be2cdbb409704126e')
+sha512sums=('6a196908b1220d0ae6a408b034ab10333cb3c91edb2e6b002737d0f267d314fa2c05ed8da5ad8ebb74480e2c13a807983a959a1446fb5bfca9801949b0c1590f')
 
 package() {
 
-    TEXMFLOCAL="/usr/share/texmf"
     cd "${pkgname}-${pkgver}"
-    mkdir -p "${pkgdir}/${TEXMFLOCAL}"
-    cp -R "tex-files/doc" "${pkgdir}/${TEXMFLOCAL}"
-    cp -R "tex-files/tex" "${pkgdir}/${TEXMFLOCAL}"
-    install -D -m644 -t "${pkgdir}/usr/share/doc/wurzel/xml/" "doc/changes"
+    make DESTDIR="${pkgdir}" TEXMFLOCAL="/usr/share/texmf" install
 
 }
