@@ -4,17 +4,17 @@
 # Generator  : CPANPLUS::Dist::Arch 1.19
 
 pkgname='perl-moosex-role-parameterized'
-pkgver=1.08
-pkgrel='3'
+pkgver=1.09
+pkgrel=1
 pkgdesc="roles with composition parameters"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-moosex-role-parameterized-meta-role-parameterized=1.08'
-  'perl-moosex-role-parameterized-meta-trait-parameterizable=1.08'
-  'perl-moosex-role-parameterized-meta-trait-parameterized=1.08'
-  'perl-moosex-role-parameterized-parameters=1.08')
+  'perl-moosex-role-parameterized-meta-role-parameterized=1.09'
+  'perl-moosex-role-parameterized-meta-trait-parameterizable=1.09'
+  'perl-moosex-role-parameterized-meta-trait-parameterized=1.09'
+  'perl-moosex-role-parameterized-parameters=1.09')
 depends=(
   'perl>=5.8.1'
   'perl-carp'
@@ -25,14 +25,14 @@ depends=(
   'perl-moose-role'
   'perl-moose-util'
   'perl-namespace-autoclean'
-  'perl-namespace-clean')
+  'perl-namespace-clean>=0.19')
 makedepends=(
-  'perl-cpan-meta-check>=0.007'
+  'perl-cpan-meta-check>=0.011'
   'perl-cpan-meta-requirements'
   'perl-data-dumper'
-  'perl-extutils-makemaker'
   'perl-lib'
-  'perl-module-build-tiny>=0.037'
+  'perl-module-build-tiny>=0.034'
+  'perl-module-metadata'
   'perl-moose-util-typeconstraints'
   'perl-moosex-role-withoverloading'
   'perl-pathtools'
@@ -44,7 +44,7 @@ makedepends=(
 checkdepends=('perl-test-fatal' 'perl-test-requires' 'perl-moosex-role-withoverloading')
 url='http://search.cpan.org/dist/MooseX-Role-Parameterized'
 source=("http://search.cpan.org/CPAN/authors/id/E/ET/ETHER/MooseX-Role-Parameterized-${pkgver}.tar.gz")
-sha512sums=('2ee0a9c98090a2e82f360eb1276114bca243ec7676899830d06416cb378745d38ede5021eeb788b6c3499ba12969138dffadbbce34fe391778469ef3c5f4afdd')
+sha512sums=('c5104a3ef85f40a6a2783040034ba423eda1a707c5b02f575e320a3600ac41685afb54adde9d83b434cd51f5c7f27cb6adcab5a3b401ddfc379338578523477f')
 _distdir="MooseX-Role-Parameterized-${pkgver}"
 
 build() {
