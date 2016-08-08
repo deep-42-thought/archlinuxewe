@@ -4,21 +4,29 @@
 
 _perlmod=File-ShareDir-Install
 pkgname=perl-file-sharedir-install
-pkgver=0.10
-pkgrel='2'
+pkgver=0.11
+pkgrel=1
 pkgdesc="File::ShareDir::Install - Install read-only data files from a distribution"
 arch=('any')
 url="http://search.cpan.org/dist/${_perlmod}"
 license=('GPL' 'PerlArtistic')
 depends=(
-  'perl-extutils-makemaker>=6.11'
+  'perl>=5.8.0'
+  'perl-carp'
+  'perl-exporter'
   'perl-io'
   'perl-pathtools')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-file-path'
+  'perl-module-build-tiny>=0.034'
+  'perl-module-metadata'
+  'perl-test-simple')
 checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
 options=('!emptydirs')
 _distdir="${_perlmod}-${pkgver}"
 source=("http://cpan.org/modules/by-module/${_perlmod%%-*}/${_distdir}.tar.gz")
-sha512sums=('96c3a94da78e51c97223f16892c6bdb6a93f9602643aca6ee73fd661aefb0a018938f03b8265f255dc3daba467e01a2d2a924f33a5e1e4d2e9c9fe2698a3d09f')
+sha512sums=('6611f6c3221ec52db7582f30b2159dba22ca8d899666526c069298b3350ced9e3b46872baaceb30f7a27e3c744c929ca4967fa820d14bbfdb41e5ed5485a9f72')
 
 build() {
 	cd "${_distdir}"
