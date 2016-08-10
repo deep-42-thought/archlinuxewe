@@ -2,15 +2,17 @@
 # Generator : neuesPerlPaket (f491a18e07c10dc3afc2c601f6c928d4c12bffdefac18b868c0517faf8aae4d0e1a3637e244440eb73c0aa479b46161763c3bed0364a2edbed54625dd937ffcf)
 
 pkgname='perl-uri-query'
-pkgver='0.15'
-pkgrel='2'
+pkgver=0.16
+pkgrel=1
 pkgdesc='class providing URI query string manipulation'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
   'perl>=5.5.3'
   'perl-carp'
+  'perl-clone'
+  'perl-parent'
   'perl-uri-escape')
 makedepends=(
   'perl-extutils-makemaker'
@@ -20,7 +22,7 @@ checkdepends=()
 url='https://metacpan.org/release/URI-Query'
 _distdir="URI-Query-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/G/GA/GAVINC/${_distdir}.tar.gz")
-sha512sums=('2750239f4cd6b29b61f3aab82fdff01d63f4d5188673d550f1342f81c7d3fe0aff5845938f840fba31dcc30fa39af97e9acb4afba4dfb77986f13b3b3ee9ec53')
+sha512sums=('fd355e55051533b5c47833f7009801b3e3c54cc82c2821ab4a77b390468ed5b92bb0e1d99ea516754c8c5dc67fa2ee967c0cf9094b1920d774fc48c6f87f54a2')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
