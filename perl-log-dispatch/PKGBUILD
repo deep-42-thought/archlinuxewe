@@ -1,29 +1,29 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-log-dispatch'
-pkgver=2.56
-pkgrel='2'
+pkgver=2.57
+pkgrel=1
 pkgdesc='Dispatches messages to one or more outputs'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-log-dispatch-apachelog=2.56'
-  'perl-log-dispatch-base=2.56'
-  'perl-log-dispatch-code=2.56'
-  'perl-log-dispatch-email=2.56'
-  'perl-log-dispatch-email-mailsend=2.56'
-  'perl-log-dispatch-email-mailsender=2.56'
-  'perl-log-dispatch-email-mailsendmail=2.56'
-  'perl-log-dispatch-email-mimelite=2.56'
-  'perl-log-dispatch-file=2.56'
-  'perl-log-dispatch-file-locked=2.56'
-  'perl-log-dispatch-handle=2.56'
-  'perl-log-dispatch-null=2.56'
-  'perl-log-dispatch-output=2.56'
-  'perl-log-dispatch-screen=2.56'
-  'perl-log-dispatch-syslog=2.56'
-  'perl-log-dispatch-vars=2.56')
+  'perl-log-dispatch-apachelog=2.57'
+  'perl-log-dispatch-base=2.57'
+  'perl-log-dispatch-code=2.57'
+  'perl-log-dispatch-email=2.57'
+  'perl-log-dispatch-email-mailsend=2.57'
+  'perl-log-dispatch-email-mailsender=2.57'
+  'perl-log-dispatch-email-mailsendmail=2.57'
+  'perl-log-dispatch-email-mimelite=2.57'
+  'perl-log-dispatch-file=2.57'
+  'perl-log-dispatch-file-locked=2.57'
+  'perl-log-dispatch-handle=2.57'
+  'perl-log-dispatch-null=2.57'
+  'perl-log-dispatch-output=2.57'
+  'perl-log-dispatch-screen=2.57'
+  'perl-log-dispatch-syslog=2.57'
+  'perl-log-dispatch-vars=2.57')
 depends=(
   'perl>=5.6.0'
   'perl-base'
@@ -46,7 +46,7 @@ makedepends=(
   'perl-lib'
   'perl-pathtools'
   'perl-test-fatal'
-  'perl-test-requires'
+  'perl-test-needs'
   'perl-test-simple>=0.96')
 checkdepends=(
   'perl-test-requires'
@@ -56,7 +56,7 @@ checkdepends=(
 url='https://metacpan.org/release/Log-Dispatch'
 _distdir="Log-Dispatch-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
-sha512sums=('daac593ed158f7e648464fce5dd23485902c45339b70ddc78cc3c712744de30d981beeb5c646dda04290d409e3141f5ab5b0995aa34d048c41c97f70a4c25619')
+sha512sums=('eca2938493ec2e846d857f5fb39349cea1956f487a71b89ef1aca2b85cd5aa1c409ae6348468fcf86a9b1d877f81c224b629da0fb60dbf483fe14886afeb196e')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
