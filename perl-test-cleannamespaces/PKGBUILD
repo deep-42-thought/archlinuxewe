@@ -3,7 +3,7 @@
 # Generator  : CPANPLUS::Dist::Arch 1.29
 
 pkgname='perl-test-cleannamespaces'
-pkgver=0.21
+pkgver=0.22
 pkgrel=1
 pkgdesc="Check for uncleaned imports"
 arch=('any')
@@ -21,6 +21,7 @@ makedepends=(
   'perl-constant'
   'perl-cpan-meta-requirements>=2.120.620'
   'perl-extutils-makemaker'
+  'perl-file-pushd'
   'perl-if'
   'perl-lib'
   'perl-module-metadata'
@@ -38,7 +39,7 @@ optdepends=(
 checkdepends=('perl-moo' 'perl-moose' 'perl-mouse' 'perl-moosex-role-parameterized')
 url='http://search.mcpan.org/dist/Test-CleanNamespaces'
 source=("http://search.mcpan.org/CPAN/authors/id/E/ET/ETHER/Test-CleanNamespaces-${pkgver}.tar.gz")
-sha512sums=('0ecb2582498dfc42de7efc9ee99f2ad84d9820a6664b8c179d8fd959121c82cc7d01b78ec8bef199420f17064a6fa38e3778ce355a91d8be270a785499389d94')
+sha512sums=('9ccb456aa502421e7fe4a5b91f629596cff04fdee2211288e4b8b3b2faeb1a9049d31e2a5ca4ce332914759ffa35d8027a1ccdcd157618e99545cb071d8797cc')
 _distdir="Test-CleanNamespaces-${pkgver}"
 
 build() {
