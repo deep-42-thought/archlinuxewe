@@ -2,19 +2,28 @@
 # Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
 
 pkgname='perl-indirect'
-pkgver='0.36'
-pkgrel='1'
+pkgver=0.37
+pkgrel=1
 pkgdesc='Lexically warn about using the indirect method call syntax.'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-carp' 'perl-xsloader')
-makedepends=('perl-carp' 'perl-extutils-makemaker' 'perl-io' 'perl-socket' 'perl-test-simple' 'perl-xsloader' 'perl-lib' 'perl-extutils-makemaker')
+depends=(
+  'perl>=5.8.1'
+  'perl-carp'
+  'perl-xsloader')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-lib'
+  'perl-pathtools'
+  'perl-socket'
+  'perl-test-simple')
 checkdepends=('perl-devel-declare')
 url='https://metacpan.org/release/indirect'
 _distdir="indirect-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/V/VP/VPIT/${_distdir}.tar.gz")
-sha512sums=('27f86702a2b3597e2bc20390130584324bfe86cc4d9f33a488b4788d6e1513ac19dfd4e1407f29b6f862172b020b3001a248450ad8dddb5a31e07220c0783ceb')
+sha512sums=('8d46ff62c86b23519b030474155f7d8aa4872a9a4a2bb1e3199ac506aee60343b4c572eae8fa41dc5148c115de3c80bcb7f21900ad30822dc9eb437033defe09')
 
 build(){
   cd "${srcdir}/${_distdir}"
