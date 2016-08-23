@@ -25,7 +25,9 @@ paket="${1%/}"
 
 cd "${myDir}"
 [ -r "${paket}/PKGBUILD" ] || exit 1
-eval $(./checkVersions -m "${paket}")
+vers="$(./checkVersions -m "${paket}")"
+[ -n "${remVer}" ] && vers="$(echo "${vers}" | grep -v 'remVer')"
+eval ${vers}
 if [ "${remVer}" == "${pkgver}" ]
 then
   >&2 echo '... nothing to do here.'
