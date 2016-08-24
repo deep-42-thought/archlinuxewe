@@ -1,22 +1,21 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-astro-fits-cfitsio'
-pkgver='1.10'
-pkgrel='1'
+pkgver=1.11
+pkgrel=1
 pkgdesc='Perl extension for using the cfitsio library'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'cfitsio'
-  'perl')
+  'cfitsio')
 makedepends=(
   'perl-extutils-makemaker')
 # makedepends=('perl-test-deep' 'perl-test-number-delta')
 url='https://metacpan.org/pod/Astro::FITS::CFITSIO'
 _distdir="Astro-FITS-CFITSIO-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PR/PRATZLAFF/${_distdir}.tar.gz")
-sha512sums=('e1d717e2d5e6258ce6772b7cd556414da3594da9e1bae9aea3cf186928a2373ede27e82c96f6738a60be62d7868da70d95e4500b8504d313f94e6b247368136e')
+sha512sums=('e823831c51f20ea775b66c0fa3855451ca0b9de984968daa07e365b86151578a4424089d21c5b7528c15c1eb49e9517935f266d60c1b074ce7d9d02265fc20a5')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
