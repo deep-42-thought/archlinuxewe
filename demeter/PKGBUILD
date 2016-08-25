@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=demeter
-pkgver=0.9.24
+pkgver=0.9.25
 pkgrel=1
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('x86_64' 'i686')
@@ -64,6 +64,7 @@ makedepends=(
     'perl-pod-projectdocs'
     'perl-syntax-highlight-perl'
     'perl-template-toolkit'
+    'perl-text-unidecode'
 )
 checkdepends=()
 [ -z "$DISPLAY" ] && checkdepends+=('xorg-server-xvfb')
@@ -83,12 +84,11 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/bruceravel/${pkgname}/archive/${pkgver}.tar.gz"
 )
-sha256sums=('f85262921e9eb646c7989ee73da760edc5fa27d5b97d1a4b3e597cd750920d8a')
+sha512sums=('501538d1504e7af9738c1da28725ad71a078db47d527ad8d6f7ce37fd8fdaba3a7ea3eae344e9b33241cb006d642470f5fbb7ab4b181d07c64619406fed61f3a')
 
 prepare() {
 
     cd ${pkgname}-${pkgver}
-    rm t/t
     export PGPLOT_DIR='/usr/lib'
 
 }
