@@ -367,6 +367,27 @@ then
           sort -V | \
           tail -n1
       )"
+    elif echo "${src}" | \
+      grep -q 'https://bitbucket\.org/.*/get/[^/]\+$'
+    then
+      srcPreNam="$(
+        echo "${src}" | \
+          sed 's|^.*/\([^/0-9]\+_\)[0-9][^/]\+$|\1|'
+      )"
+      srcEndg="$(
+        echo "${src}" | \
+          sed 's|^.*\(\.tar[^/]*\)$|\1|' | \
+          sed 's|\.|\\.|g'
+      )"
+      remVer="$(
+        curl "${src%/get/*}/downloads?tab=tags" 2> /dev/null | \
+          tr '"' '\n' | \
+          grep "${srcEndg}\$" | \
+          sed "s|^.*/${srcPreNam}\(.*\)${srcEndg}\$|\1|" | \
+          tr '_' '.' | \
+          sort -V | \
+          tail -n1
+      )"
     else
       continue
     fi
