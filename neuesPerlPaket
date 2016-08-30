@@ -102,7 +102,7 @@ versteheMetaYml
     then
       echo "${wasAusgeben}=("
       echo "${metaInfos["${wasAusgeben}"]})" | \
-        sed "s|^|  |"
+        sed "s|^|  '|;s|\()\?\)\$|'\1|"
     fi
   done
   echo "url='${url}'"
