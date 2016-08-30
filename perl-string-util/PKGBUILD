@@ -2,20 +2,20 @@
 # Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
 
 pkgname='perl-string-util'
-pkgver='1.24'
-pkgrel='2'
+pkgver=1.26
+pkgrel=1
 pkgdesc='String::Util -- String processing utilities'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
   'perl>=5.3.0'
-  'perl-number-misc'
-  'perl-test')
+  'perl-number-misc>=1.2'
+  'perl-test-toolbox>=0.2')
 url='https://metacpan.org/release/String-Util'
 _distdir="String-Util-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIKO/${_distdir}.tar.gz")
-sha512sums=('edffa5c953e199f80bd4db74d0e0aaff706bccaa7910860343e0c7ed0ddf19832f3365dfd868a7d02779243fedea0e61f3750814a56f64337bcdb816254afb46')
+sha512sums=('27f4d9a36814695ca2123473f073577cc4ab31c0c1f9feccff8b9af0324c697df45efde981d638ed407521bb8348cf5512ebe1c9a5bfd5149df17b12014ed808')
 
 build(){
   cd "${srcdir}/${_distdir}"
