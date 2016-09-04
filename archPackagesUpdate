@@ -283,7 +283,6 @@ then
       [ "${singleArch}" == "any" ] && \
         for dir in ${pkgDir}/*
         do
-          [ "${dir}" == "any" ] && continue
           [ ! -d "${dir}" ] && continue
           [ ! -e "${dir}/${pkgFile}" ] && allExist=false
         done
