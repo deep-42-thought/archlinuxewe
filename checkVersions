@@ -355,7 +355,7 @@ then
           sed "s|^r\([[:digit:]]\+\)\s.*\$|\1|" \
         )
     elif echo "${src}" | \
-      grep -q "http://\(\(bindfs\|www\.\(iozone\|wurzel\)\)\.org\|www\.cybernoia\.de\|isl\.gforge\.inria\.fr\)/"
+      grep -q "http://\(\(bindfs\|www\.\(iozone\|wurzel\)\)\.org\|ftp\.daper\.net\|www\.cybernoia\.de\|isl\.gforge\.inria\.fr\)/"
     then
       quVer="${src%/*}/"
       remVer="$( \
