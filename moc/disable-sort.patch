@@ -1,0 +1,18 @@
+--- interface.c	2016-04-24 06:23:30.000000000 +0200
++++ interface.c	2016-09-04 20:09:46.046376708 +0200
+@@ -3788,7 +3788,6 @@
+ 
+ 		if (recv_server_plist(&clients_plist)) {
+ 			add_recursively (&new, args);
+-			plist_sort_fname (&new);
+ 
+ 			send_int_to_srv (CMD_LOCK);
+ 
+@@ -3812,7 +3811,6 @@
+ 						create_file_name (PLAYLIST_FILE),
+ 						cwd, 1);
+ 			add_recursively (&new, args);
+-			plist_sort_fname (&new);
+ 
+ 			send_int_to_srv (CMD_LOCK);
+ 			plist_remove_common_items (&new, &saved_plist);

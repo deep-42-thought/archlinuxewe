@@ -1,0 +1,47 @@
+# $Id$
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Eric Bélanger <eric@archlinux.org>
+
+pkgname=moc
+pkgver=2.5.1
+pkgrel=1
+epoch=1
+pkgdesc="An ncurses console audio player designed to be powerful and easy to use"
+arch=('i686' 'x86_64')
+url="http://moc.daper.net/"
+license=('GPL')
+depends=('libmad' 'libid3tag' 'jack' 'curl' 'libltdl' 'file')
+makedepends=('speex' 'ffmpeg' 'taglib' 'libmpcdec' 'wavpack' 'libmodplug' 'faad2')
+optdepends=('speex: for using the speex plugin'
+	    'ffmpeg: for using the ffmpeg plugin'
+	    'taglib: for using the musepack plugin'
+	    'libmpcdec: for using the musepack plugin'
+            'wavpack: for using the wavpack plugin'
+            'faad2: for using the aac plugin'
+	    'libmodplug: for using the modplug plugin')
+source=(http://ftp.daper.net/pub/soft/moc/stable/${pkgname}-${pkgver}.tar.bz2{,.sig}
+        disable-sort.patch)
+sha512sums=('9e22ce72a96cb6e5e948af509c8b7528155fe50e8b5130d78363b6cd57f731f8847bd770cd2c2363a7b9ed70a16b55c7fc1672b2b981ae207c1abd35c2acc301'
+            'SKIP'
+            '7a760eebf22d84f1ac21e3b429c10f7fb77bc8c7642adb57c57c1b6dfb9d2fa464398475778813a803738ec7a6ffee2c3da857bd36a6b89eaf3345ae419dc7ab')
+validpgpkeys=('59359B80406D9E73E80599BEF3121E4F2885A7AA')
+
+prepare() {
+  cd ${pkgname}-${pkgver}
+  patch -p0 -i ../disable-sort.patch
+}
+
+build() {
+  cd ${pkgname}-${pkgver}
+  ./configure --prefix=/usr --without-rcc \
+    --with-oss --with-alsa --with-jack --with-aac --with-mp3 \
+    --with-musepack --with-vorbis --with-flac --with-wavpack \
+    --with-sndfile --with-modplug --with-ffmpeg --with-speex \
+    --with-samplerate --with-curl  --disable-cache --disable-debug
+  make
+}
+
+package() {
+  cd ${pkgname}-${pkgver}
+  make DESTDIR="${pkgdir}" install
+}
