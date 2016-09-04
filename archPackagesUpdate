@@ -266,6 +266,7 @@ then
     done
     ${consider} || continue
 
+    unset epoch
     . ${paket}/PKGBUILD
 
     for singleArch in "${arch[@]}"
@@ -276,7 +277,7 @@ then
         [ "${singleArch}" == "any" ] || \
         continue
 
-      pkgFile="${paket}-${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
+      pkgFile="${paket}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
 
       allExist=true
       [ "${singleArch}" == "any" ] && \
@@ -294,7 +295,7 @@ then
       then
         pakete[${#pakete[@]}]="${paket}"
         archs[${#archs[@]}]="${singleArch}"
-        verss[${#verss[@]}]="${pkgver}-${pkgrel}"
+        verss[${#verss[@]}]="${epoch:+${epoch}:}${pkgver}-${pkgrel}"
       fi
     done
   done
@@ -631,6 +632,7 @@ else
         err=true
       fi
 
+      unset epoch
       . ${paket}/PKGBUILD
 
       if echo "${source}" | grep -q "://opensources\.eckner\.net/"
@@ -664,7 +666,7 @@ else
             sort -V | \
             tail -n1 \
           )"
-        if [ ! "${offVer}" == "${pkgname}-${pkgver}-${pkgrel}-${arch}.pkg.tar.xz" ]
+        if [ ! "${offVer}" == "${pkgname}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${arch}.pkg.tar.xz" ]
         then
           >&2 echo "${pkgname} ist in den offiziellen Quellen aktueller: ${offVer}."
           err=true
