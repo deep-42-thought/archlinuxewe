@@ -3,19 +3,23 @@
 # Generator  : CPANPLUS::Dist::Arch 1.28
 
 pkgname='perl-text-glob'
-pkgver='0.09'
-pkgrel='5'
+pkgver=0.10
+pkgrel=1
 pkgdesc="match globbing patterns against text"
 arch=('any')
 license=('PerlArtistic' 'GPL')
-options=('!emptydirs')
+depends=(
+  'perl>=5.5.3'
+  'perl-constant'
+  'perl-exporter')
 makedepends=(
-  'perl-module-build>=0.36'
+  'perl-extutils-makemaker'
   'perl-test-simple')
+options=('!emptydirs')
 url='http://search.mcpan.org/dist/Text-Glob'
 _distdir="Text-Glob-${pkgver}"
 source=("http://search.mcpan.org/CPAN/authors/id/R/RC/RCLAMP/${_distdir}.tar.gz")
-sha512sums=('9b729e4ece88ad79e1b637c7f35e5e1ecae3fd7f62c408ed4f3fcac2e8e8afff32d7d805e1b0269800aada5ae609d03335d42ac54def2797d301e91fa488ae47')
+sha512sums=('9a18048135f18500bb0ba3bf21c6df3fc390ec0f213c4a9331a84e643703805fbe557378284fa66f32a96852c38f832ac750509e257b5cc14b0f3ca6d75f5af0')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
