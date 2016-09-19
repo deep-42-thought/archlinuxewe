@@ -326,21 +326,19 @@ then
           tail -n1 \
       )
     elif echo "${src}" | \
-      grep -q "//www\.hdfgroup\.org/"
+      grep -q '//support\.hdfgroup\.org/'
     then
-      quVer="${src%/*}/"
-      quNam="${src##*/}"
-      quNam="${quNam%-*}"
-      quEnd=$( \
-        echo "${src}" | \
-          sed "s|^.*[0-9]||"
-      )
-      mainVer=${pkgname#hdf}
+      quVer="${src%/*/*/*}/"
+      quNam="${src#${quVer}}"
+      quNam="${quNam%%.*}"
+      quNam="$(echo "${quNam}" | tr '[:lower:]' '[:upper:]')"
       remVer=$( \
-        curl -o - "${quVer}" 2> /dev/null | \
-          tr "\"" "\n" | \
-          grep "^${quNam}-${mainVer}\.\(.*\)${quEnd}\$" | \
-          sed "s|^${quNam}-${mainVer}\.\(.*\)${quEnd}\$|\1|" \
+        curl "${quVer}" 2> /dev/null | \
+          tr '"' '\n' | \
+          grep "^${quNam}\.[.0-9]\+/\$" | \
+          sed "s|^${quNam}\.\(.*\)/\$|\1|" | \
+          sort -V | \
+          tail -n1 \
       )
     elif echo "${src}" | \
       grep -q "svn://svn\.openttd\.org"
