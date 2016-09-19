@@ -2,20 +2,20 @@
 # Contributor: Piotr Rogoża <piotr dot r dot public at gmail dot com>
 
 pkgname=perl-file-find-object
-pkgver=0.2.13
-pkgrel='2'
+pkgver=0.3.0
+pkgrel=1
 _author="S/SH/SHLOMIF"
-_distdir="File-Find-Object-v${pkgver}"
+_distdir="File-Find-Object-${pkgver}"
 pkgdesc="File::Find::Object - An object oriented File::Find replacement"
 arch=('any')
 url="http://search.cpan.org/dist/File-Find-Object/"
 license=('GPL' 'PerlArtistic')
 provides=(
-  'perl-file-find-object-base=0.2.13'
-  'perl-file-find-object-deeppath=0.2.13'
-  'perl-file-find-object-pathcomp=0.2.13'
-  'perl-file-find-object-result=0.2.13'
-  'perl-file-find-object-toppath=0.2.13')
+  'perl-file-find-object-base=0.3.0'
+  'perl-file-find-object-deeppath=0.3.0'
+  'perl-file-find-object-pathcomp=0.3.0'
+  'perl-file-find-object-result=0.3.0'
+  'perl-file-find-object-toppath=0.3.0')
 depends=(
   'perl>=5.8.0'
   'perl-carp'
@@ -24,13 +24,18 @@ depends=(
   'perl-pathtools'
   'perl-scalar-list-utils')
 makedepends=(
+  'perl-extutils-makemaker'
   'perl-file-path'
-  'perl-module-build>=0.36'
+  'perl-file-temp'
+  'perl-io'
+  'perl-lib'
+  'perl-module-build>=0.28'
   'perl-test-simple')
 checkdepends=('perl-cpan-changes' 'perl-test-pod' 'perl-test-pod-coverage' 'perl-test-trailingspace')
 options=(!emptydirs)
 source=("http://search.cpan.org/CPAN/authors/id/$_author/${_distdir}.tar.gz")
-sha512sums=('4d3dd12d0e80ac0873182667efabeafd411204332374f81a339bf1b7dd82258567745aaddf026207da449cc99248679d8ff4e80951a2096327afdc9a760b6cfd')
+sha512sums=('1687681ddaca5e1c0c2a25a5558cacd120b1320ad87eec630e2ebcfa9a867039af6e68bf7e01f5ff83357f98bb78cda8f544a7e0a80f40792f4244f5dbd8d081')
+
 build(){
   cd "$srcdir/${_distdir}"
 
