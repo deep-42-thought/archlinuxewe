@@ -354,14 +354,14 @@ then
           sed "s|^r\([[:digit:]]\+\)\s.*\$|\1|" \
         )
     elif echo "${src}" | \
-      grep -q "http://\(\(bindfs\|www\.\(iozone\|wurzel\)\)\.org\|ftp\.daper\.net\|www\.cybernoia\.de\|isl\.gforge\.inria\.fr\)/"
+      grep -q "https\?://\(\(bindfs\|qgis\|download\.osgeo\|www\.\(iozone\|wurzel\)\)\.org\|ftp\.daper\.net\|www\.cybernoia\.de\|isl\.gforge\.inria\.fr\)/"
     then
       quVer="${src%/*}/"
       remVer="$( \
         curl "${quVer}" 2> /dev/null | \
           tr '"<>' '\n\n\n' | \
-          grep "^${pkgname}-\?[0-9._]\+\.tar\(\.gz\|\.bz2\)\?\$" | \
-          sed "s@^${pkgname}-\?\([0-9._]\+\)\.tar\(\.gz\|\.bz2\)\?\$@\1@" | \
+          grep "^${pkgname}\(-src\)\?-\?[0-9._]\+\.tar\(\.gz\|\.bz2\)\?\$" | \
+          sed "s@^${pkgname}\(-src\)\?-\?\([0-9._]\+\)\.tar\(\.gz\|\.bz2\)\?\$@\2@" | \
           tr '_' '.' | \
           sort -V | \
           tail -n1
