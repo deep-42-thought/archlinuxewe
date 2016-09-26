@@ -1,0 +1,81 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (6bbcb8b40c8afe2a83fed1572257a4566073bfc1f6a7654a37cb3996433b0913c4b5e3c13962b4c68b79bd9630ea763de84424b2eed485e3e0afc421ef1cde7f)
+
+pkgname='perl-http-entity-parser'
+pkgver='0.17'
+pkgrel='1'
+pkgdesc='PSGI compliant HTTP Entity Parser'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-http-entity-parser-json=0.17'
+  'perl-http-entity-parser-multipart=0.17'
+  'perl-http-entity-parser-octetstream=0.17'
+  'perl-http-entity-parser-urlencoded=0.17')
+depends=(
+  'perl>=5.8.5'
+  'perl-encode'
+  'perl-file-temp'
+  'perl-http-multipartparser'
+  'perl-json>=2'
+  'perl-module-load'
+  'perl-stream-buffered'
+  'perl-www-form-urlencoded>=0.23')
+makedepends=(
+  'perl-hash-multivalue'
+  'perl-http-message>=6'
+  'perl-module-build>=0.38'
+  'perl-pathtools'
+  'perl-test-simple>=0.98')
+url='https://metacpan.org/release/HTTP-Entity-Parser'
+_distdir="HTTP-Entity-Parser-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/K/KA/KAZEBURO/${_distdir}.tar.gz")
+sha512sums=('b7942ad83e907b2614945e4e201ec048b8c85fd55f6ee86fa56b9bc0adeb1a29bea644edfa6817b2fe96bc0f6696350701fd3304e088fed272faf5528304660a')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
