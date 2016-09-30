@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-plack'
-pkgver=1.0041
+pkgver=1.0042
 pkgrel=1
 pkgdesc='Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)'
 arch=('x86_64' 'i686')
@@ -24,7 +24,7 @@ depends=(
   'perl-parent'
   'perl-pod-usage>=1.36'
   'perl-stream-buffered>=0.02'
-  'perl-test-tcp>=2.15'
+  'perl-test-tcp>=2.00'
   'perl-try-tiny'
   'perl-uri>=1.59'
   'perl-www-form-urlencoded>=0.23')
@@ -47,7 +47,7 @@ checkdepends=(
 url='https://metacpan.org/release/Plack'
 _distdir="Plack-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
-sha512sums=('05a791006b7e734ac8b6d6fe297cfc2274a1f2f57fc256e000d4d84f58bb2fd6b7f2a3699cb2555d8194cb268df524fb9fe84209a4fbb5b377285213fac8524c')
+sha512sums=('fe7b51967ff284bd0a6d936379db208cf0abe2d51387ff04123be4ef9e88d92fa23e5840b11e722cd7bd17a989c9a7b85d4e5059a96ee1f0d25e037d67472231')
 
 build() {
   cd "${srcdir}/${_distdir}"
