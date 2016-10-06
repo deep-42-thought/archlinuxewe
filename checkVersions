@@ -307,14 +307,15 @@ then
           tail -n1 \
       )
     elif echo "${src}" | \
-      grep -q "//\(downloads\.\)\?sourceforge\.net/"
+      grep -q "//\(\(pr\)\?downloads\.\)\?sourceforge\.net/"
     then
       quVer=$( \
         echo "${src}" | \
           sed 's|/sourceforge/|/|' | \
           sed 's|\(//sourceforge\.net/.*/\)[^/]*/[^/]*$|\1|' | \
-          sed "s|//downloads\.sourceforge\.net/\([^/]*\)/[^/]*\$|//sourceforge.net/projects/\1/files/\1/|" | \
-          sed "s|^http:|https:|"
+          sed "s|//\(pr\)\?downloads\.sourceforge\.net/\([^/]*\)/[^/]*\$|//sourceforge.net/projects/\2/files/\2/|" | \
+          sed 's|/scidavis/$|/SciDAVis/|' | \
+          sed 's|^http:|https:|'
       )
       remVer=$( \
         curl "${quVer}" 2> /dev/null | \
