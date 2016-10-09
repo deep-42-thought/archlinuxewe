@@ -1,4 +1,4 @@
-: b benchmark blib charnames dynaloader fcntl feature file-basename file-copy file-find file-glob filehandle findbin integer ipc-open3
+: b benchmark blib charnames dynaloader english fcntl feature file-basename file-copy file-find file-glob filehandle findbin integer ipc-open3
 : mro open overload perl perlio perlio-encoding posix re strict subs symbol utf8 vars warnings
 %skip: config {}
 cache-cache: cache-filecache
@@ -22,7 +22,7 @@ pathtools: file-spec file-spec-functions file-spec-unix cwd
 plack: http-message-psgi plack-loader plack-request plack-test plack-util-accessor
 pod-coverage: pod-coverage-countparents
 pod-eventual: pod-eventual-simple
-pod-parser: pod-find pod-parseutils
+pod-parser: pod-find pod-parseutils pod-select
 podlators: pod-text
 role-tiny: role-tiny-with
 scalar-list-utils: list-util scalar-util
