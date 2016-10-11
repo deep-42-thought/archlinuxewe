@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=sendmailadvanced
-pkgver=1.0.10
+pkgver=1.0.11
 pkgrel=1
 pkgdesc="Wrapper for sendmail, which generates stamps and encrypts."
 arch=('any')
@@ -8,7 +8,7 @@ url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
 license=('GPL')
 groups=()
 depends=('gnupg' 'hashcash')
-makedepends=()
+makedepends=('help2man')
 checkdepends=()
 optdepends=()
 provides=()
@@ -19,7 +19,7 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
 )
-sha512sums=('90546016a36b8d6abc697292ccd29df5af98939a2f893776334d61fd2832bef093827922f6380e5b213936b014d68ef84c125ee833073a7721ec21cbbe159d82')
+sha512sums=('e98a2a501e944e5a734dcb5bbe25b6cdb83819e4b18e225ed1bb63cb0faf1d62c4ad424dcc046aab2a7e2f0ef3cbcbdbfc52f93b5d8783a52ef5775ff2e704ad')
 
 build() {
 
