@@ -388,6 +388,32 @@ then
           sort -V | \
           tail -n1
       )"
+    elif echo "${src}" | \
+      grep -q '^http://paraview.org/files/'
+    then
+      remVerz="$(
+        echo "${src}" | \
+          sed 's|/v[0-9.]\+/ParaView-v[0-9.]\+\.tar\.gz$|/|' | \
+          sed 's|^\(http://\)|\1www.|'
+      )"
+      for mainVer in $(
+          curl "${remVerz}" 2> /dev/null | \
+            tr ' >' '\n' | \
+            grep '^href="v[0-9.]\+/"$' | \
+            sed 's|href="v\([0-9.]\+\)/"$|\1|' | \
+            sort -Vr
+        )
+      do
+        remVer="$(
+          curl "${remVerz}v${mainVer}/" 2> /dev/null | \
+            tr ' >' '\n' | \
+            grep '^href="ParaView-v[0-9.]\+\.tar\.gz"$' | \
+            sed 's|^href="ParaView-v\([0-9.]\+\)\.tar\.gz"$|\1|' | \
+            sort -V | \
+            tail -n1
+        )"
+        [ -n "${remVer}" ] && break
+      done
     else
       continue
     fi
