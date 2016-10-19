@@ -1,13 +1,13 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=sound-cutter
 pkgver=1.0.9
-pkgrel=1
+pkgrel=2
 pkgdesc="Wrapper for sox for mastering stereo music (a.k.a. CDs) from multi channel records"
 arch=('any')
 url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
 license=('GPL')
 groups=()
-depends=('sox')
+depends=('sox' 'bc')
 makedepends=('help2man')
 checkdepends=()
 optdepends=()
