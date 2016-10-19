@@ -108,11 +108,10 @@ then
     elif [ "${pkgname}" == "dropbox" ]
     then
       remVer="$(
-        curl "https://www.dropbox.com/release_notes" 2> /dev/null | \
-          tr '\n/"' ' \n\n' | \
-          grep -- '-Stable-Build-[0-9-]\+$' | \
-          sed 's|^.*-Stable-Build-\([0-9-]\+\)$|\1|' | \
-          tr '-' '.' | \
+        curl "https://www.dropbox.com/release_notes/rss.xml" 2> /dev/null | \
+          sed 's|</\?title>|\n|g' | \
+          grep '^[^<>]*New Stable Build: [0-9.-]\+$' | \
+          sed 's|^[^<>]*New Stable Build: \([0-9.-]\+\)$|\1|' | \
           sort -V | \
           tail -n1
       )"
