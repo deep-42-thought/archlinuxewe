@@ -11,10 +11,10 @@ index cb1e9d1..e6d4893 100644
  !bin/baseset/orig_*.obg
  !bin/baseset/orig_*.obs
 diff --git a/config.lib b/config.lib
-index 021f95c..767a42e 100644
+index a144b9e..9eda6de 100644
 --- a/config.lib
 +++ b/config.lib
-@@ -1746,7 +1746,8 @@ make_cflags_and_ldflags() {
+@@ -1753,7 +1753,8 @@ make_cflags_and_ldflags() {
  		CFLAGS="$CFLAGS `$freetype_config --cflags | tr '\n\r' '  '`"
  
  		if [ "$enable_static" != "0" ]; then
@@ -2681,7 +2681,7 @@ index 74c6974..c2e4d9b 100644
  
  #endif /* BRIDGE_MAP_H */
 diff --git a/src/clear_cmd.cpp b/src/clear_cmd.cpp
-index 2e9589a..a28d841 100644
+index f9eb88d..a32806c 100644
 --- a/src/clear_cmd.cpp
 +++ b/src/clear_cmd.cpp
 @@ -126,6 +126,7 @@ static void DrawTile_Clear(TileInfo *ti)
@@ -5197,7 +5197,7 @@ index df91424..cb6c989 100644
   *
   * @note n must be a power of 2
 diff --git a/src/crashlog.cpp b/src/crashlog.cpp
-index 4000cfb..a8f099f 100644
+index 53a85e4..c441321 100644
 --- a/src/crashlog.cpp
 +++ b/src/crashlog.cpp
 @@ -380,7 +380,7 @@ bool CrashLog::WriteSavegame(char *filename, const char *filename_last) const
@@ -5401,7 +5401,7 @@ index 79eaa89..3d37071 100644
  				/* Determine the watery part of the dock. */
  				DiagDirection dir = GetInclinedSlopeDirection(GetTileSlope(tile));
 diff --git a/src/genworld_gui.cpp b/src/genworld_gui.cpp
-index ad64ae8..0bc0d70 100644
+index 359709e..896ecd9 100644
 --- a/src/genworld_gui.cpp
 +++ b/src/genworld_gui.cpp
 @@ -20,6 +20,7 @@
@@ -5412,7 +5412,7 @@ index ad64ae8..0bc0d70 100644
  #include "widgets/dropdown_type.h"
  #include "widgets/dropdown_func.h"
  #include "querystring_gui.h"
-@@ -281,12 +282,37 @@ static void LandscapeGenerationCallback(Window *w, bool confirmed)
+@@ -282,12 +283,37 @@ static void LandscapeGenerationCallback(Window *w, bool confirmed)
  	if (confirmed) StartGeneratingLandscape((GenerateLandscapeWindowMode)w->window_number);
  }
  
@@ -5452,7 +5452,7 @@ index ad64ae8..0bc0d70 100644
  		item->SetParam(0, 1 << i);
  		*list->Append() = item;
  	}
-@@ -314,6 +340,14 @@ struct GenerateLandscapeWindow : public Window {
+@@ -315,6 +341,14 @@ struct GenerateLandscapeWindow : public Window {
  	char name[64];
  	GenerateLandscapeWindowMode mode;
  
@@ -5467,7 +5467,7 @@ index ad64ae8..0bc0d70 100644
  	GenerateLandscapeWindow(WindowDesc *desc, WindowNumber number = 0) : Window(desc)
  	{
  		this->InitNested(number);
-@@ -322,6 +356,8 @@ struct GenerateLandscapeWindow : public Window {
+@@ -323,6 +357,8 @@ struct GenerateLandscapeWindow : public Window {
  
  		this->mode = (GenerateLandscapeWindowMode)this->window_number;
  
@@ -5476,7 +5476,7 @@ index ad64ae8..0bc0d70 100644
  		/* Disable town, industry and trees in SE */
  		this->SetWidgetDisabledState(WID_GL_TOWN_PULLDOWN,     _game_mode == GM_EDITOR);
  		this->SetWidgetDisabledState(WID_GL_INDUSTRY_PULLDOWN, _game_mode == GM_EDITOR);
-@@ -538,11 +574,11 @@ struct GenerateLandscapeWindow : public Window {
+@@ -539,11 +575,11 @@ struct GenerateLandscapeWindow : public Window {
  				break;
  
  			case WID_GL_MAPSIZE_X_PULLDOWN: // Mapsize X
@@ -5490,7 +5490,7 @@ index ad64ae8..0bc0d70 100644
  				break;
  
  			case WID_GL_TOWN_PULLDOWN: // Number of towns
-@@ -554,6 +590,7 @@ struct GenerateLandscapeWindow : public Window {
+@@ -555,6 +591,7 @@ struct GenerateLandscapeWindow : public Window {
  				break;
  
  			case WID_GL_GENERATE_BUTTON: { // Generate
@@ -5498,7 +5498,7 @@ index ad64ae8..0bc0d70 100644
  				/* Get rotated map size. */
  				uint map_x;
  				uint map_y;
-@@ -716,8 +753,14 @@ struct GenerateLandscapeWindow : public Window {
+@@ -717,8 +754,14 @@ struct GenerateLandscapeWindow : public Window {
  	virtual void OnDropdownSelect(int widget, int index)
  	{
  		switch (widget) {
@@ -5515,7 +5515,7 @@ index ad64ae8..0bc0d70 100644
  			case WID_GL_TREE_PULLDOWN:          _settings_newgame.game_creation.tree_placer = index; break;
  			case WID_GL_RIVER_PULLDOWN:         _settings_newgame.game_creation.amount_of_rivers = index; break;
  			case WID_GL_SMOOTHNESS_PULLDOWN:    _settings_newgame.game_creation.tgen_smoothness = index;  break;
-@@ -881,10 +924,19 @@ struct CreateScenarioWindow : public Window
+@@ -882,10 +925,19 @@ struct CreateScenarioWindow : public Window
  {
  	uint widget_id;
  
@@ -5535,7 +5535,7 @@ index ad64ae8..0bc0d70 100644
  	}
  
  	virtual void SetStringParameters(int widget) const
-@@ -908,6 +960,8 @@ struct CreateScenarioWindow : public Window
+@@ -909,6 +961,8 @@ struct CreateScenarioWindow : public Window
  		}
  	}
  
@@ -5544,7 +5544,7 @@ index ad64ae8..0bc0d70 100644
  	virtual void OnPaint()
  	{
  		this->SetWidgetDisabledState(WID_CS_START_DATE_DOWN,       _settings_newgame.game_creation.starting_year <= MIN_YEAR);
-@@ -961,18 +1015,20 @@ struct CreateScenarioWindow : public Window
+@@ -962,18 +1016,20 @@ struct CreateScenarioWindow : public Window
  				break;
  
  			case WID_CS_MAPSIZE_X_PULLDOWN: // Mapsize X
@@ -5567,7 +5567,7 @@ index ad64ae8..0bc0d70 100644
  				ShowGenerateLandscape();
  				break;
  
-@@ -1031,6 +1087,8 @@ struct CreateScenarioWindow : public Window
+@@ -1032,6 +1088,8 @@ struct CreateScenarioWindow : public Window
  			case WID_CS_MAPSIZE_X_PULLDOWN: _settings_newgame.game_creation.map_x = index; break;
  			case WID_CS_MAPSIZE_Y_PULLDOWN: _settings_newgame.game_creation.map_y = index; break;
  		}
@@ -5591,7 +5591,7 @@ index 10bc0af..d170310 100644
  	InitializeUnicodeGlyphMap();
  
 diff --git a/src/group_gui.cpp b/src/group_gui.cpp
-index 81fb120..c7ddde2 100644
+index 361ab53..cc72723 100644
 --- a/src/group_gui.cpp
 +++ b/src/group_gui.cpp
 @@ -74,6 +74,7 @@ static const NWidgetPart _nested_group_widgets[] = {
@@ -5853,10 +5853,10 @@ index 9d2e3de..e0193f0 100644
  
  #endif /* INDUSTRY_MAP_H */
 diff --git a/src/landscape.cpp b/src/landscape.cpp
-index d1c73fd..560be99 100644
+index 185e84a..e574c07 100644
 --- a/src/landscape.cpp
 +++ b/src/landscape.cpp
-@@ -723,12 +723,12 @@ void RunTileLoop()
+@@ -724,12 +724,12 @@ void RunTileLoop()
  	 * shift register (LFSR). This allows a deterministic pseudorandom ordering, but
  	 * still with minimal state and fast iteration. */
  
@@ -5942,7 +5942,7 @@ index d5b64be..702de7b 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/danish.txt b/src/lang/danish.txt
-index 175092f..010df52 100644
+index 7bbeab5..3ab2dd7 100644
 --- a/src/lang/danish.txt
 +++ b/src/lang/danish.txt
 @@ -4879,10 +4879,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -6488,10 +6488,10 @@ index 79cea5e..db74ac4 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/portuguese.txt b/src/lang/portuguese.txt
-index ec2a83c..91e7cfd 100644
+index be21b6c..54129b0 100644
 --- a/src/lang/portuguese.txt
 +++ b/src/lang/portuguese.txt
-@@ -4856,10 +4856,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4880,10 +4880,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Espectador, {1:STRING}
  
  # Viewport strings
@@ -6511,7 +6511,7 @@ index ec2a83c..91e7cfd 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/spanish.txt b/src/lang/spanish.txt
-index 89be4e4..a538a0d 100644
+index 4c0a290..88ccb10 100644
 --- a/src/lang/spanish.txt
 +++ b/src/lang/spanish.txt
 @@ -4880,10 +4880,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -7354,7 +7354,7 @@ index 620885e..ee419d1 100644
  /**
   * Approximation of the length of a straight track, relative to a diagonal
 diff --git a/src/misc_gui.cpp b/src/misc_gui.cpp
-index 9c6e3f3..505e597 100644
+index b751407..df0e616 100644
 --- a/src/misc_gui.cpp
 +++ b/src/misc_gui.cpp
 @@ -123,15 +123,15 @@ public:
@@ -7555,10 +7555,10 @@ index ffb827c..30b43a5 100644
  int AllocateSpecToStation(const StationSpec *statspec, BaseStation *st, bool exec);
  
 diff --git a/src/object_cmd.cpp b/src/object_cmd.cpp
-index b5b9921..0db8cfe 100644
+index f7ba0d9..a2d674e 100644
 --- a/src/object_cmd.cpp
 +++ b/src/object_cmd.cpp
-@@ -839,4 +839,5 @@ extern const TileTypeProcs _tile_type_object_procs = {
+@@ -847,4 +847,5 @@ extern const TileTypeProcs _tile_type_object_procs = {
  	NULL,                        // vehicle_enter_tile_proc
  	GetFoundation_Object,        // get_foundation_proc
  	TerraformTile_Object,        // terraform_tile_proc
@@ -7606,7 +7606,7 @@ index 1aaf984..2258d9a 100644
  
  #endif /* OBJECT_MAP_H */
 diff --git a/src/openttd.cpp b/src/openttd.cpp
-index c149ebb..a5da97b 100644
+index 58f011b..a263951 100644
 --- a/src/openttd.cpp
 +++ b/src/openttd.cpp
 @@ -57,6 +57,7 @@
@@ -7617,7 +7617,7 @@ index c149ebb..a5da97b 100644
  #include "game/game.hpp"
  #include "game/game_config.hpp"
  #include "town.h"
-@@ -962,6 +963,24 @@ static void MakeNewGameDone()
+@@ -963,6 +964,24 @@ static void MakeNewGameDone()
  	MarkWholeScreenDirty();
  }
  
@@ -7642,7 +7642,7 @@ index c149ebb..a5da97b 100644
  static void MakeNewGame(bool from_heightmap, bool reset_settings)
  {
  	_game_mode = GM_NORMAL;
-@@ -969,6 +988,7 @@ static void MakeNewGame(bool from_heightmap, bool reset_settings)
+@@ -970,6 +989,7 @@ static void MakeNewGame(bool from_heightmap, bool reset_settings)
  	ResetGRFConfig(true);
  
  	GenerateWorldSetCallback(&MakeNewGameDone);
@@ -7650,7 +7650,7 @@ index c149ebb..a5da97b 100644
  	GenerateWorld(from_heightmap ? GWM_HEIGHTMAP : GWM_NEWGAME, 1 << _settings_game.game_creation.map_x, 1 << _settings_game.game_creation.map_y, reset_settings);
  }
  
-@@ -984,6 +1004,7 @@ static void MakeNewEditorWorld()
+@@ -985,6 +1005,7 @@ static void MakeNewEditorWorld()
  	ResetGRFConfig(true);
  
  	GenerateWorldSetCallback(&MakeNewEditorWorldDone);
@@ -7658,7 +7658,7 @@ index c149ebb..a5da97b 100644
  	GenerateWorld(GWM_EMPTY, 1 << _settings_game.game_creation.map_x, 1 << _settings_game.game_creation.map_y);
  }
  
-@@ -1071,8 +1092,13 @@ void SwitchToMode(SwitchMode new_mode)
+@@ -1073,8 +1094,13 @@ void SwitchToMode(SwitchMode new_mode)
  		}
  	}
  #endif /* ENABLE_NETWORK */
@@ -7674,7 +7674,7 @@ index c149ebb..a5da97b 100644
  
  	switch (new_mode) {
  		case SM_EDITOR: // Switch to scenario editor
-@@ -1129,6 +1155,7 @@ void SwitchToMode(SwitchMode new_mode)
+@@ -1131,6 +1157,7 @@ void SwitchToMode(SwitchMode new_mode)
  		case SM_LOAD_HEIGHTMAP: // Load heightmap from scenario editor
  			SetLocalCompany(OWNER_NONE);
  
@@ -7682,7 +7682,7 @@ index c149ebb..a5da97b 100644
  			GenerateWorld(GWM_HEIGHTMAP, 1 << _settings_game.game_creation.map_x, 1 << _settings_game.game_creation.map_y);
  			MarkWholeScreenDirty();
  			break;
-@@ -1171,6 +1198,7 @@ void SwitchToMode(SwitchMode new_mode)
+@@ -1173,6 +1200,7 @@ void SwitchToMode(SwitchMode new_mode)
  
  		case SM_GENRANDLAND: // Generate random land within scenario editor
  			SetLocalCompany(OWNER_NONE);
@@ -7970,7 +7970,7 @@ index 79598ec..d60cb87 100644
  /**
   * Finds out if a company has a certain railtype available
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 2010f9b..ad0d98f 100644
+index eda0248..db0deb4 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -11,6 +11,7 @@
@@ -8403,7 +8403,7 @@ index 2010f9b..ad0d98f 100644
  
 +		DrawOverlay(ti, MP_RAILWAY);
 +
- 		if (HasCatenaryDrawn(GetRailType(ti->tile))) DrawCatenary(ti);
+ 		if (HasRailCatenaryDrawn(GetRailType(ti->tile))) DrawRailCatenary(ti);
  
  		if (HasSignals(ti->tile)) DrawSignals(ti->tile, rails, rti);
 @@ -2469,6 +2583,8 @@ static void DrawTile_Track(TileInfo *ti)
@@ -8412,7 +8412,7 @@ index 2010f9b..ad0d98f 100644
  
 +		DrawOverlay(ti, MP_RAILWAY);
 +
- 		if (HasCatenaryDrawn(GetRailType(ti->tile))) DrawCatenary(ti);
+ 		if (HasRailCatenaryDrawn(GetRailType(ti->tile))) DrawRailCatenary(ti);
  
  		DrawRailTileSeq(ti, dts, TO_BUILDINGS, relocation, 0, _drawtile_track_palette);
 @@ -3026,6 +3142,205 @@ static CommandCost TerraformTile_Track(TileIndex tile, DoCommandFlag flags, int
@@ -9199,7 +9199,7 @@ index 899a565..1d9f572 100644
  /**
   * The text version of OpenTTD's build date.
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index aa445eb..4923338 100644
+index ddd8bd0..2734438 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -11,6 +11,7 @@
@@ -10084,10 +10084,10 @@ index 6937302..d1bfaec 100644
  
  #endif /* ROAD_MAP_H */
 diff --git a/src/roadveh_cmd.cpp b/src/roadveh_cmd.cpp
-index 35c671d..d246a3b 100644
+index 9b541a7..a35f1fb 100644
 --- a/src/roadveh_cmd.cpp
 +++ b/src/roadveh_cmd.cpp
-@@ -1160,7 +1160,7 @@ bool IndividualRoadVehicleController(RoadVehicle *v, const RoadVehicle *prev)
+@@ -1167,7 +1167,7 @@ bool IndividualRoadVehicleController(RoadVehicle *v, const RoadVehicle *prev)
  		v->x_pos = gp.x;
  		v->y_pos = gp.y;
  		v->UpdatePosition();
@@ -10097,7 +10097,7 @@ index 35c671d..d246a3b 100644
  	}
  
 diff --git a/src/saveload/afterload.cpp b/src/saveload/afterload.cpp
-index 9690481..58009bc 100644
+index de3f7cc..4841892 100644
 --- a/src/saveload/afterload.cpp
 +++ b/src/saveload/afterload.cpp
 @@ -125,7 +125,7 @@ void SetWaterClassDependingOnSurroundings(TileIndex t, bool include_invalid_wate
@@ -10948,7 +10948,7 @@ index 86a185c..3a37173 100644
  	}
  }
 diff --git a/src/saveload/oldloader_sl.cpp b/src/saveload/oldloader_sl.cpp
-index 4afbe60..dff9bc7 100644
+index 0c57166..3004062 100644
 --- a/src/saveload/oldloader_sl.cpp
 +++ b/src/saveload/oldloader_sl.cpp
 @@ -47,55 +47,55 @@ void FixOldMapArray()
@@ -11466,10 +11466,10 @@ index 41366a7..bfc5b79 100644
  	uint32 terraform_per_64k_frames;         ///< how many tile heights may, over a long period, be terraformed per 65536 frames?
  	uint16 terraform_frame_burst;            ///< how many tile heights may, over a short period, be terraformed?
 diff --git a/src/ship_cmd.cpp b/src/ship_cmd.cpp
-index a24fb35..f3127d6 100644
+index 2a760e2..9181535 100644
 --- a/src/ship_cmd.cpp
 +++ b/src/ship_cmd.cpp
-@@ -628,7 +628,7 @@ static void ShipController(Ship *v)
+@@ -636,7 +636,7 @@ static void ShipController(Ship *v)
  			v->x_pos = gp.x;
  			v->y_pos = gp.y;
  			v->UpdatePosition();
@@ -11850,7 +11850,7 @@ index af4d206..f017f27 100644
  
  	/* virtual */ inline bool TileBelongsToRailStation(TileIndex tile) const
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index eb90c29..2d62246 100644
+index 5883afc..f556d2e 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -13,6 +13,9 @@
@@ -12417,7 +12417,7 @@ index eb90c29..2d62246 100644
  
 +	DrawOverlay(ti, MP_STATION);
 +
- 	if (HasStationRail(ti->tile) && HasCatenaryDrawn(GetRailType(ti->tile))) DrawCatenary(ti);
+ 	if (HasStationRail(ti->tile) && HasRailCatenaryDrawn(GetRailType(ti->tile))) DrawRailCatenary(ti);
  
  	if (HasBit(roadtypes, ROADTYPE_TRAM)) {
 @@ -3637,6 +3821,615 @@ void StationMonthlyLoop()
@@ -16172,10 +16172,10 @@ index 3d64248..1157697 100644
  	/* lower bits (used with HT_LINE and HT_RAIL):
  	 * (see ASCII art in table/autorail.h for a visual interpretation) */
 diff --git a/src/toolbar_gui.cpp b/src/toolbar_gui.cpp
-index 45d751d..91553ae 100644
+index f253be8..b33f0c5 100644
 --- a/src/toolbar_gui.cpp
 +++ b/src/toolbar_gui.cpp
-@@ -964,7 +964,7 @@ static CallBackFunction MenuClickBuildAir(int index)
+@@ -967,7 +967,7 @@ static CallBackFunction MenuClickBuildAir(int index)
  
  static CallBackFunction ToolbarForestClick(Window *w)
  {
@@ -16184,7 +16184,7 @@ index 45d751d..91553ae 100644
  	return CBF_NONE;
  }
  
-@@ -978,8 +978,9 @@ static CallBackFunction MenuClickForest(int index)
+@@ -981,8 +981,9 @@ static CallBackFunction MenuClickForest(int index)
  {
  	switch (index) {
  		case 0: ShowTerraformToolbar();  break;
@@ -16745,10 +16745,10 @@ index 6896792..b7f2d21 100644
 +
  #endif /* TRACK_FUNC_H */
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index dca456d..8cdd2a4 100644
+index 5502532..ace2711 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
-@@ -1863,6 +1863,17 @@ void ReverseTrainDirection(Train *v)
+@@ -1872,6 +1872,17 @@ void ReverseTrainDirection(Train *v)
  		return;
  	}
  
@@ -16766,7 +16766,7 @@ index dca456d..8cdd2a4 100644
  	/* TrainExitDir does not always produce the desired dir for depots and
  	 * tunnels/bridges that is needed for UpdateSignalsOnSegment. */
  	DiagDirection dir = TrainExitDir(v->direction, v->track);
-@@ -2199,6 +2210,42 @@ static bool CheckTrainStayInDepot(Train *v)
+@@ -2208,6 +2219,42 @@ static bool CheckTrainStayInDepot(Train *v)
  	return false;
  }
  
@@ -16809,7 +16809,7 @@ index dca456d..8cdd2a4 100644
  /**
   * Clear the reservation of \a tile that was just left by a wagon on \a track_dir.
   * @param v %Train owning the reservation.
-@@ -2214,7 +2261,8 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
+@@ -2223,7 +2270,8 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
  		if (GetTunnelBridgeDirection(tile) == ReverseDiagDir(dir)) {
  			TileIndex end = GetOtherTunnelBridgeEnd(tile);
  
@@ -16819,7 +16819,7 @@ index dca456d..8cdd2a4 100644
  				/* Free the reservation only if no other train is on the tiles. */
  				SetTunnelBridgeReservation(tile, false);
  				SetTunnelBridgeReservation(end, false);
-@@ -2228,6 +2276,7 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
+@@ -2237,6 +2285,7 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
  					}
  				}
  			}
@@ -16827,7 +16827,7 @@ index dca456d..8cdd2a4 100644
  		}
  	} else if (IsRailStationTile(tile)) {
  		TileIndex new_tile = TileAddByDiagDir(tile, dir);
-@@ -3095,6 +3144,99 @@ static Vehicle *CheckTrainAtSignal(Vehicle *v, void *data)
+@@ -3104,6 +3153,99 @@ static Vehicle *CheckTrainAtSignal(Vehicle *v, void *data)
  	return t;
  }
  
@@ -16927,7 +16927,7 @@ index dca456d..8cdd2a4 100644
  /**
   * Move a vehicle chain one movement stop forwards.
   * @param v First vehicle to move.
-@@ -3280,6 +3422,23 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
+@@ -3289,6 +3431,23 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
  					goto invalid_rail;
  				}
  
@@ -16951,7 +16951,7 @@ index dca456d..8cdd2a4 100644
  				if (!HasBit(r, VETS_ENTERED_WORMHOLE)) {
  					Track track = FindFirstTrack(chosen_track);
  					Trackdir tdir = TrackDirectionToTrackdir(track, chosen_dir);
-@@ -3332,6 +3491,64 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
+@@ -3341,6 +3500,64 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
  				}
  			}
  		} else {
@@ -17016,7 +17016,7 @@ index dca456d..8cdd2a4 100644
  			if (IsTileType(gp.new_tile, MP_TUNNELBRIDGE) && HasBit(VehicleEnterTile(v, gp.new_tile, gp.x, gp.y), VETS_ENTERED_WORMHOLE)) {
  				/* Perform look-ahead on tunnel exit. */
  				if (v->IsFrontEngine()) {
-@@ -3347,7 +3564,7 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
+@@ -3356,7 +3573,7 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
  				v->x_pos = gp.x;
  				v->y_pos = gp.y;
  				v->UpdatePosition();
@@ -17025,16 +17025,16 @@ index dca456d..8cdd2a4 100644
  				continue;
  			}
  		}
-@@ -3519,7 +3736,7 @@ static void ChangeTrainDirRandomly(Train *v)
+@@ -3528,7 +3745,7 @@ static void ChangeTrainDirRandomly(Train *v)
  
  	do {
  		/* We don't need to twist around vehicles if they're not visible */
 -		if (!(v->vehstatus & VS_HIDDEN)) {
 +		if (v->IsDrawn()) {
  			v->direction = ChangeDir(v->direction, delta[GB(Random(), 0, 2)]);
- 			v->UpdateDeltaXY(v->direction);
- 			v->cur_image = v->GetImage(v->direction, EIT_ON_MAP);
-@@ -3543,7 +3760,7 @@ static bool HandleCrashedTrain(Train *v)
+ 			/* Refrain from updating the z position of the vehicle when on
+ 			 * a bridge, because UpdateInclination() will put the vehicle under
+@@ -3552,7 +3769,7 @@ static bool HandleCrashedTrain(Train *v)
  {
  	int state = ++v->crash_anim_pos;
  
@@ -17043,7 +17043,7 @@ index dca456d..8cdd2a4 100644
  		CreateEffectVehicleRel(v, 4, 4, 8, EV_EXPLOSION_LARGE);
  	}
  
-@@ -3874,7 +4091,7 @@ static bool TrainLocoHandler(Train *v, bool mode)
+@@ -3883,7 +4100,7 @@ static bool TrainLocoHandler(Train *v, bool mode)
  	}
  
  	for (Train *u = v; u != NULL; u = u->Next()) {
@@ -17499,7 +17499,7 @@ index 0a2c229..9e46c3e 100644
  extern TileIndex _build_tunnel_endtile;
  
 diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
-index 5f2534b..5e5d506 100644
+index 677cf99..5a1a2bc 100644
 --- a/src/tunnelbridge_cmd.cpp
 +++ b/src/tunnelbridge_cmd.cpp
 @@ -17,6 +17,7 @@
@@ -17894,8 +17894,8 @@ index 5f2534b..5e5d506 100644
  	}
  }
 @@ -1494,6 +1703,9 @@ void DrawBridgeMiddle(const TileInfo *ti)
- 		if (HasCatenaryDrawn(GetRailType(rampsouth))) {
- 			DrawCatenaryOnBridge(ti);
+ 		if (HasRailCatenaryDrawn(GetRailType(rampsouth))) {
+ 			DrawRailCatenaryOnBridge(ti);
  		}
 +		if (HasWormholeSignals(rampsouth)) {
 +			IsTunnelBridgeExit(rampsouth) ? DrawBrigeSignalOnMiddelPart(ti, rampnorth, z): DrawBrigeSignalOnMiddelPart(ti, rampsouth, z);
@@ -18333,10 +18333,10 @@ index 0f7f17b..a077f11 100644
 +
  #endif /* TUNNELBRIDGE_MAP_H */
 diff --git a/src/vehicle.cpp b/src/vehicle.cpp
-index da2cfeb..b8cb410 100644
+index b686461..bcd90ca 100644
 --- a/src/vehicle.cpp
 +++ b/src/vehicle.cpp
-@@ -221,6 +221,13 @@ uint Vehicle::Crash(bool flooded)
+@@ -262,6 +262,13 @@ uint Vehicle::Crash(bool flooded)
  	return RandomRange(pass + 1); // Randomise deceased passengers.
  }
  
@@ -18350,7 +18350,7 @@ index da2cfeb..b8cb410 100644
  
  /**
   * Displays a "NewGrf Bug" error message for a engine, and pauses the game if not networking.
-@@ -810,7 +817,7 @@ Vehicle::~Vehicle()
+@@ -851,7 +858,7 @@ Vehicle::~Vehicle()
  
  	/* sometimes, eg. for disaster vehicles, when company bankrupts, when removing crashed/flooded vehicles,
  	 * it may happen that vehicle chain is deleted when visible */
@@ -18359,7 +18359,7 @@ index da2cfeb..b8cb410 100644
  
  	Vehicle *v = this->Next();
  	this->SetNext(NULL);
-@@ -915,7 +922,7 @@ void CallVehicleTicks()
+@@ -956,7 +963,7 @@ void CallVehicleTicks()
  				if (front->vehstatus & VS_CRASHED) continue;
  
  				/* Do not play any sound when in depot or tunnel */
@@ -18368,7 +18368,7 @@ index da2cfeb..b8cb410 100644
  
  				/* Do not play any sound when stopped */
  				if ((front->vehstatus & VS_STOPPED) && (front->type != VEH_TRAIN || front->cur_speed == 0)) continue;
-@@ -1014,7 +1021,7 @@ static void DoDrawVehicle(const Vehicle *v)
+@@ -1054,7 +1061,7 @@ static void DoDrawVehicle(const Vehicle *v)
  	if (v->vehstatus & VS_DEFPAL) pal = (v->vehstatus & VS_CRASHED) ? PALETTE_CRASH : GetVehiclePalette(v);
  
  	/* Check whether the vehicle shall be transparent due to the game state */
@@ -18377,7 +18377,7 @@ index da2cfeb..b8cb410 100644
  
  	if (v->type == VEH_EFFECT) {
  		/* Check whether the vehicle shall be transparent/invisible due to GUI settings.
-@@ -1065,7 +1072,7 @@ void ViewportAddVehicles(DrawPixelInfo *dpi)
+@@ -1111,7 +1118,7 @@ void ViewportAddVehicles(DrawPixelInfo *dpi)
  			const Vehicle *v = _vehicle_viewport_hash[x + y]; // already masked & 0xFFF
  
  			while (v != NULL) {
@@ -18386,7 +18386,7 @@ index da2cfeb..b8cb410 100644
  						l <= v->coord.right &&
  						t <= v->coord.bottom &&
  						r >= v->coord.left &&
-@@ -1100,7 +1107,7 @@ Vehicle *CheckClickOnVehicle(const ViewPort *vp, int x, int y)
+@@ -1146,7 +1153,7 @@ Vehicle *CheckClickOnVehicle(const ViewPort *vp, int x, int y)
  	y = ScaleByZoom(y, vp->zoom) + vp->virtual_top;
  
  	FOR_ALL_VEHICLES(v) {
@@ -18396,10 +18396,10 @@ index da2cfeb..b8cb410 100644
  				y >= v->coord.top && y <= v->coord.bottom) {
  
 diff --git a/src/vehicle_base.h b/src/vehicle_base.h
-index f923c2d..92cb97c 100644
+index f2a0207..3932eec 100644
 --- a/src/vehicle_base.h
 +++ b/src/vehicle_base.h
-@@ -296,6 +296,12 @@ public:
+@@ -353,6 +353,12 @@ public:
  	uint GetConsistTotalCapacity() const;
  
  	/**
@@ -19824,7 +19824,7 @@ index 187659f..57c964e 100644
  
  #endif /* WIDGETS_VIEWPORT_WIDGET_H */
 diff --git a/src/window.cpp b/src/window.cpp
-index bc92416..312b062 100644
+index 24683d0..4dc7602 100644
 --- a/src/window.cpp
 +++ b/src/window.cpp
 @@ -2729,6 +2729,7 @@ enum MouseClick {
