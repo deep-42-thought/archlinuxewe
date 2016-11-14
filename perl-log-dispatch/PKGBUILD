@@ -1,29 +1,29 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-log-dispatch'
-pkgver=2.57
+pkgver=2.58
 pkgrel=1
 pkgdesc='Dispatches messages to one or more outputs'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-log-dispatch-apachelog=2.57'
-  'perl-log-dispatch-base=2.57'
-  'perl-log-dispatch-code=2.57'
-  'perl-log-dispatch-email=2.57'
-  'perl-log-dispatch-email-mailsend=2.57'
-  'perl-log-dispatch-email-mailsender=2.57'
-  'perl-log-dispatch-email-mailsendmail=2.57'
-  'perl-log-dispatch-email-mimelite=2.57'
-  'perl-log-dispatch-file=2.57'
-  'perl-log-dispatch-file-locked=2.57'
-  'perl-log-dispatch-handle=2.57'
-  'perl-log-dispatch-null=2.57'
-  'perl-log-dispatch-output=2.57'
-  'perl-log-dispatch-screen=2.57'
-  'perl-log-dispatch-syslog=2.57'
-  'perl-log-dispatch-vars=2.57')
+  'perl-log-dispatch-apachelog=2.58'
+  'perl-log-dispatch-base=2.58'
+  'perl-log-dispatch-code=2.58'
+  'perl-log-dispatch-email=2.58'
+  'perl-log-dispatch-email-mailsend=2.58'
+  'perl-log-dispatch-email-mailsender=2.58'
+  'perl-log-dispatch-email-mailsendmail=2.58'
+  'perl-log-dispatch-email-mimelite=2.58'
+  'perl-log-dispatch-file=2.58'
+  'perl-log-dispatch-file-locked=2.58'
+  'perl-log-dispatch-handle=2.58'
+  'perl-log-dispatch-null=2.58'
+  'perl-log-dispatch-output=2.58'
+  'perl-log-dispatch-screen=2.58'
+  'perl-log-dispatch-syslog=2.58'
+  'perl-log-dispatch-vars=2.58')
 depends=(
   'perl>=5.6.0'
   'perl-base'
@@ -56,7 +56,7 @@ checkdepends=(
 url='https://metacpan.org/release/Log-Dispatch'
 _distdir="Log-Dispatch-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
-sha512sums=('eca2938493ec2e846d857f5fb39349cea1956f487a71b89ef1aca2b85cd5aa1c409ae6348468fcf86a9b1d877f81c224b629da0fb60dbf483fe14886afeb196e')
+sha512sums=('6f086d2a95c75cb59d269f11528d8062e6a0b8ab23a9c5e4970ddadb018227e4fa7c6f9aa17f45ddceb59ead5fa0bb26a4bbfb56c7de935a870830ababeaaa5f')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
