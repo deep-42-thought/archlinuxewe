@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (5872fdbe767f20dd006eece094815303adfcd3b336cb5ad02d10742b82e6f11e31530fef3b41a2af59678d729daebff83cde847dab68d62647f62cf8dc586685)
 
 pkgname='perl-digest-jhash'
-pkgver='0.09'
-pkgrel='2'
+pkgver=0.10
+pkgrel=1
 pkgdesc='Perl extension for 32 bit Jenkins Hashing Algorithm'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -24,7 +24,7 @@ checkdepends=(
 url='https://metacpan.org/release/Digest-JHash'
 _distdir="Digest-JHash-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
-sha512sums=('2490abd0bbd2a83e6eb2aa1a856e428ae945b103c1b05959f0fd5e13db4999123dd5222b04aaa1efd846b5f6c7c9865154ec8fb0e4e7ea526d8f126e6963d921')
+sha512sums=('901b5c54c3dc3108829907011f3fc6936f2d1d887404cb91e294c09f83dca50a31270cb5b87aeadaaad03d0764f018f90350179ae773e97ffa48f9761efd1b71')
 
 build() {
   cd "${srcdir}/${_distdir}"
