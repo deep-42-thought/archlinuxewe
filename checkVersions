@@ -413,6 +413,31 @@ then
         )"
         [ -n "${remVer}" ] && break
       done
+    elif echo "${src}" | \
+      grep -q '^http://download\.linuxaudio\.org/lilypond/sources/'
+    then
+      remVerz="$(
+        echo "${src}" | \
+          sed 's|[^/]\+/[^/]\+$||'
+      )"
+      for mainVer in $(
+          curl "${remVerz}" 2> /dev/null | \
+            tr '"' '\n' | \
+            grep '^v[0-9.]\+/$' | \
+            sed 's|^v\([0-9.]\+\)/$|\1|' | \
+            sort -Vr
+        )
+      do
+        remVer="$(
+          curl "${remVerz}v${mainVer}/" 2> /dev/null | \
+            tr '"' '\n' | \
+            grep '^lilypond-[0-9.]\+\.tar\.\(gz\|bz2\|xz\)$' | \
+            sed 's@^lilypond-\([0-9.]\+\)\.tar\.\(gz\|bz2\|xz\)$@\1@' | \
+            sort -V | \
+            tail -n1
+        )"
+        [ -n "${remVer}" ] && break
+      done
     else
       continue
     fi
