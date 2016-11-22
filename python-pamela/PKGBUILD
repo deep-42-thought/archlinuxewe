@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=python-pamela
-pkgver=0.2.1
+pkgver=0.3.0
 pkgrel=1
 pkgdesc="Python PAM interface"
 arch=('any')
@@ -9,7 +9,7 @@ url="https://github.com/minrk/pamela"
 license=('MIT')
 depends=('pam' 'python')
 source=("https://github.com/minrk/pamela/archive/${pkgver}.tar.gz")
-sha512sums=('610112db6c5b9e833fd9ee91a3e17e00f5da57d7dd2a775924ee0d75cc64b6a0177c874f3ba0c2e64b3229b4674bd868665be58b54b623ca64ba988c0da2d408')
+sha512sums=('61987d169dd10372bff974963c62416417b8b559325c8f2ecc9aca01fa1dd2c9e7992507ca10c623156c5f18640ec2ee07f9e654c998bea63d79c4b28b29cfc6')
 
 package() {
   cd "$srcdir/pamela-$pkgver"
