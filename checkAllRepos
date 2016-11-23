@@ -93,7 +93,7 @@ fi
 
 if ${alle}
 then
-  curl -o - "https://wiki.archlinux.org/index.php/Unofficial_user_repositories" 2> /dev/null | \
+  curl "https://wiki.archlinux.org/index.php/Unofficial_user_repositories" 2> /dev/null | \
     sed 's|#.*$||' | \
     sed '
       :begin;

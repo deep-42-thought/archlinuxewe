@@ -121,7 +121,7 @@ then
     elif [ "${pkgname}" == "pgplot-for-ifeffit" ]
     then
       remVer="$(
-        curl -o - "ftp://ftp.astro.caltech.edu/pub/pgplot/" 2> /dev/null | \
+        curl "ftp://ftp.astro.caltech.edu/pub/pgplot/" 2> /dev/null | \
           grep "\spgplot[0-9.]\+\.tar\.gz -> \S\+\$" | \
           sed "s|^.*\spgplot\([0-9.]\+\)\.tar\.gz -> \S\+\$|\1|" | \
           sort -V | \
@@ -176,7 +176,7 @@ then
           sed 's|^\(.*\)/packages/.*/\([^/]\+\)-[^/-]\+\.tar\.gz$|\1/pypi/\2/|'
       )"
       remVer="$(
-        curl -o - "${qu}" 2> /dev/null | \
+        curl "${qu}" 2> /dev/null | \
           tr "\"" "\n" | \
           grep "^/pypi/\(python-\)\?${pkgname#*-}/[0-9.-]\+\$" | \
           sed "s|^/pypi/\(python-\)\?${pkgname#*-}/\([0-9.-]\+\)\$|\2|" | \
@@ -191,7 +191,7 @@ then
           sed 's|^\(https\?://\([^/]\+/\)\{3\}\).*$|\1|'
       )"
       remVer="$(
-        curl -o - "${qu}" 2> /dev/null | \
+        curl "${qu}" 2> /dev/null | \
           tr "\"" "\n" | \
           grep '^[0-9.]\+/$' | \
           sed 's|/$||' | \
@@ -205,7 +205,7 @@ then
       qu=${qu%-*}
       quNam=${qu#*=}
       remVer=$( \
-        curl -o - "$(\
+        curl "$(\
           echo "${qu}" | \
             sed "s|\?dl=|?ls=|" \
           )" 2> /dev/null | \
@@ -262,7 +262,7 @@ then
           sed "s|v\?[0-9.]\+.*\$||" \
       )
       tmpVer=$( \
-        curl -o - "${quVer}" 2> /dev/null | \
+        curl "${quVer}" 2> /dev/null | \
           awk '{print $9}' | \
           grep "^${quNam}v\?[0-9.]*${quEnd}\$" | \
           sed "s|^${quNam}v\?\([0-9.]*\)${quEnd}\$|\1|" | \
@@ -282,7 +282,7 @@ then
       quEnd=${src##*-}
       quEnd=${quEnd#*.}
       remVer=$( \
-        curl -o - "${quVer}/" 2> /dev/null | \
+        curl "${quVer}/" 2> /dev/null | \
           tr "\"" "\n" | \
           grep "^${quNam}\(-[^-]*\)\{3\}\.${quEnd}\$" | \
           sed "s|^${quNam}-\([^-]*\)\(-[^-]*\)\{2\}\.${quEnd}\$|\1|" | \
@@ -298,7 +298,7 @@ then
       )
       quNam=/${quVer#*.com/}/tag/
       remVer=$( \
-        curl -o - "${quVer}" 2> /dev/null | \
+        curl "${quVer}" 2> /dev/null | \
           tr "\"" "\n" | \
           grep "^${quNam}[0-9.]\+\$" | \
           sed "s|^${quNam}||" | \

@@ -43,7 +43,7 @@ fi
 
 . perlFunktionen
 
-seitenInhalt="$(curl -o - "${url}" 2> /dev/null)"
+seitenInhalt="$(curl "${url}" 2> /dev/null)"
 
 pkgver="$(
   echo "${seitenInhalt}" | \

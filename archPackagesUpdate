@@ -648,7 +648,7 @@ else
           sumTyp="sha256sum"
           pkgSum="${sha256sums[@]}"
         fi
-        remSum="$(curl -o - "${source#*::}&post=${sumTyp}" 2> /dev/null)"
+        remSum="$(curl "${source#*::}&post=${sumTyp}" 2> /dev/null)"
         if [ ! "${remSum}" == "${pkgSum}" ]
         then
           >&2 echo "${sumTyp}s von ${pkgname} stimmt nicht: ${remSum} vs. ${pkgSum}."
