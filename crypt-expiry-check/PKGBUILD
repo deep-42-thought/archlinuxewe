@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=crypt-expiry-check
-pkgver=4.0.7
+pkgver=4.0.8
 pkgrel=1
 pkgdesc="Surveilance of expiry of gpg-keys and X.509 certificates"
 arch=('any')
@@ -8,7 +8,7 @@ url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
 license=('GPL')
 groups=()
 depends=('openssl' 'gnupg')
-makedepends=()
+makedepends=('help2man')
 checkdepends=()
 optdepends=()
 provides=()
@@ -22,7 +22,7 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
 )
-sha512sums=('ec46a31191d6dacbb8c9ac6969c231e9b51f347bb91997524ed4d059a46f9c1dd6826a820be4f00e6930a67706fa9d797c722355fe5570a6f07ee76bf37bea9f')
+sha512sums=('7fd305b7a0d6db8269146bffc1eb70fa1db867dfdb8a0e3dad53ef5897727504d6ac5f72d9768762671926912f637acaae40400772c9f107e3817a291c3ca771')
 
 build () {
 
