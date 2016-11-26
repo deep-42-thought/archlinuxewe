@@ -1,0 +1,90 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (54bfd7cca693b229aa53ffc98d551b62ea234aaa5be7e6717857610a2da6803b0be2dfe7ddfe9810cf320c477023b3b4356d47df7f8c202ed8c14d71b472c0bc)
+
+pkgname='perl-test-lwp-useragent'
+pkgver='0.031'
+pkgrel='1'
+pkgdesc='A LWP::UserAgent suitable for simulating and testing network calls'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.6.0'
+  'perl-carp'
+  'perl-http-date'
+  'perl-http-message'
+  'perl-libwww'
+  'perl-namespace-clean>=0.19'
+  'perl-parent'
+  'perl-safe-isa'
+  'perl-scalar-list-utils'
+  'perl-storable'
+  'perl-try-tiny'
+  'perl-uri')
+makedepends=(
+  'perl>=5.6.0'
+  'perl-cpan-meta-requirements>=2.120.620'
+  'perl-extutils-makemaker'
+  'perl-http-message'
+  'perl-if'
+  'perl-lib'
+  'perl-module-metadata'
+  'perl-path-tiny'
+  'perl-pathtools'
+  'perl-test-deep>=0.110'
+  'perl-test-fatal'
+  'perl-test-needs'
+  'perl-test-requiresinternet'
+  'perl-test-simple>=0.88'
+  'perl-test-warnings>=0.009')
+url='https://metacpan.org/release/Test-LWP-UserAgent'
+_distdir="Test-LWP-UserAgent-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
+sha512sums=('0e5b414ac74e326f61862411de3b4434888c2437cb90a4958d1dbea50565f07aa82de76c35d667c875fce0d022b776e09bcd8e4a3fcb7e7f784222f318c5a3af')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
