@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (b4b430b4057f37dc2e70bc52f5da9e5b5d3b2c48127a62a27272553af4e33312b81606537ca485cbc4952bfeb713dd390e27f98ad016f530e85d3430878e39cb)
 
 pkgname='perl-text-unidecode'
-pkgver='1.27'
-pkgrel='1'
+pkgver=1.30
+pkgrel=1
 pkgdesc='Provide plain ASCII transliterations of Unicode text'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -15,7 +15,7 @@ makedepends=(
 url='https://metacpan.org/release/Text-Unidecode'
 _distdir="Text-Unidecode-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SB/SBURKE/${_distdir}.tar.gz")
-sha512sums=('c124e09b75050717fc13716b46ca54e607fd1e093f6ce06db466cda669d772661173a394eac81b5073a757f7af5e0174aa23eac037a356f008268b2bd767428c')
+sha512sums=('194f8aba0dcdc7a53338b86370b7cfb6c60d4a8982ada6084f0eb0ccd66ce461b831b6daf04932f039ff1b983dc3cd0c0ced1e8b455955d2699c36120b41a526')
 
 build() {
   cd "${srcdir}/${_distdir}"
