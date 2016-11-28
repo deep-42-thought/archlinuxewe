@@ -2,7 +2,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=python-editor
-pkgver=1.0.2
+pkgver=1.0.3
 pkgrel=1
 pkgdesc="Programmatically open an editor, capture the result"
 url="https://github.com/fmoo/python-editor"
@@ -11,7 +11,7 @@ makedepends=('python-setuptools')
 license=('Apache')
 arch=('any')
 source=("https://github.com/fmoo/${pkgname}/archive/${pkgver}.tar.gz")
-sha512sums=('7237d95ee3297b1cc620b900d625028b5f6f8f14510ce62dd2570ce33e295af99b292d4159acf5c3abcf508802ce194254bd7beac19d59401ad39f6d6c0bb402')
+sha512sums=('0b14462099f8c5a3a7517f0f0cb744470284c34d164483bc58b15ecf4c5484090149d5dcb923b932a41857cfa34d4f10e4238ccc20089804a14631a459b63a39')
 
 build() {
     cd $srcdir/${pkgname}-${pkgver}
