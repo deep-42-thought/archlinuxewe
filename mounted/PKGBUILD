@@ -1,0 +1,36 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=mounted
+pkgver=0.0
+pkgrel=1
+pkgdesc="Wrapper for use by conky to show mounted partitions."
+arch=('any')
+url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+license=('GPL')
+groups=()
+depends=('conky')
+makedepends=('help2man')
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=('etc/mounted.conf')
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+)
+sha512sums=('28f0fd07a23ed5fead6d7d155d62ce71ffcc19ceef20b4f0712d2084923fd9517f772f059a7106d14b9c39a2cd30ef88fabe62a2b58d56a42bd008f79d2034f2')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
