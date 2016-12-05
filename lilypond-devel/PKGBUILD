@@ -3,7 +3,7 @@
 # Maintainer:  Erich Eckner <arch at eckner dot net>
 
 pkgname=lilypond-devel
-pkgver=2.19.51
+pkgver=2.19.52
 pkgrel=1
 pkgdesc="An automated music engraving system (development version)"
 arch=('i686' 'x86_64')
@@ -30,8 +30,8 @@ optdepends=('netpbm: building HTML documentation'
 provides=("lilypond=$pkgver")
 conflicts=('lilypond' 'lilypond-git')
 source=("http://download.linuxaudio.org/lilypond/sources/v2.19/lilypond-${pkgver}.tar.gz" 'no_fontforge-versioncheck.patch')
-sha256sums=('81163eccaeee083681b93b727eed00ed93f57899df9d423aba76f5e800db92ac'
-            'e74391f718babb984c5f637397162cf096c4716f5b9a21346ec76035cfc80817')
+sha512sums=('afdfa6f277235911b8cfb85985df110d740a580d7d8cb3899e682077674e71faaa050dab16d156d78c0e99243ddb59fb20282a3557309f8679ed457563364020'
+            '343317fd0d88cae1ed35bba6038ed5d24a0664bd47acf27895e03f2e95466439d80bb780277236ef74bd929c29a16ae840d09c3d50dd2a994b035d0d63e015aa')
 
 prepare() {
   cd "$srcdir/lilypond-$pkgver"
