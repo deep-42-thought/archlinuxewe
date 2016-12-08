@@ -2,13 +2,14 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-html-lint'
-pkgver='2.22'
-pkgrel='2'
+pkgver=2.24
+pkgrel=1
 pkgdesc='check for HTML errors in a string or file'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl'
   'perl-exporter'
   'perl-html-parser>=3.47'
   'perl-html-tagset>=3.03'
@@ -21,16 +22,8 @@ checkdepends=(
 url='https://metacpan.org/release/HTML-Lint'
 _distdir="HTML-Lint-${pkgver}"
 source=(
-  "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/${_distdir}.tar.gz"
-  'test-order.patch')
-sha512sums=('9bd4ed5df27ba232e886f4017d54637020fcf22ed31794e5b3121fdd147215af95e29c10330bc892dea84bf4f90b467523fd8c31792461873cbea5eacd058bf4'
-            '491ef36aa8de926b7ef2d1e2dbf974fd36654b357e2a0521d76be4e49d875101637b706623c46d9468fa4033d7c05a1aa004cb5a673c57acda5f2e9c6fd504b2')
-
-prepare() {
-  cd "${srcdir}/${_distdir}"
-
-  patch -p1 -i "${srcdir}/test-order.patch"
-}
+  "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/${_distdir}.tar.gz")
+sha512sums=('be854454d27605d81edfc6880bacb304b8b0603176977f01c852cb2136b13c4a66cbe4e3cefaf8255580edc486adf21f3d1c193acf9db84f1305004921443614')
 
 build() {
   cd "${srcdir}/${_distdir}"
