@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=xraylarch
-pkgver=0.9.31
-pkgrel=2
+pkgver=0.9.32
+pkgrel=1
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('any')
 url="http://xraypy.github.io/xraylarch/"
@@ -13,6 +13,7 @@ depends=(
   'python2-lmfit'
   'python2-matplotlib'
   'python2-numpy'
+  'python2-pillow'
   'python2-scipy'
   'python2-sqlalchemy'
   'python2-wxutils'
@@ -22,12 +23,14 @@ depends=(
 makedepends=()
 checkdepends=()
 optdepends=(
-  'python2-epics:      needed for using the EPICS control system'
-  'python2-fabio:      needed for xrd modules'
-  'python2-nose:       needed for testing tools'
-  'python2-pyFAI:      needed for xrd modules'
-  'python2-termcolor:  needed for color-enhanced error messages'
-  'python2-yaml:       needed for graphics and plotting'
+  'python2-CifFile:        needed for xrd modules'
+  'python2-epics:          needed for using the EPICS control system'
+  'python2-fabio:          needed for xrd modules'
+  'python2-pyFAI:          needed for xrd modules'
+  'python2-requests:       needed for xrd modules'
+  'python2-termcolor:      needed for color-enhanced error messages'
+  'python2-xrayutilities:  needed for xrd modules'
+  'python2-yaml:           needed for graphics and plotting'
 )
 provides=()
 conflicts=()
@@ -37,7 +40,7 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/xraypy/${pkgname}/archive/${pkgver}.tar.gz"
 )
-sha512sums=('473bd90166c4da570cefa214c14c67d95d5de20b684b83ab6379041e1fad8ebfdb831b362850eb30b3283348b48f66fd31df32b398139497817425c4e6336d29')
+sha512sums=('5f646dafe486a1f929991f376345ef033bef1c2c8cb4613eba63e466a416c93e9c9599857406c78da88df658563fdfa83e183d2819acaa875daed1a10c138b9e')
 
 build() {
 
