@@ -2,21 +2,21 @@
 # Contributor:Brian Bidulock <bidulock@openss7.org>
 # Contributor: chimeracoder <dev@chimeracoder.net
 pkgname='perl-moosex-types'
-pkgver=0.48
+pkgver=0.49
 pkgrel=1
 pkgdesc="Organise your Moose types in libraries"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-moosex-types-base=0.48'
-  'perl-moosex-types-checkedutilexports=0.48'
-  'perl-moosex-types-combine=0.48'
-  'perl-moosex-types-moose=0.48'
-  'perl-moosex-types-typedecorator=0.48'
-  'perl-moosex-types-undefinedtype=0.48'
-  'perl-moosex-types-util=0.48'
-  'perl-moosex-types-wrapper=0.48')
+  'perl-moosex-types-base=0.49'
+  'perl-moosex-types-checkedutilexports=0.49'
+  'perl-moosex-types-combine=0.49'
+  'perl-moosex-types-moose=0.49'
+  'perl-moosex-types-typedecorator=0.49'
+  'perl-moosex-types-undefinedtype=0.49'
+  'perl-moosex-types-util=0.49'
+  'perl-moosex-types-wrapper=0.49')
 depends=(
   'perl>=5.8.0'
   'perl-base'
@@ -33,7 +33,8 @@ depends=(
   'perl-sub-exporter'
   'perl-sub-exporter-formethods>=0.100052'
   'perl-sub-install'
-  'perl-sub-name')
+  'perl-sub-name'
+  'perl-sub-quote')
 makedepends=(
   'perl-if'
   'perl-lib'
@@ -46,7 +47,7 @@ makedepends=(
   'perl-test-simple>=0.88')
 url='http://search.cpan.org/dist/MooseX-Types'
 source=("http://search.cpan.org/CPAN/authors/id/E/ET/ETHER/MooseX-Types-${pkgver}.tar.gz")
-sha512sums=('905d88141dd708865f3f592000e22894dab9c792f2ab84984187092c9464920c83c1dc199a5dfa796532a152ef2c257dd9de17ecb47947b7d7b3f2d20b55db9a')
+sha512sums=('847037121bbd8f13be99336209dead74b1f025425edaa90b1487fb6705f07d81bc307437137079375d0b2de0ded2f9e9358eb28f04e8eba76f0f9d72d6469e84')
 _distdir="MooseX-Types-${pkgver}"
 
 build() {
