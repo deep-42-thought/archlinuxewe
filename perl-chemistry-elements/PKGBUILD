@@ -1,21 +1,25 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=perl-chemistry-elements
-pkgver=1.07
-pkgrel='2'
+pkgver=1.065
+pkgrel=1
 pkgdesc="Perl extension for working with Chemical Elements"
 arch=('any')
 url="https://github.com/briandfoy/chemistry-elements"
 license=('GPL' 'PerlArtistic')
 groups=()
 depends=(
-  'perl-test-simple')
+  'perl>=5.10.0')
+makedepends=(
+  'perl-extutils-makemaker>=6.64'
+  'perl-pathtools'
+  'perl-test-simple>=0.94')
 checkdepends=('perl-test-pod')
 replaces=()
 backup=()
 options=()
 _distdir="Chemistry-Elements-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/B/BD/BDFOY/${_distdir}.tar.gz")
-sha512sums=('bfed7ab91c2554f01cb8923ac311dae8986fdbdbde35f6868aa59d3c1b9c10ac047e222b5473204fd4b464e3fc93ac7fb80a907b57ceeb9bea3afb1d7850445f')
+sha512sums=('cc5e941f06e589a96240966d79b1bc99c780ea16737ed1a47b159771d8561feaa99a2930f3b50db002ca63528c6504d3953bb6bf3a72c14aa136a68f16fc2001')
 
 build() {
 
