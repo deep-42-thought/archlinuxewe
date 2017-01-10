@@ -2,12 +2,12 @@
 
 pkgname=python-simplepam
 pkgver=0.1.5
-pkgrel=1
+pkgrel=2
 pkgdesc="Pure Python interface to the Pluggable Authentication Modules system on Linux"
 arch=('any')
 url="https://github.com/leonnnn/python3-simplepam"
 license=('MIT')
-depends=('pam' 'python')
+depends=('pam' 'python>=3.6' 'python<3.7')
 source=(https://github.com/leonnnn/python3-simplepam/archive/$pkgver.tar.gz)
 sha512sums=('031fd8cb705d860fd1f370bd2a3cc788d1ec4a6a91cc25b548f0b11a5294dc2f57f246279e4503aaafc978f4e45df2d332bef5143c70bf4cf58d9445801b30df')
 
