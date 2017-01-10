@@ -2,13 +2,12 @@
 
 pkgname=jupyterhub
 pkgver=0.6.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Multi-user server for Jupyter notebooks "
 url="http://jupyter.org/"
 arch=(any)
 license=('BSD')
-depends=('python>=3.6' 'python-alembic' 'python-tornado' 'python-jinja' 'ipython' 'python-pamela' 'python-sqlalchemy' 'python-requests' 'nodejs-configurable-http-proxy')
-conflicts=('python>3.6')
+depends=('python>=3.6' 'python<3.7' 'python-alembic' 'python-tornado' 'python-jinja' 'ipython' 'python-pamela' 'python-sqlalchemy' 'python-requests' 'nodejs-configurable-http-proxy')
 makedepends=('bower' 'npm')
 source=("https://github.com/jupyterhub/jupyterhub/archive/${pkgver}.tar.gz")
 sha512sums=('303a318a7a3e120f06446c11d445d642677f292519e57dc5e104d84331ea43023158c303cfe3a63e1dab4e06393bf1f755dc03ccdf2f8fb5ee62a582c6dff46b')
