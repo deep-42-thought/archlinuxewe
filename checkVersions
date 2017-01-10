@@ -367,19 +367,6 @@ then
           sed "s|^r\([[:digit:]]\+\)\s.*\$|\1|" \
         )
     elif echo "${src}" | \
-      grep -q "https\?://\(\(bindfs\|qgis\|download\.osgeo\|www\.\(iozone\|wurzel\)\)\.org\|ftp\.daper\.net\|www\.\(cybernoia\.de\|phy\.duke\.edu\)\|isl\.gforge\.inria\.fr\)/"
-    then
-      quVer="${src%/*}/"
-      remVer="$( \
-        curl "${quVer}" 2> /dev/null | \
-          tr '"<>' '\n\n\n' | \
-          grep "^${pkgname}\(-src\)\?-\?[0-9._]\+\.t\(ar\(\.gz\|\.bz2\)\?\|gz\)\$" | \
-          sed "s@^${pkgname}\(-src\)\?-\?\([0-9._]\+\)\.t\(ar\(\.gz\|\.bz2\)\?\|gz\)\$@\2@" | \
-          tr '_' '.' | \
-          sort -V | \
-          tail -n1
-      )"
-    elif echo "${src}" | \
       grep -q 'https://bitbucket\.org/.*/get/[^/]\+$'
     then
       srcPreNam="$(
@@ -396,6 +383,19 @@ then
           tr '"' '\n' | \
           grep "${srcEndg}\$" | \
           sed "s|^.*/${srcPreNam}\(.*\)${srcEndg}\$|\1|" | \
+          tr '_' '.' | \
+          sort -V | \
+          tail -n1
+      )"
+    elif echo "${src}" | \
+      grep -q "https\?://\(\(bitbucket\|bindfs\|qgis\|download\.osgeo\|www\.\(iozone\|wurzel\)\)\.org\|ftp\.daper\.net\|www\.\(cybernoia\.de\|phy\.duke\.edu\)\|isl\.gforge\.inria\.fr\)/"
+    then
+      quVer="${src%/*}/"
+      remVer="$( \
+        curl "${quVer}" 2> /dev/null | \
+          tr '"<>' '\n\n\n' | \
+          grep "^${pkgname}\(-src\)\?-\?[0-9._]\+\.t\(ar\(\.gz\|\.bz2\)\?\|gz\)\$" | \
+          sed "s@^${pkgname}\(-src\)\?-\?\([0-9._]\+\)\.t\(ar\(\.gz\|\.bz2\)\?\|gz\)\$@\2@" | \
           tr '_' '.' | \
           sort -V | \
           tail -n1
