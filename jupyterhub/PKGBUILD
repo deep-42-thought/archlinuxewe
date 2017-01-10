@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=jupyterhub
-pkgver=0.6.1
-pkgrel=3
+pkgver=0.7.1
+pkgrel=1
 pkgdesc="Multi-user server for Jupyter notebooks "
 url="http://jupyter.org/"
 arch=(any)
@@ -10,7 +10,7 @@ license=('BSD')
 depends=('python>=3.6' 'python<3.7' 'python-alembic' 'python-tornado' 'python-jinja' 'ipython' 'python-pamela' 'python-sqlalchemy' 'python-requests' 'nodejs-configurable-http-proxy')
 makedepends=('bower' 'npm')
 source=("https://github.com/jupyterhub/jupyterhub/archive/${pkgver}.tar.gz")
-sha512sums=('303a318a7a3e120f06446c11d445d642677f292519e57dc5e104d84331ea43023158c303cfe3a63e1dab4e06393bf1f755dc03ccdf2f8fb5ee62a582c6dff46b')
+sha512sums=('00c86ef939481d79c292cf26042003d00305fc8a7b90de23c7b252809d56d8302fc4277ed7948190357d09f6b3c293915a91117b14f4fc4b395ca1f1c7c0ef44')
 
 build() {
   cd "${srcdir}/jupyterhub-$pkgver"
@@ -21,5 +21,5 @@ package() {
   cd "${srcdir}/jupyterhub-$pkgver"
   python setup.py install --root="${pkgdir}"
   install -Dm644 COPYING.md "${pkgdir}"/usr/share/licenses/$pkgname/COPYING.md
+  find ${pkgdir} -name SOURCES.txt -exec sed -i "s|^${srcdir}/||" {} \;
 }
-
