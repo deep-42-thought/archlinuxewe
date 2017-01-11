@@ -691,7 +691,7 @@ else
     exit ${err}
   fi
 
-  ssh -p 22222 141.35.51.219 "~/archPackagesUpdate" "${args[@]}"
+  ssh -p 22222 makepkg@141.35.51.219 "~/archPackagesUpdate" "${args[@]}"
   err=$?
   if [ ${err} -ne 0 ]
   then
