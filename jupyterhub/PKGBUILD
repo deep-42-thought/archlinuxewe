@@ -11,6 +11,7 @@ depends=('python>=3.6' 'python<3.7' 'python-alembic' 'python-tornado' 'python-ji
 makedepends=('bower' 'npm')
 source=("https://github.com/jupyterhub/jupyterhub/archive/${pkgver}.tar.gz")
 sha512sums=('91d00b99dac8ba4ec424433549cb6a56b7719eb97fc75b86d6a33b56557a5cad60e43032e6ab9f83aa98d4629580f795f5ff41ae34a7598a0eca5055afbb8956')
+install=${pkgname}.install
 
 build() {
   cd "${srcdir}/jupyterhub-$pkgver"

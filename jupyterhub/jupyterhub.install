@@ -1,0 +1,7 @@
+post_upgrade() {
+  if [ "$(vercmp "$1" "0.7")" == "1" ] && [ "$(vercmp "$2" "0.7")" == "-1" ]
+  then
+    echo "Database format has changed."
+    echo "Call \"jupyterhub upgrade-db\" in all directories you're running jupyterhub to upgrade its database."
+  fi
+}
