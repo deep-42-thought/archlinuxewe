@@ -131,6 +131,18 @@ then
     then
       remVer="0.1"
     elif echo "${src}" | \
+      grep -q '^http://ftp.linux.org.uk/.*/netkit/'
+    then
+      quVer="${src%/*}/"
+      remVer="$(
+        curl "${quVer}" 2> /dev/null | \
+          tr '<>' '\n' | \
+          grep "^${pkgname#netkit-}-[0-9.-]\+\.tar\.gz\$" | \
+          sed "s|^${pkgname#netkit-}-\([0-9.-]\+\)\.tar\.gz\$|\1|" | \
+          sort -V | \
+          tail -n1
+      )"
+    elif echo "${src}" | \
       grep -q "//www\.mpich\.org/"
     then
       quVer="${src%/*/*}/"
