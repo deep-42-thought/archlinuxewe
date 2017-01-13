@@ -2,7 +2,7 @@
 # Contributor: Piotr Rogoża <piotr dot r dot public at gmail dot com>
 
 pkgname=perl-file-find-object
-pkgver=0.3.1
+pkgver=0.3.2
 pkgrel=1
 _author="S/SH/SHLOMIF"
 _distdir="File-Find-Object-v${pkgver}"
@@ -11,11 +11,11 @@ arch=('any')
 url="http://search.cpan.org/dist/File-Find-Object/"
 license=('GPL' 'PerlArtistic')
 provides=(
-  'perl-file-find-object-base=0.3.1'
-  'perl-file-find-object-deeppath=0.3.1'
-  'perl-file-find-object-pathcomp=0.3.1'
-  'perl-file-find-object-result=0.3.1'
-  'perl-file-find-object-toppath=0.3.1')
+  'perl-file-find-object-base=0.3.2'
+  'perl-file-find-object-deeppath=0.3.2'
+  'perl-file-find-object-pathcomp=0.3.2'
+  'perl-file-find-object-result=0.3.2'
+  'perl-file-find-object-toppath=0.3.2')
 depends=(
   'perl>=5.8.0'
   'perl-carp'
@@ -34,7 +34,7 @@ makedepends=(
 checkdepends=('perl-cpan-changes' 'perl-test-pod' 'perl-test-pod-coverage' 'perl-test-trailingspace')
 options=(!emptydirs)
 source=("http://search.cpan.org/CPAN/authors/id/$_author/${_distdir}.tar.gz")
-sha512sums=('b04bc13130d9ef8a9bf94feb047b797c833f124cfdcb8e20262678bd461f7fbf5f3c94363541d00de3c22c9e500cc36678cff5ff9a87936b1428d1ae74e03990')
+sha512sums=('58ca07083da520aee03945259ac89b6b584728d89ad52aea1a6f19a14da73fc92fcfc46c01656130d64fbc9fc9e4b1c5ef56274f30ebe3711972235dd8945956')
 
 build(){
   cd "$srcdir/${_distdir}"
