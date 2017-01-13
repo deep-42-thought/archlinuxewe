@@ -1,0 +1,36 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=mark-as-expendable-dir
+pkgver=0.0
+pkgrel=1
+pkgdesc="create CACHEDIR.TAG and .rsync-filter files"
+arch=('any')
+url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+license=('GPL')
+groups=()
+depends=()
+makedepends=('help2man')
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+)
+sha512sums=('443a6b7aed7b24f21ac3c5a0fe2d64a9c226da25289d4e757870640a0a089f14abfc41b067ebddf20be50a933d4027698ee685b626aa3b06d27cccb7b782eefd')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
