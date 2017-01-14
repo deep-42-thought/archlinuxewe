@@ -3,21 +3,21 @@
 # Generator  : CPANPLUS::Dist::Arch 1.32
 
 pkgname='perl-pegex'
-pkgver=0.61
+pkgver=0.62
 pkgrel=1
 pkgdesc="Acmeist PEG Parser Framework"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.1')
+  'perl>=5.10.0')
 makedepends=(
   'perl-extutils-makemaker'
   'perl-file-sharedir-install>=0.06'
-  'perl-yaml-xs')
+  'perl-yaml-libyaml')
 url='https://metacpan.org/release/Pegex'
 source=("http://search.cpan.org/CPAN/authors/id/I/IN/INGY/Pegex-${pkgver}.tar.gz")
-sha512sums=('0c7fc26865d42178d85621fabc454846812a204489658553d8546dd0afd5cdfec4032cb97de3ed4393d9fd050756b51ca7986a78b9e949436bcb5bf7d94c386a')
+sha512sums=('7ccbf886ac41391b0eff2a64194616e9b8563c1f12d5db01b879197480d852273a7dd106903b5d12bb4bfe72a009c6af57255f1029839486d2836f6c7e6c222f')
 _distdir="Pegex-${pkgver}"
 
 build() {
