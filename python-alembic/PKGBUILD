@@ -2,8 +2,8 @@
 # Contributor: googol <googol@posteo.de>
 # Former maintainer: Oliver Mangold <o.mangold at gmail dot com>
 pkgname=python-alembic
-pkgver=0.8.9
-pkgrel=2
+pkgver=0.8.10
+pkgrel=1
 pkgdesc="Alembic is a lightweight database migration tool for usage with the SQLAlchemy Database Toolkit for Python 3."
 arch=('any')
 url='https://bitbucket.org/zzzeek/alembic'
@@ -11,7 +11,7 @@ license=('MIT')
 depends=('python>=3.6' 'python<3.7' 'python-mako' 'python-sqlalchemy' 'python-editor')
 makedepends=('python-setuptools')
 source=("https://bitbucket.org/zzzeek/alembic/get/rel_${pkgver//./_}.tar.bz2")
-sha512sums=('f8b8c26f2e89000b8ba57dff59e25addbdd8f52c629c806e85d95e16f7db9c49e72ed2cf5daeeaafab85d2c6a58729f579fb74c323100a9a24430fa9c4302be2')
+sha512sums=('7c1147ebc7b8f08924e83e2d4c174d9c03b86d7f6b1208f5f7f29194a6faff531c5dec7f6f42a35a62569088b1dad987578f022df84b6ea2d017ddf35de5788c')
 
 build() {
   cd "${srcdir}/zzzeek-${pkgname#*-}-"*
