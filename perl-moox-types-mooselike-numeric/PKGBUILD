@@ -2,22 +2,24 @@
 # Generator : neuesPerlPaket (2234e1f408ad7a30313e9b3c153aadde5d1eb68bc0adcb75ee52d2927ebb42e5676317181b669be39442d556f1e0c24b108d6d45021c1dbc41e2f79c705c7ca7)
 
 pkgname='perl-moox-types-mooselike-numeric'
-pkgver='1.02'
-pkgrel='1'
+pkgver=1.03
+pkgrel=1
 pkgdesc='Moo types for numbers'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.6.0'
   'perl-moox-types-mooselike>=0.23')
 makedepends=(
   'perl-extutils-makemaker'
+  'perl-moo>=1.004002'
   'perl-test-fatal>=0.003'
   'perl-test-simple>=0.96')
 url='https://metacpan.org/release/MooX-Types-MooseLike-Numeric'
 _distdir="MooX-Types-MooseLike-Numeric-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MA/MATEU/${_distdir}.tar.gz")
-sha512sums=('d1df24ea1a9a59c0ffeb828c541a2cab562b2e95582991ca7b594de200ccc725309b0585adb3392b9c746d34bca243ed606e1a835e07a4dd91c5e3eb84050dc3')
+sha512sums=('34f35c6083f3338ba07031b90971ba8b432e5d9210b0b0a2ed4252401b8374301314372a3565a26cf86296fca418f63c35bf1fe495bdb4e7c8e6ee16c546ec54')
 
 build() {
   cd "${srcdir}/${_distdir}"
