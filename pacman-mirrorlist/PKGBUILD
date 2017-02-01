@@ -3,7 +3,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=pacman-mirrorlist
-pkgver=20170106
+pkgver=20170201
 pkgrel=1
 pkgdesc="Arch Linux mirror list for use by pacman"
 arch=('any')
@@ -11,7 +11,7 @@ url="https://www.archlinux.org/mirrorlist/"
 license=('GPL')
 backup=(etc/pacman.d/mirrorlist)
 source=("${pkgname}-${pkgver}-${pkgrel}-any-original.tar.xz::https://arch.eckner.net/core/os/$(uname -m)/${pkgname}-${pkgver}-${pkgrel}-any.pkg.tar.xz")
-sha512sums=('08f6e5bba2b39ca46ae6655b13e55dd2f3dcc0faf01bfff0c80e5f564492540e1109c7d049161e6f0ff2c545b13a387aebd47482f7322c7e0aa8b7143ce14c98')
+sha512sums=('9ffd0dca95a64c8d3a8103b7eb29140c8116307f069172b9a21845ebea79530cbc22196f1a7a1bcfeb9f3fc626c5374a04ef7682970a52b4c305741cb50d35e2')
 
 build() {
   cat etc/pacman.d/mirrorlist | \
