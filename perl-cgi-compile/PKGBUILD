@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-cgi-compile'
-pkgver='0.21'
-pkgrel='3'
+pkgver=0.22
+pkgrel=1
 pkgdesc='Compile .cgi scripts to a code reference like ModPerl::Registry'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -24,7 +24,7 @@ checkdepends=(
 url='https://metacpan.org/release/CGI-Compile'
 _distdir="CGI-Compile-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
-sha512sums=('0b26fbe4a38645df3aeae03647292125210147321ed9552bbd871824915fabaafdac8601667bddfb73038b7f096d19e1ba7a00acaa5dc28865c1f97247ad5e64')
+sha512sums=('58be714bd25975fbb66e4c83c197fa3c17219327859d965011706fda96d5c2f208831e52368c0b4b8ef6b0f462b9c8ea216d94d7ef30e904e21b818b134cc5b7')
 
 build() {
   cd "${srcdir}/${_distdir}"
