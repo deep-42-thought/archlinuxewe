@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-http-headers-fast'
-pkgver='0.20'
-pkgrel='2'
+pkgver=0.21
+pkgrel=1
 pkgdesc='faster implementation of HTTP::Headers'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -12,7 +12,7 @@ depends=(
   'perl>=5.8.1'
   'perl-http-date')
 makedepends=(
-  'perl-module-build>=0.38'
+  'perl-module-build-tiny>=0.035'
   'perl-test-requires'
   'perl-test-simple>=0.98')
 checkdepends=(
@@ -21,7 +21,7 @@ checkdepends=(
 url='https://metacpan.org/release/HTTP-Headers-Fast'
 _distdir="HTTP-Headers-Fast-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/${_distdir}.tar.gz")
-sha512sums=('45d8260bf03e0cea50b2cd8cff0ac373ee1aeadf880e77949cf48089014aa3a6668cbffcf3852d470f967e68ae3f403e1c2a5dc1a93b04fa4ab69148b3ce9b1b')
+sha512sums=('ce04b70f0748ee2d5911c772149b71c8c130d172267c11716151c1ca21b26e8c793af22227098d73a9253c9bfae57d618b6d67454c41862e2ba3a9798c067cf6')
 
 build() {
   cd "${srcdir}/${_distdir}"
