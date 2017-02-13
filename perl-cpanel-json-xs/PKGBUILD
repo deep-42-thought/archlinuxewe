@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-cpanel-json-xs'
-pkgver=3.0226
+pkgver=3.0227
 pkgrel=1
 pkgdesc='cPanel fork of JSON::XS, fast and correct serializing'
 arch=('x86_64' 'i686')
@@ -20,7 +20,7 @@ checkdepends=(
 url='https://metacpan.org/release/Cpanel-JSON-XS'
 _distdir="Cpanel-JSON-XS-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RU/RURBAN/${_distdir}.tar.gz")
-sha512sums=('282fd66d44f3322596a3f0312ce5ee8ba8333ed5351c61201f99a07bfe305d1f65b492f4e1ae05d08a6be98a37dba707b655d7bbff0133ecee27049826bd10de')
+sha512sums=('93a51246afab7feae6df204d63d84bef809c7aa07b524d08881afe77acba096704ab9f7ab9179efb8e446d3a7afc15024e8a82ea6a1111986fd122605d19d8ce')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
