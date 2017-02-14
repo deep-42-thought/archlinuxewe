@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (54bfd7cca693b229aa53ffc98d551b62ea234aaa5be7e6717857610a2da6803b0be2dfe7ddfe9810cf320c477023b3b4356d47df7f8c202ed8c14d71b472c0bc)
 
 pkgname='perl-devel-confess'
-pkgver='0.009003'
-pkgrel='1'
+pkgver=0.009004
+pkgrel=1
 pkgdesc='Include stack traces on all warnings and errors'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -13,7 +13,6 @@ depends=(
   'perl-carp'
   'perl-scalar-list-utils')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-file-temp'
   'perl-pathtools'
@@ -22,7 +21,7 @@ makedepends=(
 url='https://metacpan.org/release/Devel-Confess'
 _distdir="Devel-Confess-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/H/HA/HAARG/${_distdir}.tar.gz")
-sha512sums=('97e43f179b3c9a99ad1ce47e19411f3480808f9bb06139bff27d459f53e9e16f60aa843d04fe2615dbd98d92b7437118644e16e1dc2f7d3aee643fc610493d8f')
+sha512sums=('29f807e378bcb286d111f82f9ad564a610ca9813ba040a137ef149179c6909859f46a4a528eed6aea12162cdb291d8f79c7f7864c64b0ce77a44d16c3d207f25')
 
 build() {
   cd "${srcdir}/${_distdir}"
