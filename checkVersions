@@ -463,6 +463,21 @@ then
         )"
         [ -n "${remVer}" ] && break
       done
+    elif echo "${src}" | \
+      grep -q "http://www\.mkgmap\.org\.uk/download"
+    then
+      remUrl="$(
+        echo "${src}" | \
+          sed 's|-r[0-9]\+\.zip$|.html|'
+      )"
+      remVer="r$(
+        curl "${remUrl}" 2> /dev/null | \
+          grep '"text: current()\.version"' | \
+          tr '<>' '\n' |
+          grep '^[0-9]\+$' | \
+          sort -n | \
+          tail -n1
+      )"
     else
       continue
     fi
