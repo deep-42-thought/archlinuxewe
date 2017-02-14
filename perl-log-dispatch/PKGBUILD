@@ -1,35 +1,34 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-log-dispatch'
-pkgver=2.61
+pkgver=2.62
 pkgrel=1
 pkgdesc='Dispatches messages to one or more outputs'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-log-dispatch-apachelog=2.61'
-  'perl-log-dispatch-base=2.61'
-  'perl-log-dispatch-code=2.61'
-  'perl-log-dispatch-email=2.61'
-  'perl-log-dispatch-email-mailsend=2.61'
-  'perl-log-dispatch-email-mailsender=2.61'
-  'perl-log-dispatch-email-mailsendmail=2.61'
-  'perl-log-dispatch-email-mimelite=2.61'
-  'perl-log-dispatch-file=2.61'
-  'perl-log-dispatch-file-locked=2.61'
-  'perl-log-dispatch-handle=2.61'
-  'perl-log-dispatch-null=2.61'
-  'perl-log-dispatch-output=2.61'
-  'perl-log-dispatch-screen=2.61'
-  'perl-log-dispatch-syslog=2.61'
-  'perl-log-dispatch-types=2.61'
-  'perl-log-dispatch-vars=2.61')
+  'perl-log-dispatch-apachelog=2.62'
+  'perl-log-dispatch-base=2.62'
+  'perl-log-dispatch-code=2.62'
+  'perl-log-dispatch-email=2.62'
+  'perl-log-dispatch-email-mailsend=2.62'
+  'perl-log-dispatch-email-mailsender=2.62'
+  'perl-log-dispatch-email-mailsendmail=2.62'
+  'perl-log-dispatch-email-mimelite=2.62'
+  'perl-log-dispatch-file=2.62'
+  'perl-log-dispatch-file-locked=2.62'
+  'perl-log-dispatch-handle=2.62'
+  'perl-log-dispatch-null=2.62'
+  'perl-log-dispatch-output=2.62'
+  'perl-log-dispatch-screen=2.62'
+  'perl-log-dispatch-syslog=2.62'
+  'perl-log-dispatch-types=2.62'
+  'perl-log-dispatch-vars=2.62')
 depends=(
   'perl>=5.6.0'
   'perl-base'
   'perl-carp'
-  'perl-devel-confess'
   'perl-devel-globaldestruction'
   'perl-dist-checkconflicts>=0.02'
   'perl-encode'
@@ -67,7 +66,7 @@ checkdepends=(
 url='https://metacpan.org/release/Log-Dispatch'
 _distdir="Log-Dispatch-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
-sha512sums=('b93d613bf15300a6d439b0bb8a80b26d643b83bb53102d09362b2495668e72c774fc94e5beac913d0fbb80ba6821ec2d36712b167715fbb56ac70f5096421c3e')
+sha512sums=('cc4ca40e62d2ec3caffabafcab187e8122c0316d2165c21057afa1ad0c15eba4dbd4b5152219a5886b1445ab9d9502f7502cecbc31850a9429f5c79189ca76ce')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
