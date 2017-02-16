@@ -7,7 +7,7 @@
 
 pkgname=conky
 pkgver=1.10.6
-pkgrel=1
+pkgrel=2
 pkgdesc='Lightweight system monitor for X'
 url='https://github.com/brndnmtthws/conky'
 license=('BSD' 'GPL')
@@ -15,6 +15,7 @@ arch=('i686' 'x86_64')
 makedepends=('cmake' 'docbook2x' 'docbook-xml' 'man-db' 'git')
 depends=('glib2' 'lua' 'wireless_tools' 'libxdamage' 'libxinerama' 'libxft'
          'imlib2' 'libxml2' 'libpulse' 'libircclient')
+optdepends=('mounted')
 source=("https://github.com/brndnmtthws/conky/archive/v${pkgver}.tar.gz"
         'lua53.patch'
         'MAX_SP.patch'
@@ -22,7 +23,7 @@ source=("https://github.com/brndnmtthws/conky/archive/v${pkgver}.tar.gz"
 sha512sums=('ddd0b087e89654f8dace7d9682935a802b3bb22b7e65acd25dcc0f06e90b46bee695502d78b6e40a409f8eaffcd65a78d5f861ee6dbcbff6e48f88c2f20319c9'
             'a8f7184b0e21daaff137a07431c736269a94b654f50b45ac531cdb0d0edbfa8509def72254c36dce0ca4a1ee5ebae62aac5894f89cda2feae3d54cfcbd85377b'
             'ca23309b45a471b075fbebd2f6ec34b1d7b3198528056ddb3018af4010623a5de83a80ecfc98677b48676fd2600224c33772f55b515c897a3cc917997c70bb38'
-            '08b7c8cfd3b5c6646024d9f722912ebc63c245ab028b1528cd8c5bf4c1841bd1a354ef833355a8cdb9999a0a3549adb00274bedd94fc3fc1dca0d431c04d131a')
+            'b241860096fa8581ea1804e59725ea5efb7ff418d6aa7dc5a0a5255efefb27d98f2a4e34ba9953b7491315e93f15e60f8116fd30a5a46e23c52e5a14aa43c636')
 
 options=('!strip' 'debug')
 
