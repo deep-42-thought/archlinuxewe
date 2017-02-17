@@ -2,14 +2,14 @@
 # Generator : neuesPerlPaket (5872fdbe767f20dd006eece094815303adfcd3b336cb5ad02d10742b82e6f11e31530fef3b41a2af59678d729daebff83cde847dab68d62647f62cf8dc586685)
 
 pkgname='perl-path-tiny'
-pkgver=0.100
+pkgver=0.104
 pkgrel=1
 pkgdesc='File path utility'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-path-tiny-error=0.100')
+  'perl-path-tiny-error=0.104')
 optdepends=(
   'perl-unicode-utf8>=0.58')
 depends=(
@@ -34,7 +34,7 @@ checkdepends=(
 url='https://metacpan.org/release/Path-Tiny'
 _distdir="Path-Tiny-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/${_distdir}.tar.gz")
-sha512sums=('a1274d5caee59c9fda6fc5161cee3b4415d6d69104a7da1d5565060157546411466c135c80c2e9554313c3a0f18760c57d115b965f676b6e3622ceac747655bf')
+sha512sums=('6574e48645ebb4f61d45c1365e8b63cfaac6423394ba08363cfd62d3d98d163bd333d997bf5f7fd0e37ff94fcb3a3e19871eb7499b295399f048fd6a4bd3c78c')
 
 build() {
   cd "${srcdir}/${_distdir}"
