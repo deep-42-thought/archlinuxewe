@@ -325,8 +325,16 @@ then
       remVer=$( \
         curl "${quVer}" 2> /dev/null | \
           tr "\"" "\n" | \
-          grep "^${quNam}[0-9.]\+\$" | \
-          sed "s|^${quNam}||" | \
+          grep "^${quNam}v\?[0-9.]\+\$" | \
+          sed "s|^${quNam}v\?||" | \
+          (
+            if [ "${pkgname}" == "conky" ]
+            then
+              grep -v '\.999$'
+            else
+              cat
+            fi
+          ) | \
           sort -V | \
           tail -n1 \
       )
