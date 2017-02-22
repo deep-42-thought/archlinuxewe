@@ -86,6 +86,12 @@ then
   exit 0
 fi
 
+if [ -z "${remVer}" ]
+then
+  >&2 echo '... remote Version not determined.'
+  exit 0
+fi
+
 cd "${paket}"
 
 sed 's|pkgver=.*$|pkgver='"${remVer}"'|;
