@@ -49,8 +49,8 @@ then
   >&2 echo 'bumping versions of all packages ...'
   "${me}" $(
       (
-        ls "${myDir}"/*/PKGBUILD | \
-          sed 's|^.*/\([^/]\+\)/PKGBUILD$|\1|'
+        "${myDir}/checkVersions" --noUpdate | \
+          cut -d: -f1
         echo "${nichtPakete}"
         echo "${nichtPakete}"
       ) | \
