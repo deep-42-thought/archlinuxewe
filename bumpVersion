@@ -60,6 +60,7 @@ then
   exit $?
 elif [ $# -gt 1 ]
 then
+  [ -n "${nichtPakete}" ] && verwendung
   err=0
   for pkg in "$@"
   do
@@ -69,6 +70,7 @@ then
   done
   exit ${err}
 fi
+[ -n "${nichtPakete}" ] && verwendung
 
 paket="${1%/}"
 >&2 echo "bumping '${paket}' ..."
