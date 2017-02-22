@@ -3,10 +3,60 @@
 me="$(readlink -f "$0")"
 myDir="$(dirname "${me}")"
 
+verwendung() {
+  >&2 echo ''
+  >&2 echo "$(basename "$0")"': aktualisiere Version von Paketen in archlinuxewe'
+  >&2 echo ''
+  >&2 echo 'mögliche Optionen:'
+  >&2 echo '  -h|--help:             zeige diese Hilfe'
+  >&2 echo '  -n|--nicht $paket:     ignoriere Paket $paket'
+  [ -z "$1" ] && exit 1 || exit $1
+}
+
+eval set -- "$(
+  getopt -o hn: \
+    --long help \
+    --long nicht: \
+    -n "$(basename "$0")" -- "$@" || \
+    echo verwendung
+)"
+
+unset nichtPakete
+
+while true
+do
+  case "$1" in
+    -h|--help)
+      verwendung 0
+    ;;
+    -n|--nicht)
+      shift
+      nichtPakete="${nichtPakete}$(printf '\n')$1"
+    ;;
+    --)
+      shift
+      break
+    ;;
+    *)
+      >&2 echo 'Hups, das sollte nicht passieren können, Option '"$1"' kenne ich doch nicht ...'
+      exit -1
+  esac
+  shift
+done
+
 if [ $# -eq 0 ]
 then
   >&2 echo 'bumping versions of all packages ...'
-  "${me}" $(ls "${myDir}"/*/PKGBUILD | sed 's|^.*/\([^/]\+\)/PKGBUILD$|\1|')
+  "${me}" $(
+      (
+        ls "${myDir}"/*/PKGBUILD | \
+          sed 's|^.*/\([^/]\+\)/PKGBUILD$|\1|'
+        echo "${nichtPakete}"
+        echo "${nichtPakete}"
+      ) | \
+        sort | \
+        uniq -u
+    )
   exit $?
 elif [ $# -gt 1 ]
 then
