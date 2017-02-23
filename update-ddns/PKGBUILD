@@ -1,0 +1,36 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=update-ddns
+pkgver=0.0
+pkgrel=1
+pkgdesc="Script to update freedns.afraid.org's ddns entries if necessary"
+arch=('any')
+url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+license=('GPL')
+groups=()
+depends=('curl' 'iproute2' 'bind-tools')
+makedepends=('help2man')
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=('etc/update-ddns.conf')
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+)
+sha512sums=('22e76619ee22623723a92c783bd1f483512ebc76c7459f058cf4f64954ebcfc9239d063055957fa7977e1e26118b81ba66698ef91fbf4ca7c7e4d90eeb9cdc80')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
