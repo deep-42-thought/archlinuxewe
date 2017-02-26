@@ -31,7 +31,7 @@ do
     ;;
     -n|--nicht)
       shift
-      nichtPakete="${nichtPakete}$(printf '\n')$1"
+      nichtPakete="$(printf '%s\n%s' "${nichtPakete}" "$1" | grep -v '^$')"
     ;;
     --)
       shift
