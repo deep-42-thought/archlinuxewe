@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-lwp-consolelogger'
-pkgver=0.000034
+pkgver=0.000035
 pkgrel=1
 pkgdesc='Easy LWP tracing and debugging'
 arch=('any')
@@ -11,12 +11,14 @@ optdepends=(
   'perl-html-formattext-lynx>=23')
 depends=(
   'perl>=5.13.10'
+  'perl-class-method-modifiers'
   'perl-data-printer>=0.36'
   'perl-datetime'
   'perl-html-restrict'
   'perl-http-body'
   'perl-http-cookiemonster'
   'perl-json-maybexs>=1.003005'
+  'perl-libwww'
   'perl-list-allutils'
   'perl-log-dispatch>=2.56'
   'perl-module-load-conditional'
@@ -34,10 +36,10 @@ depends=(
   'perl-uri-query'
   'perl-xml-simple')
 makedepends=(
+  'perl-capture-tiny'
   'perl-extutils-makemaker'
   'perl-html-formattext-withlinks'
   'perl-http-message'
-  'perl-libwww'
   'perl-log-dispatch-array'
   'perl-path-tiny'
   'perl-plack'
@@ -67,7 +69,7 @@ checkdepends=(
 url='https://metacpan.org/release/LWP-ConsoleLogger'
 _distdir="LWP-ConsoleLogger-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
-sha512sums=('a60bb752cd62670b9f6e131758791d09cf1e665f8651c3a7b6256e6674b1dd05bccc4341784b293d6bd735a0f0bb66e3dbf6379c3861550ef8352495a8669f7e')
+sha512sums=('693b4f9592f3c1f8fdb5dc6990fe87c3714c3c9ed022202f5ad36c6271eee29c87968323aeeb1fdb7fbb759122f1eadd9f22867e8edddc946e80325fb3d76878')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
