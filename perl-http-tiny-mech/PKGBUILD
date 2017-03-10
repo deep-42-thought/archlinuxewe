@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (2234e1f408ad7a30313e9b3c153aadde5d1eb68bc0adcb75ee52d2927ebb42e5676317181b669be39442d556f1e0c24b108d6d45021c1dbc41e2f79c705c7ca7)
 
 pkgname='perl-http-tiny-mech'
-pkgver='1.001001'
-pkgrel='2'
+pkgver=1.001002
+pkgrel=1
 pkgdesc='Wrap a WWW::Mechanize instance in an HTTP::Tiny compatible interface.'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -16,12 +16,13 @@ depends=(
   'perl-www-mechanize')
 makedepends=(
   'perl-extutils-makemaker'
+  'perl-lib'
   'perl-pathtools'
-  'perl-test-simple>=0.89')
+  'perl-test-simple')
 url='https://metacpan.org/release/HTTP-Tiny-Mech'
 _distdir="HTTP-Tiny-Mech-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/K/KE/KENTNL/${_distdir}.tar.gz")
-sha512sums=('c933bf331a53853e218b3c9a2f5deeeae8e265706ddce920396dc3f3e29548b773f9ed5a319a0db3fcb5b8730d0ee651dbe89e39ca29c3d9052ff2a863360550')
+sha512sums=('0791e827924abbf979c677f0f759de6b5942eb7df53e25de83d4f10d87bb4a7c176d7c1d87621c56d22fc1877552f7c927f40896782544ae10410214d364a967')
 
 build() {
   cd "${srcdir}/${_distdir}"
