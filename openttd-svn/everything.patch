@@ -1,5 +1,5 @@
 diff --git a/.gitignore b/.gitignore
-index cb1e9d159..e6d489380 100644
+index 2b298a14a..7c159f927 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -6,6 +6,7 @@ bin/ai/*
@@ -8,8 +8,8 @@ index cb1e9d159..e6d489380 100644
  !bin/baseset/openttd.grf
 +!bin/baseset/clipboard.grf
  !bin/baseset/opntitle.dat
+ !bin/baseset/orig_extra.grf
  !bin/baseset/orig_*.obg
- !bin/baseset/orig_*.obs
 diff --git a/config.lib b/config.lib
 index 3d10aaa3f..316678157 100644
 --- a/config.lib
@@ -5577,7 +5577,7 @@ index 359709e36..896ecd921 100644
  	}
  
 diff --git a/src/gfxinit.cpp b/src/gfxinit.cpp
-index 10bc0afa1..d17031084 100644
+index 06534ad29..c9ee5661a 100644
 --- a/src/gfxinit.cpp
 +++ b/src/gfxinit.cpp
 @@ -193,6 +193,9 @@ static void LoadSpriteTables()
@@ -5873,10 +5873,10 @@ index 185e84a80..e574c0799 100644
  
  	/* We update every tile every 256 ticks, so divide the map size by 2^8 = 256 */
 diff --git a/src/lang/afrikaans.txt b/src/lang/afrikaans.txt
-index 541b8262f..d570ba86f 100644
+index 377c92846..a169fa7c5 100644
 --- a/src/lang/afrikaans.txt
 +++ b/src/lang/afrikaans.txt
-@@ -4879,10 +4879,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4876,10 +4876,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Spektator, {1:STRING}
  
  # Viewport strings
@@ -5896,10 +5896,10 @@ index 541b8262f..d570ba86f 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/basque.txt b/src/lang/basque.txt
-index 83d22fcfb..75126cc38 100644
+index 1db1ed48e..175e96440 100644
 --- a/src/lang/basque.txt
 +++ b/src/lang/basque.txt
-@@ -4725,10 +4725,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4739,10 +4739,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Ikuslea, {1:STRING}
  
  # Viewport strings
@@ -5919,10 +5919,10 @@ index 83d22fcfb..75126cc38 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/catalan.txt b/src/lang/catalan.txt
-index c864f63c3..2c596a7fc 100644
+index 7d407a0b6..a79364242 100644
 --- a/src/lang/catalan.txt
 +++ b/src/lang/catalan.txt
-@@ -4881,10 +4881,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4884,10 +4884,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :{G=Masculin}Espectador, {1:STRING}
  
  # Viewport strings
@@ -5942,10 +5942,10 @@ index c864f63c3..2c596a7fc 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/danish.txt b/src/lang/danish.txt
-index 9bd2a95a4..5886d18c8 100644
+index 5fdc19c51..1fa43462a 100644
 --- a/src/lang/danish.txt
 +++ b/src/lang/danish.txt
-@@ -4878,10 +4878,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4875,10 +4875,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Tilskuer, {1:STRING}
  
  # Viewport strings
@@ -5965,7 +5965,7 @@ index 9bd2a95a4..5886d18c8 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/dutch.txt b/src/lang/dutch.txt
-index 4053c578b..4e93555a1 100644
+index 541d07b14..e2329c619 100644
 --- a/src/lang/dutch.txt
 +++ b/src/lang/dutch.txt
 @@ -4878,10 +4878,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -5988,7 +5988,7 @@ index 4053c578b..4e93555a1 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index 0b8406e24..f48596117 100644
+index 505356f08..3849dd21d 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -232,6 +232,7 @@ STR_TOOLTIP_GROUP_ORDER                                         :{BLACK}Select g
@@ -6060,7 +6060,7 @@ index 0b8406e24..f48596117 100644
  STR_CONFIG_SETTING_SERVINT_ISPERCENT                            :Service intervals are in percents: {STRING2}
  STR_CONFIG_SETTING_SERVINT_ISPERCENT_HELPTEXT                   :Choose whether servicing of vehicles is triggered by the time passed since last service or by reliability dropping by a certain percentage of the maximum reliability
  STR_CONFIG_SETTING_SERVINT_TRAINS                               :Default service interval for trains: {STRING2}
-@@ -2275,6 +2286,7 @@ STR_TRANSPARENT_BRIDGES_TOOLTIP                                 :{BLACK}Toggle t
+@@ -2276,6 +2287,7 @@ STR_TRANSPARENT_BRIDGES_TOOLTIP                                 :{BLACK}Toggle t
  STR_TRANSPARENT_STRUCTURES_TOOLTIP                              :{BLACK}Toggle transparency for structures like lighthouses and antennas. Ctrl+Click to lock
  STR_TRANSPARENT_CATENARY_TOOLTIP                                :{BLACK}Toggle transparency for catenary. Ctrl+Click to lock
  STR_TRANSPARENT_LOADING_TOOLTIP                                 :{BLACK}Toggle transparency for loading indicators. Ctrl+Click to lock
@@ -6068,7 +6068,7 @@ index 0b8406e24..f48596117 100644
  STR_TRANSPARENT_INVISIBLE_TOOLTIP                               :{BLACK}Set objects invisible instead of transparent
  
  # Linkgraph legend window
-@@ -2385,6 +2397,35 @@ STR_BRIDGE_NAME_CONCRETE                                        :Concrete
+@@ -2386,6 +2398,35 @@ STR_BRIDGE_NAME_CONCRETE                                        :Concrete
  STR_BRIDGE_NAME_TUBULAR_STEEL                                   :Tubular, Steel
  STR_BRIDGE_TUBULAR_SILICON                                      :Tubular, Silicon
  
@@ -6104,7 +6104,7 @@ index 0b8406e24..f48596117 100644
  
  # Road construction toolbar
  STR_ROAD_TOOLBAR_ROAD_CONSTRUCTION_CAPTION                      :{WHITE}Road Construction
-@@ -2474,6 +2515,7 @@ STR_LANDSCAPING_TOOLBAR                                         :{WHITE}Landscap
+@@ -2475,6 +2516,7 @@ STR_LANDSCAPING_TOOLBAR                                         :{WHITE}Landscap
  STR_LANDSCAPING_TOOLTIP_LOWER_A_CORNER_OF_LAND                  :{BLACK}Lower a corner of land. Dragging lowers the first selected corner and levels the selected area to the new corner height. Ctrl selects the area diagonally. Shift toggles building/showing cost estimate
  STR_LANDSCAPING_TOOLTIP_RAISE_A_CORNER_OF_LAND                  :{BLACK}Raise a corner of land. Dragging raises the first selected corner and levels the selected area to the new corner height. Ctrl selects the area diagonally. Shift toggles building/showing cost estimate
  STR_LANDSCAPING_LEVEL_LAND_TOOLTIP                              :{BLACK}Level an area of land to the height of the first selected corner. Ctrl selects the area diagonally. Shift toggles building/showing cost estimate
@@ -6112,7 +6112,7 @@ index 0b8406e24..f48596117 100644
  STR_LANDSCAPING_TOOLTIP_PURCHASE_LAND                           :{BLACK}Purchase land for future use. Shift toggles building/showing cost estimate
  
  # Object construction window
-@@ -2550,6 +2592,12 @@ STR_FUND_INDUSTRY_PROSPECT_NEW_INDUSTRY                         :{BLACK}Prospect
+@@ -2551,6 +2593,12 @@ STR_FUND_INDUSTRY_PROSPECT_NEW_INDUSTRY                         :{BLACK}Prospect
  STR_FUND_INDUSTRY_BUILD_NEW_INDUSTRY                            :{BLACK}Build
  STR_FUND_INDUSTRY_FUND_NEW_INDUSTRY                             :{BLACK}Fund
  
@@ -6125,7 +6125,7 @@ index 0b8406e24..f48596117 100644
  # Industry cargoes window
  STR_INDUSTRY_CARGOES_INDUSTRY_CAPTION                           :{WHITE}Industry chain for {STRING} industry
  STR_INDUSTRY_CARGOES_CARGO_CAPTION                              :{WHITE}Industry chain for {STRING} cargo
-@@ -2659,8 +2707,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -2660,8 +2708,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -6136,7 +6136,7 @@ index 0b8406e24..f48596117 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_SUSPENSION_STEEL                :Steel suspension rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
-@@ -2754,6 +2804,7 @@ STR_MAPGEN_HEIGHTMAP_ROTATION                                   :{BLACK}Heightma
+@@ -2755,6 +2805,7 @@ STR_MAPGEN_HEIGHTMAP_ROTATION                                   :{BLACK}Heightma
  STR_MAPGEN_HEIGHTMAP_NAME                                       :{BLACK}Heightmap name:
  STR_MAPGEN_HEIGHTMAP_SIZE_LABEL                                 :{BLACK}Size:
  STR_MAPGEN_HEIGHTMAP_SIZE                                       :{ORANGE}{NUM} x {NUM}
@@ -6144,7 +6144,7 @@ index 0b8406e24..f48596117 100644
  
  STR_MAPGEN_MAX_HEIGHTLEVEL_QUERY_CAPT                           :{WHITE}Change maximum map height
  STR_MAPGEN_SNOW_LINE_QUERY_CAPT                                 :{WHITE}Change snow line height
-@@ -3160,6 +3211,8 @@ STR_CARGO_RATING_OUTSTANDING                                    :Outstanding
+@@ -3159,6 +3210,8 @@ STR_CARGO_RATING_OUTSTANDING                                    :Outstanding
  STR_STATION_VIEW_CENTER_TOOLTIP                                 :{BLACK}Centre main view on station location. Ctrl+Click opens a new viewport on station location
  STR_STATION_VIEW_RENAME_TOOLTIP                                 :{BLACK}Change name of station
  
@@ -6153,7 +6153,7 @@ index 0b8406e24..f48596117 100644
  STR_STATION_VIEW_SCHEDULED_TRAINS_TOOLTIP                       :{BLACK}Show all trains which have this station on their schedule
  STR_STATION_VIEW_SCHEDULED_ROAD_VEHICLES_TOOLTIP                :{BLACK}Show all road vehicles which have this station on their schedule
  STR_STATION_VIEW_SCHEDULED_AIRCRAFT_TOOLTIP                     :{BLACK}Show all aircraft which have this station on their schedule
-@@ -3364,6 +3417,9 @@ STR_GROUP_REMOVE_ALL_VEHICLES                                   :Remove all vehi
+@@ -3367,6 +3420,9 @@ STR_GROUP_REMOVE_ALL_VEHICLES                                   :Remove all vehi
  
  STR_GROUP_RENAME_CAPTION                                        :{BLACK}Rename a group
  
@@ -6163,7 +6163,7 @@ index 0b8406e24..f48596117 100644
  # Build vehicle window
  STR_BUY_VEHICLE_TRAIN_RAIL_CAPTION                              :New Rail Vehicles
  STR_BUY_VEHICLE_TRAIN_ELRAIL_CAPTION                            :New Electric Rail Vehicles
-@@ -4129,6 +4185,8 @@ STR_ERROR_TREE_PLANT_LIMIT_REACHED                              :{WHITE}... tree
+@@ -4132,6 +4188,8 @@ STR_ERROR_TREE_PLANT_LIMIT_REACHED                              :{WHITE}... tree
  STR_ERROR_NAME_MUST_BE_UNIQUE                                   :{WHITE}Name must be unique
  STR_ERROR_GENERIC_OBJECT_IN_THE_WAY                             :{WHITE}{1:STRING} in the way
  STR_ERROR_NOT_ALLOWED_WHILE_PAUSED                              :{WHITE}Not allowed while paused
@@ -6172,7 +6172,7 @@ index 0b8406e24..f48596117 100644
  
  # Local authority errors
  STR_ERROR_LOCAL_AUTHORITY_REFUSES_TO_ALLOW_THIS                 :{WHITE}{TOWN} local authority refuses to allow this
-@@ -4208,6 +4266,8 @@ STR_ERROR_CAN_T_BUILD_DOCK_HERE                                 :{WHITE}Can't bu
+@@ -4211,6 +4269,8 @@ STR_ERROR_CAN_T_BUILD_DOCK_HERE                                 :{WHITE}Can't bu
  STR_ERROR_CAN_T_BUILD_AIRPORT_HERE                              :{WHITE}Can't build airport here...
  
  STR_ERROR_ADJOINS_MORE_THAN_ONE_EXISTING                        :{WHITE}Adjoins more than one existing station/loading area
@@ -6181,7 +6181,7 @@ index 0b8406e24..f48596117 100644
  STR_ERROR_STATION_TOO_SPREAD_OUT                                :{WHITE}... station too spread out
  STR_ERROR_TOO_MANY_STATIONS_LOADING                             :{WHITE}Too many stations/loading areas
  STR_ERROR_TOO_MANY_STATION_SPECS                                :{WHITE}Too many railway station parts
-@@ -4357,6 +4417,10 @@ STR_ERROR_COMPANY_HEADQUARTERS_IN                               :{WHITE}... comp
+@@ -4360,6 +4420,10 @@ STR_ERROR_COMPANY_HEADQUARTERS_IN                               :{WHITE}... comp
  STR_ERROR_CAN_T_PURCHASE_THIS_LAND                              :{WHITE}Can't purchase this land area...
  STR_ERROR_YOU_ALREADY_OWN_IT                                    :{WHITE}... you already own it!
  
@@ -6192,7 +6192,7 @@ index 0b8406e24..f48596117 100644
  # Group related errors
  STR_ERROR_GROUP_CAN_T_CREATE                                    :{WHITE}Can't create group...
  STR_ERROR_GROUP_CAN_T_DELETE                                    :{WHITE}Can't delete this group...
-@@ -4880,10 +4944,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4883,10 +4947,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Spectator, {1:STRING1}
  
  # Viewport strings
@@ -6211,7 +6211,7 @@ index 0b8406e24..f48596117 100644
  
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
-@@ -4941,6 +5013,7 @@ STR_DATE_LONG_SMALL                                             :{TINY_FONT}{BLA
+@@ -4944,6 +5016,7 @@ STR_DATE_LONG_SMALL                                             :{TINY_FONT}{BLA
  STR_TINY_GROUP                                                  :{TINY_FONT}{GROUP}
  STR_BLACK_INT                                                   :{BLACK}{NUM}
  STR_ORANGE_INT                                                  :{ORANGE}{NUM}
@@ -6220,10 +6220,10 @@ index 0b8406e24..f48596117 100644
  STR_TINY_BLACK_STATION                                          :{TINY_FONT}{BLACK}{STATION}
  STR_BLACK_STRING                                                :{BLACK}{STRING}
 diff --git a/src/lang/estonian.txt b/src/lang/estonian.txt
-index d3283c128..70ef9c016 100644
+index 4ce9d6347..deda66f61 100644
 --- a/src/lang/estonian.txt
 +++ b/src/lang/estonian.txt
-@@ -4936,10 +4936,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4933,10 +4933,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Vaatleja, {1:STRING}
  
  # Viewport strings
@@ -6243,10 +6243,10 @@ index d3283c128..70ef9c016 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/faroese.txt b/src/lang/faroese.txt
-index c51b54e47..ec7a3afb0 100644
+index b121d9cb8..fa92ddc13 100644
 --- a/src/lang/faroese.txt
 +++ b/src/lang/faroese.txt
-@@ -4382,10 +4382,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4381,10 +4381,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Eygleiðari, {1:STRING}
  
  # Viewport strings
@@ -6266,7 +6266,7 @@ index c51b54e47..ec7a3afb0 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/german.txt b/src/lang/german.txt
-index ce4d80f28..5bc303f72 100644
+index 8a7bf51d3..a8327ceec 100644
 --- a/src/lang/german.txt
 +++ b/src/lang/german.txt
 @@ -233,6 +233,7 @@ STR_TOOLTIP_GROUP_ORDER                                         :{BLACK}Gruppier
@@ -6334,7 +6334,7 @@ index ce4d80f28..5bc303f72 100644
  # Industry cargoes window
  STR_INDUSTRY_CARGOES_INDUSTRY_CAPTION                           :{WHITE}Produktionskette für {STRING}
  STR_INDUSTRY_CARGOES_CARGO_CAPTION                              :{WHITE}Produktionskette für {STRING}
-@@ -3160,6 +3176,8 @@ STR_CARGO_RATING_OUTSTANDING                                    :Hervorragend
+@@ -3158,6 +3174,8 @@ STR_CARGO_RATING_OUTSTANDING                                    :Hervorragend
  STR_STATION_VIEW_CENTER_TOOLTIP                                 :{BLACK}Hauptansicht zur Station scrollen. Strg+Klick öffnet neue Zusatzansicht bei der Station
  STR_STATION_VIEW_RENAME_TOOLTIP                                 :{BLACK}Namen der Station ändern
  
@@ -6343,7 +6343,7 @@ index ce4d80f28..5bc303f72 100644
  STR_STATION_VIEW_SCHEDULED_TRAINS_TOOLTIP                       :{BLACK}Alle Züge, die diesen Bahnhof anfahren, anzeigen
  STR_STATION_VIEW_SCHEDULED_ROAD_VEHICLES_TOOLTIP                :{BLACK}Alle Straßenfahrzeuge, die diese Station anfahren, anzeigen
  STR_STATION_VIEW_SCHEDULED_AIRCRAFT_TOOLTIP                     :{BLACK}Alle Flugzeuge, die diesen Flughafen anfliegen, anzeigen
-@@ -3364,6 +3382,9 @@ STR_GROUP_REMOVE_ALL_VEHICLES                                   :Liste leeren
+@@ -3361,6 +3379,9 @@ STR_GROUP_REMOVE_ALL_VEHICLES                                   :Liste leeren
  
  STR_GROUP_RENAME_CAPTION                                        :{BLACK}Gruppe umbenennen
  
@@ -6353,7 +6353,7 @@ index ce4d80f28..5bc303f72 100644
  # Build vehicle window
  STR_BUY_VEHICLE_TRAIN_RAIL_CAPTION                              :Neue Schienenfahrzeuge
  STR_BUY_VEHICLE_TRAIN_ELRAIL_CAPTION                            :Neue elektrische Schienenfahrzeuge
-@@ -4879,10 +4900,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4876,10 +4897,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Zuschauer, {1:STRING}
  
  # Viewport strings
@@ -6373,10 +6373,10 @@ index ce4d80f28..5bc303f72 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/icelandic.txt b/src/lang/icelandic.txt
-index 768479531..fb0155c9c 100644
+index 55a54c2d6..67e0edc2c 100644
 --- a/src/lang/icelandic.txt
 +++ b/src/lang/icelandic.txt
-@@ -4637,10 +4637,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4634,10 +4634,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Áhorfandi, {1:STRING}
  
  # Viewport strings
@@ -6396,10 +6396,10 @@ index 768479531..fb0155c9c 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/indonesian.txt b/src/lang/indonesian.txt
-index 3f584902d..326d4fcbb 100644
+index 35b8db252..bcf7f1b97 100644
 --- a/src/lang/indonesian.txt
 +++ b/src/lang/indonesian.txt
-@@ -4874,10 +4874,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4871,10 +4871,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Penonton, {1:STRING}
  
  # Viewport strings
@@ -6419,10 +6419,10 @@ index 3f584902d..326d4fcbb 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/italian.txt b/src/lang/italian.txt
-index 9e7e3695e..71a716148 100644
+index cb75eaf92..c0e8cb142 100644
 --- a/src/lang/italian.txt
 +++ b/src/lang/italian.txt
-@@ -4910,10 +4910,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4913,10 +4913,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Spettatore, {1:STRING}
  
  # Viewport strings
@@ -6442,7 +6442,7 @@ index 9e7e3695e..71a716148 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/luxembourgish.txt b/src/lang/luxembourgish.txt
-index 9e0637598..b0f701834 100644
+index 37aec445d..5d1fe244d 100644
 --- a/src/lang/luxembourgish.txt
 +++ b/src/lang/luxembourgish.txt
 @@ -4878,10 +4878,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -6465,10 +6465,10 @@ index 9e0637598..b0f701834 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/norwegian_nynorsk.txt b/src/lang/norwegian_nynorsk.txt
-index b01879089..5871f7b20 100644
+index aa455f5ef..38e5033c3 100644
 --- a/src/lang/norwegian_nynorsk.txt
 +++ b/src/lang/norwegian_nynorsk.txt
-@@ -4792,10 +4792,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4789,10 +4789,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Tilskuar, {1:STRING}
  
  # Viewport strings
@@ -6488,10 +6488,10 @@ index b01879089..5871f7b20 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/portuguese.txt b/src/lang/portuguese.txt
-index 1b515c4e6..a77c0b106 100644
+index 552456b08..3a4535864 100644
 --- a/src/lang/portuguese.txt
 +++ b/src/lang/portuguese.txt
-@@ -4879,10 +4879,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4876,10 +4876,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Espectador, {1:STRING}
  
  # Viewport strings
@@ -6511,10 +6511,10 @@ index 1b515c4e6..a77c0b106 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/spanish.txt b/src/lang/spanish.txt
-index 8b5f8988c..e0941b6a8 100644
+index 37b033277..1d5ddade8 100644
 --- a/src/lang/spanish.txt
 +++ b/src/lang/spanish.txt
-@@ -4881,10 +4881,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4878,10 +4878,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Espectador, {1:STRING}
  
  # Viewport strings
@@ -7606,7 +7606,7 @@ index 1aaf98434..2258d9a8e 100644
  
  #endif /* OBJECT_MAP_H */
 diff --git a/src/openttd.cpp b/src/openttd.cpp
-index 58f011b08..a263951a3 100644
+index 10c31e904..f423fe764 100644
 --- a/src/openttd.cpp
 +++ b/src/openttd.cpp
 @@ -57,6 +57,7 @@
@@ -7617,7 +7617,7 @@ index 58f011b08..a263951a3 100644
  #include "game/game.hpp"
  #include "game/game_config.hpp"
  #include "town.h"
-@@ -963,6 +964,24 @@ static void MakeNewGameDone()
+@@ -962,6 +963,24 @@ static void MakeNewGameDone()
  	MarkWholeScreenDirty();
  }
  
@@ -7642,7 +7642,7 @@ index 58f011b08..a263951a3 100644
  static void MakeNewGame(bool from_heightmap, bool reset_settings)
  {
  	_game_mode = GM_NORMAL;
-@@ -970,6 +989,7 @@ static void MakeNewGame(bool from_heightmap, bool reset_settings)
+@@ -969,6 +988,7 @@ static void MakeNewGame(bool from_heightmap, bool reset_settings)
  	ResetGRFConfig(true);
  
  	GenerateWorldSetCallback(&MakeNewGameDone);
@@ -7650,7 +7650,7 @@ index 58f011b08..a263951a3 100644
  	GenerateWorld(from_heightmap ? GWM_HEIGHTMAP : GWM_NEWGAME, 1 << _settings_game.game_creation.map_x, 1 << _settings_game.game_creation.map_y, reset_settings);
  }
  
-@@ -985,6 +1005,7 @@ static void MakeNewEditorWorld()
+@@ -984,6 +1004,7 @@ static void MakeNewEditorWorld()
  	ResetGRFConfig(true);
  
  	GenerateWorldSetCallback(&MakeNewEditorWorldDone);
@@ -7658,7 +7658,7 @@ index 58f011b08..a263951a3 100644
  	GenerateWorld(GWM_EMPTY, 1 << _settings_game.game_creation.map_x, 1 << _settings_game.game_creation.map_y);
  }
  
-@@ -1073,8 +1094,13 @@ void SwitchToMode(SwitchMode new_mode)
+@@ -1072,8 +1093,13 @@ void SwitchToMode(SwitchMode new_mode)
  		}
  	}
  #endif /* ENABLE_NETWORK */
@@ -7674,7 +7674,7 @@ index 58f011b08..a263951a3 100644
  
  	switch (new_mode) {
  		case SM_EDITOR: // Switch to scenario editor
-@@ -1131,6 +1157,7 @@ void SwitchToMode(SwitchMode new_mode)
+@@ -1130,6 +1156,7 @@ void SwitchToMode(SwitchMode new_mode)
  		case SM_LOAD_HEIGHTMAP: // Load heightmap from scenario editor
  			SetLocalCompany(OWNER_NONE);
  
@@ -7682,7 +7682,7 @@ index 58f011b08..a263951a3 100644
  			GenerateWorld(GWM_HEIGHTMAP, 1 << _settings_game.game_creation.map_x, 1 << _settings_game.game_creation.map_y);
  			MarkWholeScreenDirty();
  			break;
-@@ -1173,6 +1200,7 @@ void SwitchToMode(SwitchMode new_mode)
+@@ -1172,6 +1199,7 @@ void SwitchToMode(SwitchMode new_mode)
  
  		case SM_GENRANDLAND: // Generate random land within scenario editor
  			SetLocalCompany(OWNER_NONE);
@@ -7970,7 +7970,7 @@ index 79598ec4a..d60cb878c 100644
  /**
   * Finds out if a company has a certain railtype available
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index a5face14c..b3bf6d695 100644
+index 5582666b1..477549f6a 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -11,6 +11,7 @@
@@ -9182,7 +9182,7 @@ index 2431a7920..b185d155f 100644
  
  #endif /* RAIL_MAP_H */
 diff --git a/src/rev.cpp.in b/src/rev.cpp.in
-index 899a565bb..1d9f5720f 100644
+index b6bddeacf..01dafdba6 100644
 --- a/src/rev.cpp.in
 +++ b/src/rev.cpp.in
 @@ -39,7 +39,7 @@ bool IsReleasedVersion()
@@ -9195,7 +9195,7 @@ index 899a565bb..1d9f5720f 100644
  /**
   * The text version of OpenTTD's build date.
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index 6482a14b1..8352efebf 100644
+index 5e432a2e6..7ee8acac8 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -11,6 +11,7 @@
@@ -9474,7 +9474,7 @@ index c4af229d5..c6ea68ccb 100644
  
  /**
 diff --git a/src/road_gui.cpp b/src/road_gui.cpp
-index 62c76bf90..fe1680b46 100644
+index 801d33435..5dcd5ffa8 100644
 --- a/src/road_gui.cpp
 +++ b/src/road_gui.cpp
 @@ -633,11 +633,11 @@ struct BuildRoadToolbarWindow : Window {
@@ -10093,7 +10093,7 @@ index 9b541a766..a35f1fbd1 100644
  	}
  
 diff --git a/src/saveload/afterload.cpp b/src/saveload/afterload.cpp
-index de3f7ccff..484189221 100644
+index 8b5967175..56ca8679a 100644
 --- a/src/saveload/afterload.cpp
 +++ b/src/saveload/afterload.cpp
 @@ -125,7 +125,7 @@ void SetWaterClassDependingOnSurroundings(TileIndex t, bool include_invalid_wate
@@ -10154,7 +10154,7 @@ index de3f7ccff..484189221 100644
  			}
  		}
  	}
-@@ -825,7 +825,7 @@ bool AfterLoadGame()
+@@ -827,7 +827,7 @@ bool AfterLoadGame()
  					break;
  
  				case MP_STATION: {
@@ -10163,7 +10163,7 @@ index de3f7ccff..484189221 100644
  					StationGfx gfx = GetStationGfx(t);
  					StationType st;
  					if (       IsInsideMM(gfx,   0,   8)) { // Rail station
-@@ -863,7 +863,7 @@ bool AfterLoadGame()
+@@ -865,7 +865,7 @@ bool AfterLoadGame()
  						ResetSignalHandlers();
  						return false;
  					}
@@ -10172,7 +10172,7 @@ index de3f7ccff..484189221 100644
  					break;
  				}
  			}
-@@ -882,6 +882,9 @@ bool AfterLoadGame()
+@@ -884,6 +884,9 @@ bool AfterLoadGame()
  				if (!Station::IsExpected(bst)) break;
  				Station *st = Station::From(bst);
  
@@ -10182,7 +10182,7 @@ index de3f7ccff..484189221 100644
  				switch (GetStationType(t)) {
  					case STATION_TRUCK:
  					case STATION_BUS:
-@@ -944,13 +947,13 @@ bool AfterLoadGame()
+@@ -946,13 +949,13 @@ bool AfterLoadGame()
  		for (TileIndex t = 0; t < map_size; t++) {
  			switch (GetTileType(t)) {
  				case MP_HOUSE:
@@ -10199,7 +10199,7 @@ index de3f7ccff..484189221 100644
  						SetTownIndex(t, CalcClosestTownFromTile(t)->index);
  					} else {
  						SetTownIndex(t, 0);
-@@ -1004,20 +1007,20 @@ bool AfterLoadGame()
+@@ -1006,20 +1009,20 @@ bool AfterLoadGame()
  					if (IsPlainRail(t)) {
  						/* Swap ground type and signal type for plain rail tiles, so the
  						 * ground type uses the same bits as for depots and waypoints. */
@@ -10227,7 +10227,7 @@ index de3f7ccff..484189221 100644
  					break;
  
  				default: break;
-@@ -1031,16 +1034,16 @@ bool AfterLoadGame()
+@@ -1033,16 +1036,16 @@ bool AfterLoadGame()
  		for (TileIndex t = 0; t < map_size; t++) {
  			switch (GetTileType(t)) {
  				case MP_ROAD:
@@ -10249,7 +10249,7 @@ index de3f7ccff..484189221 100644
  							break;
  						case ROAD_TILE_DEPOT:    break;
  					}
-@@ -1053,8 +1056,8 @@ bool AfterLoadGame()
+@@ -1055,8 +1058,8 @@ bool AfterLoadGame()
  
  				case MP_TUNNELBRIDGE:
  					/* Middle part of "old" bridges */
@@ -10260,7 +10260,7 @@ index de3f7ccff..484189221 100644
  						SetRoadTypes(t, ROADTYPES_ROAD);
  					}
  					break;
-@@ -1071,24 +1074,24 @@ bool AfterLoadGame()
+@@ -1073,24 +1076,24 @@ bool AfterLoadGame()
  		for (TileIndex t = 0; t < map_size; t++) {
  			switch (GetTileType(t)) {
  				case MP_ROAD:
@@ -10297,7 +10297,7 @@ index de3f7ccff..484189221 100644
  							break;
  
  						case ROAD_TILE_DEPOT:
-@@ -1098,32 +1101,32 @@ bool AfterLoadGame()
+@@ -1100,32 +1103,32 @@ bool AfterLoadGame()
  						const Town *town = CalcClosestTownFromTile(t);
  						if (town != NULL) SetTownIndex(t, town->index);
  					}
@@ -10344,7 +10344,7 @@ index de3f7ccff..484189221 100644
  					break;
  
  				default: break;
-@@ -1137,11 +1140,11 @@ bool AfterLoadGame()
+@@ -1139,11 +1142,11 @@ bool AfterLoadGame()
  		for (TileIndex t = 0; t < map_size; t++) {
  			if (MayHaveBridgeAbove(t)) ClearBridgeMiddle(t);
  			if (IsBridgeTile(t)) {
@@ -10360,7 +10360,7 @@ index de3f7ccff..484189221 100644
  							MakeRailNormal(
  								t,
  								GetTileOwner(t),
-@@ -1160,7 +1163,7 @@ bool AfterLoadGame()
+@@ -1162,7 +1165,7 @@ bool AfterLoadGame()
  							);
  						}
  					} else {
@@ -10369,7 +10369,7 @@ index de3f7ccff..484189221 100644
  							MakeClear(t, CLEAR_GRASS, 3);
  						} else {
  							if (!IsTileFlat(t)) {
-@@ -1176,12 +1179,12 @@ bool AfterLoadGame()
+@@ -1178,12 +1181,12 @@ bool AfterLoadGame()
  					}
  					SetBridgeMiddle(t, axis);
  				} else { // ramp
@@ -10386,7 +10386,7 @@ index de3f7ccff..484189221 100644
  				}
  			}
  		}
-@@ -1287,23 +1290,23 @@ bool AfterLoadGame()
+@@ -1289,23 +1292,23 @@ bool AfterLoadGame()
  						 * (see the code somewhere above) so don't use m4, use m2 instead. */
  
  						/* convert PBS signals to combo-signals */
@@ -10416,7 +10416,7 @@ index de3f7ccff..484189221 100644
  					break;
  
  				default: break;
-@@ -1412,31 +1415,31 @@ bool AfterLoadGame()
+@@ -1414,31 +1417,31 @@ bool AfterLoadGame()
  	if (IsSavegameVersionBefore(53)) {
  		for (TileIndex t = 0; t < map_size; t++) {
  			if (IsTileType(t, MP_HOUSE)) {
@@ -10457,7 +10457,7 @@ index de3f7ccff..484189221 100644
  					SetHouseCompleted(t, true);
  				}
  			}
-@@ -1451,19 +1454,19 @@ bool AfterLoadGame()
+@@ -1453,19 +1456,19 @@ bool AfterLoadGame()
  			if (IsTileType(t, MP_INDUSTRY)) {
  				switch (GetIndustryGfx(t)) {
  					case GFX_POWERPLANT_SPARKS:
@@ -10480,7 +10480,7 @@ index de3f7ccff..484189221 100644
  						 break;
  
  					default: // No animation states to change
-@@ -1511,8 +1514,8 @@ bool AfterLoadGame()
+@@ -1513,8 +1516,8 @@ bool AfterLoadGame()
  
  	if (IsSavegameVersionBefore(52)) {
  		for (TileIndex t = 0; t < map_size; t++) {
@@ -10491,7 +10491,7 @@ index de3f7ccff..484189221 100644
  			}
  		}
  	}
-@@ -1575,10 +1578,10 @@ bool AfterLoadGame()
+@@ -1577,10 +1580,10 @@ bool AfterLoadGame()
  		for (TileIndex t = 0; t < map_size; t++) {
  			if (IsTileType(t, MP_RAILWAY) && HasSignals(t)) {
  				/* move signal states */
@@ -10505,7 +10505,7 @@ index de3f7ccff..484189221 100644
  			}
  		}
  	}
-@@ -1621,7 +1624,7 @@ bool AfterLoadGame()
+@@ -1623,7 +1626,7 @@ bool AfterLoadGame()
  	if (IsSavegameVersionBefore(83)) {
  		for (TileIndex t = 0; t < map_size; t++) {
  			if (IsShipDepotTile(t)) {
@@ -10514,7 +10514,7 @@ index de3f7ccff..484189221 100644
  			}
  		}
  	}
-@@ -1657,8 +1660,8 @@ bool AfterLoadGame()
+@@ -1659,8 +1662,8 @@ bool AfterLoadGame()
  	if (IsSavegameVersionBefore(81)) {
  		for (TileIndex t = 0; t < map_size; t++) {
  			if (GetTileType(t) == MP_TREES) {
@@ -10525,7 +10525,7 @@ index de3f7ccff..484189221 100644
  			}
  		}
  	}
-@@ -1725,8 +1728,8 @@ bool AfterLoadGame()
+@@ -1727,8 +1730,8 @@ bool AfterLoadGame()
  						case STATION_OILRIG:
  						case STATION_DOCK:
  						case STATION_BUOY:
@@ -10536,7 +10536,7 @@ index de3f7ccff..484189221 100644
  							break;
  
  						default:
-@@ -1736,8 +1739,8 @@ bool AfterLoadGame()
+@@ -1738,8 +1741,8 @@ bool AfterLoadGame()
  					break;
  
  				case MP_WATER:
@@ -10547,7 +10547,7 @@ index de3f7ccff..484189221 100644
  					break;
  
  				case MP_OBJECT:
-@@ -1764,7 +1767,7 @@ bool AfterLoadGame()
+@@ -1766,7 +1769,7 @@ bool AfterLoadGame()
  							MakeCanal(t, o, Random());
  						}
  					} else if (IsShipDepot(t)) {
@@ -10556,7 +10556,7 @@ index de3f7ccff..484189221 100644
  						SetWaterClass(t, o == OWNER_WATER ? WATER_CLASS_SEA : WATER_CLASS_CANAL);
  					}
  				}
-@@ -1853,8 +1856,8 @@ bool AfterLoadGame()
+@@ -1855,8 +1858,8 @@ bool AfterLoadGame()
  		/* Increase HouseAnimationFrame from 5 to 7 bits */
  		for (TileIndex t = 0; t < map_size; t++) {
  			if (IsTileType(t, MP_HOUSE) && GetHouseType(t) >= NEW_HOUSE_OFFSET) {
@@ -10567,7 +10567,7 @@ index de3f7ccff..484189221 100644
  			}
  		}
  	}
-@@ -1887,7 +1890,7 @@ bool AfterLoadGame()
+@@ -1889,7 +1892,7 @@ bool AfterLoadGame()
  
  			/* Replace "house construction year" with "house age" */
  			if (IsTileType(t, MP_HOUSE) && IsHouseCompleted(t)) {
@@ -10576,7 +10576,7 @@ index de3f7ccff..484189221 100644
  			}
  		}
  	}
-@@ -1901,10 +1904,10 @@ bool AfterLoadGame()
+@@ -1903,10 +1906,10 @@ bool AfterLoadGame()
  				case MP_RAILWAY:
  					if (HasSignals(t)) {
  						/* move the signal variant */
@@ -10591,7 +10591,7 @@ index de3f7ccff..484189221 100644
  					}
  
  					/* Clear PBS reservation on track */
-@@ -1996,11 +1999,11 @@ bool AfterLoadGame()
+@@ -1998,11 +2001,11 @@ bool AfterLoadGame()
  		for (TileIndex t = 0; t < map_size; t++) {
  			/* Check for HQ bit being set, instead of using map accessor,
  			 * since we've already changed it code-wise */
@@ -10606,7 +10606,7 @@ index de3f7ccff..484189221 100644
  			}
  		}
  	}
-@@ -2009,13 +2012,13 @@ bool AfterLoadGame()
+@@ -2011,13 +2014,13 @@ bool AfterLoadGame()
  			if (!IsTileType(t, MP_OBJECT)) continue;
  
  			/* Reordering/generalisation of the object bits. */
@@ -10625,7 +10625,7 @@ index de3f7ccff..484189221 100644
  		}
  	}
  
-@@ -2028,15 +2031,15 @@ bool AfterLoadGame()
+@@ -2030,15 +2033,15 @@ bool AfterLoadGame()
  				/* No towns, so remove all objects! */
  				DoClearSquare(t);
  			} else {
@@ -10645,7 +10645,7 @@ index de3f7ccff..484189221 100644
  					int size = type == OBJECT_HQ ? 2 : 1;
  
  					if (!Object::CanAllocateItem()) {
-@@ -2050,14 +2053,14 @@ bool AfterLoadGame()
+@@ -2052,14 +2055,14 @@ bool AfterLoadGame()
  					o->location.w    = size;
  					o->location.h    = size;
  					o->build_date    = _date;
@@ -10663,7 +10663,7 @@ index de3f7ccff..484189221 100644
  				}
  			}
  		}
-@@ -2272,8 +2275,8 @@ bool AfterLoadGame()
+@@ -2274,8 +2277,8 @@ bool AfterLoadGame()
  	if (IsSavegameVersionBefore(128)) {
  		const Depot *d;
  		FOR_ALL_DEPOTS(d) {
@@ -10674,7 +10674,7 @@ index de3f7ccff..484189221 100644
  		}
  	}
  
-@@ -2295,16 +2298,16 @@ bool AfterLoadGame()
+@@ -2297,16 +2300,16 @@ bool AfterLoadGame()
  			if (IsTileType(t, MP_CLEAR)) {
  				if (GetRawClearGround(t) == CLEAR_SNOW) {
  					SetClearGroundDensity(t, CLEAR_GRASS, GetClearDensity(t));
@@ -10697,7 +10697,7 @@ index de3f7ccff..484189221 100644
  			}
  		}
  	}
-@@ -2418,23 +2421,23 @@ bool AfterLoadGame()
+@@ -2420,23 +2423,23 @@ bool AfterLoadGame()
  			switch (GetTileType(t)) {
  				case MP_HOUSE:
  					if (GetHouseType(t) >= NEW_HOUSE_OFFSET) {
@@ -10730,7 +10730,7 @@ index de3f7ccff..484189221 100644
  					break;
  
  				default:
-@@ -2759,16 +2762,16 @@ bool AfterLoadGame()
+@@ -2761,16 +2764,16 @@ bool AfterLoadGame()
  		for (TileIndex t = 0; t < map_size; t++) {
  			if (!IsTileType(t, MP_CLEAR) && !IsTileType(t, MP_TREES)) continue;
  			if (IsTileType(t, MP_CLEAR) && IsClearGround(t, CLEAR_FIELDS)) continue;
@@ -10751,7 +10751,7 @@ index de3f7ccff..484189221 100644
  		}
  	}
  
-@@ -2885,9 +2888,9 @@ bool AfterLoadGame()
+@@ -2887,9 +2890,9 @@ bool AfterLoadGame()
  		/* Move ObjectType from map to pool */
  		for (TileIndex t = 0; t < map_size; t++) {
  			if (IsTileType(t, MP_OBJECT)) {
@@ -11233,7 +11233,7 @@ index 0c5716681..30040629d 100644
  
  	return true;
 diff --git a/src/saveload/station_sl.cpp b/src/saveload/station_sl.cpp
-index 3db5e1f5f..813d4a1ed 100644
+index 391ba30a8..2c3ee383e 100644
 --- a/src/saveload/station_sl.cpp
 +++ b/src/saveload/station_sl.cpp
 @@ -95,7 +95,7 @@ void MoveBuoysToWaypoints()
@@ -11280,7 +11280,7 @@ index 0f9396985..0abd04cbf 100644
  			new_wp->owner = GetTileOwner(t);
  
 diff --git a/src/script/api/game/game_window.hpp.sq b/src/script/api/game/game_window.hpp.sq
-index 533ba912b..b4e7f2c83 100644
+index f52de827d..0f0069d37 100644
 --- a/src/script/api/game/game_window.hpp.sq
 +++ b/src/script/api/game/game_window.hpp.sq
 @@ -250,6 +250,28 @@ void SQGSWindow_Register(Squirrel *engine)
@@ -11312,7 +11312,7 @@ index 533ba912b..b4e7f2c83 100644
  	SQGSWindow.DefSQConst(engine, ScriptWindow::WID_C_CAPTION,                             "WID_C_CAPTION");
  	SQGSWindow.DefSQConst(engine, ScriptWindow::WID_C_FACE,                                "WID_C_FACE");
  	SQGSWindow.DefSQConst(engine, ScriptWindow::WID_C_FACE_TITLE,                          "WID_C_FACE_TITLE");
-@@ -1121,6 +1143,7 @@ void SQGSWindow_Register(Squirrel *engine)
+@@ -1123,6 +1145,7 @@ void SQGSWindow_Register(Squirrel *engine)
  	SQGSWindow.DefSQConst(engine, ScriptWindow::WID_TT_LOWER_LAND,                         "WID_TT_LOWER_LAND");
  	SQGSWindow.DefSQConst(engine, ScriptWindow::WID_TT_RAISE_LAND,                         "WID_TT_RAISE_LAND");
  	SQGSWindow.DefSQConst(engine, ScriptWindow::WID_TT_LEVEL_LAND,                         "WID_TT_LEVEL_LAND");
@@ -11321,7 +11321,7 @@ index 533ba912b..b4e7f2c83 100644
  	SQGSWindow.DefSQConst(engine, ScriptWindow::WID_TT_BUY_LAND,                           "WID_TT_BUY_LAND");
  	SQGSWindow.DefSQConst(engine, ScriptWindow::WID_TT_PLANT_TREES,                        "WID_TT_PLANT_TREES");
 diff --git a/src/script/api/script_window.hpp b/src/script/api/script_window.hpp
-index b07221943..9c66606ae 100644
+index fbdffb54b..1825eb4b1 100644
 --- a/src/script/api/script_window.hpp
 +++ b/src/script/api/script_window.hpp
 @@ -23,6 +23,7 @@
@@ -11376,7 +11376,7 @@ index b07221943..9c66606ae 100644
  	/* automatically generated from ../../widgets/company_widget.h */
  	/** Widgets of the #CompanyWindow class. */
  	enum CompanyWidgets {
-@@ -2308,6 +2346,7 @@ public:
+@@ -2310,6 +2348,7 @@ public:
  		WID_TT_LOWER_LAND                            = ::WID_TT_LOWER_LAND,                            ///< Lower land button.
  		WID_TT_RAISE_LAND                            = ::WID_TT_RAISE_LAND,                            ///< Raise land button.
  		WID_TT_LEVEL_LAND                            = ::WID_TT_LEVEL_LAND,                            ///< Level land button.
@@ -13997,10 +13997,10 @@ index 7ca9bd720..9dbc7bf49 100644
  /**
   * Make the given tile an oilrig tile.
 diff --git a/src/strings.cpp b/src/strings.cpp
-index 8cd071d0b..21f99d3b6 100644
+index 1c539d934..08e4210da 100644
 --- a/src/strings.cpp
 +++ b/src/strings.cpp
-@@ -1156,6 +1156,8 @@ static char *FormatString(char *buff, const char *str_arg, StringParameters *arg
+@@ -1150,6 +1150,8 @@ static char *FormatString(char *buff, const char *str_arg, StringParameters *arg
  
  				const CargoSpec *cs;
  				FOR_ALL_SORTED_CARGOSPECS(cs) {
@@ -14009,7 +14009,7 @@ index 8cd071d0b..21f99d3b6 100644
  					if (!HasBit(cmask, cs->Index())) continue;
  
  					if (buff >= last - 2) break; // ',' and ' '
-@@ -1169,6 +1171,20 @@ static char *FormatString(char *buff, const char *str_arg, StringParameters *arg
+@@ -1163,6 +1165,20 @@ static char *FormatString(char *buff, const char *str_arg, StringParameters *arg
  					}
  
  					buff = GetStringWithArgs(buff, cs->name, args, last, next_substr_case_index, game_script);
@@ -14053,7 +14053,7 @@ index 52ca2d16e..fda2f29aa 100644
  
  [SDTG_VAR]
 diff --git a/src/table/settings.ini b/src/table/settings.ini
-index f314f21e9..9d36c043f 100644
+index 8e2aecac1..6df65797f 100644
 --- a/src/table/settings.ini
 +++ b/src/table/settings.ini
 @@ -418,6 +418,20 @@ strval   = STR_CONFIG_SETTING_COMMAND_PAUSE_LEVEL_NO_ACTIONS
@@ -16287,7 +16287,7 @@ index 010c7c216..81651102a 100644
   * @see CheckforTownRating
   */
 diff --git a/src/town_cmd.cpp b/src/town_cmd.cpp
-index 7479892c2..bbe6e1335 100644
+index 66092ff34..7e3cf2803 100644
 --- a/src/town_cmd.cpp
 +++ b/src/town_cmd.cpp
 @@ -26,6 +26,7 @@
@@ -16348,7 +16348,7 @@ index 7479892c2..bbe6e1335 100644
  		STR_VIEWPORT_TOWN);
  
  	SetWindowDirty(WC_TOWN_VIEW, this->index);
-@@ -2964,6 +2987,7 @@ static CommandCost TownActionBribe(Town *t, DoCommandFlag flags)
+@@ -2958,6 +2981,7 @@ static CommandCost TownActionBribe(Town *t, DoCommandFlag flags)
  			 */
  			if (t->ratings[_current_company] > RATING_BRIBE_DOWN_TO) {
  				t->ratings[_current_company] = RATING_BRIBE_DOWN_TO;
@@ -16356,7 +16356,7 @@ index 7479892c2..bbe6e1335 100644
  				SetWindowDirty(WC_TOWN_AUTHORITY, t->index);
  			}
  		} else {
-@@ -3096,6 +3120,7 @@ static void UpdateTownRating(Town *t)
+@@ -3090,6 +3114,7 @@ static void UpdateTownRating(Town *t)
  		t->ratings[i] = Clamp(t->ratings[i], RATING_MINIMUM, RATING_MAXIMUM);
  	}
  
@@ -16364,7 +16364,7 @@ index 7479892c2..bbe6e1335 100644
  	SetWindowDirty(WC_TOWN_AUTHORITY, t->index);
  }
  
-@@ -3331,6 +3356,8 @@ void ChangeTownRating(Town *t, int add, int max, DoCommandFlag flags)
+@@ -3325,6 +3350,8 @@ void ChangeTownRating(Town *t, int add, int max, DoCommandFlag flags)
  	}
  
  	int rating = GetRating(t);
@@ -16373,7 +16373,7 @@ index 7479892c2..bbe6e1335 100644
  	if (add < 0) {
  		if (rating > max) {
  			rating += add;
-@@ -3347,7 +3374,28 @@ void ChangeTownRating(Town *t, int add, int max, DoCommandFlag flags)
+@@ -3341,7 +3368,28 @@ void ChangeTownRating(Town *t, int add, int max, DoCommandFlag flags)
  	} else {
  		SetBit(t->have_ratings, _current_company);
  		t->ratings[_current_company] = rating;
@@ -16402,7 +16402,7 @@ index 7479892c2..bbe6e1335 100644
  	}
  }
  
-@@ -3462,6 +3510,7 @@ extern const TileTypeProcs _tile_type_town_procs = {
+@@ -3456,6 +3504,7 @@ extern const TileTypeProcs _tile_type_town_procs = {
  	NULL,                    // vehicle_enter_tile_proc
  	GetFoundation_Town,      // get_foundation_proc
  	TerraformTile_Town,      // terraform_tile_proc
@@ -18641,7 +18641,7 @@ index cbdcc5019..fb6008d1a 100644
 +#endif /* VIEWPORT_FUNC_H */
 \ No newline at end of file
 diff --git a/src/viewport_gui.cpp b/src/viewport_gui.cpp
-index 90b0e1468..d91a6141c 100644
+index cbd300dec..1a09e97f9 100644
 --- a/src/viewport_gui.cpp
 +++ b/src/viewport_gui.cpp
 @@ -16,6 +16,7 @@
@@ -19504,7 +19504,7 @@ index ab249a827..7e251829f 100644
  
  #endif /* WATER_MAP_H */
 diff --git a/src/waypoint_cmd.cpp b/src/waypoint_cmd.cpp
-index efa48003f..bb16af742 100644
+index 54489fa45..0595db172 100644
 --- a/src/waypoint_cmd.cpp
 +++ b/src/waypoint_cmd.cpp
 @@ -13,6 +13,8 @@
@@ -19627,17 +19627,7 @@ index efa48003f..bb16af742 100644
  	if (IsBridgeAbove(tile)) return_cmd_error(STR_ERROR_MUST_DEMOLISH_BRIDGE_FIRST);
  
  	if (!IsTileFlat(tile)) return_cmd_error(STR_ERROR_SITE_UNSUITABLE);
-@@ -323,7 +356,8 @@ CommandCost CmdBuildBuoy(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32
- 
- 		if (wp->town == NULL) MakeDefaultName(wp);
- 
--		MakeBuoy(tile, wp->index, GetWaterClass(tile));
-+		assert(wc != WATER_CLASS_INVALID);
-+		MakeBuoy(tile, wp->index, wc);
- 
- 		wp->UpdateVirtCoord();
- 		InvalidateWindowData(WC_WAYPOINT_VIEW, wp->index);
-@@ -422,3 +456,54 @@ CommandCost CmdRenameWaypoint(TileIndex tile, DoCommandFlag flags, uint32 p1, ui
+@@ -423,3 +456,54 @@ CommandCost CmdRenameWaypoint(TileIndex tile, DoCommandFlag flags, uint32 p1, ui
  	}
  	return CommandCost();
  }
