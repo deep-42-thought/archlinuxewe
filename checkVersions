@@ -319,12 +319,14 @@ then
     then
       quVer=$(
         echo "${src#*::}" | \
-          sed "s|/archive/[^/]*\$|/releases|"
+          sed "s|/archive/[^/]*\$|/releases|" | \
+          sed 's|http:|https:|'
       )
       quNam=/${quVer#*.com/}/tag/
       remVer=$( \
         curl "${quVer}" 2> /dev/null | \
           tr "\"" "\n" | \
+          tr '[[:upper:]]' '[[:lower:]]' | \
           grep "^${quNam}v\?[0-9.]\+\$" | \
           sed "s|^${quNam}v\?||" | \
           (
