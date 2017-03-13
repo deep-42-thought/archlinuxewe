@@ -13,14 +13,15 @@
 # You will also need to install osgearth-qt4 or fcgi, respectively, before building.
 
 pkgname=qgis
-pkgver=2.18.3
+pkgver=2.18.6
 pkgrel=1
 pkgdesc='Geographic Information System (GIS) that supports vector, raster & database formats'
 url='http://qgis.org/'
 license=('GPL')
 arch=('i686' 'x86_64')
-depends=('qca-qt4' 'gdal' 'qwtpolar' 'spatialindex'
-         'python2-httplib2' 'python2-future' 'python2-qscintilla-qt4' 'python2-sip' 'python2-six')
+depends=('expat' 'gcc-libs' 'gdal' 'geos' 'glibc' 'libspatialite' 'postgresql-libs' 'proj'
+         'qt4' 'qca-qt4' 'qscintilla-qt4' 'qwt' 'qwtpolar' 'spatialindex' 'sqlite'
+         'python2' 'python2-httplib2' 'python2-future' 'python2-qscintilla-qt4' 'python2-sip' 'python2-six')
 makedepends=('cmake' 'gsl' 'perl' 'txt2tags')
 optdepends=('gpsbabel: GPS Tool plugin'
             'gsl: Georeferencer plugin'
@@ -33,11 +34,16 @@ optdepends=('gpsbabel: GPS Tool plugin'
             'python2-psycopg2: Processing plugin'
             'python2-pyspatialite: Processing plugin'
             'python2-yaml: Processing plugin')
-source=("https://qgis.org/downloads/$pkgname-$pkgver.tar.bz2")
-sha512sums=('6d2256cf85ebc1f1ddd3636f8a48284de95c42e3adb26e780b4847208c5ead80dd6a44c1a11d263bcc15bfbd7337d62d10b738ad8a7076382dbe4c4a011ff6fc')
+source=("https://qgis.org/downloads/$pkgname-$pkgver.tar.bz2"
+        "qgis_sip-ftbfs.patch::https://src.fedoraproject.org/cgit/rpms/qgis.git/plain/qgis_sip-ftbfs.patch?id=25b8f81ccabbfdb183d4850a66e884c183444f14")
+md5sums=('ea6d736f1b73d3e02867002fa7fabdb1'
+         '0575d848604f0fc6dda0a643523e7e48')
 
 prepare() {
   cd $pkgname-$pkgver
+
+  # Fedora patch to fix with newer sip/pyqt4
+  patch -Np1 -i <(sed '184,$d' ../qgis_sip-ftbfs.patch)
 
   # Fix references to "python"
   sed -i 's/\(env \|\/usr\/bin\/\)python$/&2/' $(find . -iname "*.py")
@@ -61,6 +67,7 @@ build() {
     -DENABLE_TESTS=FALSE \
     -DCMAKE_SKIP_RPATH=TRUE \
     -DPYTHON_EXECUTABLE=/usr/bin/python2 \
+    -DWITH_QTWEBKIT=FALSE \
     -DWITH_INTERNAL_QWTPOLAR=FALSE \
     -DWITH_INTERNAL_{HTTPLIB2,JINJA2,MARKUPSAFE,OWSLIB,PYGMENTS,DATEUTIL,PYTZ,YAML,NOSE2,SIX,FUTURE}=FALSE \
 #    -DWITH_SERVER=TRUE \
