@@ -401,7 +401,7 @@ then
           sed 's|\.|\\.|g'
       )"
       remVer="$(
-        curl "${src%/get/*}/downloads?tab=tags" 2> /dev/null | \
+        curl "${src%/get/*}/downloads/?tab=tags" 2> /dev/null | \
           tr '"' '\n' | \
           grep "${srcEndg}\$" | \
           sed "s|^.*/${srcPreNam}\(.*\)${srcEndg}\$|\1|" | \
