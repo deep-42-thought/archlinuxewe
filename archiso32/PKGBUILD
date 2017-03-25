@@ -1,0 +1,19 @@
+# $Id$
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Gerardo Exequiel Pozzi <djgera@archlinux.org>
+# Contributor: Pierre Schmitz <pierre@archlinux.de>
+
+pkgname=archiso32
+pkgver=31
+pkgrel=1
+pkgdesc='Tools for creating Arch Linux live and install iso images - for x86_64 and i686'
+arch=('any')
+license=('GPL')
+url='https://github.com/archlinux32/archiso32'
+depends=('make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/archlinux32/${pkgname}/archive/v${pkgver}.tar.gz")
+sha256sums=('cdb4282a4d0a878b9e28ff0c4fc78e8c8ab8373d3e4b9dd2555adb9b206bca69')
+
+package() {
+    make -C "${pkgname}-${pkgver}" DESTDIR="${pkgdir}" install
+}
