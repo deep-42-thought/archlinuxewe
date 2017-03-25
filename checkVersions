@@ -142,6 +142,15 @@ then
           sort -V | \
           tail -n1
       )"
+    elif [ "${pkgname}" == "archiso32" ]
+    then
+      git -C /usr/src/archlinux/archiso fetch upstream
+      remVer="$(
+        git -C /usr/src/archlinux/archiso archive --format=tar upstream/master | \
+          tar -Ox Makefile | \
+          grep -m1 '^V=[0-9]\+$' | \
+          cut -d= -f2
+      )"
     elif echo "${src}" | \
       grep -q "//www\.mpich\.org/"
     then
