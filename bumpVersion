@@ -47,16 +47,18 @@ done
 if [ $# -eq 0 ]
 then
   >&2 echo 'bumping versions of all packages ...'
-  "${me}" $(
-      (
-        "${myDir}/checkVersions" --noUpdate | \
-          cut -d: -f1
-        echo "${nichtPakete}"
-        echo "${nichtPakete}"
-      ) | \
-        sort | \
-        uniq -u
-    )
+  pkgs="$(
+    (
+      "${myDir}/checkVersions" --noUpdate | \
+        cut -d: -f1
+      echo "${nichtPakete}"
+      echo "${nichtPakete}"
+    ) | \
+      sort | \
+      uniq -u
+  )"
+  [ -z "${pkgs}" ] && exit 0
+  "${me}" ${pkgs}
   exit $?
 elif [ $# -gt 1 ]
 then
