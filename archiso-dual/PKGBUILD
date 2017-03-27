@@ -1,0 +1,20 @@
+# $Id$
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Gerardo Exequiel Pozzi <djgera@archlinux.org>
+# Contributor: Pierre Schmitz <pierre@archlinux.de>
+
+pkgname=archiso-dual
+pkgver=31
+pkgrel=1
+pkgdesc='Tools for creating Arch Linux live and install iso images - for x86_64 and i686'
+arch=('any')
+license=('GPL')
+url='https://github.com/archlinux32/archiso32'
+depends=('make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx')
+conflicts=('archiso' 'archiso32')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/archlinux32/${pkgname%-dual}32/archive/dual-v${pkgver}.tar.gz")
+sha256sums=('800fc3a37cf6493126a9b48f7ce16c47934ce03844807aa91c460616d79e362f')
+
+package() {
+    make -C "${pkgname/-/32-}-v${pkgver}" DESTDIR="${pkgdir}" install
+}
