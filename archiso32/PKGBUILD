@@ -5,15 +5,15 @@
 
 pkgname=archiso32
 pkgver=31
-pkgrel=2
-pkgdesc='Tools for creating Arch Linux live and install iso images - for x86_64 and i686'
+pkgrel=3
+pkgdesc='Tools for creating Arch Linux live and install iso images - for i686'
 arch=('any')
 license=('GPL')
 url='https://github.com/archlinux32/archiso32'
 depends=('make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx')
-conflicts=('archiso')
+conflicts=('archiso' 'archiso-dual')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/archlinux32/${pkgname}/archive/v${pkgver}.tar.gz")
-sha256sums=('cdb4282a4d0a878b9e28ff0c4fc78e8c8ab8373d3e4b9dd2555adb9b206bca69')
+sha256sums=('07e8c4514ba0b9b13ce767e45998c0fc4a120e5ecbbc1b76932225184d35afa3')
 
 package() {
     make -C "${pkgname}-${pkgver}" DESTDIR="${pkgdir}" install
