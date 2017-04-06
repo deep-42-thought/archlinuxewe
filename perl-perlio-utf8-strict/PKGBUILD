@@ -3,14 +3,14 @@
 # Generator  : CPANPLUS::Dist::Arch 1.30
 
 pkgname='perl-perlio-utf8-strict'
-pkgver='0.006'
-pkgrel='4'
+pkgver=0.007
+pkgrel=1
 pkgdesc="Fast and correct UTF-8 IO"
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-perlio-utf8_strict=0.006')
+  'perl-perlio-utf8_strict=0.007')
 depends=(
   'perl>=5.8.0'
   'perl-xsloader')
@@ -19,6 +19,7 @@ makedepends=(
   'perl-exporter'
   'perl-extutils-makemaker'
   'perl-io'
+  'perl-lib'
   'perl-pathtools'
   'perl-test-exception'
   'perl-test-simple>=0.88')
@@ -26,7 +27,7 @@ checkdepends=('perl-test-exception')
 url='https://metacpan.org/release/PerlIO-utf8_strict'
 _distdir="PerlIO-utf8_strict-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/L/LE/LEONT/${_distdir}.tar.gz")
-sha512sums=('9c8423d5e60eba54d1c1ad77840d703577e3bb35333e08ef34ada64bebc8c50630e19c6d536243bfbae4197bf8143de82251122af8581813c61428c8a78111de')
+sha512sums=('0d39be9bcbab4cea087f59c67dc1af6773b6258c5e836590ff58cc18bf3392ba6e95c55a0c7ce94236e0be7053802b4b1d6010130355e1a973a3698aaf49af0f')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
