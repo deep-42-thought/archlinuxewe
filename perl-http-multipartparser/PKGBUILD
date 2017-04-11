@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (6bbcb8b40c8afe2a83fed1572257a4566073bfc1f6a7654a37cb3996433b0913c4b5e3c13962b4c68b79bd9630ea763de84424b2eed485e3e0afc421ef1cde7f)
 
 pkgname='perl-http-multipartparser'
-pkgver='0.01'
-pkgrel='1'
+pkgver=0.02
+pkgrel=1
 pkgdesc='HTTP MultiPart Parser'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -19,7 +19,7 @@ makedepends=(
 url='https://metacpan.org/release/HTTP-MultiPartParser'
 _distdir="HTTP-MultiPartParser-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/C/CH/CHANSEN/${_distdir}.tar.gz")
-sha512sums=('3a0d6c3fd89a91c8c8a02e852b84990d2af01ba2651baa8c933df6fdbd5cd16fcb0ad8d157437aa10e1101b93f24c8d7513817545ffb91d0f88af079f9d0425f')
+sha512sums=('72a9e92821dae04be63f12b3bbcd22dfbc11ff72ff31b48f2e2bd8fe3095c9cb7992f31deeb1284d7f9986cbcd854f8a21c2110c1d04bd4c3b66307c9d86945d')
 
 build() {
   cd "${srcdir}/${_distdir}"
