@@ -2,13 +2,14 @@
 # Generator : neuesPerlPaket (53a4b3dbf91e50da515b6ec94fbd3044454d68ce67b4faf1406dd314dbd1c658a8b69f094c8647bc8e977b1abc69e4a04d8a638eae1861c5a8a4c44d81770a8f)
 
 pkgname='perl-data-printer'
-pkgver='0.38'
-pkgrel='1'
+pkgver=0.39
+pkgrel=1
 pkgdesc='colored pretty-print of Perl data structures and objects'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl'
   'perl-carp'
   'perl-clone-pp'
   'perl-file-homedir>=0.91'
@@ -32,7 +33,7 @@ checkdepends=(
 url='https://metacpan.org/release/Data-Printer'
 _distdir="Data-Printer-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/G/GA/GARU/${_distdir}.tar.gz")
-sha512sums=('79c9b867c518c73b3f8ff350e7652a66f0de2ade58d7e857023cc20b25dcdbebc9121d51ae355167f11a334c863d3b1ebce39c00a133929053492fcf185c953e')
+sha512sums=('4110f4a8c0f1516df14e418ba4b5b2b6a30790cbf838f81a9dec862f62355cf3035f482ccd0d118bb3d16f28dd381d518c23d65b95d045444438b9721062eb9c')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
