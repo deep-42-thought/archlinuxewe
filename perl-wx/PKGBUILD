@@ -2,7 +2,7 @@
 # Contributor: Piotr Rogoza <piotr dot r dot public at gmail dot com>
 
 pkgname=perl-wx
-pkgver=0.9931
+pkgver=0.9932
 _author=M/MD/MDOOTSON
 _perlmod=Wx
 pkgrel=1
@@ -26,7 +26,7 @@ makedepends=(
   'xorg-server-xvfb')
 options=('!emptydirs')
 source=("http://search.cpan.org/CPAN/authors/id/$_author/${_distdir}.tar.gz")
-sha512sums=('3edb2e5009a68cd95f4ef02e75d80a0976b46d188db6801d62cf8385ab5770e0cbe8fa6d8f49829093abbb650b101fb9bdf537f5f1c4ded0b494a0393c81266c')
+sha512sums=('49f9a32bcd65ad4f2017f322e45ddaad741cdc0f0245489425771dda917553c354945fa949521c18730d27e78444a79d0d56374d462bcd92a96c0e76a4471c0e')
 
 build(){
   cd "${srcdir}/${_distdir}"
