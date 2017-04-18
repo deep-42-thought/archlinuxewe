@@ -5,7 +5,7 @@
 
 pkgname=perl-alien-wxwidgets
 _cpan_name=Alien-wxWidgets
-pkgver=0.68
+pkgver=0.69
 pkgrel=1
 pkgdesc="building, finding and using wxWidgets binaries"
 arch=('any')
@@ -19,6 +19,7 @@ depends=(
   'wxgtk')
 makedepends=(
   'perl-extutils-cbuilder>=0.24'
+  'perl-lwp-protocol-https'
   'perl-module-build>=0.28'
   'perl-pathtools>=1.50')
 checkdepends=(
@@ -27,7 +28,7 @@ checkdepends=(
 options=(!emptydirs)
 _distdir="${_cpan_name}-${pkgver}"
 source=("http://www.cpan.org/modules/by-module/${_cpan_name%%-*}/${_distdir}.tar.gz")
-sha512sums=('8d9422bb22876dacbd89b1974ca4ded3473ee7fe2e833870a50cf472f2ddbd9f62b749819e6b265a0564b6dc64b4bd87fcd7f7faf346d803c81296d8b6921e1e')
+sha512sums=('028eae7fd7f44612b6a56814a38a81681d66a95db5d9e21ffb7ef763ff6c9f68fece8eea4bef0b232546b6e2dd6d7a5c32389b96dd62968c4cb110e6508cd534')
 
 prepare() {
   # Setting these env variables overwrites any command-line-options we don't want...
