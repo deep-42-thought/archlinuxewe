@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
 
 pkgname='perl-bareword-filehandles'
-pkgver=0.004
-pkgrel='2'
+pkgver=0.005
+pkgrel=1
 pkgdesc='disables bareword filehandles'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -16,11 +16,12 @@ depends=(
 makedepends=(
   'perl-extutils-depends'
   'perl-extutils-makemaker'
+  'perl-pathtools'
   'perl-test-simple>=0.88')
 url='https://metacpan.org/release/bareword-filehandles'
 _distdir="bareword-filehandles-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/I/IL/ILMARI/${_distdir}.tar.gz")
-sha512sums=('3c9256e9822b6bacb8b4f0ee801f91dad8b946f9f3b7dd165c154c33c2780f7135b3bb70f806421dc9f62c2b0b7e51fdb04acab876fa27c960cf930a0e4ee6cd')
+sha512sums=('ea1117a31ad9d8d58aa0c17dd6d327ccc82f3ddc8e6c3649a1b35c9e623a39fb851b94a69c855a400d1e678d1a18da1143678efc16ccd78b151b10a2ec5a8a02')
 
 build(){
   cd "${srcdir}/${_distdir}"
