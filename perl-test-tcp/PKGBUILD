@@ -2,15 +2,15 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-test-tcp'
-pkgver=2.18
+pkgver=2.19
 pkgrel=1
 pkgdesc='testing TCP program'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-net-emptyport=2.18'
-  'perl-test-tcp-checkport=2.18')
+  'perl-net-emptyport=2.19'
+  'perl-test-tcp-checkport=2.19')
 depends=(
   'perl>=5.8.1'
   'perl-io'
@@ -26,7 +26,7 @@ makedepends=(
 url='https://metacpan.org/release/Test-TCP'
 _distdir="Test-TCP-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/${_distdir}.tar.gz")
-sha512sums=('b8591b09403ab6992c06287d64958b318c75a3b9987aec165f78830517a9977793aa30ca3c0ef63e6a191e5b9a8a95c2a5069e069a5d2fbd8e87bfe29a6e86f4')
+sha512sums=('1de76f5dc456697d8ea0799bb60d858b0e1c0089f066d1a446c46708e6cb3441849e264526082a066c31519ded4731cde9310b8a493f571ed670c2fbb60a3e85')
 
 build() {
   cd "${srcdir}/${_distdir}"
