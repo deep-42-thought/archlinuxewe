@@ -1,0 +1,25 @@
+# $Id$
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Pierre Schmitz <pierre@archlinux.de>
+
+pkgname=devtools32
+pkgver=20170513
+pkgrel=1
+pkgdesc='Tools for Arch Linux package maintainers, also for 32 bit'
+arch=('any')
+license=('GPL')
+url='https://github.com/archlinux32/devtools32/'
+depends=('namcap' 'openssh' 'subversion' 'rsync' 'arch-install-scripts')
+conflicts=('devtools')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/archlinux32/$pkgname/archive/v$pkgver.tar.gz")
+sha256sums=('08023afb95d109d280fd18e235c6850bbd39590b3fd39f445e543639112da345')
+
+build() {
+	cd "${pkgname}-${pkgver}"
+	make PREFIX=/usr
+}
+
+package() {
+	cd "${pkgname}-${pkgver}"
+	make PREFIX=/usr DESTDIR=${pkgdir} install
+}
