@@ -2,8 +2,8 @@
 # Contributor:chimeracoder <dev@chimeracoder.net>
 
 pkgname='perl-ppi'
-pkgver='1.220'
-pkgrel='2'
+pkgver=1.224
+pkgrel=1
 pkgdesc="Parse, Analyze and Manipulate Perl (without perl)"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -15,22 +15,23 @@ depends=(
   'perl-io-string>=1.07'
   'perl-list-moreutils>=0.16'
   'perl-params-util>=1.00'
-  'perl-pathtools>=3.27'
-  'perl-scalar-list-utils>=1.20'
+  'perl-pathtools>=3.27_01'
+  'perl-scalar-list-utils>=1.33'
   'perl-storable>=2.17'
   'perl-task-weaken')
 makedepends=(
   'perl-class-inspector>=1.22'
   'perl-extutils-makemaker>=6.59'
   'perl-file-remove>=1.42'
-  'perl-test-nowarnings>=0.084'
+  'perl-test-deep'
   'perl-test-object>=0.07'
   'perl-test-simple>=0.86'
-  'perl-test-subcalls>=1.07')
+  'perl-test-subcalls>=1.07'
+  'perl-test-warn>=0.30')
 checkdepends=('perl-test-nowarnings>=0.084' 'perl-test-object>=0.07' 'perl-test-subcalls>=1.07')
 url='http://search.mcpan.org/dist/PPI'
 source=("http://search.mcpan.org/CPAN/authors/id/M/MI/MITHALDU/PPI-${pkgver}.tar.gz")
-sha512sums=('03ff865424a11cb351211dc7d57b6477848e8f354de74dc5bae214614438549f1dba6818842f6312f88fa631514abad69b0023046d56c8e8584d0b634c202694')
+sha512sums=('7c5f4a01b3d4a1e7e2f68d7e5c81368387fbe9a4cd2f20afc494706f742c9ba0b293747b692fb77af9a1457e077687c7d5217bf09137ab71bb50ba52da24431c')
 _distdir="PPI-${pkgver}"
 
 build() {
