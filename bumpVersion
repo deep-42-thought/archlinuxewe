@@ -141,6 +141,6 @@ rm -rf pkg src
 sudo pacman -Sy
 makepkg -fcsr --noconfirm --asdeps || exit 1
 namcap ${paket}-${remVer}-1-*.pkg.tar.xz || exit 1
-git commit PKGBUILD -m "${paket} ${pkgver} -> ${remVer}"
+git commit PKGBUILD -m "${paket} ${pkgver}-${pkgrel} -> ${remVer}-1"
 
 >&2 echo '... done'
