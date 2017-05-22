@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=perl-pdl
 _pkgname='PDL'
-pkgver=2.017
-pkgrel=2
+pkgver=2.018
+pkgrel=1
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="the Perl Data Language"
 arch=('x86_64' 'i686')
@@ -24,6 +24,7 @@ depends=(
   'perl-filter-util-call'
   'perl-inline>=0.68'
   'perl-inline-c>=0.62'
+  'perl-list-moreutils'
   'perl-module-compile>=0.23'
   'perl-opengl>=0.6702'
   'perl-pathtools>=0.6'
@@ -40,11 +41,9 @@ makedepends=(
   'perl-test-deep'
   'perl-test-exception'
   'perl-test-warn')
-provides=(
-  'perl-pdl-core=2.016')
 options=('!emptydirs')
 source=("http://search.cpan.org/CPAN/authors/id/C/CH/CHM/${_distdir}.tar.gz")
-sha512sums=('b1c60b45427153928834619a59ef2213a0845564ae997e22fe202dfee281647edceb68bf3bfa6602ee69a7fd0cc69b7b61ccb74407f490d9fa40230f74599411')
+sha512sums=('e6c45b8f2a5b4ab64611ad18288a784e38165231639445b5c96da6e735f15dcb463de7f4b164ff8309fc27939ec6cd2134ec0d6026ec9715cceb8f6094a2714b')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
