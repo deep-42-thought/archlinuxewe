@@ -2,46 +2,47 @@
 # Generator : neuesPerlPaket (c5ad2c9a17883435e14ac3343816be21cae693586e5330d497f678cbddf0b57f05d555b2fc1095096617fb98dab73cfd4db2a674a88ec04c617a9c1ea504a7d7)
 
 pkgname='perl-type-tiny'
-pkgver=1.000006
+pkgver=1.002000
 pkgrel=1
 pkgdesc='tiny, yet Moo(se)-compatible type constraint'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-devel-typetiny-perl56compat=1.000006'
-  'perl-devel-typetiny-perl58compat=1.000006'
-  'perl-error-typetiny=1.000006'
-  'perl-error-typetiny-assertion=1.000006'
-  'perl-error-typetiny-compilation=1.000006'
-  'perl-error-typetiny-wrongnumberofparameters=1.000006'
-  'perl-eval-typetiny=1.000006'
-  'perl-reply-plugin-typetiny=1.000006'
-  'perl-test-typetiny=1.000006'
-  'perl-type-coercion=1.000006'
-  'perl-type-coercion-frommoose=1.000006'
-  'perl-type-coercion-union=1.000006'
-  'perl-type-library=1.000006'
-  'perl-type-params=1.000006'
-  'perl-type-parser=1.000006'
-  'perl-type-registry=1.000006'
-  'perl-types-common-numeric=1.000006'
-  'perl-types-common-string=1.000006'
-  'perl-types-standard=1.000006'
-  'perl-types-standard-arrayref=1.000006'
-  'perl-types-standard-dict=1.000006'
-  'perl-types-standard-hashref=1.000006'
-  'perl-types-standard-map=1.000006'
-  'perl-types-standard-scalarref=1.000006'
-  'perl-types-standard-tuple=1.000006'
-  'perl-types-typetiny=1.000006'
-  'perl-type-tiny-class=1.000006'
-  'perl-type-tiny-duck=1.000006'
-  'perl-type-tiny-enum=1.000006'
-  'perl-type-tiny-intersection=1.000006'
-  'perl-type-tiny-role=1.000006'
-  'perl-type-tiny-union=1.000006'
-  'perl-type-utils=1.000006')
+  'perl-devel-typetiny-perl56compat=1.002000'
+  'perl-devel-typetiny-perl58compat=1.002000'
+  'perl-error-typetiny=1.002000'
+  'perl-error-typetiny-assertion=1.002000'
+  'perl-error-typetiny-compilation=1.002000'
+  'perl-error-typetiny-wrongnumberofparameters=1.002000'
+  'perl-eval-typetiny=1.002000'
+  'perl-reply-plugin-typetiny=1.002000'
+  'perl-test-typetiny=1.002000'
+  'perl-type-coercion=1.002000'
+  'perl-type-coercion-frommoose=1.002000'
+  'perl-type-coercion-union=1.002000'
+  'perl-type-library=1.002000'
+  'perl-type-params=1.002000'
+  'perl-type-parser=1.002000'
+  'perl-type-registry=1.002000'
+  'perl-types-common-numeric=1.002000'
+  'perl-types-common-string=1.002000'
+  'perl-types-standard=1.002000'
+  'perl-types-standard-arrayref=1.002000'
+  'perl-types-standard-cycletuple=1.002000'
+  'perl-types-standard-dict=1.002000'
+  'perl-types-standard-hashref=1.002000'
+  'perl-types-standard-map=1.002000'
+  'perl-types-standard-scalarref=1.002000'
+  'perl-types-standard-tuple=1.002000'
+  'perl-types-typetiny=1.002000'
+  'perl-type-tiny-class=1.002000'
+  'perl-type-tiny-duck=1.002000'
+  'perl-type-tiny-enum=1.002000'
+  'perl-type-tiny-intersection=1.002000'
+  'perl-type-tiny-role=1.002000'
+  'perl-type-tiny-union=1.002000'
+  'perl-type-utils=1.002000')
 conflicts=(
   'perl-kavorka<=0.013'
   'perl-types-readonly<=0.001')
@@ -49,9 +50,11 @@ optdepends=(
   'perl>=5.10.1'
   'perl-devel-lexalias>=0.05'
   'perl-devel-stacktrace'
-  'perl-sub-name'
+  'perl-ref-util-xs>=0.200'
+  'perl-regexp-util>=0.003'
+  'perl-sub-util'
   'perl-type-tie'
-  'perl-type-tiny-xs>=0.010')
+  'perl-type-tiny-xs>=0.011')
 depends=(
   'perl>=5.6.1'
   'perl-exporter-tiny>=0.026')
@@ -61,7 +64,7 @@ makedepends=(
 url='https://metacpan.org/release/Type-Tiny'
 _distdir="Type-Tiny-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/${_distdir}.tar.gz")
-sha512sums=('62a8ffbf14615aa2655e4f49755eed86560f03f5e9172a97950567458fe0de8dd1e29c1c4483d7e9413b9f77a1c7844e4839b4fb4c0afd722b2abbbf413ce3c8')
+sha512sums=('da9e150011f898bd2af2adafb12124505b651f7b41e4cd9177bcf8e4148f7a7732014292f9f2099bc0b2582f4ee1809009cabe74df8002d182eceb855f6d446a')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
