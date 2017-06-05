@@ -662,7 +662,7 @@ else
 # a modified official package
 
         offVer="$( \
-          ssh paule@jeti100 'find '"${pkgDirBase}"' \( -type d \( -name armv6h -o -name armv7h -o -name aarch64 -o -name arm \) -prune -false \) -o -type f -name "'"${paket}"'-*.pkg.tar.xz" -exec basename "{}" \; ' | \
+          ssh paule@jeti100 'find '"${pkgDirBase}"' \( -type d \( -name armv6h -o -name armv7h -o -name aarch64 -o -name arm -o -name archlinux32 \) -prune -false \) -o -type f -name "'"${paket}"'-*.pkg.tar.xz" -exec basename "{}" \; ' | \
             sort -V | \
             tail -n1 \
           )"
