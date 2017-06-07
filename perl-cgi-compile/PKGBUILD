@@ -33,6 +33,7 @@ build() {
   export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
     PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
     PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    PERL5LIB=. \
     MODULEBUILDRC=/dev/null
 
   # If using Makefile.PL
