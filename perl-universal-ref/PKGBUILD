@@ -23,7 +23,7 @@ sha512sums=('bdefd8028f38fdd54444f12ad96359662a528895afdfbb0da6055a4d116c805eabd
 prepare() {
   cd "${srcdir}/${_distdir}"
 
-  sed -i 's|\([a-zA-Z]\+\)->op_sibling|OpSIBLING(\1)|' *.xs;
+  sed -i 's|\([a-zA-Z]\+\)->op_sibling|OpSIBLING(\1)|' *.xs
 }
 
 build() {
