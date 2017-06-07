@@ -27,7 +27,13 @@ _distdir="${_perlmod}-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/$_author/${_distdir}.tar.gz")
 noextract=()
 
-build(){
+prepare() {
+  cd "$srcdir/${_distdir}"
+  
+  sed -i 's|\([a-zA-Z]\+\)->op_sibling|OpSIBLING(\1)|' *.xs
+}
+
+build() {
   cd "$srcdir/${_distdir}"
   
   # Setting these env variables overwrites any command-line-options we don't want...
