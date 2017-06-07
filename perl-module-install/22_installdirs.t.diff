@@ -1,0 +1,11 @@
+--- t/22_installdirs.t	2012-03-02 00:00:48.000000000 +1100
++++ t/22_installdirs-edit.t	2012-06-06 11:26:54.998603586 +1000
+@@ -13,6 +13,8 @@
+ 
+ plan tests => 24;
+ 
++undef $ENV{PERL_MM_OPT}; # PERL_MM_OPT='INSTALLDIRS=perl' can interfere
++
+ SCOPE: {
+ 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
+ use inc::Module::Install 0.81;
