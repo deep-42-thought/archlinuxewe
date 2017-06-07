@@ -4,7 +4,7 @@
 
 pkgname='perl-yaml-libyaml'
 pkgver=0.65
-pkgrel='2'
+pkgrel='3'
 pkgdesc="Perl YAML Serialization using XS and libyaml"
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -13,6 +13,8 @@ depends=(
   'perl>=5.8.1')
 makedepends=(
   'perl-extutils-makemaker')
+provides=(
+  'perl-yaml-xs')
 url='https://metacpan.org/release/YAML-LibYAML'
 source=("http://search.cpan.org/CPAN/authors/id/T/TI/TINITA/YAML-LibYAML-${pkgver}.tar.gz")
 sha512sums=('87998f9d8458476168c06e984696ac562e77f6cfc252c57a8159bb45353bacab7fa159c983275f08fcd54479d7a994feebc2568f51b564d685d99cc66ee87cf0')
