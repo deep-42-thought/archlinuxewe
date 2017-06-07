@@ -1,0 +1,73 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (54bfd7cca693b229aa53ffc98d551b62ea234aaa5be7e6717857610a2da6803b0be2dfe7ddfe9810cf320c477023b3b4356d47df7f8c202ed8c14d71b472c0bc)
+
+pkgname='perl-module-scandeps'
+pkgver='1.23'
+pkgrel='1'
+pkgdesc='Recursively scan Perl code for dependencies'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.8.1'
+  'perl-file-temp'
+  'perl-getopt-long'
+  'perl-module-metadata'
+  'perl-pathtools'
+  'perl-text-parsewords'
+  'perl-version')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-requires'
+  'perl-test-simple')
+url='https://metacpan.org/release/Module-ScanDeps'
+_distdir="Module-ScanDeps-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/R/RS/RSCHUPP/${_distdir}.tar.gz")
+sha512sums=('7ceb1705aa9be7601a44dea2521a0952de70eb294a88939147d254c3af7056602bbfab97fd117ac4f4184da92354aa1f83f1207d84bf502eb02b0c60fc417ba8')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
