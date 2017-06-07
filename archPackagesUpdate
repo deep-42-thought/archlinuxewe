@@ -309,7 +309,7 @@ then
 
 # only print packages to be built?
   if ${printOnly}; then
-    printf '%d scheduled builds:' "${#pakete[@]}"
+    printf '%d scheduled builds:\n' "${#pakete[@]}"
     for ((i=0; i<${#pakete[@]}; i++)); do
       echo " ${pakete[${i}]} ${verss[${i}]} ${archs[${i}]}"
     done
