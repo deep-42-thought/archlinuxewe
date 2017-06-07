@@ -1,27 +1,25 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
-# Contributor: John D Jones III <j[nospace]n[nospace]b[nospace]e[nospace]k[nospace]1972 -_AT_- the domain name google offers a mail service at ending in dot com>
-# Generator  : CPANPLUS::Dist::Arch 1.27
+# Generator : neuesPerlPaket (54bfd7cca693b229aa53ffc98d551b62ea234aaa5be7e6717857610a2da6803b0be2dfe7ddfe9810cf320c477023b3b4356d47df7f8c202ed8c14d71b472c0bc)
 
 pkgname='perl-opengl'
-pkgver='0.6704'
-pkgrel='4'
-pkgdesc="Interface to OpenGL drawing/imaging library"
-arch=('i686' 'x86_64')
+pkgver='0.70'
+pkgrel='1'
+pkgdesc='Perl bindings to the OpenGL API, GLU, and GLUT/FreeGLUT'
+arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
   'freeglut>=2.8.1'
   'glu>=9.0.0'
-  'perl-test-simple')
+  'perl-test-simple'
+  'libxmu')
 makedepends=(
   'perl-extutils-makemaker')
 [ -z "$DISPLAY" ] && makedepends+=('xorg-server-xvfb')
-url='https://metacpan.org/release/OpenGL/'
-source=("https://cpan.metacpan.org/authors/id/C/CH/CHM/OpenGL-${pkgver}.tar.gz" \
-        "OpenGL-${pkgver}-Delete-functions-removed-from-Mesa.patch::http://pkgs.fedoraproject.org/cgit/perl-OpenGL.git/plain/OpenGL-${pkgver}-Delete-functions-removed-from-Mesa.patch?id=7498635332872268a0d4519723b44725e9a496dc")
-sha512sums=('3a2c9970802242ebae58256cd80dc81ac04a2af974105d3fbdf4dfcf1aa64a769b1ffcb5b0156eceb6bf7aed6eb6b2eb9332ec9f4724b0a1bc61d15f0de99d09'
-            '8c96d5766ab36b63dab607427785c6ed74834a6172896ef3e17e9bdd698ecc66dea5efb9358289ce382fa453c13945e4804631f30f392fcdbafb80a0eb1edbd5')
-_distdir="OpenGL-$pkgver"
+url='https://metacpan.org/release/OpenGL'
+_distdir="OpenGL-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/C/CH/CHM/${_distdir}.tar.gz")
+sha512sums=('7d418015b2553dd69805252b5957bc97013260617d5a358f692e29b8da884590421c81fbc71d4dd678c93a5c89047d6af8c32f15bf0bd0e4ce514c200e634af5')
 
 prepare() {
   # Setting these env variables overwrites any command-line-options we don't want...
@@ -29,9 +27,6 @@ prepare() {
     PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'" \
     PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
     MODULEBUILDRC=/dev/null
-  # Patch for newer mesa
-  cd "$srcdir/$_distdir"
-  patch -p1 < "$srcdir/OpenGL-${pkgver}-Delete-functions-removed-from-Mesa.patch"
 }
 
 build() {
@@ -63,4 +58,3 @@ package() {
 
   find "$pkgdir" -name .packlist -o -name perllocal.pod -delete
 }
-
