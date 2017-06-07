@@ -2,7 +2,7 @@
 pkgname=perl-pdl
 _pkgname='PDL'
 pkgver=2.018
-pkgrel='2'
+pkgrel='3'
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="the Perl Data Language"
 arch=('x86_64' 'i686')
@@ -41,6 +41,8 @@ makedepends=(
   'perl-test-deep'
   'perl-test-exception'
   'perl-test-warn')
+provides=(
+  "perl-pdl-core=${pkgver}")
 options=('!emptydirs')
 source=("http://search.cpan.org/CPAN/authors/id/C/CH/CHM/${_distdir}.tar.gz")
 sha512sums=('e6c45b8f2a5b4ab64611ad18288a784e38165231639445b5c96da6e735f15dcb463de7f4b164ff8309fc27939ec6cd2134ec0d6026ec9715cceb8f6094a2714b')
