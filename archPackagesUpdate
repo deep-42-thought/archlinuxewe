@@ -22,6 +22,7 @@ checkSanity=true
 rmAddPkgs=false
 log=''
 logFile='-'
+printOnly=false
 
 # print help screen
 usage()
@@ -54,6 +55,8 @@ usage()
   >&2 echo '      do not upload built packages from rechenknecht to jeti100'
   >&2 echo '    --only $package:'
   >&2 echo '      only consider $package for build and update process'
+  >&2 echo '    -p|--print-only:'
+  >&2 echo '      only print what would be done'
   >&2 echo '    -r|--removeAdditionalPackages:'
   >&2 echo '      remove additional packages from build environments'
   >&2 echo ''
@@ -86,7 +89,7 @@ cleanUp () {
 
 echo 'parse arguments ...'
 eval set -- "$(
-  getopt -o b:cfL:r \
+  getopt -o b:cfL:pr \
     --long branch: \
     --long cleanCache \
     --long cleanUnsigned \
@@ -99,6 +102,7 @@ eval set -- "$(
     --long no-selfUpdate \
     --long no-upload \
     --long only: \
+    --long print-only \
     --long removeAdditionalPackages \
     -n "$(basename "$0")" \
     -- "$@" \
@@ -160,6 +164,10 @@ do
       shift
       echo '"only '"$1"'" erkannt'
       onlyPackages[${#onlyPackages[@]}]="$1"
+    ;;
+    -p|--print-only)
+      echo '"print-only" erkannt'
+      printOnly=true
     ;;
     -r|--removeAdditionalPackages)
       echo '"removeAdditionalPackages" erkannt'
@@ -298,6 +306,15 @@ then
       fi
     done
   done
+
+# only print packages to be built?
+  if ${printOnly}; then
+    echo 'Scheduled builds:'
+    for ((i=0; i<${#pakete[@]}; i++)); do
+      echo " ${pakete[${i}]} ${verss[${i}]} ${archs[${i}]}"
+    done
+    exit 0
+  fi
 
 # check sanity of build-chroots
   err=false
