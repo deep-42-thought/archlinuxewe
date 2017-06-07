@@ -20,6 +20,12 @@ _distdir="UNIVERSAL-ref-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/J/JJ/JJORE/${_distdir}.tar.gz")
 sha512sums=('bdefd8028f38fdd54444f12ad96359662a528895afdfbb0da6055a4d116c805eabdae4b6eb1fcf6d5018563467a9bf38aad003a5b78406ab8cdc9494b79770e2')
 
+prepare() {
+  cd "${srcdir}/${_distdir}"
+
+  sed -i 's|\([a-zA-Z]\+\)->op_sibling|OpSIBLING(\1)|' *.xs;
+}
+
 build() {
   cd "${srcdir}/${_distdir}"
 
