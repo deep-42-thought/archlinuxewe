@@ -436,7 +436,7 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
-      grep -q '^http://paraview.org/files/'
+      grep -q '^https://www\.paraview\.org/files/'
     then
       remVerz="$(
         echo "${src}" | \
