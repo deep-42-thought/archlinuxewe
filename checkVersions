@@ -423,20 +423,20 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
-      grep -q "https\?://\(\(bitbucket\|bindfs\|qgis\|download\.osgeo\|www\.\(iozone\|wurzel\)\)\.org\|ftp\.daper\.net\|www\.\(cybernoia\.de\|phy\.duke\.edu\)\|isl\.gforge\.inria\.fr\)/"
+      grep -q "https\?://\(\(bitbucket\|bindfs\|qgis\|download\.osgeo\|www\.\(iozone\|wurzel\)\)\.org\|ftp\.daper\.net\|www\.\(cybernoia\.de\|phy\.duke\.edu\)\|isl\.gforge\.inria\.fr\|alpine\.freeiz.com\)/"
     then
       quVer="${src%/*}/"
       remVer="$( \
         curl "${quVer}" 2> /dev/null | \
           tr '"<>' '\n\n\n' | \
-          grep "^${pkgname}\(-src\)\?-\?[0-9._]\+\.t\(ar\(\.gz\|\.bz2\)\?\|gz\)\$" | \
-          sed "s@^${pkgname}\(-src\)\?-\?\([0-9._]\+\)\.t\(ar\(\.gz\|\.bz2\)\?\|gz\)\$@\2@" | \
+          grep "^${pkgname}\(-src\)\?-\?[0-9._]\+\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
+          sed "s@^${pkgname}\(-src\)\?-\?\([0-9._]\+\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
           tr '_' '.' | \
           sort -V | \
           tail -n1
       )"
     elif echo "${src}" | \
-      grep -q '^https://www\.paraview\.org/files/'
+      grep -q '^https\?://\(www\.\)\?paraview\.org/files/'
     then
       remVerz="$(
         echo "${src}" | \
