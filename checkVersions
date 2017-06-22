@@ -309,7 +309,7 @@ then
       )
       [ "${pkgname}" == "pgplot" ] && remVer="${tmpVer:0:1}.${tmpVer:1:1}.${tmpVer:2}" || remVer="${tmpVer}"
     elif echo "${src}" | \
-      grep -q "//arch\.eckner\.net/"
+      grep -q '//arch\.eckner\.net/\|//mirror\.archlinux32\.org/'
     then
       quVer="${src%/*}"
       quVer="${quVer#*::}"
