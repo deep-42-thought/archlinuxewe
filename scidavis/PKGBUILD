@@ -6,7 +6,7 @@
 # Contributor: Alexander <chronischzuspaet at gmail dot com> Kempen
 
 pkgname=scidavis
-pkgver=1.17
+pkgver=1.18
 pkgrel=1
 pkgdesc="Application for Scientific Data Analysis and Visualization, fork of QtiPlot"
 arch=('i686' 'x86_64')
@@ -15,17 +15,9 @@ license=('GPL')
 makedepends=('boost' 'cmake')
 depends=('gsl' 'glu' 'mesa' 'muparser' 'python2-pyqt4' 'shared-mime-info'
          'qwt5' 'qwtplot3d')
-source=("http://prdownloads.sourceforge.net/sourceforge/scidavis/${pkgname}-${pkgver}.tar.gz"
-        "https://sourceforge.net/p/scidavis/scidavis-bugs/_discuss/thread/fa133ad9/b8d8/attachment/scidavis-qwt5.patch")
-sha512sums=('c8bb18bfcbffa8f6fae21f9b4058e9c2f0fe6815b80a4c32da487bf34b6395c2ff617b1f1c6bbe2136cea4a40f164ef7bd5d24aaa74427f86e68cd92e80fb2b4'
-            'dee0ee8e6651467c9cd4d300d75c43b4379619900282a25153918c34c0dd506aa30ac77894d8a760ba3fb7b4290646c6e460305025635f13975bc6e13ebec432')
+source=("http://prdownloads.sourceforge.net/sourceforge/scidavis/${pkgname}-${pkgver}.tar.gz")
+sha512sums=('a6242196c42b8a75b4a7b217c2199219dcb546e5a60c1c3381512b588598c788ffdac337f887d94db777cc771654e4354c67145b6f0389a1762f5948736716b5')
 install="${pkgname}.install"
-
-prepare() {
-  # fix qwt
-  cd "${pkgname}-${pkgver}"
-  patch -p1 -i "../scidavis-qwt5.patch"
-}
 
 build() {
   cd "${pkgname}-${pkgver}"
