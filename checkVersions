@@ -423,7 +423,21 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
-      grep -q "https\?://\(\(bitbucket\|bindfs\|qgis\|download\.osgeo\|www\.\(iozone\|wurzel\)\)\.org\|ftp\.daper\.net\|www\.\(cybernoia\.de\|phy\.duke\.edu\)\|isl\.gforge\.inria\.fr\|alpine\.freeiz.com\)/"
+      grep -q "$(
+        printf '^https\\?://%s/\|' \
+          'alpine\.freeiz.com' \
+          'bitbucket\.org' \
+          'bindfs\.org' \
+          'download\.osgeo\.org' \
+          'ftp\.daper\.net' \
+          'isl\.gforge\.inria\.fr' \
+          'qgis\.org' \
+          'webhome\.phy\.duke\.edu' \
+          'www\.iozone\.org' \
+          'www\.wurzel\.org' \
+          'www\.cybernoia\.de' \
+          | sed 's@\\|$@\n@'
+      )"
     then
       quVer="${src%/*}/"
       remVer="$( \
