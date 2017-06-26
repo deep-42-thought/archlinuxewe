@@ -142,7 +142,7 @@ then
           sort -V | \
           tail -n1
       )"
-    elif [ "${pkgname}" == "archiso32" ]
+    elif [ "${pkgname}" == "archiso32" ] || [ "${pkgname}" == 'archiso-dual' ]
     then
       git -C /usr/src/archlinux/archiso fetch upstream
       remVer="$(
@@ -150,6 +150,16 @@ then
           tar -Ox Makefile | \
           grep -m1 '^V=[0-9]\+$' | \
           cut -d= -f2
+      )"
+    elif echo "${src}" | \
+      grep -q '//download\.virtualbox\.org/'
+    then
+      quVer="$(
+        echo "${src}" | \
+          sed 's|/[^/]\+/[^/]\+$||'
+      )"
+      remVer="$(
+        curl "${quVer}/LATEST.TXT" 2> /dev/null
       )"
     elif echo "${src}" | \
       grep -q "//www\.mpich\.org/"
