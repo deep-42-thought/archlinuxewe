@@ -127,7 +127,10 @@ versteheMetaYml() {
     done
     metaInfos["${sucheWonach}"]="$(
       echo "${metaInfos["${sucheWonach}"]}" | \
-        versionsUniq
+        versionsUniq | \
+        tr ' ' '\n' | \
+        mangle_versions | \
+        tr '\n' ' '
     )"
   done
 
@@ -185,6 +188,20 @@ versteheMetaYml() {
     fi
   done
   echo "... fertig"
+}
+
+mangle_versions() {
+  local pre
+  local post
+  if [ $# -eq 1 ]; then
+    pre="s|^|$1=|"
+    post='s|^[^=]*=||'
+  fi
+  sed "${pre}"'
+    /^perl-extutils-makemaker[<>=]/{
+      s|\.\([0-9][0-9]\)\([0-9]\+\)|.\1.\2|
+    }
+  '"${post}"
 }
 
 declare -A metaInfos
