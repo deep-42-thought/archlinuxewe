@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (54bfd7cca693b229aa53ffc98d551b62ea234aaa5be7e6717857610a2da6803b0be2dfe7ddfe9810cf320c477023b3b4356d47df7f8c202ed8c14d71b472c0bc)
 
 pkgname='perl-module-scandeps'
-pkgver='1.23'
-pkgrel='1'
+pkgver=1.24
+pkgrel=1
 pkgdesc='Recursively scan Perl code for dependencies'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -23,7 +23,7 @@ makedepends=(
 url='https://metacpan.org/release/Module-ScanDeps'
 _distdir="Module-ScanDeps-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RS/RSCHUPP/${_distdir}.tar.gz")
-sha512sums=('7ceb1705aa9be7601a44dea2521a0952de70eb294a88939147d254c3af7056602bbfab97fd117ac4f4184da92354aa1f83f1207d84bf502eb02b0c60fc417ba8')
+sha512sums=('7f3d9821aa863d8ebc78fb5fb3c7172ce133169ec54ed91b90e05ba50654b4bd0282b3a760adfc8b6bd553dda4116dbf51972bb2af94b59f6f04daeba996e889')
 
 build() {
   cd "${srcdir}/${_distdir}"
