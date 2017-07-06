@@ -3,8 +3,8 @@
 # Generator  : CPANPLUS::Dist::Arch 1.28
 
 pkgname='perl-devel-partialdump'
-pkgver=0.18
-pkgrel='3'
+pkgver=0.20
+pkgrel=1
 pkgdesc="Partial dumping of data structures, optimized for argument printing."
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -20,13 +20,13 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-if'
   'perl-pathtools'
-  'perl-test-simple'
-  'perl-test-warn')
+  'perl-test-simple>=0.96'
+  'perl-test-warnings>=0.009')
 checkdepends=('perl-test-warn')
 url='http://search.mcpan.org/dist/Devel-PartialDump'
 _distdir="Devel-PartialDump-${pkgver}"
 source=("http://search.mcpan.org/CPAN/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
-sha512sums=('706639f5d5b5f67fd76fefd68a8019be08f44b58c3ce38a979101cd96053eef36977a78c14be91dbdf0b0e728f9b29941fc74b4d52a9925492e57a5897a1fec1')
+sha512sums=('1229fb82c62815eb030ddc3cdf037a877e46a1a00c6b6f6f99a562865649067757fe1e42e8242bdf8107b43197c5e47915da5fb6f502a2c90977022b47579b95')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
