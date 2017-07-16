@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
 
 pkgname='perl-lexical-sealrequirehints'
-pkgver='0.010'
-pkgrel='3'
+pkgver=0.011
+pkgrel=1
 pkgdesc='prevent leakage of lexical hints'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -21,7 +21,7 @@ checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
 url='https://metacpan.org/release/Lexical-SealRequireHints'
 _distdir="Lexical-SealRequireHints-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/${_distdir}.tar.gz")
-sha512sums=('4c71a22397ae689349bf45c1b2177108008158052b341f9d9b09e5d97c55cd538bb427c041389c4edf8584be292bf4b1f42abdff573510a0a64fb69e5166aecd')
+sha512sums=('b31d3527e3ea1d28ebcac58cfdb35893643c7c371dba96cf06509cc7b1ce61c38f6cc37f420c2ec93b0a57adfc3d3cd797af97fad9aeb6e1000ef1769e26c31e')
 
 build(){
   cd "${srcdir}/${_distdir}"
