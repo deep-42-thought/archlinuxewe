@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (e1feeec1fef8ffa08f2187c3499d9064535d35bed5e6f05c4ea57fac8623450a307d700e0403d8d8f76f9ec6c003d314573d6cdb779aa9aae205c7f94571a7de)
 
 pkgname='perl-sub-strictdecl'
-pkgver='0.004'
-pkgrel='3'
+pkgver=0.005
+pkgrel=1
 pkgdesc='detect undeclared subroutines in compilation'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -21,7 +21,7 @@ conflicts=(
 url='https://metacpan.org/release/Sub-StrictDecl'
 _distdir="Sub-StrictDecl-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/${_distdir}.tar.gz")
-sha512sums=('73a50a478564d722a655bed76a89f540228d67aa24403c7286443aa88b499ee58e073d72a28ba2eb22438f94357ca4fe2c3484c6ad985e81fa572558dd5e324a')
+sha512sums=('76abef01ab6131a69ecdb60d4f76f4765e256585f09e2624e837d15600dc85757e52a999ce57817d56066ba92bae896c97f733d4bd278e788f44e075eef19225')
 
 build() {
   cd "${srcdir}/${_distdir}"
