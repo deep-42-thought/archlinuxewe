@@ -391,6 +391,7 @@ then
           tr "\"" "\n" | \
           grep "^${quVer#*sourceforge.net}\(${pkgname}\(-\|%20\)\)\?[0-9.-]" | \
           sed "s@/${pkgname}\(-\|%20\)@/@" | \
+          sed 's|\.tar.*$||' | \
           sed "s|^${quVer#*sourceforge.net}\([0-9.-]\+\).*\$|\1|" | \
           sed "s|-\$||" | \
           sort -V | \
