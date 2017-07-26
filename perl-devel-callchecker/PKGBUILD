@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (e1feeec1fef8ffa08f2187c3499d9064535d35bed5e6f05c4ea57fac8623450a307d700e0403d8d8f76f9ec6c003d314573d6cdb779aa9aae205c7f94571a7de)
 
 pkgname='perl-devel-callchecker'
-pkgver='0.007'
-pkgrel='4'
+pkgver=0.008
+pkgrel=1
 pkgdesc='custom op checking attached to subroutines'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -28,7 +28,7 @@ checkdepends=(
 url='https://metacpan.org/release/Devel-CallChecker'
 _distdir="Devel-CallChecker-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/${_distdir}.tar.gz")
-sha512sums=('0a8c2f5c46cadf5e8ecef6fc4fc86f1d3e53ddfbc1478ffa978dd7250caebdc4b53c272bb426f3ba13d2e308e2a31fe5b6ed02b7f1334448335f3f76bbabaa97')
+sha512sums=('7ae7ee932e7e6a44d57178c84537cff8a9c350fbbf36c21dbc5ce56a5fe1d4ca748e0d5dd75abf5ebfa5e1223af4285b9b25074c0d1baa97eccfc6dddb62cfab')
 
 build() {
   cd "${srcdir}/${_distdir}"
