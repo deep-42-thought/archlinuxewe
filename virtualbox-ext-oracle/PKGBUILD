@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Contributor: Sébastien Luttringer
 pkgname=virtualbox-ext-oracle
-pkgver=5.1.24
+pkgver=5.1.26
 pkgrel=1
 pkgdesc='Oracle VM VirtualBox Extension Pack'
 arch=('any')
@@ -11,7 +11,7 @@ options=('!strip')
 install=virtualbox-ext-oracle.install
 source=("http://download.virtualbox.org/virtualbox/$pkgver/Oracle_VM_VirtualBox_Extension_Pack-$pkgver.vbox-extpack")
 noextract=("Oracle_VM_VirtualBox_Extension_Pack-$pkgver.vbox-extpack")
-sha512sums=('fc821a446c67c4046dd2aa2078d6a71a63a490d59c96f76b29a5a46b26ad7e51588c1009efbafa448e73c799dc816de0b5f0ee17b10d306d3e701a15f69c595d')
+sha512sums=('c6e31e8fb26b8ca32c423d14e85e15f6372a030ec40e9f06ce1e1234913d3586cc58d46819684c99cf3ced37f35d0a964339199cad5cf43580c88bf1afa63ef6')
 
 prepare() {
   # shrink uneeded cpuarch
