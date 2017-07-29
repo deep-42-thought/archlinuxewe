@@ -10,15 +10,9 @@ usage() {
 }
 
 curl_it() {
-  if ping -c1 -W5 "$(
-    echo "$1" | \
-      sed '
-        s|^[^/]\+://||
-        s|/.*$||
-      '
-  )" > /dev/null 2>&1; then
-    curl -sS "$1"
-  fi
+  local source="$1"
+  shift
+  curl --connect-timeout 5 -sS "$@" "${source}"
 }
 
 me="$(readlink -f $0)"
@@ -113,7 +107,7 @@ then
     if [ "${pkgname}" == "adduser" ]
     then
       remVer="$(
-        curl_it "${source[0]}" | \
+        curl_it "${source[0]}" '-L' | \
           grep '^# Version: ' | \
           sed 's|^# Version: \+||'
       )"
@@ -448,7 +442,7 @@ then
     elif echo "${src}" | \
       grep -q "$(
         printf '^https\\?://%s/\|' \
-          'alpine\.freeiz.com' \
+          'alpine\.freeiz\.com' \
           'bitbucket\.org' \
           'bindfs\.org' \
           'download\.osgeo\.org' \
