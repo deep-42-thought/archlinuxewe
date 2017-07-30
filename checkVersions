@@ -12,7 +12,7 @@ usage() {
 curl_it() {
   local source="$1"
   shift
-  curl --connect-timeout 5 -sS "$@" "${source}"
+  curl --connect-timeout 5 -s "$@" "${source}"
 }
 
 me="$(readlink -f $0)"
