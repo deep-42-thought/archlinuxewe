@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (e1feeec1fef8ffa08f2187c3499d9064535d35bed5e6f05c4ea57fac8623450a307d700e0403d8d8f76f9ec6c003d314573d6cdb779aa9aae205c7f94571a7de)
 
 pkgname='perl-dynaloader-functions'
-pkgver='0.002'
-pkgrel='3'
+pkgver=0.003
+pkgrel=1
 pkgdesc='deconstructed dynamic C library loading'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -22,7 +22,7 @@ checkdepends=(
 url='https://metacpan.org/release/DynaLoader-Functions'
 _distdir="DynaLoader-Functions-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/${_distdir}.tar.gz")
-sha512sums=('55315fc8531ab166998b54611ceb8b3f2c4c8a8e4575643fc49ce1f0870c14cce779c603c6f51ed309ca7901fe66bd8ad3a90c514f2a8a0e22b1ecccfa25adf5')
+sha512sums=('58147714352fbd6e90bb42599e5967c9a93dbb899a587ef8a2a64dd13fc9e24176e17b3c2b870b5fa846b077373ca9ea27bec49b31113a8d9cb7d800f6d29599')
 
 build() {
   cd "${srcdir}/${_distdir}"
