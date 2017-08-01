@@ -19,8 +19,9 @@ conflicts=("dropbox-experimental")
 options=('!strip' '!upx')
 
 source=("dropbox.png" "dropbox.desktop" "terms.txt" "dropbox.service" "dropbox@.service")
-source_i686=("https://d1ilhw0800yew8.cloudfront.net/client/${pkgname}-lnx.x86-${pkgver}.tar.gz")
-source_x86_64=("https://d1ilhw0800yew8.cloudfront.net/client/${pkgname}-lnx.x86_64-${pkgver}.tar.gz")
+for _target_arch in 'i6:' 'x:_64'; do
+	eval 'source_'"${_target_arch/:/86}"'=("https://d1ilhw0800yew8.cloudfront.net/client/${pkgname}-lnx.x86'"${_target_arch#*:}"'-${pkgver}.tar.gz")'
+done
 
 sha512sums=('b1a2ca11479c9f243c0368d79b36ef87910311af2dd126a3291438083544ed10a640143a58e73be1d27bf016c114e668ea504ed6eed6955370bfcac309e5fb7d'
             '690c934012a897771ed82115912fc49a81c9b1ba7ac6a6067c733b4693c9c112b1e4c808319068a2adce7b38c2cf23d3befb8ab41259b1c5280cbe8ee468c15c'

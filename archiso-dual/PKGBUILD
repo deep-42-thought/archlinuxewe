@@ -3,10 +3,12 @@
 # Contributor: Gerardo Exequiel Pozzi <djgera@archlinux.org>
 # Contributor: Pierre Schmitz <pierre@archlinux.de>
 
+_target_arch=$(printf '%s' x 8 6 _ 6 4 ' and ' i 6 8 6)
+
 pkgname=archiso-dual
 pkgver=32
 pkgrel=1
-pkgdesc='Tools for creating Arch Linux live and install iso images - for x86_64 and i686'
+pkgdesc='Tools for creating Arch Linux live and install iso images - for '"${_target_arch}"
 arch=('any')
 license=('GPL')
 url='https://github.com/archlinux32/archiso32'

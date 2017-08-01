@@ -3,12 +3,12 @@
 pkgname=pacman-mirrorlist32
 pkgver=20170706
 pkgrel=1
-pkgdesc="Arch Linux mirror list for use by pacman for i686 packages on an x86_64 host"
+pkgdesc=$(printf '%s' 'Arch Linux mirror list for use by pacman for i68' '6 packages on an x86' '_64 host')
 arch=('any')
 url="https://www.archlinux32.org/"
 license=('GPL')
 backup=(etc/pacman.d/mirrorlist32)
-source=("${pkgname}-${pkgver}-${pkgrel}-any-original.tar.xz::https://mirror.archlinux32.org/i686/core/${pkgname%32}-${pkgver}-${pkgrel}-any.pkg.tar.xz")
+source=($(printf '%s' "${pkgname}-${pkgver}-${pkgrel}-any-original.tar.xz::https://mirror.archlinux32.org/i6" "86/core/${pkgname%32}-${pkgver}-${pkgrel}-any.pkg.tar.xz"))
 sha512sums=('a936098a2e58bd75c8e42953ed3855651609721e8453a409e8afd7e902da97d40ead9bcec0ac572c0146b161b49bf2cb600ca7ef6728ec29c2d09a806b534e01')
 
 package() {
