@@ -12,7 +12,7 @@ usage() {
 curl_it() {
   local source="$1"
   shift
-  curl --connect-timeout 5 -s "$@" "${source}"
+  curl --connect-timeout 10 -s "$@" "${source}"
 }
 
 me="$(readlink -f $0)"
@@ -351,7 +351,10 @@ then
           sed "s|/archive/[^/]*\$|/releases|" | \
           sed 's|http:|https:|'
       )
-      quNam=/${quVer#*.com/}/tag/
+      quNam=$(
+        echo "/${quVer#*.com/}/tag/" | \
+          tr '[[:upper:]]' '[[:lower:]]'
+      )
       remVer=$( \
         curl_it "${quVer}" | \
           tr "\"" "\n" | \
