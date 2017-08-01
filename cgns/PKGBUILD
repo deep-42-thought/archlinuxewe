@@ -7,8 +7,8 @@
 
 pkgname=cgns
 _PKGNAME=CGNS
-pkgver=3.3.0
-pkgrel=3
+pkgver=3.3.1
+pkgrel=1
 pkgdesc='Standard for recording and recovering computer data associated with the numerical solution of fluid dynamics equations'
 arch=('i686' 'x86_64')
 url='http://www.cgns.org'
@@ -16,7 +16,7 @@ license=('custom')
 depends=('tk' 'hdf5' 'libxmu' 'glu')
 makedepends=('gcc-fortran' 'cmake')
 source=(${pkgname}-${pkgver}.tar.gz::https://github.com/${_PKGNAME}/${_PKGNAME}/archive/v${pkgver}.tar.gz)
-sha256sums=('8422c67994f8dc6a2f201523a14f6c7d7e16313bdd404c460c16079dbeafc662')
+sha512sums=('d25149b6e59d9db7c31a36967a8d035308a15b9ba884da44999673d9ced43aa60c90a5152ce9f223fb9690a4802e56dce4aaec24f6b40c1d9eea370523383c32')
 
 # need to tell cmake when to build 64bit version
 if [[ $CARCH == "x86_64" ]]
