@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-carp-assert-more'
-pkgver='1.14'
-pkgrel='3'
+pkgver=1.16
+pkgrel=1
 pkgdesc='convenience wrappers around Carp::Assert'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -23,7 +23,7 @@ checkdepends=(
 url='https://metacpan.org/release/Carp-Assert-More'
 _distdir="Carp-Assert-More-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/${_distdir}.tar.gz")
-sha512sums=('0411908afd5cc45cedce83fb10e67f78f7513fa788421d9c4e0f0f0064bf6fdd7154c2414a449456ff4c600f31eba138fb4d3f94e68743af4b71f7368c30b398')
+sha512sums=('9f81604574eab5a0a5003ad747ffec3a3dd33bc63e67d12697e4e30de8cb234a73e225f82a4d0f31576e19382cc2d6a402962f5fe1e4c5289e080ca23b30c0fe')
 
 build() {
   cd "${srcdir}/${_distdir}"
