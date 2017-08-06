@@ -2,23 +2,22 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-test-time'
-pkgver='0.04'
-pkgrel='2'
+pkgver=0.05
+pkgrel=1
 pkgdesc='Overrides the time() and sleep() core functions for testing'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl-filter-util-call')
+  'perl-test-simple')
 makedepends=(
-  'perl-extutils-makemaker>=6.36'
-  'perl-module-install')
+  'perl-extutils-makemaker>=6.64')
 checkdepends=(
   'perl-file-slurp')
 url='https://metacpan.org/release/Test-Time'
 _distdir="Test-Time-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SA/SATOH/${_distdir}.tar.gz")
-sha512sums=('99d258d8257dd858eab5f95211c8bb2c071155c63ec6af577541f7446c75c39329d249e9fd43d9d688d7c30a104953aa0b3774aec9b3ffc0fd96d1947d844c24')
+sha512sums=('d06a0962344df8debf71aa0b9afc4618d63662edaa8645243977b83f27623aac92352806aab949cd9a32aea96ab74fcae90db2b5a02e69f6a9077a2415acdcb5')
 
 build() {
   cd "${srcdir}/${_distdir}"
