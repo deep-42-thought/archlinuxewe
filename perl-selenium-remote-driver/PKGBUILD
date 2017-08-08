@@ -1,0 +1,99 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (c1f3b1d839d3028d3f89b3570571481f56918c78cec616f31fb6776e9c8a984302c8c04fe28e83d4b42ac5cb5c651724f86aa441f6919a552804809947021477)
+
+pkgname='perl-selenium-remote-driver'
+pkgver='1.20'
+pkgrel='1'
+pkgdesc=''
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.10.0'
+  'perl-archive-zip'
+  'perl-base'
+  'perl-carp'
+  'perl-constant'
+  'perl-data-dumper'
+  'perl-exporter'
+  'perl-file-temp'
+  'perl-file-which'
+  'perl-http-message'
+  'perl-io'
+  'perl-io-string'
+  'perl-io-compress>=2.030'
+  'perl-json'
+  'perl-libwww'
+  'perl-mime-base64'
+  'perl-moo>=1.005'
+  'perl-namespace-clean'
+  'perl-pathtools'
+  'perl-scalar-list-utils>=1.33'
+  'perl-sub-install'
+  'perl-test-longstring'
+  'perl-test-simple'
+  'perl-try-tiny'
+  'perl-xml-simple'
+)
+makedepends=(
+  'perl'
+  'perl-extutils-makemaker'
+  'perl-file-stat'
+  'perl-lib'
+  'perl-test-fatal'
+  'perl-test-lwp-useragent'
+  'perl-test-simple'
+  'perl-test-time'
+  'perl-test-warn'
+)
+url='https://metacpan.org/pod/Selenium::Remote::Driver'
+_distdir="Selenium-Remote-Driver-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/G/GE/GEMPESAW/${_distdir}.tar.gz")
+sha512sums=('4d41eeffbb1869a5d2151d8c18b62de8e822d9f06489c6b89fea6cc31570c4cb5ca11b5334075c4f4bc154cfbc155291d60a574a8f36b8dd2740cce7e977df13')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
