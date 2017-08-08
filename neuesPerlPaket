@@ -25,8 +25,9 @@ then
   exit 1
 fi
 
-if cat $(ls /var/lib/pacman/sync/*.db | grep -v "/archlinuxewe\.db\$") | \
-  tar -Oixz --wildcards "*/desc" | \
+if ls /var/lib/pacman/sync/*.db | \
+  grep -v "/\(archlinuxewe\|quarry\)\.db\$" | \
+  xargs -rn1 tar -Oxz --wildcards "*/desc" -f | \
   sed '
     :begin;
       $!N;
@@ -43,31 +44,31 @@ fi
 
 . perlFunktionen
 
-seitenInhalt="$(curl "${url}" 2> /dev/null)"
+seitenInhalt="$(curl -Ss "${url}")"
 
 pkgver="$(
   echo "${seitenInhalt}" | \
     grep "<title>${cpanName}-" | \
-    sed "s|^.*<title>${cpanName}-\([0-9.-]\+\)\s.*|\1|"
+    sed "s|^.*<title>${cpanName}-v\?\([0-9.-]\+\)\s.*|\1|"
 )"
 
 pkgdesc="$(
   echo "${seitenInhalt}" | \
     grep "<title>${cpanName}-" | \
-    sed "s|^.*<title>${cpanName}-[0-9.-]\+\s\+-\s\+\(\S.*\S\)\s\+-\s\+metacpan\.org</title>.*|\1|" | \
+    sed "s|^.*<title>${cpanName}-v\?[0-9.-]\+\s\+-\s\+\(\S.*\S\)\s\+-\s\+metacpan\.org</title>.*|\1|" | \
     sed "s|'|'\"'\"'|g"
 )"
 
 dlUrl="$(
   echo "${seitenInhalt}" | \
-    grep "href=\"https://cpan.metacpan.org/authors/id/[^/]/[^/]\{2\}/[^/]\+/${cpanName}-[0-9.]\+\.tar\.gz\">" | \
-    sed "s|^.*href=\"\(https://cpan.metacpan.org/authors/id/[^/]/[^/]\{2\}/[^/]\+/${cpanName}-[0-9.]\+\.tar\.gz\)\">.*\$|\1|" | \
+    grep "href=\"https://cpan.metacpan.org/authors/id/[^/]/[^/]\{2\}/[^/]\+/${cpanName}-v\?[0-9.]\+\.tar\.gz\">" | \
+    sed "s|^.*href=\"\(https://cpan.metacpan.org/authors/id/[^/]/[^/]\{2\}/[^/]\+/${cpanName}-v\?[0-9.]\+\.tar\.gz\)\">.*\$|\1|" | \
     tail -n1
 )"
 
 dlUrlForPKGBUILD="$(
   echo "${dlUrl}" | \
-    sed "s|/${cpanName}-[0-9.]\+\.tar\.gz|/\${_distdir}.tar.gz|"
+    sed "s|/${cpanName}-v\?[0-9.]\+\.tar\.gz|/\${_distdir}.tar.gz|"
 )"
 
 mkdir "${pkgname}"
@@ -75,14 +76,20 @@ cd "${pkgname}"
 
 wget -nd "${dlUrl}"
 
+if echo "${dlUrl}" | \
+  grep -q "/${cpanName}-v[0-9.]\+\.tar\.gz\$"; then
+  _distdir="${cpanName}-v${pkgver}"
+else
+  _distdir="${cpanName}-${pkgver}"
+fi
+
 sha512sum="$(
-  sha512sum "${cpanName}-${pkgver}.tar.gz" | \
+  sha512sum "${_distdir}.tar.gz" | \
     cut -d " " -f 1
 )"
 
 echo "META.yml lesen ..."
 
-_distdir="${cpanName}-${pkgver}"
 versteheMetaYml
 
 (
@@ -102,11 +109,16 @@ versteheMetaYml
     then
       echo "${wasAusgeben}=("
       echo "${metaInfos["${wasAusgeben}"]})" | \
-        sed "s|^|  '|;s|\()\?\)\$|'\1|"
+        sed "s|^ *|  '|;s| *\()\?\)\$|'\1|"
     fi
   done
   echo "url='${url}'"
-  echo "_distdir=\"${cpanName}-\${pkgver}\""
+  if echo "${dlUrl}" | \
+    grep -q "/${cpanName}-v[0-9.]\+\.tar\.gz\$"; then
+    echo "_distdir=\"${cpanName}-v\${pkgver}\""
+  else
+    echo "_distdir=\"${cpanName}-\${pkgver}\""
+  fi
   echo "source=(\"${dlUrlForPKGBUILD}\")"
   echo "sha512sums=('${sha512sum}')"
   echo ''
