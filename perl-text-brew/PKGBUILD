@@ -1,0 +1,64 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
+
+pkgname='perl-text-brew'
+pkgver='0.02'
+pkgrel='1'
+pkgdesc='An implementation of the Brew edit distance'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/Text-Brew'
+_distdir="Text-Brew-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/K/KC/KCIVEY/${_distdir}.tar.gz")
+sha512sums=('6748a30fdff84427d5846b926ffcd25a4e9f15ba0f572c6f0516ba92552e6172ed536ee35ef922a86637efe9a5b04b470d5734a715b28d4ec120d124050f3877')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
