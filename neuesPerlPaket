@@ -108,8 +108,8 @@ versteheMetaYml
     if [ -n "${metaInfos["${wasAusgeben}"]}" ]
     then
       echo "${wasAusgeben}=("
-      echo "${metaInfos["${wasAusgeben}"]})" | \
-        sed "s|^ *|  '|;s| *\()\?\)\$|'\1|"
+      printf "  '%s'\n" ${metaInfos["${wasAusgeben}"]}
+      echo ')'
     fi
   done
   echo "url='${url}'"
