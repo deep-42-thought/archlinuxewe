@@ -1,0 +1,73 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (d98e9787ccd470141efea8700e1a739133b79fe0ed29021a5242edf6863811eb3c5609c242512394ba61f4268fc4e9fa022b71fa6280713c00006a13d6d17f3c)
+
+pkgname='perl-mojolicious-plugin-bootstrap3'
+pkgver='3.3601'
+pkgrel='1'
+pkgdesc=''
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-mojolicious>=4.30'
+  'perl-mojolicious-plugin-assetpack>=0.0601'
+)
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-simple>=0.90'
+)
+checkdepends=(
+  'perl-mojolicious-plugin-assetpack'
+  'perl-mojolicious-plugin-assetpack-backcompat'
+)
+url='https://metacpan.org/pod/release/JHTHORSEN/Mojolicious-Plugin-Bootstrap3-3.1003/lib/Mojolicious/Plugin/Bootstrap3.pm'
+_distdir="Mojolicious-Plugin-Bootstrap3-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/J/JH/JHTHORSEN/${_distdir}.tar.gz")
+sha512sums=('79eaaf2a1fc3aa15c64e6c40b0e3cfc2d30a89b3a5e78cbfab8d03d46dee6eb5a7976387e2c6c5f7d20b7a65b5c0d3bea283b246c3965086efdcae527149765d')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
