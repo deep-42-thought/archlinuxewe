@@ -8,7 +8,7 @@ arch=('any')
 url="https://www.archlinux32.org/"
 license=('GPL')
 backup=(etc/pacman.d/mirrorlist32)
-source=($(printf '%s' "${pkgname}-${pkgver}-${pkgrel}-any-original.tar.xz::https://mirror.archlinux32.org/i6" "86/core/${pkgname%32}-${pkgver}-${pkgrel}-i686.pkg.tar.xz"))
+source=($(printf '%s' "${pkgname}-${pkgver}-${pkgrel}-any-original.tar.xz::https://mirror.archlinux32.org/i6" "86/core/${pkgname%32}-${pkgver}-${pkgrel}-i6" "86.pkg.tar.xz"))
 sha512sums=('4b8165445dc2991fbc60969a7db00897a9d18cab3e66a21400ec69aa7f0e046ffc3a626d7194cd5d84ac6dc611bb5ab7dafc44456de5c8e0136b1129b2e3acc4')
 
 package() {
