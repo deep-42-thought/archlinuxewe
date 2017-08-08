@@ -1,0 +1,83 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
+
+pkgname='perl-exporter-declare'
+pkgver='0.114'
+pkgrel='1'
+pkgdesc='Exporting done right'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-exporter-declare-export=0.114'
+  'perl-exporter-declare-export-alias=0.114'
+  'perl-exporter-declare-export-generator=0.114'
+  'perl-exporter-declare-export-sub=0.114'
+  'perl-exporter-declare-export-variable=0.114'
+  'perl-exporter-declare-meta=0.114'
+  'perl-exporter-declare-specs=0.114'
+)
+depends=(
+  'perl>=5.8.0'
+  'perl-aliased'
+  'perl-carp'
+  'perl-meta-builder>=0.003'
+  'perl-scalar-list-utils'
+)
+makedepends=(
+  'perl-fennec-lite>=0.004'
+  'perl-module-build>=0.42'
+  'perl-test-exception>=0.29'
+  'perl-test-simple>=0.88'
+)
+url='https://metacpan.org/release/Exporter-Declare'
+_distdir="Exporter-Declare-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/E/EX/EXODIST/${_distdir}.tar.gz")
+sha512sums=('79795d2cb6a393959cea29c914760d6776acde324b2c6ba15317771dce8129e0f0beae5c99c4cc715010e70696d9e594e4cb592c434d7ee06600830501937569')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
