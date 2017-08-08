@@ -1,0 +1,96 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
+
+pkgname='perl-dbix-class'
+pkgver='0.082840'
+pkgrel='1'
+pkgdesc='Extensible and flexible object &lt;-&gt; relational mapper.'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.8.1'
+  'perl-class-accessor-grouped>=0.10012'
+  'perl-class-c3-componentised>=1.0009'
+  'perl-class-inspector>=1.24'
+  'perl-config-any>=0.20'
+  'perl-context-preserve>=0.01'
+  'perl-data-dumper-concise>=2.020'
+  'perl-data-page>=2.00'
+  'perl-dbi>=1.57'
+  'perl-devel-globaldestruction>=0.09'
+  'perl-hash-merge>=0.12'
+  'perl-module-find>=0.07'
+  'perl-moo>=2.000'
+  'perl-mro-compat>=0.12'
+  'perl-namespace-clean>=0.24'
+  'perl-path-class>=0.18'
+  'perl-scalar-list-utils>=1.16'
+  'perl-scope-guard>=0.03'
+  'perl-sql-abstract>=1.81'
+  'perl-sub-name>=0.04'
+  'perl-text-balanced>=2.00'
+  'perl-try-tiny>=0.07'
+)
+makedepends=(
+  'perl-dbd-sqlite>=1.29'
+  'perl-extutils-makemaker>=6.59'
+  'perl-file-temp>=0.22'
+  'perl-module-install'
+  'perl-package-stash>=0.28'
+  'perl-test-deep>=0.101'
+  'perl-test-exception>=0.31'
+  'perl-test-simple>=0.94'
+  'perl-test-warn>=0.21'
+)
+url='https://metacpan.org/release/DBIx-Class'
+_distdir="DBIx-Class-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/R/RI/RIBASUSHI/${_distdir}.tar.gz")
+sha512sums=('0ae0c724c57cd2b62b9d711633bfc2ba4320c15f6e9d0253381c9ffae495355e32888ec87d6a85c85000d434cedb51789f4b7807da157de8b08723333b66a0d2')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
