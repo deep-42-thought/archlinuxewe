@@ -1,0 +1,91 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
+
+pkgname='perl-dbix-class-deploymenthandler'
+pkgver='0.002219'
+pkgrel='1'
+pkgdesc='Extensible DBIx::Class deployment'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-autodie'
+  'perl-carp'
+  'perl-carp-clan'
+  'perl-context-preserve>=0.01'
+  'perl-dbix-class>=0.08121'
+  'perl-log-contextual>=0.005005'
+  'perl-moo>=1.003'
+  'perl-moose>=1'
+  'perl-moosex-role-parameterized>=0.18'
+  'perl-namespace-autoclean'
+  'perl-parent>=0.225'
+  'perl-path-class>=0.26'
+  'perl-sql-translator>=0.11005'
+  'perl-sub-exporter-progressive'
+  'perl-text-brew>=0.02'
+  'perl-try-tiny'
+)
+makedepends=(
+  'perl-aliased'
+  'perl-dbd-sqlite>=1.35'
+  'perl-extutils-makemaker'
+  'perl-file-temp'
+  'perl-test-fatal>=0.006'
+  'perl-test-requires>=0.06'
+  'perl-test-simple>=0.88'
+)
+checkdepends=(
+  'perl-yaml'
+)
+url='https://metacpan.org/release/DBIx-Class-DeploymentHandler'
+_distdir="DBIx-Class-DeploymentHandler-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/F/FR/FREW/${_distdir}.tar.gz")
+sha512sums=('73546c5c4714898076effacc0d2d170a99309703b99b13aa389c2387a9cc1850e9d9cd2e75c81175e0b2598547bcb3caffdd7eabc51ee2a1182db96f51aebaf9')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
