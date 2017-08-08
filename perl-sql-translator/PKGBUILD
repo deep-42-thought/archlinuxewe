@@ -1,0 +1,94 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
+
+pkgname='perl-sql-translator'
+pkgver='0.11021'
+pkgrel='1'
+pkgdesc='SQL DDL transformations and more'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+optdepends=(
+  'perl-gd'
+  'perl-graph-directed'
+  'perl-graphviz'
+  'perl-spreadsheet-parseexcel>=0.41'
+  'perl-template-toolkit>=2.20'
+  'perl-text-recordparser>=0.02'
+  'perl-xml-libxml>=1.69'
+)
+depends=(
+  'perl>=5.8.1'
+  'perl-carp-clan'
+  'perl-dbi>=1.54'
+  'perl-digest-sha'
+  'perl-file-sharedir>=1.0'
+  'perl-list-moreutils>=0.09'
+  'perl-moo>=1.000003'
+  'perl-package-variant>=1.001001'
+  'perl-parse-recdescent>=1.967009'
+  'perl-scalar-list-utils'
+  'perl-try-tiny>=0.04'
+)
+makedepends=(
+  'perl-extutils-makemaker>=6.59'
+  'perl-json>=2.0'
+  'perl-module-install'
+  'perl-test-differences'
+  'perl-test-exception>=0.31'
+  'perl-test-simple>=0.88'
+  'perl-text-parsewords'
+  'perl-xml-writer>=0.500'
+  'perl-yaml>=0.66'
+)
+url='https://metacpan.org/release/SQL-Translator'
+_distdir="SQL-Translator-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/I/IL/ILMARI/${_distdir}.tar.gz")
+sha512sums=('d8bd12932d522ff6feb6821e7fbe95e804861c1d07035185b05e5a151f4fd4ddec233fb43637700ba32aa3e252df5590281db9d38b553a791e9d4bf15f68d5f7')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
