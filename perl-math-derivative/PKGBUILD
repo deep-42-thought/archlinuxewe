@@ -1,20 +1,21 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname='perl-math-derivative'
-pkgver='0.04'
-pkgrel='4'
+pkgver=1.00
+pkgrel=1
 pkgdesc="Perl package for performing numerical differentiation on vectors of data"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.3')
+  'perl>=5.10.1')
 makedepends=(
+  'perl-math-utils>=1.06'
   'perl-module-build'
   'perl-test-simple')
 checkdepends=('perl-test-pod>=1.22')
 url='http://search.mcpan.org/dist/Math-Derivative'
 source=("https://cpan.metacpan.org/authors/id/J/JG/JGAMBLE/Math-Derivative-${pkgver}.tar.gz")
-sha512sums=('36cc39024300063a34d8df5c896670625a30561bfcd29f13eab57a2ca3f6b9b3c6b8a14675aefcf41c1f17ec4e2e58d77664c28d621fb36f61006681dcd58f96')
+sha512sums=('7adf9d1cbdb7640b23beda1f7221e793a562006712ef2900fdfb30c44be4f9325cb68ca0ec2cc3c4fe0f09a9b13f33f7073da8c0dcc2dac94a08f37fa6d656a6')
 _distdir="Math-Derivative-${pkgver}"
 
 build() {
