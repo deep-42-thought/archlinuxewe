@@ -1,0 +1,36 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=report-installed-packages
+pkgver=0.0
+pkgrel=1
+pkgdesc="report about installed (and therefore presumably working) packages from testing"
+arch=('any')
+url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+license=('GPL')
+groups=()
+depends=()
+makedepends=()
+checkdepends=()
+optdepends=('sendmailadvanced:  for sending email reports')
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+)
+sha512sums=('ba5e788bf12da12813082daa19b94849a7af7d2b8cf662d67b0f353d7baae482b02483fe38002503ccf01ea43e5dbf8ee14f2b1f18ea2235d01c0f4a8d02212d')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
