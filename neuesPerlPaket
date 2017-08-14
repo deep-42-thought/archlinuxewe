@@ -62,8 +62,8 @@ pkgdesc="$(
 
 dlUrl="$(
   echo "${seitenInhalt}" | \
-    grep "href=\"https://cpan.metacpan.org/authors/id/[^/]/[^/]\{2\}/[^/]\+/${cpanName}-v\?[0-9.]\+\.tar\.gz\">" | \
-    sed "s|^.*href=\"\(https://cpan.metacpan.org/authors/id/[^/]/[^/]\{2\}/[^/]\+/${cpanName}-v\?[0-9.]\+\.tar\.gz\)\">.*\$|\1|" | \
+    grep "href=\"https://cpan.metacpan.org/authors/id/[^/]/[^/]\{2\}/[^/]\+\(/modules\)\?/${cpanName}-v\?[0-9.]\+\.tar\.gz\">" | \
+    sed "s|^.*href=\"\(https://cpan.metacpan.org/authors/id/[^/]/[^/]\{2\}/[^/]\+\(/modules\)\?/${cpanName}-v\?[0-9.]\+\.tar\.gz\)\">.*\$|\1|" | \
     tail -n1
 )"
 
