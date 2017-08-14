@@ -1,0 +1,86 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
+
+pkgname='perl-ppix-utilities'
+pkgver='1.001000'
+pkgrel='1'
+pkgdesc='Extensions to PPI.'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-ppix-utilities-exception-bug=1.001000'
+  'perl-ppix-utilities-node=1.001000'
+  'perl-ppix-utilities-statement=1.001000'
+)
+optdepends=(
+  'perl-readonly-xs'
+)
+depends=(
+  'perl'
+  'perl-base'
+  'perl-exception-class'
+  'perl-exporter'
+  'perl-ppi>=1.208'
+  'perl-readonly'
+  'perl-scalar-list-utils'
+  'perl-task-weaken'
+)
+makedepends=(
+  'perl-data-dumper'
+  'perl-module-build>=0.36'
+  'perl-ppi>=1.208'
+  'perl-test-deep'
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/PPIx-Utilities'
+_distdir="PPIx-Utilities-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/E/EL/ELLIOTJS/${_distdir}.tar.gz")
+sha512sums=('46b900b4152e83e7a37b3fb6036051079aed677f0a33affa07f50e33a3a45bc220c899ecb99a1ab259a934aa9801582e804fe3be2980188c6442774de9b0f6de')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
