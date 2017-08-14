@@ -1,0 +1,87 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
+
+pkgname='perl-pod-spell'
+pkgver='1.20'
+pkgrel='1'
+pkgdesc='a formatter for spellchecking Pod'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-pod-wordlist=1.20'
+)
+depends=(
+  'perl>=5.8.0'
+  'perl-carp'
+  'perl-class-tiny'
+  'perl-constant'
+  'perl-file-sharedir'
+  'perl-lingua-en-inflect'
+  'perl-parent'
+  'perl-path-tiny'
+  'perl-pod-escapes'
+  'perl-pod-parser'
+  'perl-text-tabs+wrap'
+)
+makedepends=(
+  'perl'
+  'perl-extutils-makemaker'
+  'perl-file-sharedir-install>=0.06'
+  'perl-file-temp'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-deep'
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/Pod-Spell'
+_distdir="Pod-Spell-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DO/DOLMEN/${_distdir}.tar.gz")
+sha512sums=('9a676a897dae7dfe37e9bfca2e5c11bcdc3221ed532b79970e6cc4d0de8dec0eca754cb9fbc5cbbbf6533a213c284d691609dd86d246ae146187bd9cd37d292e')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
