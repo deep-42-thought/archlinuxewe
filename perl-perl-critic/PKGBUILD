@@ -1,0 +1,298 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
+
+pkgname='perl-perl-critic'
+pkgver='1.130'
+pkgrel='1'
+pkgdesc='Critique Perl source code for best-practices.'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-perl-critic-annotation=1.130'
+  'perl-perl-critic-command=1.130'
+  'perl-perl-critic-config=1.130'
+  'perl-perl-critic-document=1.130'
+  'perl-perl-critic-exception=1.130'
+  'perl-perl-critic-exception-aggregateconfiguration=1.130'
+  'perl-perl-critic-exception-configuration=1.130'
+  'perl-perl-critic-exception-configuration-generic=1.130'
+  'perl-perl-critic-exception-configuration-nonexistentpolicy=1.130'
+  'perl-perl-critic-exception-configuration-option=1.130'
+  'perl-perl-critic-exception-configuration-option-global=1.130'
+  'perl-perl-critic-exception-configuration-option-global-extraparameter=1.130'
+  'perl-perl-critic-exception-configuration-option-global-parametervalue=1.130'
+  'perl-perl-critic-exception-configuration-option-policy=1.130'
+  'perl-perl-critic-exception-configuration-option-policy-extraparameter=1.130'
+  'perl-perl-critic-exception-configuration-option-policy-parametervalue=1.130'
+  'perl-perl-critic-exception-fatal=1.130'
+  'perl-perl-critic-exception-fatal-generic=1.130'
+  'perl-perl-critic-exception-fatal-internal=1.130'
+  'perl-perl-critic-exception-fatal-policydefinition=1.130'
+  'perl-perl-critic-exception-io=1.130'
+  'perl-perl-critic-exception-parse=1.130'
+  'perl-perl-critic-optionsprocessor=1.130'
+  'perl-perl-critic-policy=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibitbooleangrep=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibitcomplexmappings=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibitlvaluesubstr=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibitreversesortblock=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibitsleepviaselect=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibitstringyeval=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibitstringysplit=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibituniversalcan=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibituniversalisa=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibituselesstopic=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibitvoidgrep=1.130'
+  'perl-perl-critic-policy-builtinfunctions-prohibitvoidmap=1.130'
+  'perl-perl-critic-policy-builtinfunctions-requireblockgrep=1.130'
+  'perl-perl-critic-policy-builtinfunctions-requireblockmap=1.130'
+  'perl-perl-critic-policy-builtinfunctions-requireglobfunction=1.130'
+  'perl-perl-critic-policy-builtinfunctions-requiresimplesortblock=1.130'
+  'perl-perl-critic-policy-classhierarchies-prohibitautoloading=1.130'
+  'perl-perl-critic-policy-classhierarchies-prohibitexplicitisa=1.130'
+  'perl-perl-critic-policy-classhierarchies-prohibitoneargbless=1.130'
+  'perl-perl-critic-policy-codelayout-prohibithardtabs=1.130'
+  'perl-perl-critic-policy-codelayout-prohibitparenswithbuiltins=1.130'
+  'perl-perl-critic-policy-codelayout-prohibitquotedwordlists=1.130'
+  'perl-perl-critic-policy-codelayout-prohibittrailingwhitespace=1.130'
+  'perl-perl-critic-policy-codelayout-requireconsistentnewlines=1.130'
+  'perl-perl-critic-policy-codelayout-requiretidycode=1.130'
+  'perl-perl-critic-policy-codelayout-requiretrailingcommas=1.130'
+  'perl-perl-critic-policyconfig=1.130'
+  'perl-perl-critic-policy-controlstructures-prohibitcascadingifelse=1.130'
+  'perl-perl-critic-policy-controlstructures-prohibitcstyleforloops=1.130'
+  'perl-perl-critic-policy-controlstructures-prohibitdeepnests=1.130'
+  'perl-perl-critic-policy-controlstructures-prohibitlabelswithspecialblocknames=1.130'
+  'perl-perl-critic-policy-controlstructures-prohibitmutatinglistfunctions=1.130'
+  'perl-perl-critic-policy-controlstructures-prohibitnegativeexpressionsinunlessanduntilconditions=1.130'
+  'perl-perl-critic-policy-controlstructures-prohibitpostfixcontrols=1.130'
+  'perl-perl-critic-policy-controlstructures-prohibitunlessblocks=1.130'
+  'perl-perl-critic-policy-controlstructures-prohibitunreachablecode=1.130'
+  'perl-perl-critic-policy-controlstructures-prohibituntilblocks=1.130'
+  'perl-perl-critic-policy-controlstructures-prohibityadaoperator=1.130'
+  'perl-perl-critic-policy-documentation-podspelling=1.130'
+  'perl-perl-critic-policy-documentation-requirepackagematchespodname=1.130'
+  'perl-perl-critic-policy-documentation-requirepodatend=1.130'
+  'perl-perl-critic-policy-documentation-requirepodlinksincludetext=1.130'
+  'perl-perl-critic-policy-documentation-requirepodsections=1.130'
+  'perl-perl-critic-policy-errorhandling-requirecarping=1.130'
+  'perl-perl-critic-policy-errorhandling-requirecheckingreturnvalueofeval=1.130'
+  'perl-perl-critic-policyfactory=1.130'
+  'perl-perl-critic-policy-inputoutput-prohibitbacktickoperators=1.130'
+  'perl-perl-critic-policy-inputoutput-prohibitbarewordfilehandles=1.130'
+  'perl-perl-critic-policy-inputoutput-prohibitexplicitstdin=1.130'
+  'perl-perl-critic-policy-inputoutput-prohibitinteractivetest=1.130'
+  'perl-perl-critic-policy-inputoutput-prohibitjoinedreadline=1.130'
+  'perl-perl-critic-policy-inputoutput-prohibitoneargselect=1.130'
+  'perl-perl-critic-policy-inputoutput-prohibitreadlineinforloop=1.130'
+  'perl-perl-critic-policy-inputoutput-prohibittwoargopen=1.130'
+  'perl-perl-critic-policy-inputoutput-requirebracedfilehandlewithprint=1.130'
+  'perl-perl-critic-policy-inputoutput-requirebriefopen=1.130'
+  'perl-perl-critic-policy-inputoutput-requirecheckedclose=1.130'
+  'perl-perl-critic-policy-inputoutput-requirecheckedopen=1.130'
+  'perl-perl-critic-policy-inputoutput-requirecheckedsyscalls=1.130'
+  'perl-perl-critic-policy-inputoutput-requireencodingwithutf8layer=1.130'
+  'perl-perl-critic-policylisting=1.130'
+  'perl-perl-critic-policy-miscellanea-prohibitformats=1.130'
+  'perl-perl-critic-policy-miscellanea-prohibitties=1.130'
+  'perl-perl-critic-policy-miscellanea-prohibitunrestrictednocritic=1.130'
+  'perl-perl-critic-policy-miscellanea-prohibituselessnocritic=1.130'
+  'perl-perl-critic-policy-modules-prohibitautomaticexportation=1.130'
+  'perl-perl-critic-policy-modules-prohibitconditionalusestatements=1.130'
+  'perl-perl-critic-policy-modules-prohibitevilmodules=1.130'
+  'perl-perl-critic-policy-modules-prohibitexcessmaincomplexity=1.130'
+  'perl-perl-critic-policy-modules-prohibitmultiplepackages=1.130'
+  'perl-perl-critic-policy-modules-requirebarewordincludes=1.130'
+  'perl-perl-critic-policy-modules-requireendwithone=1.130'
+  'perl-perl-critic-policy-modules-requireexplicitpackage=1.130'
+  'perl-perl-critic-policy-modules-requirefilenamematchespackage=1.130'
+  'perl-perl-critic-policy-modules-requirenomatchvarswithuseenglish=1.130'
+  'perl-perl-critic-policy-modules-requireversionvar=1.130'
+  'perl-perl-critic-policy-namingconventions-capitalization=1.130'
+  'perl-perl-critic-policy-namingconventions-prohibitambiguousnames=1.130'
+  'perl-perl-critic-policy-objects-prohibitindirectsyntax=1.130'
+  'perl-perl-critic-policyparameter=1.130'
+  'perl-perl-critic-policyparameter-behavior=1.130'
+  'perl-perl-critic-policyparameter-behavior-boolean=1.130'
+  'perl-perl-critic-policyparameter-behavior-enumeration=1.130'
+  'perl-perl-critic-policyparameter-behavior-integer=1.130'
+  'perl-perl-critic-policyparameter-behavior-string=1.130'
+  'perl-perl-critic-policyparameter-behavior-stringlist=1.130'
+  'perl-perl-critic-policy-references-prohibitdoublesigils=1.130'
+  'perl-perl-critic-policy-regularexpressions-prohibitcapturewithouttest=1.130'
+  'perl-perl-critic-policy-regularexpressions-prohibitcomplexregexes=1.130'
+  'perl-perl-critic-policy-regularexpressions-prohibitenumeratedclasses=1.130'
+  'perl-perl-critic-policy-regularexpressions-prohibitescapedmetacharacters=1.130'
+  'perl-perl-critic-policy-regularexpressions-prohibitfixedstringmatches=1.130'
+  'perl-perl-critic-policy-regularexpressions-prohibitsinglecharalternation=1.130'
+  'perl-perl-critic-policy-regularexpressions-prohibitunusedcapture=1.130'
+  'perl-perl-critic-policy-regularexpressions-prohibitunusualdelimiters=1.130'
+  'perl-perl-critic-policy-regularexpressions-prohibituselesstopic=1.130'
+  'perl-perl-critic-policy-regularexpressions-requirebracesformultiline=1.130'
+  'perl-perl-critic-policy-regularexpressions-requiredotmatchanything=1.130'
+  'perl-perl-critic-policy-regularexpressions-requireextendedformatting=1.130'
+  'perl-perl-critic-policy-regularexpressions-requirelineboundarymatching=1.130'
+  'perl-perl-critic-policy-subroutines-prohibitampersandsigils=1.130'
+  'perl-perl-critic-policy-subroutines-prohibitbuiltinhomonyms=1.130'
+  'perl-perl-critic-policy-subroutines-prohibitexcesscomplexity=1.130'
+  'perl-perl-critic-policy-subroutines-prohibitexplicitreturnundef=1.130'
+  'perl-perl-critic-policy-subroutines-prohibitmanyargs=1.130'
+  'perl-perl-critic-policy-subroutines-prohibitnestedsubs=1.130'
+  'perl-perl-critic-policy-subroutines-prohibitreturnsort=1.130'
+  'perl-perl-critic-policy-subroutines-prohibitsubroutineprototypes=1.130'
+  'perl-perl-critic-policy-subroutines-prohibitunusedprivatesubroutines=1.130'
+  'perl-perl-critic-policy-subroutines-protectprivatesubs=1.130'
+  'perl-perl-critic-policy-subroutines-requireargunpacking=1.130'
+  'perl-perl-critic-policy-subroutines-requirefinalreturn=1.130'
+  'perl-perl-critic-policy-testinganddebugging-prohibitnostrict=1.130'
+  'perl-perl-critic-policy-testinganddebugging-prohibitnowarnings=1.130'
+  'perl-perl-critic-policy-testinganddebugging-prohibitprolongedstrictureoverride=1.130'
+  'perl-perl-critic-policy-testinganddebugging-requiretestlabels=1.130'
+  'perl-perl-critic-policy-testinganddebugging-requireusestrict=1.130'
+  'perl-perl-critic-policy-testinganddebugging-requireusewarnings=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitcommaseparatedstatements=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitcomplexversion=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitconstantpragma=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitemptyquotes=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitescapedcharacters=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitimplicitnewlines=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitinterpolationofliterals=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitleadingzeros=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitlongchainsofmethodcalls=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitmagicnumbers=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitmismatchedoperators=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitmixedbooleanoperators=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitnoisyquotes=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitquotesasquotelikeoperatordelimiters=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitspecialliteralheredocterminator=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-prohibitversionstrings=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-requireconstantversion=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-requireinterpolationofmetachars=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-requirenumberseparators=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-requirequotedheredocterminator=1.130'
+  'perl-perl-critic-policy-valuesandexpressions-requireuppercaseheredocterminator=1.130'
+  'perl-perl-critic-policy-variables-prohibitaugmentedassignmentindeclaration=1.130'
+  'perl-perl-critic-policy-variables-prohibitconditionaldeclarations=1.130'
+  'perl-perl-critic-policy-variables-prohibitevilvariables=1.130'
+  'perl-perl-critic-policy-variables-prohibitlocalvars=1.130'
+  'perl-perl-critic-policy-variables-prohibitmatchvars=1.130'
+  'perl-perl-critic-policy-variables-prohibitpackagevars=1.130'
+  'perl-perl-critic-policy-variables-prohibitperl4packagenames=1.130'
+  'perl-perl-critic-policy-variables-prohibitpunctuationvars=1.130'
+  'perl-perl-critic-policy-variables-prohibitreusednames=1.130'
+  'perl-perl-critic-policy-variables-prohibitunusedvariables=1.130'
+  'perl-perl-critic-policy-variables-protectprivatevars=1.130'
+  'perl-perl-critic-policy-variables-requireinitializationforlocalvars=1.130'
+  'perl-perl-critic-policy-variables-requirelexicalloopiterators=1.130'
+  'perl-perl-critic-policy-variables-requirelocalizedpunctuationvars=1.130'
+  'perl-perl-critic-policy-variables-requirenegativeindices=1.130'
+  'perl-perl-critic-profileprototype=1.130'
+  'perl-perl-critic-statistics=1.130'
+  'perl-perl-critic-testutils=1.130'
+  'perl-perl-critic-theme=1.130'
+  'perl-perl-critic-themelisting=1.130'
+  'perl-perl-critic-userprofile=1.130'
+  'perl-perl-critic-utils=1.130'
+  'perl-perl-critic-utils-constants=1.130'
+  'perl-perl-critic-utils-dataconversion=1.130'
+  'perl-perl-critic-utils-mccabe=1.130'
+  'perl-perl-critic-utils-perl=1.130'
+  'perl-perl-critic-utils-pod=1.130'
+  'perl-perl-critic-utils-pod-parseinteriorsequence=1.130'
+  'perl-perl-critic-utils-ppi=1.130'
+  'perl-perl-critic-violation=1.130'
+  'perl-test-perl-critic-policy=1.130'
+)
+depends=(
+  'perl>=5.6.1'
+  'perl-base'
+  'perl-b-keywords>=1.05'
+  'perl-carp'
+  'perl-config-tiny>=2'
+  'perl-email-address>=1.889'
+  'perl-exception-class>=1.23'
+  'perl-exporter>=5.63'
+  'perl-file-homedir'
+  'perl-file-path'
+  'perl-file-temp'
+  'perl-file-which'
+  'perl-getopt-long'
+  'perl-io-string'
+  'perl-list-moreutils>=0.19'
+  'perl-module-pluggable>=3.1'
+  'perl-pathtools'
+  'perl-perl-tidy'
+  'perl-pod-parser'
+  'perl-pod-spell>=1'
+  'perl-pod-usage'
+  'perl-ppi>=1.224'
+  'perl-ppix-regexp>=0.027'
+  'perl-ppix-utilities-node>=1.001'
+  'perl-ppix-utilities-statement>=1.001'
+  'perl-readonly>=2'
+  'perl-scalar-list-utils'
+  'perl-string-format>=1.13'
+  'perl-task-weaken'
+  'perl-term-ansicolor>=2.02'
+  'perl-test-simple>=0.92'
+  'perl-text-parsewords>=3'
+  'perl-version>=0.77'
+)
+makedepends=(
+  'perl-lib'
+  'perl-module-build>=0.4024'
+  'perl-test-deep'
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/Perl-Critic'
+_distdir="Perl-Critic-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/${_distdir}.tar.gz")
+sha512sums=('b443ddbb5905a61835061f49d7f10e2e71579e5df96778eb183c3d1e9987342e1536db61196b32e66a192c92916eafd9ebb7b713b0be71ce89c1f93155e89828')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
