@@ -1,0 +1,138 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
+
+pkgname='perl-ppix-regexp'
+pkgver='0.051'
+pkgrel='1'
+pkgdesc='Parse regular expressions'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-ppix-regexp-constant=0.051'
+  'perl-ppix-regexp-dumper=0.051'
+  'perl-ppix-regexp-element=0.051'
+  'perl-ppix-regexp-lexer=0.051'
+  'perl-ppix-regexp-node=0.051'
+  'perl-ppix-regexp-node-range=0.051'
+  'perl-ppix-regexp-node-unknown=0.051'
+  'perl-ppix-regexp-stringtokenizer=0.051'
+  'perl-ppix-regexp-structure=0.051'
+  'perl-ppix-regexp-structure-assertion=0.051'
+  'perl-ppix-regexp-structure-branchreset=0.051'
+  'perl-ppix-regexp-structure-capture=0.051'
+  'perl-ppix-regexp-structure-charclass=0.051'
+  'perl-ppix-regexp-structure-code=0.051'
+  'perl-ppix-regexp-structure-main=0.051'
+  'perl-ppix-regexp-structure-modifier=0.051'
+  'perl-ppix-regexp-structure-namedcapture=0.051'
+  'perl-ppix-regexp-structure-quantifier=0.051'
+  'perl-ppix-regexp-structure-regexp=0.051'
+  'perl-ppix-regexp-structure-regexset=0.051'
+  'perl-ppix-regexp-structure-replacement=0.051'
+  'perl-ppix-regexp-structure-subexpression=0.051'
+  'perl-ppix-regexp-structure-switch=0.051'
+  'perl-ppix-regexp-structure-unknown=0.051'
+  'perl-ppix-regexp-support=0.051'
+  'perl-ppix-regexp-token=0.051'
+  'perl-ppix-regexp-token-assertion=0.051'
+  'perl-ppix-regexp-token-backreference=0.051'
+  'perl-ppix-regexp-token-backtrack=0.051'
+  'perl-ppix-regexp-token-charclass=0.051'
+  'perl-ppix-regexp-token-charclass-posix=0.051'
+  'perl-ppix-regexp-token-charclass-posix-unknown=0.051'
+  'perl-ppix-regexp-token-charclass-simple=0.051'
+  'perl-ppix-regexp-token-code=0.051'
+  'perl-ppix-regexp-token-comment=0.051'
+  'perl-ppix-regexp-token-condition=0.051'
+  'perl-ppix-regexp-token-control=0.051'
+  'perl-ppix-regexp-token-delimiter=0.051'
+  'perl-ppix-regexp-token-greediness=0.051'
+  'perl-ppix-regexp-token-grouptype=0.051'
+  'perl-ppix-regexp-token-grouptype-assertion=0.051'
+  'perl-ppix-regexp-token-grouptype-branchreset=0.051'
+  'perl-ppix-regexp-token-grouptype-code=0.051'
+  'perl-ppix-regexp-token-grouptype-modifier=0.051'
+  'perl-ppix-regexp-token-grouptype-namedcapture=0.051'
+  'perl-ppix-regexp-token-grouptype-subexpression=0.051'
+  'perl-ppix-regexp-token-grouptype-switch=0.051'
+  'perl-ppix-regexp-token-interpolation=0.051'
+  'perl-ppix-regexp-tokenizer=0.051'
+  'perl-ppix-regexp-token-literal=0.051'
+  'perl-ppix-regexp-token-modifier=0.051'
+  'perl-ppix-regexp-token-noop=0.051'
+  'perl-ppix-regexp-token-operator=0.051'
+  'perl-ppix-regexp-token-quantifier=0.051'
+  'perl-ppix-regexp-token-recursion=0.051'
+  'perl-ppix-regexp-token-reference=0.051'
+  'perl-ppix-regexp-token-structure=0.051'
+  'perl-ppix-regexp-token-unknown=0.051'
+  'perl-ppix-regexp-token-unmatched=0.051'
+  'perl-ppix-regexp-token-whitespace=0.051'
+  'perl-ppix-regexp-util=0.051'
+)
+depends=(
+  'perl>=5.6.0'
+  'perl-base'
+  'perl-carp'
+  'perl-constant'
+  'perl-exporter'
+  'perl-list-moreutils'
+  'perl-ppi>=1.117'
+  'perl-scalar-list-utils'
+  'perl-task-weaken'
+)
+makedepends=(
+  'perl-test-simple>=0.88'
+)
+url='https://metacpan.org/release/PPIx-Regexp'
+_distdir="PPIx-Regexp-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/W/WY/WYANT/${_distdir}.tar.gz")
+sha512sums=('1b49d5e3ea3e572cb3df9a92fc020af47fbb3d7e0ccf4acabacb3ffbd200a62ab55a523e36848c7bf8e6b5b097a443584d4570247f24b778dc52fa29bc5d6a1a')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
