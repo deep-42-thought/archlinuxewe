@@ -1,4 +1,4 @@
-: b benchmark blib charnames dynaloader english fcntl feature file-basename file-copy file-find file-glob filehandle findbin integer ipc-open3
+: b benchmark blib charnames dynaloader english fcntl feature file-basename file-copy file-find file-glob filehandle findbin integer ipc-open2 ipc-open3 locale
 : mro open overload perl perlio perlio-encoding posix re strict subs symbol utf8 vars warnings
 %skip: config {}
 cache-cache: cache-filecache
@@ -23,8 +23,9 @@ pathtools: file-spec file-spec-functions file-spec-unix cwd
 plack: http-message-psgi plack-loader plack-request plack-test plack-util-accessor
 pod-coverage: pod-coverage-countparents
 pod-eventual: pod-eventual-simple
-pod-parser: pod-find pod-parseutils pod-select
+pod-parser: pod-find pod-parseutils pod-plaintext pod-select
 podlators: pod-text
+ppi: ppi-document ppi-document-file ppi-document-fragment ppi-dumper ppi-node ppi-token-quote-single ppi-token-whitespace
 role-tiny: role-tiny-with
 scalar-list-utils: list-util scalar-util
 search-elasticsearch: search-elasticsearch-scroll
@@ -33,6 +34,7 @@ sub-quote: sub-defer
 template-toolkit: template
 test-harness: app-prove
 test-simple: ok test-more test-builder test-builder-module test-builder-tester
+text-tabs+wrap: text-wrap
 timedate: date-parse
 uri: uri-file uri-queryparam uri-withbase
 yaml-libyaml: yaml-xs
