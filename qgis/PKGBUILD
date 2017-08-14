@@ -13,14 +13,14 @@
 # You will also need to install osgearth-qt4 or fcgi, respectively, before building.
 
 pkgname=qgis
-pkgver=2.18.10
+pkgver=2.18.11
 pkgrel=1
 pkgdesc='Geographic Information System (GIS) that supports vector, raster & database formats'
 url='http://qgis.org/'
 license=('GPL')
 arch=('i686' 'x86_64')
 depends=('expat' 'gcc-libs' 'gdal' 'geos' 'glibc' 'libspatialite' 'postgresql-libs' 'proj'
-         'qt4' 'qca-qt4' 'qscintilla-qt4' 'qwt' 'qwtpolar' 'spatialindex' 'sqlite'
+         'qt4' 'qca-qt4' 'qjson' 'qscintilla-qt4' 'qwt-qt4' 'qwtpolar-qt4' 'spatialindex' 'sqlite'
          'python2' 'python2-httplib2' 'python2-future' 'python2-qscintilla-qt4' 'python2-sip' 'python2-six')
 makedepends=('cmake' 'gsl' 'perl' 'txt2tags')
 optdepends=('gpsbabel: GPS Tool plugin'
@@ -34,16 +34,18 @@ optdepends=('gpsbabel: GPS Tool plugin'
             'python2-psycopg2: Processing plugin'
             'python2-pyspatialite: Processing plugin'
             'python2-yaml: Processing plugin')
-source=("https://qgis.org/downloads/$pkgname-$pkgver.tar.bz2"
-        "qgis_sip-ftbfs.patch::https://src.fedoraproject.org/cgit/rpms/qgis.git/plain/qgis_sip-ftbfs.patch?id=25b8f81ccabbfdb183d4850a66e884c183444f14")
-sha512sums=('7f72515b72842a8612675c552f0091ca8b7075bda7fa3dbad09641532148af98cbeb17ee0eb3518204e59ce3a87db2eaef9ba57192ee5ade183b1c300e7a96d8'
-            '30b5c67a62b0cb12cf9ec09eced3dbd02cc503cf2d266882b9a0f7ef3d6cf289c9dbcae6f82266b1216c4a9a57afc9d87ee29702c85a9f03bf467eea3c3c7a1c')
+source=("https://qgis.org/downloads/$pkgname-$pkgver.tar.bz2")
+sha512sums=('5100904912bbc9886e71cabfb70306e1e6a501d22da583df919211332b18f05cee5b5e3ca225976493ab03270d26d9de9e1050eeb140386df36c7e9f69f01ac0')
 
 prepare() {
   cd $pkgname-$pkgver
 
-  # Fedora patch to fix with newer sip/pyqt4
-  patch -Np1 -i <(sed '184,$d' ../qgis_sip-ftbfs.patch)
+  # Build with current sip
+  sed -i '18 s|^|//|' python/core/qgscoordinatetransform.sip
+
+  # Make sure we find the -qt4 versions of qwt and qwtpolar
+  sed -i '/QWT_LIBRARY_NAMES/ s/qwt /qwt-qt4 /' cmake/FindQwt.cmake
+  sed -i '/PATH_SUFFIXES/ s/qwt$/&-qt4/;/LIBRARY NAMES/ s/qwtpolar/&-qt4/' cmake/FindQwtPolar.cmake
 
   # Fix references to "python"
   sed -i 's/\(env \|\/usr\/bin\/\)python$/&2/' $(find . -iname "*.py")
@@ -69,7 +71,7 @@ build() {
     -DPYTHON_EXECUTABLE=/usr/bin/python2 \
     -DWITH_QTWEBKIT=FALSE \
     -DWITH_INTERNAL_QWTPOLAR=FALSE \
-    -DWITH_INTERNAL_{HTTPLIB2,JINJA2,MARKUPSAFE,OWSLIB,PYGMENTS,DATEUTIL,PYTZ,YAML,NOSE2,SIX,FUTURE}=FALSE \
+    -DWITH_INTERNAL_{MARKUPSAFE,OWSLIB,DATEUTIL,PYTZ,YAML,NOSE2,SIX,FUTURE}=FALSE \
 #    -DWITH_SERVER=TRUE \
 #    -DWITH_GLOBE=TRUE
 
