@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-svn
-pkgver=27889
+pkgver=27893
 pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686')
@@ -17,7 +17,9 @@ depends=(
     'xz'
 )
 makedepends=('subversion')
-checkdepends=()
+checkdepends=(
+    'openttd-opengfx'
+)
 optdepends=(
     'openttd-opengfx: free graphics'
     'openttd-opensfx: free soundset'
@@ -35,7 +37,7 @@ source=(
     "clipboard.grf"
 )
 sha512sums=('SKIP'
-            'f249f99e85f5e35ad77c007ccdeacec266adaf5c0d922bde5334fe066ba28282e93d251527df15b26d3a614a9909700e880f3dcc3f3840639b34ced16710048d'
+            'fb20d4849d38891d5649eee2a0ce601dcdf8f7ba034a28325fc59324e0a14951d444bc70ecfe67da2b85d8ca321b7d0185e243fba536847bfa62021faa255591'
             '69ac38abc75d728ae3a4b131e819223f496f3e6554d2e8e35e6950c6ceb41a293af2aec6df2ef4b82a9e5d12ed87026e85e181adb0fc142407da94ad4d70d2b6'
             'aa1f5d5c4fd9ff487bc03ed5c10701e99ae9fd29ae0cd65a06171486298558d1c26ced49ac8687acc5b1003a6538f6c83917992348cbd2b7426afdf0759cb1a5')
 
@@ -71,14 +73,19 @@ build() {
                 --personal-dir=.openttd \
                 --install-dir=$pkgdir \
     make
+    install -m644 $srcdir/clipboard.grf $srcdir/trunk/bin/baseset/
 
+}
+
+check() {
+    cd trunk
+    make test
 }
 
 package() {
 
     cd trunk
     make DESTDIR=$pkgdir install
-    install -m644 $srcdir/clipboard.grf $pkgdir/usr/share/openttd/baseset/
 
     # Remove unnecessary languages
     cp $pkgdir/usr/share/openttd/lang/{english,german}.lng $srcdir
