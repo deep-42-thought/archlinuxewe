@@ -303,7 +303,7 @@ then
       fi
       remVer=$( \
         curl_it "${quVer}" | \
-          tr "\"" "\n" | \
+          tr '"<>' '\n' | \
           grep "^${quNam}-v\?[0-9.-]*\.${quEnd}\$" | \
           sed "s|^${quNam}-v\?\([0-9.-]*\)\.${quEnd}\$|\1|" | \
           sed "${pre}" | \
