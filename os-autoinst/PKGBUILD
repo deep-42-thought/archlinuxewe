@@ -1,0 +1,98 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=os-autoinst
+pkgver=4.3
+pkgrel=1
+pkgdesc="automated test tool for operating systems and the engine at the heart of openSUSE's automated testing initiative"
+arch=('any')
+url="http://open.qa/"
+license=('GPLv2')
+groups=()
+depends=(
+  'opencv'
+  'optipng'
+  'perl-carp-always'
+  'perl-data-dump'
+  'perl-json'
+  'perl-yaml'
+  'qemu'
+  'tesseract-data-eng'
+)
+makedepends=(
+  'fftw'
+)
+checkdepends=(
+  'perl-class-accessor-fast'
+  'perl-crypt-des'
+  'perl-ipc-run'
+  'perl-ipc-system-simple'
+  'perl-json'
+  'perl-mojolicious'
+  'perl-net-dbus'
+  'perl-net-ssh2'
+  'perl-perl-critic'
+  'perl-test-compile'
+  'perl-universal-require'
+  'perl-xml-libxml'
+)
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://github.com/os-autoinst/${pkgname}/archive/${pkgver}.tar.gz"
+)
+sha512sums=('f52ac89baaf2e93fbf3bc4d19b3de0f85b160a38cce9d01d30a99feb1c31d70c151b26e3f595610026a4585567726be3ec5ffe52eee5e5afdf99c8a343e08e2a')
+
+prepare() {
+    sed -i \
+      '
+        /^#include <highgui\.h>$/a#include <opencv2/imgcodecs.hpp>
+      ' \
+      "${srcdir}/${pkgname}-${pkgver}/snd2png/snd2png.cpp"
+}
+
+build() {
+
+    # Setting these env variables overwrites any command-line-options we don't want...
+    export PERL_MM_USE_DEFAULT=1 PERL5LIB="${srcdir}/${pkgname}-${pkgver}" PERL_AUTOINSTALL=--skipdeps \
+        PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+        PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+        MODULEBUILDRC=/dev/null
+               
+    cd "${pkgname}-${pkgver}"
+    ./autogen.sh
+    ./configure
+    make
+
+}
+
+check() {
+
+    # Setting these env variables overwrites any command-line-options we don't want...
+    export PERL_MM_USE_DEFAULT=1 PERL5LIB="${srcdir}/${pkgname}-${pkgver}" PERL_AUTOINSTALL=--skipdeps \
+        PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+        PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+        MODULEBUILDRC=/dev/null
+               
+    cd "${pkgname}-${pkgver}"
+    if ! make check; then
+        sed 's|^|t/test-suite.log: |' "t/test-suite.log"
+        return 1
+    fi
+
+}
+
+package() {
+
+    # Setting these env variables overwrites any command-line-options we don't want...
+    export PERL_MM_USE_DEFAULT=1 PERL5LIB="${srcdir}/${pkgname}-${pkgver}" PERL_AUTOINSTALL=--skipdeps \
+        PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+        PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+        MODULEBUILDRC=/dev/null
+               
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} prefix=/usr install
+
+}
