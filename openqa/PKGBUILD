@@ -1,0 +1,79 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=openqa
+_pkgname=openQA
+pkgver=4.3
+pkgrel=1
+pkgdesc="automated test tool for operating systems and the engine at the heart of openSUSE's automated testing initiative"
+arch=('any')
+url="http://open.qa/"
+license=('GPLv2')
+groups=()
+depends=()
+makedepends=()
+checkdepends=(
+    'perl-config-inifiles'
+    'perl-datetime'
+    'perl-data-dump'
+    'perl-datetime-format-sqlite'
+    'perl-dbd-sqlite'
+    'perl-dbix-class'
+    'perl-dbix-class-deploymenthandler'
+    'perl-dbix-class-dynamicdefault'
+    'perl-dbix-class-optimisticlocking'
+    'perl-file-copy-recursive'
+    'perl-json'
+    'perl-mojolicious'
+    'perl-mojolicious-plugin-assetpack'
+    'perl-mojolicious-plugin-assetpack-backcompat'
+    'perl-mojolicious-plugin-bootstrap3'
+    'perl-net-dbus'
+    'perl-selenium-remote-driver'
+    'perl-sql-splitstatement'
+    'perl-test-compile'
+    'perl-text-markdown'
+    'perl-test-perltidy'
+    'perl-universal-require'
+)
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://github.com/os-autoinst/${_pkgname}/archive/${pkgver}.tar.gz"
+)
+sha512sums=('77e76126a7c352d4d429437fe61fdaa41d17055af5bc866ed9510a2dee2a56b8b685ab3bc74b5d1088e5e7582fa2590f7b08afb5340b27a152e881fbeb92bbe5')
+
+prepare() {
+
+    cd "${_pkgname}-${pkgver}"
+#    sed -i 's@t::ui::@@g' t/ui/*
+
+}
+
+check() {
+
+    # Setting these env variables overwrites any command-line-options we don't want...
+    export PERL_MM_USE_DEFAULT=1 PERL5LIB="${srcdir}/${_pkgname}-${pkgver}" PERL_AUTOINSTALL=--skipdeps \
+        PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+        PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+        MODULEBUILDRC=/dev/null
+               
+    cd "${_pkgname}-${pkgver}"
+    make test
+
+}
+
+package() {
+
+    # Setting these env variables overwrites any command-line-options we don't want...
+    export PERL_MM_USE_DEFAULT=1 PERL5LIB="${srcdir}/${_pkgname}-${pkgver}" PERL_AUTOINSTALL=--skipdeps \
+        PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+        PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+        MODULEBUILDRC=/dev/null
+               
+    cd ${_pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
