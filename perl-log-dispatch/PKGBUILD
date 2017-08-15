@@ -1,30 +1,30 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-log-dispatch'
-pkgver=2.65
+pkgver=2.66
 pkgrel=1
 pkgdesc='Dispatches messages to one or more outputs'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-log-dispatch-apachelog=2.65'
-  'perl-log-dispatch-base=2.65'
-  'perl-log-dispatch-code=2.65'
-  'perl-log-dispatch-email=2.65'
-  'perl-log-dispatch-email-mailsend=2.65'
-  'perl-log-dispatch-email-mailsender=2.65'
-  'perl-log-dispatch-email-mailsendmail=2.65'
-  'perl-log-dispatch-email-mimelite=2.65'
-  'perl-log-dispatch-file=2.65'
-  'perl-log-dispatch-file-locked=2.65'
-  'perl-log-dispatch-handle=2.65'
-  'perl-log-dispatch-null=2.65'
-  'perl-log-dispatch-output=2.65'
-  'perl-log-dispatch-screen=2.65'
-  'perl-log-dispatch-syslog=2.65'
-  'perl-log-dispatch-types=2.65'
-  'perl-log-dispatch-vars=2.65')
+  'perl-log-dispatch-apachelog=2.66'
+  'perl-log-dispatch-base=2.66'
+  'perl-log-dispatch-code=2.66'
+  'perl-log-dispatch-email=2.66'
+  'perl-log-dispatch-email-mailsend=2.66'
+  'perl-log-dispatch-email-mailsender=2.66'
+  'perl-log-dispatch-email-mailsendmail=2.66'
+  'perl-log-dispatch-email-mimelite=2.66'
+  'perl-log-dispatch-file=2.66'
+  'perl-log-dispatch-file-locked=2.66'
+  'perl-log-dispatch-handle=2.66'
+  'perl-log-dispatch-null=2.66'
+  'perl-log-dispatch-output=2.66'
+  'perl-log-dispatch-screen=2.66'
+  'perl-log-dispatch-syslog=2.66'
+  'perl-log-dispatch-types=2.66'
+  'perl-log-dispatch-vars=2.66')
 depends=(
   'perl>=5.6.0'
   'perl-base'
@@ -66,7 +66,7 @@ checkdepends=(
 url='https://metacpan.org/release/Log-Dispatch'
 _distdir="Log-Dispatch-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
-sha512sums=('c686d78e249155f1fb5e25c113ad768826e1fc615f4c65400250480330ccdf77b198e57645ebedc53e98d2a33d46308a985e8cd1f084d12c5475963931498a6a')
+sha512sums=('50ca5bd6d9abb47d2fa35dfe4799670030f6c7dcd59c51587bfad8bcb13ed713ee03d50152532db351c76b4cf407b9626bf30211aeeebfb26e1d873ecd978e27')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
