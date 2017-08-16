@@ -2,6 +2,7 @@
 
 # init variables
 tmpDir="$(mktemp -d /tmp/archive.XXXXXX)"
+trap 'rm -rf --one-file-system "${tmpDir}"' EXIT
 pkgDirBase="/srv/arch-mirror/arch/arch"
 pkgDir="${pkgDirBase}/archlinuxewe/os"
 pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
@@ -60,7 +61,6 @@ usage()
   >&2 echo '    -r|--removeAdditionalPackages:'
   >&2 echo '      remove additional packages from build environments'
   >&2 echo ''
-  rm -rf "${tmpDir}"
   exit 1
 }
 
@@ -84,7 +84,6 @@ cleanUp () {
       echo 'Logfiles saved to "'"${logFile}"'".'
     fi
   fi
-  rm -rf "${tmpDir}"
 }
 
 echo 'parse arguments ...'
@@ -179,7 +178,6 @@ do
     ;;
     *)
       >&2 echo "FEHLER: Verstehe Option \"$1\" doch nicht! Ich beende."
-      rm -rf "${tmpDir}"
       exit 1
   esac
   shift
@@ -201,7 +199,6 @@ then
   if ${upload} || ${updateMe}
   then
     >&2 echo 'FEHLER: "--no-sanity-check" geht nur zusammen mit "--no-upload" und "--no-selfUpdate"! Ich beende.'
-    rm -rf "${tmpDir}"
     exit 1
   fi
 fi
@@ -223,7 +220,6 @@ then
   cp "$(basename $0)" "$0"
   $0 "${args[@]}"
   err=$?
-  rm -rf "${tmpDir}"
   exit ${err}
 fi
 
@@ -694,7 +690,6 @@ else
     done
     if ${err}
     then
-      rm -rf "${tmpDir}"
       exit 1
     fi
 
@@ -705,7 +700,6 @@ else
   err=$?
   if [ ${err} -ne 0 ]
   then
-    rm -rf "${tmpDir}"
     exit ${err}
   fi
 
@@ -713,11 +707,7 @@ else
   err=$?
   if [ ${err} -ne 0 ]
   then
-    rm -rf "${tmpDir}"
     exit ${err}
   fi
-
-# clean up
-  rm -rf "${tmpDir}"
 
 fi
