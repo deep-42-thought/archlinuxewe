@@ -10,7 +10,7 @@
 # Contributor: chuckdaniels
 
 pkgname=paraview
-pkgver=5.4.0
+pkgver=5.4.1
 pkgrel=1
 pkgdesc='Parallel Visualization Application using VTK'
 arch=('i686' 'x86_64')
@@ -24,7 +24,7 @@ depends=('qt5-tools' 'qt5-x11extras'  'qt5-xmlpatterns'
 depends_x86_64=('ospray')
 makedepends=('cmake' 'mesa' 'gcc-fortran' 'ninja')
 source=("https://www.paraview.org/files/v${pkgver:0:3}/ParaView-v${pkgver}.tar.gz")
-sha1sums=('d1bc9112d76f603d3232069b4ea9c507c4e1b1a7')
+sha512sums=('6a720f9ed9e03b7b97f0e84bb6d67b2a28c4ffc5079427d544e9522ce313264eed273c9b7ae13b11e34ab4de903132a22bacc337452d1e9da9876416449520f5')
 
 prepare() {
   cd "${srcdir}/ParaView-v${pkgver}"
