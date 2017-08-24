@@ -163,7 +163,7 @@ then
       remVer="$(
         git -C /usr/src/archlinux/archiso archive --format=tar upstream/master | \
           tar -Ox Makefile | \
-          grep -m1 '^V=[0-9]\+$' | \
+          grep -m1 '^V=[0-9.]\+$' | \
           cut -d= -f2
       )"
     elif echo "${src}" | \
