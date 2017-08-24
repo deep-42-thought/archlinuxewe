@@ -14,7 +14,7 @@ license=('GPL')
 url='https://github.com/archlinux32/archiso32'
 depends=('make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx')
 conflicts=('archiso' 'archiso-dual')
-source=("${pkgname}-${_target_arch}-${pkgver}.tar.gz::https://github.com/archlinux32/${pkgname}/archive/${pkgver}-v${pkgver}.tar.gz")
+source=("${pkgname}-${_target_arch}-${pkgver}.tar.gz::https://github.com/archlinux32/${pkgname}/archive/${_target_arch}-v${pkgver}.tar.gz")
 sha512sums=('6ba650b01e0c539423fdedec2d17b641fb54aa006960d7b300bf67b9479bb68f31336331dbda4a35faa427f9ae2d6ced109675e99c9719fcba55be8e9bbe2555')
 
 package() {
