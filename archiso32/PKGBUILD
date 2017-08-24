@@ -6,7 +6,7 @@
 _target_arch=$(printf '%s' i 6 8 6)
 
 pkgname=archiso32
-pkgver=32
+pkgver=32.1
 pkgrel=1
 pkgdesc='Tools for creating Arch Linux live and install iso images - for '"${_target_arch}"
 arch=('any')
@@ -15,7 +15,7 @@ url='https://github.com/archlinux32/archiso32'
 depends=('make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx')
 conflicts=('archiso' 'archiso-dual')
 source=("${pkgname}-${_target_arch}-${pkgver}.tar.gz::https://github.com/archlinux32/${pkgname}/archive/${_target_arch}-v${pkgver}.tar.gz")
-sha512sums=('6ba650b01e0c539423fdedec2d17b641fb54aa006960d7b300bf67b9479bb68f31336331dbda4a35faa427f9ae2d6ced109675e99c9719fcba55be8e9bbe2555')
+sha512sums=('f5d838fb5f5c6f01b961b87d633b4d0b8c303790189046242481997f84c28000fdb5e53358bd8b7ec7e94280a91df6cfb4f49e679e1a008792b934f13133ea55')
 
 package() {
     make -C "${srcdir}/${pkgname}-${_target_arch}-v${pkgver}" DESTDIR="${pkgdir}" install
