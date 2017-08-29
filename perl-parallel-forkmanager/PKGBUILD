@@ -5,7 +5,7 @@ pkgname='perl-parallel-forkmanager'
 pkgver='1.19'
 pkgrel='1'
 pkgdesc='A simple parallel processing fork manager'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
@@ -23,6 +23,9 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.94'
   'perl-test-warn'
+)
+checkdepends=(
+  'perl-utf8-all'
 )
 url='https://metacpan.org/release/Parallel-ForkManager'
 _distdir="Parallel-ForkManager-${pkgver}"
