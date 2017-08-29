@@ -1,0 +1,82 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
+
+pkgname='perl-archive-any-lite'
+pkgver='0.11'
+pkgrel='1'
+pkgdesc='simple CPAN package extractor'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-archive-tar>=1.76'
+  'perl-archive-zip'
+  'perl-file-temp>=0.19'
+  'perl-io-compress'
+  'perl-io-zlib'
+  'perl-pathtools'
+)
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-extutils-makemaker-cpanfile>=0.07'
+  'perl-test-simple>=0.82'
+  'perl-test-useallmodules>=0.10'
+)
+checkdepends=(
+  'perl-parallel-forkmanager'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+)
+url='https://metacpan.org/release/Archive-Any-Lite'
+_distdir="Archive-Any-Lite-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/${_distdir}.tar.gz")
+sha512sums=('40db0122a359d295459b3c146cb1a8b45cadc6bd678c05d9cf32f906e8b99a692c59efe5ca18a2ce05d0ab4b741affa8e7158b7f9cebc4232c4126970c93a890')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  export TEST_POD=1
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
