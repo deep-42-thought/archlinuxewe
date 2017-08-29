@@ -24,6 +24,12 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple'
 )
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+)
 url='https://metacpan.org/release/Test-Kwalitee-Extra'
 _distdir="Test-Kwalitee-Extra-v${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/Y/YA/YAKEX/${_distdir}.tar.gz")
