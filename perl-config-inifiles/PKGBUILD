@@ -5,7 +5,7 @@ pkgname='perl-config-inifiles'
 pkgver='2.94'
 pkgrel='1'
 pkgdesc='A module for reading .ini-style configuration files.'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
@@ -27,6 +27,14 @@ makedepends=(
   'perl-pathtools'
   'perl-scalar-list-utils'
   'perl-test-simple'
+)
+checkdepends=(
+  'perl-cpan-changes'
+  'perl-pod-coverage-trustpod'
+  'perl-test-kwalitee-extra'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-trailingspace'
 )
 url='https://metacpan.org/release/Config-IniFiles'
 _distdir="Config-IniFiles-${pkgver}"
@@ -55,6 +63,9 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
