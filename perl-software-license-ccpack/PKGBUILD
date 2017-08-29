@@ -1,0 +1,97 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
+
+pkgname='perl-software-license-ccpack'
+pkgver='1.11'
+pkgrel='1'
+pkgdesc='Software::License pack for Creative Commons'"'"' licenses'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-software-license-cc_by_1_0=1.11'
+  'perl-software-license-cc_by_2_0=1.11'
+  'perl-software-license-cc_by_3_0=1.11'
+  'perl-software-license-cc_by_4_0=1.11'
+  'perl-software-license-cc_by_nc_1_0=1.11'
+  'perl-software-license-cc_by_nc_2_0=1.11'
+  'perl-software-license-cc_by_nc_3_0=1.11'
+  'perl-software-license-cc_by_nc_4_0=1.11'
+  'perl-software-license-cc_by_nc_nd_2_0=1.11'
+  'perl-software-license-cc_by_nc_nd_3_0=1.11'
+  'perl-software-license-cc_by_nc_nd_4_0=1.11'
+  'perl-software-license-cc_by_nc_sa_1_0=1.11'
+  'perl-software-license-cc_by_nc_sa_2_0=1.11'
+  'perl-software-license-cc_by_nc_sa_3_0=1.11'
+  'perl-software-license-cc_by_nc_sa_4_0=1.11'
+  'perl-software-license-cc_by_nd_1_0=1.11'
+  'perl-software-license-cc_by_nd_2_0=1.11'
+  'perl-software-license-cc_by_nd_3_0=1.11'
+  'perl-software-license-cc_by_nd_4_0=1.11'
+  'perl-software-license-cc_by_nd_nc_1_0=1.11'
+  'perl-software-license-cc_by_sa_1_0=1.11'
+  'perl-software-license-cc_by_sa_2_0=1.11'
+  'perl-software-license-cc_by_sa_3_0=1.11'
+  'perl-software-license-cc_by_sa_4_0=1.11'
+  'perl-software-license-cc_pdm_1_0=1.11'
+)
+depends=(
+  'perl>=5.6.0'
+  'perl-software-license'
+)
+makedepends=(
+  'perl>=5.6.0'
+  'perl-test-checkdeps>=0.010'
+  'perl-test-simple>=0.94'
+)
+url='https://metacpan.org/release/Software-License-CCpack'
+_distdir="Software-License-CCpack-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/B/BB/BBYRD/${_distdir}.tar.gz")
+sha512sums=('3ddaf100cf1b770baf3d4322520dca0a0278f179ffe0a0c975a46f34c75e8b59f3770e27170a10746790817294d38467845a109e23437bf5bcc3a68287492d44')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
