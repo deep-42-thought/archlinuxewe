@@ -20,6 +20,9 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-test-simple>=0.88'
 )
+checkdepends=(
+  'perl-test-pod'
+)
 url='https://metacpan.org/release/Module-CPANfile'
 _distdir="Module-CPANfile-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
@@ -47,6 +50,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
