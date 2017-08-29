@@ -5,7 +5,7 @@ pkgname='perl-test-useallmodules'
 pkgver='0.17'
 pkgrel='1'
 pkgdesc='do use_ok() for all the MANIFESTed modules'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
@@ -15,6 +15,10 @@ depends=(
 )
 makedepends=(
   'perl-extutils-makemaker'
+)
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage'
 )
 url='https://metacpan.org/release/Test-UseAllModules'
 _distdir="Test-UseAllModules-${pkgver}"
@@ -43,6 +47,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export TEST_POD=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
