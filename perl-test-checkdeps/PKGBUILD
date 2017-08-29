@@ -5,7 +5,7 @@ pkgname='perl-test-checkdeps'
 pkgver='0.010'
 pkgrel='1'
 pkgdesc='Check for presence of dependencies'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
@@ -22,6 +22,11 @@ makedepends=(
   'perl-io'
   'perl-pathtools'
   'perl-test-simple>=0.88'
+)
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
 )
 url='https://metacpan.org/release/Test-CheckDeps'
 _distdir="Test-CheckDeps-${pkgver}"
@@ -50,6 +55,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
