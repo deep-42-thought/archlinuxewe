@@ -1,0 +1,108 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
+
+pkgname='perl-mce'
+pkgver='1.829'
+pkgrel='1'
+pkgdesc='Many-Core Engine for Perl providing parallel processing capabilities'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-mce-candy=1.829'
+  'perl-mce-core-input-generator=1.829'
+  'perl-mce-core-input-handle=1.829'
+  'perl-mce-core-input-iterator=1.829'
+  'perl-mce-core-input-request=1.829'
+  'perl-mce-core-input-sequence=1.829'
+  'perl-mce-core-manager=1.829'
+  'perl-mce-core-validation=1.829'
+  'perl-mce-core-worker=1.829'
+  'perl-mce-flow=1.829'
+  'perl-mce-grep=1.829'
+  'perl-mce-loop=1.829'
+  'perl-mce-map=1.829'
+  'perl-mce-mutex=1.829'
+  'perl-mce-mutex-channel=1.829'
+  'perl-mce-mutex-flock=1.829'
+  'perl-mce-queue=1.829'
+  'perl-mce-relay=1.829'
+  'perl-mce-signal=1.829'
+  'perl-mce-step=1.829'
+  'perl-mce-stream=1.829'
+  'perl-mce-subs=1.829'
+  'perl-mce-util=1.829'
+)
+optdepends=(
+  'perl-sereal-decoder>=3.015'
+  'perl-sereal-encoder>=3.015'
+)
+depends=(
+  'perl>=5.8.0'
+  'perl-base'
+  'perl-carp'
+  'perl-constant'
+  'perl-file-path'
+  'perl-getopt-long'
+  'perl-io'
+  'perl-scalar-list-utils'
+  'perl-socket'
+  'perl-storable>=2.04'
+  'perl-time-hires'
+)
+makedepends=(
+  'perl>=5.8.0'
+  'perl-extutils-makemaker'
+  'perl-test-simple>=0.88'
+)
+url='https://metacpan.org/release/MCE'
+_distdir="MCE-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/M/MA/MARIOROY/${_distdir}.tar.gz")
+sha512sums=('fb77945529552e96bbb7f2b455442485cd915394b47b342795c177b33ffe102047de9f0b5f7f5281cefd0af2810bc8523220c881033a873d8b79b8bd9bedddf3')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}

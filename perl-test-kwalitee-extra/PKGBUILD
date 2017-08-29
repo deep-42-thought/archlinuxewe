@@ -1,0 +1,79 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
+
+pkgname='perl-test-kwalitee-extra'
+pkgver='0.4.0'
+pkgrel='1'
+pkgdesc='Run Kwalitee tests including optional indicators, especially, prereq_matches_use'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.6.0'
+  'perl-metacpan-client'
+  'perl-module-corelist'
+  'perl-module-cpants-analyse>=0.87'
+  'perl-module-extract-namespaces'
+  'perl-test-simple'
+  'perl-version>=0.77'
+)
+makedepends=(
+  'perl>=5.6.0'
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/Test-Kwalitee-Extra'
+_distdir="Test-Kwalitee-Extra-v${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/Y/YA/YAKEX/${_distdir}.tar.gz")
+sha512sums=('48956aac851b8dcb7403cf70707e6f792c46e28c1d8d0e4466f11ba4994eda9c50b70c6ccab31af92023a0965223385f298e2427986d7d1176f5f8cd2fe46ba7')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
