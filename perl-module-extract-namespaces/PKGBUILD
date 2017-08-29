@@ -15,6 +15,10 @@ depends=(
 makedepends=(
   'perl-extutils-makemaker'
 )
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+)
 url='https://metacpan.org/release/Module-Extract-Namespaces'
 _distdir="Module-Extract-Namespaces-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/B/BD/BDFOY/${_distdir}.tar.gz")
