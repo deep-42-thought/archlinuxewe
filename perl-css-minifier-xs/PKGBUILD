@@ -13,6 +13,10 @@ makedepends=(
   'perl-module-build>=0.40'
   'perl-test-simple'
 )
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+)
 url='https://metacpan.org/release/CSS-Minifier-XS'
 _distdir="CSS-Minifier-XS-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/G/GT/GTERMARS/${_distdir}.tar.gz")
