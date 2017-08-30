@@ -3,9 +3,9 @@
 
 pkgname='perl-class-c3'
 pkgver='0.33'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='A pragma to use the C3 method resolution order algorithm'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
@@ -17,6 +17,8 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-test-simple>=0.47'
 )
+checkdepends=(
+  'perl-mro-compat')
 url='https://metacpan.org/release/Class-C3'
 _distdir="Class-C3-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/H/HA/HAARG/${_distdir}.tar.gz")
