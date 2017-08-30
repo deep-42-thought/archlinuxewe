@@ -1,0 +1,74 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
+
+pkgname='perl-test-script'
+pkgver='1.23'
+pkgrel='1'
+pkgdesc='Basic cross-platform tests for scripts'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.8.1'
+  'perl-capture-tiny'
+  'perl-io'
+  'perl-pathtools>=0.80'
+  'perl-probe-perl>=0.01'
+  'perl-test-simple>=1.302015'
+)
+makedepends=(
+  'perl>=5.8.1'
+  'perl-extutils-makemaker'
+  'perl-test2-suite>=0.000060'
+)
+url='https://metacpan.org/release/Test-Script'
+_distdir="Test-Script-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/${_distdir}.tar.gz")
+sha512sums=('996564ba87b12849e86883b970117c9d5806be5b00d42207df1027f823a19497bf878640c46a8286e7d77afb8d1fbb3ef6dcfc0d21c2738a5ef124ddf5bc4834')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
