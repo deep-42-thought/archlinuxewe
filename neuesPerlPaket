@@ -171,7 +171,19 @@ versteheMetaYml
   echo '}'
 ) > PKGBUILD
 
-makepkg -fcrs --noconfirm --asdeps || exit 1
+needs_build=true
+
+while ${needs_build}; do
+  needs_build=false
+  makepkg -fcrs --noconfirm --asdeps || exit 1
+  namcap ${pkgname}-*.pkg.tar.xz | \
+    tee namcap.log
+  if grep -q ' W: No ELF files and not an "any" package$' namcap.log; then
+    rm ${pkgname}-*.pkg.tar.xz
+    needs_build=true
+    sed -i "s/^arch=.*\$/arch=('any')/" PKGBUILD
+  fi
+done
 
 echo ''
 echo 'sieht soweit erst mal gut aus, oder?'
