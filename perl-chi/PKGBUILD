@@ -3,9 +3,9 @@
 
 pkgname='perl-chi'
 pkgver='0.60'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Unified cache handling interface'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
@@ -65,6 +65,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
