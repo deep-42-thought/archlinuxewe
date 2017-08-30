@@ -2,7 +2,7 @@
 
 pkgname='perl-cpanel-json-xs'
 pkgver=3.0239
-pkgrel=1
+pkgrel=2
 pkgdesc='cPanel fork of JSON::XS, fast and correct serializing'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -12,10 +12,18 @@ depends=(
 makedepends=(
   'perl-extutils-makemaker')
 checkdepends=(
+  'perl-class-xsaccessor'
   'perl-json'
   'perl-json-xs'
   'perl-mojolicious'
+  'perl-perl-minimumversion'
+  'perl-pod-spell-commonmistakes'
+  'perl-test-cpan-meta'
   'perl-test-leaktrace'
+  'perl-test-minimumversion'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-spelling'
 )
 url='https://metacpan.org/release/Cpanel-JSON-XS'
 _distdir="Cpanel-JSON-XS-${pkgver}"
@@ -38,6 +46,7 @@ build() {
 check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    export AUTHOR_TESTING=1
     make test
   )
 }
