@@ -3,15 +3,19 @@
 
 pkgname='perl-carp-always'
 pkgver='0.13'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Warns and dies noisily with stack backtraces'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
   'perl-carp ')
 makedepends=(
   'perl-extutils-makemaker perl-test-base perl-test-simple ')
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+)
 url='https://metacpan.org/release/Carp-Always'
 _distdir="Carp-Always-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/${_distdir}.tar.gz")
