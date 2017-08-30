@@ -3,9 +3,9 @@
 
 pkgname='perl-config-any'
 pkgver='0.32'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Load configuration from different file formats, transparently'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
@@ -14,6 +14,18 @@ depends=(
 makedepends=(
   'perl-test-simple'
 )
+checkdepends=(
+  'perl-config-general'
+  'perl-config-tiny'
+  'perl-cpanel-json-xs'
+  'perl-json-maybexs'
+  'perl-json-xs'
+  'perl-json-pp'
+  'perl-json'
+  'perl-xml-simple'
+  'perl-xml-namespacesupport'
+  'perl-yaml-syck'
+  'perl-yaml')
 url='https://metacpan.org/release/Config-Any'
 _distdir="Config-Any-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/H/HA/HAARG/${_distdir}.tar.gz")
