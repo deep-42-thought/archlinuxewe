@@ -1,0 +1,83 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
+
+pkgname='perl-perl-minimumversion'
+pkgver='1.38'
+pkgrel='1'
+pkgdesc='Find a minimum required version of perl for Perl code'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.6.0'
+  'perl-carp'
+  'perl-exporter'
+  'perl-file-find-rule'
+  'perl-file-find-rule-perl'
+  'perl-getopt-long'
+  'perl-params-util>=0.25'
+  'perl-pathtools'
+  'perl-perl-critic-utils>=1.104'
+  'perl-ppi'
+  'perl-ppi>=1.215'
+  'perl-ppix-regexp>=0.033'
+  'perl-scalar-list-utils>=1.20'
+  'perl-version>=0.76'
+)
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-pathtools'
+  'perl-test-script>=1.03'
+  'perl-test-simple>=0.47'
+)
+url='https://metacpan.org/release/Perl-MinimumVersion'
+_distdir="Perl-MinimumVersion-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/N/NE/NEILB/${_distdir}.tar.gz")
+sha512sums=('4a1b5a30c1b2c82ebdd5908b667d012376372890278fb3f1a08ead300b8ce02396f511df5250123689611ad5c0b0ad2b41a4c1ebe76c33109f2226eef95c9d4f')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
