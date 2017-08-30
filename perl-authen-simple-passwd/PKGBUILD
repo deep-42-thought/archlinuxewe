@@ -3,7 +3,7 @@
 
 pkgname='perl-authen-simple-passwd'
 pkgver='0.6'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Simple Passwd authentication'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -41,6 +41,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export TEST_POD=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
