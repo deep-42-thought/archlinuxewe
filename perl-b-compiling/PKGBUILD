@@ -3,7 +3,7 @@
 
 pkgname='perl-b-compiling'
 pkgver='0.06'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Expose PL_compiling to perl'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -14,6 +14,13 @@ depends=(
 makedepends=(
   'perl-extutils-makemaker'
   'perl-test-simple')
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-eol'
+  'perl-test-notabs'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+)
 url='https://metacpan.org/release/B-Compiling'
 _distdir="B-Compiling-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/F/FL/FLORA/${_distdir}.tar.gz")
@@ -41,6 +48,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
