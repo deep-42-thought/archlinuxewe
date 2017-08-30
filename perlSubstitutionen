@@ -12,6 +12,7 @@ http-message: http-headers http-request http-request-common http-response http-s
 http-server-simple: http-server-simple-cgi
 io: io-dir io-file io-handle io-select io-socket io-socket-inet
 io-compress: compress-zlib io-compress-deflate io-compress-gzip io-compress-inflate io-uncompress-bunzip2 io-uncompress-gunzip io-uncompress-inflate
+io-stringy: io-scalar
 io-tty: io-pty
 libwww: lwp lwp-useragent
 log-dispatch: log-dispatch-output
@@ -25,7 +26,7 @@ pod-coverage: pod-coverage-countparents
 pod-eventual: pod-eventual-simple
 pod-parser: pod-find pod-parseutils pod-plaintext pod-select
 podlators: pod-text
-ppi: ppi-document ppi-document-file ppi-document-fragment ppi-dumper ppi-node ppi-token-quote-single ppi-token-whitespace
+ppi: ppi-document ppi-document-file ppi-document-fragment ppi-dumper ppi-node ppi-token-quote-single ppi-util ppi-token-whitespace
 role-tiny: role-tiny-with
 scalar-list-utils: list-util scalar-util
 search-elasticsearch: search-elasticsearch-scroll
@@ -33,7 +34,8 @@ soap-lite: soap-transport-tcp
 sub-quote: sub-defer
 template-toolkit: template
 test-harness: app-prove
-test-simple: ok test-more test-builder test-builder-module test-builder-tester
+test-simple: ok test-more test-builder test-builder-module test-builder-tester test2-api
+test2-suite: test2-v0
 text-tabs+wrap: text-wrap
 timedate: date-parse
 uri: uri-file uri-queryparam uri-withbase
