@@ -301,10 +301,12 @@ then
       then
         pre='s|\(\...\)$|\10|'
         post='s|\(\...\)0$|\1|'
-      elif [ "${pkgname}" == 'perl-opengl' ]
+      elif [ "${pkgname}" == 'perl-opengl' ] || \
+        [ "${pkgname}" == 'perl-array-diff' ] || \
+        [ "${pkgname}" == 'perl-module-cpants-analyse' ]
       then
-        pre='s|\(\...\)\(..\)$|\1.\2|'
-        post='s|\(\...\)\.\(..\)$|\1\2|'
+        pre='s|\(\...\)\(.\)|\1.\2|'
+        post='s|\(\...\)\.\(.\)|\1\2|'
       else
         pre=''
         post=''
