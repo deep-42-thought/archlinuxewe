@@ -3,9 +3,9 @@
 
 pkgname='perl-class-accessor-grouped'
 pkgver='0.10012'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Lets you build groups of accessors'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 optdepends=(
@@ -25,6 +25,16 @@ makedepends=(
   'perl-test-exception>=0.31'
   'perl-test-simple>=0.88'
 )
+checkdepends=(
+  'perl-devel-hide'
+  'perl-class-xsaccessor'
+  'perl-sub-name'
+  'perl-test-checkmanifest'
+  'perl-test-notabs'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-spelling'
+  'perl-test-strict')
 url='https://metacpan.org/release/Class-Accessor-Grouped'
 _distdir="Class-Accessor-Grouped-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RI/RIBASUSHI/${_distdir}.tar.gz")
@@ -52,6 +62,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export TEST_AUTHOR=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
