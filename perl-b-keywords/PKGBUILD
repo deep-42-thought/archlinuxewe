@@ -3,9 +3,9 @@
 
 pkgname='perl-b-keywords'
 pkgver='1.15'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Lists of reserved barewords and symbol names'
-arch=('x86_64' 'i686')
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
@@ -13,6 +13,14 @@ depends=(
 )
 makedepends=(
   'perl-extutils-makemaker'
+)
+checkdepends=(
+  'perl-perl-minimumversion'
+  'perl-test-cpan-meta'
+  'perl-test-kwalitee'
+  'perl-test-minimumversion'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
 )
 url='https://metacpan.org/release/B-Keywords'
 _distdir="B-Keywords-${pkgver}"
@@ -41,6 +49,9 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export IS_MAINTAINER=1
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
