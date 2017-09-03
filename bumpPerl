@@ -3,7 +3,7 @@
 me="$(readlink -f $0)"
 cd $(dirname "${me}")
 
-for pkgbuild in perl-*/PKGBUILD; do
+for pkgbuild in perl-*/PKGBUILD demeter/PKGBUILD; do
 
   pkgrel="$(
     sed -n "/^pkgrel='\?[0-9]\+'\?\$/{s@^pkgrel='\?\([0-9]\+\)'\?\$@\1@;p}" "${pkgbuild}"
