@@ -174,6 +174,23 @@ then
           sort -V | \
           tail -n1
       )"
+    elif [ "${pkgname}" == 'devtools32' ]
+    then
+      git -C /usr/src/archlinux/devtools fetch upstream
+      remVer="$(
+        (
+          git -C /usr/src/archlinux/devtools archive --format=tar upstream/master | \
+            tar -Ox Makefile | \
+            grep -m1 '^V=[0-9.]\+$' | \
+            cut -d= -f2
+          curl_it 'https://github.com/archlinux32/devtools32/releases' | \
+            tr '"' '\n' | \
+            grep '^/archlinux32/devtools32/releases/tag/v[0-9.]\+$' | \
+            sed 's@^/archlinux32/devtools32/releases/tag/v\([0-9.]\+\)$@\1@'
+        ) | \
+          sort -V | \
+          tail -n1
+      )"
     elif echo "${src}" | \
       grep -q '//download\.virtualbox\.org/'
     then
