@@ -98,7 +98,8 @@ build() {
       PERL_AUTOINSTALL=--skipdeps                            \
       PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
       PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
-      MODULEBUILDRC=/dev/null
+      MODULEBUILDRC=/dev/null                                \
+      PERL_USE_UNSAFE_INC=1
 
     cd ${pkgname}-${pkgver}
     if [ -z "$DISPLAY" ]; then
