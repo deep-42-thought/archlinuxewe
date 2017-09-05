@@ -4,12 +4,13 @@
 
 pkgname=devtools32
 pkgver=20170814
-pkgrel=1
+pkgrel=2
 pkgdesc='Tools for Arch Linux package maintainers, also for 32 bit'
 arch=('any')
 license=('GPL')
 url='https://github.com/archlinux32/devtools32/'
-depends=('namcap' 'openssh' 'subversion' 'rsync' 'arch-install-scripts' 'pacman-mirrorlist32')
+depends=('namcap' 'openssh' 'subversion' 'rsync' 'arch-install-scripts'
+	'pacman-mirrorlist32' 'git' 'mercurial' 'bzr')
 conflicts=('devtools')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/archlinux32/$pkgname/archive/v$pkgver.tar.gz")
 sha512sums=('792d52bfadad6bd60c1b5a6e629520353b53468c1ca3246dcf0c06bf6fb97b73a43042582f46db39f0d220adcbeec3270011b8a51c9d8fd201ccc0757f194990')
