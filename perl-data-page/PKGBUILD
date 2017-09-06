@@ -3,7 +3,7 @@
 
 pkgname='perl-data-page'
 pkgver='2.02'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='help when paging through sets of results'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -16,6 +16,9 @@ depends=(
 makedepends=(
   'perl-module-build>=0.35'
 )
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage')
 url='https://metacpan.org/release/Data-Page'
 _distdir="Data-Page-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/L/LB/LBROCARD/${_distdir}.tar.gz")
