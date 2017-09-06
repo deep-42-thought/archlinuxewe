@@ -1,0 +1,73 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
+
+pkgname='perl-moosex-types-json'
+pkgver='1.00'
+pkgrel='1'
+pkgdesc='JSON datatype for Moose'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl'
+  'perl-base'
+  'perl-json'
+  'perl-moose-util-typeconstraints'
+  'perl-moosex-types'
+)
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-moose'
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/MooseX-Types-JSON'
+_distdir="MooseX-Types-JSON-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/M/MI/MILA/${_distdir}.tar.gz")
+sha512sums=('1dfaa8907c04ca765fc03c2049cbf076b2e29f1df34b569d91b3cc3931acde8cc7563cb186d3ea4b278ee40f1c4706f6b03139fb370d6a9d79eb7e6de21aa23f')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
