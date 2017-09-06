@@ -3,7 +3,7 @@
 
 pkgname='perl-data-serializer'
 pkgver='0.60'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Modules that serialize data structures'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -35,6 +35,9 @@ depends=(
   'perl-exporter'
   'perl-io')
 makedepends=(
+  'perl-crypt-blowfish'
+  'perl-crypt-cbc'
+  'perl-json-xs'
   'perl-module-build>=0.35'
   'perl-pathtools'
   'perl-test-simple')
@@ -48,6 +51,7 @@ optdepends=(
   'perl-crypt-cbc'
   'perl-data-denter'
   'perl-data-taxi'
+  'perl-extutils-tbone'
   'perl-freezethaw'
   'perl-io-compress'
   'perl-json'
@@ -59,7 +63,22 @@ optdepends=(
   'perl-xml-simple'
   'perl-yaml'
   'perl-yaml-syck')
-checkdepends=('perl-digest-sha1')
+checkdepends=(
+  'perl-bencode'
+  'perl-config-general'
+  'perl-convert-bencode'
+  'perl-convert-bencode_xs'
+  'perl-data-denter'
+  'perl-data-taxi'
+  'perl-digest-sha1'
+  'perl-freezethaw'
+  'perl-json'
+  'perl-php-serialization'
+  'perl-xml-dumper'
+  'perl-xml-simple'
+  'perl-yaml'
+  'perl-yaml-syck'
+)
 url='https://metacpan.org/release/Data-Serializer'
 _distdir="Data-Serializer-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/N/NE/NEELY/${_distdir}.tar.gz")
