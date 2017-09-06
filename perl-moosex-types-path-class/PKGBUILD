@@ -1,0 +1,78 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
+
+pkgname='perl-moosex-types-path-class'
+pkgver='0.09'
+pkgrel='1'
+pkgdesc='A Path::Class type library for Moose'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.6.0'
+  'perl-if'
+  'perl-moosex-types'
+  'perl-moosex-types-moose'
+  'perl-path-class>=0.16'
+)
+makedepends=(
+  'perl>=5.6.0'
+  'perl-module-build-tiny>=0.034'
+  'perl-module-metadata'
+  'perl-moose'
+  'perl-moose-util-typeconstraints'
+  'perl-pathtools'
+  'perl-test-needs'
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/MooseX-Types-Path-Class'
+_distdir="MooseX-Types-Path-Class-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
+sha512sums=('d61f72957431852903d99257b2d9f53f88702d4d314297192345896aeb1df86ab4d80767a1d0fad76fb23b561925aae076bfda80106e3f7d0f2d8093956bdc9e')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
