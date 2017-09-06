@@ -1,0 +1,64 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
+
+pkgname='perl-log-trace'
+pkgver='1.070'
+pkgrel='1'
+pkgdesc='provides a unified approach to tracing'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/Log-Trace'
+_distdir="Log-Trace-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/B/BB/BBC/${_distdir}.tar.gz")
+sha512sums=('7368a4dc60cac263f6e1b783cd40f239fcee85af3ce5920148d9a83c4b129366c9d3e266656a53cbe5347571ba1b8f0c1bcd2488a4ca688a4d814a0d79e92039')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
