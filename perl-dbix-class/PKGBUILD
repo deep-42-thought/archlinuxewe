@@ -3,7 +3,7 @@
 
 pkgname='perl-dbix-class'
 pkgver='0.082840'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Extensible and flexible object &lt;-&gt; relational mapper.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -42,6 +42,29 @@ makedepends=(
   'perl-test-exception>=0.31'
   'perl-test-simple>=0.94'
   'perl-test-warn>=0.21'
+)
+checkdepends=(
+  'perl-class-dbi'
+  'perl-class-dbi-plugin-deepabstractsearch'
+  'perl-cpanel-json-xs'
+  'perl-datetime'
+  'perl-datetime-format-pg'
+  'perl-datetime-format-mysql'
+  'perl-datetime-format-sqlite'
+  'perl-datetime-format-strptime'
+  'perl-dbd-pg'
+  'perl-getopt-long-descriptive'
+  'perl-json-any'
+  'perl-json-dwiw'
+  'perl-math-base36'
+  'perl-moose'
+  'perl-moosex-types'
+  'perl-moosex-types-json'
+  'perl-moosex-types-loadableclass'
+  'perl-moosex-types-path-class'
+  'perl-sql-translator'
+  'perl-text-csv'
+  'perl-time-piece-mysql'
 )
 url='https://metacpan.org/release/DBIx-Class'
 _distdir="DBIx-Class-${pkgver}"
