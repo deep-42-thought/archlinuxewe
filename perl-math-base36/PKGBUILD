@@ -1,0 +1,74 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
+
+pkgname='perl-math-base36'
+pkgver='0.14'
+pkgrel='1'
+pkgdesc='Encoding and decoding of base36 strings'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.6.0'
+  'perl-math-bigint>=1.60'
+)
+makedepends=(
+  'perl-extutils-makemaker>=6.59'
+  'perl-module-install'
+  'perl-test-exception'
+  'perl-test-simple'
+)
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage')
+url='https://metacpan.org/release/Math-Base36'
+_distdir="Math-Base36-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/B/BR/BRICAS/${_distdir}.tar.gz")
+sha512sums=('d851ec86bf4d561d8f1c8b46de3dfd5108943d3d260296e0fddebf3e5ff6b069765260ae20af6ef5741c4677feb9a9ae588457197d44f57bb9434b64cd268e59')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
