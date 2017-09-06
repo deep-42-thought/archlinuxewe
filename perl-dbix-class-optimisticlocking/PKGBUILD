@@ -3,7 +3,7 @@
 
 pkgname='perl-dbix-class-optimisticlocking'
 pkgver='0.02'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Optimistic locking support for DBIx::Class'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -19,6 +19,12 @@ makedepends=(
   'perl-file-temp'
   'perl-pathtools'
   'perl-test-simple'
+)
+checkdepends=(
+  'perl-dbd-sqlite'
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
 )
 url='https://metacpan.org/release/DBIx-Class-OptimisticLocking'
 _distdir="DBIx-Class-OptimisticLocking-${pkgver}"
@@ -47,6 +53,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
