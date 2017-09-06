@@ -4,7 +4,7 @@
 
 pkgname='perl-devel-overloadinfo'
 pkgver='0.004'
-pkgrel='5'
+pkgrel='6'
 pkgdesc="introspect overloaded operators"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -22,7 +22,10 @@ makedepends=(
   'perl-parent'
   'perl-test-fatal'
   'perl-test-simple>=0.88')
-checkdepends=('perl-test-fatal')
+checkdepends=(
+  'perl-test-fatal'
+  'perl-test-pod'
+  'perl-test-spelling')
 url='https://metacpan.org/release/Devel-OverloadInfo'
 _distdir="Devel-OverloadInfo-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/I/IL/ILMARI/${_distdir}.tar.gz")
@@ -44,6 +47,8 @@ build() {
 check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    export AUTHOR_TESTING=1
+    export RELEASE_TESTING=1
     make test
   )
 }
