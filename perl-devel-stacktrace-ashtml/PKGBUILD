@@ -3,7 +3,7 @@
 
 pkgname='perl-devel-stacktrace-ashtml'
 pkgver='0.15'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Displays stack trace in HTML'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,6 +13,11 @@ depends=(
 makedepends=(
   'perl-test-simple>=0.88'
   'perl-extutils-makemaker')
+checkdepends=(
+  'perl-test-perl-critic'
+  'perl-test-pod'
+  'perl-test-spelling'
+  'perl-test-synopsis')
 url='https://metacpan.org/release/Devel-StackTrace-AsHTML'
 _distdir="Devel-StackTrace-AsHTML-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
@@ -40,6 +45,9 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
