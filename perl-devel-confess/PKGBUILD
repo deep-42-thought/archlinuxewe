@@ -3,7 +3,7 @@
 
 pkgname='perl-devel-confess'
 pkgver=0.009004
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Include stack traces on all warnings and errors'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -18,6 +18,9 @@ makedepends=(
   'perl-pathtools'
   'perl-safe'
   'perl-test-simple')
+checkdepends=(
+  'perl-universal-can'
+  'perl-universal-isa')
 url='https://metacpan.org/release/Devel-Confess'
 _distdir="Devel-Confess-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/H/HA/HAARG/${_distdir}.tar.gz")
