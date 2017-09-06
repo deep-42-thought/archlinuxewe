@@ -3,7 +3,7 @@
 
 pkgname='perl-datetime-format-sqlite'
 pkgver='0.11'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Parse and format SQLite dates and times'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -16,6 +16,11 @@ depends=(
 makedepends=(
   'perl-extutils-makemaker'
 )
+checkdepends=(
+  'perl-dbd-sqlite'
+  'perl-dbi'
+  'perl-test-pod'
+  'perl-test-pod-coverage')
 url='https://metacpan.org/release/DateTime-Format-SQLite'
 _distdir="DateTime-Format-SQLite-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/C/CF/CFAERBER/${_distdir}.tar.gz")
