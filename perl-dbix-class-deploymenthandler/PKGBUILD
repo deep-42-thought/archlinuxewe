@@ -3,7 +3,7 @@
 
 pkgname='perl-dbix-class-deploymenthandler'
 pkgver=0.002220
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Extensible DBIx::Class deployment'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -36,8 +36,8 @@ makedepends=(
   'perl-test-simple>=0.88'
 )
 checkdepends=(
-  'perl-yaml'
-)
+  'perl-test-pod'
+  'perl-yaml')
 url='https://metacpan.org/release/DBIx-Class-DeploymentHandler'
 _distdir="DBIx-Class-DeploymentHandler-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/F/FR/FREW/${_distdir}.tar.gz")
@@ -65,6 +65,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
