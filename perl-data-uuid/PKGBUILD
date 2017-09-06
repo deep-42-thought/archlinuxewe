@@ -3,7 +3,7 @@
 
 pkgname='perl-data-uuid'
 pkgver='1.221'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Globally/Universally Unique Identifiers (GUIDs/UUIDs)'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,9 @@ depends=(
   'perl-digest-md5')
 makedepends=(
   'perl-extutils-makemaker')
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage')
 url='https://metacpan.org/release/Data-UUID'
 _distdir="Data-UUID-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
@@ -39,6 +42,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
