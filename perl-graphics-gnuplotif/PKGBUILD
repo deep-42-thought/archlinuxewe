@@ -2,7 +2,7 @@
 
 pkgname='perl-graphics-gnuplotif'
 pkgver='1.8'
-pkgrel='4'
+pkgrel='5'
 pkgdesc="A dynamic Perl interface to gnuplot"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,7 +13,10 @@ depends=(
   'perl-version')
 makedepends=(
   'perl-extutils-makemaker')
-checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'xorg-server-xvfb')
 url='http://search.cpan.org/~mehner/Graphics-GnuplotIF-1.8/'
 _distdir="Graphics-GnuplotIF-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/M/ME/MEHNER/${_distdir}.tar.gz")
@@ -35,7 +38,8 @@ build() {
 check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
-    make test
+    export USER=mehner
+    xvfb-run -a -s "+extension GLX -screen 0 1280x1024x24" make test
   )
 }
 
