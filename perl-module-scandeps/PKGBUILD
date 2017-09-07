@@ -3,7 +3,7 @@
 
 pkgname='perl-module-scandeps'
 pkgver=1.24
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Recursively scan Perl code for dependencies'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -20,6 +20,8 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-test-requires'
   'perl-test-simple')
+checkdepends=(
+  'perl-prefork')
 url='https://metacpan.org/release/Module-ScanDeps'
 _distdir="Module-ScanDeps-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RS/RSCHUPP/${_distdir}.tar.gz")
