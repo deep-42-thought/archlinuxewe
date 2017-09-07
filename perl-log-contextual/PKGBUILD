@@ -3,7 +3,7 @@
 
 pkgname='perl-log-contextual'
 pkgver='0.007001'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Simple logging interface with a contextual log'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -18,6 +18,10 @@ depends=(
 makedepends=(
   'perl-extutils-makemaker'
   'perl-test-fatal'
+)
+checkdepends=(
+  'perl-log-log4perl'
+  'perl-test-pod'
 )
 url='https://metacpan.org/release/Log-Contextual'
 _distdir="Log-Contextual-${pkgver}"
@@ -46,6 +50,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
