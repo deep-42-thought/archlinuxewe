@@ -3,7 +3,7 @@
 
 pkgname='perl-filesys-notify-simple'
 pkgver='0.12'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Simple and dumb file system watcher'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -15,6 +15,8 @@ makedepends=(
   'perl-test-simple'
   'perl-test-sharedfork'
   'perl-extutils-makemaker>=6.30')
+checkdepends=(
+  'perl-test-pod')
 url='https://metacpan.org/release/Filesys-Notify-Simple'
 _distdir="Filesys-Notify-Simple-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
@@ -42,6 +44,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
