@@ -2,7 +2,7 @@
 
 pkgname='perl-json-maybexs'
 pkgver=1.003009
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Use Cpanel::JSON::XS with a fallback to JSON::XS and JSON::PP'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -21,8 +21,9 @@ makedepends=(
 optdepends=(
   'perl-cpanel-json-xs>=2.3310')
 checkdepends=(
-  'perl-test-without-module'
+  'perl-cpanel-json-xs'
   'perl-json-xs'
+  'perl-test-without-module'
 )
 url='https://metacpan.org/release/JSON-MaybeXS'
 _distdir="JSON-MaybeXS-${pkgver}"
