@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-mojolicious'
-pkgver=7.44
-pkgrel='2'
+pkgver=7.45
+pkgrel=1
 pkgdesc='Web development toolkit'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -19,7 +19,7 @@ checkdepends=()
 url='https://metacpan.org/release/Mojolicious'
 _distdir="Mojolicious-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SR/SRI/${_distdir}.tar.gz")
-sha512sums=('a89611304e8abb5a9f46b32715a60b8f3cd65f464b508e444684e898af77c0c5395cb25c54baae600a6c3365106f990ec974dcddc99bf53ec176b52eb851acd8')
+sha512sums=('56893bb45deb6eb61eabfd8f95784c1fcffb73eee15c4c4c53a2b0569f4cdc19c89aafc1fca4fe4f82a4259a0bb42951fe2bc1868e81cba270dde2c36e8e699a')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
