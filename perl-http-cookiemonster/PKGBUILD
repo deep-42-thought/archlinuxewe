@@ -3,7 +3,7 @@
 
 pkgname='perl-http-cookiemonster'
 pkgver='0.09'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Easy read/write access to your jar of HTTP::Cookies'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -23,6 +23,9 @@ makedepends=(
   'perl-module-build>=0.28'
   'perl-test-most'
   'perl-test-simple')
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod-coverage')
 url='https://metacpan.org/release/HTTP-CookieMonster'
 _distdir="HTTP-CookieMonster-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
@@ -50,6 +53,8 @@ build(){
 
 check(){
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
