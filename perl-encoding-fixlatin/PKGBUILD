@@ -4,7 +4,7 @@
 
 pkgname='perl-encoding-fixlatin'
 pkgver='1.04'
-pkgrel='4'
+pkgrel='5'
 pkgdesc="takes mixed encoding input and produces UTF-8 output"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -16,7 +16,11 @@ makedepends=(
   'perl-test-simple>=0.90')
 optdepends=(
   'perl-encoding-fixlatin-xs>=1.00')
-checkdepends=('perl-test-fatal')
+checkdepends=(
+  'perl-test-fatal'
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod'
+  'perl-test-pod-coverage')
 url='http://github.com/grantm/encoding-fixlatin'
 source=("http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/Encoding-FixLatin-${pkgver}.tar.gz")
 sha512sums=('7091e503b11c9d1c5a3dd38156467cf398ae4b96e1c109db4781478dfb100c2cc50e688c742392f66b9f195b936c19cafe003fffe4fc0459165b02622c154f72')
@@ -39,6 +43,7 @@ build() {
 check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    export RELEASE_TESTING=1
     make test
   )
 }
