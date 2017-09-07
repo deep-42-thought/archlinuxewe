@@ -2,7 +2,7 @@
 
 pkgname='perl-file-find-object-rule'
 pkgver=0.0306
-pkgrel='3'
+pkgrel='4'
 pkgdesc="Alternative interface to File::Find::Object"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -18,7 +18,10 @@ depends=(
 makedepends=(
   'perl-module-build>=0.36'
   'perl-test-simple')
-checkdepends=('perl-test-pod' 'perl-test-pod-coverage' 'perl-test-trailingspace')
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-trailingspace')
 url='http://search.cpan.org/~shlomif/File-Find-Object-Rule-0.0305/'
 _distdir="File-Find-Object-Rule-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
@@ -40,6 +43,7 @@ build() {
 check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    export RELEASE_TESTING=1
     perl Build test
   )
 }
