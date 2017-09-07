@@ -1,0 +1,79 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (c76f19eeb8ac0e674222223e3f2f0b1a4250e725fbc76c117ed5a925d0a78bc530c4457ecc3b31370951fc9b8729fc0272fa9206231f2dcd7aab2565a892a173)
+
+pkgname='perl-mo'
+pkgver='0.40'
+pkgrel='1'
+pkgdesc='Micro Objects. Mo is less.'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+optdepends=(
+  'perl-class-xsaccessor'
+  'perl-io-all'
+  'perl-moose'
+  'perl-mouse'
+)
+depends=(
+  'perl>=5.6.0'
+)
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-simple>=0.96'
+)
+checkdepends=(
+  'perl-class-xsaccessor'
+  'perl-moose'
+  'perl-mouse'
+)
+url='https://metacpan.org/release/Mo'
+_distdir="Mo-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/T/TI/TINITA/${_distdir}.tar.gz")
+sha512sums=('084756b11ebb9d9e01cc27484b14429cf1de5640fa0675f6ae1d665886de301321665e53af9144606ed46225d56bd18750c21d9eac8dea0161596599d65219b3')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
