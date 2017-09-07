@@ -3,7 +3,7 @@
 
 pkgname='perl-html-restrict'
 pkgver=2.2.4
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Strip unwanted HTML tags and attributes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -22,6 +22,17 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-test-fatal'
   'perl-test-simple')
+checkdepends=(
+  'perl-code-tidyall'
+  'perl-code-tidyall-plugin-sortlines-naturally'
+  'perl-cpan-changes'
+  'perl-json-maybexs'
+  'perl-perl-tidy'
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-spelling'
+  'perl-test-synopsis')
 url='https://metacpan.org/release/HTML-Restrict'
 _distdir="HTML-Restrict-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
@@ -49,6 +60,9 @@ build(){
 
 check(){
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
