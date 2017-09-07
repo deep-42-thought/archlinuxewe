@@ -3,7 +3,7 @@
 
 pkgname='perl-perl-critic'
 pkgver='1.130'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Critique Perl source code for best-practices.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -244,6 +244,9 @@ makedepends=(
   'perl-module-build>=0.4024'
   'perl-test-deep'
   'perl-test-simple'
+)
+checkdepends=(
+  'perl-test-memory-cycle'
 )
 url='https://metacpan.org/release/Perl-Critic'
 _distdir="Perl-Critic-${pkgver}"
