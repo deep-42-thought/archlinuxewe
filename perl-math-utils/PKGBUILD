@@ -3,7 +3,7 @@
 
 pkgname='perl-math-utils'
 pkgver=1.11
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Useful mathematical functions not in Perl'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,6 +14,10 @@ depends=(
 makedepends=(
   'perl-module-build>=0.4'
   'perl-test-simple'
+)
+checkdepends=(
+  'perl-test-checkmanifest'
+  'perl-test-pod'
 )
 url='https://metacpan.org/release/Math-Utils'
 _distdir="Math-Utils-${pkgver}"
@@ -42,6 +46,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
