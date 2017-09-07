@@ -5,7 +5,7 @@
 pkgname=perl-file-monitor
 _realname=File-Monitor
 pkgver=1.00
-pkgrel='3'
+pkgrel='4'
 _distdir="${_realname}-${pkgver}"
 pkgdesc="Portable implementation of file-mon"
 arch=(any)
@@ -20,6 +20,9 @@ depends=(
   'perl-version')
 makedepends=(
   'perl-module-build>=0.36')
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage')
 options=('!emptydirs')
 _author=PLICEASE
 source=("http://search.cpan.org/CPAN/authors/id/A/AN/ANDYA/${_distdir}.tar.gz")
