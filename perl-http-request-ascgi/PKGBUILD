@@ -3,7 +3,7 @@
 
 pkgname='perl-http-request-ascgi'
 pkgver='1.2'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Set up a CGI environment from an HTTP::Request'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -15,6 +15,10 @@ depends=(
   'perl-io'
   'perl-test-simple'
   'perl-uri-escape')
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod'
+  'perl-test-pod-coverage')
 url='https://metacpan.org/release/HTTP-Request-AsCGI'
 _distdir="HTTP-Request-AsCGI-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/F/FL/FLORA/${_distdir}.tar.gz")
@@ -42,6 +46,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
