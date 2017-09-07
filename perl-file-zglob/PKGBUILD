@@ -1,0 +1,69 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (084f81f76a317ecad54ce6a015f1da107e45dc6c91c650f1c467e9a49a1603e70d217801778a55ccf45b919eb4d8f925f7bdb9a7431dec4b48b5a5d4332bfd36)
+
+pkgname='perl-file-zglob'
+pkgver='0.11'
+pkgrel='1'
+pkgdesc='Extended globs.'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.8.8'
+)
+makedepends=(
+  'perl-extutils-makemaker>=6.59'
+  'perl-module-install'
+  'perl-test-simple>=0.96'
+)
+url='https://metacpan.org/release/File-Zglob'
+_distdir="File-Zglob-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/T/TO/TOKUHIROM/${_distdir}.tar.gz")
+sha512sums=('19d0f40c4dd9ca46b92acb0ffc75dc357f21fae6f4b6927d107985d5427d0f5b7264f5052931377b27eab61a13eba404f2129dccabb4f5a140ee02c726b98701')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
