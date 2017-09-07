@@ -1,0 +1,143 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (c76f19eeb8ac0e674222223e3f2f0b1a4250e725fbc76c117ed5a925d0a78bc530c4457ecc3b31370951fc9b8729fc0272fa9206231f2dcd7aab2565a892a173)
+
+pkgname='perl-code-tidyall'
+pkgver='0.65'
+pkgrel='1'
+pkgdesc='Engine for tidyall, your all-in-one code tidier and validator'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-code-tidyall-cache=0.65'
+  'perl-code-tidyall-cachemodel=0.65'
+  'perl-code-tidyall-cachemodel-shared=0.65'
+  'perl-code-tidyall-config-ini-reader=0.65'
+  'perl-code-tidyall-git-precommit=0.65'
+  'perl-code-tidyall-git-prereceive=0.65'
+  'perl-code-tidyall-git-util=0.65'
+  'perl-code-tidyall-plugin=0.65'
+  'perl-code-tidyall-plugin-cssunminifier=0.65'
+  'perl-code-tidyall-plugin-jsbeautify=0.65'
+  'perl-code-tidyall-plugin-jshint=0.65'
+  'perl-code-tidyall-plugin-jslint=0.65'
+  'perl-code-tidyall-plugin-json=0.65'
+  'perl-code-tidyall-plugin-masontidy=0.65'
+  'perl-code-tidyall-plugin-perlcritic=0.65'
+  'perl-code-tidyall-plugin-perltidy=0.65'
+  'perl-code-tidyall-plugin-perltidysweet=0.65'
+  'perl-code-tidyall-plugin-phpcodesniffer=0.65'
+  'perl-code-tidyall-plugin-podchecker=0.65'
+  'perl-code-tidyall-plugin-podspell=0.65'
+  'perl-code-tidyall-plugin-podtidy=0.65'
+  'perl-code-tidyall-plugin-sortlines=0.65'
+  'perl-code-tidyall-result=0.65'
+  'perl-code-tidyall-role-hasignore=0.65'
+  'perl-code-tidyall-role-tempdir=0.65'
+  'perl-code-tidyall-svn-precommit=0.65'
+  'perl-code-tidyall-svn-util=0.65'
+  'perl-code-tidyall-util-zglob=0.65'
+  'perl-test-code-tidyall=0.65'
+)
+optdepends=(
+  'perl-parallel-forkmanager'
+)
+depends=(
+  'perl'
+  'perl-base'
+  'perl-capture-tiny'
+  'perl-config-ini'
+  'perl-constant'
+  'perl-data-dumper'
+  'perl-digest-sha'
+  'perl-exporter'
+  'perl-file-pushd'
+  'perl-file-which'
+  'perl-file-zglob'
+  'perl-getopt-long'
+  'perl-ipc-run3'
+  'perl-ipc-system-simple'
+  'perl-list-compare'
+  'perl-list-someutils'
+  'perl-log-any'
+  'perl-module-runtime'
+  'perl-moo>=2.000000'
+  'perl-path-tiny>=0.098'
+  'perl-pathtools'
+  'perl-scalar-list-utils'
+  'perl-scope-guard'
+  'perl-specio>=0.30'
+  'perl-specio-declare'
+  'perl-specio-library-builtins'
+  'perl-specio-library-numeric'
+  'perl-specio-library-path-tiny>=0.04'
+  'perl-specio-library-string'
+  'perl-test-simple'
+  'perl-text-diff>=1.44'
+  'perl-text-parsewords'
+  'perl-timedate'
+  'perl-time-duration-parse'
+  'perl-try-tiny'
+)
+makedepends=(
+  'perl-autodie'
+  'perl-encode'
+  'perl-extutils-makemaker'
+  'perl-lib'
+  'perl-pathtools'
+  'perl-test-class-most'
+  'perl-test-differences'
+  'perl-test-simple>=0.96'
+  'perl-test-warnings'
+)
+url='https://metacpan.org/release/Code-TidyAll'
+_distdir="Code-TidyAll-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
+sha512sums=('ea80bf8330171684ad230697a45ffa44fb40ed247c79f9cfd71b76a34bbaad2244d5f12dd0023aca44b350076ef9d3575472692a607808c22f0f23eef36b2cf8')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
