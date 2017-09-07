@@ -3,7 +3,7 @@
 
 pkgname='perl-metacpan-client'
 pkgver=2.017000
-pkgrel='3'
+pkgrel='4'
 pkgdesc='A comprehensive, DWIM-featured client to the MetaCPAN API'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -43,6 +43,8 @@ depends=(
 makedepends=(
   'perl-base'
   'perl-extutils-makemaker>=7.11.01'
+  'perl-http-tiny-mech'
+  'perl-www-mechanize-cached'
   'perl-lwp-protocol-https'
   'perl-pathtools'
   'perl-test-fatal'
