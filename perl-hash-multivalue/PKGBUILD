@@ -3,7 +3,7 @@
 
 pkgname='perl-hash-multivalue'
 pkgver='0.16'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Store multiple values per key'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,7 +14,8 @@ makedepends=(
   'perl-test-simple'
   'perl-extutils-makemaker')
 checkdepends=(
-  'perl-universal-ref')
+  'perl-universal-ref'
+  'perl-test-pod')
 url='https://metacpan.org/release/Hash-MultiValue'
 _distdir="Hash-MultiValue-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/A/AR/ARISTOTLE/${_distdir}.tar.gz")
@@ -42,6 +43,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
