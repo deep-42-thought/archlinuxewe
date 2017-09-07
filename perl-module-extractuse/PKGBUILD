@@ -3,7 +3,7 @@
 
 pkgname='perl-module-extractuse'
 pkgver='0.341'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Find out what modules are used'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -19,6 +19,9 @@ makedepends=(
   'perl-test-deep'
   'perl-test-nowarnings'
   'perl-test-simple'
+)
+checkdepends=(
+  'perl-universal-require'
 )
 url='https://metacpan.org/release/Module-ExtractUse'
 _distdir="Module-ExtractUse-${pkgver}"
