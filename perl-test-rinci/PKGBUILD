@@ -1,0 +1,79 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (c76f19eeb8ac0e674222223e3f2f0b1a4250e725fbc76c117ed5a925d0a78bc530c4457ecc3b31370951fc9b8729fc0272fa9206231f2dcd7aab2565a892a173)
+
+pkgname='perl-test-rinci'
+pkgver='0.14'
+pkgrel='1'
+pkgdesc='Test Rinci metadata'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.10.1'
+  'perl-data-sah'
+  'perl-experimental'
+  'perl-getopt-long'
+  'perl-pathtools'
+  'perl-perinci-access-perl>=0.55'
+  'perl-perinci-sub-getargs-argv>=0.46'
+  'perl-test-simple>=0.98'
+)
+makedepends=(
+  'perl'
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-perl-osnames>=0.09'
+  'perl-test-simple>=0.98'
+)
+url='https://metacpan.org/release/Test-Rinci'
+_distdir="Test-Rinci-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
+sha512sums=('01b4d8e35ea7f58d5df2674506f0b23e797a642ede93313b9d618909fdf0aab2405af9824bc8b97cf0f030d91836f6b0ec4386d8968a8296bd93afbdaf06da01')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
