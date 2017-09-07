@@ -3,7 +3,7 @@
 
 pkgname='perl-module-install'
 pkgver='1.18'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Standalone, extensible Perl module installer'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -35,6 +35,9 @@ makedepends=(
   'perl-test-harness>=3.13'
   'perl-test-simple>=0.86'
   'perl-yaml-tiny>=1.33')
+checkdepends=(
+  'perl-module-install-authortests'
+  'perl-module-install-extratests')
 url='https://metacpan.org/release/Module-Install'
 _distdir="Module-Install-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz"
