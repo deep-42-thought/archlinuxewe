@@ -5,7 +5,7 @@
 
 pkgname=perl-inline-c
 pkgver=0.76
-pkgrel='5'
+pkgrel='6'
 _distdir="Inline-C-${pkgver}"
 pkgdesc='Perl module providing a way to write Perl subroutines in C'
 arch=('any')
@@ -29,10 +29,11 @@ makedepends=(
   'perl-version>=0.77'
   'perl-yaml-libyaml')
 checkdepends=(
-	'perl-file-copy-recursive'
-	'perl-io-all'
-	'perl-test-warn>=0.23'
-	'perl-yaml-libyaml')
+  'perl-file-copy-recursive'
+  'perl-io-all'
+  'perl-test-pod'
+  'perl-test-warn>=0.23'
+  'perl-yaml-libyaml')
 source=(http://search.cpan.org/CPAN/authors/id/I/IN/INGY/${_distdir}.tar.gz)
 sha512sums=('43bf0bc6addf08c4c3347b074babdc514b1d6cee052d1124c5d9d4a4b52bd0e92ac79f8393f35252a98ef337fb18a9da47cdf545b1010b3f0d9c4b7fd9eb8c6d')
 
@@ -48,6 +49,8 @@ check() {
 	cd ${_distdir}
 	unset PERL5LIB PERL_MM_OPT PERL_LOCAL_LIB_ROOT
 	export PERL_MM_USE_DEFAULT=1
+	export PERL_INLINE_DEVELOPER_TEST=1
+	export RELEASE_TESTING=1
 	make test
 }
 
