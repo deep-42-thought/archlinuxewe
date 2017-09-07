@@ -1,0 +1,83 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (e533bbf8c41e6a86077c98727cbbb63d186e98f776379bb81dcfdbc80e5b33603cdea3f867770038981c462f8fd52b8cdb78cce8ac0776772c309563ee3fe23e)
+
+pkgname='perl-mock-quick'
+pkgver='1.111'
+pkgrel='1'
+pkgdesc='Quickly mock objects and classes, even temporarily replace them,'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-mock-quick-class=1.111'
+  'perl-mock-quick-method=1.111'
+  'perl-mock-quick-object=1.111'
+  'perl-mock-quick-object-control=1.111'
+  'perl-mock-quick-util=1.111'
+  'perl-object-quick=1.111'
+)
+depends=(
+  'perl-carp'
+  'perl-exporter-declare>=0.103'
+  'perl-scalar-list-utils'
+)
+makedepends=(
+  'perl-fennec-lite>=0.004'
+  'perl-module-build>=0.42'
+  'perl-test-exception>=0.29'
+  'perl-test-simple>=0.88'
+)
+checkdepends=(
+  'perl-path-class'
+)
+url='https://metacpan.org/release/Mock-Quick'
+_distdir="Mock-Quick-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/E/EX/EXODIST/${_distdir}.tar.gz")
+sha512sums=('41efd7cc4f1dbacacac6a1753ac878ff5bd5a28cf8223d5b7abfca86e909910b8992104c250b4a0306a4e65a7783a3a6d372cff068d8cbb17c8e53ce8e0d5044')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
