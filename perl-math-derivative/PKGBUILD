@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname='perl-math-derivative'
 pkgver=1.01
-pkgrel='2'
+pkgrel='3'
 pkgdesc="Perl package for performing numerical differentiation on vectors of data"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,6 +11,7 @@ depends=(
 makedepends=(
   'perl-math-utils>=1.10'
   'perl-module-build'
+  'perl-test-checkmanifest'
   'perl-test-simple')
 checkdepends=('perl-test-pod>=1.22')
 url='http://search.mcpan.org/dist/Math-Derivative'
@@ -34,6 +35,7 @@ build() {
 check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    export RELEASE_TESTING=1
     make test
   )
 }
