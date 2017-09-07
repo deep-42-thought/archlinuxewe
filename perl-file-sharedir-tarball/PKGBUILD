@@ -1,0 +1,77 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
+
+pkgname='perl-file-sharedir-tarball'
+pkgver='0.2.2'
+pkgrel='1'
+pkgdesc='Deal transparently with shared files distributed as tarballs'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl'
+  'perl-archive-tar'
+  'perl-carp'
+  'perl-exporter'
+  'perl-file-chdir'
+  'perl-file-sharedir'
+  'perl-file-temp'
+  'perl-parent'
+)
+makedepends=(
+  'perl'
+  'perl-module-build>=0.3601'
+  'perl-test-file-sharedir>=0.3.0'
+  'perl-test-simple>=0.88'
+)
+url='https://metacpan.org/release/File-ShareDir-Tarball'
+_distdir="File-ShareDir-Tarball-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/Y/YA/YANICK/${_distdir}.tar.gz")
+sha512sums=('37a9ab87c9aed50033afc694bf0f86256fe36d4bcb14e80d9d7f82d204df7d28ee1602264d050053686316f95e6a2b43ecda56e0ffce6a07c603a228ce1fbd4a')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
