@@ -1,0 +1,81 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (c76f19eeb8ac0e674222223e3f2f0b1a4250e725fbc76c117ed5a925d0a78bc530c4457ecc3b31370951fc9b8729fc0272fa9206231f2dcd7aab2565a892a173)
+
+pkgname='perl-specio-library-path-tiny'
+pkgver='0.04'
+pkgrel='1'
+pkgdesc='Path::Tiny types and coercions for Specio'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl'
+  'perl-parent'
+  'perl-path-tiny>=0.087'
+  'perl-scalar-list-utils'
+  'perl-specio>=0.29'
+  'perl-specio-declare'
+  'perl-specio-exporter'
+  'perl-specio-library-builtins'
+  'perl-specio-partialdump'
+)
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-file-pushd'
+  'perl-file-temp>=0.18'
+  'perl-pathtools'
+  'perl-test-fatal'
+  'perl-test-simple>=0.96'
+  'perl-test-specio'
+)
+url='https://metacpan.org/release/Specio-Library-Path-Tiny'
+_distdir="Specio-Library-Path-Tiny-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
+sha512sums=('22ecd74d31a2ee4be2deac887b178d571c31aac1867838b38cb362ee6f5deaf3082282d39241a3432bfc14db86651a13283be68b0e23e224cf8ff502503d17de')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
