@@ -1,0 +1,88 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (c76f19eeb8ac0e674222223e3f2f0b1a4250e725fbc76c117ed5a925d0a78bc530c4457ecc3b31370951fc9b8729fc0272fa9206231f2dcd7aab2565a892a173)
+
+pkgname='perl-code-tidyall-plugin-sortlines-naturally'
+pkgver='0.000003'
+pkgrel='1'
+pkgdesc='Sort lines of a file using Unicode::Collate::Locale'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl'
+  'perl-code-tidyall-plugin'
+  'perl-moo'
+  'perl-unicode-collate'
+)
+makedepends=(
+  'perl'
+  'perl-capture-tiny'
+  'perl-code-tidyall'
+  'perl-extutils-makemaker'
+  'perl-file-slurper'
+  'perl-file-temp'
+  'perl-module-build>=0.28'
+  'perl-pathtools'
+  'perl-test-simple'
+)
+checkdepends=(
+  'perl-cpan-changes'
+  'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
+  'perl-test-pod-coverage'
+  'perl-test-spelling'
+)
+url='https://metacpan.org/release/Code-TidyAll-Plugin-SortLines-Naturally'
+_distdir="Code-TidyAll-Plugin-SortLines-Naturally-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
+sha512sums=('532d7235179fde5426cd927de3562b5836036b80693a0e7120573a07016de601860a5b7988e4f11f302b678714eb4b38911b8a1ec6335ef1fba78ff7272b386a')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
+  export RELEASE_TESTING=1
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
