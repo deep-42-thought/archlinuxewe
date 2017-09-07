@@ -1,0 +1,85 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
+
+pkgname='perl-perinci-sub-wrapper'
+pkgver='0.84'
+pkgrel='1'
+pkgdesc='A multi-purpose subroutine wrapping framework'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.10.1'
+  'perl-data-dmp>=0.21'
+  'perl-data-sah>=0.84'
+  'perl-experimental'
+  'perl-exporter'
+  'perl-function-fallback-coreorpp'
+  'perl-log-ger>=0.011'
+  'perl-perinci-sub-depchecker>=0.06'
+  'perl-perinci-sub-normalize>=0.19'
+  'perl-perinci-sub-util>=0.46'
+  'perl-scalar-list-utils'
+  'perl-string-linenumber'
+  'perl-test-simple>=0.98'
+)
+makedepends=(
+  'perl'
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-sub-iterator'
+  'perl-test-exception'
+  'perl-test-simple>=0.98'
+)
+url='https://metacpan.org/release/Perinci-Sub-Wrapper'
+_distdir="Perinci-Sub-Wrapper-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
+sha512sums=('11971bd983fb1dcb993c10eea8f434b68881dbd7fe84b3d3b739a5f0255de4f5873259277b4a95c69d46a55e4b56d76c2fc4ac7af50aaaf7e1d90adeaba469c3')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
