@@ -193,16 +193,21 @@ while ${needs_build}; do
   else
     echo 'sieht soweit erst mal gut aus, oder?'
   fi
+  echo '"": weiter'
+  echo 'e: nano PKGBUILD'
+  echo 'n *: neuesPerlPaket $@'
+  echo 'q: beenden'
   read antwort
 
   case "${antwort}" in
     '')
-      if ${needs_build}; then
-        nano PKGBUILD
-      fi
     ;;
     'e')
       nano PKGBUILD
+      needs_build=true
+    ;;
+    'n')
+      "${me}" "${antwort#* }"
       needs_build=true
     ;;
     *)
