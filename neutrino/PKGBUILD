@@ -1,0 +1,58 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=neutrino
+_pkgname=Neutrino
+pkgver=2.2
+pkgrel=1
+pkgdesc="A light, expandable and full featured image analysis tool for research."
+arch=('i686' 'x86_64')
+url="http://web.luli.polytechnique.fr/${_pkgname}/"
+license=('LGPL3')
+groups=()
+depends=(
+  'fftw'
+  'gsl'
+  'qt5-multimedia'
+  'qt5-svg'
+  'qt5-tools'
+)
+makedepends=(
+  'cmake'
+  'git'
+  'lsb-release'
+)
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "git+https://github.com/NeutrinoToolkit/${_pkgname}.git#tag=v${pkgver}"
+)
+sha512sums=('SKIP')
+
+prepare() {
+    cd ${_pkgname}
+    sed -i 's/master/makepkg/' CMakeLists.txt
+}
+
+build() {
+
+    cd ${_pkgname}
+    mkdir build
+    cd build
+    cmake \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        ..
+    make
+
+}
+
+package() {
+
+    cd ${_pkgname}/build
+    make DESTDIR="${pkgdir}" install
+    rm "${pkgdir}/usr/share/doc/neutrino/LICENSE.txt"
+
+}
