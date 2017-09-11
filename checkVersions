@@ -237,8 +237,12 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
-      grep -q 'git://anonscm\.debian\.org/'
+      grep -q 'git://anonscm\.debian\.org/\|^git+https\?://github\.com/'
     then
+      src=$(
+        echo "${src}" | \
+          sed 's|^git+||'
+      )
       remVer="$(
         git ls-remote --tags "${src%#*}" | \
           awk '{print $2}' | \
@@ -388,7 +392,7 @@ then
           tail -n1 \
       )
     elif echo "${src}" | \
-      grep -q "//github.com/"
+      grep -q '//github\.com/'
     then
       quVer=$(
         echo "${src#*::}" | \
