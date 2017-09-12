@@ -42,6 +42,11 @@ makedepends=(
   'perl-test-needs'
   'perl-test-simple>=0.98'
 )
+checkdepends=(
+  'perl-data-sah-coercerule-array-str_comma_sep'
+  'perl-sah-schemas-collection'
+  'perl-sah-schemas-int'
+)
 url='https://metacpan.org/release/Perinci-Sub-GetArgs-Argv'
 _distdir="Perinci-Sub-GetArgs-Argv-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
@@ -69,6 +74,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
