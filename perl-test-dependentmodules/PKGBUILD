@@ -32,7 +32,13 @@ makedepends=(
 optdepends=(
   'perl-parallel-forkmanager>=0.7.6')
 checkdepends=(
-  'perl-namespace-clean')
+  'perl-namespace-clean'
+  'perl-test-eol'
+  'perl-test-mojibake'
+  'perl-test-notabs'
+  'perl-test-pod'
+  'perl-test-spelling'
+  'perl-test-version')
 url='https://metacpan.org/release/Test-DependentModules'
 _distdir="Test-DependentModules-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
@@ -60,6 +66,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
