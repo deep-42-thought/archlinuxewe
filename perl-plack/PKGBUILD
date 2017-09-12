@@ -38,12 +38,13 @@ checkdepends=(
   'perl-fcgi'
   'perl-authen-simple-passwd'
   'perl-cgi-compile'
+  'perl-cgi-emulate-psgi'
   'perl-io-handle-util'
   'perl-log-log4perl'
   'perl-log-dispatch-array'
+  'perl-mime-types'
   'perl-module-refresh'
-  'perl-cgi-emulate-psgi'
-  'perl-mime-types')
+  'perl-test-pod')
 url='https://metacpan.org/release/Plack'
 _distdir="Plack-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
@@ -71,6 +72,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
