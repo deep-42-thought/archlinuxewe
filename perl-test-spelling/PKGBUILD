@@ -20,11 +20,20 @@ makedepends=(
   'perl-module-install'
 )
 checkdepends=(
-  'perl-test-pod')
+  'perl-module-install-automanifest'
+  'perl-module-install-githubmeta'
+  'perl-module-install-manifestskip'
+  'perl-test-pod'
+)
 url='https://metacpan.org/release/Test-Spelling'
 _distdir="Test-Spelling-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SA/SARTAK/${_distdir}.tar.gz")
 sha512sums=('43c401c2e61d7b2365d0cd69abc5f90a570fa3469632843ff8379ae7e85e50fe18786d89023f2aab635a805ecdadcd270ec36c19a7c1fbc5520c7c38604ff5a7')
+
+prepare() {
+  cd "${srcdir}/${_distdir}"
+  mkdir 'inc/.author'
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
