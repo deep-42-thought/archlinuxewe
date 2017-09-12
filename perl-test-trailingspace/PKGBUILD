@@ -19,7 +19,9 @@ makedepends=(
   'perl-module-build>=0.28'
   'perl-pathtools')
 checkdepends=(
+  'perl-cpan-changes'
   'perl-pod-coverage-trustpod'
+  'perl-test-kwalitee-extra'
   'perl-test-pod'
   'perl-test-pod-coverage'
 )
@@ -45,6 +47,7 @@ check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
     export AUTHOR_TESTING=1
+    export RELEASE_TESTING=1
     make test
   )
 }
