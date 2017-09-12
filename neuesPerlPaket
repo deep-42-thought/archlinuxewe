@@ -206,7 +206,7 @@ while ${needs_build}; do
       nano PKGBUILD
       needs_build=true
     ;;
-    'n')
+    'n '*)
       "${me}" "${antwort#* }"
       needs_build=true
     ;;
