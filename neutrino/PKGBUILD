@@ -2,17 +2,24 @@
 pkgname=neutrino
 _pkgname=Neutrino
 pkgver=2.2
-pkgrel=1
+pkgrel=2
 pkgdesc="A light, expandable and full featured image analysis tool for research."
 arch=('i686' 'x86_64')
 url="http://web.luli.polytechnique.fr/${_pkgname}/"
 license=('LGPL3')
 groups=()
 depends=(
+  'cfitsio'
   'fftw'
   'gsl'
+  'hdf4'
+  'hdf5'
+  'libtiff'
+  'pandoc'
+  'python-numpy'
   'qt5-multimedia'
   'qt5-svg'
+  'qt5-script'
   'qt5-tools'
 )
 makedepends=(
