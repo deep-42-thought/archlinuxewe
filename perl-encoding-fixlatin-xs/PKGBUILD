@@ -34,6 +34,7 @@ build() {
 check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    export RELEASE_TESTING=1
     make test
   )
 }
