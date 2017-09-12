@@ -1,0 +1,69 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (692fa86d14f9e2571a00e5a14233b1d8db463b07a9dbd77ff468b4cc8851ed51bc9a5e8f45a2e84cbc02fa7986fd2b2955274bbcd951b2d455ea37c6b4d7d11c)
+
+pkgname='perl-lwp-protocol-http10'
+pkgver='6.03'
+pkgrel='1'
+pkgdesc='Legacy HTTP/1.0 support for LWP'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.8.1'
+  'perl-http-message>=6'
+  'perl-io'
+)
+makedepends=(
+  'perl-extutils-makemaker'
+)
+url='https://metacpan.org/release/LWP-Protocol-http10'
+_distdir="LWP-Protocol-http10-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/G/GA/GAAS/${_distdir}.tar.gz")
+sha512sums=('50d146acad2cbfbd28cf7d0646485788574f217b216e35eb14c1cefd811fabe72237080f80b7900a06c7f1169ce8c07b87b6472143b5c27b59e3c55884b55153')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
