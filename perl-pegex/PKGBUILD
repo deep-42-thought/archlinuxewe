@@ -15,6 +15,8 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-file-sharedir-install>=0.06'
   'perl-yaml-libyaml')
+checkdepends=(
+  'perl-test-pod')
 url='https://metacpan.org/release/Pegex'
 source=("http://search.cpan.org/CPAN/authors/id/I/IN/INGY/Pegex-${pkgver}.tar.gz")
 sha512sums=('3b0d420830076035c9d982b2416502968e217024571c8789764b58e155b0f74076aafb010e5ba09ae1bc54cf63c3192b65c7db31450ccfb3edbafb7fa05ffc09')
@@ -36,6 +38,7 @@ build() {
 check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    export AUTHOR_TESTING=1
     make test
   )
 }
