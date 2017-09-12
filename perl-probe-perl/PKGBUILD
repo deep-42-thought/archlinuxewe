@@ -44,6 +44,8 @@ build() {
 check() {
   cd "${srcdir}/${_distdir}"
 
+  export AUTHOR_TESTING=1
+
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
     make test
