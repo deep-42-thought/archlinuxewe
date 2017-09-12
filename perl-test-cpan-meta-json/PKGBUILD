@@ -1,0 +1,78 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (692fa86d14f9e2571a00e5a14233b1d8db463b07a9dbd77ff468b4cc8851ed51bc9a5e8f45a2e84cbc02fa7986fd2b2955274bbcd951b2d455ea37c6b4d7d11c)
+
+pkgname='perl-test-cpan-meta-json'
+pkgver='0.16'
+pkgrel='1'
+pkgdesc='Validate your CPAN META.json files'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-test-cpan-meta-json-version=0.16'
+)
+optdepends=(
+  'perl-test-cpan-meta>=0.13'
+  'perl-test-pod>=1.00'
+  'perl-test-pod-coverage>=0.08'
+)
+depends=(
+  'perl>=5.6.0'
+  'perl-io'
+  'perl-json>=2.15'
+  'perl-test-simple>=0.62'
+)
+makedepends=(
+  'perl-test-simple>=0.70'
+)
+url='https://metacpan.org/release/Test-CPAN-Meta-JSON'
+_distdir="Test-CPAN-Meta-JSON-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/B/BA/BARBIE/${_distdir}.tar.gz")
+sha512sums=('4543ef7054ef19215fdafc2ce86c0ef29305cb3fe8f7c1e3ea3932d5feb9ccf129f7897d85994c5fe3264768520ae573dcf278394f11bc071a828a9f384c589a')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
