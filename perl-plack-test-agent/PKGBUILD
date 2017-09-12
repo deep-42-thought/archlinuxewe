@@ -26,7 +26,10 @@ makedepends=(
   'perl-test-requires'
   'perl-test-simple>=0.88')
 checkdepends=(
-  'perl-cgi')
+  'perl-cgi'
+  'perl-test-eol'
+  'perl-test-notabs'
+  'perl-test-spelling')
 url='https://metacpan.org/release/Plack-Test-Agent'
 _distdir="Plack-Test-Agent-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
@@ -54,6 +57,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
