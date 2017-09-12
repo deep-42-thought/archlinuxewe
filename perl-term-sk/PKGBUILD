@@ -13,6 +13,8 @@ depends=(
 makedepends=(
   'perl-extutils-makemaker'
   'perl-test-simple')
+checkdepends=(
+  'perl-test-pod')
 url='http://search.cpan.org/~keichner/Term-Sk-0.18/'
 _distdir="Term-Sk-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/K/KE/KEICHNER/${_distdir}.tar.gz")
@@ -34,6 +36,7 @@ build() {
 check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    export RELEASE_TESTING=1
     make test
   )
 }
