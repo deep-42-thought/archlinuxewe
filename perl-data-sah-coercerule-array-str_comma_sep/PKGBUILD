@@ -1,0 +1,73 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (b8483731330dc9aef9386a426ac3dc290a69599dae1feaa917d50f8e960f01dde1889ddb7814731967513fa4f89e24742430a4569c44418d8fe8cc861b140ddb)
+
+pkgname='perl-data-sah-coercerule-array-str_comma_sep'
+pkgver='0.005'
+pkgrel='1'
+pkgdesc='Coerce array from a comma-separated items in a string'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.10.1'
+)
+makedepends=(
+  'perl'
+  'perl-data-sah-coerce>=0.011'
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-nodejs-util'
+  'perl-pathtools'
+  'perl-test-simple>=0.98'
+)
+url='https://metacpan.org/release/Data-Sah-CoerceRule-array-str_comma_sep'
+_distdir="Data-Sah-CoerceRule-array-str_comma_sep-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
+sha512sums=('b185d29cceb45f750b62bd724ac5b14cdc2572c5c3e591d77a4a9d80fc3f1c239faf589d9c5f4316a61a28ad4747f56f7db523f587b3c39d25f7ff7d754a929f')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
