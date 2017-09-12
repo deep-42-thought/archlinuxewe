@@ -1,0 +1,65 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (445682a1bd8a70c152ebe76ddf08deb3d21406c80f819873940cb0909a895cfcde52cc62469cd6f4e4d632f24b3df31e0eec78843cb778079f24dc33b18472ea)
+
+pkgname='perl-module-install-automanifest'
+pkgver='0.003'
+pkgrel='1'
+pkgdesc='generate MANIFEST automatically'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+makedepends=(
+  'perl-module-install'
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/Module-Install-AutoManifest'
+_distdir="Module-Install-AutoManifest-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/H/HD/HDP/${_distdir}.tar.gz")
+sha512sums=('64fa9c5fc12a58becb8417052ad572d9b619d89c90d87297e38453657d5f4db43f21a17928f612021496e6c2683fa83657e49c067d4eec4d3c8f31155bbe5e6a')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
