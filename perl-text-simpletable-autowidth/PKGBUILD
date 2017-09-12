@@ -8,9 +8,20 @@ pkgdesc='Text::SimpleTable::AutoWidth - Simple eyecandy ASCII tables with auto-w
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-scalar-list-utils' 'perl-moo' 'perl-text-simpletable')
-makedepends=('perl-test-simple' 'perl-extutils-makemaker')
-checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
+depends=(
+  'perl-scalar-list-utils'
+  'perl-moo'
+  'perl-text-simpletable'
+)
+makedepends=(
+  'perl-test-simple'
+  'perl-extutils-makemaker'
+)
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+)
 url='https://metacpan.org/release/Text-SimpleTable-AutoWidth'
 _distdir="Text-SimpleTable-AutoWidth-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/C/CU/CUB/${_distdir}.tar.gz")
@@ -40,6 +51,7 @@ check(){
   cd "${srcdir}/${_distdir}"
 
   export AUTHOR_TESTING=1
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
