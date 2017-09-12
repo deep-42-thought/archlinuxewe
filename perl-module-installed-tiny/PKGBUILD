@@ -22,6 +22,12 @@ makedepends=(
   'perl-test-needs'
   'perl-test-simple>=0.98'
 )
+checkdepends=(
+  'perl-ipc-system-options'
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+)
 url='https://metacpan.org/release/Module-Installed-Tiny'
 _distdir="Module-Installed-Tiny-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
@@ -49,6 +55,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
