@@ -23,13 +23,23 @@ makedepends=(
 )
 checkdepends=(
   'perl-class-xsaccessor'
+  'perl-io-all'
   'perl-moose'
   'perl-mouse'
+  'perl-ppi'
+  'perl-test-pod'
+  'perl-test-spelling'
+  'perl-test-version'
 )
 url='https://metacpan.org/release/Mo'
 _distdir="Mo-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TI/TINITA/${_distdir}.tar.gz")
 sha512sums=('084756b11ebb9d9e01cc27484b14429cf1de5640fa0675f6ae1d665886de301321665e53af9144606ed46225d56bd18750c21d9eac8dea0161596599d65219b3')
+
+prepare() {
+  cd "${srcdir}/${_distdir}"
+  rm "t/author-test-version.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
@@ -53,6 +63,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
