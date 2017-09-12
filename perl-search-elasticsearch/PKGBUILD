@@ -49,7 +49,10 @@ optdepends=(
 checkdepends=(
   'perl-test-sharedfork'
   'perl-test-deep'
+  'perl-test-eol'
   'perl-test-exception'
+  'perl-test-notabs'
+  'perl-test-pod'
   'perl-log-any-adapter-callback'
   'perl-namespace-clean'
   'perl-uri'
@@ -76,6 +79,7 @@ build() {
 check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    export AUTHOR_TESTING=1
     make test
   )
 }
