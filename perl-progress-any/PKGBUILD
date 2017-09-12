@@ -21,6 +21,10 @@ makedepends=(
   'perl-test-exception'
   'perl-test-simple>=0.98'
 )
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod-coverage'
+)
 url='https://metacpan.org/release/Progress-Any'
 _distdir="Progress-Any-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
@@ -48,6 +52,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
