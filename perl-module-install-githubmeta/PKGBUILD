@@ -1,0 +1,70 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (445682a1bd8a70c152ebe76ddf08deb3d21406c80f819873940cb0909a895cfcde52cc62469cd6f4e4d632f24b3df31e0eec78843cb778079f24dc33b18472ea)
+
+pkgname='perl-module-install-githubmeta'
+pkgver='0.30'
+pkgrel='1'
+pkgdesc='A Module::Install extension to include GitHub meta information in META.yml'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.6.0'
+  'perl-module-install>=0.85'
+)
+makedepends=(
+  'perl-capture-tiny>=0.05'
+  'perl-extutils-makemaker>=6.59'
+  'perl-test-simple>=0.47'
+)
+url='https://metacpan.org/release/Module-Install-GithubMeta'
+_distdir="Module-Install-GithubMeta-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/B/BI/BINGOS/${_distdir}.tar.gz")
+sha512sums=('4d72f6b5cab6dd08ba9e5328684196d06b0b0ff58e9f090aaa385ba1d8fbe55293bb5ff094c4d7039a3bf0adbdbf82d44e2a5494bbe90198758ac0fdd1d6c1b4')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
