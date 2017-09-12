@@ -1,3 +1,4 @@
+
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
@@ -27,9 +28,14 @@ makedepends=(
   'perl-test-simple>=0.88')
 checkdepends=(
   'perl-cgi'
+  'perl-cpan-changes'
+  'perl-pod-coverage-trustpod'
   'perl-test-eol'
   'perl-test-notabs'
-  'perl-test-spelling')
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-spelling'
+  'perl-test-synopsis')
 url='https://metacpan.org/release/Plack-Test-Agent'
 _distdir="Plack-Test-Agent-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
@@ -59,6 +65,7 @@ check() {
   cd "${srcdir}/${_distdir}"
 
   export AUTHOR_TESTING=1
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
