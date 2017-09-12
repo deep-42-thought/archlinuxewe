@@ -14,6 +14,8 @@ depends=(
   'perl-module-manifest-skip>=0.18')
 makedepends=(
   'perl-extutils-makemaker>=6.30')
+checkdepends=(
+  'perl-test-pod')
 url='https://metacpan.org/release/Module-Install-ManifestSkip'
 _distdir="Module-Install-ManifestSkip-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/I/IN/INGY/${_distdir}.tar.gz")
@@ -41,6 +43,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
