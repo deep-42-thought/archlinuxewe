@@ -1,0 +1,75 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (445682a1bd8a70c152ebe76ddf08deb3d21406c80f819873940cb0909a895cfcde52cc62469cd6f4e4d632f24b3df31e0eec78843cb778079f24dc33b18472ea)
+
+pkgname='perl-time-moment'
+pkgver='0.42'
+pkgrel='1'
+pkgdesc='Represents a date and time of day with an offset from UTC'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.8.1'
+  'perl-carp'
+  'perl-time-hires'
+  'perl-xsloader>=0.02'
+)
+makedepends=(
+  'perl-extutils-makemaker>=6.59'
+  'perl-extutils-parsexs>=3.18'
+  'perl-test-fatal>=0.006'
+  'perl-test-number-delta>=1.06'
+  'perl-test-requires'
+  'perl-test-simple>=0.88'
+)
+url='https://metacpan.org/release/Time-Moment'
+_distdir="Time-Moment-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/C/CH/CHANSEN/${_distdir}.tar.gz")
+sha512sums=('e8015a461c39f3d3ad7d0ca03c0b1e1b5ed39b83bc16f12f00f35d36a4f34786a089ac4b86dcccd5b6e7da8a118873efc0cc2d6a60848bdbff7b7550285be6ab')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
