@@ -24,6 +24,7 @@ makedepends=(
   'perl-test-most'
   'perl-test-simple')
 checkdepends=(
+  'perl-test-perl-critic'
   'perl-pod-coverage-trustpod'
   'perl-test-pod-coverage')
 url='https://metacpan.org/release/HTTP-CookieMonster'
@@ -55,6 +56,7 @@ check(){
   cd "${srcdir}/${_distdir}"
 
   export RELEASE_TESTING=1
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
