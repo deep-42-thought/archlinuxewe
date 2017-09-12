@@ -20,6 +20,17 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.98'
 )
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-eol'
+  'perl-test-mojibake'
+  'perl-test-notabs'
+  'perl-test-perl-critic'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-synopsis'
+  'perl-test-version'
+)
 url='https://metacpan.org/release/Test-Portability-Files'
 _distdir="Test-Portability-Files-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/A/AB/ABRAXXA/${_distdir}.tar.gz")
@@ -47,6 +58,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export AUTHOR_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
