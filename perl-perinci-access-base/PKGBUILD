@@ -19,6 +19,11 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple'
 )
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+)
 url='https://metacpan.org/release/Perinci-Access-Base'
 _distdir="Perinci-Access-Base-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
@@ -46,6 +51,8 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
+
+  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
