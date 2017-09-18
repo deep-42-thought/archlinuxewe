@@ -13,7 +13,7 @@
 # You will also need to install osgearth-qt4 or fcgi, respectively, before building.
 
 pkgname=qgis
-pkgver=2.18.12
+pkgver=2.18.13
 pkgrel=1
 pkgdesc='Geographic Information System (GIS) that supports vector, raster & database formats'
 url='http://qgis.org/'
@@ -35,13 +35,10 @@ optdepends=('gpsbabel: GPS Tool plugin'
             'python2-pyspatialite: Processing plugin'
             'python2-yaml: Processing plugin')
 source=("https://qgis.org/downloads/$pkgname-$pkgver.tar.bz2")
-sha512sums=('e34dd98d0d0aa5fdf1f980dbc1376c25a9a7ffaa59b1a2eba8423e7f44bc039b547f3f65368178a8c485fa34526dd9fece2e09d9372fed3b9a758f7286b690ea')
+sha512sums=('8497518a086ee119c5458475661163ef28c8cacc9c3de48ac985c0efb6ec8d7490fc49eb9738bc9fe8989e0eb5be2178c0e87c9c94c9a029bbe5bd1fb3c1e98d')
 
 prepare() {
   cd $pkgname-$pkgver
-
-  # Build with current sip
-  sed -i '18 s|^|//|' python/core/qgscoordinatetransform.sip
 
   # Make sure we find the -qt4 versions of qwt and qwtpolar
   sed -i '/QWT_LIBRARY_NAMES/ s/qwt /qwt-qt4 /' cmake/FindQwt.cmake
