@@ -3,7 +3,7 @@
 # Contributor: Elis Hughes <elishughes@googlemail.com>
 
 pkgname=pssh-git
-pkgver=v2.3.1+27+ga2f936b
+pkgver=2.3.1+27+ga2f936b
 pkgrel=1
 pkgdesc="Parallel versions of the openssh tools ssh, scp, rsync, nuke, slurp"
 arch=('any')
@@ -18,7 +18,11 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "${srcdir}/pssh"
-  git describe --long --tags | tr '-' '+'
+  git describe --long --tags | \
+    sed '
+      s/^v//
+      y/-/+/
+    '
 }
 
 package() {
