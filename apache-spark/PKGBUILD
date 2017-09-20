@@ -18,20 +18,20 @@ optdepends=('python2: python2 support for pyspark'
             'rsync: support rsync hadoop binaries from master'
             'hadoop: support for running on YARN')
 install=apache-spark.install
-source=("http://d3kbcqa49mib13.cloudfront.net/spark-${pkgver}-bin-without-hadoop.tgz"
+source=("https://archive.apache.org/dist/spark/spark-${pkgver}/spark-${pkgver}-bin-without-hadoop.tgz"
         'apache-spark-master.service'
         'apache-spark-slave@.service'
         'spark-env.sh'
         'spark-daemon-run.sh'
         'run-master.sh'
         'run-slave.sh')
-sha1sums=('15b9577049638fc1afe8d2843ac1ae9dec470962'
-          'ac71d12070a9a10323e8ec5aed4346b1dd7f21c6'
-          'a191e4f8f7f8bbc596f4fadfb3c592c3efbc4fc0'
-          'e52d327571e84b9b350bc594131fcaf50a3dd0f4'
-          '08557d2d5328d5c99e533e16366fd893fffaad78'
-          '323445b8d64aea0534a2213d2600d438f406855b'
-          '65b1bc5fce63d1fa7a1b90f2d54a09acf62012a4')
+sha512sums=('d9575c2c81cbb3530ff7c4d9ac7879a91e259b3203635a8fbb6a7a54552077d60e635c54b8292828a8694b8f382358e6cc17a8a407e492d0265a948fa2b6b7ca'
+            'cf080327efb022e93b7267ab03ca62a0ec1c77d4ea48a7903a8a6d3c99f9b2c7d81ec02b01a9c92f999ecf97b4d8ff98864c711b1034cfec206ba966cdd82218'
+            '90fa91198acb209d8362af781c2d630e3d0c47987bd69c9a14c5a9edd45dd45040a253c919224cc687f938daac5255e584b22d1755c6faa0d495308bbd1905f3'
+            'd88452fe250d4153859d79fbeb1110d05d2eaca6690c23367aa373c6e67581b055e0648a2ebc7bea685edf102a455fc85dff7019242b79fbba6efa528ae873b2'
+            '432b56f708cf67af12be7997104a0ba4e5f29830542ddf13f93a575e2b11a2d205598f3724ad2791ef1da57d6cf5d5597e52876ef84796cbfb60ce310fb6383f'
+            '81b4886ed30dcca6d6f8d9b88f20b9fc2b728808494e1df2f088a261adf85d2269ec03f9cd3b88b74f0e6d54610ae7f3a81ca190ba321f9e5c9cedadf184ead3'
+            '736a9ce60247803f6fef5caac699b3c5ea1c8ed9ccdd6c842acd3afff08a6cc2776148aff5fc5b1d8f74c76320ad0c0db0836dbcd0d55c1f78385254d8878614')
 backup=('etc/apache-spark/spark-env.sh')
 
 PKGEXT=${PKGEXT:-'.pkg.tar.xz'}
