@@ -104,23 +104,23 @@ then
 
     src="${src#*::}"
 
-    if [ "${pkgname}" == "adduser" ]
+    if [ "${pkgname}" = 'adduser' ]
     then
-      remVer="$(
+      remVer=$(
         curl_it "${source[0]}" '-L' | \
           grep '^# Version: ' | \
           sed 's|^# Version: \+||'
-      )"
-    elif [ "${pkgname}" == "dropbox" ]
+      )
+    elif [ "${pkgname}" = 'dropbox' ]
     then
-      remVer="$(
+      remVer=$(
         curl_it 'https://www.dropboxforum.com/t5/Desktop-client-builds/bd-p/101003016' | \
           tr '<>' '\n' | \
           grep '^Stable Build [0-9.-]\+$' | \
           sed 's|^Stable Build \([0-9.-]\+\)$|\1|' | \
           sort -V | \
           tail -n1
-      )"
+      )
     elif [ "${pkgname}" = 'tightvnc' ]
     then
       remVer=$(
