@@ -237,12 +237,9 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
-      grep -q 'git://anonscm\.debian\.org/\|^git+https\?://github\.com/'
+      grep -q 'git://anonscm\.debian\.org/\|^git+https\?://github\.com/.*#tag='
     then
-      src=$(
-        echo "${src}" | \
-          sed 's|^git+||'
-      )
+      src="${src#git+}"
       remVer="$(
         git ls-remote --tags "${src%#*}" | \
           awk '{print $2}' | \
@@ -392,7 +389,7 @@ then
           tail -n1 \
       )
     elif echo "${src}" | \
-      grep -q '//github\.com/'
+      grep -q '^https\?://github\.com/'
     then
       quVer=$(
         echo "${src#*::}" | \
@@ -595,7 +592,8 @@ then
 
   if ! ${srcKnown}
   then
-    echo "$1: Unknown src: '${source[@]}' '${source_i686[@]}' '${source_x86_64[@]}'"
+    printf '%s: Unknown source:\n' "$1"
+    printf "'%s'\n" "${source[@]}" "${source_i686[@]}" "${source_x86_64[@]}"
     exit 1
   fi
 
