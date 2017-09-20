@@ -1,0 +1,114 @@
+#!/bin/bash
+
+if [ $# -ne 0 ]; then
+  tar -xzf "$1" --wildcards --to-command "$0" '*/*-check.log'
+  exit
+fi
+
+if ! inhalt=$(grep -F 'skipped:'); then
+  exit
+fi
+
+inhalt=$(
+  echo "${inhalt}" | \
+    sed '
+      s|^.*\sskipped:\s*||
+      / _USER and _PASS to/d
+      /^Test irrelevant/d
+      /^Test is only relevant/d
+      /^\S\+ \(modules\? \)\?not \(compiled\.\|built\)/d
+      / only for perls\? /d
+      /^Perl too new$/d
+      / not applicable for this perl /d
+      /^your perl is new enough/d
+      /^test currently not working/d
+      /^\(Skipping\|not running\) dangerous \(.* \)\?test/d
+      /^[nN]ot running on /d
+      /^not MSWin32$/d
+      /^No tests written yet\.$/d
+      /^requires a git checkout and a unix for git and diff$/d
+      /^no problem on this Perl$/d
+      /^Not implemented yet$/d
+      /^nothing to do when no custom ops$/d
+      /^In progress\.\.\.$/d
+      /^Failing test\. Not yet implemented$/d
+      /^Hangs on none wxMSW platforms$/d
+      /^disabling this test for now$/d
+      /^Disable test entirely until /d
+      /^404 Not Found$/d
+      /^no MANIFEST$/d
+      /^depends too much on specific installed perl$/d
+      /^See \S\+$/d
+      / doesn'"'"'t actually do anything correct$/d
+    '
+)
+
+if [ -z "${inhalt}" ]; then
+  exit
+fi
+
+# dependencies
+inhalt=$(
+  echo "${inhalt}" | \
+    sed '
+      /^Missing dependenc\(y\|ies\):/d
+      /^Test requires module .* but it'"'"'s not found$/d
+      /^\S\+ \([0-9.+]\+ \)\?\(required\|needed\) \(for\|to test\) /d
+      /^\S\+ \([0-9.+]\+ \)\?\(\(is \)\?not \(available\|found\|installed\)\|missed\|required\|unavailable\)/d
+      /^requires \S\+ to test this$/d
+      /^T\(his t\)\?est \(temporarily \)\?requires \S\+$/d
+      /^[Nn]eeds\? \S\+\(, \S\+\)*\( for \(this test\|testing\)\)\?$/d
+      /^\S\+: Can'"'"'t locate \S\+ in @INC/d
+      /^please install \S\+ to run these tests$/d
+      /^\S\+ module not available$/d
+      /^needs \S\+ and \S\+ for testing$/d
+      /^good \S\+ unavailable$/d
+      /^cpanm \S\+$/d
+    '
+)
+
+# variables
+inhalt=$(
+  echo "${inhalt}" | \
+    sed '
+      /^[Ss]et [A-Z_0-9]\+ \(to enable\|if you want to run\) this test/d
+      /^[A-Z_0-9]\+=1$/d
+      / if the [A-Z_0-9]\+ environment variable /d
+      /^Make \$ENV{[A-Z_0-9]\+} true to run this test$/d
+      / unless you set [A-Z_0-9]\+ to a true value/d
+      /^set [A-Z_0-9]\+ to true if you want to run this test$/d
+    '
+)
+
+# author/release tests
+inhalt=$(
+  echo "${inhalt}" | \
+    sed '
+      /^Author tests/d
+      /only for developers\.$/d
+      /for testing by the author$/d
+      /for release candidate testing$/d
+      /runs for the maintainer$/d
+      /^skipping for regular installs/d
+      /Skipping test on plain module install/d
+    '
+)
+
+# spellchecker
+inhalt=$(
+  echo "${inhalt}" | \
+    sed '
+      /^no working spellchecker found$/d
+    '
+)
+
+# xvfb
+inhalt=$(
+  echo "${inhalt}" | \
+    sed '
+      /^\$DISPLAY is not set\.$/d
+    '
+)
+
+echo "$inhalt" #| \
+#  sed "s|^|${TAR_FILENAME%%/*} |"
