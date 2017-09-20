@@ -1,0 +1,35 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Jaroslav Lichtblau <svetlemodry@archlinux.org>
+# Contributor: Elis Hughes <elishughes@googlemail.com>
+
+pkgname=pssh-git
+pkgver=v2.3.1+27+ga2f936b
+pkgrel=1
+pkgdesc="Parallel versions of the openssh tools ssh, scp, rsync, nuke, slurp"
+arch=('any')
+url="http://code.google.com/p/parallel-ssh/"
+license=('BSD')
+depends=('openssh' 'python')
+makedepends=('git')
+provides=('pssh')
+conflicts=('pssh')
+source=(git+https://github.com/lilydjwg/pssh.git)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/pssh"
+  git describe --long --tags | tr '-' '+'
+}
+
+package() {
+  cd "${srcdir}/pssh"
+
+  python setup.py install --root "${pkgdir}"
+
+# fix putty pscp file conflict
+  mv "${pkgdir}"/usr/bin/pscp "${pkgdir}"/usr/bin/psshscp
+  mv "${pkgdir}"/usr/share/man/man1/pscp.1 "${pkgdir}"/usr/share/man/man1/psshscp.1
+
+# license
+  install -Dm644 COPYING "${pkgdir}"/usr/share/licenses/$pkgname/COPYING
+}
