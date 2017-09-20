@@ -585,6 +585,31 @@ then
         [ -n "${remVer}" ] && break
       done
     elif echo "${src}" | \
+      grep -q '^https://archive\.apache\.org/'
+    then
+      remVerz="$(
+        echo "${src}" | \
+          sed 's|[^/]\+/[^/]\+$||'
+      )"
+      for mainVer in $(
+          curl_it "${remVerz}" | \
+            tr '"' '\n' | \
+            grep "^${pkgname#apache-}-[0-9.]\+/\$" | \
+            sed "s|^${pkgname#apache-}-\([0-9.]\+\)/\$|\1|" | \
+            sort -Vr
+        )
+      do
+        remVer="$(
+          curl_it "${remVerz}${pkgname#apache-}-${mainVer}/" | \
+            tr '"' '\n' | \
+            grep "^${pkgname#apache-}-[0-9.]\+\.t\(ar\.\)\?\(gz\|bz2\|xz\)\$" | \
+            sed "s@^${pkgname#apache-}-\([0-9.]\+\)\.t\(ar\.\)\?\(gz\|bz2\|xz\)\$@\1@" | \
+            sort -V | \
+            tail -n1
+        )"
+        [ -n "${remVer}" ] && break
+      done
+    elif echo "${src}" | \
       grep -q "http://www\.mkgmap\.org\.uk/download"
     then
       remUrl="$(
