@@ -237,7 +237,7 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
-      grep -q 'git://anonscm\.debian\.org/\|^git+https\?://github\.com/.*#tag='
+      grep -q '^git://anonscm\.debian\.org/\|^git+https\?://github\.com/.*#tag='
     then
       src="${src#git+}"
       remVer="$(
@@ -248,6 +248,21 @@ then
           sort -V | \
           tail -n1
       )"
+    elif echo "${src}" | \
+      grep -q '^git\(+[^:]\+\)\?://[^#]\+$'
+    then
+      remVer=$(
+        set -e
+        tmp_dir=$(mktemp -d)
+        trap 'rm -rf --one-file-system "${tmp_dir}"' EXIT
+        cp -r "${pkgname}" "${tmp_dir}"
+        cd "${tmp_dir}/${pkgname}"
+        makepkg -ofcr --noprepare >/dev/null 2>&1
+        makepkg --printsrcinfo | \
+          grep '^\s*pkgver\s*=' | \
+          sed 's|^.*=\s*||'
+      ) || \
+        continue
     elif echo "${src}" | \
       grep -q "^https://pypi\.python\.org/packages/"
     then
