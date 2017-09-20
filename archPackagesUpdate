@@ -451,7 +451,7 @@ then
         echo '\
           sudo pacman -Sy && \
           cd "'"${tmpDir}/${paket}"'" && \
-          _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg '${log} ${checkMakepkg}' --config "'"${tmpDir}"'/makepkg32.conf" -fsr --noconfirm --asdeps
+          _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg '${log} ${checkMakepkg}' --holdver --config "'"${tmpDir}"'/makepkg32.conf" -fsr --noconfirm --asdeps
           exit $?
         '
       ) | \
@@ -465,7 +465,7 @@ then
         echo '\
           sudo pacman -Sy && \
           cd "'"${tmpDir}/${paket}"'" && \
-          makepkg '${log} ${checkMakepkg}' --config "'"${tmpDir}"'/makepkg.conf" -fsr --noconfirm --asdeps
+          makepkg '${log} ${checkMakepkg}' --holdver --config "'"${tmpDir}"'/makepkg.conf" -fsr --noconfirm --asdeps
           exit $?
         '
       ) | \
