@@ -1,32 +1,17 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
-# Generator : neuesPerlPaket (e1feeec1fef8ffa08f2187c3499d9064535d35bed5e6f05c4ea57fac8623450a307d700e0403d8d8f76f9ec6c003d314573d6cdb779aa9aae205c7f94571a7de)
+# Generator : neuesPerlPaket (bdf93f5ec640b26ea19b184fa40191df46ec6820b752b3b12d27556efe3f22712ce5b1bd64aa62ae4e0ef7c7e2f37b46d0f6669245e049fc1bbaf487d3eb2aae)
 
-pkgname='perl-sub-strictdecl'
-pkgver=0.005
-pkgrel='3'
-pkgdesc='detect undeclared subroutines in compilation'
-arch=('x86_64' 'i686')
+pkgname='perl-class-iterator'
+pkgver='0.3'
+pkgrel='1'
+pkgdesc='Iterator class'
+arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.6.0'
-  'perl-lexical-sealrequirehints>=0.008'
-  'perl-xsloader')
-makedepends=(
-  'perl-extutils-cbuilder>=0.15'
-  'perl-module-build'
-  'perl-test-simple')
-checkdepends=(
-  'perl'
-  'perl-devel-callparser'
-  'perl-test-simple'
-)
-conflicts=(
-  'perl-b-hooks-op-check<0.19')
-url='https://metacpan.org/release/Sub-StrictDecl'
-_distdir="Sub-StrictDecl-${pkgver}"
-source=("https://cpan.metacpan.org/authors/id/Z/ZE/ZEFRAM/${_distdir}.tar.gz")
-sha512sums=('76abef01ab6131a69ecdb60d4f76f4765e256585f09e2624e837d15600dc85757e52a999ce57817d56066ba92bae896c97f733d4bd278e788f44e075eef19225')
+url='https://metacpan.org/release/Class-Iterator'
+_distdir="Class-Iterator-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/T/TE/TEXMEC/${_distdir}.tar.gz")
+sha512sums=('f8dcb9cf9bfb0c00da01456ea61fc6e328cf03b2d5d4b892d6a23005c62a123fff6caa483043900ab631a483225578e8e9c60679b966ebbcb323face5d32d40a')
 
 build() {
   cd "${srcdir}/${_distdir}"

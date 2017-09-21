@@ -3,7 +3,7 @@
 
 pkgname='perl-type-tie'
 pkgver='0.009'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='tie a variable to a type constraint'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -21,6 +21,16 @@ makedepends=(
   'perl-test-fatal'
   'perl-test-requires'
   'perl-test-simple>=0.96')
+checkdepends=(
+  'perl'
+  'perl-moose-util-typeconstraints'
+  'perl-moosex-types-moose'
+  'perl-test-fatal'
+  'perl-test-requires'
+  'perl-test-simple'
+  'perl-types-standard'
+  'perl-type-tie'
+)
 optdepends=(
   'perl-hash-fieldhash')
 url='https://metacpan.org/release/Type-Tie'
