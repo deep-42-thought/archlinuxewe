@@ -226,10 +226,25 @@ for fix_type in 'dependencies' 'variables' 'author_release' 'spellchecker' 'xvfb
                 }
               ' 'PKGBUILD'
               rm -rf --one-file-system 'src' 'pkg'
-              makepkg -fcrs --asdeps --noconfirm
+              makepkg -Lfrs --asdeps --noconfirm || exit $?
+              diff=$(
+                {
+                  echo "${fixable_tests}"
+                  sed -n "
+                    /skipped:/!d
+                    $(printf '/skipped:\s*%s/d\n' "${ignores[@]}")
+                    $(printf '/skipped:\s*%s/{s/skipped:.*$//;s/\s\+\.\+\s*$//;p}\n' "${tokens[@]}")
+                  " ${TAR_FILENAME%%/*}-*-check.log
+                } | \
+                  sort | \
+                  uniq -u
+              )
+              [ -n "${diff}" ] || exit 1
+              echo "'${diff}'" >&2
               git add 'PKGBUILD'
             ) || \
               git checkout -- "${TAR_FILENAME%%/*}/PKGBUILD"
+            rm -f "${TAR_FILENAME%%/*}/${TAR_FILENAME%%/*}-"*'.log'
           fi
         ;;
         'variables')
