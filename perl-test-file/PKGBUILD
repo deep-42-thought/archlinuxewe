@@ -1,0 +1,73 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (bdf93f5ec640b26ea19b184fa40191df46ec6820b752b3b12d27556efe3f22712ce5b1bd64aa62ae4e0ef7c7e2f37b46d0f6669245e049fc1bbaf487d3eb2aae)
+
+pkgname='perl-test-file'
+pkgver='1.443'
+pkgrel='1'
+pkgdesc='test file attributes'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.8.0'
+)
+makedepends=(
+  'perl-extutils-makemaker>=6.64'
+  'perl-pathtools'
+  'perl-test-simple>=1.001006'
+  'perl-test-utf8'
+)
+checkdepends=(
+  'perl-test-pod-coverage'
+)
+url='https://metacpan.org/release/Test-File'
+_distdir="Test-File-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/B/BD/BDFOY/${_distdir}.tar.gz")
+sha512sums=('9ad66b3a9dc1c3752a4ec22934db9139ac010ac3237a3de018d4ec4a65ac047f0152ab9e7979a2615412c1af02a1f2dfa0dbfdf5eba5358628b1b443232c45b2')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
