@@ -1,0 +1,73 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (2e9b607aba870d6d84739f3ed2998f1149ea9c99bc99b2471345169671eccb29598f5227f777604dee0c0c38a2e58d84284004d32de06ad9c5cf351b506dd4a2)
+
+pkgname='perl-perl-critic-petpeeves-jtrammell'
+pkgver='0.04'
+pkgrel='1'
+pkgdesc='policies to prohibit/require my pet peeves'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-perl-critic-policy-variables-prohibituselessinitialization=0.02'
+)
+depends=(
+  'perl-perl-critic-policy'
+  'perl-perl-critic-utils'
+)
+makedepends=(
+  'perl-module-build>=0.35'
+  'perl-perl-critic-config'
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/Perl-Critic-PetPeeves-JTRAMMELL'
+_distdir="Perl-Critic-PetPeeves-JTRAMMELL-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/J/JT/JTRAMMELL/${_distdir}.tar.gz")
+sha512sums=('9ddbf0e3d0ef2e9b1d8d7c6704c2e4b54f19ae6dab180d0c153d1ca1ba5f158fed69a7c8a072438d9b3a18beba55e891a5c046137666830f5fec8c7e5576d78e')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
