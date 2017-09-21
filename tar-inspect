@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ $# -ne 0 ]; then
   tar -xzf "$1" --wildcards --to-command "$0" '*/*-check.log'
   exit
@@ -9,106 +11,213 @@ if ! inhalt=$(grep -F 'skipped:'); then
   exit
 fi
 
+ignores=(
+  '.* _USER and _PASS to'
+  'Test irrelevant'
+  'Test is only relevant'
+  '\S\+ \(modules\? \)\?not \(compiled\.\|built\)'
+  '.* only for perls\? '
+  'Perl too new$'
+  '.* not applicable for this perl '
+  'your perl is new enough'
+  'test currently not working'
+  '\(Skipping\|not running\) dangerous \(.* \)\?test'
+  '[nN]ot running on '
+  'not MSWin32$'
+  'No tests written yet\.$'
+  'requires a git checkout and a unix for git and diff$'
+  'no problem on this Perl$'
+  'Not implemented yet$'
+  'nothing to do when no custom ops$'
+  'In progress\.\.\.$'
+  'Failing test\. Not yet implemented$'
+  'Hangs on none wxMSW platforms$'
+  'disabling this test for now$'
+  'Disable test entirely until '
+  '404 Not Found$'
+  'no MANIFEST$'
+  'depends too much on specific installed perl$'
+  'See \S\+$'
+  '.* doesn'"'"'t actually do anything correct$'
+)
+
 inhalt=$(
   echo "${inhalt}" | \
-    sed '
-      s|^.*\sskipped:\s*||
-      / _USER and _PASS to/d
-      /^Test irrelevant/d
-      /^Test is only relevant/d
-      /^\S\+ \(modules\? \)\?not \(compiled\.\|built\)/d
-      / only for perls\? /d
-      /^Perl too new$/d
-      / not applicable for this perl /d
-      /^your perl is new enough/d
-      /^test currently not working/d
-      /^\(Skipping\|not running\) dangerous \(.* \)\?test/d
-      /^[nN]ot running on /d
-      /^not MSWin32$/d
-      /^No tests written yet\.$/d
-      /^requires a git checkout and a unix for git and diff$/d
-      /^no problem on this Perl$/d
-      /^Not implemented yet$/d
-      /^nothing to do when no custom ops$/d
-      /^In progress\.\.\.$/d
-      /^Failing test\. Not yet implemented$/d
-      /^Hangs on none wxMSW platforms$/d
-      /^disabling this test for now$/d
-      /^Disable test entirely until /d
-      /^404 Not Found$/d
-      /^no MANIFEST$/d
-      /^depends too much on specific installed perl$/d
-      /^See \S\+$/d
-      / doesn'"'"'t actually do anything correct$/d
-    '
+    sed "$(printf '/skipped:\s*%s/d\n' "${ignores[@]}")"
 )
 
 if [ -z "${inhalt}" ]; then
   exit
 fi
 
-# dependencies
-inhalt=$(
-  echo "${inhalt}" | \
-    sed '
-      /^Missing dependenc\(y\|ies\):/d
-      /^Test requires module .* but it'"'"'s not found$/d
-      /^\S\+ \([0-9.+]\+ \)\?\(required\|needed\) \(for\|to test\) /d
-      /^\S\+ \([0-9.+]\+ \)\?\(\(is \)\?not \(available\|found\|installed\)\|missed\|required\|unavailable\)/d
-      /^requires \S\+ to test this$/d
-      /^T\(his t\)\?est \(temporarily \)\?requires \S\+$/d
-      /^[Nn]eeds\? \S\+\(, \S\+\)*\( for \(this test\|testing\)\)\?$/d
-      /^\S\+: Can'"'"'t locate \S\+ in @INC/d
-      /^please install \S\+ to run these tests$/d
-      /^\S\+ module not available$/d
-      /^needs \S\+ and \S\+ for testing$/d
-      /^good \S\+ unavailable$/d
-      /^cpanm \S\+$/d
-    '
+. "$(dirname "$(readlink -f "$0")")/perlFunktionen"
+
+cd "${TAR_FILENAME%%/*}"
+makepkg --verifysource -f >/dev/null 2>&1
+source="${TAR_FILENAME%%/*}/$(
+  ls -t | \
+    grep -m1 '\.tar\.gz$'
+)"
+cd ..
+main_name=$(
+  tar -tzf "${source}" 2> /dev/null | \
+    cut -d/ -f1 | \
+    sort -u | \
+    tail -n1
 )
 
-# variables
-inhalt=$(
-  echo "${inhalt}" | \
-    sed '
-      /^[Ss]et [A-Z_0-9]\+ \(to enable\|if you want to run\) this test/d
-      /^[A-Z_0-9]\+=1$/d
-      / if the [A-Z_0-9]\+ environment variable /d
-      /^Make \$ENV{[A-Z_0-9]\+} true to run this test$/d
-      / unless you set [A-Z_0-9]\+ to a true value/d
-      /^set [A-Z_0-9]\+ to true if you want to run this test$/d
-    '
-)
+for fix_type in 'dependencies' 'variables' 'author_release' 'spellchecker' 'xvfb'; do
 
-# author/release tests
-inhalt=$(
-  echo "${inhalt}" | \
-    sed '
-      /^Author tests/d
-      /only for developers\.$/d
-      /for testing by the author$/d
-      /for release candidate testing$/d
-      /runs for the maintainer$/d
-      /^skipping for regular installs/d
-      /Skipping test on plain module install/d
-    '
-)
+  case "${fix_type}" in
+    'dependencies')
+      tokens=(
+        'Missing dependenc\(y\|ies\):'
+        'Test requires module .* but it'"'"'s not found$'
+        '\S\+ \([0-9.+]\+ \)\?\(required\|needed\) \(for\|to test\) '
+        '\S\+ \([0-9.+]\+ \)\?\(\(is \)\?not \(available\|found\|installed\)\|missed\|required\|unavailable\)'
+        'requires \S\+ to test this$'
+        'T\(his t\)\?est \(temporarily \)\?requires \S\+$'
+        '[Nn]eeds\? \S\+\(, \S\+\)*\( for \(this test\|testing\)\)\?$'
+        '\S\+: Can'"'"'t locate \S\+ in @INC'
+        'please install \S\+ to run these tests$'
+        '\S\+ module not available$'
+        'needs \S\+ and \S\+ for testing$'
+        'good \S\+ unavailable$'
+        'cpanm \S\+$'
+      )
+    ;;
+    'variables')
+      tokens=(
+        '[Ss]et [A-Z_0-9]\+ \(to enable\|if you want to run\) this test'
+        '[A-Z_0-9]\+=1$'
+        '.* if the [A-Z_0-9]\+ environment variable '
+        'Make \$ENV{[A-Z_0-9]\+} true to run this test$'
+        '.* unless you set [A-Z_0-9]\+ to a true value'
+        'set [A-Z_0-9]\+ to true if you want to run this test$'
+      )
+    ;;
+    'author_release')
+      tokens=(
+        'Author tests'
+        '.*only for developers\.$'
+        '.*for testing by the author$'
+        '.*for release candidate testing$'
+        '.*runs for the maintainer$'
+        'skipping for regular installs'
+        '.*Skipping test on plain module install'
+      )
+    ;;
+    'spellchecker')
+      tokens=(
+        'no working spellchecker found$'
+      )
+    ;;
+    'xvfb')
+      tokens=(
+        '\$DISPLAY is not set\.$'
+      )
+    ;;
+    *)
+      >&2 printf 'Whoops, fix type "%s" unknown.\n' "${fix_type}"
+      exit 42
+    ;;
+  esac
 
-# spellchecker
-inhalt=$(
-  echo "${inhalt}" | \
-    sed '
-      /^no working spellchecker found$/d
-    '
-)
+  fixable_tests=$(
+    echo "${inhalt}" | \
+      sed -n "$(printf '/skipped:\s*%s/{s/skipped:.*$//;s/\s\+\.\+\s*$//;p}\n' "${tokens[@]}")"
+  )
 
-# xvfb
-inhalt=$(
-  echo "${inhalt}" | \
-    sed '
-      /^\$DISPLAY is not set\.$/d
-    '
-)
+  if [ -n "${fixable_tests}" ]; then
+    (
+      set -e
+      content=$(
+        tar -Oxzf "${source}" $(
+          echo "${fixable_tests}" | \
+            sed 's|^|'"${main_name}"'/|'
+        ) 2> /dev/null
+      )
+      case "${fix_type}" in
+        'dependencies')
+          needed=$(
+            echo "${content}" | \
+              tr ';' '\n' | \
+              sed -n '
+                s/^eval "\(.*\)"$/\1/
+                /^use /{
+                  s/^use //
+                  s/^base //
+                  s/ .*$//
+                  s/^'"'"'\(.*\)'"'"'$/\1/
+                  /^[0-9.]\+$/d
+                  /^t/d
+                  p
+                }
+              ' | \
+              sed '
+                s/::/-/g
+                s/^/perl-/
+              ' | \
+              tr '[:upper:]' '[:lower:]' | \
+              sort -u
+          )
+          needed=$(
+            (
+              for need in ${needed}; do
+                substituiere "${needed}"
+                echo "${erg}"
+              done | \
+                sort -u
+              checkdepends=()
+              . "${TAR_FILENAME%%/*}/PKGBUILD"
+              echo "${checkdepends[@]}" | \
+                sed 'p'
+            ) | \
+              sort | \
+              uniq -u
+          )
+          if [ -n "${needed}" ]; then
+            (
+              set -e
+              cd "${TAR_FILENAME%%/*}"
+              cat PKGBUILD
+              sed -i '
+                /checkdepends=(/
+              ' PKGBUILD
+            echo "${needed}" | sed 's|^|'"${TAR_FILENAME%%/*}"': |'
+#            echo
+#            echo "${content}" | \
+#              grep -C1 'use '
+#            echo
+            )
+          fi
+        ;;
+        'variables')
+        ;;
+        'author_release')
+        ;;
+        'spellchecker')
+        ;;
+        'xvfb')
+        ;;
+        *)
+          >&2 printf 'Whoops, fix of fix type "%s" not (yet) implemented.\n' "${fix_type}"
+          exit
+        ;;
+      esac
+    )
+  fi
 
-echo "$inhalt" #| \
+  inhalt=$(
+    echo "${inhalt}" | \
+      sed "$(printf '/skipped:\s*%s/d\n' "${tokens[@]}")"
+  )
+
+  if [ -z "${inhalt}" ]; then
+    exit
+  fi
+
+done
+
+#echo "$inhalt" #| \
 #  sed "s|^|${TAR_FILENAME%%/*} |"
