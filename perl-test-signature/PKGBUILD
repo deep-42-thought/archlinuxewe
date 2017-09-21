@@ -1,0 +1,69 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (bdf93f5ec640b26ea19b184fa40191df46ec6820b752b3b12d27556efe3f22712ce5b1bd64aa62ae4e0ef7c7e2f37b46d0f6669245e049fc1bbaf487d3eb2aae)
+
+pkgname='perl-test-signature'
+pkgver='1.11'
+pkgrel='1'
+pkgdesc='Automated SIGNATURE testing'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.5.0'
+  'perl-test-simple>=0.47'
+)
+makedepends=(
+  'perl-extutils-makemaker>=6.36'
+  'perl-module-install'
+)
+url='https://metacpan.org/release/Test-Signature'
+_distdir="Test-Signature-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/A/AU/AUDREYT/${_distdir}.tar.gz")
+sha512sums=('37ec1a4ccc56f7519ceb112a8246206c0895b80e58f5655ad9a26ed09586800caf09d101caf383b936507ad63bd82db17cfbefd39da46f2fa41a9c74e447e2fe')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
