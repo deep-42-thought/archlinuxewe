@@ -156,21 +156,24 @@ for fix_type in 'dependencies' 'variables' 'author_release' 'spellchecker' 'xvfb
               ' | \
               sed '
                 s/::/-/g
-                s/^/perl-/
               ' | \
               tr '[:upper:]' '[:lower:]' | \
               sort -u
           )
+          checkdepends=$(
+            . "${TAR_FILENAME%%/*}/PKGBUILD"
+            printf '%s\n' "${checkdepends[@]}"
+          )
           needed=$(
             (
               for need in ${needed}; do
-                substituiere "${needed}"
-                echo "${erg}"
+                substituiere "${need}"
+                if [ -n "${erg}" ] && [ "${erg}" != 'perl-%skip' ]; then
+                  echo "${erg}"
+                fi
               done | \
                 sort -u
-              checkdepends=()
-              . "${TAR_FILENAME%%/*}/PKGBUILD"
-              echo "${checkdepends[@]}" | \
+              echo "${checkdepends}" | \
                 sed 'p'
             ) | \
               sort | \
@@ -180,16 +183,53 @@ for fix_type in 'dependencies' 'variables' 'author_release' 'spellchecker' 'xvfb
             (
               set -e
               cd "${TAR_FILENAME%%/*}"
-              cat PKGBUILD
+              if ! grep -q '^checkdepends=(' 'PKGBUILD'; then
+                for nach in 'makedepends' 'depends'; do
+                  if grep -q "^${nach}"'=(' 'PKGBUILD'; then
+                    break
+                  fi
+                done
+                sed -i '
+                  /^'"${nach}"'=(/{
+                    :a
+                      N
+                      /)/! ba
+                    a checkdepends=()
+                  }
+                ' 'PKGBUILD'
+              fi
+              pkgrel=$(
+                sed -n '
+                  s/^pkgrel=//
+                  T
+                  s/'"'"'//g
+                  p
+                ' 'PKGBUILD'
+              )
               sed -i '
-                /checkdepends=(/
-              ' PKGBUILD
-            echo "${needed}" | sed 's|^|'"${TAR_FILENAME%%/*}"': |'
-#            echo
-#            echo "${content}" | \
-#              grep -C1 'use '
-#            echo
-            )
+                s/^pkgrel=.*/pkgrel='"'"$((pkgrel+1))"'"'/
+                /checkdepends=(/{
+                  i '"$(
+                    printf 'checkdepends=(\\\n'
+                    printf '%s\n' "${checkdepends}" "${needed}" | \
+                      versionsUniq | \
+                      sed '
+                        s|^|  '"'"'|
+                        s|$|'"'"'\\|
+                      '
+                    printf ')\n'
+                  )"'
+                  :a
+                    N
+                    /)/!ba
+                  d
+                }
+              ' 'PKGBUILD'
+              rm -rf --one-file-system 'src' 'pkg'
+              makepkg -fcrs --asdeps --noconfirm
+              git add 'PKGBUILD'
+            ) || \
+              git checkout -- "${TAR_FILENAME%%/*}/PKGBUILD"
           fi
         ;;
         'variables')
