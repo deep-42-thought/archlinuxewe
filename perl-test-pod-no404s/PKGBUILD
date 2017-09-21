@@ -1,0 +1,80 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (531f4ea05761761b97731706ac717c0b6492abe73967627888b9913e5b55c57b4ee55f1d39b2cbcfadfaa2e5c1487c41151b50bcc321d3ac2202a96e10461201)
+
+pkgname='perl-test-pod-no404s'
+pkgver='0.02'
+pkgrel='1'
+pkgdesc='Using this test module will check your POD for any http 404 links'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.6.0'
+  'perl-exporter'
+  'perl-libwww'
+  'perl-parent'
+  'perl-pod-simple'
+  'perl-test-pod'
+  'perl-test-simple'
+  'perl-uri-find'
+)
+makedepends=(
+  'perl>=5.6.0'
+  'perl-extutils-makemaker'
+  'perl-file-temp'
+  'perl-io'
+  'perl-module-build-tiny>=0.039'
+  'perl-pathtools'
+  'perl-test-simple>=0.88'
+)
+url='https://metacpan.org/release/Test-Pod-No404s'
+_distdir="Test-Pod-No404s-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/A/AP/APOCAL/${_distdir}.tar.gz")
+sha512sums=('c938c53c7b67faf892b200b08209ed914508bc3a5679c6d954d9decff7688807de3dd57d70a109d8f19c378182e44c0e437d788770813853dbe956c4dca86447')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
