@@ -1,0 +1,65 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (2e9b607aba870d6d84739f3ed2998f1149ea9c99bc99b2471345169671eccb29598f5227f777604dee0c0c38a2e58d84284004d32de06ad9c5cf351b506dd4a2)
+
+pkgname='perl-perl-critic-nits'
+pkgver='1.0.0'
+pkgrel='1'
+pkgdesc='policies of nits I like to pick.'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-perl-critic>=1.07'
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/Perl-Critic-Nits'
+_distdir="Perl-Critic-Nits-v${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/K/KC/KCOWGILL/${_distdir}.tar.gz")
+sha512sums=('727028cd63552e4dcc4bc7b70f01a7caed6aea14c1ea1f4d4a7e2e94c45e92f32b914f6759ce2c5ed024f25d5d684a6ddd63c68b64e9e66e2d369d7450c0ea11')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
