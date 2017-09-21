@@ -1,0 +1,70 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (bdf93f5ec640b26ea19b184fa40191df46ec6820b752b3b12d27556efe3f22712ce5b1bd64aa62ae4e0ef7c7e2f37b46d0f6669245e049fc1bbaf487d3eb2aae)
+
+pkgname='perl-test-utf8'
+pkgver='1.01'
+pkgrel='1'
+pkgdesc='handy utf8 tests'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=5.7.3'
+  'perl-test-simple'
+)
+makedepends=(
+  'perl-extutils-makemaker>=6.59'
+  'perl-module-install'
+  'perl-test-simple>=0.09'
+)
+url='https://metacpan.org/release/Test-utf8'
+_distdir="Test-utf8-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/M/MA/MARKF/${_distdir}.tar.gz")
+sha512sums=('07dcd5ed98a63f7d96bb0fc629b168773d02bb4c93c5bc44ec60738fc29669794547dfde5913f9de682cd583cf85f4d82b6151398aaebcfec9278525447b9c4e')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
