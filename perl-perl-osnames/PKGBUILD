@@ -3,7 +3,7 @@
 
 pkgname='perl-perl-osnames'
 pkgver='0.11'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='List possible $^O ($OSNAME) values, with description'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -22,6 +22,8 @@ checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
   'perl-test-pod-coverage'
+  'perl-test-rinci'
+  'perl-test-simple'
 )
 url='https://metacpan.org/release/Perl-osnames'
 _distdir="Perl-osnames-${pkgver}"

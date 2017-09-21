@@ -3,7 +3,7 @@
 
 pkgname='perl-universal-ref'
 pkgver='0.14'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Turns ref() into a multimethod'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -15,7 +15,12 @@ depends=(
   'perl-xsloader')
 makedepends=(
   'perl-extutils-makemaker>=6.31')
-url='https://metacpan.org/release/UNIVERSAL-ref'
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-simple'
+)
 _distdir="UNIVERSAL-ref-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/J/JJ/JJORE/${_distdir}.tar.gz")
 sha512sums=('bdefd8028f38fdd54444f12ad96359662a528895afdfbb0da6055a4d116c805eabdae4b6eb1fcf6d5018563467a9bf38aad003a5b78406ab8cdc9494b79770e2')

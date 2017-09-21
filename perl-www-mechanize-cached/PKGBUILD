@@ -3,7 +3,7 @@
 
 pkgname='perl-www-mechanize-cached'
 pkgver='1.50'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Cache response to be polite'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -41,9 +41,12 @@ makedepends=(
   'perl-test-simple'
 )
 checkdepends=(
+  'perl'
   'perl-cpan-changes'
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod-coverage'
+  'perl-test-simple'
 )
 url='https://metacpan.org/release/WWW-Mechanize-Cached'
 _distdir="WWW-Mechanize-Cached-${pkgver}"

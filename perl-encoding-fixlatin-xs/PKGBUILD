@@ -2,7 +2,7 @@
 
 pkgname='perl-encoding-fixlatin-xs'
 pkgver='1.01'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='XS implementation layer for Encoding::FixLatin'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,7 +13,10 @@ depends=(
 makedepends=(
   'perl-extutils-makemaker>=6.30'
   'perl-test-simple>=0.90')
-url='http://github.com/grantm/encoding-fixlatin-xs'
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-simple'
+)
 _distdir="Encoding-FixLatin-XS-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/${_distdir}.tar.gz")
 sha512sums=('d9aafa94c884b11f64b29eda89389c823a8849db99b25e58e890fc2e1b9fdb5ed2fc025491e4d9cb9b4d4f17f8a70ab069de4b56c0c8935387652a1293fca4e4')

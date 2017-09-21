@@ -3,7 +3,7 @@
 
 pkgname='perl-log-trace'
 pkgver='1.070'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='provides a unified approach to tracing'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,7 +11,11 @@ options=('!emptydirs')
 depends=(
   'perl-test-simple'
 )
-url='https://metacpan.org/release/Log-Trace'
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-simple'
+)
 _distdir="Log-Trace-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/B/BB/BBC/${_distdir}.tar.gz")
 sha512sums=('7368a4dc60cac263f6e1b783cd40f239fcee85af3ce5920148d9a83c4b129366c9d3e266656a53cbe5347571ba1b8f0c1bcd2488a4ca688a4d814a0d79e92039')

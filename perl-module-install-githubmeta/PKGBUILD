@@ -3,7 +3,7 @@
 
 pkgname='perl-module-install-githubmeta'
 pkgver='0.30'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='A Module::Install extension to include GitHub meta information in META.yml'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,7 +17,11 @@ makedepends=(
   'perl-extutils-makemaker>=6.59'
   'perl-test-simple>=0.47'
 )
-url='https://metacpan.org/release/Module-Install-GithubMeta'
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-simple'
+)
 _distdir="Module-Install-GithubMeta-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/B/BI/BINGOS/${_distdir}.tar.gz")
 sha512sums=('4d72f6b5cab6dd08ba9e5328684196d06b0b0ff58e9f090aaa385ba1d8fbe55293bb5ff094c4d7039a3bf0adbdbf82d44e2a5494bbe90198758ac0fdd1d6c1b4')

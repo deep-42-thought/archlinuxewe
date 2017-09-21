@@ -3,7 +3,7 @@
 
 pkgname='perl-perinci-sub-util'
 pkgver='0.46'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Helper when writing functions'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -24,10 +24,12 @@ makedepends=(
   'perl-test-simple>=0.98'
 )
 checkdepends=(
-#  'perl-perinci-sub-wrapper'
+  'perl'
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
   'perl-test-pod-coverage'
+  'perl-test-rinci'
+  'perl-test-simple'
 )
 url='https://metacpan.org/release/Perinci-Sub-Util'
 _distdir="Perinci-Sub-Util-${pkgver}"

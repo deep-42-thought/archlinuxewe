@@ -3,7 +3,7 @@
 
 pkgname='perl-dbix-contextualfetch'
 pkgver='1.03'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Add contextual fetches to DBI'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,7 +12,13 @@ depends=(
   'perl-dbi>=1.35'
   'perl-test-simple>=0.11'
 )
-url='https://metacpan.org/release/DBIx-ContextualFetch'
+checkdepends=(
+  'perl'
+  'perl-file-temp'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-simple'
+)
 _distdir="DBIx-ContextualFetch-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TM/TMTM/${_distdir}.tar.gz")
 sha512sums=('e563bb56026bc8f15ced939696caaa1532aa71def6603cf3e941016a1337ca090053e30c582623413af50008ea8f4c62981cb94a4f75d423d53d015300c66885')

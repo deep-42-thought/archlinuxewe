@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname='perl-moosex-types-laxnum'
 pkgver='0.04'
-pkgrel='4'
+pkgrel='5'
 pkgdesc="A LaxNum type which provides the loose behavior of Moose's Num pre-2.10"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,7 +14,14 @@ makedepends=(
   'perl-file-temp'
   'perl-test-fatal'
   'perl-test-simple')
-url='https://metacpan.org/release/MooseX-Types-LaxNum'
+checkdepends=(
+  'perl'
+  'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-simple'
+)
 source=("https://cpan.metacpan.org/authors/id/S/SW/SWEETKID/MooseX-Types-LaxNum-${pkgver}.tar.gz")
 sha512sums=('ee2eaa2838ed6b941e53b7fff1dbf82fc581e3720b935869535445012fe9a7bea3a68fd47d4142b0e4579cb1046eea48ab78d240abf250f1440e0f536d3a5640')
 _distdir="MooseX-Types-LaxNum-${pkgver}"

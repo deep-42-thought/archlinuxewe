@@ -3,7 +3,7 @@
 
 pkgname='perl-sql-tokenizer'
 pkgver='0.24'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='A simple SQL tokenizer.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,7 +11,10 @@ options=('!emptydirs')
 depends=(
   'perl-test-simple'
 )
-url='https://metacpan.org/release/SQL-Tokenizer'
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-simple'
+)
 _distdir="SQL-Tokenizer-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/I/IZ/IZUT/${_distdir}.tar.gz")
 sha512sums=('3350c4cdef1ffa0e2862f75c7b3c82867e310e1bb9b9f0f7819b20d57bc90054142aab67bfa0c2b83e2fefa48c1f4d756ce55d5515b686172662cb27d00df781')

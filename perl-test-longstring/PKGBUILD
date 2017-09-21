@@ -3,7 +3,7 @@
 
 pkgname='perl-test-longstring'
 pkgver='0.17'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='tests strings for equality, with more helpful failures'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,7 +12,11 @@ depends=(
   'perl-test-simple>=1.04')
 makedepends=(
   'perl-extutils-makemaker')
-url='https://metacpan.org/release/Test-LongString'
+checkdepends=(
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-simple'
+)
 _distdir="Test-LongString-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RG/RGARCIA/${_distdir}.tar.gz")
 sha512sums=('1c0cd6fea35bb72816451ce0790002c9dfb945390bc85d22d04670dd5af7ebbe795307ad361e2615ce4ab4f02a317a3aa5d297f2165bd3b1f6de40b3240f1352')

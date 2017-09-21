@@ -2,7 +2,7 @@
 
 pkgname='perl-log-any-adapter-callback'
 pkgver='0.09'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Send Log::Any logs to a subroutine'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -16,9 +16,12 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.98')
 checkdepends=(
-  'perl-test-rinci'
+  'perl-pod-coverage-trustpod'
   'perl-test-pod'
-  'perl-test-pod-coverage')
+  'perl-test-pod-coverage'
+  'perl-test-rinci'
+  'perl-test-simple'
+)
 url='https://metacpan.org/release/Log-Any-Adapter-Callback'
 _distdir="Log-Any-Adapter-Callback-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SH/SHARYANTO/${_distdir}.tar.gz")

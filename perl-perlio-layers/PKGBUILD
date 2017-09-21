@@ -2,7 +2,7 @@
 pkgname=perl-perlio-layers
 _pkgname='PerlIO-Layers'
 pkgver=0.011
-pkgrel='4'
+pkgrel='5'
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Querying your filehandle's capabilities"
 arch=('x86_64' 'i686')
@@ -20,7 +20,12 @@ makedepends=(
   'perl-module-build>=0.3601'
   'perl-pathtools'
   'perl-test-simple>=0.82')
-options=('!emptydirs')
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-simple'
+)
 source=("http://search.cpan.org/CPAN/authors/id/L/LE/LEONT/${_distdir}.tar.gz")
 sha256sums=('1d77e164aa5d5d24699a5479a423abdc1b07973fbe5a22d304fef2c560254b42')
 

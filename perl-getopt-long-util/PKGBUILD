@@ -3,7 +3,7 @@
 
 pkgname='perl-getopt-long-util'
 pkgver='0.890'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Utilities for Getopt::Long'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -19,7 +19,10 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.98'
 )
-url='https://metacpan.org/release/Getopt-Long-Util'
+checkdepends=(
+  'perl-test-rinci'
+  'perl-test-simple'
+)
 _distdir="Getopt-Long-Util-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
 sha512sums=('203918062e11f20968f0126096da3d28aff96223cbf21fc397d12dd0d2dfc488d1d7077509a64cda0c07ce9d31598af13f1b8e6b600f7f102d57094079c77382')

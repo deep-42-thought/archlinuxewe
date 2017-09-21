@@ -3,7 +3,7 @@
 
 pkgname=perl-file-find-object
 pkgver=0.3.2
-pkgrel='3'
+pkgrel='4'
 _author="S/SH/SHLOMIF"
 _distdir="File-Find-Object-v${pkgver}"
 pkgdesc="File::Find::Object - An object oriented File::Find replacement"
@@ -32,11 +32,15 @@ makedepends=(
   'perl-module-build>=0.28'
   'perl-test-simple')
 checkdepends=(
+  'perl'
   'perl-cpan-changes'
   'perl-pod-coverage-trustpod'
+  'perl-test-kwalitee-extra'
   'perl-test-pod'
   'perl-test-pod-coverage'
-  'perl-test-trailingspace')
+  'perl-test-simple'
+  'perl-test-trailingspace'
+)
 options=(!emptydirs)
 source=("http://search.cpan.org/CPAN/authors/id/$_author/${_distdir}.tar.gz")
 sha512sums=('58ca07083da520aee03945259ac89b6b584728d89ad52aea1a6f19a14da73fc92fcfc46c01656130d64fbc9fc9e4b1c5ef56274f30ebe3711972235dd8945956')

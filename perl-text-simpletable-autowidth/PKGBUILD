@@ -3,7 +3,7 @@
 
 pkgname='perl-text-simpletable-autowidth'
 pkgver='0.09'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Text::SimpleTable::AutoWidth - Simple eyecandy ASCII tables with auto-width selection'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -18,9 +18,12 @@ makedepends=(
   'perl-extutils-makemaker'
 )
 checkdepends=(
+  'perl'
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
+  'perl-test-simple'
 )
 url='https://metacpan.org/release/Text-SimpleTable-AutoWidth'
 _distdir="Text-SimpleTable-AutoWidth-${pkgver}"

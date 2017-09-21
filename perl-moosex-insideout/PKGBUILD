@@ -2,7 +2,7 @@
 
 pkgname='perl-moosex-insideout'
 pkgver='0.106'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='inside-out objects with Moose'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,8 +14,12 @@ depends=(
   'perl-namespace-clean>=0.11')
 makedepends=(
   'perl-extutils-makemaker>=6.31')
-checkdepends=()
-url='https://metacpan.org/release/MooseX-InsideOut'
+checkdepends=(
+  'perl-pod-coverage-trustpod'
+  'perl-test-pod'
+  'perl-test-pod-coverage'
+  'perl-test-simple'
+)
 _distdir="MooseX-InsideOut-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DO/DOY/${_distdir}.tar.gz")
 sha512sums=('066189328ad43830500c4c50ccb231b605148547993996d0fc6a7665b1117cd88c217b05c472f15ae82691c88a986062303e14449ed60f86bd86a4379638d12b')
