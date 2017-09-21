@@ -1,0 +1,81 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (531f4ea05761761b97731706ac717c0b6492abe73967627888b9913e5b55c57b4ee55f1d39b2cbcfadfaa2e5c1487c41151b50bcc321d3ac2202a96e10461201)
+
+pkgname='perl-perl-critic-deprecated'
+pkgver='1.119'
+pkgrel='1'
+pkgdesc='Policies and modules that were formerly included with Perl::Critic itself, but which have been superseded by others.'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-perl-critic-policy-miscellanea-requirercskeywords=1.119'
+  'perl-perl-critic-policy-namingconventions-prohibitmixedcasesubs=1.119'
+  'perl-perl-critic-policy-namingconventions-prohibitmixedcasevars=1.119'
+  'perl-perl-critic-utils-ppiregexp=1.119'
+)
+depends=(
+  'perl'
+  'perl-base'
+  'perl-perl-critic-policy>=1.094'
+  'perl-perl-critic-utils>=1.094'
+  'perl-readonly'
+)
+makedepends=(
+  'perl'
+  'perl-carp'
+  'perl-module-build>=0.4'
+  'perl-perl-critic-testutils>=1.094'
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/Perl-Critic-Deprecated'
+_distdir="Perl-Critic-Deprecated-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/T/TH/THALJEF/${_distdir}.tar.gz")
+sha512sums=('314ca325d860a7e5d46514b254bee65371c715688c5c247ac4f64a1c3bf0dd9ecc447ce6f48be9f3797348465ccd8c7baa528a6a9bb269eb8850dd2d34e91b79')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
