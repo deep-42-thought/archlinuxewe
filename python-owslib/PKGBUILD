@@ -8,7 +8,9 @@ pkgrel=1
 arch=('any')
 url='http://geopython.github.io/OWSLib'
 license=('BSD')
-makedepends=('python-setuptools' 'python2-setuptools')
+makedepends=('python-setuptools' 'python2-setuptools'
+  'python2-dateutil' 'python2-pytz' 'python2-requests' 'python2-pyproj'
+  'python-dateutil' 'python-pytz' 'python-requests' 'python-pyproj')
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/geopython/OWSLib/archive/$pkgver.tar.gz")
 sha256sums=('3a0cb567ffa8a574991feb686ea1f2d3f9054ea0e625bcd25f7747f63f88d5ea')
 
