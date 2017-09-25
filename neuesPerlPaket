@@ -1,8 +1,15 @@
 #!/bin/bash
 
+if [ "x$1" = 'x-n' ]; then
+  update=false
+  shift
+else
+  update=true
+fi
+
 if [ $# -ne 1 ]
 then
-  >&2 echo "Verwendung: neuesPerlPaket cpan-Name"
+  >&2 echo "Verwendung: neuesPerlPaket [-n] cpan-Name"
   exit 1
 fi
 
@@ -22,7 +29,7 @@ fi
 
 if [ -e "${pkgname}" ]
 then
-  >&2 echo "${cpanName} gibt es von ewe schon"
+  >&2 echo "${cpanName} gibt es von ewe schon (${pkgname})"
   exit 1
 fi
 
@@ -207,7 +214,13 @@ while ${needs_build}; do
       needs_build=true
     ;;
     'n '*)
-      "${me}" "${antwort#* }"
+      for aw in ${antwort#* }; do
+        "${me}" -n "${aw}"
+      done
+      if [ "$(git -C "$(dirname "${me}")" symbolic-ref HEAD 2> /dev/null)" = 'refs/heads/master' ]; then
+        "$(dirname "${me}")/archPackagesUpdate" $(printf ' --only %s' ${antwort#* })
+        sudo pacman -Sy
+      fi
       needs_build=true
     ;;
     *)
@@ -233,7 +246,7 @@ fi
 git add PKGBUILD
 git commit -m "${pkgname} neu"
 
-if [ "$(git -C "$(dirname "${me}")" symbolic-ref HEAD 2> /dev/null)" = 'refs/heads/master' ]; then
+if ${update} && [ "$(git -C "$(dirname "${me}")" symbolic-ref HEAD 2> /dev/null)" = 'refs/heads/master' ]; then
   "$(dirname "${me}")/archPackagesUpdate" --only "${pkgname}"
   sudo pacman -Sy
 fi
