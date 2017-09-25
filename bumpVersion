@@ -96,8 +96,8 @@ fi
 
 cd "${paket}"
 
-sed 's|pkgver=.*$|pkgver='"${remVer}"'|;
-  s|pkgrel=.*$|pkgrel=1|;
+sed 's|^\(\s*\)pkgver=.*$|\1pkgver='"${remVer}"'|;
+  s|^\(\s*\)pkgrel=.*$|\1pkgrel=1|;
   s@^\s*\(sha[[:digit:]]\+sums\|md5sums\)=@sha512sums=@;
   /^\(sha[[:digit:]]\+\|md5\)sums_/d;
 '"${sedExtra}" -i PKGBUILD
