@@ -65,34 +65,40 @@ versteheMetaYml() {
 
   if ! tar -tzf "${archiv}" "${_distdir}/META.yml"
   then
-    return 1
+
+    unset meta
+
+  else
+
+    echo "META.yml lesen ..."
+
+    meta="$(
+      tar -Oxzf "${archiv}" "${_distdir}/META.yml" | \
+        tr '\r' ' ' | \
+        grep -v "^\s*file:" | \
+        grep -v "^version:" | \
+        sed '
+          :begin;
+            $!N;
+            s@^\(\S.*\)\n\s\+\(\S.*\)$@\1 \2@;
+          tbegin;
+          P;
+          D
+        ' | \
+        sed "/^provides: /s@\(\s\S\+\):\s\+version:\s\+'\?v\?\([0-9.]\+\)'\?@\L\1=\2@g" | \
+        sed "/^provides: /s@\s@  @g" | \
+        sed "/^provides: /s@\(\s[^= ]\+\):\+\(\s\|\$\)@\L\1=${pkgver}\2@g" | \
+        sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)\.\([[:digit:]]\{3\}\)'\?\(\s\|\$\)@\1\2.\3.0\4@" | \
+        sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)\.\([[:digit:]]\{3\}\)\([[:digit:]]\+\)'\?\(\s\|\$\)@\1\2.\3.\4\5@" | \
+        sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)[._]0*\([1-9][[:digit:]]*\)[._]0*\([1-9][[:digit:]]*\)'\?\(\s\|\$\)@\1\2.\3.\4\5@" | \
+        sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)[._]0*\([1-9][[:digit:]]*\)[._]0\+'\?\(\s\|\$\)@\1\2.\3.0\4@"
+    )"
+
+    echo -n "... fertig, "
+
   fi
 
-  echo "META.yml lesen ..."
-
-  meta="$(
-    tar -Oxzf "${archiv}" "${_distdir}/META.yml" | \
-      tr '\r' ' ' | \
-      grep -v "^\s*file:" | \
-      grep -v "^version:" | \
-      sed '
-        :begin;
-          $!N;
-          s@^\(\S.*\)\n\s\+\(\S.*\)$@\1 \2@;
-        tbegin;
-        P;
-        D
-      ' | \
-      sed "/^provides: /s@\(\s\S\+\):\s\+version:\s\+'\?v\?\([0-9.]\+\)'\?@\L\1=\2@g" | \
-      sed "/^provides: /s@\s@  @g" | \
-      sed "/^provides: /s@\(\s[^= ]\+\):\+\(\s\|\$\)@\L\1=${pkgver}\2@g" | \
-      sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)\.\([[:digit:]]\{3\}\)'\?\(\s\|\$\)@\1\2.\3.0\4@" | \
-      sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)\.\([[:digit:]]\{3\}\)\([[:digit:]]\+\)'\?\(\s\|\$\)@\1\2.\3.\4\5@" | \
-      sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)[._]0*\([1-9][[:digit:]]*\)[._]0*\([1-9][[:digit:]]*\)'\?\(\s\|\$\)@\1\2.\3.\4\5@" | \
-      sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)[._]0*\([1-9][[:digit:]]*\)[._]0\+'\?\(\s\|\$\)@\1\2.\3.0\4@"
-  )"
-
-  echo "... fertig, verarbeiten ..."
+  echo "verarbeiten ..."
 
   set +e
 
