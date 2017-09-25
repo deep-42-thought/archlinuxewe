@@ -334,13 +334,14 @@ then
           sed "s|^v\?[0-9.]*||" | \
           sed 's|\.|\\\.|'
       )
-      if [ "${pkgname}" == 'perl-chi' ]
+      if [ "${pkgname}" = 'perl-chi' ] || \
+        [ "${pkgname}" = 'perl-perl-metrics-simple' ]
       then
         pre='s|\(\...\)$|\10|'
         post='s|\(\...\)0$|\1|'
-      elif [ "${pkgname}" == 'perl-opengl' ] || \
-        [ "${pkgname}" == 'perl-array-diff' ] || \
-        [ "${pkgname}" == 'perl-module-cpants-analyse' ]
+      elif [ "${pkgname}" = 'perl-opengl' ] || \
+        [ "${pkgname}" = 'perl-array-diff' ] || \
+        [ "${pkgname}" = 'perl-module-cpants-analyse' ]
       then
         pre='s|\(\...\)\(.\)|\1.\2|'
         post='s|\(\...\)\.\(.\)|\1\2|'
