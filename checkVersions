@@ -102,6 +102,7 @@ then
   for src in "${source[@]}" "${source_i686[@]}" "${source_x86_64[@]}"
   do
 
+    src_name="${src%%::*}"
     src="${src#*::}"
 
     if [ "${pkgname}" = 'adduser' ]
@@ -237,7 +238,7 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
-      grep -q '^git://anonscm\.debian\.org/\|^git+https\?://github\.com/.*#tag='
+      grep -q '^git://anonscm\.debian\.org/\|^git\(+https\?\)\?://github\.com/.*#tag='
     then
       src="${src#git+}"
       remVer="$(
@@ -249,20 +250,15 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
-      grep -q '^git\(+[^:]\+\)\?://[^#]\+$'
+      grep -q '^git\(+[^:]\+\)\?://[^#]\+\(#commit=[^#]\+\)\?$'
     then
       remVer=$(
-        set -e
-        tmp_dir=$(mktemp -d)
-        trap 'rm -rf --one-file-system "${tmp_dir}"' EXIT
-        cp -r "${pkgname}" "${tmp_dir}"
-        cd "${tmp_dir}/${pkgname}"
-        makepkg -ofcr --noprepare >/dev/null 2>&1
-        makepkg --printsrcinfo | \
-          grep '^\s*pkgver\s*=' | \
-          sed 's|^.*=\s*||'
-      ) || \
-        continue
+        cd "$1"
+        git fetch --all -p > /dev/null 2>&1
+        _commit='HEAD'
+        srcdir=$(pwd)
+        pkgver
+      )
     elif echo "${src}" | \
       grep -q "^https://pypi\.python\.org/packages/"
     then
@@ -517,10 +513,11 @@ then
           'pkgbuild\.com' \
           'qgis\.org' \
           'webhome\.phy\.duke\.edu' \
-          'www\.vandenoever\.info' \
-          'www\.iozone\.org' \
-          'www\.wurzel\.org' \
           'www\.cybernoia\.de' \
+          'www\.gaia-gis\.it' \
+          'www\.iozone\.org' \
+          'www\.vandenoever\.info' \
+          'www\.wurzel\.org' \
           | sed 's@\\|$@\n@'
       )"
     then
@@ -528,8 +525,8 @@ then
       remVer="$( \
         curl_it "${quVer}" | \
           tr '"<>' '\n\n\n' | \
-          grep "^${pkgname}\(-src\)\?-\?[0-9._]\+\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
-          sed "s@^${pkgname}\(-src\)\?-\?\([0-9._]\+\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
+          grep "^${pkgname}\(-src\)\?-\?[0-9._]\+[a-z]\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
+          sed "s@^${pkgname}\(-src\)\?-\?\([0-9._]\+[a-z]\?\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
           tr '_' '.' | \
           sort -V | \
           tail -n1

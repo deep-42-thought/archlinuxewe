@@ -4,6 +4,7 @@
 
 pkgname=pssh-git
 pkgver=2.3.1+27+ga2f936b
+_commit="${pkgver##*+}"
 pkgrel=1
 pkgdesc="Parallel versions of the openssh tools ssh, scp, rsync, nuke, slurp"
 arch=('any')
@@ -13,12 +14,12 @@ depends=('openssh' 'python')
 makedepends=('git' 'python-setuptools')
 provides=('pssh')
 conflicts=('pssh')
-source=(git+https://github.com/lilydjwg/pssh.git)
+source=(git+https://github.com/lilydjwg/pssh.git#commit=${_commit})
 sha256sums=('SKIP')
 
 pkgver() {
   cd "${srcdir}/pssh"
-  git describe --long --tags | \
+  git describe --long --tags ${_commit} | \
     sed '
       s/^v//
       y/-/+/
