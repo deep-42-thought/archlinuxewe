@@ -4,6 +4,7 @@
 cache-cache: cache-filecache
 config-ini: config-ini-reader
 cpan: cpan-shell
+cpan-changes: test-cpan-changes
 cpan-meta: cpan-meta-converter cpan-meta-prereqs cpan-meta-validator parse-cpan-meta
 data-sah: data-sah-type-array data-sah-type-hash data-sah-type-int
 data-sah-coerce: data-sah-coercecommon
@@ -17,6 +18,7 @@ io: io-dir io-file io-handle io-select io-socket io-socket-inet
 io-compress: compress-zlib io-compress-deflate io-compress-gzip io-compress-inflate io-uncompress-bunzip2 io-uncompress-gunzip io-uncompress-inflate
 io-stringy: io-scalar io-wraptie
 io-tty: io-pty
+libintl-perl: locale-textdomain
 libwww: lwp lwp-useragent
 log-dispatch: log-dispatch-output
 lwp-consolelogger: lwp-consolelogger-easy
@@ -28,8 +30,9 @@ plack: http-message-psgi plack-loader plack-request plack-test plack-util-access
 pod-coverage: pod-coverage-countparents
 pod-eventual: pod-eventual-simple
 pod-parser: pod-find pod-parseutils pod-plaintext pod-select
+pod-simple: pod-simple-text
 podlators: pod-text
-ppi: ppi-document ppi-document-file ppi-document-fragment ppi-dumper ppi-node ppi-token-quote-single ppi-util ppi-token-whitespace
+ppi: ppi-cache ppi-document ppi-document-file ppi-document-fragment ppi-dumper ppi-node ppi-token-quote-single ppi-util ppi-token-whitespace
 role-tiny: role-tiny-with
 sah: sah-spectest
 sah-schemas-int: sah-schema-posint
