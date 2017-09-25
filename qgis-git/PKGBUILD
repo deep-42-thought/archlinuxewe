@@ -3,7 +3,7 @@
 
 pkgname=qgis-git
 _pkgname=qgis
-pkgver=2.99.0.r40798.7d4f81d4c6
+pkgver=2.99.0.r41793.154fd61d5a
 _pkgver=${pkgver%.*.*}
 _commit=${pkgver##*.}
 pkgrel=1
@@ -22,8 +22,9 @@ optdepends=('grass: for GRASS providers and plugin (6 or 7)'
 
 #install="$_pkgname.install"
 source=("${_pkgname}::git://github.com/qgis/QGIS.git#commit=$_commit")
-md5sums=('SKIP')
+sha512sums=('SKIP')
 conflicts=('qgis')
+provides=('qgis')
 
 pkgver(){
   cd "$_pkgname"
