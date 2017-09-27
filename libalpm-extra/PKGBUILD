@@ -1,0 +1,36 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=libalpm-extra
+pkgver=0.0
+pkgrel=1
+pkgdesc="extra-capabilities for libalpm: a hook which misses from linux"
+arch=('any')
+url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+license=('GPL')
+groups=()
+depends=()
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+)
+sha512sums=('0a17050f0b80ae7ff73e0bb55d20fcc320c45843f7492a8bd9c9383606c06e3ebfe0e45a94e4b6d24d07e55eaa87d2543e55f0c7e1170a67d95a648c1e979404')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
