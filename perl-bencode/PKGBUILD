@@ -2,25 +2,24 @@
 # Generator : neuesPerlPaket (4de8707cf4c65a042fa6ff8598da0f5c4a8b1e5488e04c9b9e32c5842e96d326d7ef31924ace51ac0f80cb3d322ffa8d1f5cfb5532731d1215e562424d5245f0)
 
 pkgname='perl-bencode'
-pkgver='1.402'
-pkgrel='5'
+pkgver=1.500
+pkgrel=1
 pkgdesc='BitTorrent serialisation format'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
   'perl-carp'
-  'perl-exporter-tidy')
+  'perl-exporter-tidy'
+  'perl>=5.6.0')
 makedepends=(
   'perl-extutils-makemaker'
-  'perl-file-temp'
   'perl-test-differences'
   'perl-test-simple>=0.88')
 url='https://metacpan.org/release/Bencode'
 _distdir="Bencode-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/A/AR/ARISTOTLE/${_distdir}.tar.gz")
-sha512sums=('969367c178418623d505aec8f9b93a8d55c26b8c67d4755c029ba279594fc924e1e4b01e19216cd830c0fbb1f997b041e3431a35bd58d1cb6491be6de49c8f67')
+sha512sums=('75324a9a7ca2fa5ba7200ed566740218fd6562c93833dd62fbe472612ddb8757afbb83892a8a14a012aafe1763a95799ac40db34bf7a7debb3c70c2c56c05b94')
 
 build(){
   cd "${srcdir}/${_distdir}"
