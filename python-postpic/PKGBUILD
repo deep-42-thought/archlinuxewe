@@ -1,0 +1,83 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgbase=python-postpic
+pkgname=(python-postpic python2-postpic)
+pkgver=0.2.3
+pkgrel=1
+pkgdesc='The open source particle-in-cell post processor.'
+url='https://github.com/skuschel/postpic'
+arch=('i686' 'x86_64')
+license=('GPL3')
+_depends=(
+  'python-matplotlib' 'python-numpy>=1.7' 'python-scipy' 'python-future' 'python-urllib3' 'python-numexpr'
+)
+_optdepends=(
+  'python-h5py: h5 reader for openPMD support'
+  'python-sdf:  sdf support for EPOCH reader'
+)
+makedepends=(
+  'python' 'python2' 'python-setuptools' 'python2-setuptools' 'cython' 'cython2' 'python-h5py'
+  "${_depends[@]}"
+  "${_depends[@]/python/python2}"
+)
+source=($pkgname-$pkgver.tar.gz::https://github.com/skuschel/postpic/archive/v$pkgver.tar.gz)
+sha512sums=('07f95316213e975299ac70b1c9381f300ac341712f044de3a378af2e849baecc4084937e52d5850257dc3885a97408fecc5cddca1da61ee4bdc63c846d40ad11')
+
+prepare() {
+  cp -a postpic-${pkgver}{,-py2}
+}
+
+build() {
+  msg2 "Building python..."
+  (cd postpic-${pkgver}
+    python setup.py build
+  )
+  msg2 "Building python2..."
+  (cd postpic-${pkgver}-py2
+    python2 setup.py build
+  )
+}
+
+check() {
+  msg2 "Checking python..."
+  (cd postpic-${pkgver}
+    python setup.py test
+  )
+  msg2 "Checking python2..."
+  (cd postpic-${pkgver}-py2
+    python2 setup.py test
+  )
+}
+
+package_python-postpic() {
+  _pyVer=$(python -V 2>&1 | cut -d' ' -f2 | cut -d. -f2)
+  depends=(
+    "python>=3.${_pyVer}"
+    "python<3.$((_pyVer+1))"
+    "${_depends[@]}"
+  )
+  optdepends=("${_optdepends[@]}")
+
+  cd postpic-${pkgver}
+  python setup.py install --prefix=/usr --root="${pkgdir}" --skip-build
+  install -Dm 644 LICENSE -t "${pkgdir}"/usr/share/licenses/${pkgname}
+  #install -Dm 644 CHANGES README -t "${pkgdir}"/usr/share/doc/${pkgname}
+}
+
+package_python2-postpic() {
+  _pyVer=$(python2 -V 2>&1 | cut -d' ' -f2 | cut -d. -f2)
+  depends=(
+    "python2>=2.${_pyVer}"
+    "python2<2.$((_pyVer+1))"
+    "${_depends[@]}"
+    "${_depends[@]/python/python2}"
+  )
+  optdepends=("${_optdepends[@]/python/python2}")
+
+  cd postpic-${pkgver}-py2
+  python2 setup.py install --prefix=/usr --root="${pkgdir}" --skip-build
+  install -Dm 644 LICENSE -t "${pkgdir}"/usr/share/licenses/${pkgname}
+  #install -Dm 644 CHANGES README -t "${pkgdir}"/usr/share/doc/${pkgname}
+}
+
+# vim: ts=2 sw=2 et:
