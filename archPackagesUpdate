@@ -250,6 +250,7 @@ then
 fi
 
 unset pakete
+unset pakete_teile
 unset archs
 unset verss
 
@@ -271,32 +272,40 @@ then
     ${consider} || continue
 
     unset epoch
+    unset pkgname
     . ${paket}/PKGBUILD
 
-    for singleArch in "${arch[@]}"
-    do
+    for singleArch in "${arch[@]}"; do
 
       [ "${singleArch}" == "x86_64" ] || \
         [ "${singleArch}" == "i686" ] || \
         [ "${singleArch}" == "any" ] || \
         continue
 
-      pkgFile="${paket}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
-
       allExist=true
-      [ "${singleArch}" == "any" ] && \
-        for dir in ${pkgDir}/*
-        do
-          [ ! -d "${dir}" ] && continue
-          [ ! -e "${dir}/${pkgFile}" ] && allExist=false
-        done
+      for pkgnam in "${pkgname[@]}"; do
+
+        pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
+
+        [ "${singleArch}" == "any" ] && \
+          for dir in ${pkgDir}/*
+          do
+            [ ! -d "${dir}" ] && continue
+            [ ! -e "${dir}/${pkgFile}" ] && allExist=false
+          done
+
+        if [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ]; then
+          allExist=false
+        fi
+
+      done
 
       if ${force} || \
         ! ${aufRechenknecht} || \
-        [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ] || \
         ! ${allExist}
       then
         pakete[${#pakete[@]}]="${paket}"
+        pakete_teile[${#pakete_teile[@]}]="${pkgname[@]}"
         archs[${#archs[@]}]="${singleArch}"
         verss[${#verss[@]}]="${epoch:+${epoch}:}${pkgver}-${pkgrel}"
       fi
@@ -308,6 +317,7 @@ then
     printf '%d scheduled builds:\n' "${#pakete[@]}"
     for ((i=0; i<${#pakete[@]}; i++)); do
       echo " ${pakete[${i}]} ${verss[${i}]} ${archs[${i}]}"
+      printf '   %s\n' ${pakete_teile[${i}]}
     done
     exit 0
   fi
@@ -435,6 +445,7 @@ then
   for ((i=0; i<${#pakete[@]}; i++))
   do
     paket="${pakete[${i}]}"
+    paket_teile=(${pakete_teile[${i}]})
     arch="${archs[${i}]}"
     vers="${verss[${i}]}"
 
@@ -474,12 +485,14 @@ then
     fi
     if [ ${err[${i}]} -eq 0 ]
     then
-      namcap "${tmpDir}/${paket}"/*-${arch}.pkg.tar.xz
-      err[${i}]=$?
-      if [ -n "${log}" ]
-      then
-        namcap "${tmpDir}/${paket}"/*-${arch}.pkg.tar.xz > "${tmpDir}/${paket}/${paket}-namcap-${arch}.log"
-      fi
+      for teil in "${paket_teile[@]}"; do
+        namcap "${tmpDir}/${paket}/${teil}-${vers}-${arch}.pkg.tar.xz"
+        err[${i}]=$?
+        if [ -n "${log}" ]
+        then
+          namcap "${tmpDir}/${paket}/${teil}-${vers}-${arch}.pkg.tar.xz" > "${tmpDir}/${paket}/${teil}-namcap-${arch}.log"
+        fi
+      done
     fi
     if ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ]
     then
@@ -488,22 +501,26 @@ then
     fi
     [ ${err[${i}]} -gt ${maxErr} ] && maxErr=${err[${i}]}
 
-    if ! gpg --verify ${paket}-${vers}-${arch}.pkg.tar.xz{.sig,} &> /dev/null
-    then
-      key="$(
-        grep '^GPGKEY=' "${tmpDir}/makepkg.conf" | \
-          sed 's|^GPGKEY=\s*"\(.*\)"\s*$|0x\1|'
-      )"
-      rm -f "${paket}-${vers}-${arch}.pkg.tar.xz.sig"
-      gpg --detach-sign -u "${key}" --no-armor ${paket}-${vers}-${arch}.pkg.tar.xz
-    fi
+    key="$(
+      grep '^GPGKEY=' "${tmpDir}/makepkg.conf" | \
+        sed 's|^GPGKEY=\s*"\(.*\)"\s*$|0x\1|'
+    )"
+    for teil in "${paket_teile[@]}"; do
+      if ! gpg --verify ${teil}-${vers}-${arch}.pkg.tar.xz{.sig,} &> /dev/null; then
+        rm -f "${teil}-${vers}-${arch}.pkg.tar.xz.sig"
+        gpg --detach-sign -u "${key}" --no-armor ${teil}-${vers}-${arch}.pkg.tar.xz
+      fi
+    done
 
     if ${upload} && [ ${err[${i}]} -eq 0 ]
     then
 
 # upload package and update db
       cd "${tmpDir}/${paket}"
-      tar -cf - ${paket}-${vers}-${arch}.pkg.tar.xz{,.sig} |
+      tar -cf - $(
+        printf " %s-${vers}-${arch}.pkg.tar.xz"     "${paket_teile[@]}"
+        printf " %s-${vers}-${arch}.pkg.tar.xz.sig" "${paket_teile[@]}"
+      ) |
         ssh paule@127.0.0.1 '
 
           entferneAltePakete() {
@@ -532,30 +549,34 @@ then
           }
 
           cd '${pkgDir}/${arch}/'
-          entferneAltePakete "'${paket}'" "'${arch}'"
+          for teil in '"${paket_teile[@]}"'; do
+            entferneAltePakete "${teil}" "'${arch}'"
+          done
           tar -xf -
-          addPaket "'${paket}-${vers}-${arch}.pkg.tar.xz'"
+          for teil in '"${paket_teile[@]}"'; do
+            addPaket "${teil}-'"${vers}-${arch}"'.pkg.tar.xz"
 
-          if [ "'${arch}'" == "any" ]
-          then
-            cd ..
-            for lArch in *
-            do
-              [ ! -d "${lArch}" ] && continue
-              [ "${lArch}" == "any" ] && continue
-              cd "${lArch}"
-
-              entferneAltePakete "'${paket}'" "'${arch}'"
-              ln -s "'${pkgDir}/any/${paket}-${vers}-${arch}.pkg.tar.xz'" "'${paket}-${vers}-${arch}.pkg.tar.xz'"
-              if [ -e "'${pkgDir}/any/${paket}-${vers}-${arch}.pkg.tar.xz.sig'" ]
-              then
-                ln -s "'${pkgDir}/any/${paket}-${vers}-${arch}.pkg.tar.xz.sig'" "'${paket}-${vers}-${arch}.pkg.tar.xz.sig'"
-              fi
-              addPaket "'${paket}-${vers}-${arch}.pkg.tar.xz'"
-
+            if [ "'${arch}'" == "any" ]
+            then
               cd ..
-            done
-          fi
+              for lArch in *
+              do
+                [ ! -d "${lArch}" ] && continue
+                [ "${lArch}" == "any" ] && continue
+                cd "${lArch}"
+
+                entferneAltePakete "${teil}" "'${arch}'"
+                ln -s "'${pkgDir}'/any/${teil}-'${vers}-${arch}'.pkg.tar.xz" "${teil}-'${vers}-${arch}'.pkg.tar.xz"
+                if [ -e "'${pkgDir}'/any/${teil}-'${vers}-${arch}'.pkg.tar.xz.sig" ]
+                then
+                  ln -s "'${pkgDir}'/any/${teil}-'${vers}-${arch}'.pkg.tar.xz.sig" "${teil}-'${vers}-${arch}'.pkg.tar.xz.sig"
+                fi
+                addPaket "${teil}-'${vers}-${arch}'.pkg.tar.xz"
+
+                cd ..
+              done
+            fi
+          done
         '
     fi
   done
