@@ -558,12 +558,11 @@ then
 
             if [ "'${arch}'" == "any" ]
             then
-              cd ..
-              for lArch in *
+              for lArch in $(ls ..)
               do
-                [ ! -d "${lArch}" ] && continue
+                [ ! -d "../${lArch}" ] && continue
                 [ "${lArch}" == "any" ] && continue
-                cd "${lArch}"
+                cd "../${lArch}"
 
                 entferneAltePakete "${teil}" "'${arch}'"
                 ln -s "'${pkgDir}'/any/${teil}-'${vers}-${arch}'.pkg.tar.xz" "${teil}-'${vers}-${arch}'.pkg.tar.xz"
@@ -572,8 +571,6 @@ then
                   ln -s "'${pkgDir}'/any/${teil}-'${vers}-${arch}'.pkg.tar.xz.sig" "${teil}-'${vers}-${arch}'.pkg.tar.xz.sig"
                 fi
                 addPaket "${teil}-'${vers}-${arch}'.pkg.tar.xz"
-
-                cd ..
               done
             fi
           done
