@@ -34,8 +34,7 @@ package_argtable() {
 }
 
 package_argtable-docs() {
-  true && pkgdesc="Documentation and examples for argtable"
-  true && arch=('any')
+  pkgdesc="Documentation and examples for argtable"
 
   cd "$srcdir/${pkgname%-*}${pkgver/./-}"
   make -C doc DESTDIR="$pkgdir/" install
