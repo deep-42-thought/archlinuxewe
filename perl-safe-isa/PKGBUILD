@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-safe-isa'
-pkgver=1.000007
+pkgver=1.000008
 pkgrel=1
 pkgdesc='Call isa, can, does and DOES safely on things that may not be objects'
 arch=('any')
@@ -18,7 +18,7 @@ checkdepends=()
 url='https://metacpan.org/release/Safe-Isa'
 _distdir="Safe-Isa-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
-sha512sums=('1a273b90f5664b1fde36abda0a9268cfc30c307c3fd4452a706bad6173e9f189050fccbbcbf71f0985af5eaa0c2e1745b21da3bcf4134be51bd389b8f8717e86')
+sha512sums=('a1dbef2e5e3cf5d154785eb2d9e4ad6652d775f1026144817a54cfeeb3572a2618b01c0b23557080fbaf676878d323c8fec8cd3506f173895ad787efa6c9cf14')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
