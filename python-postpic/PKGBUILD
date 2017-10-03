@@ -2,7 +2,7 @@
 
 pkgbase=python-postpic
 pkgname=(python-postpic python2-postpic)
-pkgver=0.3
+pkgver=0.3.1
 pkgrel=1
 pkgdesc='The open source particle-in-cell post processor.'
 url='https://github.com/skuschel/postpic'
@@ -21,7 +21,7 @@ makedepends=(
   "${_depends[@]/python/python2}"
 )
 source=($pkgname-$pkgver.tar.gz::https://github.com/skuschel/postpic/archive/v$pkgver.tar.gz)
-sha512sums=('f0f5f0c854cca10bc89ea49fd3119636c2cae2d03731862df0468f5d4630dc12893284578a27335ea7d1daa370afb26f5d60922da67e4e78d9289124945a8f81')
+sha512sums=('0b1e2d80c7c8944b81da7c4b389c5d8190e856857acc56cd6c50545e15f7819182c2843e40a3cad5456406ad2d442b851cb6df732579d8e752cd09bc45e9cc79')
 
 prepare() {
   cp -a postpic-${pkgver}{,-py2}
