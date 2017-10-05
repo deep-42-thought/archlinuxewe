@@ -9,7 +9,8 @@ pkgrel=1
 pkgdesc='A pythonic wrapper around FFTW.'
 url='http://hgomersall.github.io/pyFFTW/'
 depends=('fftw')
-makedepends=('python-numpy' 'python2-numpy' 'python-scipy' 'python2-scipy')
+_pdepends=('python-numpy' 'python-scipy' 'python-setuptools')
+makedepends=("${_pdepends[@]}" "${_pdepends[@]/python-/python2-}")
 license=('BSD')
 arch=('i686' 'x86_64')
 source=("https://files.pythonhosted.org/packages/source/${_pyname:0:1}/$_pyname/$_pyname-$pkgver.tar.gz")
@@ -27,14 +28,14 @@ build() {
 }
 
 package_python-pyfftw() {
-  depends+=('python-numpy' 'python-scipy')
+  depends+=("${_pdepends[@]}")
   cd $srcdir/$_pyname-$pkgver
   python setup.py install --root="$pkgdir" --optimize=1 
   install -D -m644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
 
 package_python2-pyfftw() {
-  depends+=('python2-numpy' 'python2-scipy')
+  depends+=("${_pdepends[@]/python-/python2-}")
   cd $srcdir/$_pyname-$pkgver
   python2 setup.py install --root="$pkgdir" --optimize=1 
   install -D -m644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
