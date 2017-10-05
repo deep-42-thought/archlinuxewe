@@ -284,7 +284,8 @@ then
       remHash="$(
         curl_it "${qu}${remVer}" | \
           tr '"#' '\n' | \
-          grep -m1 "^https://pypi\.python\.org/packages/.*/[0-9a-f]\{60\}/${pkgname#*-}-${remVer}\.tar\.\(gz\|bz2\|xz\)\$" | \
+          sponge | \
+          grep -m1 "^https://pypi\.python\.org/packages/.*/[0-9a-f]\{60\}/${_pkgname}-${remVer}\.tar\.\(gz\|bz2\|xz\)\$" | \
           sed 's|/[^/]\+$|/|; s|^https://pypi\.python\.org/packages/|/|'
       )"
       locHash="$(
