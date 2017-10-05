@@ -13,7 +13,7 @@ _depends=('python-numpy' 'python-scipy')
 makedepends=('python-setuptools' 'python2-setuptools' "${_depends[@]}" "${_depends[@]/python-/python2-}")
 license=('BSD')
 arch=('i686' 'x86_64')
-source=("https://files.pythonhosted.org/packages/source/${_pyname:0:1}/$_pyname/$_pyname-$pkgver.tar.gz")
+source=("https://pypi.python.org/packages/c2/2e/b25edc6960fc837e915eb1b38e5f0e3013e32e90aff14a1d0f4556b3d145/pyFFTW-${pkgver}.tar.gz")
 sha512sums=('6848133e30a02ee51bb86613f53a5fdbf9b5a0fea3cab01b8ca7d365f924a966ac9b94f4ed62979d418f9f847369f8c50568ca855e472035fa37e86e630fb9fd')
 
 build() {
