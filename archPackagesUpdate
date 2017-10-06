@@ -453,8 +453,7 @@ then
     rm -f ${paket}-*-${arch}.pkg.tar.xz*
     rm -rf src pkg
 
-    if [ "${arch}" == "i686" ]
-    then
+    if [ "${arch}" = 'i686' ]; then
       # 32-bit is built in chroot /opt/arch32
       (
         ${cleanCache} && \
@@ -468,8 +467,8 @@ then
       ) | \
         chrootUnpriv 32
       err[${i}]=$?
-    else
-      # 64-bit is built in chroot /opt/arch64
+    elif [ "${arch}" = 'x86_64' ] || [ "${arch}" = 'any' ]; then
+      # 64-bit and any is built in chroot /opt/arch64
       (
         ${cleanCache} && \
           echo 'sudo pacman -Sc --noconfirm && \'
@@ -482,6 +481,9 @@ then
       ) | \
         chrootUnpriv 64
       err[${i}]=$?
+    else
+      printf 'unbekannte Architektur "%s"\n' "${arch}"
+      err[${i}]=128
     fi
     if [ ${err[${i}]} -eq 0 ]
     then
