@@ -485,17 +485,31 @@ then
       printf 'unbekannte Architektur "%s"\n' "${arch}"
       err[${i}]=128
     fi
-    if [ ${err[${i}]} -eq 0 ]
-    then
-      for teil in "${paket_teile[@]}"; do
-        namcap "${tmpDir}/${paket}/${teil}-${vers}-${arch}.pkg.tar.xz"
-        err[${i}]=$?
-        if [ -n "${log}" ]
-        then
-          namcap "${tmpDir}/${paket}/${teil}-${vers}-${arch}.pkg.tar.xz" > "${tmpDir}/${paket}/${teil}-namcap-${arch}.log"
-        fi
-      done
-    fi
+    for teil in "${paket_teile[@]}"; do
+      if [ ${err[${i}]} -ne 0 ]; then
+        break
+      fi
+      namcap "${tmpDir}/${paket}/${teil}-${vers}-${arch}.pkg.tar.xz" > \
+        "${tmpDir}/namcap"
+      err[${i}]=$?
+      if [ -n "${log}" ]
+      then
+        cat "${tmpDir}/namcap" > \
+          "${tmpDir}/${paket}/${teil}-namcap-${arch}.log"
+      fi
+      if [ ${err[${i}]} -ne 0 ]; then
+        break
+      fi
+      if grep "$(
+        printf '%s\\|' \
+          "E: ELF file (.*) found in an ['\"]any['\"] package" \
+          "W: No ELF files and not an ['\"]any['\"] package" | \
+          sed 's@\\|$@@'
+        )" "${tmpDir}/namcap"; then
+        err[${i}]=64
+      fi
+    done
+    rm -f "${tmpDir}/namcap"
     if ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ]
     then
       cleanUp
