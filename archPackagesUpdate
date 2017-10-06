@@ -336,8 +336,8 @@ then
           exit
         ' | \
           chrootUnpriv "${chrootArch}"
-        echo 'update-all'
-        echo 'ccache'
+        printf '%s\n' \
+          'update-all' 'ccache' 'git' 'mercurial' 'bzr' 'subversion'
       ) | \
         sort -u
     )"
