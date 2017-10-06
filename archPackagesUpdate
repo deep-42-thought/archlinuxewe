@@ -441,6 +441,26 @@ then
     exit 1
   fi
 
+# update git sources
+  find "$(
+    grep '^SRCDEST=' makepkg.conf | \
+      cut -d= -f2
+  )" -mindepth 2 -maxdepth 2 -name 'HEAD' | \
+    sed 's|/[^/]*$||' | \
+    while read -r repo; do
+      git -C "${repo}" fetch --all -p
+    done
+
+# update svn sources
+  find "$(
+    grep '^SRCDEST=' makepkg.conf | \
+      cut -d= -f2
+  )" -mindepth 2 -maxdepth 2 -name '.svn' | \
+    sed 's|/[^/]*$||' | \
+    while read -r repo; do
+      svn update "${repo}"
+    done
+
 # build packages
   for ((i=0; i<${#pakete[@]}; i++))
   do
@@ -451,7 +471,7 @@ then
 
     cd "${tmpDir}/${paket}"
     rm -f ${paket}-*-${arch}.pkg.tar.xz*
-    rm -rf src pkg
+    rm -rf --one-file-system src pkg
 
     if [ "${arch}" = 'i686' ]; then
       # 32-bit is built in chroot /opt/arch32
