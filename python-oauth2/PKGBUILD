@@ -1,21 +1,38 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgbase=python-oauth2
 pkgname=(python-oauth2 python2-oauth2)
-pkgver=1.9
+pkgver=1.0.1
 pkgrel=1
-pkgdesc='library for OAuth'
-url='https://pypi.python.org/pypi/oauth2/'
+pkgdesc='framework that aims at making it easy to provide authentication via OAuth 2.0 within an application stack/'
+url='https://github.com/wndhydrnt/python-oauth2/'
 arch=('any')
 license=('MIT')
-_depends=()
-_optdepends=()
+_depends=(
+  'python'
+)
+_mdepends=(
+  'python-mock'
+  'python-nose'
+  'python-pymongo'
+  'python-memcached'
+  'python-mysql-connector'
+  'python-redis'
+  'python-tornado'
+  'python-setuptools'
+)
+_optdepends=(
+  'python-memcached'
+  'python-pymongo'
+  'python-redis'
+)
 makedepends=(
-  'python' 'python2' 'python-setuptools' 'python2-setuptools'
   "${_depends[@]}"
   "${_depends[@]/python/python2}"
+  "${_mdepends[@]}"
+  "${_mdepends[@]/python/python2}"
 )
-source=("https://github.com/joestump/python-oauth2/archive/v${pkgver}.tar.gz")
-sha512sums=('ba3183aa4e5512920fa540955321646c167d23dfd4bc2fad4d5426e1b71e35e91fe11f6cd919a7913015f9bf33c43849659cb97c862a57b5c2e288ace29ad452')
+source=("https://github.com/wndhydrnt/python-oauth2/archive/v${pkgver}.tar.gz")
+sha512sums=('8172289201af844b5570e7e4c678cce1707e4524f20a01d93134b4bff9190fdeab33cc8dd338c00eae78044a5d6d3278d216e083524aefe5819b1d4017c7074b')
 
 prepare() {
   cp -a python-oauth2-${pkgver}{,-py2}
@@ -58,7 +75,7 @@ package_python-oauth2() {
 
   cd python-oauth2-${pkgver}
   python setup.py install --prefix=/usr --root="${pkgdir}" --skip-build
-  install -Dm 644 LICENSE.txt -t "${pkgdir}"/usr/share/licenses/${pkgname}
+  install -Dm 644 LICENSE -t "${pkgdir}"/usr/share/licenses/${pkgname}
 }
 
 package_python2-oauth2() {
@@ -73,5 +90,5 @@ package_python2-oauth2() {
 
   cd python-oauth2-${pkgver}-py2
   python2 setup.py install --prefix=/usr --root="${pkgdir}" --skip-build
-  install -Dm 644 LICENSE.txt -t "${pkgdir}"/usr/share/licenses/${pkgname}
+  install -Dm 644 LICENSE -t "${pkgdir}"/usr/share/licenses/${pkgname}
 }
