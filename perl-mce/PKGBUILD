@@ -2,40 +2,41 @@
 # Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
 
 pkgname='perl-mce'
-pkgver=1.830
+pkgver=1.831
 pkgrel=1
 pkgdesc='Many-Core Engine for Perl providing parallel processing capabilities'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-mce-candy=1.830'
-  'perl-mce-core-input-generator=1.830'
-  'perl-mce-core-input-handle=1.830'
-  'perl-mce-core-input-iterator=1.830'
-  'perl-mce-core-input-request=1.830'
-  'perl-mce-core-input-sequence=1.830'
-  'perl-mce-core-manager=1.830'
-  'perl-mce-core-validation=1.830'
-  'perl-mce-core-worker=1.830'
-  'perl-mce-flow=1.830'
-  'perl-mce-grep=1.830'
-  'perl-mce-loop=1.830'
-  'perl-mce-map=1.830'
-  'perl-mce-mutex-channel=1.830'
-  'perl-mce-mutex-flock=1.830'
-  'perl-mce-mutex=1.830'
-  'perl-mce-queue=1.830'
-  'perl-mce-relay=1.830'
-  'perl-mce-signal=1.830'
-  'perl-mce-step=1.830'
-  'perl-mce-stream=1.830'
-  'perl-mce-subs=1.830'
-  'perl-mce-util=1.830')
+  'perl-mce-candy=1.831'
+  'perl-mce-core-input-generator=1.831'
+  'perl-mce-core-input-handle=1.831'
+  'perl-mce-core-input-iterator=1.831'
+  'perl-mce-core-input-request=1.831'
+  'perl-mce-core-input-sequence=1.831'
+  'perl-mce-core-manager=1.831'
+  'perl-mce-core-validation=1.831'
+  'perl-mce-core-worker=1.831'
+  'perl-mce-flow=1.831'
+  'perl-mce-grep=1.831'
+  'perl-mce-loop=1.831'
+  'perl-mce-map=1.831'
+  'perl-mce-mutex=1.831'
+  'perl-mce-mutex-channel=1.831'
+  'perl-mce-mutex-flock=1.831'
+  'perl-mce-queue=1.831'
+  'perl-mce-relay=1.831'
+  'perl-mce-signal=1.831'
+  'perl-mce-step=1.831'
+  'perl-mce-stream=1.831'
+  'perl-mce-subs=1.831'
+  'perl-mce-util=1.831')
 optdepends=(
   'perl-sereal-decoder>=3.015'
   'perl-sereal-encoder>=3.015')
 depends=(
+  'perl>=5.8.0'
   'perl-base'
   'perl-carp'
   'perl-constant'
@@ -45,15 +46,14 @@ depends=(
   'perl-scalar-list-utils'
   'perl-socket'
   'perl-storable>=2.04'
-  'perl-time-hires'
-  'perl>=5.8.0')
+  'perl-time-hires')
 makedepends=(
   'perl-extutils-makemaker'
   'perl-test-simple>=0.88')
 url='https://metacpan.org/release/MCE'
 _distdir="MCE-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MA/MARIOROY/${_distdir}.tar.gz")
-sha512sums=('c47f21a239103df7fc6f0c4b1357525d32f8efefd35a556443527c2a119b5df35ab1d867801a3539ba7081cb49252371f5b80a5853a3e308eaa4569298efff12')
+sha512sums=('cca01463bed30b2c028318d92269de59f7c48d86c64b7a2bb7e07a9a668217f10ae70d4e6ac05e873d7305b572840833bdce8585dfd3975a56c95b531ce4cc0e')
 
 build() {
   cd "${srcdir}/${_distdir}"
