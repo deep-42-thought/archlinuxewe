@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=ewemake
 _srcpkgname='Make'
-pkgver=1.2
-pkgrel=2
+pkgver=1.2.1
+pkgrel=1
 pkgdesc="somewhat more powerfull alternative to 'make'"
 arch=('x86_64' 'i686')
 url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
@@ -19,7 +19,7 @@ options=()
 source=(
     "${_srcpkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${_srcpkgname}-${pkgver}"
 )
-sha512sums=('b89db47e1ea387e0bb18d168780d8d9520f0ba9e55f9531420f96932cf243219c0a32a694bcb00b5fdcd53660e32c003a608ec64326a644e8df8cfcb6a96dc46')
+sha512sums=('75d2c75d297b44ec00023e2f2bc959cf354d40cb9e4205499cda93c378a012e7541e401317f9862a6e303c7462d68db4497bb11dc0d721149b997bf267425c1c')
 
 build() {
 
