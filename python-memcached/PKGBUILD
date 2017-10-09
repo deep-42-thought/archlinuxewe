@@ -1,0 +1,88 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgbase=python-memcached
+pkgname=(python-memcached python2-memcached)
+pkgver=1.58
+pkgrel=1
+pkgdesc='100% Python interface to the memcached memory cache daemon'
+url=''
+arch=('i686' 'x86_64')
+license=('MIT')
+_depends=(
+  'python-six>=1.4.0'
+)
+_mdepends=(
+  'python'
+  'python-nose'
+  'python-coverage'
+  'python-hacking'
+)
+_optdepends=(
+  'python-memcached'
+  'python-pymongo'
+  'python-redis'
+)
+makedepends=(
+  "${_depends[@]}"
+  "${_depends[@]/python/python2}"
+  "${_mdepends[@]}"
+  "${_mdepends[@]/python/python2}"
+)
+source=("https://github.com/linsomniac/python-memcached/archive/${pkgver}.tar.gz")
+sha512sums=('72b5a071fddb14119afceca99ccfb01b6b55021d559e0ebe1b7a6e961d715bc3983c68911ff8d97f9918f84947f0ae89ee35bfacd2584b8810e86c5a8bd61dcc')
+
+prepare() {
+  cp -a python-memcached-${pkgver}{,-py2}
+}
+
+build() {
+  msg2 "Building python..."
+  (
+    cd python-memcached-${pkgver}
+    python setup.py build
+  )
+  msg2 "Building python2..."
+  (
+    cd python-memcached-${pkgver}-py2
+    python2 setup.py build
+  )
+}
+
+check() {
+  msg2 "Checking python..."
+  (
+    cd python-memcached-${pkgver}
+    python setup.py test
+  )
+  msg2 "Checking python2..."
+  (
+    cd python-memcached-${pkgver}-py2
+    python2 setup.py test
+  )
+}
+
+package_python-memcached() {
+  _pyVer=$(python -V 2>&1 | cut -d' ' -f2 | cut -d. -f2)
+  depends=(
+    "python>=3.${_pyVer}"
+    "python<3.$((_pyVer+1))"
+    "${_depends[@]}"
+  )
+  optdepends=("${_optdepends[@]}")
+
+  cd python-memcached-${pkgver}
+  python setup.py install --prefix=/usr --root="${pkgdir}" --skip-build
+}
+
+package_python2-memcached() {
+  _pyVer=$(python2 -V 2>&1 | cut -d' ' -f2 | cut -d. -f2)
+  depends=(
+    "python2>=2.${_pyVer}"
+    "python2<2.$((_pyVer+1))"
+    "${_depends[@]}"
+    "${_depends[@]/python/python2}"
+  )
+  optdepends=("${_optdepends[@]/python/python2}")
+
+  cd python-memcached-${pkgver}-py2
+  python2 setup.py install --prefix=/usr --root="${pkgdir}" --skip-build
+}
