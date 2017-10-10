@@ -15,7 +15,7 @@ url='https://github.com/archlinux32/archiso32'
 depends=('make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx')
 conflicts=('archiso' 'archiso32')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/archlinux32/${pkgname%-dual}32/archive/dual-v${pkgver}.tar.gz")
-sha512sums=('aa08fe0e08200695d0146ed90a237a196f26ba11a0041a2c186f222138cf63e26ecbcf4453747ac05c683838d1b1abb752b970d79c7d909af8846cf45707c0c7')
+sha512sums=('6099ce272c7038e5adc4f82b90d90868406031fdd25d64f6e8f8bac24d16c1e63b87ffef2daba7865736049ada197dcd69944493d8f5557315541986278e0f44')
 
 package() {
     make -C "${pkgname/-/32-}-v${pkgver}" DESTDIR="${pkgdir}" install
