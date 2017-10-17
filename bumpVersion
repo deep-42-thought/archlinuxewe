@@ -124,7 +124,7 @@ summen="$( \
 sed 's|sha512sums=.*$|'"${summen}"'|' -i PKGBUILD
 
 (
-  if ! "${myDir}/testeAbhaengigkeiten" "${paket}"
+  if ! yes '' | "${myDir}/testeAbhaengigkeiten" "${paket}"
   then
     was=''
     ec[0]='jJyY'
