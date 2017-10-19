@@ -524,7 +524,7 @@ then
         {
           printf '%s\\|' \
             "E: ELF file (.*) found in an ['\"]any['\"] package"
-          if ! grep -qF " ${teil} ist absichtlich any ohne ELF Dateien" PKGBULD; then
+          if ! grep -qF " ${teil} ist absichtlich any ohne ELF Dateien" PKGBUILD; then
             printf '%s\\|' \
               "W: No ELF files and not an ['\"]any['\"] package"
           fi
