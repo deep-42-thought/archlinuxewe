@@ -524,7 +524,8 @@ then
         {
           printf '%s\\|' \
             "E: ELF file (.*) found in an ['\"]any['\"] package"
-          if [ ! "${paket}" = 'ttf-oxygen' ]; then
+          if [ ! "${paket}" = 'ttf-oxygen' ] &&
+            [ ! "${teil}" = 'argtable-docs' ]; then
             printf '%s\\|' \
               "W: No ELF files and not an ['\"]any['\"] package"
           fi
