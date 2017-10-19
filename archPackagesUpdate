@@ -521,9 +521,14 @@ then
         break
       fi
       if grep "$(
-        printf '%s\\|' \
-          "E: ELF file (.*) found in an ['\"]any['\"] package" \
-          "W: No ELF files and not an ['\"]any['\"] package" | \
+        {
+          printf '%s\\|' \
+            "E: ELF file (.*) found in an ['\"]any['\"] package"
+          if [ ! "${paket}" = 'ttf-oxygen' ]; then
+            printf '%s\\|' \
+              "W: No ELF files and not an ['\"]any['\"] package"
+          fi
+        } | \
           sed 's@\\|$@@'
         )" "${tmpDir}/namcap"; then
         err[${i}]=64
