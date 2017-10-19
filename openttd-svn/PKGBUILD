@@ -43,9 +43,9 @@ sha512sums=('SKIP'
 
 prepare() {
 
-    cd $srcdir/trunk
+    cd "${srcdir}/${pkgname}"
 
-    cat $srcdir/everything.patch | \
+    cat ${srcdir}/everything.patch | \
       (
         read zeile
         while read zeile
@@ -63,7 +63,7 @@ prepare() {
 
 build() {
 
-    cd trunk
+    cd "${srcdir}/${pkgname}"
     ./configure ${_targetHost} \
 		--prefix-dir=/usr \
                 --binary-dir=bin \
@@ -73,18 +73,18 @@ build() {
                 --personal-dir=.openttd \
                 --install-dir=$pkgdir \
     make
-    install -m644 $srcdir/clipboard.grf $srcdir/trunk/bin/baseset/
+    install -m644 "${srcdir}/clipboard.grf" "${srcdir}/${pkgname}/bin/baseset/"
 
 }
 
 check() {
-    cd trunk
+    cd "${srcdir}/${pkgname}"
     make test
 }
 
 package() {
 
-    cd trunk
+    cd "${srcdir}/${pkgname}"
     make DESTDIR=$pkgdir install
 
     # Remove unnecessary languages
