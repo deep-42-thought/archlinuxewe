@@ -4,30 +4,30 @@
 
 pkgname=pacman-mirrorlist
 pkgver=20171017
-pkgrel=1
+pkgrel=1.1
 pkgdesc="Arch Linux mirror list for use by pacman"
 arch=('any')
 url="https://www.archlinux.org/mirrorlist/"
 license=('GPL')
 backup=(etc/pacman.d/mirrorlist)
-source=("${pkgname}-${pkgver}-${pkgrel}-any-original.tar.xz::https://arch.eckner.net/core/os/$(uname -m)/${pkgname}-${pkgver}-${pkgrel}-any.pkg.tar.xz")
+source=("${pkgname}-${pkgver}-${pkgrel%%.*}-any-original.tar.xz::https://arch.eckner.net/core/os/$(uname -m)/${pkgname}-${pkgver}-${pkgrel%%.*}-any.pkg.tar.xz")
 sha512sums=('81bb41b9ce497c64914fc349a0d20965bbd2055bbdd546d27c6c55b387f5f1ae8231d46d3d3ade568ba6c179b133eeaac90045c0c9962ac279bdbc138320da0b')
 
 build() {
-  cat etc/pacman.d/mirrorlist | \
-    (
-      while read s
-      do
-        echo "${s}"
-        if [ -z "${s}" ]
-        then
-          echo 'Server = https://arch.eckner.net/$repo/os/$arch'
-          echo ''
-          break
-        fi
-      done
-      cat
-    ) \
+  {
+    while read s
+    do
+      echo "${s}"
+      if [ -z "${s}" ]
+      then
+        echo 'Server = https://arch.eckner.net/merged/$repo/os/$arch'
+        echo ''
+        break
+      fi
+    done
+    cat
+  } \
+    < etc/pacman.d/mirrorlist \
     > mirrorlist
 }
 
