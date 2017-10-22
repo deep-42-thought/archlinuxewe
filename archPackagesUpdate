@@ -738,7 +738,7 @@ else
             sort -V | \
             tail -n1 \
           )"
-        if [ ! "${offVer}" == "${pkgname}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${arch}.pkg.tar.xz" ]
+        if [ ! "${offVer}" == "${pkgname}-${epoch:+${epoch}:}${pkgver}-${pkgrel%%.*}-${arch}.pkg.tar.xz" ]
         then
           >&2 echo "${pkgname} ist in den offiziellen Quellen aktueller: ${offVer}."
           err=true
