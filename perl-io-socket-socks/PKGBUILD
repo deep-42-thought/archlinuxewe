@@ -1,0 +1,72 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (568f5d2df596725567f1a6081bf01d21ef231fbfd3571a4132eb004ebb50cfaada248486250b351491d5fd615f2c1d7f07d339c6e6ad8bb59146399a117bec0c)
+
+pkgname='perl-io-socket-socks'
+pkgver='0.74'
+pkgrel='1'
+pkgdesc='Provides a way to create socks client or server both 4 and 5 version.'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-constant>=1.03'
+  'perl-io'
+  'perl-socket>=1.94'
+)
+makedepends=(
+  'perl-extutils-makemaker>=6.52'
+  'perl-test-simple>=0.88'
+)
+url='https://metacpan.org/release/IO-Socket-Socks'
+_distdir="IO-Socket-Socks-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/O/OL/OLEG/${_distdir}.tar.gz")
+sha512sums=('db6154f3c7f532c6c8a04242e0d301bd124154ebbbc9bbcf0812dda5350bebc501a833057533edeb6b634141bfab5c92b4c1714c348226be1c967aa7b4f2ebe5')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  export SOCKS_SLOW_TESTS=1
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
