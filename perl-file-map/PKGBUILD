@@ -1,15 +1,17 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=perl-file-map
 _pkgname='File-Map'
-pkgver=0.64
-pkgrel='4'
+pkgver=0.65
+pkgrel=1
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Memory mapping made simple and safe."
 arch=('x86_64' 'i686')
 url="https://github.com/Leont/file-map"
 license=('GPL' 'PerlArtistic')
+optdepends=(
+  'perl>=5.8.8')
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.8.1'
   'perl-carp'
   'perl-perlio-layers'
   'perl-sub-exporter-progressive>=0.001005'
@@ -22,12 +24,10 @@ makedepends=(
   'perl-test-simple'
   'perl-test-warnings>=0.005'
   'perl-time-hires')
-optdepends=(
-  'perl>=5.8.8')
 checkdepends=('perl-sub-exporter-progressive' 'perl-test-fatal')
 options=('!emptydirs')
 source=("http://search.cpan.org/CPAN/authors/id/L/LE/LEONT/${_distdir}.tar.gz")
-sha256sums=('03e42eb2de185b1e257c7a0ed9761a20b7d51f522464c713b20f43d47491a8c9')
+sha512sums=('fea3209b7c234fe4aca64dd7e174f7f9e8f720873b3ab444f2badb7e3dee3cc504d9a1f34521e64208c934d0944d3bab765af62f888408db22499bce64d17b69')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
