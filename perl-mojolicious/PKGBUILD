@@ -15,11 +15,22 @@ depends=(
   'perl-time-local>=1.2')
 makedepends=(
   'perl-extutils-makemaker')
-checkdepends=()
+checkdepends=(
+  'perl-ev>=4'
+  'perl-io-socket-socks>=0.64'
+  'perl-io-socket-ssl>=1.94'
+  'perl-role-tiny'
+  'perl-test-pod'
+  'perl-test-pod-coverage')
 url='https://metacpan.org/release/Mojolicious'
 _distdir="Mojolicious-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SR/SRI/${_distdir}.tar.gz")
 sha512sums=('a33363eb4a5b88e27a2974a25dc76245e09fce26ec2a587d05cd4f97efb18f6a39776195b4573662d5837e5b8794c5a6d2ae6e1b7e9e39999b3621098ca5c5b5')
+
+prepare() {
+  cd "$srcdir/$_distdir"
+  rm t/mojo/websocket_proxy_tls.t
+}
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
@@ -37,6 +48,17 @@ build() {
 check() {
   cd "$srcdir/$_distdir"
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""
+    export TEST_EV=1
+    export TEST_HYPNOTOAD=1
+    export TEST_IPV6=1
+    export TEST_MORBO=1
+    export TEST_ONLINE=1
+    export TEST_POD=1
+    export TEST_PREFORK=1
+    export TEST_SOCKS=1
+    export TEST_SUBPROCESS=1
+    export TEST_TLS=1
+    export TEST_UNIX=1
     make test
   )
 }
