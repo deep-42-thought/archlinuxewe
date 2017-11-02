@@ -1,15 +1,15 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=pacman-mirrorlist32
-pkgver=20170809
+pkgver=20171024
 pkgrel=1
 pkgdesc=$(printf '%s' 'Arch Linux mirror list for use by pacman for i68' '6 packages on an x86' '_64 host')
 arch=('any')
 url="https://www.archlinux32.org/"
 license=('GPL')
 backup=(etc/pacman.d/mirrorlist32)
-source=($(printf '%s' "${pkgname}-${pkgver}-${pkgrel}-any-original.tar.xz::https://mirror.archlinux32.org/i6" "86/core/${pkgname%32}-${pkgver}-${pkgrel}-i6" "86.pkg.tar.xz"))
-sha512sums=('efcbc977b2b34b469f6ab320c002e3ad9a7564a8df162f0b48389d77259b41d221f79d9724f008689b032043a538de1c29a88fda647af7753b176bbc36a08375')
+source=($(printf '%s' "${pkgname}-${pkgver}-${pkgrel}-any-original.tar.xz::https://mirror.archlinux32.org/i6" "86/core/${pkgname%32}-${pkgver}-${pkgrel}-any.pkg.tar.xz"))
+sha512sums=('8a9cf60549be41ad8e4ffeb00135fdcb58297663f899692b81fde7bc64a704f3e17fecbcccca2fc82d34cef0f80e3903a243e72444a5a23653b5f34aaf4ac6bd')
 
 package() {
   mkdir -p $pkgdir/etc/pacman.d
