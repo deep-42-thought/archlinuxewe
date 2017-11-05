@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
 
 pkgname='perl-indirect'
-pkgver=0.37
-pkgrel='3'
+pkgver=0.38
+pkgrel=1
 pkgdesc='Lexically warn about using the indirect method call syntax.'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -23,7 +23,7 @@ checkdepends=('perl-devel-declare')
 url='https://metacpan.org/release/indirect'
 _distdir="indirect-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/V/VP/VPIT/${_distdir}.tar.gz")
-sha512sums=('8d46ff62c86b23519b030474155f7d8aa4872a9a4a2bb1e3199ac506aee60343b4c572eae8fa41dc5148c115de3c80bcb7f21900ad30822dc9eb437033defe09')
+sha512sums=('1ae363d2b2961be8495168a870bf941953a7845b0f3e9c7e9b267affc0b0392e1747ca4edd484ac98ddeef70b1a1cf28672bf1b9289847cb193409914e2f4673')
 
 build(){
   cd "${srcdir}/${_distdir}"
