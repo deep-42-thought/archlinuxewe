@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
 
 pkgname='perl-test-kwalitee'
-pkgver='1.26'
-pkgrel='2'
+pkgver=1.27
+pkgrel=1
 pkgdesc='Test the Kwalitee of a distribution before you release it'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,24 +14,21 @@ depends=(
   'perl-module-cpants-analyse>=0.92'
   'perl-parent'
   'perl-pathtools'
-  'perl-test-simple>=0.88'
-)
+  'perl-test-simple>=0.88')
 makedepends=(
-  'perl>=5.6.0'
   'perl-cpan-meta-check>=0.011'
   'perl-cpan-meta-requirements'
   'perl-extutils-makemaker'
   'perl-if'
-  'perl-pathtools'
   'perl-test-deep'
   'perl-test-simple>=0.96'
   'perl-test-tester>=0.108'
   'perl-test-warnings>=0.009'
-)
+  'perl-version')
 url='https://metacpan.org/release/Test-Kwalitee'
 _distdir="Test-Kwalitee-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
-sha512sums=('65e6e65d2b4c6e0b33cbb79ff492a8aa4a6e3e6b3f48cdc23c0fc33b02f1ba84b641bbd15f6e0e733753fba14a1aee826af5f0d7c81f57aa9137aab8d5162985')
+sha512sums=('5c4750434df96d7576f9c511052254dd3579bbd0502e08b9560a2b3613ffe413493f2871e7bb8e87b3d6a7b818e11a1be9d2e293e868c6c84e01581a582d4594')
 
 build() {
   cd "${srcdir}/${_distdir}"
