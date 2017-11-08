@@ -349,8 +349,9 @@ then
       ' | \
         chrootUnpriv "${chrootArch}" | \
         sed '
-          /^sendmailadvanced$/d
+          /^msmtp$/d
           /^report-installed-packages$/d
+          /^sendmailadvanced$/d
         '
     )"
     alleinstalliertenPakete="$(
