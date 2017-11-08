@@ -347,7 +347,11 @@ then
           cut -d " " -f 1
         exit
       ' | \
-        chrootUnpriv "${chrootArch}"
+        chrootUnpriv "${chrootArch}" | \
+        sed '
+          /^sendmailadvanced$/d
+          /^report-installed-packages$/d
+        '
     )"
     alleinstalliertenPakete="$(
       echo '
