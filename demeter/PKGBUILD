@@ -1,7 +1,8 @@
-# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: András Wacha <awacha at gmail>
+# Maintainer:  Erich Eckner <arch at eckner dot net>
 pkgname=demeter
 pkgver=0.9.25
-pkgrel=2
+pkgrel=3
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('x86_64' 'i686')
 url="https://bruceravel.github.io/demeter"
@@ -9,7 +10,6 @@ license=('BSD')
 groups=()
 depends=(
     'ifeffit'
-    'perl-module-build'
     'perl-archive-zip'
     'perl-capture-tiny'
     'perl-chemistry-elements'
@@ -17,14 +17,14 @@ depends=(
     'perl-const-fast'
     'perl-datetime'
     'perl-encoding-fixlatin'
-    'perl-file-copy-recursive'
     'perl-file-countlines'
+    'perl-file-monitor-lite'
+    'perl-file-slurper'
     'perl-file-touch'
-    'perl-file-which'
     'perl-graph'
-    'perl-html-parser'
+    'perl-graphics-gnuplotif'
     'perl-heap'
-    'perl-json'
+    'perl-list-moreutils'
     'perl-math-combinatorics'
     'perl-math-derivative'
     'perl-math-random'
@@ -37,26 +37,26 @@ depends=(
     'perl-pdl'
     'perl-pdl-stats'
     'perl-pod-pom'
+    'perl-pod-projectdocs'
     'perl-regexp-assemble'
     'perl-regexp-common'
     'perl-spreadsheet-writeexcel'
     'perl-statistics-descriptive'
-    'perl-text-template'
-    'perl-tree-simple'
-    'perl-want'
-    'perl-xmlrpc-lite'
-    'perl-yaml-tiny'
-    'perl-encoding-fixlatin-xs'
-    'perl-file-monitor-lite'
-    'perl-graphics-gnuplotif'
     'perl-term-sk'
     'perl-term-twiddle'
+    'perl-text-template'
+    'perl-text-unidecode'
+    'perl-tree-simple'
+    'perl-want'
     'perl-wx'
     'perl-xmlrpc-lite'
+    'pgplot'
 )
 makedepends=(
+    'imagemagick'
     'perl-capture-tiny'
     'perl-file-copy-recursive'
+    'perl-file-which'
     'perl-file-slurper'
     'perl-image-size'
     'perl-ppi'
@@ -64,9 +64,10 @@ makedepends=(
     'perl-pod-projectdocs'
     'perl-syntax-highlight-perl'
     'perl-template-toolkit'
-    'perl-text-unidecode'
 )
-checkdepends=()
+checkdepends=(
+    'perl-yaml-tiny'
+)
 [ -z "$DISPLAY" ] && checkdepends+=('xorg-server-xvfb')
 optdepends=(
     'perl-encoding-fixlatin-xs'
@@ -83,8 +84,14 @@ backup=()
 options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/bruceravel/${pkgname}/archive/${pkgver}.tar.gz"
+    'dartemis.desktop'
+    'dathena.desktop'
+    'dhephaestus.desktop'
 )
-sha512sums=('501538d1504e7af9738c1da28725ad71a078db47d527ad8d6f7ce37fd8fdaba3a7ea3eae344e9b33241cb006d642470f5fbb7ab4b181d07c64619406fed61f3a')
+sha512sums=('501538d1504e7af9738c1da28725ad71a078db47d527ad8d6f7ce37fd8fdaba3a7ea3eae344e9b33241cb006d642470f5fbb7ab4b181d07c64619406fed61f3a'
+            '43457010f1d7251c606380c0a4ca9faa601be627d37476c4a23dd1d4715c1793bfbdfb45dd8925c2fe8b92b9d1f4798f05b22a4898633a2b6e9b702cafe767a7'
+            '78cd3f5cef6e990f386c6161e214b6e4986e2cccf3019b1766f3ce97cb81b40804092d85a7f532e76fd0e5185940ea0a3b9dd01315ffc177fcca75164b1940f5'
+            '4f7b47ed4b09226fe494b52ca9f51d0ac2a12e816507bd279c6cfde14c356f5843740c0d2c01781eaf0c0b8ad3a0d49a617d1a5ccc1af67d67bae26498adc1d3')
 
 prepare() {
 
@@ -129,5 +136,15 @@ package() {
 
     cd ${pkgname}-${pkgver}
     ./Build install
+
+    mkdir -p ${pkgdir}/usr/share/icons/hicolor/48x48/apps
+    cp "blib/lib/Demeter/UI/Artemis/share/artemis_icon.png" ${pkgdir}/usr/share/icons/hicolor/48x48/apps/artemis.png
+    cp "blib/lib/Demeter/UI/Athena/share/athena_icon.png" ${pkgdir}/usr/share/icons/hicolor/48x48/apps/athena.png
+    convert "blib/lib/Demeter/UI/Atoms/icons/atoms.ico" ${pkgdir}/usr/share/icons/hicolor/48x48/apps/atoms.png
+    cp "blib/lib/Demeter/UI/Hephaestus/icons/vulcan.png" ${pkgdir}/usr/share/icons/hicolor/48x48/apps/vulcan.png
+    mkdir -p ${pkgdir}/usr/share/applications
+    cp "${srcdir}/dhephaestus.desktop"  ${pkgdir}/usr/share/applications
+    cp "${srcdir}/dartemis.desktop"  ${pkgdir}/usr/share/applications
+    cp "${srcdir}/dathena.desktop"  ${pkgdir}/usr/share/applications
 
 }
