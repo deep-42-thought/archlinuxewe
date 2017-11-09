@@ -478,6 +478,19 @@ then
     rm -f ${paket}-*-${arch}.pkg.tar.xz*
     rm -rf --one-file-system src pkg
 
+    # report installed packages at end of package() function - if the build process succeeded,
+    # these packages should work
+    echo '
+      if [ "$(uname -m)" = "i686" ]; then
+        eval "$(
+          declare -f package | \
+            sed '"'"'
+              $ i sudo report-installed-packages archlinux-reports@eckner.net buildmaster@archlinux32.org
+            '"'"'
+        )"
+      fi
+    ' >> PKGBUILD
+
     if [ "${arch}" = 'i686' ]; then
       # 32-bit is built in chroot /opt/arch32
       (
