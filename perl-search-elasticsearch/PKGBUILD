@@ -1,52 +1,19 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-search-elasticsearch'
-pkgver=5.02
-pkgrel='3'
+pkgver=6.00
+pkgrel=1
 pkgdesc='The official client for Elasticsearch'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl'
-  'perl-any-uri-escape'
-  'perl-data-dumper'
-  'perl-devel-globaldestruction'
-  'perl-encode'
-  'perl-file-temp'
-  'perl-http-message'
-  'perl-http-tiny>=0.043'
-  'perl-io'
-  'perl-io-compress'
-  'perl-json-maybexs>=1.002002'
-  'perl-json-pp'
-  'perl-libwww'
-  'perl-log-any>=1.02'
-  'perl-log-any-adapter'
-  'perl-mime-base64'
-  'perl-module-runtime'
-  'perl-moo>=1.003'
-  'perl-namespace-clean'
-  'perl-package-stash>=0.34'
-  'perl-scalar-list-utils'
-  'perl-sub-exporter'
-  'perl-time-hires'
-  'perl-try-tiny'
-  'perl-uri')
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-io-socket-ssl'
-  'perl-lib'
-  'perl-log-any-adapter-callback>=0.09'
-  'perl-test-deep'
-  'perl-test-exception'
-  'perl-test-sharedfork'
-  'perl-test-simple>=0.98')
-optdepends=(
-  'perl-hijk>=0.25'
-  'perl-io-socket-ip>=0.37'
-  'perl-uri-escape-xs')
+  'perl')
 checkdepends=(
+  'perl-any-uri-escape'
+  'perl-cpanel-json-xs'
+  'perl-json-maybexs>=1.002002'
+  'perl-json-xs'
   'perl-test-sharedfork'
   'perl-test-deep'
   'perl-test-eol'
@@ -61,7 +28,7 @@ checkdepends=(
 url='https://metacpan.org/release/Search-Elasticsearch'
 _distdir="Search-Elasticsearch-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DRTECH/${_distdir}.tar.gz")
-sha512sums=('a119f8f0dde74cd4e4aa556815311ab8abb5f92ce057978f9a15c78c8aab9424dcfae641e508d32c1d06f5d315e347f74fd308081f8a0df3d71b6c6b492b767c')
+sha512sums=('c25e31523f63915ac56d953ef601537f2e6a76fb82d20eda837950bf4043de1e48a16758c5c1391383e17784fd740d01a522271c34757500ff47de152552f621')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
