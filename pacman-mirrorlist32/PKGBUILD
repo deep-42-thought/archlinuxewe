@@ -12,7 +12,9 @@ source=(archlinux32-packages::git+https://github.com/archlinux32/packages.git)
 sha512sums=('SKIP')
 
 pkgver() {
-  grep '^pkgver=' "$srcdir/archlinux32-packages/core/pacman-mirrorlist/PKGBUILD" | \
+  git -C "$srcdir/archlinux32-packages" archive HEAD -- 'core/pacman-mirrorlist/PKGBUILD' | \
+    tar -Ox | \
+    grep '^pkgver=' | \
     cut -d= -f2
 }
 
