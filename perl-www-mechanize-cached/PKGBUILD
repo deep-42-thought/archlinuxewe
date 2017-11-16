@@ -2,44 +2,38 @@
 # Generator : neuesPerlPaket (445682a1bd8a70c152ebe76ddf08deb3d21406c80f819873940cb0909a895cfcde52cc62469cd6f4e4d632f24b3df31e0eec78843cb778079f24dc33b18472ea)
 
 pkgname='perl-www-mechanize-cached'
-pkgver='1.50'
-pkgrel='2'
+pkgver=1.51
+pkgrel=1
 pkgdesc='Cache response to be polite'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 optdepends=(
-  'perl-chi'
-)
+  'perl-chi')
 depends=(
   'perl>=5.6.0'
   'perl-cache-cache'
   'perl-carp'
-  'perl-class-load'
   'perl-data-dump'
+  'perl-module-runtime'
   'perl-moo>=1.004005'
   'perl-moox-types-mooselike'
   'perl-namespace-clean'
   'perl-storable>=2.21'
-  'perl-www-mechanize'
-)
+  'perl-www-mechanize')
 makedepends=(
-  'perl-cache-cache'
   'perl-chi'
   'perl-constant'
   'perl-extutils-makemaker'
   'perl-find-lib'
   'perl-http-message'
   'perl-lib'
-  'perl-lwp-consolelogger'
-  'perl-module-build>=0.28'
   'perl-path-class'
   'perl-pathtools'
   'perl-test-fatal'
   'perl-test-requires'
   'perl-test-requiresinternet'
-  'perl-test-simple'
-)
+  'perl-test-simple')
 checkdepends=(
   'perl'
   'perl-cpan-changes'
@@ -51,7 +45,7 @@ checkdepends=(
 url='https://metacpan.org/release/WWW-Mechanize-Cached'
 _distdir="WWW-Mechanize-Cached-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
-sha512sums=('54a6a3a4f37b3d8eeda97467c0235652eebb7883f9843e035dfa7f9f39de5616537756bbc8ce8fa48afb918f07c78bb20b22f450387bb812a5b6e3b1d8093238')
+sha512sums=('0b318656e4f4dcad31f05fbea6062c830324d15b8a8b41d0845e57607d60840c2fd0e19db7572f1b7349739abb6feb2fd879dc4838178e4628a859ef18869b7c')
 
 build() {
   cd "${srcdir}/${_distdir}"
