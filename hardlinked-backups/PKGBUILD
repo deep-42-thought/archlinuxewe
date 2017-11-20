@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 _pkgname='hardlinkedBackups'
 pkgname=hardlinked-backups
-pkgver=1.2.1
+pkgver=1.2.2
 pkgrel=1
 pkgdesc='Generate hardlinked incremental backups via rsync (and possibly through a SOCKS-tunnel via ssh)'
 arch=('any')
@@ -20,7 +20,7 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${_pkgname}-${pkgver}"
 )
-sha512sums=('9ca6567a1909b897076348e4154069882610fb34f749bed2667dde7dc9abb8863d5d86a1cb3194e8ceb80f0c170bc325193c58ff563f6d3066cbb813be274a3f')
+sha512sums=('da21832d729c281a19c213239a9157b1667008310ddad7af968349662c1a347e25f8dee2828dcce30d2f6c356d4d4a07fa31049d7f1ba0b5584e757a5e39bdb5')
 
 build() {
 
