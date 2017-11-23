@@ -1,14 +1,14 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=python-gdal
-pkgver=2.2.2
+pkgver=2.2.3
 pkgrel=1
 pkgdesc='Geospatial Data Abstraction Library for Python 3'
 url='https://pypi.python.org/pypi/GDAL/'
 arch=('i686' 'x86_64')
 license=('MIT')
 depends=('python' "gdal=${pkgver}")
-source=("https://pypi.python.org/packages/11/cd/edef955a6ef6cb4f2113647d7465b34663e074451b66919e734466ba5197/GDAL-${pkgver}.tar.gz")
-sha512sums=('d7d1ed09733c30520f431ae8d3df38e942ea3c6e777b2fa0eabdeecd60e2ce74bfe0e33c4b856810135349e8e92db1eb88815e891aba80684ae4d98010aba83a')
+source=("https://pypi.python.org/packages/fb/62/e4c597c0b52bf0ddf7073c57e998c96cd98a8281a2cf40a8c036b34e4ec0/GDAL-${pkgver}.tar.gz")
+sha512sums=('d99765b8febd391729b869f19e1a826a1888a85733335c1654032c9e9c857497c9eb68c701bcfd3ed06b43d9d3644940bbd3ccacd2328656423868253cbb0666')
 
 package() {
   cd GDAL-$pkgver
