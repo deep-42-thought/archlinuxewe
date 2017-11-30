@@ -2,19 +2,19 @@
 # Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
 
 pkgname='perl-module-extract-namespaces'
-pkgver='1.02'
-pkgrel='2'
+pkgver=1.021
+pkgrel=1
 pkgdesc='extract the package declarations from a module'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl-ppi'
-  'perl-test-simple'
-)
+  'perl>=5.8.0'
+  'perl-ppi>=1.126')
 makedepends=(
-  'perl-extutils-makemaker'
-)
+  'perl-extutils-makemaker>=6.64'
+  'perl-pathtools'
+  'perl-test-simple>=0.94')
 checkdepends=(
   'perl-test-pod'
   'perl-test-pod-coverage'
@@ -22,7 +22,7 @@ checkdepends=(
 url='https://metacpan.org/release/Module-Extract-Namespaces'
 _distdir="Module-Extract-Namespaces-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/B/BD/BDFOY/${_distdir}.tar.gz")
-sha512sums=('217cffa0614f8a86075b89af21877d64bd90352f0f7890981972aaaecd3d7f02a27336ce42ec2e7513a5bc59d6cb191c4e16c8308c50b1b85b54f5a0e8a05e9b')
+sha512sums=('a348b872be48d712cecbd3e9da4a6a4522f77a4369a44632a130b34fa6752ad6e9bb21a9f1595e9cfb036d4ec10e084262ac0d943c281f42042d4ef66371d457')
 
 build() {
   cd "${srcdir}/${_distdir}"
