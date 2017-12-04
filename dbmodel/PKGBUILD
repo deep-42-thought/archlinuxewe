@@ -1,7 +1,9 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=dbmodel
-pkgver=0.3
+pkgver=0.3.r129.6045f9a
 pkgrel=1
+_pkgver=${pkgver%.*.*}
+_commit=${pkgver##*.}
 pkgdesc='visualize a database'
 arch=('i686' 'x86_64')
 url='https://oxygene.sk/projects/dbmodel/'
@@ -17,9 +19,14 @@ replaces=()
 backup=()
 options=()
 source=(
-    "${pkgname}::git+https://bitbucket.org/lalinsky/dbmodel.git"
+    "${pkgname}::git+https://bitbucket.org/lalinsky/dbmodel.git#commit=${_commit}"
 )
 sha512sums=('SKIP')
+
+pkgver(){
+  cd "${pkgname}"
+  printf "%s.r%s" "${_pkgver}" "$(git rev-list --count ${_commit}).$(git rev-parse --short ${_commit})"
+}
 
 prepare() {
 
