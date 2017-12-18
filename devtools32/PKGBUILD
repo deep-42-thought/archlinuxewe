@@ -3,7 +3,7 @@
 # Contributor: Pierre Schmitz <pierre@archlinux.de>
 
 pkgname=devtools32
-pkgver=20171124
+pkgver=20171218
 pkgrel=1
 pkgdesc='Tools for Arch Linux package maintainers, also for 32 bit'
 arch=('any')
@@ -13,7 +13,7 @@ depends=('namcap' 'openssh' 'subversion' 'rsync' 'arch-install-scripts'
 	'pacman-mirrorlist32' 'git' 'mercurial' 'bzr')
 conflicts=('devtools')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/archlinux32/$pkgname/archive/v$pkgver.tar.gz")
-sha512sums=('1981d15ef25c7e1f8ece750cc97a4e8561f80af8cc9717d54f78cdf53e338d0a833bc4f4d29a26200f4efbc35065255921af6b6a900c449ced8f17c3b3123af1')
+sha512sums=('b8301f97baedc927c196ebcec85e998af68788a34c327accfe28370048fa0b917bd817cb5d81a339ad2294d2edba4691d58f2a0750a64ef4d1cc3769dda83ef0')
 
 build() {
 	cd "${pkgname}-${pkgver}"
