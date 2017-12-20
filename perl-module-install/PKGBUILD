@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (54bfd7cca693b229aa53ffc98d551b62ea234aaa5be7e6717857610a2da6803b0be2dfe7ddfe9810cf320c477023b3b4356d47df7f8c202ed8c14d71b472c0bc)
 
 pkgname='perl-module-install'
-pkgver='1.18'
-pkgrel='4'
+pkgver=1.19
+pkgrel=1
 pkgdesc='Standalone, extensible Perl module installer'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -31,10 +31,8 @@ depends=(
   'perl-yaml-tiny>=1.38')
 makedepends=(
   'perl-autodie'
-  'perl-extutils-makemaker>=6.59'
   'perl-test-harness>=3.13'
-  'perl-test-simple>=0.86'
-  'perl-yaml-tiny>=1.33')
+  'perl-test-simple>=0.86')
 checkdepends=(
   'perl-module-install-authortests'
   'perl-module-install-extratests')
@@ -42,8 +40,8 @@ url='https://metacpan.org/release/Module-Install'
 _distdir="Module-Install-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz"
   '22_installdirs.t.diff')
-sha512sums=('2126d35c9bab151548551629e6a470f9a7b90fd901f32cdc15e9aa83b931178f99e28e2de32ce7b8a677d187474efc428839d7e7254074f26fcfcfe18fa297a9'
-  'c71670b86e2168f23ce6948632264e55259173d378072a815e56c03e5cd3451b7b9d3064ccdb0454e2ae4bb2621f92231da69d8c757d66bff00277e96dd2de91')
+sha512sums=('68a255402c98955cfcb5a8a99555fe511b89d5fccf96ee1c498cab347c8945f3abe53485ea936f7419420d9c7beb52c861516f4cfd299812cebf80eab50fa5ba'
+            'c71670b86e2168f23ce6948632264e55259173d378072a815e56c03e5cd3451b7b9d3064ccdb0454e2ae4bb2621f92231da69d8c757d66bff00277e96dd2de91')
 
 prepare() {
   cd "${srcdir}/${_distdir}"
