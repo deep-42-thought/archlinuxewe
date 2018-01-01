@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-complete-env'
-pkgver='0.39'
-pkgrel='2'
+pkgver=0.400
+pkgrel=1
 pkgdesc='Completion routines related to environment variables'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,16 +11,13 @@ options=('!emptydirs')
 depends=(
   'perl>=5.10.1'
   'perl-complete-common>=0.22'
-  'perl-complete-util>=0.52'
-  'perl-exporter'
-)
+  'perl-complete-util>=0.57'
+  'perl-exporter>=5.57')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -31,7 +28,11 @@ checkdepends=(
 url='https://metacpan.org/release/Complete-Env'
 _distdir="Complete-Env-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('7edfa2cc885bba126f76c0baf08b23d250df8202a256e5f6a224390293810bf2ac8e657458be8ed056b9a1f3682189a46c6cff5e80689ca34867caa2a3edea44')
+sha512sums=('a75639435af7d339fefc29d210982268bd2c68994914061588ca96064648d500d1a8e382b47bde9b729349249ca67e873f2a2bb5a9b2896af805cb92f2800e1a')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
