@@ -2,24 +2,21 @@
 # Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
 
 pkgname='perl-test-portability-files'
-pkgver='0.07'
-pkgrel='1'
+pkgver=0.09
+pkgrel=1
 pkgdesc='Check file names portability'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.8.0'
   'perl-pathtools'
-  'perl-test-simple'
-)
+  'perl-test-simple')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
+  'perl-file-temp>=0.2304'
   'perl-io'
-  'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-cpan-changes'
   'perl-pod-coverage-trustpod'
@@ -38,7 +35,7 @@ checkdepends=(
 url='https://metacpan.org/release/Test-Portability-Files'
 _distdir="Test-Portability-Files-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/A/AB/ABRAXXA/${_distdir}.tar.gz")
-sha512sums=('df473482d92a76d5a8e6db39c394c7ca9bbadb91a5c990a0ae206db83d96ed181f64aeaa9be8fa16cf4f1092d89ddaf43c99eda954e3af2538ead7bb60ca8d59')
+sha512sums=('bb397342bf0c4d09e1a5a2ee7b7fe9ec9094c83e8b19f36b2ac803fed192cf4021723e9960d184b2acbd274852a258edfe505ba55efe4eed75c8b501e1aed2e7')
 
 build() {
   cd "${srcdir}/${_distdir}"
