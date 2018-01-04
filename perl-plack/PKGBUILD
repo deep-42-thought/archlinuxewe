@@ -3,7 +3,7 @@
 
 pkgname='perl-plack'
 pkgver=1.0045
-pkgrel=1
+pkgrel=2
 pkgdesc='Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -46,6 +46,7 @@ checkdepends=(
   'perl-lwp-protocol-http10'
   'perl-mime-types'
   'perl-module-refresh'
+  'perl-test-lwp-useragent'
   'perl-test-pod')
 url='https://metacpan.org/release/Plack'
 _distdir="Plack-${pkgver}"
