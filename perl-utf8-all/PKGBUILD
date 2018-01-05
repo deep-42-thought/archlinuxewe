@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
 
 pkgname='perl-utf8-all'
-pkgver='0.023'
-pkgrel='3'
+pkgver=0.024
+pkgrel=1
 pkgdesc='turn on Unicode - all of it'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,10 +14,8 @@ depends=(
   'perl-encode'
   'perl-import-into'
   'perl-parent'
-  'perl-perlio-utf8_strict'
-)
+  'perl-perlio-utf8_strict')
 makedepends=(
-  'perl>=5.10.0'
   'perl-autodie'
   'perl-constant'
   'perl-extutils-makemaker'
@@ -29,12 +27,11 @@ makedepends=(
   'perl-test-warn'
   'perl-threads'
   'perl-threads-shared'
-  'perl-version>=0.77'
-)
+  'perl-version>=0.77')
 url='https://metacpan.org/release/utf8-all'
 _distdir="utf8-all-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/H/HA/HAYOBAAN/${_distdir}.tar.gz")
-sha512sums=('122603c75bac590700bca0da523f42f49e69786c0a90c938135351fd967237183e056f3a79cb7e7efe0ee126e3c87b958131f0a3f6e2990f767a4f389ed1cd57')
+sha512sums=('bb17a4dffca92d39a827532beebc1bd8699b53a3551764853e4c55ebdec8d15d4898dd038ff3bd527dee877de3b7853cb8dadfe70be43b40aefc90c31fbae002')
 
 build() {
   cd "${srcdir}/${_distdir}"
