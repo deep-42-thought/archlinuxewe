@@ -2,7 +2,8 @@
 
 usage() {
   >&2 echo 'Verwendung: '
-  >&2 echo "  $0"' [-f|--force] [-j|--jobs=${jobs}]'
+  >&2 echo "  $0"' [--32] [-f|--force] [-j|--jobs=${jobs}]'
+  >&2 echo '    --32:                   Versionen in archlinux32 statt archlinuxewe prüfen'
   >&2 echo '    -f|--force|--noUpdate:  prüfe Versionen unhabhängig von Zeit der letzten Prüfung'
   >&2 echo '    -j|--jobs:              Anzahl parallel auszufuehrender Anfragen'
   >&2 echo '    -m:                     maschinenlesbare Ausgabe erzeugen'
@@ -20,16 +21,33 @@ cd $(dirname "${me}")
 versionenDatei="/var/cache/$(basename "$(dirname "${me}")").lastVersions"
 jobs=0
 maschinenlesbar=false
-[ ! -r "${versionenDatei}" ] && force=true || force=false
+force=false
 unForce=false
+archlinuxewe=true
 
-eval set -- "$(getopt -o fj:m --long force,jobs:,noUpdate -n "$(basename "$0")" -- "$@" || echo "usage")"
+eval set -- "$(
+  getopt \
+    -o fj:m \
+    --long 32 \
+    --long force \
+    --long jobs: \
+    --long noUpdate \
+    -n "$(basename "$0")" \
+    -- \
+    "$@" \
+    || echo "usage"
+)"
 args=("$@")
 optArgs=()
 
 while true
 do
   case $1 in
+    --32)
+      archlinuxewe=false
+      versionenDatei="/var/cache/$(basename "$(dirname "${me}")").lastVersions32"
+      optArgs[${#optArgs[@]}]="--32"
+    ;;
     -f|--force)
       force=true
       optArgs[${#optArgs[@]}]="-f"
@@ -60,8 +78,9 @@ do
   shift
 done
 
+[ ! -r "${versionenDatei}" ] && force=true
 versionenErmitteln=${force}
-! ${versionenErmitteln} && [ $(head -n1 "${versionenDatei}") -le $[$(date "+%s")-300] ] && versionenErmitteln=true
+! ${versionenErmitteln} && [ "$(head -n1 "${versionenDatei}")" -le $[$(date "+%s")-300] ] && versionenErmitteln=true
 ${maschinenlesbar} && versionenErmitteln=true
 ${unForce} && versionenErmitteln=false
 versionenSchreiben=${versionenErmitteln}
@@ -75,8 +94,13 @@ then
     tmpFile="$(mktemp /tmp/versionen.XXXXXX)"
     date "+%s" > "${tmpFile}"
     set -o pipefail
-    ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||") | tee -a "${tmpFile}"
-    err=$?
+    if ${archlinuxewe}; then
+      ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||") | tee -a "${tmpFile}"
+      err=$?
+    else
+      ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||" | grep '32$') | tee -a "${tmpFile}"
+      err=$?
+    fi
     set +o pipefail
     cat "${tmpFile}" > "${versionenDatei}"
     rm "${tmpFile}"
@@ -88,19 +112,45 @@ then
         cat
       )
     err=$?
-  else
+  elif ${archlinuxewe}; then
     ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||")
+    err=$?
+  else
+    ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||" | grep '32$')
     err=$?
   fi
   exit ${err}
+
 elif [ $# -eq 1 ] && ${versionenErmitteln}
 then
-  . $1/PKGBUILD
 
-  srcKnown=false
+  if ${archlinuxewe}; then
+    . $1/PKGBUILD
+    srcKnown=false
+  else
+    eval "$(
+      grep '^pkgver=' $1/PKGBUILD
+    )"
+    source=(dummy)
+  fi
 
   for src in "${source[@]}" "${source_i686[@]}" "${source_x86_64[@]}"
   do
+
+    if ! ${archlinuxewe}; then
+      remVer=$(
+        find '/mnt/archlinux32' -regextype sed \
+          -type f \
+          -regex '.*/'"${1%32}"'-[^-]\+-[^-]\+-any\.pkg\.tar\.xz' \
+          -printf '%f\n' | \
+          sed '
+            s/-[^-]\+-[^-]\+$//
+            s/^.*-//
+          '
+      )
+      srcKnown=true
+      continue
+    fi
 
     src_name="${src%%::*}"
     src="${src#*::}"
