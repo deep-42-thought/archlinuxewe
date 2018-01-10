@@ -2,7 +2,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=ospray
-pkgver=1.4.2
+pkgver=1.4.3
 pkgrel=1
 pkgdesc="A Ray Tracing Based Rendering Engine for High-Fidelity Visualization"
 arch=('x86_64')
@@ -12,7 +12,7 @@ depends=('ispc' 'intel-tbb' 'embree-isa' 'libgl' 'glu' 'imagemagick'
          'libxinerama' 'libxcursor' 'glfw-x11' 'openmpi')
 makedepends=('cmake')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ospray/OSPRay/archive/v$pkgver.tar.gz")
-sha512sums=('f445fd3a675d93ef5b4e395292c7713ef1822cf7e73a7a638b0e900d77bdc1225a9a108a9c8462f40ce5eaa50dfb9f7e63c722b26ddffd9d0bf4ffd94b6fbc0a')
+sha512sums=('dff33a01d80722df72e3bc82cd608e6d8ed976fa90e8274d51deaab3607f76611591bbdb1a813414ab2c01f93cf28a7412ed8ca506392fe4f2047b6146cb6023')
 
 prepare() {
   cd "$srcdir"
