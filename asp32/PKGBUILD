@@ -2,7 +2,7 @@
 # Contributor: Dave Reisner <d@falconindy.com>
 
 pkgname=asp32
-pkgver=0.0
+pkgver=2
 pkgrel=1
 pkgdesc="Arch Linux build source file management tool"
 arch=(any)
@@ -12,7 +12,7 @@ depends=(awk bash jq git libarchive)
 makedepends=(asciidoc)
 conflicts=('asp')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/archlinux32/$pkgname/archive/v$pkgver.tar.gz")
-sha512sums=('2521125cc49139700dae77b52ffc0db339ddbf1347d37f49e03b896214a61c624fa70c530d4254b3f26c92b4cd6e3fcea0ebd4cee0d1e14e16a40a9c6a702a67')
+sha512sums=('6a02594b9751c000166506f133a4205311e9ab911fcfa9c4430ed9eef1c0e93fe7f5ca80cbb2bf307547d41c590c5a266b18079a0a510ceefc82082698265843')
 
 build() {
   make -C $pkgname-$pkgver
