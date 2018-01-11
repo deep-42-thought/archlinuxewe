@@ -98,6 +98,9 @@ then
       ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||") | tee -a "${tmpFile}"
       err=$?
     else
+      if ! mountpoint -q /mnt/archlinux32; then
+        mount /mnt/archlinux32
+      fi
       ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||" | grep '32$') | tee -a "${tmpFile}"
       err=$?
     fi
