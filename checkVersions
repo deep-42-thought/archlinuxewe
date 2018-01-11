@@ -129,6 +129,7 @@ then
     srcKnown=false
   else
     eval "$(
+      grep '^pkgname=' $1/PKGBUILD
       grep '^pkgver=' $1/PKGBUILD
     )"
     source=(dummy)
@@ -146,7 +147,9 @@ then
           sed '
             s/-[^-]\+-[^-]\+$//
             s/^.*-//
-          '
+          ' | \
+          sort -V | \
+          tail -n1
       )
       srcKnown=true
       continue
@@ -729,6 +732,9 @@ then
   else
     if [ ! "${pkgver}" == "${remVer}" ]
     then
+      if ! ${archlinuxewe}; then
+        printf '(32) '
+      fi
       echo "$1: ${pkgname}: ${remVer} vs. ${pkgver}" | \
         sed "s|^\([^:]\+\): \1:|\1:|"
     fi
