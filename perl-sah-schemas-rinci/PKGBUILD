@@ -2,23 +2,20 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-sah-schemas-rinci'
-pkgver='1.1.82.2'
-pkgrel='1'
+pkgver=1.1.82.3
+pkgrel=1
 pkgdesc='Sah schemas for Rinci'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
   'perl'
-  'perl-data-sah-normalize'
-)
+  'perl-data-sah-normalize')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple'
-)
+  'perl-test-simple')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -27,7 +24,11 @@ checkdepends=(
 url='https://metacpan.org/release/Sah-Schemas-Rinci'
 _distdir="Sah-Schemas-Rinci-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('c668201c8912b9eda3ee89e0014d10806a515986cf18b835654706e7380d42867a9ac8dd3ee46550c270f56934391ab4aaf7db474e8c1c47102c74adf92d1229')
+sha512sums=('c08fe879edb68e87e5df523f09b7cf05e780a2d235786d75880d18de6f09f91b51fe621ddb640fb9726030e1d6d733f3de6e550981e0f124265e82c7d3dbb673')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
