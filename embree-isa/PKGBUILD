@@ -3,7 +3,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=embree-isa
-pkgver=2.17.1
+pkgver=2.17.2
 pkgrel=1
 pkgdesc="A collection of high-performance ray tracing kernels (with build-time ISA detection)"
 arch=('x86_64')
@@ -14,7 +14,7 @@ provides=('embree')
 conflicts=('embree')
 makedepends=('cmake' 'ispc' 'freeglut' 'libxmu' 'openexr')
 source=("embree-${pkgver}.tar.gz::https://github.com/embree/embree/archive/v${pkgver}.tar.gz")
-sha512sums=('89bd399254a569924d84e25897fd94fdc7e99bba55064d87ae2b81f4b8c9c7daa682afd0f764540bce48c6e607999c9aeb01ab74ff36aa365753a23235ef760c')
+sha512sums=('af129526eaf32035745d3dd5376451803b21b1eecaf700056af645426efcfef764fcae118e68e6ce339b08d9c3748887029bfaf90f2238a83eb2e6f5d40d7211')
 
 build() {
   cd "$srcdir/embree-$pkgver"
