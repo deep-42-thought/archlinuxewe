@@ -6,8 +6,8 @@
 # Contributor: Partha Chowdhury <kira.laucas@gmail.com>
 
 pkgname=conky
-pkgver=1.10.6
-pkgrel=2
+pkgver=1.10.7
+pkgrel=1
 pkgdesc='Lightweight system monitor for X'
 url='https://github.com/brndnmtthws/conky'
 license=('BSD' 'GPL')
@@ -18,12 +18,10 @@ depends=('glib2' 'lua' 'wireless_tools' 'libxdamage' 'libxinerama' 'libxft'
 optdepends=('mounted')
 source=("https://github.com/brndnmtthws/conky/archive/v${pkgver}.tar.gz"
         'lua53.patch'
-        'MAX_SP.patch'
-        'irc_lines.patch')
-sha512sums=('ddd0b087e89654f8dace7d9682935a802b3bb22b7e65acd25dcc0f06e90b46bee695502d78b6e40a409f8eaffcd65a78d5f861ee6dbcbff6e48f88c2f20319c9'
+        'MAX_SP.patch')
+sha512sums=('4da501c7c7613e8b9b26a691a1c0118c05cec818e944d4a30e250ecba26956d6f3103ec5731f082a095173dbfe0713137ded92043cc4c1eb3821c0943f1744f4'
             'a8f7184b0e21daaff137a07431c736269a94b654f50b45ac531cdb0d0edbfa8509def72254c36dce0ca4a1ee5ebae62aac5894f89cda2feae3d54cfcbd85377b'
-            'ca23309b45a471b075fbebd2f6ec34b1d7b3198528056ddb3018af4010623a5de83a80ecfc98677b48676fd2600224c33772f55b515c897a3cc917997c70bb38'
-            'b241860096fa8581ea1804e59725ea5efb7ff418d6aa7dc5a0a5255efefb27d98f2a4e34ba9953b7491315e93f15e60f8116fd30a5a46e23c52e5a14aa43c636')
+            'ca23309b45a471b075fbebd2f6ec34b1d7b3198528056ddb3018af4010623a5de83a80ecfc98677b48676fd2600224c33772f55b515c897a3cc917997c70bb38')
 
 options=('!strip' 'debug')
 
@@ -31,7 +29,8 @@ prepare() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 	patch -p1 -i ../lua53.patch # lua_gettable returns an int in lua-5.3
 	patch -p1 -i ../MAX_SP.patch
-	patch -p1 -i ../irc_lines.patch
+	sed '/^#include / s,<libircclient\.h>,<libircclient/libircclient.h>,' -i 'src/irc.cc'
+	sed '/check_include_files(/ s,libircclient\.h,libircclient/libircclient.h,' -i 'cmake/ConkyPlatformChecks.cmake'
 }
 
 build() {
