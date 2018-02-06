@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=neutrino
 _pkgname=Neutrino
-pkgver=2.2
-pkgrel=2
+pkgver=2.3
+pkgrel=1
 pkgdesc="A light, expandable and full featured image analysis tool for research."
 arch=('i686' 'x86_64')
 url="http://web.luli.polytechnique.fr/${_pkgname}/"
@@ -60,6 +60,5 @@ package() {
 
     cd ${_pkgname}/build
     make DESTDIR="${pkgdir}" install
-    rm "${pkgdir}/usr/share/doc/neutrino/LICENSE.txt"
 
 }
