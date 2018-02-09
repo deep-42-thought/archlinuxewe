@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-lwp-consolelogger'
-pkgver=0.000036
-pkgrel='2'
+pkgver=0.000037
+pkgrel=1
 pkgdesc='Easy LWP tracing and debugging'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -70,7 +70,7 @@ checkdepends=(
 url='https://metacpan.org/release/LWP-ConsoleLogger'
 _distdir="LWP-ConsoleLogger-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
-sha512sums=('374730d2553b934d3c33575a9dad4029dcf3852db87a8f0a79e13e45631a72b20c0d118dda2355b3c68b9e9956f45b41fe20fbfbd0748816108f0b0d11e1aa00')
+sha512sums=('c6962c9c8895d682d1aae2ee006e4f1a62fa5837fad0f43aa010e9bc434d64b19a565aea59045156c40f068c60f980bd4a7a9f67f7b30424727f5fd764424d7b')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
