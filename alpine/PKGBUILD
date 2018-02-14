@@ -5,6 +5,7 @@
 
 pkgname=alpine
 pkgver=2.21.9.r9.a6441d6
+_commit=${pkgver##*.}
 pkgrel=1
 arch=("i686" "x86_64")
 pkgdesc="Apache licensed PINE mail user agent"
@@ -18,7 +19,7 @@ provides=("pine")
 conflicts=("pine" "re-alpine")
 replaces=("pine")
 options=("!makeflags")
-source=("git://repo.or.cz/alpine.git")
+source=("alpine::git://repo.or.cz/alpine.git#commit=${_commit}")
 sha512sums=('SKIP')
 
 pkgver() {
@@ -43,7 +44,7 @@ pkgver() {
   _line=${_pkgver% *}
   _pkgver=${_pkgver#* }
   _rev_count=$(
-    git rev-list "${_rev}" ^$(git blame -L${_line},${_line} -- Makefile | cut -d' ' -f1) --count
+    git rev-list "${_rev}" ^$(git blame -L${_line},${_line} "${_rev}" -- Makefile | cut -d' ' -f1) --count
   )
   printf '%s.r%s.%s' \
     "${_pkgver}" \
