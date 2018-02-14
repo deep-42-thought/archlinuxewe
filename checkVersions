@@ -310,7 +310,7 @@ then
     then
       remVer=$(
         cd "$1"
-        git -C "$(echo "${src_name}")" fetch --all -p > /dev/null 2>&1
+        git -C "${src_name}" fetch --all -p > /dev/null 2>&1
         _commit='HEAD'
         srcdir=$(pwd)
         pkgver
