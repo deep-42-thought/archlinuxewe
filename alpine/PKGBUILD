@@ -4,7 +4,7 @@
 # Contributor: Adrian C. <anrxc..sysphere.org>
 
 pkgname=alpine
-pkgver=2.21
+pkgver=2.21.9.r9.a6441d6
 pkgrel=1
 arch=("i686" "x86_64")
 pkgdesc="Apache licensed PINE mail user agent"
@@ -18,24 +18,41 @@ provides=("pine")
 conflicts=("pine" "re-alpine")
 replaces=("pine")
 options=("!makeflags")
-source=("http://alpine.freeiz.com/${pkgname}/release/src/${pkgname}-${pkgver}.tar.xz"
-        "http://alpine.freeiz.com/${pkgname}/release/src/sig/${pkgname}-${pkgver}.tar.xz.sig"
-        "http://alpine.freeiz.com/${pkgname}/patches/${pkgname}-${pkgver}/all.patch.gz")
-sha512sums=('a2a36a033c8af79810816a7da7185c269808ba6d84d013691fd8b3764c63f5fb2284e6844ec5a5e99d168514ae636debf59fae962533a2916679e4e9109c6264'
-            'SKIP'
-            'f03ce32551e0e9bc83381cf752bf0fa271d51bfc9bb091019e962b4fa77d0d0c20407a1964dca3adb92e74af98a07198a3959828eb1bb2eb7af2628c5562bd82')
-validpgpkeys=('DA67606281D7D25A91BCF88BA361CBF86AA14BD5')
+source=("git://repo.or.cz/alpine.git")
+sha512sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/${pkgname}"
+  _rev=$(
+    git rev-parse --short master
+  )
+  _pkgver=$(
+    git archive "${_rev}" -- Makefile | \
+      tar -Ox | \
+      sed -n '
+        /^VERSION\s*=/!d
+        =
+        s/^.*=\s*//
+        p
+      ' | \
+      sed '
+        N
+        s/\n/ /
+      '
+  )
+  _line=${_pkgver% *}
+  _pkgver=${_pkgver#* }
+  _rev_count=$(
+    git rev-list "${_rev}" ^$(git blame -L${_line},${_line} -- Makefile | cut -d' ' -f1) --count
+  )
+  printf '%s.r%s.%s' \
+    "${_pkgver}" \
+    "${_rev_count}" \
+    "${_rev}"
+}
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-
-# User compile time patches
-# - Eduardo Chappa patches
-  patch -p1 < ../all.patch
-# - Phil Brooke patches (optional topal support)
-  #patch -p1 < ../topal-1.patch
-  #patch -p1 < ../topal-2.patch
-
+  cd "${srcdir}/${pkgname}"
 
 # Configure Alpine
   LIBS+="-lpam -lkrb5 -lcrypto" ./configure --prefix=/usr \
@@ -47,9 +64,8 @@ build() {
   make
 }
 
-
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "${srcdir}/${pkgname}"
 
 # Install Alpine
   make DESTDIR="${pkgdir}" install
