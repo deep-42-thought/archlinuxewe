@@ -4,13 +4,13 @@ pkgname=cssh
 pkgver=0.r98.43aa69b
 _commit=${pkgver##*.}
 pkgrel=1
-arch=("i686" "x86_64")
-pkgdesc="Parallel ssh client written in C"
-url="https://github.com/andreasbaumann/cssh"
-license=("GPL2")
-depends=("libssh")
-makedepends=("cmake" "gengetopt")
-source=("cssh::git+https://github.com/andreasbaumann/cssh.git")
+arch=('i686' 'x86_64')
+pkgdesc='Parallel ssh client written in C'
+url='https://github.com/andreasbaumann/cssh'
+license=('GPL2')
+depends=('libssh')
+makedepends=('git' 'cmake' 'gengetopt')
+source=("cssh::git+https://github.com/andreasbaumann/cssh.git#commit=${_commit}")
 sha512sums=('SKIP')
 
 pkgver() {
@@ -32,7 +32,7 @@ build() {
 
   mkdir build
   cd build
-  cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
   make
 }
 
