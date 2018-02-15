@@ -1,0 +1,42 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname=cssh
+pkgver=0.r98.43aa69b
+_commit=${pkgver##*.}
+pkgrel=1
+arch=("i686" "x86_64")
+pkgdesc="Parallel ssh client written in C"
+url="https://github.com/andreasbaumann/cssh"
+license=("GPL2")
+depends=("libssh")
+makedepends=("cmake" "gengetopt")
+source=("cssh::git+https://github.com/andreasbaumann/cssh.git")
+sha512sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/${pkgname}"
+  _rev=$(
+    git rev-parse --short master
+  )
+  _rev_count=$(
+    git rev-list "${_rev}" --count
+  )
+  printf '%s.r%s.%s' \
+    '0' \
+    "${_rev_count}" \
+    "${_rev}"
+}
+
+build() {
+  cd "${srcdir}/${pkgname}"
+
+  mkdir build
+  cd build
+  cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release ..
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}/build"
+  make DESTDIR="${pkgdir}" install
+}
