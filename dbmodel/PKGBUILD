@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=dbmodel
 pkgver=0.3.r129.6045f9a
-pkgrel=1
+pkgrel=2
 _pkgver=${pkgver%.*.*}
 _commit=${pkgver##*.}
 pkgdesc='visualize a database'
@@ -20,8 +20,10 @@ backup=()
 options=()
 source=(
     "${pkgname}::git+https://bitbucket.org/lalinsky/dbmodel.git#commit=${_commit}"
+    'pfeile-entwirren.patch'
 )
-sha512sums=('SKIP')
+sha512sums=('SKIP'
+            '3b618b9497b3d6213700e6c5f8996903b37acd1b0d7949e6fc59a35e4f838dece5e9edef666fe0cd6dc409e982d9dec9aea362d2fd8274ea37371c37bcf0b7f1')
 
 pkgver(){
   cd "${pkgname}"
@@ -34,6 +36,7 @@ prepare() {
     sed -i '
       s|/usr/local|/usr|g
     ' src/src.pro
+    patch -p1 -i "${srcdir}/pfeile-entwirren.patch"
 
 }
 
