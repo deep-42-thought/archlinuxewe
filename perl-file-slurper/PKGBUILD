@@ -1,16 +1,18 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname='perl-file-slurper'
-pkgver=0.011
+pkgver=0.012
 pkgrel=1
 pkgdesc="A simple, sane and efficient module to slurp a file"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+optdepends=(
+  'perl-perlio-utf8_strict')
 depends=(
   'perl>=5.8.0'
   'perl-carp'
   'perl-constant'
-  'perl-encode'
+  'perl-encode>=2.11'
   'perl-exporter>=5.57')
 makedepends=(
   'perl-extutils-makemaker'
@@ -18,12 +20,10 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple'
   'perl-test-warnings')
-optdepends=(
-  'perl-perlio-utf8_strict')
 checkdepends=()
 url='https://github.com/Leont/file-slurp-sane'
 source=("http://search.mcpan.org/CPAN/authors/id/L/LE/LEONT/File-Slurper-${pkgver}.tar.gz")
-sha512sums=('67b1e9a95a21e866b7701a9891b618adab7efec86d98e5ac84021d14f9603fac8fa653560f80642e8832ce1bd3dd12f72720f8f2d22647cdb83b103545529bf3')
+sha512sums=('276b510c85b4e28fff4b8bd77c81031367b073426138743efb5d54fe01fa9825409f86090788779e96625b43207d1f864f348cc11554c51d36868dfed568f2bb')
 _distdir="File-Slurper-${pkgver}"
 
 build() {
