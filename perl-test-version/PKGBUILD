@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (c76f19eeb8ac0e674222223e3f2f0b1a4250e725fbc76c117ed5a925d0a78bc530c4457ecc3b31370951fc9b8729fc0272fa9206231f2dcd7aab2565a892a173)
 
 pkgname='perl-test-version'
-pkgver='2.05'
-pkgrel='1'
+pkgver=2.07
+pkgrel=1
 pkgdesc='Check to see that version'"'"'s in modules are sane'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -16,21 +16,17 @@ depends=(
   'perl-module-metadata>=1.000020'
   'perl-parent'
   'perl-test-simple>=0.94'
-  'perl-version>=0.86'
-)
+  'perl-version>=0.86')
 makedepends=(
-  'perl>=1.01'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
   'perl-test-exception'
-  'perl-test-simple>=0.94'
-  'perl-test-tester'
-)
+  'perl-test-tester')
 url='https://metacpan.org/release/Test-Version'
 _distdir="Test-Version-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/${_distdir}.tar.gz")
-sha512sums=('23a3ebe99f37143956ac1ac2f6d2aaa4b4b701b96475c52ecb5695d011fe2d0dbd0f27e6e25ee133d75807c03df029f71e27de23e3de52651644fb3105ae7a9f')
+sha512sums=('cf2c9bbca967226a7b28936613896f8f923378e65d471111bb2c3432fb9d3c7b05db3f65d5086948186664d39f65eb92a2071f7a2f5efe3f1bb6b96e304fab9e')
 
 build() {
   cd "${srcdir}/${_distdir}"
