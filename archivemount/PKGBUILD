@@ -2,7 +2,7 @@
 # Contributor: Janne Heß <jannehess@gmail.com>
 
 pkgname=archivemount
-pkgver=0.8.7
+pkgver=0.8.9
 pkgrel=1
 pkgdesc="FUSE filesystem using libarchive"
 url="http://www.cybernoia.de/software/archivemount/"
@@ -11,7 +11,7 @@ depends=("fuse" "libarchive")
 makedepends=("automake" "autoconf")
 conflicts=("archivemount-git")
 source=("http://www.cybernoia.de/software/${pkgname}/${pkgname}-${pkgver}.tar.gz")
-sha256sums=('47045ca8d4d62fbe0b4248574c65cf90a6d29b488d166aec8c365b6aafe131b6')
+sha512sums=('5cbdb162662d05117a66edf952425ce2fa7b9dc8a68ba754572e5a5c5dff66a92d01045b3eedb8d759dab0a0f4bca5e12fce77d469c4e8204b17401a44cd8ab8')
 arch=("i686" "x86_64")
 
 build() {
