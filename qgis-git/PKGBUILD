@@ -28,7 +28,24 @@ provides=('qgis')
 
 pkgver(){
   cd "$_pkgname"
-  printf "%s.r%s" "$_pkgver" "$(git rev-list --count $_commit).$(git rev-parse --short $_commit)"
+  printf '%s.r%s.%s' \
+    "$(
+      git archive ${_commit} -- debian/changelog | \
+        tar -Ox | \
+        sed -n '
+          s/^\s*\* Release of \(\S\+\)\s*$/\1/
+          T
+          p
+        ' | \
+        sort -V | \
+        tail -n1
+    )" \
+    "$(
+      git rev-list --count ${_commit}
+    )" \
+    "$(
+      git rev-parse --short ${_commit}
+    )"
 }
 
 prepare() {
