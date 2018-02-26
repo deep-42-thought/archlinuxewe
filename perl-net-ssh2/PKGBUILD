@@ -2,20 +2,20 @@
 # Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
 
 pkgname='perl-net-ssh2'
-pkgver=0.68
+pkgver=0.69
 pkgrel=1
 pkgdesc='Support for the SSH 2 protocol via libssh2.'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-net-ssh2-channel=0.68'
-  'perl-net-ssh2-dir=0.68'
-  'perl-net-ssh2-file=0.68'
-  'perl-net-ssh2-knownhosts=0.68'
-  'perl-net-ssh2-listener=0.68'
-  'perl-net-ssh2-publickey=0.68'
-  'perl-net-ssh2-sftp=0.68')
+  'perl-net-ssh2-channel=0.69'
+  'perl-net-ssh2-dir=0.69'
+  'perl-net-ssh2-file=0.69'
+  'perl-net-ssh2-knownhosts=0.69'
+  'perl-net-ssh2-listener=0.69'
+  'perl-net-ssh2-publickey=0.69'
+  'perl-net-ssh2-sftp=0.69')
 depends=(
   'perl>=5.6.0')
 makedepends=(
@@ -23,7 +23,7 @@ makedepends=(
 url='https://metacpan.org/release/Net-SSH2'
 _distdir="Net-SSH2-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SA/SALVA/${_distdir}.tar.gz")
-sha512sums=('5c1755afab6c251ed98ccece5eb1d932ec1643a27d7ac10d3c5fd1f199e267bc6e32acdddcec4d6f26f10f020cbd88de6d8b5d657b5f7fb919a931aa94331c70')
+sha512sums=('adb3872c72543f1e06cc0b0cd76cb1c5b4ca262804c8e0612da447647075cf5c00033ecb530eaa26c7b5a37aeccc2c734e91a72c9998b43354fab1c1bd3b5c9d')
 
 build() {
   cd "${srcdir}/${_distdir}"
