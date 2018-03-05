@@ -2,18 +2,19 @@
 # Generator : neuesPerlPaket (6bbcb8b40c8afe2a83fed1572257a4566073bfc1f6a7654a37cb3996433b0913c4b5e3c13962b4c68b79bd9630ea763de84424b2eed485e3e0afc421ef1cde7f)
 
 pkgname='perl-http-entity-parser'
-pkgver=0.20
-pkgrel='3'
+pkgver=0.21
+pkgrel=1
 pkgdesc='PSGI compliant HTTP Entity Parser'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-http-entity-parser-json=0.20'
-  'perl-http-entity-parser-multipart=0.20'
-  'perl-http-entity-parser-octetstream=0.20'
-  'perl-http-entity-parser-urlencoded=0.20')
+  'perl-http-entity-parser-json=0.21'
+  'perl-http-entity-parser-multipart=0.21'
+  'perl-http-entity-parser-octetstream=0.21'
+  'perl-http-entity-parser-urlencoded=0.21')
 depends=(
+  'perl>=5.8.1'
   'perl-encode'
   'perl-file-temp'
   'perl-hash-multivalue'
@@ -21,8 +22,7 @@ depends=(
   'perl-json-maybexs>=1.003007'
   'perl-module-load'
   'perl-stream-buffered'
-  'perl-www-form-urlencoded>=0.23'
-  'perl>=5.8.5')
+  'perl-www-form-urlencoded>=0.23')
 makedepends=(
   'perl-http-message>=6'
   'perl-module-build-tiny>=0.035'
@@ -31,7 +31,7 @@ makedepends=(
 url='https://metacpan.org/release/HTTP-Entity-Parser'
 _distdir="HTTP-Entity-Parser-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/K/KA/KAZEBURO/${_distdir}.tar.gz")
-sha512sums=('c80d9058b8682c51a0fe3669249cc219142e674959237d8ae6bd435afafc16c92a38328329e9b09a25af8a79fec5bf01050145d3c63dd81b15ad9d75946fdfc6')
+sha512sums=('3852741017748205d9e030a6a42d5a949e3497c5e119713d81c9bf6ee42f9a0a822e65f4be9b8785840b6e81841c7715d34aabcb9b8d950611ce528f702fffd1')
 
 build() {
   cd "${srcdir}/${_distdir}"
