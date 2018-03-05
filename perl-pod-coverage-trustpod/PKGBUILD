@@ -2,18 +2,27 @@
 # Generator : neuesPerlPaket (538017202d4cf1d88e3f2bf03b88f00ce1ec9fd20540f8cc4fda04669fe37b2f1d3521b2645446b7c8dcb253e57a934ea1d00f3217819e89699afa281d6f02e7)
 
 pkgname='perl-pod-coverage-trustpod'
-pkgver='0.100003'
-pkgrel='4'
+pkgver=0.100004
+pkgrel=1
 pkgdesc='allow a module'"'"'s pod to contain Pod::Coverage hints'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-pod-coverage' 'perl-pod-eventual' 'perl-pod-parser' 'perl-base')
-makedepends=('perl-test-simple>=0.96' 'perl-lib' 'perl-extutils-makemaker>=6.30')
+depends=(
+  'perl'
+  'perl-base'
+  'perl-pod-coverage'
+  'perl-pod-eventual'
+  'perl-pod-parser')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-lib'
+  'perl-pathtools'
+  'perl-test-simple>=0.96')
 url='https://metacpan.org/release/Pod-Coverage-TrustPod'
 _distdir="Pod-Coverage-TrustPod-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
-sha512sums=('19cc5079f40e4eb058eb0c3b28ebc01632bc4e20ee9e1315115e8c8e7bc8146630b1e1461d5558b0679e58aeb992691b10507c53b57a9fd8e108f0085a543cf8')
+sha512sums=('a56d7668b736f7028730c8ce68f247658021060775ec40fc3d8848122a7ca5fd925ff5c6bfe9e477b2420121cac9fb3a5b28c4951df6f5daf91e79c5e60eed0f')
 
 build(){
   cd "${srcdir}/${_distdir}"
