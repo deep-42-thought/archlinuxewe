@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-filesys-notify-simple'
-pkgver='0.12'
-pkgrel='5'
+pkgver=0.13
+pkgrel=1
 pkgdesc='Simple and dumb file system watcher'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,16 +11,16 @@ options=('!emptydirs')
 depends=(
   'perl>=5.8.1')
 makedepends=(
+  'perl-extutils-makemaker'
   'perl-file-temp'
-  'perl-test-simple'
   'perl-test-sharedfork'
-  'perl-extutils-makemaker>=6.30')
+  'perl-test-simple')
 checkdepends=(
   'perl-test-pod')
 url='https://metacpan.org/release/Filesys-Notify-Simple'
 _distdir="Filesys-Notify-Simple-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
-sha512sums=('3edb9a5087b82c87bea1b4092a3c7c264ec6f8da391052593e504b16392ea1a84771bbcbad21d623f727682cc6ab4474fe6a7e346c8bebe13f60d39e83594e2b')
+sha512sums=('e8c02428240687d34c7ade45a893baecdd6cfc77e4730d3fe07d2009c7ac441512c494cfd139002b7e49ae2b23cc6323da3903004262930adc89f21077960c88')
 
 build() {
   cd "${srcdir}/${_distdir}"
