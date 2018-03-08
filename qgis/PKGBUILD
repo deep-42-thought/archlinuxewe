@@ -76,7 +76,7 @@ package() {
 
   make DESTDIR="$pkgdir" install
 
-  cd "$srcdir/$_pkgname"
+  cd "$srcdir/$pkgname-$pkgver"
   
   install -d -m755 $pkgdir/usr/bin
   ln -s /opt/$pkgname/bin/qgis "$pkgdir/usr/bin/qgis-git"
