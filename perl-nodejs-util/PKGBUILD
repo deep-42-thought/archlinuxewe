@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-nodejs-util'
-pkgver=0.010
+pkgver=0.011
 pkgrel=1
 pkgdesc='Utilities related to Node.js'
 arch=('any')
@@ -31,7 +31,7 @@ checkdepends=(
 url='https://metacpan.org/release/Nodejs-Util'
 _distdir="Nodejs-Util-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('5b9172580eb650ff4a648fdc12a7032f1fb5c34d6f05aa0961d17fc536b1dc41f65197a5675a816bcd4cf28864bf98afd6df1231fae9f90544b73b60676a7b96')
+sha512sums=('3960843ba1e2b6d735b8c2a4af82cc352ee911acbb156028d764ea86ba8ed1f89de40a157af4bd5a59f7aabafd3c84b10b6071c007c3219601a17cfbde9b33c9')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
