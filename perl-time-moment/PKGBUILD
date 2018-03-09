@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (445682a1bd8a70c152ebe76ddf08deb3d21406c80f819873940cb0909a895cfcde52cc62469cd6f4e4d632f24b3df31e0eec78843cb778079f24dc33b18472ea)
 
 pkgname='perl-time-moment'
-pkgver='0.42'
-pkgrel='1'
+pkgver=0.43
+pkgrel=1
 pkgdesc='Represents a date and time of day with an offset from UTC'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -25,7 +25,7 @@ makedepends=(
 url='https://metacpan.org/release/Time-Moment'
 _distdir="Time-Moment-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/C/CH/CHANSEN/${_distdir}.tar.gz")
-sha512sums=('e8015a461c39f3d3ad7d0ca03c0b1e1b5ed39b83bc16f12f00f35d36a4f34786a089ac4b86dcccd5b6e7da8a118873efc0cc2d6a60848bdbff7b7550285be6ab')
+sha512sums=('b7aeb132b4a6dcd6b207e2a071e66ae703763bd800047906f41dc069f27f36f095f5c7037a5cb306c8da29fab53b6f763eda114bfb0838dca260bb416f9dd6ed')
 
 build() {
   cd "${srcdir}/${_distdir}"
