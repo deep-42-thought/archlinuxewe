@@ -575,6 +575,7 @@ then
           'dl\.suckless\.org' \
           'download\.osgeo\.org' \
           'ftp\.daper\.net' \
+          'www\.hashcash\.org' \
           'isl\.gforge\.inria\.fr' \
           'pkgbuild\.com' \
           'qgis\.org' \
@@ -713,6 +714,18 @@ then
           sort -n | \
           tail -n1
       )"
+    elif echo "${src}" | \
+      grep -q '://semiletov\.org/[^/]*/dloads/'
+    then
+      remVer=$(
+        curl_it "${source%%/dloads/*}/" | \
+          tr '"' '\n' | \
+          sed -n '
+            s,^\(http://.*/\|dloads/\|\)'"${pkgname}"'-\([0-9.]\+\)\.tar\.bz2$,\2,
+            T
+            p
+          '
+      )
     else
       continue
     fi
