@@ -1,0 +1,30 @@
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Charles Mauch <cmauch@gmail.com>
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname=hashcash
+pkgver=1.22
+pkgrel=5
+pkgdesc="a denial-of-service counter measure tool for email/spam."
+arch=('x86_64')
+url="http://www.hashcash.org"
+license=('GPL')
+depends=( 'glibc' )
+source=(http://www.hashcash.org/source/${pkgname}-${pkgver}.tgz)
+sha512sums=('b803c27df2acdce70c587d15d4158ca8841328fd89d90213a00be35f7c9f1905db728a785ee70fa43a4262dabe20c3f0a9fff381e3db0d44c3175ca22da5d5c2')
+
+build() {
+  cd "$srcdir"/${pkgname}-${pkgver}
+  if [ "${CARCH}" = "x86_64" ]; then
+    make generic-openssl LIBCRYPTO=-lcrypto
+  else
+    make x86-openssl LIBCRYPTO=-lcrypto
+  fi
+}
+
+package() {
+  cd "$srcdir"/${pkgname}-${pkgver}
+  install -Dm755 hashcash "$pkgdir"/usr/bin/hashcash
+  install -Dm755 sha1 "$pkgdir"/usr/bin/sha1
+  install -Dm755 hashcash.1 "$pkgdir"/usr/share/man/man1/hashcash.1
+}
