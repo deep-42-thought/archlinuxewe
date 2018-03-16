@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
 
 pkgname='perl-config-inifiles'
-pkgver='2.94'
-pkgrel='2'
+pkgver=2.95
+pkgrel=1
 pkgdesc='A module for reading .ini-style configuration files.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,21 +13,17 @@ depends=(
   'perl-carp'
   'perl-file-temp'
   'perl-io-stringy'
-  'perl-scalar-list-utils>=1.33'
-)
+  'perl-scalar-list-utils>=1.33')
 makedepends=(
-  'perl>=1.01'
   'perl-base'
   'perl-exporter'
   'perl-extutils-makemaker'
-  'perl-file-temp'
   'perl-io'
   'perl-lib'
   'perl-module-build>=0.28'
+  'perl-parent'
   'perl-pathtools'
-  'perl-scalar-list-utils'
-  'perl-test-simple'
-)
+  'perl-test-simple')
 checkdepends=(
   'perl-cpan-changes'
   'perl-pod-coverage-trustpod'
@@ -39,7 +35,11 @@ checkdepends=(
 url='https://metacpan.org/release/Config-IniFiles'
 _distdir="Config-IniFiles-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
-sha512sums=('9ca9950f31a00bde580dc73b5120971070aa053f36f9a0ee29532b17b9a070de8ad3184631427ad442dbcbe087a9680366849b5e10f264e20694ddade7e3ca7c')
+sha512sums=('c3d05614b305fbcaf00a015b570470ba0aed0810623ffe9d9f06843b8483bd4805ff6d6cfdff97db46dcc41a86937383ece7fe389a399775483f33ea6cbd5359')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-tidyall.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
