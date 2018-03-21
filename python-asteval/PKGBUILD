@@ -1,0 +1,58 @@
+# Contributor: Francois Boulogne <fboulogne at april dot org>
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgbase=python-asteval
+pkgname=('python-asteval' 'python2-asteval')
+pkgver=0.9.12
+pkgrel=1
+pkgdesc='Minimal Python AST Evaluator'
+arch=('any')
+url='https://newville.github.io/asteval/'
+license=('MIT')
+_depends=('python' 'python-numpy>=1.6' 'python-six')
+_makedepends=('python-setuptools')
+_checkdepends=('python-nose' 'python-pytest')
+makedepends=(
+  "${_depends[@]}" "${_depends[@]/python/python2}"
+  "${_makedepends[@]}" "${_makedepends[@]/python/python2}"
+  )
+checkdepends=(
+  "${_checkdepends[@]}" "${_checkdepends[@]/python/python2}"
+  )
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/newville/asteval/archive/${pkgver}.tar.gz")
+sha512sums=('d00ec552731c7db7292b890f9f207530a2c6b4248437d6b119f1b25b873beee7faad96fb10cec389222ecd8a882e8df4b9a872033016db6751fd24d8c094d227')
+
+prepare() {
+  mv "asteval-${pkgver}" "asteval-py-${pkgver}"
+  cp -a "asteval-py-${pkgver}" "asteval-py2-${pkgver}"
+}
+
+build() {
+  cd "$srcdir/asteval-py-$pkgver"
+  python setup.py build
+  
+  cd "$srcdir/asteval-py2-$pkgver"
+  python2 setup.py build
+}
+
+check() {
+  cd "$srcdir/asteval-py-$pkgver"
+  nosetests3 tests
+
+  cd "$srcdir/asteval-py2-$pkgver"
+  nosetests2 tests
+}
+
+package_python-asteval(){
+  depends=("${_depends[@]}")
+  cd "$srcdir/asteval-py-$pkgver"
+  python setup.py install --root="$pkgdir/" --optimize=1
+}
+
+package_python2-asteval(){
+  depends=("${_depends[@]/python/python2}")
+  cd "$srcdir/asteval-py2-$pkgver"
+  python2 setup.py install --root="$pkgdir/" --optimize=1
+}
+
+# vim:ts=2:sw=2:et:
