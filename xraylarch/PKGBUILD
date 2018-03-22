@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=xraylarch
-pkgver=0.9.35
+pkgver=0.9.36
 pkgrel=1
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('i686' 'x86_64')
@@ -13,10 +13,13 @@ depends=(
   'python2-lmfit'
   'python2-matplotlib'
   'python2-numpy'
+  'python2-peakutils'
   'python2-pillow'
+  'python2-psutil'
   'python2-requests'
   'python2-scipy'
   'python2-sqlalchemy'
+  'python2-termcolor'
   'python2-wxutils'
   'python2-wxmplot'
   'wxpython'
@@ -29,7 +32,6 @@ optdepends=(
   'python2-fabio:          needed for xrd modules'
   'python2-nose:           needed for testing tools'
   'python2-pyFAI:          needed for xrd modules'
-  'python2-termcolor:      needed for color-enhanced error messages'
   'python2-xrayutilities:  needed for xrd modules'
   'python2-yaml:           needed for graphics and plotting'
 )
@@ -41,7 +43,7 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/xraypy/${pkgname}/archive/${pkgver}.tar.gz"
 )
-sha512sums=('c4ccdea3b88c1a4f1abf9aff1c968f782d0ccab73bebe5777b5f799570f9508ddb37f8ffe329c0a7873d1a906b153e1820fe2be7804c5a656bafdfec2272b9b8')
+sha512sums=('0210ab4524299fdded5f5e3c6e4382b3da5b39d87fcfb2290bfdbc651cc7483381d53a463586bf0009127c741a6122a6ac7a862aac376e4e6d6496f3b235ae6a')
 
 build() {
 
