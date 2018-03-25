@@ -27,7 +27,25 @@ sha512sums=('SKIP'
 
 pkgver(){
   cd "${pkgname}"
-  printf "%s.r%s" "${_pkgver}" "$(git rev-list --count ${_commit}).$(git rev-parse --short ${_commit})"
+  git fetch --all >/dev/null 2>&1
+  _commit=$(
+    git rev-parse origin/master
+  )
+  printf '%s.r%s.%s\n' \
+    "$(
+      git archive "${_commit}" -- 'src/src.pro' | \
+        sed -n '
+          s/^VERSION = //
+          T
+          p
+        '
+    )" \
+    "$(
+      git rev-list --count "${_commit}"
+    )" \
+    "$(
+      git rev-parse --short "${_commit}"
+    )"
 }
 
 prepare() {
