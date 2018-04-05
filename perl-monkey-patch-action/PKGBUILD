@@ -2,25 +2,22 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-monkey-patch-action'
-pkgver='0.05'
-pkgrel='1'
+pkgver=0.061
+pkgrel=1
 pkgdesc='Wrap/add/replace/delete subs from other package (with restore)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
   'perl>=5.10.1'
-  'perl-exporter'
+  'perl-exporter>=5.57'
   'perl-scalar-list-utils'
-  'perl-sub-delete'
-)
+  'perl-sub-delete')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -29,7 +26,11 @@ checkdepends=(
 url='https://metacpan.org/release/Monkey-Patch-Action'
 _distdir="Monkey-Patch-Action-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('72a234b99378f683e1e99b9a5a8676dcc76dd5ae3842a4594d94e1956483ce6d1f676434c0d992c9216811305965c9e731511f98c25491908bebd449c99a2bbc')
+sha512sums=('fca3601f8c49de166d9c9b45b2ca9aae2230365705697d4b559421938e541f5a9b46b85e8bf6bf0c5a7bdb0d7e89358ef02cac6289d34cf5b3aa94e676a243e7')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
