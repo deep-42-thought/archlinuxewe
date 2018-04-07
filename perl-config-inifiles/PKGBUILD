@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
 
 pkgname='perl-config-inifiles'
-pkgver=2.95
+pkgver=2.96
 pkgrel=1
 pkgdesc='A module for reading .ini-style configuration files.'
 arch=('any')
@@ -35,7 +35,7 @@ checkdepends=(
 url='https://metacpan.org/release/Config-IniFiles'
 _distdir="Config-IniFiles-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
-sha512sums=('c3d05614b305fbcaf00a015b570470ba0aed0810623ffe9d9f06843b8483bd4805ff6d6cfdff97db46dcc41a86937383ece7fe389a399775483f33ea6cbd5359')
+sha512sums=('a5595947f5baa5cfe69289394c9a70b19a624f3dc598d633e852efe11d8a8d964ca9f45256c313fe69f6a36badecc32ed21e432c0f7094dfc76aa91a8f0117bd')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-tidyall.t"
