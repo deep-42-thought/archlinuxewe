@@ -1,0 +1,49 @@
+#!/bin/bash
+
+verwendung() {
+  printf 'Verwendung:\n'
+  printf '  gen-new-key packager\n'
+  printf '    generiere neuen Packager-Schlüssel\n'
+  printf '  gen-new-key repo\n'
+  printf '    generiere neuen Repository-Schlüssel\n'
+  exit 1
+}
+
+if [ $# -ne 1 ]; then
+  verwendung
+fi
+
+if [ "$1" = 'packager' ]; then
+  comment='just to sign arch packages'
+elif [ "$1" = 'repo' ]; then
+  comment='just to sign arch repos'
+else
+  verwendung
+fi
+
+if ! gpg --list-secret-keys "${comment}" >/dev/null 2>&1; then
+  printf 'There is no secret key yet with comment "%s" - I guess, you are running this on the wrong box.\n' "${comment}"
+  exit 1
+fi
+
+{
+  printf '%s\n' \
+    '%echo Generating a basic OpenPGP key' \
+    'Key-Type: RSA' \
+    'Key-Length: 4096' \
+    'Key-Usage: sign' \
+    'Subkey-Type: RSA' \
+    'Subkey-Length: 4096' \
+    'Subkey-Usage: sign' \
+    'Name-Real: Erich Eckner'
+  printf 'Name-Comment: %s\n' \
+    "${comment}"
+  printf '%s\n' \
+    'Name-Email: arch@eckner.net' \
+    'Expire-Date: 2y' \
+    '%no-protection' \
+    '%no-ask-passphrase' \
+    '%commit' \
+    '%echo done'
+} | \
+  gpg --gen-key --batch
