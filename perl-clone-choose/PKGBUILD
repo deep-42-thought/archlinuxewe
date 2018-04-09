@@ -2,30 +2,29 @@
 # Generator : neuesPerlPaket (568f5d2df596725567f1a6081bf01d21ef231fbfd3571a4132eb004ebb50cfaada248486250b351491d5fd615f2c1d7f07d339c6e6ad8bb59146399a117bec0c)
 
 pkgname='perl-clone-choose'
-pkgver='0.008'
-pkgrel='1'
+pkgver=0.009
+pkgrel=1
 pkgdesc='Choose appropriate clone utility'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 optdepends=(
-  'perl-module-runtime'
-)
+  'perl-module-runtime')
 depends=(
   'perl>=5.8.1'
-  'perl-storable'
-)
+  'perl-storable')
 makedepends=(
   'perl-extutils-makemaker'
   'perl-test-simple>=0.9'
-)
+  'perl-test-without-module')
 checkdepends=(
   'perl-clone-pp'
+  'perl-module-runtime'
 )
 url='https://metacpan.org/release/Clone-Choose'
 _distdir="Clone-Choose-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/H/HE/HERMES/${_distdir}.tar.gz")
-sha512sums=('c3165f7698f9790fb1ee60c4fba543807d94e2184bf4d43e7db8b9a5fc6c0dae977231baae4faf9ecef3dd52133b129d10b0c6e9ff0672e5803270d2443ce319')
+sha512sums=('c599e37f950e93e9ed39092105ba2f61b93826f36c341997ff998428b753010190013dc1466d0f7481c57046527b1909ec1ba5b90e486e62ca03e64233941d0d')
 
 build() {
   cd "${srcdir}/${_distdir}"
