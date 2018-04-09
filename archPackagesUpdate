@@ -229,7 +229,7 @@ then
   ssh paule@127.0.0.1 '
     rmPaket() {
       [ "$(basename "$(pwd)")" == "any" ] || \
-        repo-remove '${checkDbSig}' -s -k 0x20194BA1 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.xz}"
+        repo-remove '${checkDbSig}' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.xz}"
       rm "$1"
       [ -e "$1.sig" ] && rm "$1.sig"
     }
@@ -590,7 +590,7 @@ then
             if [ -n "${altePakete}" ]
             then
               [ "$(basename "$(pwd)")" == "any" ] || \
-                repo-remove '${checkDbSig}' -s -k 0x20194BA1 archlinuxewe.db.tar.gz "$1"
+                repo-remove '${checkDbSig}' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
               for altesPaket in ${altePakete}
               do
                 rm "${altesPaket}"
@@ -604,7 +604,7 @@ then
 
           addPaket() {
             [ "$(basename "$(pwd)")" == "any" ] || \
-              repo-add '${checkDbSig}' -s -k 0x20194BA1 archlinuxewe.db.tar.gz "$1"
+              repo-add '${checkDbSig}' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
           }
 
           cd '${pkgDir}/${arch}/'
