@@ -1,0 +1,36 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=digest-mailer
+pkgver=0.0
+pkgrel=1
+pkgdesc="Sendmail replacement collecting emails into digests."
+arch=('any')
+url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+license=('GPL')
+groups=()
+depends=()
+makedepends=('help2man')
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=('etc/digest-mailer.conf')
+options=()
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+)
+sha512sums=('72bc37316c5c79da63e4dc707a3f03b66398415ca39384dbeffd7e306ce3b589f64f398538c32faae3ac88125b0ea884068a18bf39bfb8eb832d34b714dd2ae6')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
