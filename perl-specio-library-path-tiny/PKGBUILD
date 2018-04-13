@@ -3,7 +3,7 @@
 
 pkgname='perl-specio-library-path-tiny'
 pkgver='0.04'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='Path::Tiny types and coercions for Specio'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,10 +14,6 @@ depends=(
   'perl-path-tiny>=0.087'
   'perl-scalar-list-utils'
   'perl-specio>=0.29'
-  'perl-specio-declare'
-  'perl-specio-exporter'
-  'perl-specio-library-builtins'
-  'perl-specio-partialdump'
 )
 makedepends=(
   'perl-extutils-makemaker'
@@ -26,7 +22,6 @@ makedepends=(
   'perl-pathtools'
   'perl-test-fatal'
   'perl-test-simple>=0.96'
-  'perl-test-specio'
 )
 url='https://metacpan.org/release/Specio-Library-Path-Tiny'
 _distdir="Specio-Library-Path-Tiny-${pkgver}"
