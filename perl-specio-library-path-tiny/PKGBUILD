@@ -23,6 +23,10 @@ makedepends=(
   'perl-test-fatal'
   'perl-test-simple>=0.96'
 )
+checkdepends=(
+  'perl-eval-closure'
+  'perl-sub-quote'
+)
 url='https://metacpan.org/release/Specio-Library-Path-Tiny'
 _distdir="Specio-Library-Path-Tiny-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
