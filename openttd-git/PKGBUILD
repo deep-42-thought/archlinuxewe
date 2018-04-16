@@ -1,6 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
-pkgname=openttd-svn
-pkgver=27993
+pkgname=openttd-git
+pkgver=28045.00c160325
+_commit=${pkgver#*.}
 pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686')
@@ -31,15 +32,25 @@ replaces=()
 backup=()
 options=()
 source=(
-    "${pkgname}::svn://svn.openttd.org/trunk#revision=r${pkgver}"
+    "${pkgname}::git://github.com/OpenTTD/OpenTTD.git" #commit=${_commit}"
     "everything.patch"
     "version.patch"
     "clipboard.grf"
 )
 sha512sums=('SKIP'
-            'fb20d4849d38891d5649eee2a0ce601dcdf8f7ba034a28325fc59324e0a14951d444bc70ecfe67da2b85d8ca321b7d0185e243fba536847bfa62021faa255591'
+            '20231f23f0c0ec5df710b541b628b3a479299368975b0bd8c28d979b94c7dc376f55018f470d1559bfdc732a4de82793a82e79751fc7e3a10feb2b5eecfb7598'
             '69ac38abc75d728ae3a4b131e819223f496f3e6554d2e8e35e6950c6ceb41a293af2aec6df2ef4b82a9e5d12ed87026e85e181adb0fc142407da94ad4d70d2b6'
             'aa1f5d5c4fd9ff487bc03ed5c10701e99ae9fd29ae0cd65a06171486298558d1c26ced49ac8687acc5b1003a6538f6c83917992348cbd2b7426afdf0759cb1a5')
+
+pkgver() {
+  printf '%s.%s\n' \
+    "$((
+      $(git -C "${srcdir}/${pkgname}" rev-list --count master ^f84ad5f7c) + 28004
+    ))" \
+    "$(
+      git -C "${srcdir}/${pkgname}" rev-parse --short master
+    )"
+}
 
 prepare() {
 
@@ -62,6 +73,7 @@ prepare() {
 }
 
 build() {
+return 5
 
     cd "${srcdir}/${pkgname}"
     ./configure ${_targetHost} \
