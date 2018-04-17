@@ -2,17 +2,18 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-test-www-mechanize'
-pkgver=1.48
-pkgrel='3'
+pkgver=1.50
+pkgrel=1
 pkgdesc='Testing-specific WWW::Mechanize subclass'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
   'perl>=5.8.0'
+  'perl-carp'
   'perl-carp-assert-more'
+  'perl-html-form'
   'perl-html-parser'
-  'perl-html-tree'
   'perl-http-server-simple>=0.42'
   'perl-libwww>=6.02'
   'perl-parent'
@@ -23,11 +24,15 @@ depends=(
 makedepends=(
   'perl-extutils-makemaker')
 checkdepends=(
-  'perl-cgi')
+  'perl-cgi'
+  'perl-html-lint'
+  'perl-html-tree'
+  'perl-test-pod'
+  'perl-test-pod-coverage')
 url='https://metacpan.org/release/Test-WWW-Mechanize'
 _distdir="Test-WWW-Mechanize-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/${_distdir}.tar.gz")
-sha512sums=('90a1d365479245d159ba7aa954bb01b617f1526423a00b41f3347e0e708a3eb79f0ba5a20315e74032d817154e52ef6178571528bcc183e38a9c53577ef8235d')
+sha512sums=('4ae15358acec336b3491906ef4a046cab46a6117dedd673784de1d5decdc13b9fd9a7feae08fa5a46467c3eb1575fd15e00491cc94473f7de65834a7c1b42b50')
 
 build() {
   cd "${srcdir}/${_distdir}"
