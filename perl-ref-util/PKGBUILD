@@ -2,14 +2,14 @@
 # Generator : neuesPerlPaket (54bfd7cca693b229aa53ffc98d551b62ea234aaa5be7e6717857610a2da6803b0be2dfe7ddfe9810cf320c477023b3b4356d47df7f8c202ed8c14d71b472c0bc)
 
 pkgname='perl-ref-util'
-pkgver='0.203'
-pkgrel='3'
+pkgver=0.204
+pkgrel=1
 pkgdesc='Utility functions for checking references'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-ref-util-pp=0.203')
+  'perl-ref-util-pp=0.204')
 depends=(
   'perl>=5.6.0'
   'perl-exporter>=5.57')
@@ -21,7 +21,7 @@ makedepends=(
 url='https://metacpan.org/release/Ref-Util'
 _distdir="Ref-Util-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/A/AR/ARC/${_distdir}.tar.gz")
-sha512sums=('bf0b1cde5adf869377aaee3c6a8fa8f40fc852c70f20dafdb3d7f3b7718eb19738a4d53c243e9809b7cff9e2e49a871f0336b4288b96048e91ae48634d12a392')
+sha512sums=('12834e13de5578232e40ba308e97786c60fcec4da9dc0b2922506d42645e8b3c3234663cf3b9c1dc374772107de953ed49ba8b52a2bac79183e3860338c0b288')
 
 build() {
   cd "${srcdir}/${_distdir}"
