@@ -2,31 +2,32 @@
 # Generator : neuesPerlPaket (5872fdbe767f20dd006eece094815303adfcd3b336cb5ad02d10742b82e6f11e31530fef3b41a2af59678d729daebff83cde847dab68d62647f62cf8dc586685)
 
 pkgname='perl-metacpan-client'
-pkgver=2.023000
+pkgver=2.025000
 pkgrel=1
 pkgdesc='A comprehensive, DWIM-featured client to the MetaCPAN API'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-metacpan-client-author=2.023000'
-  'perl-metacpan-client-distribution=2.023000'
-  'perl-metacpan-client-downloadurl=2.023000'
-  'perl-metacpan-client-favorite=2.023000'
-  'perl-metacpan-client-file=2.023000'
-  'perl-metacpan-client-mirror=2.023000'
-  'perl-metacpan-client-module=2.023000'
-  'perl-metacpan-client-package=2.023000'
-  'perl-metacpan-client-permission=2.023000'
-  'perl-metacpan-client-pod=2.023000'
-  'perl-metacpan-client-rating=2.023000'
-  'perl-metacpan-client-release=2.023000'
-  'perl-metacpan-client-request=2.023000'
-  'perl-metacpan-client-resultset=2.023000'
-  'perl-metacpan-client-role-entity=2.023000'
-  'perl-metacpan-client-role-hasua=2.023000'
-  'perl-metacpan-client-scroll=2.023000'
-  'perl-metacpan-client-types=2.023000')
+  'perl-metacpan-client-author=2.025000'
+  'perl-metacpan-client-cover=2.025000'
+  'perl-metacpan-client-distribution=2.025000'
+  'perl-metacpan-client-downloadurl=2.025000'
+  'perl-metacpan-client-favorite=2.025000'
+  'perl-metacpan-client-file=2.025000'
+  'perl-metacpan-client-mirror=2.025000'
+  'perl-metacpan-client-module=2.025000'
+  'perl-metacpan-client-package=2.025000'
+  'perl-metacpan-client-permission=2.025000'
+  'perl-metacpan-client-pod=2.025000'
+  'perl-metacpan-client-rating=2.025000'
+  'perl-metacpan-client-release=2.025000'
+  'perl-metacpan-client-request=2.025000'
+  'perl-metacpan-client-resultset=2.025000'
+  'perl-metacpan-client-role-entity=2.025000'
+  'perl-metacpan-client-role-hasua=2.025000'
+  'perl-metacpan-client-scroll=2.025000'
+  'perl-metacpan-client-types=2.025000')
 depends=(
   'perl>=5.10.0'
   'perl-carp'
@@ -54,7 +55,7 @@ checkdepends=(
 url='https://metacpan.org/release/MetaCPAN-Client'
 _distdir="MetaCPAN-Client-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MICKEY/${_distdir}.tar.gz")
-sha512sums=('3f87a80d474e7013ade6f02fe6aa8dfe8568361b1d8035415fd986269f0a8110638af182f786f83372b2b6603558b7441faaeb2671f1df87dcffc73137cffa79')
+sha512sums=('0da5aaa823b372626ed54206208e9d763afa5ba1668730e4feeab2b1539177a31f165173ba471f7071e568b2343096eb5780d1a61645e92c6000e9408140ea2f')
 
 build() {
   cd "${srcdir}/${_distdir}"
