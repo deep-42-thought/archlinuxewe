@@ -2,31 +2,28 @@
 # Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
 
 pkgname='perl-module-cpanfile'
-pkgver='1.1002'
-pkgrel='3'
+pkgver=1.1003
+pkgrel=1
 pkgdesc='Parse cpanfile'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 optdepends=(
-  'perl-pod-usage'
-)
+  'perl-pod-usage')
 depends=(
   'perl-cpan-meta>=2.12091'
-  'perl-json-pp>=2.27300'
-  'perl-parent'
-)
+  'perl-parent')
 makedepends=(
   'perl-extutils-makemaker'
-  'perl-test-simple>=0.88'
-)
+  'perl-file-pushd'
+  'perl-test-simple>=0.88')
 checkdepends=(
   'perl-test-pod'
 )
 url='https://metacpan.org/release/Module-CPANfile'
 _distdir="Module-CPANfile-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
-sha512sums=('948a0d16c3af8d1694f9b1060acb1425664671f56bf2cdf1e4ec80dfee4d0d1fd3723501c81e8cdee5a06edac0da04296c9bf6806a0f8be3c0a6a0eb438c4d16')
+sha512sums=('3e7cbb09744a54a858d4d1e4e54cda2e2393d8b5a3986a6530fc04062807694c601fce6188904192be28ea32eae56258ff53cab77d198c3dc7c126033acccf6c')
 
 build() {
   cd "${srcdir}/${_distdir}"
