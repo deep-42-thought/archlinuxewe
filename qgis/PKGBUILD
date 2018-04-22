@@ -13,7 +13,7 @@
 # You will also need to install osgearth-qt4 or fcgi, respectively, before building.
 
 pkgname=qgis
-pkgver=3.0.1
+pkgver=3.0.2
 pkgrel=1
 pkgdesc='Geographic Information System (GIS) that supports vector, raster & database formats'
 url='http://qgis.org/'
@@ -28,7 +28,7 @@ optdepends=('grass: for GRASS providers and plugin (6 or 7)'
             'fcgi: for qgis mapserver'
             'ocilib: oracle provider')
 source=("https://qgis.org/downloads/$pkgname-$pkgver.tar.bz2")
-sha512sums=('c07fc9b033fa043e38098d226dac69ea35890109c45ccc4c47017e0af2d3fbed4b1a71b3fd7dc76fea3eb43fbcdbfb660df50d779da8c43f68a4402b239f8f75')
+sha512sums=('4eec027f81ee693293e87d3c16b7b210ebd66f35a2884dc4662b5a3359b18cfd8a11919132ab88489456121eab36f8e5a9c20afcb34fa9dbe54673d838fc2be1')
 
 prepare() {
   cd "$pkgname-$pkgver"
