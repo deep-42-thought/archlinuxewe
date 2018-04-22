@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
 
 pkgname='perl-test-notabs'
-pkgver='2.00'
-pkgrel='2'
+pkgver=2.02
+pkgrel=1
 pkgdesc='Check the presence of tabs in your project'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,19 +11,14 @@ options=('!emptydirs')
 depends=(
   'perl>=5.6.0'
   'perl-pathtools'
-  'perl-test-simple'
-)
+  'perl-test-simple')
 makedepends=(
-  'perl>=5.6.0'
   'perl-extutils-makemaker'
-  'perl-file-temp'
-  'perl-pathtools'
-  'perl-test-simple'
-)
+  'perl-file-temp')
 url='https://metacpan.org/release/Test-NoTabs'
 _distdir="Test-NoTabs-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
-sha512sums=('e776f5c12029376a7754492482f62385a391aec31b3dfd979a8eb20aa81dd66ef8c7d33435e67f8f1eb151cf5833e5bde33c09ceccef27ac6e20958f28ff83e8')
+sha512sums=('e7bd189fde1b35f67569ea702735ead8595684807491cf1635cb6a7d9360adca23d411ec1a165796afc45d55d1a724e07cecf8ddbd06206d4fe38f553954af3a')
 
 build() {
   cd "${srcdir}/${_distdir}"
