@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
 
 pkgname='perl-config-inifiles'
-pkgver=2.96
+pkgver=2.98
 pkgrel=1
 pkgdesc='A module for reading .ini-style configuration files.'
 arch=('any')
@@ -23,7 +23,7 @@ makedepends=(
   'perl-module-build>=0.28'
   'perl-parent'
   'perl-pathtools'
-  'perl-test-simple')
+  'perl-test-simple>=0.88')
 checkdepends=(
   'perl-cpan-changes'
   'perl-pod-coverage-trustpod'
@@ -35,11 +35,7 @@ checkdepends=(
 url='https://metacpan.org/release/Config-IniFiles'
 _distdir="Config-IniFiles-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
-sha512sums=('a5595947f5baa5cfe69289394c9a70b19a624f3dc598d633e852efe11d8a8d964ca9f45256c313fe69f6a36badecc32ed21e432c0f7094dfc76aa91a8f0117bd')
-
-prepare() {
-  rm "${srcdir}/${_distdir}/t/author-tidyall.t"
-}
+sha512sums=('658e0df3480bd4c6fc8490ac860e0497dc3222349e48905afa86a649e44bf0b29308cce35ed4bffe6259a89dc0ce302e3432aca04c0c55201196312c25cf6bd6')
 
 build() {
   cd "${srcdir}/${_distdir}"
