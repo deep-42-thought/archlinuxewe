@@ -75,8 +75,7 @@ cleanUp () {
       for s in */*.log
       do
         [ -r "${s}" ] && echo "${s}"
-      done | \
-        tr "\n" " "
+      done
     )"
     if [ -n "${logFiles}" ]
     then
@@ -205,7 +204,7 @@ fi
 
 echo '... done'
 
-$aufRechenknecht && pkgSrcDir="${pkgSrcDir}/archPackages"
+${aufRechenknecht} && pkgSrcDir="${pkgSrcDir}/archPackages"
 cd "${pkgSrcDir}"
 
 # extract git ${branch}
@@ -215,10 +214,10 @@ git archive --format tar "${branch}" | \
 cd "${tmpDir}"
 
 # update $0
-if ${updateMe} && ${aufRechenknecht} && [ -e "$(basename $0)" ] && ! diff -q "$(basename $0)" "$0" &> /dev/null
+if ${updateMe} && ${aufRechenknecht} && [ -e "$(basename "$0")" ] && ! diff -q "$(basename "$0")" "$0" &> /dev/null
 then
-  cp "$(basename $0)" "$0"
-  $0 "${args[@]}"
+  cp "$(basename "$0")" "$0"
+  "$0" "${args[@]}"
   err=$?
   exit ${err}
 fi
@@ -229,12 +228,12 @@ then
   ssh paule@127.0.0.1 '
     rmPaket() {
       [ "$(basename "$(pwd)")" == "any" ] || \
-        repo-remove '${checkDbSig}' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.xz}"
+        repo-remove '"${checkDbSig}"' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.xz}"
       rm "$1"
       [ -e "$1.sig" ] && rm "$1.sig"
     }
 
-    cd "'${pkgDir}'"
+    cd "'"${pkgDir}"'"
     for arch in *
     do
       [ -d "${arch}" ] || continue
@@ -242,7 +241,7 @@ then
       for paket in *.pkg.tar.xz
       do
         [ -e "${paket}.sig" ] && continue
-        rmPaket ${paket}
+        rmPaket "${paket}"
       done
       cd ..
     done
@@ -267,13 +266,13 @@ then
     [ ${#onlyPackages[@]} -eq 0 ] && consider=true || consider=false
     for ((i=0; i<${#onlyPackages[@]}; i++))
     do
-      [[ "${paket}" == ${onlyPackages[${i}]} ]] && consider=true
+      [[ "${paket}" == "${onlyPackages[${i}]}" ]] && consider=true
     done
     ${consider} || continue
 
     unset epoch
     unset pkgname
-    . ${paket}/PKGBUILD
+    . "${paket}/PKGBUILD"
 
     for singleArch in "${arch[@]}"; do
 
@@ -301,7 +300,6 @@ then
       done
 
       if ${force} || \
-        ! ${aufRechenknecht} || \
         ! ${allExist}
       then
         pakete[${#pakete[@]}]="${paket}"
@@ -327,7 +325,7 @@ then
   for chrootArch in 32 64
   do
     [ -d "/opt/arch${chrootArch}" ] || continue
-    basePakete="$(
+    basePakete=$(
       (
         echo '
           pacman -Qg base base-devel | \
@@ -340,8 +338,8 @@ then
           'update-all' 'ccache' 'git' 'mercurial' 'bzr' 'subversion'
       ) | \
         sort -u
-    )"
-    explizitinstalliertePakete="$(
+    )
+    explizitinstalliertePakete=$(
       echo '
         pacman -Qtt | \
           cut -d " " -f 1
@@ -353,16 +351,16 @@ then
           /^report-installed-packages$/d
           /^sendmailadvanced$/d
         '
-    )"
-    alleinstalliertenPakete="$(
+    )
+    alleinstalliertenPakete=$(
       echo '
         pacman -Q | \
           cut -d " " -f 1
         exit
       ' | \
         chrootUnpriv "${chrootArch}"
-    )"
-    zuvielePakete="$(
+    )
+    zuvielePakete=$(
       (
         (
           (
@@ -383,8 +381,8 @@ then
           chrootUnpriv "${chrootArch}"
       ) | \
         sort -u
-    )"
-    zuwenigePakete="$(
+    )
+    zuwenigePakete=$(
       (
         (
           echo "${alleinstalliertenPakete}"
@@ -396,11 +394,11 @@ then
       ) | \
         sort | \
         uniq -u
-    )"
+    )
 
     if [ -n "${zuvielePakete}" ]
     then
-      >&2 echo 'zu viele Pakete in "'/opt/arch${chrootArch}'" installiert:'
+      >&2 echo 'zu viele Pakete in "'"/opt/arch${chrootArch}"'" installiert:'
       >&2 echo "${zuvielePakete}"
       if ${rmAddPkgs}
       then
@@ -416,7 +414,7 @@ then
     fi
     if [ -n "${zuwenigePakete}" ]
     then
-      >&2 echo 'zu wenige Pakete in "'/opt/arch${chrootArch}'" installiert:'
+      >&2 echo 'zu wenige Pakete in "'"/opt/arch${chrootArch}"'" installiert:'
       >&2 echo "${zuwenigePakete}"
       err=true
     fi
@@ -499,7 +497,7 @@ then
         echo '\
           sudo pacman -Sy && \
           cd "'"${tmpDir}/${paket}"'" && \
-          _targetHost='\''--host=i686-pc-linux-gnu'\'' makepkg '${log} ${checkMakepkg}' --holdver --config "'"${tmpDir}"'/makepkg32.conf" -fsr --noconfirm --asdeps
+          _targetHost='"'"'--host=i686-pc-linux-gnu'"'"' makepkg '"${log} ${checkMakepkg}"' --holdver --config "'"${tmpDir}"'/makepkg32.conf" -fsr --noconfirm --asdeps
           exit $?
         '
       ) | \
@@ -513,7 +511,7 @@ then
         echo '\
           sudo pacman -Sy && \
           cd "'"${tmpDir}/${paket}"'" && \
-          makepkg '${log} ${checkMakepkg}' --holdver --config "'"${tmpDir}"'/makepkg.conf" -fsr --noconfirm --asdeps
+          makepkg '"${log} ${checkMakepkg}"' --holdver --config "'"${tmpDir}"'/makepkg.conf" -fsr --noconfirm --asdeps
           exit $?
         '
       ) | \
@@ -590,7 +588,7 @@ then
             if [ -n "${altePakete}" ]
             then
               [ "$(basename "$(pwd)")" == "any" ] || \
-                repo-remove '${checkDbSig}' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
+                repo-remove '"${checkDbSig}"' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
               for altesPaket in ${altePakete}
               do
                 rm "${altesPaket}"
@@ -604,18 +602,18 @@ then
 
           addPaket() {
             [ "$(basename "$(pwd)")" == "any" ] || \
-              repo-add '${checkDbSig}' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
+              repo-add '"${checkDbSig}"' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
           }
 
-          cd '${pkgDir}/${arch}/'
+          cd '"${pkgDir}/${arch}/"'
           for teil in '"${paket_teile[@]}"'; do
-            entferneAltePakete "${teil}" "'${arch}'"
+            entferneAltePakete "${teil}" "'"${arch}"'"
           done
           tar -xf -
           for teil in '"${paket_teile[@]}"'; do
             addPaket "${teil}-'"${vers}-${arch}"'.pkg.tar.xz"
 
-            if [ "'${arch}'" == "any" ]
+            if [ "'"${arch}"'" == "any" ]
             then
               for lArch in $(ls ..)
               do
@@ -623,13 +621,13 @@ then
                 [ "${lArch}" == "any" ] && continue
                 cd "../${lArch}"
 
-                entferneAltePakete "${teil}" "'${arch}'"
-                ln -s "'${pkgDir}'/any/${teil}-'${vers}-${arch}'.pkg.tar.xz" "${teil}-'${vers}-${arch}'.pkg.tar.xz"
-                if [ -e "'${pkgDir}'/any/${teil}-'${vers}-${arch}'.pkg.tar.xz.sig" ]
+                entferneAltePakete "${teil}" "'"${arch}"'"
+                ln -s "'"${pkgDir}"'/any/${teil}-'"${vers}-${arch}"'.pkg.tar.xz" "${teil}-'"${vers}-${arch}"'.pkg.tar.xz"
+                if [ -e "'"{pkgDir}"'/any/${teil}-'"${vers}-${arch}"'.pkg.tar.xz.sig" ]
                 then
-                  ln -s "'${pkgDir}'/any/${teil}-'${vers}-${arch}'.pkg.tar.xz.sig" "${teil}-'${vers}-${arch}'.pkg.tar.xz.sig"
+                  ln -s "'"${pkgDir}"'/any/${teil}-'"${vers}-${arch}"'.pkg.tar.xz.sig" "${teil}-'"${vers}-${arch}"'.pkg.tar.xz.sig"
                 fi
-                addPaket "${teil}-'${vers}-${arch}'.pkg.tar.xz"
+                addPaket "${teil}-'"${vers}-${arch}"'.pkg.tar.xz"
               done
             fi
           done
@@ -641,7 +639,7 @@ then
   if ${upload}
   then
     ssh paule@127.0.0.1 '
-      cd '${pkgDir}'
+      cd "'"${pkgDir}"'"
       err=0
 
       for arch in *
@@ -651,11 +649,11 @@ then
 
         for paketFehler in $( \
           (
-            tar -Oxzf '${pkgDir}'/${arch}/archlinuxewe.db.tar.gz | \
+            tar -Oxzf "'"${pkgDir}"'/${arch}/archlinuxewe.db.tar.gz" | \
               grep -A1 "^%FILENAME%\$" | \
               grep -v "^%FILENAME%\$" | \
               grep -v -- "^--\$"
-            ls '${pkgDir}'/${arch} | \
+            ls "'"${pkgDir}"'/${arch}" | \
               grep "^.*\.pkg\.tar\.xz\$"
           ) | \
             sort | \
@@ -664,17 +662,17 @@ then
         do
 
           err=1
-          if [ -e "'${pkgDir}'/${arch}/${paketFehler}" ]
+          if [ -e "'"${pkgDir}"'/${arch}/${paketFehler}" ]
           then
-            >&2 echo "FEHLER: Paket '${pkgDir}'/${arch}/${paketFehler} ist nur im Verzeichnisbaum vorhanden."
+            >&2 echo "FEHLER: Paket '"${pkgDir}"'/${arch}/${paketFehler} ist nur im Verzeichnisbaum vorhanden."
           else
-            >&2 echo "FEHLER: Paket '${pkgDir}'/${arch}/${paketFehler} ist nur in der Datenbank vorhanden."
+            >&2 echo "FEHLER: Paket '"${pkgDir}"'/${arch}/${paketFehler} ist nur in der Datenbank vorhanden."
           fi
 
         done
 
         for signaturWarnungen in $( \
-          ls '${pkgDir}'/${arch} | \
+          ls "'"${pkgDir}"'/${arch}" | \
             grep "^.*\.pkg\.tar\.xz\(\.sig\)\?\$" | \
             sed "s|\.sig\$||" | \
             sort | \
@@ -682,12 +680,12 @@ then
         )
         do
 
-          if [ -e "'${pkgDir}'/${arch}/${signaturWarnungen}" ]
+          if [ -e "'"${pkgDir}"'/${arch}/${signaturWarnungen}" ]
           then
-            >&2 echo "WARNUNG: Paket '${pkgDir}'/${arch}/${signaturWarnungen} hat keine Signatur."
+            >&2 echo "WARNUNG: Paket '"${pkgDir}"'/${arch}/${signaturWarnungen} hat keine Signatur."
           else
             err=1
-            >&2 echo "FEHLER: Zur Signatur '${pkgDir}'/${arch}/${signaturWarnungen}.sig gibt es kein Paket."
+            >&2 echo "FEHLER: Zur Signatur '"${pkgDir}"'/${arch}/${signaturWarnungen}.sig gibt es kein Paket."
           fi
 
         done
@@ -715,26 +713,26 @@ else
     do
       [ -r "${paket}/PKGBUILD" ] || continue
 
-      if ! grep -q "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$" ${paket}/PKGBUILD || \
-         grep "^# Maintainer\s*:" ${paket}/PKGBUILD | grep -vq "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$"
+      if ! grep -q "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$" "${paket}/PKGBUILD" || \
+         grep "^# Maintainer\s*:" "${paket}/PKGBUILD" | grep -vq "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$"
       then
         >&2 echo "${paket}/PKGBUILD hat falsche(n) Maintainer"
         err=true
       fi
 
       unset epoch
-      . ${paket}/PKGBUILD
+      . "${paket}/PKGBUILD"
 
       if echo "${source}" | grep -q "://opensources\.eckner\.net/"
       then
 
 # one of Erich's packages
 
-        if grep -q "sha512sums" ${paket}/PKGBUILD
+        if grep -q "sha512sums" "${paket}/PKGBUILD"
         then
           sumTyp="sha512sum"
           pkgSum="${sha512sums[@]}"
-        elif grep -q "sha256sums" ${paket}/PKGBUILD
+        elif grep -q "sha256sums" "${paket}/PKGBUILD"
         then
           sumTyp="sha256sum"
           pkgSum="${sha256sums[@]}"
