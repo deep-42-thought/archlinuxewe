@@ -577,61 +577,89 @@ then
       tar -cf - $(
         printf " %s-${vers}-${arch}.pkg.tar.xz"     "${paket_teile[@]}"
         printf " %s-${vers}-${arch}.pkg.tar.xz.sig" "${paket_teile[@]}"
-      ) |
-        ssh paule@127.0.0.1 '
+      ) | \
+        ssh paule@127.0.0.1 "$(
 
-          entferneAltePakete() {
-            altePakete=$(
-              ls -1 | \
-                grep "^$1-[^-]\+-[^-]\+-$2\.pkg\.tar\.xz\$"
-            )
-            if [ -n "${altePakete}" ]
-            then
-              [ "$(basename "$(pwd)")" == "any" ] || \
-                repo-remove '"${checkDbSig}"' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
-              for altesPaket in ${altePakete}
-              do
-                rm "${altesPaket}"
-                if [ -e "${altesPaket}.sig" ] || [ -h "${altesPaket}.sig" ]
-                then
-                  rm "${altesPaket}.sig"
-                fi
-              done
-            fi
-          }
+          printf '
+            entferneAltePakete() {
+              altePakete=$(
+                ls -1 | \
+                  grep "^$1-[^-]\+-[^-]\+-$2\.pkg\.tar\.xz\$"
+              )
+              if [ -n "${altePakete}" ]
+              then
+                [ "$(basename "$(pwd)")" == "any" ] || \
+                  repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"' \
+            "${checkDbSig}"
+          printf '
+                for altesPaket in ${altePakete}
+                do
+                  rm "${altesPaket}"
+                  if [ -e "${altesPaket}.sig" ] || [ -h "${altesPaket}.sig" ]
+                  then
+                    rm "${altesPaket}.sig"
+                  fi
+                done
+              fi
+            }'
 
-          addPaket() {
-            [ "$(basename "$(pwd)")" == "any" ] || \
-              repo-add '"${checkDbSig}"' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
-          }
+          printf '
+            addPaket() {
+              repo-add %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
+            }' \
+            "${checkDbSig}"
 
-          cd '"${pkgDir}/${arch}/"'
-          for teil in '"${paket_teile[@]}"'; do
-            entferneAltePakete "${teil}" "'"${arch}"'"
-          done
-          tar -xf -
-          for teil in '"${paket_teile[@]}"'; do
-            addPaket "${teil}-'"${vers}-${arch}"'.pkg.tar.xz"
+          printf '
+            cd "%s/%s"' \
+            "${pkgDir}" "${arch}"
+          printf '
+            for teil in %s; do' \
+            "${paket_teile[*]}"
+          printf '
+              entferneAltePakete "${teil}" "%s"' \
+            "${arch}"
+          printf '
+            done'
 
-            if [ "'"${arch}"'" == "any" ]
-            then
+          printf '
+            tar -xf -
+            for teil in %s; do' \
+            "${paket_teile[*]}"
+
+          if [ "${arch}" == "any" ]
+          then
+            printf '
               for lArch in $(ls ..)
               do
                 [ ! -d "../${lArch}" ] && continue
                 [ "${lArch}" == "any" ] && continue
                 cd "../${lArch}"
 
-                entferneAltePakete "${teil}" "'"${arch}"'"
-                ln -s "'"${pkgDir}"'/any/${teil}-'"${vers}-${arch}"'.pkg.tar.xz" "${teil}-'"${vers}-${arch}"'.pkg.tar.xz"
-                if [ -e "'"${pkgDir}"'/any/${teil}-'"${vers}-${arch}"'.pkg.tar.xz.sig" ]
+                entferneAltePakete "${teil}" "any"'
+            printf '
+                ln -s "%s/any/${teil}-%s-%s.pkg.tar.xz" "${teil}-%s-%s.pkg.tar.xz"' \
+              "${pkgDir}" "${vers}" "${arch}" "${vers}" "${arch}"
+            printf '
+                if [ -e "%s/any/${teil}-%s-%s.pkg.tar.xz.sig" ]' \
+              "${pkgDir}" "${vers}" "${arch}"
+            printf '
                 then
-                  ln -s "'"${pkgDir}"'/any/${teil}-'"${vers}-${arch}"'.pkg.tar.xz.sig" "${teil}-'"${vers}-${arch}"'.pkg.tar.xz.sig"
+                  ln -s "%s/any/${teil}-%s-%s.pkg.tar.xz.sig" "${teil}-%s-%s.pkg.tar.xz.sig"' \
+              "${pkgDir}" "${vers}" "${arch}" "${vers}" "${arch}"
+            printf '
                 fi
-                addPaket "${teil}-'"${vers}-${arch}"'.pkg.tar.xz"
-              done
-            fi
-          done
-        '
+                addPaket "${teil}-%s-%s.pkg.tar.xz"' \
+              "${vers}" "${arch}"
+            printf '
+              done'
+          else
+            printf '
+              addPaket "${teil}-%s-%s.pkg.tar.xz"' \
+              "${vers}" "${arch}"
+          fi
+          printf '
+            done'
+        )"
     fi
   done
 
