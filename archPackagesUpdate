@@ -623,7 +623,7 @@ then
 
                 entferneAltePakete "${teil}" "'"${arch}"'"
                 ln -s "'"${pkgDir}"'/any/${teil}-'"${vers}-${arch}"'.pkg.tar.xz" "${teil}-'"${vers}-${arch}"'.pkg.tar.xz"
-                if [ -e "'"{pkgDir}"'/any/${teil}-'"${vers}-${arch}"'.pkg.tar.xz.sig" ]
+                if [ -e "'"${pkgDir}"'/any/${teil}-'"${vers}-${arch}"'.pkg.tar.xz.sig" ]
                 then
                   ln -s "'"${pkgDir}"'/any/${teil}-'"${vers}-${arch}"'.pkg.tar.xz.sig" "${teil}-'"${vers}-${arch}"'.pkg.tar.xz.sig"
                 fi
