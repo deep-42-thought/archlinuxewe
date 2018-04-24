@@ -669,7 +669,7 @@ then
             for teil in %s; do' \
             "${paket_teile[*]}"
 
-          if [ "${arch}" == "any" ]
+          if [ "${arch}" == "any" ] && [ "${repo}" != 'releng' ]
           then
             printf '
               for lArch in $(ls ..)
