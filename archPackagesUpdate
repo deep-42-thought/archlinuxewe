@@ -264,6 +264,7 @@ unset pakete
 unset pakete_teile
 unset archs
 unset verss
+unset repos
 
 if ${aufRechenknecht}
 then
@@ -285,6 +286,11 @@ then
     unset epoch
     unset pkgname
     . "${paket}/PKGBUILD"
+    if grep -q '#\s*repo:\s*releng\s*\(#.*\)\?$' "${paket}/PKGBUILD"; then
+      repo='releng'
+    else
+      repo='archlinuxewe'
+    fi
 
     for singleArch in "${arch[@]}"; do
 
@@ -298,15 +304,19 @@ then
 
         pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
 
-        [ "${singleArch}" == "any" ] && \
-          for dir in ${pkgDir}/*
-          do
-            [ ! -d "${dir}" ] && continue
-            [ ! -e "${dir}/${pkgFile}" ] && allExist=false
-          done
-
-        if [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ]; then
-          allExist=false
+        if [ "${repo}" == 'releng' ]; then
+          [ ! -e "${pkgDir32}/${pkgFile}" ] && allExist=false
+        else
+          [ "${singleArch}" == "any" ] && \
+            for dir in ${pkgDir}/*
+            do
+              [ ! -d "${dir}" ] && continue
+              [ ! -e "${dir}/${pkgFile}" ] && allExist=false
+            done
+  
+          if [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ]; then
+            allExist=false
+          fi
         fi
 
       done
@@ -318,6 +328,7 @@ then
         pakete_teile[${#pakete_teile[@]}]="${pkgname[@]}"
         archs[${#archs[@]}]="${singleArch}"
         verss[${#verss[@]}]="${epoch:+${epoch}:}${pkgver}-${pkgrel}"
+        repos[${#repos[@]}]="${repo}"
       fi
     done
   done
@@ -483,6 +494,7 @@ then
     paket_teile=(${pakete_teile[${i}]})
     arch="${archs[${i}]}"
     vers="${verss[${i}]}"
+    repo="${repos[${i}]}"
 
     cd "${tmpDir}/${paket}"
     rm -f ${paket}-*-${arch}.pkg.tar.xz*
@@ -633,9 +645,16 @@ then
             }' \
             "${checkDbSig}"
 
-          printf '
+          if [ "${repo}" = 'releng' ]
+          then
+            printf '
+            cd "%s"' \
+              "${pkgDir32}"
+          else
+            printf '
             cd "%s/%s"' \
-            "${pkgDir}" "${arch}"
+              "${pkgDir}" "${arch}"
+          fi
           printf '
             for teil in %s; do' \
             "${paket_teile[*]}"
