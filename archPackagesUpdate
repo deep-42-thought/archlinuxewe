@@ -5,6 +5,7 @@ tmpDir="$(mktemp -d /tmp/archive.XXXXXX)"
 trap 'rm -rf --one-file-system "${tmpDir}"' EXIT
 pkgDirBase="/srv/arch-mirror/arch/arch"
 pkgDir="${pkgDirBase}/archlinuxewe/os"
+pkgDir32="${pkgDirBase}/archlinux32/x86_64/releng"
 pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
 [ "$(hostname)" == "rechenknecht" ] && \
   [ "${pkgSrcDir}" == "${HOME}" ] && \
@@ -225,27 +226,38 @@ fi
 # clean unsigned packages
 if ${cleanUnsigned} && ${aufRechenknecht}
 then
-  ssh paule@127.0.0.1 '
-    rmPaket() {
-      [ "$(basename "$(pwd)")" == "any" ] || \
-        repo-remove '"${checkDbSig}"' -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.xz}"
-      rm "$1"
-      [ -e "$1.sig" ] && rm "$1.sig"
-    }
+  ssh paule@127.0.0.1 "$(
+    printf '
+      rmPaket() {
+        if [ "$(basename "$(pwd)")" != "any" ]
+        then
+          if [ "$(basename "$(pwd)")" == "releng" ]
+          then
+            repo-remove releng.db.tar.gz "${1%%-*-*-*.pkg.tar.xz}"
+          else
+            repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "${1%%-*-*-*.pkg.tar.xz}"' \
+      "${checkDbSig}"
+    printf '
+          fi
+        fi
+        rm "$1"
+        [ -e "$1.sig" ] && rm "$1.sig"
+      }'
 
-    cd "'"${pkgDir}"'"
-    for arch in *
-    do
-      [ -d "${arch}" ] || continue
-      cd "${arch}"
-      for paket in *.pkg.tar.xz
+    printf '
+      for arch in %s/* %s' \
+      "${pkgDir}" "${pkgDir32}"
+    printf '
       do
-        [ -e "${paket}.sig" ] && continue
-        rmPaket "${paket}"
-      done
-      cd ..
-    done
-  '
+        [ -d "${arch}" ] || continue
+        cd "${arch}"
+        for paket in *.pkg.tar.xz
+        do
+          [ -e "${paket}.sig" ] && continue
+          rmPaket "${paket}"
+        done
+      done'
+  )"
 fi
 
 unset pakete
@@ -588,10 +600,17 @@ then
               )
               if [ -n "${altePakete}" ]
               then
-                [ "$(basename "$(pwd)")" == "any" ] || \
-                  repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"' \
+                if [ "$(basename "$(pwd)")" != "any" ]
+                then
+                  if [ "$(basename "$(pwd)")" == "releng" ]
+                  then
+                    repo-remove releng.db.tar.gz "$1"
+                  else
+                    repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"' \
             "${checkDbSig}"
           printf '
+                  fi
+                fi
                 for altesPaket in ${altePakete}
                 do
                   rm "${altesPaket}"
@@ -605,7 +624,12 @@ then
 
           printf '
             addPaket() {
-              repo-add %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
+              if [ "$(basename "$(pwd)")" == "releng" ]
+              then
+                repo-add releng.db.tar.gz "$1"
+              else
+                repo-add %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
+              fi
             }' \
             "${checkDbSig}"
 
@@ -666,62 +690,69 @@ then
 # check db
   if ${upload}
   then
-    ssh paule@127.0.0.1 '
-      cd "'"${pkgDir}"'"
-      err=0
+    ssh paule@127.0.0.1 "$(
+      printf '
+        err=0
 
-      for arch in *
-      do
-        [ ! -d "${arch}" ] && continue
-        [ "${arch}" == "any" ] && continue
-
-        for paketFehler in $( \
-          (
-            tar -Oxzf "'"${pkgDir}"'/${arch}/archlinuxewe.db.tar.gz" | \
-              grep -A1 "^%FILENAME%\$" | \
-              grep -v "^%FILENAME%\$" | \
-              grep -v -- "^--\$"
-            ls "'"${pkgDir}"'/${arch}" | \
-              grep "^.*\.pkg\.tar\.xz\$"
-          ) | \
-            sort | \
-            uniq -u
-        )
+        for arch in %s/* %s' \
+        "${pkgDir}" "${pkgDir32}"
+      printf '
         do
+          [ ! -d "${arch}" ] && continue
+          [ "${arch##*/}" == "any" ] && continue
 
-          err=1
-          if [ -e "'"${pkgDir}"'/${arch}/${paketFehler}" ]
-          then
-            >&2 echo "FEHLER: Paket '"${pkgDir}"'/${arch}/${paketFehler} ist nur im Verzeichnisbaum vorhanden."
-          else
-            >&2 echo "FEHLER: Paket '"${pkgDir}"'/${arch}/${paketFehler} ist nur in der Datenbank vorhanden."
-          fi
+          for paketFehler in $( \
+            (
+              if [ "$(basename "${arch}")" == 'releng' ]
+              then
+                tar -Oxzf "${arch}/releng.db.tar.gz"
+              else
+                tar -Oxzf "${arch}/archlinuxewe.db.tar.gz"
+              fi | \
+                grep -A1 "^%%FILENAME%%\$" | \
+                grep -v "^%%FILENAME%%\$" | \
+                grep -v -- "^--\$"
+              ls "${arch}" | \
+                grep "^.*\.pkg\.tar\.xz\$"
+            ) | \
+              sort | \
+              uniq -u
+          )
+          do
 
-        done
-
-        for signaturWarnungen in $( \
-          ls "'"${pkgDir}"'/${arch}" | \
-            grep "^.*\.pkg\.tar\.xz\(\.sig\)\?\$" | \
-            sed "s|\.sig\$||" | \
-            sort | \
-            uniq -u
-        )
-        do
-
-          if [ -e "'"${pkgDir}"'/${arch}/${signaturWarnungen}" ]
-          then
-            >&2 echo "WARNUNG: Paket '"${pkgDir}"'/${arch}/${signaturWarnungen} hat keine Signatur."
-          else
             err=1
-            >&2 echo "FEHLER: Zur Signatur '"${pkgDir}"'/${arch}/${signaturWarnungen}.sig gibt es kein Paket."
-          fi
+            if [ -e "${arch}/${paketFehler}" ]
+            then
+              >&2 echo "FEHLER: Paket ${arch}/${paketFehler} ist nur im Verzeichnisbaum vorhanden."
+            else
+              >&2 echo "FEHLER: Paket ${arch}/${paketFehler} ist nur in der Datenbank vorhanden."
+            fi
+
+          done
+
+          for signaturWarnungen in $( \
+            ls "${arch}" | \
+              grep "^.*\.pkg\.tar\.xz\(\.sig\)\?\$" | \
+              sed "s|\.sig\$||" | \
+              sort | \
+              uniq -u
+          )
+          do
+
+            if [ -e "${arch}/${signaturWarnungen}" ]
+            then
+              >&2 echo "WARNUNG: Paket ${arch}/${signaturWarnungen} hat keine Signatur."
+            else
+              err=1
+              >&2 echo "FEHLER: Zur Signatur ${arch}/${signaturWarnungen}.sig gibt es kein Paket."
+            fi
+
+          done
 
         done
 
-      done
-
-      exit ${err}
-    '
+        exit ${err}'
+    )"
   fi
 
   cleanUp
