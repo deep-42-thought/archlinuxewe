@@ -29,7 +29,7 @@ pkgver(){
   cd "${pkgname}"
   git fetch --all >/dev/null 2>&1
   _commit=$(
-    git rev-parse origin/master
+    git rev-parse master
   )
   printf '%s.r%s.%s\n' \
     "$(
