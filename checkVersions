@@ -567,6 +567,19 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
+      grep -q '^https\?://lilypond\.org/'
+    then
+      quVer="${src%/*}/"
+      remVer="$( \
+        curl_it "${quVer}" | \
+          tr '"<>' '\n\n\n' | \
+          grep "^lilypond-[0-9.]\+\(-[0-9]\+\.documentation\)\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
+          sed "s@^lilypond-\([0-9.]\+\)\(-[0-9]\+\.documentation\)\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\1@" | \
+          tr '_' '.' | \
+          sort -V | \
+          tail -n1
+      )"
+    elif echo "${src}" | \
       grep -q "$(
         printf '^https\\?://%s/\|' \
           'alpine\.freeiz\.com' \
@@ -576,7 +589,6 @@ then
           'download\.osgeo\.org' \
           'ftp\.daper\.net' \
           'isl\.gforge\.inria\.fr' \
-          'lilypond\.org' \
           'pkgbuild\.com' \
           'qgis\.org' \
           'webhome\.phy\.duke\.edu' \
@@ -593,8 +605,8 @@ then
       remVer="$( \
         curl_it "${quVer}" | \
           tr '"<>' '\n\n\n' | \
-          grep "^${pkgname%-devel}\(-src\)\?-\?[0-9._]\+[a-z]\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
-          sed "s@^${pkgname%-devel}\(-src\)\?-\?\([0-9._]\+[a-z]\?\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
+          grep "^${sPkgname}\(-src\)\?-\?[0-9._]\+[a-z]\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
+          sed "s@^${sPkgname}\(-src\)\?-\?\([0-9._]\+[a-z]\?\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
           tr '_' '.' | \
           sort -V | \
           tail -n1
