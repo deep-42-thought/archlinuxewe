@@ -605,8 +605,8 @@ then
       remVer="$( \
         curl_it "${quVer}" | \
           tr '"<>' '\n\n\n' | \
-          grep "^${sPkgname}\(-src\)\?-\?[0-9._]\+[a-z]\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
-          sed "s@^${sPkgname}\(-src\)\?-\?\([0-9._]\+[a-z]\?\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
+          grep "^${pkgname}\(-src\)\?-\?[0-9._]\+[a-z]\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
+          sed "s@^${pkgname}\(-src\)\?-\?\([0-9._]\+[a-z]\?\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
           tr '_' '.' | \
           sort -V | \
           tail -n1
