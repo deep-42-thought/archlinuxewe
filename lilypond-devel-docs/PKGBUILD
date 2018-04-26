@@ -1,0 +1,21 @@
+# Contributor: Bernardo Barros <<bbarros at xsounds dot org>>
+# Contributor: Thomas Weißschuh <thomas_weissschuh || lavabit || com>
+# Contributor: Stefan Husmann <stefan-husmann@t-online.de>
+# Maintainer: Erich Eckner <arch@eckner.net>
+
+pkgname=lilypond-devel-docs
+pkgver=2.19.81
+pkgrel=1
+pkgdesc="Offline documentation for lilypond"
+arch=('any')
+url="http://lilypond.org"
+license=('GPL')
+options=('!strip')
+source=("http://lilypond.org/downloads/binaries/documentation/lilypond-${pkgver}-1.documentation.tar.bz2")
+sha256sums=('cecbdc7c5c8e5ff4857a431ed444569e8ff345c1194fb68bdadd741d6c73ef8c')
+depends=("lilypond=${pkgver}")
+
+package(){
+  install -d ${pkgdir}/usr/share
+  cp -R ${srcdir}/share/doc/ ${srcdir}/share/omf/ ${pkgdir}/usr/share/
+}
