@@ -575,13 +575,14 @@ then
           'dl\.suckless\.org' \
           'download\.osgeo\.org' \
           'ftp\.daper\.net' \
-          'www\.hashcash\.org' \
           'isl\.gforge\.inria\.fr' \
+          'lilypond\.org' \
           'pkgbuild\.com' \
           'qgis\.org' \
           'webhome\.phy\.duke\.edu' \
           'www\.cybernoia\.de' \
           'www\.gaia-gis\.it' \
+          'www\.hashcash\.org' \
           'www\.iozone\.org' \
           'www\.vandenoever\.info' \
           'www\.wurzel\.org' \
@@ -592,8 +593,8 @@ then
       remVer="$( \
         curl_it "${quVer}" | \
           tr '"<>' '\n\n\n' | \
-          grep "^${pkgname}\(-src\)\?-\?[0-9._]\+[a-z]\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
-          sed "s@^${pkgname}\(-src\)\?-\?\([0-9._]\+[a-z]\?\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
+          grep "^${pkgname%-devel}\(-src\)\?-\?[0-9._]\+[a-z]\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
+          sed "s@^${pkgname%-devel}\(-src\)\?-\?\([0-9._]\+[a-z]\?\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
           tr '_' '.' | \
           sort -V | \
           tail -n1
@@ -647,31 +648,6 @@ then
             sort -V | \
             tail -n1
         )
-        [ -n "${remVer}" ] && break
-      done
-    elif echo "${src}" | \
-      grep -q '^http://download\.linuxaudio\.org/lilypond/sources/'
-    then
-      remVerz="$(
-        echo "${src}" | \
-          sed 's|[^/]\+/[^/]\+$||'
-      )"
-      for mainVer in $(
-          curl_it "${remVerz}" | \
-            tr '"' '\n' | \
-            grep '^v[0-9.]\+/$' | \
-            sed 's|^v\([0-9.]\+\)/$|\1|' | \
-            sort -Vr
-        )
-      do
-        remVer="$(
-          curl_it "${remVerz}v${mainVer}/" | \
-            tr '"' '\n' | \
-            grep '^lilypond-[0-9.]\+\.tar\.\(gz\|bz2\|xz\)$' | \
-            sed 's@^lilypond-\([0-9.]\+\)\.tar\.\(gz\|bz2\|xz\)$@\1@' | \
-            sort -V | \
-            tail -n1
-        )"
         [ -n "${remVer}" ] && break
       done
     elif echo "${src}" | \
