@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=perl-module-compile
 _pkgname='Module-Compile'
-pkgver=0.35
-pkgrel='4'
+pkgver=0.37
+pkgrel=1
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Perl Module Compilation"
 arch=('any')
@@ -10,14 +10,16 @@ url="http://pdl.perl.org/"
 license=('GPL' 'PerlArtistic')
 depends=(
   'perl>=5.8.1'
-  'perl-digest-sha1>=2.13')
+  'perl-capture-tiny'
+  'perl-digest-sha1>=2.13'
+  'perl-test-harness')
 makedepends=(
-  'perl-extutils-makemaker>=6.30')
+  'perl-extutils-makemaker')
 checkdepends=(
   'perl-test-pod')
 options=('!emptydirs')
 source=("http://search.cpan.org/CPAN/authors/id/I/IN/INGY/${_distdir}.tar.gz")
-sha256sums=('224205297e1d85e4c7821e551d94fa76c43f9b89a0c6fbb0b4a741ced5d896cb')
+sha512sums=('cc0382ad43d5307480d741604c17d654b919521306e37e47e7d19da8bf52208815733f9f6227ab56fe8c3022dbd46842b9d8c4203e1450ad0a393ee1b9ce7bc3')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
