@@ -2,7 +2,7 @@
 pkgname=openttd-git
 pkgver=28093.228f8fba5
 _commit=${pkgver#*.}
-pkgrel=1
+pkgrel=2
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686')
 url="http://www.openttd.org"
@@ -53,6 +53,19 @@ pkgver() {
 prepare() {
 
     cd "${srcdir}/${pkgname}"
+
+    ISODATE=$(find {src,bin} -type f -printf "%TY%Tm%Td\n" | sort -n | tail -n1)
+    HASH=$(find {src,bin} -type f -exec sha512sum {} \; | sort | sha512sum - | cut -d' ' -f1)
+    SHORTHASH=$(echo ${HASH} | cut -c1-8)
+    printf '%s\t%s\t%s\t%s\n' \
+      "${ISODATE}-ewe-g${SHORTHASH}" \
+      "${ISODATE}" \
+      "0" \
+      "${HASH}" \
+      > .ottdrev
+    sed -i '
+      s,"\$ROOT_DIR/\.git","/dev/does/not/exist",
+    ' findversion.sh
 
     git apply < ${srcdir}/everything.patch
     sed -i '
