@@ -469,8 +469,11 @@ then
     then
       quVer=$(
         echo "${src#*::}" | \
-          sed "s|/archive/[^/]*\$|/releases|" | \
-          sed 's|http:|https:|'
+          sed '
+            s|/archive/[^/]*$|/releases|
+            s|/download/[^/]*/[^/]*$||
+            s|http:|https:|
+          '
       )
       quNam=$(
         echo "/${quVer#*.com/}/tag/" | \
