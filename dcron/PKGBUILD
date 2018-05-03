@@ -15,10 +15,10 @@ depends=("bash")
 optdepends=("msmtp-mta: sending cron job output via email")
 provides=("cron")
 conflicts=("cron")
-source=("http://www.jimpryor.net/linux/releases/${pkgname}-${pkgver}.tar.gz"
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/dubiousjim/${pkgname}/archive/v${pkgver}.tar.gz"
         "service")
-md5sums=("078833f3281f96944fc30392b1888326"
-         "2eefc422db24bf2ac38e3a16292ccdc4")
+sha512sums=('72b72c624f72861a6fc10f030ca2b764c5f3be9a0d8341663c5a0acc2fda7fef70770d200975805f184d2fb668ee4811693989a54b12dc5ef501877f6c4aca0e'
+            'bee6352d1b70045db66c3e511d31a577663bafd726b63f3bb8aec69893d91ebab738640015ad7c0e1230c52540a1d749eb63c3111de90cd8c073137495203430')
 
 build() {
     cd "$srcdir/${pkgname}-${pkgver}"
