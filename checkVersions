@@ -189,15 +189,6 @@ then
     elif [ "${pkgname}" = 'g95' ]
     then
       remVer='0.94'
-    elif [ "${pkgname}" = 'dcron' ]
-    then
-      remVer=$(
-        curl_it 'http://www.jimpryor.net/linux/dcron.html' | \
-          grep 'The current version is:' | \
-          tr '"' '\n' | \
-          grep '^releases/dcron-[0-9.]\+\.tar\.gz$' | \
-          sed 's|^releases/dcron-\([0-9.]\+\)\.tar\.gz$|\1|'
-      )
     elif [ "${pkgname}" = 'pgplot-for-ifeffit' ]
     then
       remVer=$(
