@@ -16,9 +16,19 @@ license=('GPL')
 url='https://github.com/archlinux32/archiso32'
 depends=('make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx' 'pacman-mirrorlist32' 'archlinux32-keyring')
 conflicts=('archiso' 'archiso-dual')
-source=("${pkgname}-${_target_arch}-${pkgver}.tar.gz::https://github.com/archlinux32/${pkgname}/archive/${_target_arch}-v${pkgver}.tar.gz")
-sha512sums=('8337aac52542310b8e1f14e6f5e11e8973b4fd778d51eeb7bb962c7817c9399a0a23097c18f69e5a4a1f242a6daf8fdd7d65c75bfc2e0003ca922e2839f28e14')
+source=(
+  "https://github.com/archlinux32/${pkgname}/releases/download/${_target_arch}-v${pkgver}/${pkgname}-${_target_arch}-v${pkgver}.tar.xz"{,.sig}
+)
+sha512sums=(
+  '1f6488d08875451e39c3f45f00ac3427018dcf6791bb5f7389fced560efb0eb2d196181a02f748424d713a37b295405d263aacfa4abb4249231b3764a4615e65'
+  'SKIP'
+)
+validpgpkeys=(
+  '5FDCA472AB93292BC678FD59255A76DB9A12601A'
+  'DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A'
+)
 
 package() {
-    make -C "${srcdir}/${pkgname}-${_target_arch}-v${pkgver}" DESTDIR="${pkgdir}" install
+  ls -lA
+  make -C "${srcdir}/${pkgname}-${_target_arch}-v${pkgver}" DESTDIR="${pkgdir}" install
 }
