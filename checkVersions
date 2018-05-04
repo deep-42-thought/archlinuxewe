@@ -301,7 +301,7 @@ then
     then
       remVer=$(
         cd "$1"
-        git -C "${src_name}" fetch --all -p > /dev/null 2>&1
+        git -C "${src_name}" fetch --all -p >/dev/null 2>&1
         _commit='HEAD'
         srcdir=$(pwd)
         pkgver
@@ -527,18 +527,6 @@ then
           sort -V | \
           tail -n1 \
       )
-    elif echo "${src}" | \
-      grep -q "svn://svn\.openttd\.org"
-    then
-      remVer=$( \
-        svn log "${src%#*}" | \
-          grep -v "^-.* WebTranslator " | \
-          grep -v "^-.* Eints:" | \
-          grep -B10 -m1 -- "^-[^-]" | \
-          grep "^r" | \
-          tail -n1 | \
-          sed "s|^r\([[:digit:]]\+\)\s.*\$|\1|" \
-        )
     elif echo "${src}" | \
       grep -q 'https://bitbucket\.org/.*/get/[^/]\+$'
     then
