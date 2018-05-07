@@ -204,7 +204,7 @@ mangle_versions() {
     post='s|^[^=]*=||'
   fi
   sed "${pre}"'
-    /^perl-extutils-makemaker[<>=]/{
+    /^perl-\(extutils-makemaker\|opengl\)[<>=]/{
       s|\.\([0-9][0-9]\)\([0-9]\+\)|.\1.\2|
     }
   '"${post}"
