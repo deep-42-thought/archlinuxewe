@@ -12,6 +12,7 @@ pkgdesc="Apache licensed PINE mail user agent"
 url="http://alpine.freeiz.com"
 license=("APACHE")
 depends=("libldap" "krb5" "gettext")
+makedepends=('openssl')
 optdepends=("aspell: for spell-checking support"
 	    "hunspell: for spell-checking support"
             "topal: glue program that links GnuPG and alpine")
@@ -56,7 +57,7 @@ build() {
   cd "${srcdir}/${pkgname}"
 
 # Configure Alpine
-  LIBS+="-lpam -lkrb5" ./configure --prefix=/usr \
+  LIBS+=" -lcrypto" ./configure --prefix=/usr \
   --without-passfile --without-tcl --disable-shared \
   --with-system-pinerc=/etc/${pkgname}.d/pine.conf \
   --with-system-fixed-pinerc=/etc/${pkgname}.d/pine.conf.fixed
