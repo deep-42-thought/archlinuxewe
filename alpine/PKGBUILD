@@ -23,6 +23,13 @@ options=("!makeflags")
 source=("alpine::git://repo.or.cz/alpine.git#commit=${_commit}")
 sha512sums=('SKIP')
 
+prepare() {
+  sed -i '
+    /^\s*ERR_free_strings();\s*$/d
+    /^\s*EVP_cleanup();\s*$/d
+  '  "${srcdir}/${pkgname}/pith/smime.c"
+}
+
 pkgver() {
   cd "${srcdir}/${pkgname}"
   _rev=$(
@@ -57,7 +64,7 @@ build() {
   cd "${srcdir}/${pkgname}"
 
 # Configure Alpine
-  LIBS+=" -lcrypto" ./configure --prefix=/usr \
+  ./configure --prefix=/usr \
   --without-passfile --without-tcl --disable-shared \
   --with-system-pinerc=/etc/${pkgname}.d/pine.conf \
   --with-system-fixed-pinerc=/etc/${pkgname}.d/pine.conf.fixed
