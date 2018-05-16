@@ -14,15 +14,25 @@ url='https://github.com/archlinux32/devtools32/'
 depends=('namcap' 'openssh' 'subversion' 'rsync' 'arch-install-scripts'
 	'pacman-mirrorlist32' 'archlinux32-keyring' 'git' 'mercurial' 'bzr')
 conflicts=('devtools')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/archlinux32/$pkgname/archive/v$pkgver.tar.gz")
-sha512sums=('7f9829e60c558644d10b81d980017ef199072c3052c0d71a7b0b8d1faba2e5e98685bcbf22f328710a30efc7d48d385e43b365e0e068734ae6b4569a33748821')
+source=(
+  "https://github.com/archlinux32/$pkgname/releases/download/v$pkgver/$pkgname-v$pkgver.tar.xz"{,.sig}
+)
+sha512sums=(
+  '01f2142679851f782da53a8c23cd8b750eff4481f933edd115d560406461f401a7dcfec09a483b8732a293293f4332c6ca8db9b047c3351793969082c1ebf2a1'
+  'SKIP'
+)
+validpgpkeys=(
+  '5FDCA472AB93292BC678FD59255A76DB9A12601A'
+  'DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A'
+)
 
 build() {
-	cd "${pkgname}-${pkgver}"
+	cd "${pkgname}-v${pkgver}"
 	make PREFIX=/usr
 }
 
 package() {
-	cd "${pkgname}-${pkgver}"
+	cd "${pkgname}-v${pkgver}"
 	make PREFIX=/usr DESTDIR=${pkgdir} install
 }
+
