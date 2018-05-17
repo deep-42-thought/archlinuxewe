@@ -18,11 +18,6 @@ sha512sums=('6848133e30a02ee51bb86613f53a5fdbf9b5a0fea3cab01b8ca7d365f924a966ac9
 
 build() {
   cd $srcdir/$_pyname-$pkgver
-  python setup.py build
-}
-
-build() {
-  cd $srcdir/$_pyname-$pkgver
   python setup.py build_ext --inplace
   python setup.py test
 }
