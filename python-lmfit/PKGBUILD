@@ -3,15 +3,15 @@
 
 pkgbase=python-lmfit
 pkgname=('python-lmfit' 'python2-lmfit')
-pkgver=0.9.9
-pkgrel=2
+pkgver=0.9.10
+pkgrel=1
 pkgdesc="Least-Squares Minimization with Constraints for Python"
 arch=('any')
 url="http://lmfit.github.io/lmfit-py/"
 license=('BSD')
 _depends=('python' 'python-numpy' 'python-scipy' 'python-asteval')
 _makedepends=('python-setuptools')
-_checkdepends=('python-nose')
+_checkdepends=('python-nose' 'python-uncertainties')
 makedepends=(
   "${_depends[@]}" "${_depends[@]/python/python2}"
   "${_makedepends[@]}" "${_makedepends[@]/python/python2}"
@@ -20,7 +20,7 @@ checkdepends=(
   "${_checkdepends[@]}" "${_checkdepends[@]/python/python2}"
   )
 source=("https://github.com/lmfit/lmfit-py/archive/${pkgver}.tar.gz")
-sha512sums=('71f59ce998f3244ba4c9361aba16a0118534f253984b03d979e4ddcf0d83f35cf00efa04704acbc1e81b26ea16443593923779a3b18778b7d7905a60ebc8d086')
+sha512sums=('066efe1970e36b756b6f0f3e23c5850f5308808c00417462d7140f588565f3337a14a729dfe0f89bc3b04b07e254e88f68e56adecae22d064031d4c8b70a8375')
 
 prepare() {
   cp -a "lmfit-py-${pkgver}" "lmfit-py2-${pkgver}"
