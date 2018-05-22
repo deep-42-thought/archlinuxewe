@@ -11,10 +11,10 @@ index e30aabe37..b1bee14ed 100644
  !bin/baseset/orig_extra.grf
  !bin/baseset/orig_*.obg
 diff --git a/config.lib b/config.lib
-index 7fa44f5b3..8aff0e486 100644
+index d6ebb68a1..40db190d9 100644
 --- a/config.lib
 +++ b/config.lib
-@@ -1733,7 +1733,8 @@ make_cflags_and_ldflags() {
+@@ -1753,7 +1753,8 @@ make_cflags_and_ldflags() {
  		CFLAGS="$CFLAGS `$freetype_config --cflags | tr '\n\r' '  '`"
  
  		if [ "$enable_static" != "0" ]; then
@@ -1880,7 +1880,7 @@ index 000000000..47fffb238
 +  </g>
 +</svg>
 diff --git a/projects/openttd_vs100.vcxproj b/projects/openttd_vs100.vcxproj
-index 8a54e9712..79f9a886c 100644
+index f8daad6c9..8b92a930e 100644
 --- a/projects/openttd_vs100.vcxproj
 +++ b/projects/openttd_vs100.vcxproj
 @@ -325,6 +325,7 @@
@@ -1909,7 +1909,7 @@ index 8a54e9712..79f9a886c 100644
      <ClInclude Include="..\src\cpu.h" />
      <ClInclude Include="..\src\crashlog.h" />
      <ClInclude Include="..\src\currency.h" />
-@@ -580,6 +585,8 @@
+@@ -582,6 +587,8 @@
      <ClInclude Include="..\src\order_base.h" />
      <ClInclude Include="..\src\order_func.h" />
      <ClInclude Include="..\src\order_type.h" />
@@ -1918,7 +1918,7 @@ index 8a54e9712..79f9a886c 100644
      <ClInclude Include="..\src\pbs.h" />
      <ClInclude Include="..\src\progress.h" />
      <ClInclude Include="..\src\querystring_gui.h" />
-@@ -645,6 +652,7 @@
+@@ -647,6 +654,7 @@
      <ClInclude Include="..\src\tgp.h" />
      <ClInclude Include="..\src\tile_cmd.h" />
      <ClInclude Include="..\src\tile_type.h" />
@@ -1926,7 +1926,7 @@ index 8a54e9712..79f9a886c 100644
      <ClInclude Include="..\src\tilearea_type.h" />
      <ClInclude Include="..\src\tilehighlight_func.h" />
      <ClInclude Include="..\src\tilehighlight_type.h" />
-@@ -719,6 +727,7 @@
+@@ -722,6 +730,7 @@
      <ClCompile Include="..\src\bridge_gui.cpp" />
      <ClCompile Include="..\src\build_vehicle_gui.cpp" />
      <ClCompile Include="..\src\cheat_gui.cpp" />
@@ -1934,7 +1934,7 @@ index 8a54e9712..79f9a886c 100644
      <ClCompile Include="..\src\company_gui.cpp" />
      <ClCompile Include="..\src\console_gui.cpp" />
      <ClCompile Include="..\src\date_gui.cpp" />
-@@ -776,6 +785,7 @@
+@@ -779,6 +788,7 @@
      <ClInclude Include="..\src\widgets\bridge_widget.h" />
      <ClInclude Include="..\src\widgets\build_vehicle_widget.h" />
      <ClInclude Include="..\src\widgets\cheat_widget.h" />
@@ -1942,7 +1942,7 @@ index 8a54e9712..79f9a886c 100644
      <ClInclude Include="..\src\widgets\company_widget.h" />
      <ClInclude Include="..\src\widgets\console_widget.h" />
      <ClInclude Include="..\src\widgets\date_widget.h" />
-@@ -829,6 +839,7 @@
+@@ -832,6 +842,7 @@
      <ClCompile Include="..\src\aircraft_cmd.cpp" />
      <ClCompile Include="..\src\autoreplace_cmd.cpp" />
      <ClCompile Include="..\src\clear_cmd.cpp" />
@@ -1950,7 +1950,7 @@ index 8a54e9712..79f9a886c 100644
      <ClCompile Include="..\src\company_cmd.cpp" />
      <ClCompile Include="..\src\depot_cmd.cpp" />
      <ClCompile Include="..\src\group_cmd.cpp" />
-@@ -836,6 +847,7 @@
+@@ -839,6 +850,7 @@
      <ClCompile Include="..\src\misc_cmd.cpp" />
      <ClCompile Include="..\src\object_cmd.cpp" />
      <ClCompile Include="..\src\order_cmd.cpp" />
@@ -1959,7 +1959,7 @@ index 8a54e9712..79f9a886c 100644
      <ClCompile Include="..\src\road_cmd.cpp" />
      <ClCompile Include="..\src\roadveh_cmd.cpp" />
 diff --git a/projects/openttd_vs100.vcxproj.filters b/projects/openttd_vs100.vcxproj.filters
-index d50273379..7721162a3 100644
+index c5dfab137..bfebba57b 100644
 --- a/projects/openttd_vs100.vcxproj.filters
 +++ b/projects/openttd_vs100.vcxproj.filters
 @@ -132,6 +132,9 @@
@@ -1998,7 +1998,7 @@ index d50273379..7721162a3 100644
      <ClInclude Include="..\src\cpu.h">
        <Filter>Header Files</Filter>
      </ClInclude>
-@@ -897,6 +912,12 @@
+@@ -903,6 +918,12 @@
      <ClInclude Include="..\src\order_type.h">
        <Filter>Header Files</Filter>
      </ClInclude>
@@ -2011,7 +2011,7 @@ index d50273379..7721162a3 100644
      <ClInclude Include="..\src\pbs.h">
        <Filter>Header Files</Filter>
      </ClInclude>
-@@ -1092,6 +1113,9 @@
+@@ -1098,6 +1119,9 @@
      <ClInclude Include="..\src\tile_type.h">
        <Filter>Header Files</Filter>
      </ClInclude>
@@ -2021,7 +2021,7 @@ index d50273379..7721162a3 100644
      <ClInclude Include="..\src\tilearea_type.h">
        <Filter>Header Files</Filter>
      </ClInclude>
-@@ -1314,6 +1338,9 @@
+@@ -1323,6 +1347,9 @@
      <ClCompile Include="..\src\cheat_gui.cpp">
        <Filter>GUI Source Code</Filter>
      </ClCompile>
@@ -2031,7 +2031,7 @@ index d50273379..7721162a3 100644
      <ClCompile Include="..\src\company_gui.cpp">
        <Filter>GUI Source Code</Filter>
      </ClCompile>
-@@ -1485,6 +1512,9 @@
+@@ -1494,6 +1521,9 @@
      <ClInclude Include="..\src\widgets\cheat_widget.h">
        <Filter>Widgets</Filter>
      </ClInclude>
@@ -2041,7 +2041,7 @@ index d50273379..7721162a3 100644
      <ClInclude Include="..\src\widgets\company_widget.h">
        <Filter>Widgets</Filter>
      </ClInclude>
-@@ -1644,6 +1674,9 @@
+@@ -1653,6 +1683,9 @@
      <ClCompile Include="..\src\clear_cmd.cpp">
        <Filter>Command handlers</Filter>
      </ClCompile>
@@ -2051,7 +2051,7 @@ index d50273379..7721162a3 100644
      <ClCompile Include="..\src\company_cmd.cpp">
        <Filter>Command handlers</Filter>
      </ClCompile>
-@@ -1665,6 +1698,9 @@
+@@ -1674,6 +1707,9 @@
      <ClCompile Include="..\src\order_cmd.cpp">
        <Filter>Command handlers</Filter>
      </ClCompile>
@@ -2062,7 +2062,7 @@ index d50273379..7721162a3 100644
        <Filter>Command handlers</Filter>
      </ClCompile>
 diff --git a/projects/openttd_vs80.vcproj b/projects/openttd_vs80.vcproj
-index b0ac66036..64434e061 100644
+index 88899bbbc..bc8b9759f 100644
 --- a/projects/openttd_vs80.vcproj
 +++ b/projects/openttd_vs80.vcproj
 @@ -482,6 +482,10 @@
@@ -2106,7 +2106,7 @@ index b0ac66036..64434e061 100644
  			<File
  				RelativePath=".\..\src\cpu.h"
  				>
-@@ -1506,6 +1526,14 @@
+@@ -1514,6 +1534,14 @@
  				RelativePath=".\..\src\order_type.h"
  				>
  			</File>
@@ -2121,7 +2121,7 @@ index b0ac66036..64434e061 100644
  			<File
  				RelativePath=".\..\src\pbs.h"
  				>
-@@ -1766,6 +1794,10 @@
+@@ -1774,6 +1802,10 @@
  				RelativePath=".\..\src\tile_type.h"
  				>
  			</File>
@@ -2132,7 +2132,7 @@ index b0ac66036..64434e061 100644
  			<File
  				RelativePath=".\..\src\tilearea_type.h"
  				>
-@@ -2070,6 +2102,10 @@
+@@ -2082,6 +2114,10 @@
  				RelativePath=".\..\src\cheat_gui.cpp"
  				>
  			</File>
@@ -2143,7 +2143,7 @@ index b0ac66036..64434e061 100644
  			<File
  				RelativePath=".\..\src\company_gui.cpp"
  				>
-@@ -2302,6 +2338,10 @@
+@@ -2314,6 +2350,10 @@
  				RelativePath=".\..\src\widgets\cheat_widget.h"
  				>
  			</File>
@@ -2154,7 +2154,7 @@ index b0ac66036..64434e061 100644
  			<File
  				RelativePath=".\..\src\widgets\company_widget.h"
  				>
-@@ -2518,6 +2558,10 @@
+@@ -2530,6 +2570,10 @@
  				RelativePath=".\..\src\clear_cmd.cpp"
  				>
  			</File>
@@ -2165,7 +2165,7 @@ index b0ac66036..64434e061 100644
  			<File
  				RelativePath=".\..\src\company_cmd.cpp"
  				>
-@@ -2546,6 +2590,10 @@
+@@ -2558,6 +2602,10 @@
  				RelativePath=".\..\src\order_cmd.cpp"
  				>
  			</File>
@@ -2177,7 +2177,7 @@ index b0ac66036..64434e061 100644
  				RelativePath=".\..\src\rail_cmd.cpp"
  				>
 diff --git a/projects/openttd_vs90.vcproj b/projects/openttd_vs90.vcproj
-index 8f379e6e6..f600d6044 100644
+index 6fb57832d..98375bc95 100644
 --- a/projects/openttd_vs90.vcproj
 +++ b/projects/openttd_vs90.vcproj
 @@ -479,6 +479,10 @@
@@ -2221,7 +2221,7 @@ index 8f379e6e6..f600d6044 100644
  			<File
  				RelativePath=".\..\src\cpu.h"
  				>
-@@ -1503,6 +1523,14 @@
+@@ -1511,6 +1531,14 @@
  				RelativePath=".\..\src\order_type.h"
  				>
  			</File>
@@ -2236,7 +2236,7 @@ index 8f379e6e6..f600d6044 100644
  			<File
  				RelativePath=".\..\src\pbs.h"
  				>
-@@ -1763,6 +1791,10 @@
+@@ -1771,6 +1799,10 @@
  				RelativePath=".\..\src\tile_type.h"
  				>
  			</File>
@@ -2247,7 +2247,7 @@ index 8f379e6e6..f600d6044 100644
  			<File
  				RelativePath=".\..\src\tilearea_type.h"
  				>
-@@ -2067,6 +2099,10 @@
+@@ -2079,6 +2111,10 @@
  				RelativePath=".\..\src\cheat_gui.cpp"
  				>
  			</File>
@@ -2258,7 +2258,7 @@ index 8f379e6e6..f600d6044 100644
  			<File
  				RelativePath=".\..\src\company_gui.cpp"
  				>
-@@ -2299,6 +2335,10 @@
+@@ -2311,6 +2347,10 @@
  				RelativePath=".\..\src\widgets\cheat_widget.h"
  				>
  			</File>
@@ -2269,7 +2269,7 @@ index 8f379e6e6..f600d6044 100644
  			<File
  				RelativePath=".\..\src\widgets\company_widget.h"
  				>
-@@ -2515,6 +2555,10 @@
+@@ -2527,6 +2567,10 @@
  				RelativePath=".\..\src\clear_cmd.cpp"
  				>
  			</File>
@@ -2280,7 +2280,7 @@ index 8f379e6e6..f600d6044 100644
  			<File
  				RelativePath=".\..\src\company_cmd.cpp"
  				>
-@@ -2543,6 +2587,10 @@
+@@ -2555,6 +2599,10 @@
  				RelativePath=".\..\src\order_cmd.cpp"
  				>
  			</File>
@@ -2292,7 +2292,7 @@ index 8f379e6e6..f600d6044 100644
  				RelativePath=".\..\src\rail_cmd.cpp"
  				>
 diff --git a/source.list b/source.list
-index 96dc6e197..1f74b910e 100644
+index 7555044d2..a7ca5de26 100644
 --- a/source.list
 +++ b/source.list
 @@ -9,6 +9,7 @@ cargomonitor.cpp
@@ -2321,7 +2321,7 @@ index 96dc6e197..1f74b910e 100644
  cpu.h
  crashlog.h
  currency.h
-@@ -292,6 +297,8 @@ order_backup.h
+@@ -294,6 +299,8 @@ order_backup.h
  order_base.h
  order_func.h
  order_type.h
@@ -2330,7 +2330,7 @@ index 96dc6e197..1f74b910e 100644
  pbs.h
  progress.h
  querystring_gui.h
-@@ -357,6 +364,7 @@ textfile_type.h
+@@ -359,6 +366,7 @@ textfile_type.h
  tgp.h
  tile_cmd.h
  tile_type.h
@@ -2338,7 +2338,7 @@ index 96dc6e197..1f74b910e 100644
  tilearea_type.h
  tilehighlight_func.h
  tilehighlight_type.h
-@@ -450,6 +458,7 @@ bootstrap_gui.cpp
+@@ -453,6 +461,7 @@ bootstrap_gui.cpp
  bridge_gui.cpp
  build_vehicle_gui.cpp
  cheat_gui.cpp
@@ -2346,7 +2346,7 @@ index 96dc6e197..1f74b910e 100644
  company_gui.cpp
  console_gui.cpp
  date_gui.cpp
-@@ -509,6 +518,7 @@ widgets/bootstrap_widget.h
+@@ -512,6 +521,7 @@ widgets/bootstrap_widget.h
  widgets/bridge_widget.h
  widgets/build_vehicle_widget.h
  widgets/cheat_widget.h
@@ -2354,7 +2354,7 @@ index 96dc6e197..1f74b910e 100644
  widgets/company_widget.h
  widgets/console_widget.h
  widgets/date_widget.h
-@@ -564,6 +574,7 @@ widgets/waypoint_widget.h
+@@ -567,6 +577,7 @@ widgets/waypoint_widget.h
  aircraft_cmd.cpp
  autoreplace_cmd.cpp
  clear_cmd.cpp
@@ -2362,7 +2362,7 @@ index 96dc6e197..1f74b910e 100644
  company_cmd.cpp
  depot_cmd.cpp
  group_cmd.cpp
-@@ -571,6 +582,7 @@ industry_cmd.cpp
+@@ -574,6 +585,7 @@ industry_cmd.cpp
  misc_cmd.cpp
  object_cmd.cpp
  order_cmd.cpp
@@ -5662,7 +5662,7 @@ index 39f1ea661..9a83d2ca2 100644
  void ShowGenerateLandscape();
  void ShowHeightmapLoad();
 diff --git a/src/industry_cmd.cpp b/src/industry_cmd.cpp
-index 9c98b120c..33fb5c45c 100644
+index 7d1a7e2e6..de556dddc 100644
 --- a/src/industry_cmd.cpp
 +++ b/src/industry_cmd.cpp
 @@ -343,6 +343,8 @@ static void DrawTile_Industry(TileInfo *ti)
@@ -10955,7 +10955,7 @@ index 4a9202457..773735a3c 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/dutch.txt b/src/lang/dutch.txt
-index c8520b43c..afd56840b 100644
+index ad2bfe472..164c2c7bb 100644
 --- a/src/lang/dutch.txt
 +++ b/src/lang/dutch.txt
 @@ -4884,10 +4884,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -32469,7 +32469,7 @@ index 75b06967f..906994480 100644
  
  /**
 diff --git a/src/newgrf_house.cpp b/src/newgrf_house.cpp
-index ebdd858a4..5730bb018 100644
+index 314f02b3d..420ffc2af 100644
 --- a/src/newgrf_house.cpp
 +++ b/src/newgrf_house.cpp
 @@ -442,6 +442,8 @@ static void DrawTileLayout(const TileInfo *ti, const TileLayoutSpriteGroup *grou
@@ -32495,7 +32495,7 @@ index 69c4b1d07..f595ac1dd 100644
  }
  
 diff --git a/src/newgrf_station.cpp b/src/newgrf_station.cpp
-index 41ef7af75..29bce14bb 100644
+index 5271b2bfc..0c45bf456 100644
 --- a/src/newgrf_station.cpp
 +++ b/src/newgrf_station.cpp
 @@ -652,6 +652,23 @@ CommandCost PerformStationTileSlopeCheck(TileIndex north_tile, TileIndex cur_til
@@ -32523,7 +32523,7 @@ index 41ef7af75..29bce14bb 100644
  /**
   * Allocate a StationSpec to a Station. This is called once per build operation.
 diff --git a/src/newgrf_station.h b/src/newgrf_station.h
-index fc4278571..fa149ea9f 100644
+index 123330d0a..c155ee364 100644
 --- a/src/newgrf_station.h
 +++ b/src/newgrf_station.h
 @@ -184,6 +184,8 @@ SpriteID GetCustomStationFoundationRelocation(const StationSpec *statspec, BaseS
@@ -32536,7 +32536,7 @@ index fc4278571..fa149ea9f 100644
  int AllocateSpecToStation(const StationSpec *statspec, BaseStation *st, bool exec);
  
 diff --git a/src/object_cmd.cpp b/src/object_cmd.cpp
-index f7ba0d995..a2d674e57 100644
+index 9f03813df..a02e23d00 100644
 --- a/src/object_cmd.cpp
 +++ b/src/object_cmd.cpp
 @@ -847,4 +847,5 @@ extern const TileTypeProcs _tile_type_object_procs = {
@@ -35072,7 +35072,7 @@ index fcabf477f..e2a858151 100644
  	}
  
 diff --git a/src/saveload/afterload.cpp b/src/saveload/afterload.cpp
-index f01afb425..abe17e402 100644
+index 33c49fb61..4f841bbba 100644
 --- a/src/saveload/afterload.cpp
 +++ b/src/saveload/afterload.cpp
 @@ -125,7 +125,7 @@ void SetWaterClassDependingOnSurroundings(TileIndex t, bool include_invalid_wate
@@ -35923,7 +35923,7 @@ index 86a185ca4..3a37173d4 100644
  	}
  }
 diff --git a/src/saveload/oldloader_sl.cpp b/src/saveload/oldloader_sl.cpp
-index 61a5aa5c6..cca33bdda 100644
+index 1974bb31f..d5b4f3a46 100644
 --- a/src/saveload/oldloader_sl.cpp
 +++ b/src/saveload/oldloader_sl.cpp
 @@ -48,55 +48,55 @@ void FixOldMapArray()
@@ -40172,7 +40172,7 @@ index f86286f3d..c07fad14b 100644
 +}
 \ No newline at end of file
 diff --git a/src/station_base.h b/src/station_base.h
-index af4d206ba..f017f2722 100644
+index 5e16b0d54..8357a530f 100644
 --- a/src/station_base.h
 +++ b/src/station_base.h
 @@ -19,7 +19,9 @@
@@ -40233,7 +40233,7 @@ index af4d206ba..f017f2722 100644
  
  	/* virtual */ inline bool TileBelongsToRailStation(TileIndex tile) const
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index 5fd865a0d..1994e3da9 100644
+index 07780de13..b78244cea 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -13,6 +13,9 @@
@@ -40311,7 +40311,7 @@ index 5fd865a0d..1994e3da9 100644
  
  	SetWindowDirty(WC_STATION_VIEW, this->index);
  }
-@@ -554,6 +570,126 @@ CargoArray GetAcceptanceAroundTiles(TileIndex tile, int w, int h, int rad, uint3
+@@ -554,6 +570,126 @@ CargoArray GetAcceptanceAroundTiles(TileIndex tile, int w, int h, int rad, Cargo
  	return acceptance;
  }
  
@@ -41450,12 +41450,12 @@ index 5fd865a0d..1994e3da9 100644
 +	CopyPasteTile_Station,      // copypaste_tile_proc
  };
 diff --git a/src/station_func.h b/src/station_func.h
-index f33dbd21f..fedd91f8a 100644
+index 9748297f2..b224be9b7 100644
 --- a/src/station_func.h
 +++ b/src/station_func.h
 @@ -30,6 +30,9 @@ void UpdateAllStationVirtCoords();
  CargoArray GetProductionAroundTiles(TileIndex tile, int w, int h, int rad);
- CargoArray GetAcceptanceAroundTiles(TileIndex tile, int w, int h, int rad, uint32 *always_accepted = NULL);
+ CargoArray GetAcceptanceAroundTiles(TileIndex tile, int w, int h, int rad, CargoTypes *always_accepted = NULL);
  
 +CargoArray GetProductionRateAroundTiles(TileIndex tile, int w, int h, int rad);
 +CargoArray GetAcceptanceRateAroundTiles(TileIndex tile, int w, int h, int rad);
@@ -41464,7 +41464,7 @@ index f33dbd21f..fedd91f8a 100644
  
  const DrawTileSprites *GetStationTileLayout(StationType st, byte gfx);
 diff --git a/src/station_gui.cpp b/src/station_gui.cpp
-index c1927bdcc..33f10a970 100644
+index 52738ab13..c45ede8f5 100644
 --- a/src/station_gui.cpp
 +++ b/src/station_gui.cpp
 @@ -30,6 +30,8 @@
@@ -41485,7 +41485,7 @@ index c1927bdcc..33f10a970 100644
  #include <set>
  #include <vector>
 @@ -59,10 +62,13 @@ int DrawStationCoverageAreaText(int left, int right, int top, StationCoverageTyp
- 	uint32 cargo_mask = 0;
+ 	CargoTypes cargo_mask = 0;
  	if (_thd.drawstyle == HT_RECT && tile < MapSize()) {
  		CargoArray cargoes;
 +		CargoArray rates;
@@ -42385,7 +42385,7 @@ index 7ca9bd720..9dbc7bf49 100644
  /**
   * Make the given tile an oilrig tile.
 diff --git a/src/strings.cpp b/src/strings.cpp
-index e1e352f5d..1de66a7f5 100644
+index fd45e6a0b..2ba947d21 100644
 --- a/src/strings.cpp
 +++ b/src/strings.cpp
 @@ -1152,6 +1152,8 @@ static char *FormatString(char *buff, const char *str_arg, StringParameters *arg
@@ -42953,7 +42953,7 @@ index 97749a8dc..8b60552eb 100644
  								SetFill(0, 1), SetDataTip(SPR_IMG_DYNAMITE, STR_TOOLTIP_DEMOLISH_BUILDINGS_ETC),
  		NWidget(WWT_IMGBTN, COLOUR_DARK_GREEN, WID_TT_BUY_LAND), SetMinimalSize(22, 22),
 diff --git a/src/tile_cmd.h b/src/tile_cmd.h
-index 6b8d6c69f..ea31575d7 100644
+index ce70232a0..529a5906f 100644
 --- a/src/tile_cmd.h
 +++ b/src/tile_cmd.h
 @@ -18,6 +18,8 @@
@@ -44583,7 +44583,7 @@ index 7966d2898..637ba00d8 100644
  	return CBF_NONE;
  }
 diff --git a/src/town.h b/src/town.h
-index 010c7c216..81651102a 100644
+index 19a4118ba..4a5d3d962 100644
 --- a/src/town.h
 +++ b/src/town.h
 @@ -15,6 +15,9 @@
@@ -44677,7 +44677,7 @@ index 010c7c216..81651102a 100644
   * Action types that a company must ask permission for to a town authority.
   * @see CheckforTownRating
 diff --git a/src/town_cmd.cpp b/src/town_cmd.cpp
-index 5973dfbc1..fffad02c9 100644
+index 0575b0a37..b142ef79e 100644
 --- a/src/town_cmd.cpp
 +++ b/src/town_cmd.cpp
 @@ -26,6 +26,7 @@
@@ -44738,7 +44738,7 @@ index 5973dfbc1..fffad02c9 100644
  		STR_VIEWPORT_TOWN);
  
  	SetWindowDirty(WC_TOWN_VIEW, this->index);
-@@ -2989,6 +3012,7 @@ static CommandCost TownActionBribe(Town *t, DoCommandFlag flags)
+@@ -2997,6 +3020,7 @@ static CommandCost TownActionBribe(Town *t, DoCommandFlag flags)
  			 */
  			if (t->ratings[_current_company] > RATING_BRIBE_DOWN_TO) {
  				t->ratings[_current_company] = RATING_BRIBE_DOWN_TO;
@@ -44746,7 +44746,7 @@ index 5973dfbc1..fffad02c9 100644
  				SetWindowDirty(WC_TOWN_AUTHORITY, t->index);
  			}
  		} else {
-@@ -3121,6 +3145,7 @@ static void UpdateTownRating(Town *t)
+@@ -3129,6 +3153,7 @@ static void UpdateTownRating(Town *t)
  		t->ratings[i] = Clamp(t->ratings[i], RATING_MINIMUM, RATING_MAXIMUM);
  	}
  
@@ -44754,7 +44754,7 @@ index 5973dfbc1..fffad02c9 100644
  	SetWindowDirty(WC_TOWN_AUTHORITY, t->index);
  }
  
-@@ -3356,6 +3381,8 @@ void ChangeTownRating(Town *t, int add, int max, DoCommandFlag flags)
+@@ -3364,6 +3389,8 @@ void ChangeTownRating(Town *t, int add, int max, DoCommandFlag flags)
  	}
  
  	int rating = GetRating(t);
@@ -44763,7 +44763,7 @@ index 5973dfbc1..fffad02c9 100644
  	if (add < 0) {
  		if (rating > max) {
  			rating += add;
-@@ -3372,7 +3399,28 @@ void ChangeTownRating(Town *t, int add, int max, DoCommandFlag flags)
+@@ -3380,7 +3407,28 @@ void ChangeTownRating(Town *t, int add, int max, DoCommandFlag flags)
  	} else {
  		SetBit(t->have_ratings, _current_company);
  		t->ratings[_current_company] = rating;
@@ -44792,7 +44792,7 @@ index 5973dfbc1..fffad02c9 100644
  	}
  }
  
-@@ -3487,6 +3535,7 @@ extern const TileTypeProcs _tile_type_town_procs = {
+@@ -3495,6 +3543,7 @@ extern const TileTypeProcs _tile_type_town_procs = {
  	NULL,                    // vehicle_enter_tile_proc
  	GetFoundation_Town,      // get_foundation_proc
  	TerraformTile_Town,      // terraform_tile_proc
@@ -44801,7 +44801,7 @@ index 5973dfbc1..fffad02c9 100644
  
  
 diff --git a/src/town_gui.cpp b/src/town_gui.cpp
-index a87c29367..99e683b89 100644
+index 1d604634d..7e7a1132f 100644
 --- a/src/town_gui.cpp
 +++ b/src/town_gui.cpp
 @@ -154,15 +154,7 @@ public:
@@ -46719,7 +46719,7 @@ index 0f7f17b3a..a077f1108 100644
 +
  #endif /* TUNNELBRIDGE_MAP_H */
 diff --git a/src/vehicle.cpp b/src/vehicle.cpp
-index be11e05be..5b96aaa8d 100644
+index b4c790722..f00588eb7 100644
 --- a/src/vehicle.cpp
 +++ b/src/vehicle.cpp
 @@ -285,6 +285,13 @@ uint Vehicle::Crash(bool flooded)
