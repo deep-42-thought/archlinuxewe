@@ -329,11 +329,11 @@ then
           tail -n1
       )"
       remHash="$(
-        curl_it "${qu}${remVer}" | \
+        curl_it "${qu}${remVer}/" | \
           tr '"#' '\n' | \
           sponge | \
-          grep -m1 "^https://pypi\.python\.org/packages/.*/[0-9a-f]\{60\}/${_pkgname}-${remVer}\.tar\.\(gz\|bz2\|xz\)\$" | \
-          sed 's|/[^/]\+$|/|; s|^https://pypi\.python\.org/packages/|/|'
+          grep -m1 "^https://files\.pythonhosted\.org/packages/.*/[0-9a-f]\{60\}/${_pkgname}-${remVer}\.tar\.\(gz\|bz2\|xz\)\$" | \
+          sed 's|/[^/]\+$|/|; s|^https://files\.pythonhosted\.org/packages/|/|'
       )"
       locHash="$(
         echo "${src}" | \
