@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-sah'
-pkgver='0.88'
-pkgrel='1'
+pkgver=0.890
+pkgrel=1
 pkgdesc='Fast and featureful data structure validation'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,8 +13,7 @@ optdepends=(
   'perl-datetime-duration'
   'perl-scalar-util-numeric'
   'perl-time-moment'
-  'perl-time-piece'
-)
+  'perl-time-piece')
 depends=(
   'perl>=5.10.1'
   'perl-data-dmp>=0.21'
@@ -23,14 +22,14 @@ depends=(
   'perl-data-sah-normalize>=0.03'
   'perl-data-sah-resolve>=0.003'
   'perl-experimental'
-  'perl-exporter'
+  'perl-exporter>=5.57'
   'perl-file-chdir'
   'perl-file-sharedir'
   'perl-file-sharedir-tarball'
   'perl-file-slurper'
   'perl-json'
   'perl-lingua-en-numbers-ordinate>=1.02'
-  'perl-log-ger>=0.011'
+  'perl-log-ger>=0.023'
   'perl-mo'
   'perl-module-installed-tiny'
   'perl-parent'
@@ -41,30 +40,33 @@ depends=(
   'perl-test-simple>=0.98'
   'perl-text-sprintfn'
   'perl-tie-ixhash'
-  'perl-time-hires'
-)
+  'perl-time-hires')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-lib-filter>=0.03'
   'perl-pathtools'
   'perl-sah>=0.9.42'
-  'perl-scalar-list-utils'
+  'perl-scalar-list-utils>=1.45'
   'perl-test-exception'
-  'perl-test-simple>=0.98'
   'perl-test-warn'
-  'perl-time-duration-parse-ashash'
-)
+  'perl-time-duration-parse-ashash')
 checkdepends=(
+  'perl-datetime'
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
+  'perl-time-moment'
 )
 url='https://metacpan.org/release/Data-Sah'
 _distdir="Data-Sah-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('87754bde0cda0b9d0ff00e9eadf106ccbc1823edb7ed394615f63686c64fb12bb240307a60ddb697376af83cb45d9f4b608fd5361234df8baf6d3ea38ec4e5ae')
+sha512sums=('2e48ecbefc5ae1d5673e8cd4a97247d6614541bd3c74dbe7d09e044dbc66291735e38a95eb8d8967dca43bf57ec9cd9ce2a50ce4119d66e117afc7a0dc27b5a1')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
