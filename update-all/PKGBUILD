@@ -1,13 +1,16 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=update-all
 pkgver=0.4.5
-pkgrel=1
+pkgrel=2
 pkgdesc="Simple script for installing updated packages"
 arch=('any')
 url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
 license=('GPL')
 groups=()
-depends=()
+depends=(
+  'pacman-contrib'
+  'vim'
+)
 makedepends=()
 checkdepends=()
 optdepends=(
