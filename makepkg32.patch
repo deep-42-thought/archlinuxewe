@@ -1,6 +1,6 @@
---- makepkg32.conf	2016-04-13 09:43:35.042178024 +0200
-+++ makepkg32.conf	2016-04-13 09:44:16.263054427 +0200
-@@ -30,15 +30,15 @@
+--- makepkg32.conf	2018-05-30 08:38:02.885358183 +0200
++++ makepkg32.conf	2018-05-30 08:40:25.575856939 +0200
+@@ -32,13 +32,13 @@
  # ARCHITECTURE, COMPILE FLAGS
  #########################################################################
  #
@@ -10,8 +10,6 @@
 +CHOST="i686-pc-linux-gnu"
  
  #-- Compiler and Linker Flags
- # -march (or -mcpu) builds exclusively for an architecture
- # -mtune optimizes for an architecture, but builds for whole processor family
  CPPFLAGS="-D_FORTIFY_SOURCE=2"
 -CFLAGS="-march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt"
 -CXXFLAGS="-march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt"
