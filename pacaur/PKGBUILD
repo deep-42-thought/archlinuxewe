@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=pacaur
-pkgver=4.7.10
+pkgver=4.7.90
 pkgrel=1
 pkgdesc="An AUR helper that minimizes user interaction"
 arch=('any')
@@ -11,7 +11,7 @@ depends=('cower' 'expac' 'sudo' 'git')
 makedepends=('perl')
 backup=('etc/xdg/pacaur/config')
 source=("https://github.com/rmarquis/$pkgname/archive/$pkgver.tar.gz")
-md5sums=('ddb8adbb50889d07de41ca97d34a09d2')
+sha512sums=('91b04c2686e6c059f5335e077460dc8dc6c70448e6067a8fd98e84f66387f6720ab38db4ed4e4dfa03727a7faba961979c619e65347e5cd1514f4751759ab510')
 
 build() {
     cd "$pkgname-$pkgver"
