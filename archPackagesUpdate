@@ -468,10 +468,9 @@ then
   fi
 
 # update git sources
-  find "$(
-    grep '^SRCDEST=' makepkg.conf | \
-      cut -d= -f2
-  )" -mindepth 2 -maxdepth 2 -name 'HEAD' | \
+  eval "find '$(
+    grep '^SRCDEST=' makepkg.conf
+  )' -mindepth 2 -maxdepth 2 -name 'HEAD'" | \
     sed 's|/[^/]*$||' | \
     while read -r repo; do
       git -C "${repo}" fetch --all -p
