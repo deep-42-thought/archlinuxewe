@@ -467,24 +467,24 @@ then
     exit 1
   fi
 
-# update git sources
-  eval "find '$(
+  eval "$(
     grep '^SRCDEST=' makepkg.conf
-  )' -mindepth 2 -maxdepth 2 -name 'HEAD'" | \
-    sed 's|/[^/]*$||' | \
-    while read -r repo; do
-      git -C "${repo}" fetch --all -p
-    done
+  )"
 
-# update svn sources
-  find "$(
-    grep '^SRCDEST=' makepkg.conf | \
-      cut -d= -f2
-  )" -mindepth 2 -maxdepth 2 -name '.svn' | \
-    sed 's|/[^/]*$||' | \
-    while read -r repo; do
-      svn update "${repo}"
-    done
+  if [ -n "${SRCDEST}" ]; then
+    # update git sources
+    find "${SRCDEST}" -mindepth 2 -maxdepth 2 -name 'HEAD' | \
+      sed 's|/[^/]*$||' | \
+      while read -r repo; do
+        git -C "${repo}" fetch --all -p
+      done
+    # update svn sources
+    find "${SRCDEST}" -mindepth 2 -maxdepth 2 -name '.svn' | \
+      sed 's|/[^/]*$||' | \
+      while read -r repo; do
+        svn update "${repo}"
+      done
+  fi
 
 # build packages
   for ((i=0; i<${#pakete[@]}; i++))
@@ -581,9 +581,12 @@ then
     fi
     [ ${err[${i}]} -gt ${maxErr} ] && maxErr=${err[${i}]}
 
-    key="$(
-      grep '^GPGKEY=' "${tmpDir}/makepkg.conf" | \
-        sed 's|^GPGKEY=\s*"\(.*\)"\s*$|0x\1|'
+    eval "$(
+      sed -n '
+        s/^GPGKEY=/key=/
+        T
+        p
+      ' "${tmpDir}/makepkg.conf"
     )"
     for teil in "${paket_teile[@]}"; do
       if ! gpg --verify ${teil}-${vers}-${arch}.pkg.tar.xz{.sig,} &> /dev/null; then
@@ -791,7 +794,8 @@ else
       [ -r "${paket}/PKGBUILD" ] || continue
 
       if ! grep -q "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$" "${paket}/PKGBUILD" || \
-         grep "^# Maintainer\s*:" "${paket}/PKGBUILD" | grep -vq "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$"
+         grep "^# Maintainer\s*:" "${paket}/PKGBUILD" | \
+           grep -vq "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$"
       then
         >&2 echo "${paket}/PKGBUILD hat falsche(n) Maintainer"
         err=true
@@ -800,7 +804,8 @@ else
       unset epoch
       . "${paket}/PKGBUILD"
 
-      if echo "${source}" | grep -q "://opensources\.eckner\.net/"
+      if echo "${source}" | \
+        grep -q "://opensources\.eckner\.net/"
       then
 
 # one of Erich's packages
@@ -821,7 +826,8 @@ else
           err=true
         fi
 
-      elif echo "${source}" | grep -q "://arch\.eckner\.net/"
+      elif echo "${source}" | \
+        grep -q "://arch\.eckner\.net/"
       then
 
 # a modified official package
