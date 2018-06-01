@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-sub-complete'
-pkgver='0.92'
-pkgrel='2'
+pkgver=0.931
+pkgrel=1
 pkgdesc='Complete command-line argument using Rinci metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,27 +14,25 @@ depends=(
   'perl-complete-getopt-long>=0.43'
   'perl-complete-util>=0.57'
   'perl-data-sah-normalize'
-  'perl-exporter'
-  'perl-log-ger>=0.011'
+  'perl-exporter>=5.57'
+  'perl-log-ger>=0.023'
   'perl-module-installed-tiny'
-  'perl-perinci-sub-getargs-argv>=0.80'
-  'perl-perinci-sub-util>=0.46'
-)
+  'perl-perinci-sub-getargs-argv>=0.83'
+  'perl-perinci-sub-util>=0.46')
 makedepends=(
-  'perl'
   'perl-complete-bash>=0.27'
   'perl-extutils-makemaker'
   'perl-io'
-  'perl-monkey-patch-action'
+  'perl-monkey-patch-action>=0.060'
   'perl-pathtools'
   'perl-perinci-examples>=0.79'
   'perl-perinci-sub-normalize>=0.19'
   'perl-sah-schemas-int'
   'perl-test-exception'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
   'perl-test-rinci'
@@ -43,7 +41,11 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Sub-Complete'
 _distdir="Perinci-Sub-Complete-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('fbcc6c1e14b5b825072b3ba054fd2c2a50f51586de7babf09226ec8a6c370cc2d9db0246519dcd1efd2d5b539c0d54a64f5ab81a647db1337675067e71124260')
+sha512sums=('5425b3d84c79012c2be6b6ee6c10919380bb7375bcbc71b2a4c71af4cc82a7879d5002575fe731b4e312702266dfdfa587686c3690f211105a31630c7078039a')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
