@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=cssh
-pkgver=0.r98.43aa69b
+pkgver=0.r99.095c6ea
 _commit=${pkgver##*.}
 pkgrel=1
 arch=('i686' 'x86_64')
@@ -10,7 +10,7 @@ url='https://github.com/andreasbaumann/cssh'
 license=('GPL2')
 depends=('libssh')
 makedepends=('git' 'cmake' 'gengetopt')
-source=("cssh::git+https://github.com/andreasbaumann/cssh.git#commit=${_commit}")
+source=("cssh::git://git.andreasbaumann.cc/cssh.git#commit=${_commit}")
 sha512sums=('SKIP')
 
 pkgver() {
