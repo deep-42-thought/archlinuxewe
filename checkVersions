@@ -222,10 +222,10 @@ then
             tar -Ox Makefile | \
             grep -m1 '^V=[0-9.]\+$' | \
             cut -d= -f2
-          curl_it 'https://github.com/archlinux32/archiso32/releases' | \
+          curl_it 'https://git.archlinux32.org/archlinux32/archiso32/releases' | \
             tr '"' '\n' | \
-            grep '^/archlinux32/archiso32/releases/tag/\(i686\|dual\)-v[0-9.]\+$' | \
-            sed 's@^/archlinux32/archiso32/releases/tag/\(i686\|dual\)-v\([0-9.]\+\)$@\2@'
+            grep '^/archlinux32/archiso32/archive/\(i686\|dual\)-v[0-9.]\+\.tar\.gz$' | \
+            sed 's@^/archlinux32/archiso32/archive/\(i686\|dual\)-v\([0-9.]\+\)\.tar\.gz$@\2@'
         ) | \
           sort -V | \
           tail -n1
@@ -239,10 +239,10 @@ then
             tar -Ox Makefile | \
             grep -m1 '^V=[0-9.]\+$' | \
             cut -d= -f2
-          curl_it 'https://github.com/archlinux32/devtools32/releases' | \
+          curl_it 'https://git.archlinux32.org/archlinux32/devtools32/releases' | \
             tr '"' '\n' | \
-            grep '^/archlinux32/devtools32/releases/tag/v[0-9.]\+$' | \
-            sed 's@^/archlinux32/devtools32/releases/tag/v\([0-9.]\+\)$@\1@'
+            grep '^/archlinux32/devtools32/releases/tag/v[0-9.]\+\.tar\.gz$' | \
+            sed 's@^/archlinux32/devtools32/releases/tag/v\([0-9.]\+\)\.tar\.gz$@\1@'
         ) | \
           sort -V | \
           tail -n1
@@ -484,6 +484,34 @@ then
               cat
             fi
           ) | \
+          sort -V | \
+          tail -n1 \
+      )
+    elif echo "${src}" | \
+      grep -q '^https\?://git\.archlinux32\.org/'
+    then
+      quVer=$(
+        echo "${src#*::}" | \
+          sed '
+            s|/archive/[^/]*$|/releases|
+            s|/download/[^/]*/[^/]*$||
+            s|http:|https:|
+          '
+      )
+      quNam=$(
+        echo "/${quVer#*.org/}" | \
+          tr '[[:upper:]]' '[[:lower:]]' | \
+          sed 's,/releases$,/archive/,'
+      )
+      remVer=$( \
+        curl_it "${quVer}" | \
+          tr "\"" "\n" | \
+          tr '[[:upper:]]' '[[:lower:]]' | \
+          grep "^${quNam}v\?[0-9.]\+\.tar\.gz\$" | \
+          sed '
+            s|^'"${quNam}"'v\?||
+            s/\.tar\.gz$//
+          ' | \
           sort -V | \
           tail -n1 \
       )
