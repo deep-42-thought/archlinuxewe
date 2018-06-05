@@ -10,27 +10,22 @@ pkgrel=1
 pkgdesc='Tools for Arch Linux package maintainers, also for 32 bit'
 arch=('any')
 license=('GPL')
-url='https://github.com/archlinux32/devtools32/'
+url='https://git.archlinux32.org/archlinux32/devtools32/'
 depends=('namcap' 'openssh' 'subversion' 'rsync' 'arch-install-scripts'
 	'pacman-mirrorlist32' 'archlinux32-keyring' 'git' 'mercurial' 'bzr')
 conflicts=('devtools')
 source=(
-  "https://github.com/archlinux32/$pkgname/releases/download/v$pkgver/$pkgname-v$pkgver.tar.xz"{,.sig}
+  "$pkgname-$pkgver.tar.gz::https://git.archlinux32.org/archlinux32/$pkgname/archive/v$pkgver.tar.gz"
 )
-sha512sums=('75ec36fb351d576ca1bb4db07b61f8b417e68c386220a3e63f13618aa6bae8d0e2b1552a60bad78d7b5872c57ccc66d27a8a29a2a56bdbdcbfdf00277467118e'
-            'SKIP')
-validpgpkeys=(
-  '5FDCA472AB93292BC678FD59255A76DB9A12601A'
-  'DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A'
-)
+sha512sums=('f161b33ccc35da813326c868e0081b9e0ec611783755fbceedb77bf1990c42812c0b9bc678380445adead23ff82e3f742091752c4b5bec264a3fc7b780d28862')
 
 build() {
-	cd "${pkgname}-v${pkgver}"
+	cd "${pkgname}"
 	make PREFIX=/usr
 }
 
 package() {
-	cd "${pkgname}-v${pkgver}"
+	cd "${pkgname}"
 	make PREFIX=/usr DESTDIR=${pkgdir} install
 }
 

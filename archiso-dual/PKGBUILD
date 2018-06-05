@@ -13,21 +13,16 @@ pkgrel=1
 pkgdesc='Tools for creating Arch Linux live and install iso images - for '"${_target_arch}"
 arch=('any')
 license=('GPL')
-url='https://github.com/archlinux32/archiso32'
+url='https://git.archlinux32.org/archlinux32/archiso32'
 depends=('make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx' 'pacman-mirrorlist32' 'archlinux32-keyring')
 conflicts=('archiso' 'archiso32')
 source=(
-  "https://github.com/archlinux32/${pkgname%-dual}32/releases/download/dual-v${pkgver}/${pkgname%-dual}32-dual-v${pkgver}.tar.xz"{,.sig}
+  "https://git.archlinux32.org/archlinux32/${pkgname%-dual}32/archive/dual-v${pkgver}.tar.gz"
 )
 sha512sums=(
-  '92dea5d445c536e9bb0eecdc2f3f7af2b76c1ddf185542d5c0853103c77643566cca2ae11f6eb5d2f482263630c5bb0b9d2f0f2384a3710729e45fd0fd96cf56'
-  'SKIP'
-)
-validpgpkeys=(
-  '5FDCA472AB93292BC678FD59255A76DB9A12601A'
-  'DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A'
+  '42524f4c9f3b0d4e9ba3f164016b282b72ee2f9934c14029f448c38fe96779bb821c6152fcbffe3026ee44b9fab582b2b8515e27de89d223ffc52804a3cbd983'
 )
 
 package() {
-    make -C "${pkgname/-/32-}-v${pkgver}" DESTDIR="${pkgdir}" install
+    make -C "${pkgname/-dual/32}" DESTDIR="${pkgdir}" install
 }
