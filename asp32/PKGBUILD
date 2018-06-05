@@ -4,23 +4,23 @@
 # repo: releng
 
 pkgname=asp32
-pkgver=2
+pkgver=0.0
 pkgrel=1
 pkgdesc="Arch Linux build source file management tool"
 arch=(any)
-url='https://github.com/archlinux32/asp32/'
+url='https://git.archlinux32.org/archlinux32/asp32/'
 license=(MIT)
 depends=(awk bash jq git libarchive)
 makedepends=(asciidoc)
 conflicts=('asp')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/archlinux32/$pkgname/archive/v$pkgver.tar.gz")
-sha512sums=('6a02594b9751c000166506f133a4205311e9ab911fcfa9c4430ed9eef1c0e93fe7f5ca80cbb2bf307547d41c590c5a266b18079a0a510ceefc82082698265843')
+source=("$pkgname-$pkgver.tar.gz::https://git.archlinux32.org/archlinux32/$pkgname/archive/v$pkgver.tar.gz")
+sha512sums=('82b7129b75fa3c9d7f86f6f0e76b866ee6b0ef7457755830b710eb9149165748562e72e578f1a9c623baacf58671059af7293f7b8657f69cc63fe281ec7ce1a4')
 
 build() {
-  make -C $pkgname-$pkgver
+  make -C $pkgname
 }
 
 package() {
-  make -C $pkgname-$pkgver PREFIX=/usr DESTDIR="$pkgdir" install
-  install -Dm644 $pkgname-$pkgver/LICENSE "$pkgdir/usr/share/licenses/asp/LICENSE"
+  make -C $pkgname PREFIX=/usr DESTDIR="$pkgdir" install
+  install -Dm644 $pkgname/LICENSE "$pkgdir/usr/share/licenses/asp/LICENSE"
 }
