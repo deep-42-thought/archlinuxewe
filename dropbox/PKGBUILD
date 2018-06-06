@@ -4,7 +4,7 @@
 # Contributor: David Manouchehri <d@32t.ca>
 
 pkgname=dropbox
-pkgver=50.4.71
+pkgver=51.4.66
 pkgrel=1
 pkgdesc="A free service that lets you bring your photos, docs, and videos anywhere and share them easily."
 arch=("i686" "x86_64")
@@ -17,7 +17,7 @@ optdepends=(
     'xdg-utils: for "Launch Dropbox Website" and file manager integration'
 )
 conflicts=("dropbox-experimental")
-options=('!strip' '!upx')
+options=('!strip')
 
 source=("dropbox.png" "dropbox.desktop" "terms.txt" "dropbox.service" "dropbox@.service")
 for _target_arch in 'i6:' 'x:_64'; do
@@ -28,8 +28,8 @@ sha512sums=('b1a2ca11479c9f243c0368d79b36ef87910311af2dd126a3291438083544ed10a64
             '73db250803f4af26eca0730749b93cb23e3fd55e3645b3d8dbdb7b1959c4732674a456fe6ff2e65940caf82c6d197c00ae1ac805c4e88a1aadfd8a2a1160f2c7'
             'edb11b5a07b6a1512a5345d8ce476562fbfd9ec5642f36315a0969a2583f0e6ce371d39d25063af3734f9527ad53abdc29278c046abc2921222777af6f693a4f'
             '2d9e37272f401a65a6e1ffe3f6bcf2034cb09cc6c282145272c0e3e27f3f3518f7df488adb6368ee48f04ae89bfb0d4e77a9e4411d93d315c41366592b3abbac')
-sha512sums_i686=('d822518653c8ce2f4f39839ac3d1ce3342b349060204e1c28dea98e8a24c03b6a6c06cff85022405a73ae6f992994a918e951c393f76cba9c763d2798a3ab444')
-sha512sums_x86_64=('593a6eb59676b3bf33347a4d7b230d603c978fc038b1e9d86fbf7a9e6e9f3989bf9913f7920da6e84ef6fe140ef4e3ba722c3a0fc553ed9874bd21f47cf777e2')
+sha512sums_i686=('099748eb9f6514053ebc8506de1c62f03aa771a1f1cd6724b2c70bdf04b55a56f1b22c9842089ea9bff986faedc50ea74436defc0469445fe00f1a963cbed407')
+sha512sums_x86_64=('5a08db3c29c6494555bb655b4dcbd629e1150ab8cfd43be802094f7e93eb76f443100aabafa24cef28381608cf64e41583ef77e5225e9e46f8aeeb8fbbf50509')
                                                 
 package() {
 	_source_arch="${CARCH/i6/x}"
