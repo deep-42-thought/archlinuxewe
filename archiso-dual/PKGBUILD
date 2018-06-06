@@ -17,12 +17,14 @@ url='https://git.archlinux32.org/archlinux32/archiso32'
 depends=('make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx' 'pacman-mirrorlist32' 'archlinux32-keyring')
 conflicts=('archiso' 'archiso32')
 source=(
-  "https://git.archlinux32.org/archlinux32/${pkgname%-dual}32/archive/dual-v${pkgver}.tar.gz"
+  "https://sources.archlinux32.org/sources/archiso32-dual-v${pkgver}.tar.gz"{,.sig}
 )
 sha512sums=(
-  '42524f4c9f3b0d4e9ba3f164016b282b72ee2f9934c14029f448c38fe96779bb821c6152fcbffe3026ee44b9fab582b2b8515e27de89d223ffc52804a3cbd983'
+  'ecda1c901d420aa816aaa570c62a3426a55a811f75afa0656af13be05a9555c164856526fba5cc058461a909b1a9f783bfcf47ee164d4ca882405a8e57a3f05f'
+  'SKIP'
 )
+validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
 
 package() {
-    make -C "${pkgname/-dual/32}" DESTDIR="${pkgdir}" install
+    make -C "archiso32-dual-v${pkgver}" DESTDIR="${pkgdir}" install
 }

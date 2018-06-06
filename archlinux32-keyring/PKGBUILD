@@ -12,10 +12,13 @@ license=('GPL')
 install="${pkgname}.install"
 conflicts=('archlinux32-keyring-transition')
 replaces=('archlinux32-keyring-transition')
-source=("${pkgname}-${pkgver}.tar.gz::https://git.archlinux32.org/archlinux32/${pkgname}/archive/v${pkgver}.tar.gz")
-sha512sums=('dcd2c0d1e9fd99c8289fba6fe9bee5e7df62984594b52dbeac3d70d048dd1e482930f20414f0c354334641d22ecdb3ea127febcde4b63759170c7271bd562826')
+source=("https://sources.archlinux32.org/sources/${pkgname}-v${pkgver}.tar.gz"{,.sig})
+sha512sums=(
+  '74f92707d259657d21ddd4606c391f7efb358e14851fee980ac95418685b3a6098794400bbf46f681d010463ff186655885de6a9943ed51e1d6e7bbe31191f24'
+  'SKIP')
+validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
 
 package() {
-    cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}-v${pkgver}"
     make PREFIX=/usr DESTDIR=${pkgdir} install
 }

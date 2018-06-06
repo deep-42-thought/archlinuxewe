@@ -17,12 +17,13 @@ url='https://git.archlinux32.org/archlinux32/archiso32'
 depends=('make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx' 'pacman-mirrorlist32' 'archlinux32-keyring')
 conflicts=('archiso' 'archiso-dual')
 source=(
-  "https://git.archlinux32.org/archlinux32/${pkgname}/archive/${_target_arch}-v${pkgver}.tar.gz"
+  "https://sources.archlinux32.org/sources/${pkgname}-${_target_arch}-v${pkgver}.tar.gz"{,.sig}
 )
 sha512sums=(
-  '88439b6cbdc24a330a2d95227ce60e8a7f5d50a081ed688ebae1f9292196c9036da8570264100504f6799b90977e43adc840668c3385f14ef93c41cba28b6d33'
-)
+  'cf84975a1abb075bee0010c7c27f5099a4bcb4fc47a91b6f365e0ba9236fdcce2a5143c43a64124c51c84dd30f62d1ad9b23f1dd694e2b15944e7edae3862ab3'
+  'SKIP')
+validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
 
 package() {
-  make -C "${srcdir}/${pkgname}" DESTDIR="${pkgdir}" install
+  make -C "${srcdir}/${pkgname}-${_target_arch}-v${pkgver}" DESTDIR="${pkgdir}" install
 }
