@@ -512,6 +512,11 @@ then
             s|^'"${quNam}"'v\?||
             s/\.tar\.gz$//
           ' | \
+          if [ "${pkgname}" = 'asp32' ]; then
+            grep -vx '[12]'
+          else
+            cat
+          fi | \
           sort -V | \
           tail -n1 \
       )
