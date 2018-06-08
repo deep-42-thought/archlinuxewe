@@ -13,8 +13,8 @@ source=("https://github.com/ipython/ipyparallel/archive/${pkgver}.tar.gz")
 sha512sums=('21a6b53ad6855eaf103c6b640ea731daad7402ba85057770939fd73c041c352b3599635de094c2cc4d8e4a127bdb4c9517dd582801d78c86a023fa29e9267cb2')
 
 _common_files=(
-  'usr/etc/jupyter/'
-  'usr/share/jupyter/nbextensions/ipyparallel/'
+  'etc/'
+  'usr/share/'
 )
 
 prepare() {
@@ -32,6 +32,7 @@ build() {
 _package_ipython-ipyparallel() {
   cd "${srcdir}/ipyparallel-$pkgver"
   python setup.py install --root="${pkgdir}"
+  mv "${pkgdir}/usr/etc" "${pkgdir}/"
 }
 
 package_ipython-ipyparallel() {
@@ -49,6 +50,7 @@ _package_ipython2-ipyparallel() {
   mv "${pkgdir}"/usr/bin/ipcluster "${pkgdir}"/usr/bin/ipcluster2
   mv "${pkgdir}"/usr/bin/ipcontroller "${pkgdir}"/usr/bin/ipcontroller2
   mv "${pkgdir}"/usr/bin/ipengine "${pkgdir}"/usr/bin/ipengine2
+  mv "${pkgdir}/usr/etc" "${pkgdir}/"
 }
 
 package_ipython2-ipyparallel() {
