@@ -1,9 +1,9 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgbase=ipython-ipyparallel
-pkgname=('ipython-ipyparallel' 'ipython2-ipyparallel')
+pkgname=('ipython-ipyparallel' 'ipython2-ipyparallel' 'ipython-ipyparallel-common')
 pkgver=6.2.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Interactive Parallel Computing in Python"
 url="https://github.com/ipython/ipyparallel"
 arch=(any)
@@ -11,6 +11,11 @@ license=('BSD')
 makedepends=('python-setuptools' 'python2-setuptools' 'ipython' 'ipython2')
 source=("https://github.com/ipython/ipyparallel/archive/${pkgver}.tar.gz")
 sha512sums=('21a6b53ad6855eaf103c6b640ea731daad7402ba85057770939fd73c041c352b3599635de094c2cc4d8e4a127bdb4c9517dd582801d78c86a023fa29e9267cb2')
+
+_common_files=(
+  'usr/etc/jupyter/'
+  'usr/share/jupyter/nbextensions/ipyparallel/'
+)
 
 prepare() {
   cp -r "${srcdir}/ipyparallel-$pkgver" "${srcdir}/ipyparallel-$pkgver-py2"
@@ -24,19 +29,45 @@ build() {
   python2 setup.py build
 } 
 
-package_ipython-ipyparallel() {
-  depends=('ipython')
-
+_package_ipython-ipyparallel() {
   cd "${srcdir}/ipyparallel-$pkgver"
   python setup.py install --root="${pkgdir}"
 }
 
-package_ipython2-ipyparallel() {
-  depends=('ipython2')
+package_ipython-ipyparallel() {
+  depends=('ipython' 'ipython-ipyparallel-common')
 
+  _package_ipython-ipyparallel
+  for f in "${_common_files[@]}"; do
+    rm -r --one-file-system "${pkgdir}/${f}"
+  done
+}
+
+_package_ipython2-ipyparallel() {
   cd "${srcdir}/ipyparallel-$pkgver-py2"
   python2 setup.py install --root="${pkgdir}"
   mv "${pkgdir}"/usr/bin/ipcluster "${pkgdir}"/usr/bin/ipcluster2
   mv "${pkgdir}"/usr/bin/ipcontroller "${pkgdir}"/usr/bin/ipcontroller2
   mv "${pkgdir}"/usr/bin/ipengine "${pkgdir}"/usr/bin/ipengine2
+}
+
+package_ipython2-ipyparallel() {
+  depends=('ipython2' 'ipython-ipyparallel-common')
+
+  _package_ipython2-ipyparallel
+  for f in "${_common_files[@]}"; do
+    rm -r --one-file-system "${pkgdir}/${f}"
+  done
+}
+
+package_ipython-ipyparallel-common() {
+  mkdir -p "${srcdir}/pkg" "${srcdir}/pkg2"
+  pkgdir="${srcdir}/pkg" _package_ipython-ipyparallel
+  pkgdir="${srcdir}/pkg2" _package_ipython2-ipyparallel
+
+  for f in "${_common_files[@]}"; do
+    diff -r "${srcdir}/pkg"{,2}"/${f}"
+    mkdir -p "${pkgdir}/${f}"
+    cp -ra "${srcdir}/pkg/${f}" "${pkgdir}/${f}"
+  done
 }
