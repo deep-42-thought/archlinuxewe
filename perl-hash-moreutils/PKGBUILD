@@ -2,19 +2,22 @@
 # Generator : neuesPerlPaket (2234e1f408ad7a30313e9b3c153aadde5d1eb68bc0adcb75ee52d2927ebb42e5676317181b669be39442d556f1e0c24b108d6d45021c1dbc41e2f79c705c7ca7)
 
 pkgname='perl-hash-moreutils'
-pkgver='0.05'
-pkgrel='5'
+pkgver=0.06
+pkgrel=1
 pkgdesc='Provide the stuff missing in Hash::Util'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-makedepends=(
-  'perl-module-build>=0.42'
-  'perl-test-simple>=0.90')
 url='https://metacpan.org/release/Hash-MoreUtils'
 _distdir="Hash-MoreUtils-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RE/REHSACK/${_distdir}.tar.gz")
-sha512sums=('7e53dfda0336198b5981be772a0aeb3aa1fdbfa5885bf866032bcd168a73ceb03f92db6de92874d5812f062ab9c03e1fed27732f60a7004944da568c3cb04845')
+sha512sums=('a824e6132a25f265308691c6bfa077ad78e7db079a9292c3e2d728675b6b60d9b162d2d1ca965c6295f62616bed4d9b9c177c0eacc5f4f8afbd112bc1f3aa6c9')
+depends=(
+  'perl>=5.8.1')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-simple>=0.9')
+checkdepends=()
 
 build() {
   cd "${srcdir}/${_distdir}"
