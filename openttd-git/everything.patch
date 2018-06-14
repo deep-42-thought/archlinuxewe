@@ -11,10 +11,10 @@ index e30aabe37..b1bee14ed 100644
  !bin/baseset/orig_extra.grf
  !bin/baseset/orig_*.obg
 diff --git a/config.lib b/config.lib
-index d6ebb68a1..40db190d9 100644
+index 67ec69211..4d6070744 100644
 --- a/config.lib
 +++ b/config.lib
-@@ -1753,7 +1753,8 @@ make_cflags_and_ldflags() {
+@@ -1781,7 +1781,8 @@ make_cflags_and_ldflags() {
  		CFLAGS="$CFLAGS `$freetype_config --cflags | tr '\n\r' '  '`"
  
  		if [ "$enable_static" != "0" ]; then
@@ -1880,7 +1880,7 @@ index 000000000..47fffb238
 +  </g>
 +</svg>
 diff --git a/projects/openttd_vs100.vcxproj b/projects/openttd_vs100.vcxproj
-index 176b15d82..f895a5e1a 100644
+index 2297c9be2..bb67d527a 100644
 --- a/projects/openttd_vs100.vcxproj
 +++ b/projects/openttd_vs100.vcxproj
 @@ -325,6 +325,7 @@
@@ -1918,7 +1918,7 @@ index 176b15d82..f895a5e1a 100644
      <ClInclude Include="..\src\pbs.h" />
      <ClInclude Include="..\src\progress.h" />
      <ClInclude Include="..\src\querystring_gui.h" />
-@@ -647,6 +654,7 @@
+@@ -648,6 +655,7 @@
      <ClInclude Include="..\src\tgp.h" />
      <ClInclude Include="..\src\tile_cmd.h" />
      <ClInclude Include="..\src\tile_type.h" />
@@ -1926,7 +1926,7 @@ index 176b15d82..f895a5e1a 100644
      <ClInclude Include="..\src\tilearea_type.h" />
      <ClInclude Include="..\src\tilehighlight_func.h" />
      <ClInclude Include="..\src\tilehighlight_type.h" />
-@@ -722,6 +730,7 @@
+@@ -723,6 +731,7 @@
      <ClCompile Include="..\src\bridge_gui.cpp" />
      <ClCompile Include="..\src\build_vehicle_gui.cpp" />
      <ClCompile Include="..\src\cheat_gui.cpp" />
@@ -1934,7 +1934,7 @@ index 176b15d82..f895a5e1a 100644
      <ClCompile Include="..\src\company_gui.cpp" />
      <ClCompile Include="..\src\console_gui.cpp" />
      <ClCompile Include="..\src\date_gui.cpp" />
-@@ -779,6 +788,7 @@
+@@ -780,6 +789,7 @@
      <ClInclude Include="..\src\widgets\bridge_widget.h" />
      <ClInclude Include="..\src\widgets\build_vehicle_widget.h" />
      <ClInclude Include="..\src\widgets\cheat_widget.h" />
@@ -1942,7 +1942,7 @@ index 176b15d82..f895a5e1a 100644
      <ClInclude Include="..\src\widgets\company_widget.h" />
      <ClInclude Include="..\src\widgets\console_widget.h" />
      <ClInclude Include="..\src\widgets\date_widget.h" />
-@@ -832,6 +842,7 @@
+@@ -833,6 +843,7 @@
      <ClCompile Include="..\src\aircraft_cmd.cpp" />
      <ClCompile Include="..\src\autoreplace_cmd.cpp" />
      <ClCompile Include="..\src\clear_cmd.cpp" />
@@ -1950,7 +1950,7 @@ index 176b15d82..f895a5e1a 100644
      <ClCompile Include="..\src\company_cmd.cpp" />
      <ClCompile Include="..\src\depot_cmd.cpp" />
      <ClCompile Include="..\src\group_cmd.cpp" />
-@@ -839,6 +850,7 @@
+@@ -840,6 +851,7 @@
      <ClCompile Include="..\src\misc_cmd.cpp" />
      <ClCompile Include="..\src\object_cmd.cpp" />
      <ClCompile Include="..\src\order_cmd.cpp" />
@@ -1959,7 +1959,7 @@ index 176b15d82..f895a5e1a 100644
      <ClCompile Include="..\src\road_cmd.cpp" />
      <ClCompile Include="..\src\roadveh_cmd.cpp" />
 diff --git a/projects/openttd_vs100.vcxproj.filters b/projects/openttd_vs100.vcxproj.filters
-index 3349f9954..633762d8c 100644
+index 7f529a397..7e63c08c6 100644
 --- a/projects/openttd_vs100.vcxproj.filters
 +++ b/projects/openttd_vs100.vcxproj.filters
 @@ -132,6 +132,9 @@
@@ -2011,7 +2011,7 @@ index 3349f9954..633762d8c 100644
      <ClInclude Include="..\src\pbs.h">
        <Filter>Header Files</Filter>
      </ClInclude>
-@@ -1098,6 +1119,9 @@
+@@ -1101,6 +1122,9 @@
      <ClInclude Include="..\src\tile_type.h">
        <Filter>Header Files</Filter>
      </ClInclude>
@@ -2021,7 +2021,7 @@ index 3349f9954..633762d8c 100644
      <ClInclude Include="..\src\tilearea_type.h">
        <Filter>Header Files</Filter>
      </ClInclude>
-@@ -1323,6 +1347,9 @@
+@@ -1326,6 +1350,9 @@
      <ClCompile Include="..\src\cheat_gui.cpp">
        <Filter>GUI Source Code</Filter>
      </ClCompile>
@@ -2031,7 +2031,7 @@ index 3349f9954..633762d8c 100644
      <ClCompile Include="..\src\company_gui.cpp">
        <Filter>GUI Source Code</Filter>
      </ClCompile>
-@@ -1494,6 +1521,9 @@
+@@ -1497,6 +1524,9 @@
      <ClInclude Include="..\src\widgets\cheat_widget.h">
        <Filter>Widgets</Filter>
      </ClInclude>
@@ -2041,7 +2041,7 @@ index 3349f9954..633762d8c 100644
      <ClInclude Include="..\src\widgets\company_widget.h">
        <Filter>Widgets</Filter>
      </ClInclude>
-@@ -1653,6 +1683,9 @@
+@@ -1656,6 +1686,9 @@
      <ClCompile Include="..\src\clear_cmd.cpp">
        <Filter>Command handlers</Filter>
      </ClCompile>
@@ -2051,7 +2051,7 @@ index 3349f9954..633762d8c 100644
      <ClCompile Include="..\src\company_cmd.cpp">
        <Filter>Command handlers</Filter>
      </ClCompile>
-@@ -1674,6 +1707,9 @@
+@@ -1677,6 +1710,9 @@
      <ClCompile Include="..\src\order_cmd.cpp">
        <Filter>Command handlers</Filter>
      </ClCompile>
@@ -2062,7 +2062,7 @@ index 3349f9954..633762d8c 100644
        <Filter>Command handlers</Filter>
      </ClCompile>
 diff --git a/projects/openttd_vs80.vcproj b/projects/openttd_vs80.vcproj
-index b2c0a13bb..432f7b745 100644
+index 8ae32e70a..3cef5fbdf 100644
 --- a/projects/openttd_vs80.vcproj
 +++ b/projects/openttd_vs80.vcproj
 @@ -482,6 +482,10 @@
@@ -2121,7 +2121,7 @@ index b2c0a13bb..432f7b745 100644
  			<File
  				RelativePath=".\..\src\pbs.h"
  				>
-@@ -1774,6 +1802,10 @@
+@@ -1778,6 +1806,10 @@
  				RelativePath=".\..\src\tile_type.h"
  				>
  			</File>
@@ -2132,7 +2132,7 @@ index b2c0a13bb..432f7b745 100644
  			<File
  				RelativePath=".\..\src\tilearea_type.h"
  				>
-@@ -2082,6 +2114,10 @@
+@@ -2086,6 +2118,10 @@
  				RelativePath=".\..\src\cheat_gui.cpp"
  				>
  			</File>
@@ -2143,7 +2143,7 @@ index b2c0a13bb..432f7b745 100644
  			<File
  				RelativePath=".\..\src\company_gui.cpp"
  				>
-@@ -2314,6 +2350,10 @@
+@@ -2318,6 +2354,10 @@
  				RelativePath=".\..\src\widgets\cheat_widget.h"
  				>
  			</File>
@@ -2154,7 +2154,7 @@ index b2c0a13bb..432f7b745 100644
  			<File
  				RelativePath=".\..\src\widgets\company_widget.h"
  				>
-@@ -2530,6 +2570,10 @@
+@@ -2534,6 +2574,10 @@
  				RelativePath=".\..\src\clear_cmd.cpp"
  				>
  			</File>
@@ -2165,7 +2165,7 @@ index b2c0a13bb..432f7b745 100644
  			<File
  				RelativePath=".\..\src\company_cmd.cpp"
  				>
-@@ -2558,6 +2602,10 @@
+@@ -2562,6 +2606,10 @@
  				RelativePath=".\..\src\order_cmd.cpp"
  				>
  			</File>
@@ -2177,7 +2177,7 @@ index b2c0a13bb..432f7b745 100644
  				RelativePath=".\..\src\rail_cmd.cpp"
  				>
 diff --git a/projects/openttd_vs90.vcproj b/projects/openttd_vs90.vcproj
-index 33fad8573..d25097a5a 100644
+index b488daadb..396c3af1a 100644
 --- a/projects/openttd_vs90.vcproj
 +++ b/projects/openttd_vs90.vcproj
 @@ -479,6 +479,10 @@
@@ -2236,7 +2236,7 @@ index 33fad8573..d25097a5a 100644
  			<File
  				RelativePath=".\..\src\pbs.h"
  				>
-@@ -1771,6 +1799,10 @@
+@@ -1775,6 +1803,10 @@
  				RelativePath=".\..\src\tile_type.h"
  				>
  			</File>
@@ -2247,7 +2247,7 @@ index 33fad8573..d25097a5a 100644
  			<File
  				RelativePath=".\..\src\tilearea_type.h"
  				>
-@@ -2079,6 +2111,10 @@
+@@ -2083,6 +2115,10 @@
  				RelativePath=".\..\src\cheat_gui.cpp"
  				>
  			</File>
@@ -2258,7 +2258,7 @@ index 33fad8573..d25097a5a 100644
  			<File
  				RelativePath=".\..\src\company_gui.cpp"
  				>
-@@ -2311,6 +2347,10 @@
+@@ -2315,6 +2351,10 @@
  				RelativePath=".\..\src\widgets\cheat_widget.h"
  				>
  			</File>
@@ -2269,7 +2269,7 @@ index 33fad8573..d25097a5a 100644
  			<File
  				RelativePath=".\..\src\widgets\company_widget.h"
  				>
-@@ -2527,6 +2567,10 @@
+@@ -2531,6 +2571,10 @@
  				RelativePath=".\..\src\clear_cmd.cpp"
  				>
  			</File>
@@ -2280,7 +2280,7 @@ index 33fad8573..d25097a5a 100644
  			<File
  				RelativePath=".\..\src\company_cmd.cpp"
  				>
-@@ -2555,6 +2599,10 @@
+@@ -2559,6 +2603,10 @@
  				RelativePath=".\..\src\order_cmd.cpp"
  				>
  			</File>
@@ -2292,7 +2292,7 @@ index 33fad8573..d25097a5a 100644
  				RelativePath=".\..\src\rail_cmd.cpp"
  				>
 diff --git a/source.list b/source.list
-index 0a496f541..b53a24f54 100644
+index abc18266d..f00aba7d8 100644
 --- a/source.list
 +++ b/source.list
 @@ -9,6 +9,7 @@ cargomonitor.cpp
@@ -2330,7 +2330,7 @@ index 0a496f541..b53a24f54 100644
  pbs.h
  progress.h
  querystring_gui.h
-@@ -359,6 +366,7 @@ textfile_type.h
+@@ -360,6 +367,7 @@ textfile_type.h
  tgp.h
  tile_cmd.h
  tile_type.h
@@ -2338,7 +2338,7 @@ index 0a496f541..b53a24f54 100644
  tilearea_type.h
  tilehighlight_func.h
  tilehighlight_type.h
-@@ -453,6 +461,7 @@ bootstrap_gui.cpp
+@@ -454,6 +462,7 @@ bootstrap_gui.cpp
  bridge_gui.cpp
  build_vehicle_gui.cpp
  cheat_gui.cpp
@@ -2346,7 +2346,7 @@ index 0a496f541..b53a24f54 100644
  company_gui.cpp
  console_gui.cpp
  date_gui.cpp
-@@ -512,6 +521,7 @@ widgets/bootstrap_widget.h
+@@ -513,6 +522,7 @@ widgets/bootstrap_widget.h
  widgets/bridge_widget.h
  widgets/build_vehicle_widget.h
  widgets/cheat_widget.h
@@ -2354,7 +2354,7 @@ index 0a496f541..b53a24f54 100644
  widgets/company_widget.h
  widgets/console_widget.h
  widgets/date_widget.h
-@@ -567,6 +577,7 @@ widgets/waypoint_widget.h
+@@ -568,6 +578,7 @@ widgets/waypoint_widget.h
  aircraft_cmd.cpp
  autoreplace_cmd.cpp
  clear_cmd.cpp
@@ -2362,7 +2362,7 @@ index 0a496f541..b53a24f54 100644
  company_cmd.cpp
  depot_cmd.cpp
  group_cmd.cpp
-@@ -574,6 +585,7 @@ industry_cmd.cpp
+@@ -575,6 +586,7 @@ industry_cmd.cpp
  misc_cmd.cpp
  object_cmd.cpp
  order_cmd.cpp
@@ -16400,10 +16400,10 @@ index 7c8c41700..c8eb8061f 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/italian.txt b/src/lang/italian.txt
-index 6d27d725f..d8b76ca72 100644
+index 460fff891..4446c3dc8 100644
 --- a/src/lang/italian.txt
 +++ b/src/lang/italian.txt
-@@ -4923,10 +4923,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4926,10 +4926,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Spettatore, {1:STRING}
  
  # Viewport strings
@@ -32335,7 +32335,7 @@ index 620885e5d..ee419d1f1 100644
  /**
   * Approximation of the length of a straight track, relative to a diagonal
 diff --git a/src/misc_gui.cpp b/src/misc_gui.cpp
-index 5252832b5..f63dc8bc6 100644
+index dd7541062..4b7fd5a2b 100644
 --- a/src/misc_gui.cpp
 +++ b/src/misc_gui.cpp
 @@ -123,15 +123,15 @@ public:
@@ -39122,10 +39122,10 @@ index fc4059c7b..7c17ca816 100644
  	uint32 terraform_per_64k_frames;         ///< how many tile heights may, over a long period, be terraformed per 65536 frames?
  	uint16 terraform_frame_burst;            ///< how many tile heights may, over a short period, be terraformed?
 diff --git a/src/ship_cmd.cpp b/src/ship_cmd.cpp
-index 967cd4e1d..784ed9e31 100644
+index 0bdcf7041..e4cc6d7ee 100644
 --- a/src/ship_cmd.cpp
 +++ b/src/ship_cmd.cpp
-@@ -611,7 +611,7 @@ static void ShipController(Ship *v)
+@@ -615,7 +615,7 @@ static void ShipController(Ship *v)
  			v->x_pos = gp.x;
  			v->y_pos = gp.y;
  			v->UpdatePosition();
@@ -42389,7 +42389,7 @@ index 7ca9bd720..9dbc7bf49 100644
  /**
   * Make the given tile an oilrig tile.
 diff --git a/src/strings.cpp b/src/strings.cpp
-index fd45e6a0b..2ba947d21 100644
+index 3bfd88662..755f8420e 100644
 --- a/src/strings.cpp
 +++ b/src/strings.cpp
 @@ -1152,6 +1152,8 @@ static char *FormatString(char *buff, const char *str_arg, StringParameters *arg
@@ -45079,7 +45079,7 @@ index 016ff9a6d..4c648ad6f 100644
  	SetHouseProcessingTime(t, HouseSpec::Get(type)->processing_time);
  }
 diff --git a/src/track_func.h b/src/track_func.h
-index 68de827ef..f36db07a0 100644
+index 5e1585c08..e12c5bde6 100644
 --- a/src/track_func.h
 +++ b/src/track_func.h
 @@ -16,6 +16,7 @@
@@ -45090,7 +45090,7 @@ index 68de827ef..f36db07a0 100644
  
  /**
   * Iterate through each set Track in a TrackBits value.
-@@ -692,4 +693,43 @@ static inline bool IsUphillTrackdir(Slope slope, Trackdir dir)
+@@ -692,6 +693,45 @@ static inline bool IsUphillTrackdir(Slope slope, Trackdir dir)
  	return HasBit(_uphill_trackdirs[RemoveHalftileSlope(slope)], dir);
  }
  
@@ -45133,12 +45133,14 @@ index 68de827ef..f36db07a0 100644
 +	return TrackExitdirToTrackdir(TransformTrack(TrackdirToTrack(trackdir), transformation), TransformDiagDir(TrackdirToExitdir(trackdir), transformation));
 +}
 +
- #endif /* TRACK_FUNC_H */
+ /**
+  * Determine the side in which the vehicle will leave the tile
+  *
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index 9f4ecbea6..bb27e9235 100644
+index daebb9789..15b90bb0c 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
-@@ -1872,6 +1872,17 @@ void ReverseTrainDirection(Train *v)
+@@ -1851,6 +1851,17 @@ void ReverseTrainDirection(Train *v)
  		return;
  	}
  
@@ -45153,10 +45155,10 @@ index 9f4ecbea6..bb27e9235 100644
 +		return;
 +	}
 +
- 	/* TrainExitDir does not always produce the desired dir for depots and
+ 	/* VehicleExitDir does not always produce the desired dir for depots and
  	 * tunnels/bridges that is needed for UpdateSignalsOnSegment. */
- 	DiagDirection dir = TrainExitDir(v->direction, v->track);
-@@ -2208,6 +2219,42 @@ static bool CheckTrainStayInDepot(Train *v)
+ 	DiagDirection dir = VehicleExitDir(v->direction, v->track);
+@@ -2187,6 +2198,42 @@ static bool CheckTrainStayInDepot(Train *v)
  	return false;
  }
  
@@ -45199,7 +45201,7 @@ index 9f4ecbea6..bb27e9235 100644
  /**
   * Clear the reservation of \a tile that was just left by a wagon on \a track_dir.
   * @param v %Train owning the reservation.
-@@ -2223,7 +2270,8 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
+@@ -2202,7 +2249,8 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
  		if (GetTunnelBridgeDirection(tile) == ReverseDiagDir(dir)) {
  			TileIndex end = GetOtherTunnelBridgeEnd(tile);
  
@@ -45209,7 +45211,7 @@ index 9f4ecbea6..bb27e9235 100644
  				/* Free the reservation only if no other train is on the tiles. */
  				SetTunnelBridgeReservation(tile, false);
  				SetTunnelBridgeReservation(end, false);
-@@ -2237,6 +2285,7 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
+@@ -2216,6 +2264,7 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
  					}
  				}
  			}
@@ -45217,7 +45219,7 @@ index 9f4ecbea6..bb27e9235 100644
  		}
  	} else if (IsRailStationTile(tile)) {
  		TileIndex new_tile = TileAddByDiagDir(tile, dir);
-@@ -3103,6 +3152,99 @@ static Vehicle *CheckTrainAtSignal(Vehicle *v, void *data)
+@@ -3082,6 +3131,99 @@ static Vehicle *CheckTrainAtSignal(Vehicle *v, void *data)
  	return t;
  }
  
@@ -45317,7 +45319,7 @@ index 9f4ecbea6..bb27e9235 100644
  /**
   * Move a vehicle chain one movement stop forwards.
   * @param v First vehicle to move.
-@@ -3288,6 +3430,23 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
+@@ -3267,6 +3409,23 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
  					goto invalid_rail;
  				}
  
@@ -45341,7 +45343,7 @@ index 9f4ecbea6..bb27e9235 100644
  				if (!HasBit(r, VETS_ENTERED_WORMHOLE)) {
  					Track track = FindFirstTrack(chosen_track);
  					Trackdir tdir = TrackDirectionToTrackdir(track, chosen_dir);
-@@ -3340,6 +3499,64 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
+@@ -3319,6 +3478,64 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
  				}
  			}
  		} else {
@@ -45406,7 +45408,7 @@ index 9f4ecbea6..bb27e9235 100644
  			if (IsTileType(gp.new_tile, MP_TUNNELBRIDGE) && HasBit(VehicleEnterTile(v, gp.new_tile, gp.x, gp.y), VETS_ENTERED_WORMHOLE)) {
  				/* Perform look-ahead on tunnel exit. */
  				if (v->IsFrontEngine()) {
-@@ -3355,7 +3572,7 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
+@@ -3334,7 +3551,7 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
  				v->x_pos = gp.x;
  				v->y_pos = gp.y;
  				v->UpdatePosition();
@@ -45415,7 +45417,7 @@ index 9f4ecbea6..bb27e9235 100644
  				continue;
  			}
  		}
-@@ -3527,7 +3744,7 @@ static void ChangeTrainDirRandomly(Train *v)
+@@ -3506,7 +3723,7 @@ static void ChangeTrainDirRandomly(Train *v)
  
  	do {
  		/* We don't need to twist around vehicles if they're not visible */
@@ -45424,7 +45426,7 @@ index 9f4ecbea6..bb27e9235 100644
  			v->direction = ChangeDir(v->direction, delta[GB(Random(), 0, 2)]);
  			/* Refrain from updating the z position of the vehicle when on
  			 * a bridge, because UpdateInclination() will put the vehicle under
-@@ -3551,7 +3768,7 @@ static bool HandleCrashedTrain(Train *v)
+@@ -3530,7 +3747,7 @@ static bool HandleCrashedTrain(Train *v)
  {
  	int state = ++v->crash_anim_pos;
  
@@ -45433,7 +45435,7 @@ index 9f4ecbea6..bb27e9235 100644
  		CreateEffectVehicleRel(v, 4, 4, 8, EV_EXPLOSION_LARGE);
  	}
  
-@@ -3882,7 +4099,7 @@ static bool TrainLocoHandler(Train *v, bool mode)
+@@ -3861,7 +4078,7 @@ static bool TrainLocoHandler(Train *v, bool mode)
  	}
  
  	for (Train *u = v; u != NULL; u = u->Next()) {
