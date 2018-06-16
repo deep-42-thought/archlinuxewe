@@ -5401,7 +5401,7 @@ index 79eaa89b1..3d370711e 100644
  				/* Determine the watery part of the dock. */
  				DiagDirection dir = GetInclinedSlopeDirection(GetTileSlope(tile));
 diff --git a/src/genworld_gui.cpp b/src/genworld_gui.cpp
-index 359709e36..896ecd921 100644
+index 04eea8e66..534d89c0b 100644
 --- a/src/genworld_gui.cpp
 +++ b/src/genworld_gui.cpp
 @@ -20,6 +20,7 @@
@@ -5449,7 +5449,7 @@ index 359709e36..896ecd921 100644
  	for (uint i = MIN_MAP_SIZE_BITS; i <= MAX_MAP_SIZE_BITS; i++) {
 -		DropDownListParamStringItem *item = new DropDownListParamStringItem(STR_JUST_INT, i, false);
 +		DropDownListParamStringItem *item = new DropDownListParamStringItem((i + other_dimension > MAX_MAP_TILES_BITS) ? STR_RED_INT : STR_JUST_INT, i, false);
- 		item->SetParam(0, 1 << i);
+ 		item->SetParam(0, 1LL << i);
  		*list->Append() = item;
  	}
 @@ -315,6 +341,14 @@ struct GenerateLandscapeWindow : public Window {
