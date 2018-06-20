@@ -241,8 +241,8 @@ then
             cut -d= -f2
           curl_it 'https://git.archlinux32.org/archlinux32/devtools32/releases' | \
             tr '"' '\n' | \
-            grep '^/archlinux32/devtools32/releases/tag/v[0-9.]\+\.tar\.gz$' | \
-            sed 's@^/archlinux32/devtools32/releases/tag/v\([0-9.]\+\)\.tar\.gz$@\1@'
+            grep '^/archlinux32/devtools32/archive/v[0-9.]\+\.tar\.gz$' | \
+            sed 's@^/archlinux32/devtools32/archive/v\([0-9.]\+\)\.tar\.gz$@\1@'
         ) | \
           sort -V | \
           tail -n1
