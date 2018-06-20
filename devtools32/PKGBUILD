@@ -5,7 +5,7 @@
 # repo: releng
 
 pkgname=devtools32
-pkgver=20180531
+pkgver=20180620
 pkgrel=1
 pkgdesc='Tools for Arch Linux package maintainers, also for 32 bit'
 arch=('any')
@@ -17,10 +17,8 @@ conflicts=('devtools')
 source=(
   "https://sources.archlinux32.org/sources/${pkgname}-v${pkgver}.tar.gz"{,.sig}
 )
-sha512sums=(
-  'b2d0aecbda25690922a00a154bc6e7c6f89a6ca1bb39b86cab0816e500ca3e2c8e01d8ca8f53ac436b98f7acbfff815fa78639c2c4dc851914cda4ffe1b3325e'
-  'SKIP'
-)
+sha512sums=('c57e5e038f4e910587a49469282b2280a5168b8d337d2caf6de2a65aba8298dc220a448808827a43136ade07eea88192a9268c4d1921f47adb9e6c91c7a6c464'
+            'SKIP')
 validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
 
 build() {
