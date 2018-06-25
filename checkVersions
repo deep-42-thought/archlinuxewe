@@ -218,10 +218,8 @@ then
       git -C /usr/src/archlinux/archiso fetch upstream
       remVer="$(
         (
-          git -C /usr/src/archlinux/archiso archive --format=tar upstream/master | \
-            tar -Ox Makefile | \
-            grep -m1 '^V=[0-9.]\+$' | \
-            cut -d= -f2
+          git -C /usr/src/archlinux/archiso tag | \
+            sed -n 's/^v//;T;p'
           curl_it 'https://git.archlinux32.org/archlinux32/archiso32/releases' | \
             tr '"' '\n' | \
             grep '^/archlinux32/archiso32/archive/\(i686\|dual\)-v[0-9.]\+\.tar\.gz$' | \
