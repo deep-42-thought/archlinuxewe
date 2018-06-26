@@ -246,6 +246,24 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
+      grep -q '//www\.abisource\.com/'
+    then
+      quVer="$(
+        echo "${src}" | \
+          sed 's|\(/[^/]\+\)\{3\}$|/|'
+      )"
+      remVer="$(
+        curl_it "${quVer}" | \
+          tr '<>' '\n' | \
+          sed -n '
+            s,^a href="\([0-9.]\+\)/"$,\1,
+            T
+            p
+          ' | \
+          sort -V | \
+          tail -n1
+      )"
+    elif echo "${src}" | \
       grep -q '//download\.virtualbox\.org/'
     then
       quVer="$(
