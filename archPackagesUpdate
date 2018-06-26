@@ -213,6 +213,25 @@ git archive --format tar "${branch}" | \
   tar -x -C "${tmpDir}" -f -
 
 cd "${tmpDir}"
+if [ -f '.gitmodules' ]; then
+  sed -n '
+    /^\s*path = /{
+      N
+      s/^\s*path = //
+      s/\n\s*url = / /
+      s,ssh://aur@aur.archlinux.org/,https://aur.archlinux.org/,
+      p
+    }
+  ' '.gitmodules' | \
+    while read -r path url; do
+      if [ -n "$(ls -A "${path}")" ]; then
+        git submodule update -- "${path}"
+        continue
+      fi
+      mkdir -p "${path}"
+      git clone "${url}" "${path}"
+    done
+fi
 
 # update $0
 if ${updateMe} && ${aufRechenknecht} && [ -e "$(basename "$0")" ] && ! diff -q "$(basename "$0")" "$0" &> /dev/null
