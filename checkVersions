@@ -161,7 +161,17 @@ then
     src_name="${src%%::*}"
     src="${src#*::}"
 
-    if [ "${pkgname}" = 'adduser' ]
+    if [ "${pkgname}" = 'pacman-static' ]
+    then
+      git submodule update "${pkgname}"
+      eval "$(
+        sed -n '
+          s/^pkgver=/remVer=/
+          T
+          p
+        ' "${pkgname}/PKGBUILD"
+      )"
+    elif [ "${pkgname}" = 'adduser' ]
     then
       remVer=$(
         curl_it "${source[0]}" '-L' | \
