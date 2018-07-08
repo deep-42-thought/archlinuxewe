@@ -817,6 +817,9 @@ else
            grep -vq "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$"
       then
         >&2 echo "${paket}/PKGBUILD hat falsche(n) Maintainer"
+        if [ -d "${paket}/.git" ]; then
+          continue
+        fi
         err=true
       fi
 
