@@ -661,6 +661,12 @@ then
           | sed 's@\\|$@\n@'
       )"
     then
+      for _pkgname in "${provides[@]}"; do
+        if [ "${pkgname#${_pkgname%=*}}" != "${pkgname}" ]; then
+          pkgname="${_pkgname%=*}"
+          break
+        fi
+      done
       quVer="${src%/*}/"
       remVer="$( \
         curl_it "${quVer}" | \
