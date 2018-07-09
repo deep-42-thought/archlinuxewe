@@ -281,7 +281,14 @@ then
           sed 's|/[^/]\+/[^/]\+$||'
       )"
       remVer="$(
-        curl_it "${quVer}/LATEST.TXT"
+        curl_it "${quVer}/" | \
+          sed -n '
+            s,^.*<a href="\([0-9.]\+\)/">.*$,\1,
+            T
+            p
+          ' | \
+          sort -V | \
+          tail -n1
       )"
     elif echo "${src}" | \
       grep -q "//www\.mpich\.org/"
