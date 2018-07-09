@@ -45,32 +45,38 @@ versteheRequirements() {
   echo "setup.py lesen ..."
 
   meta="$(
-    tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/setup.py" | \
-      sed -n "$(
-        for wasAusgeben in "${!metaRegexe[@]}"; do
-          printf '/^\\s*%s = \[/{\n' \
-            "${metaRegexe["${wasAusgeben}"]}"
-          printf '  :%s\n' \
-            "${wasAusgeben}"
-          printf '  $! N\n'
-          printf '  s/^\(\\s*\\S\\+\\s*=\\s*\\[[^]#]*\\)\\(#.*\\)\\?\\n/\\1 /\n'
-          printf '  t %s\n' \
-            "${wasAusgeben}"
-          printf '  s/\\s//g\n'
-          printf '  s/^%s=\[//\n' \
-            "${metaRegexe["${wasAusgeben}"]}"
-          printf '  s/\]$//\n'
-          printf '  s/\\s*%%[^"'"'"']*["'"'"']//g\n'
-          printf '  s/,/ /g\n'
-          printf '  s/["'"'"']//g\n'
-          printf '  s/^/%s:/\n' \
-            "${wasAusgeben}"
-          printf '  P\n'
-          printf '  D\n'
-          printf '}\n'
-        done
-      )" | \
-      sort -u
+    {
+      tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/setup.py" | \
+        sed -n "$(
+          for wasAusgeben in "${!metaRegexe[@]}"; do
+            printf '/^\\s*%s = \[/{\n' \
+              "${metaRegexe["${wasAusgeben}"]}"
+            printf '  :%s\n' \
+              "${wasAusgeben}"
+            printf '  $! N\n'
+            printf '  s/^\(\\s*\\S\\+\\s*=\\s*\\[[^]#]*\\)\\(#.*\\)\\?\\n/\\1 /\n'
+            printf '  t %s\n' \
+              "${wasAusgeben}"
+            printf '  s/\\s//g\n'
+            printf '  s/^%s=\[//\n' \
+              "${metaRegexe["${wasAusgeben}"]}"
+            printf '  s/\]$//\n'
+            printf '  s/\\s*%%[^"'"'"']*["'"'"']//g\n'
+            printf '  s/,/ /g\n'
+            printf '  s/["'"'"']//g\n'
+            printf '  s/^/%s:/\n' \
+              "${wasAusgeben}"
+            printf '  P\n'
+            printf '  D\n'
+            printf '}\n'
+          done
+        )"
+      tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/requirements.txt" | \
+        sed '
+          /^#/d
+          s/^/_depends:/
+        '
+    }
   )"
 
   for wasAusgeben in "${!metaRegexe[@]}"; do
@@ -127,6 +133,30 @@ versteheRequirements() {
             versionsUniq -u
           echo "${pkgBuild["${wasAusgeben}"]}" | \
             grep '^\s*\(cython\|python-setuptools\)\($\|[<>=]\)'
+        } | \
+          versionsUniq
+      )
+    fi
+    if [ "${wasAusgeben}" == "_checkdepends" ]; then
+      metaYml["${wasAusgeben}"]=$(
+        {
+          {
+            {
+              {
+                echo "${metaYml["${wasAusgeben}"]}"
+                echo "${metYml["_depends"]}"
+              } | \
+                versionsUniq
+              echo "${metaYml["_depends"]}"
+            } | \
+              sort | \
+              uniq -d | \
+              sed 'p'
+            echo "${metaYml["${wasAusgeben}"]}"
+          } | \
+            versionsUniq -u
+          echo "${pkgBuild["${wasAusgeben}"]}" | \
+            grep '^\s*\(python-nose\)\($\|[<>=]\)'
         } | \
           versionsUniq
       )
