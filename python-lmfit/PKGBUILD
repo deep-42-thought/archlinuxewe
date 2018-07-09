@@ -2,6 +2,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgbase=python-lmfit
+_pkgname=lmfit-py
 pkgname=('python-lmfit' 'python2-lmfit')
 pkgver=0.9.11
 pkgrel=1
@@ -9,9 +10,16 @@ pkgdesc="Least-Squares Minimization with Constraints for Python"
 arch=('any')
 url="http://lmfit.github.io/lmfit-py/"
 license=('BSD')
-_depends=('python' 'python-numpy' 'python-scipy' 'python-asteval' 'python-uncertainties')
-_makedepends=('python-setuptools')
-_checkdepends=('python-nose' 'python-uncertainties')
+_depends=(
+  'python-asteval>=0.9.12'
+  'python-numpy>=1.10'
+  'python-scipy>=0.17'
+  'python-six>1.10'
+  'python-uncertainties>=3.0')
+_makedepends=(
+  'python-setuptools')
+_checkdepends=(
+  'python-nose')
 makedepends=(
   "${_depends[@]}" "${_depends[@]/python/python2}"
   "${_makedepends[@]}" "${_makedepends[@]/python/python2}"
@@ -19,7 +27,7 @@ makedepends=(
 checkdepends=(
   "${_checkdepends[@]}" "${_checkdepends[@]/python/python2}"
   )
-source=("https://github.com/lmfit/lmfit-py/archive/${pkgver}.tar.gz")
+source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/lmfit/lmfit-py/archive/${pkgver}.tar.gz")
 sha512sums=('e0fdbc0b969a53d94939b7d9821d0ef2f718d39481dcaabc2a24af239b5cf24bcb058579f7555854144757ea6f9ef7b458b71b64d8af5e1881037012aa774662')
 
 prepare() {
