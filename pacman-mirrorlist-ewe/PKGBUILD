@@ -1,0 +1,28 @@
+# $Id$
+# Contributor: Dan McGee <dan@archlinux.org>
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname=pacman-mirrorlist-ewe
+provides=(pacman-mirrorlist)
+pkgver=20180524
+pkgrel=1
+pkgdesc="Arch Linux mirror list for use by pacman - ewe's favourites"
+arch=('any')
+url="https://www.archlinux.org/mirrorlist/"
+license=('GPL')
+backup=(etc/pacman.d/mirrorlist)
+source=("https://arch.eckner.net/merged/core/os/$(uname -m)/${pkgname%-ewe}-${pkgver}-${pkgrel%%.*}-any.pkg.tar.xz")
+sha512sums=('1c1066b9a741b7e9d7eb0b6f50653df87c2013962ed8ed20d0b3c6b84bef3132f9dc9cb842e56d24edc3338c2e5505834eb56b05ae43084fd1715311c559b107')
+
+build() {
+  sed -i '
+    0,/^$/ {
+      /^$/ i Server = https://arch.eckner.net/merged/$repo/os/$arch
+    }
+  ' 'etc/pacman.d/mirrorlist'
+}
+
+package() {
+  mkdir -p "$pkgdir/etc/pacman.d"
+  install -m644 'etc/pacman.d/mirrorlist' "$pkgdir/etc/pacman.d/"
+}
