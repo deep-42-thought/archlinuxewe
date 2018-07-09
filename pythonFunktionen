@@ -74,9 +74,11 @@ versteheRequirements() {
       tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/requirements.txt" | \
         sed '
           /^#/d
+          s,^https\?:.*/mysql-connector-python-[^/]*$,mysql-connector,
           s/^/_depends:/
         '
-    }
+    } | \
+      sort -u
   )"
 
   for wasAusgeben in "${!metaRegexe[@]}"; do
@@ -89,7 +91,7 @@ versteheRequirements() {
           p
         ' | \
         sed '
-          /^cython$/! s/^/python-/
+          /^cython$\|^python-/! s/^/python-/
         '
     )
   done
