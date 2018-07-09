@@ -71,13 +71,23 @@ versteheRequirements() {
             printf '}\n'
           done
         )"
-      tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/requirements.txt" | \
+      {
+        tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/requirements.txt"
+        tar -tzf "${archiv}" | \
+          grep '^.*/.*/requirements.txt' | \
+          xargs -r tar -Oxzf "${archiv}" | \
+          sed '
+            /^[a-zA-Z]/! d
+            s/==/=/
+          '
+      } | \
         sed '
           /^#/d
           s,^https\?:.*/mysql-connector-python-[^/]*$,mysql-connector,
           s/^/_depends:/
         '
     } | \
+      tr '[:upper:]' '[:lower:]' | \
       sort -u
   )"
 
