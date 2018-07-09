@@ -83,6 +83,7 @@ versteheRequirements() {
       } | \
         sed '
           /^#/d
+          /^numpydoc\([<>=].*\)\?/d
           s,^https\?:.*/mysql-connector-python-[^/]*$,mysql-connector,
           s/^/_depends:/
         '
@@ -101,7 +102,8 @@ versteheRequirements() {
           p
         ' | \
         sed '
-          /^cython$\|^python-/! s/^/python-/
+          /^cython\($\|[<>=]\)\|^python-/! s/^/python-/
+          /[^<>]=/ s/=/>=/
         '
     )
   done
