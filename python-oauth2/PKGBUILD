@@ -1,5 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgbase=python-oauth2
+_pkgname=python-oauth2
 pkgname=(python-oauth2 python2-oauth2)
 pkgver=1.1.0
 pkgrel=1
@@ -8,18 +9,15 @@ url='https://github.com/wndhydrnt/python-oauth2/'
 arch=('any')
 license=('MIT')
 _depends=(
-  'python'
-)
-_mdepends=(
   'python-mock'
+  'python-mysql-connector'
   'python-nose'
   'python-pymongo'
   'python-memcached'
-  'python-mysql-connector'
   'python-redis'
-  'python-tornado'
-  'python-setuptools'
-)
+  'python-tornado')
+_makedepends=(
+  'python-setuptools')
 _optdepends=(
   'python-memcached'
   'python-pymongo'
@@ -28,10 +26,10 @@ _optdepends=(
 makedepends=(
   "${_depends[@]}"
   "${_depends[@]/python/python2}"
-  "${_mdepends[@]}"
-  "${_mdepends[@]/python/python2}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]/python/python2}"
 )
-source=("https://github.com/wndhydrnt/python-oauth2/archive/v${pkgver}.tar.gz")
+source=("$pkgbase-$pkgver.tar.gz::https://github.com/wndhydrnt/python-oauth2/archive/v${pkgver}.tar.gz")
 sha512sums=('376fa73711c64a787472b4be4b1e9407311886ed237dbe29399425fb5f92e2b72fab479d694e4acdbaa572aa0c43840e21cfb8fc4f128ee81240a59a3dcdc1b3')
 
 prepare() {
@@ -86,7 +84,6 @@ package_python2-oauth2() {
   depends=(
     "python2>=2.${_pyVer}"
     "python2<2.$((_pyVer+1))"
-    "${_depends[@]}"
     "${_depends[@]/python/python2}"
   )
   optdepends=("${_optdepends[@]/python/python2}")
