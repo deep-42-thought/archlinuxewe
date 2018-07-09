@@ -52,7 +52,7 @@ package_python2-silx() {
   mv "${pkgdir}/usr/bin/silx" "${pkgdir}/usr/bin/silx2"
   sed -i '1 s/python/python2/' "${pkgdir}/usr/bin/silx2"
   mv \
-    "${pkgdir}/usr/silx/third_party/_local/scipy_spatial/qhull/COPYING.txt"
+    "${pkgdir}/usr/silx/third_party/_local/scipy_spatial/qhull/COPYING.txt" \
     "${pkgdir}/usr/silx/third_party/_local/scipy_spatial/qhull/COPYING2.txt"
 }
 
