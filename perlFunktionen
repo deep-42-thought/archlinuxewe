@@ -40,8 +40,7 @@ versionsUniq() {
 ladePkgbuild() {
   paket="$1"
 
-  if [[ "${paket}" != "perl-"* ]]
-  then
+  if [[ "${paket}" != "perl-"* ]]; then
     return 1
   fi
 
@@ -57,14 +56,12 @@ versteheMetaYml() {
   archiv="${_distdir}.tar.gz"
   [ -r "${archiv}" ] || archiv="${_distdir}.tgz"
 
-  if [ ! -r "${archiv}" ]
-  then
+  if [ ! -r "${archiv}" ]; then
     >&2 echo "Kann Quelldatei nicht finden!"
     return 2
   fi
 
-  if ! tar -tzf "${archiv}" "${_distdir}/META.yml"
-  then
+  if ! tar -tzf "${archiv}" "${_distdir}/META.yml"; then
 
     unset meta
 
@@ -102,8 +99,7 @@ versteheMetaYml() {
 
   set +e
 
-  for sucheWonach in "${!metaRegexe[@]}"
-  do
+  for sucheWonach in "${!metaRegexe[@]}"; do
     metaInfos["${sucheWonach}"]=""
     for was in $(
       echo "${meta}" | \
@@ -114,20 +110,16 @@ versteheMetaYml() {
         sed "s@::@-@g" | \
         sed "s|>=0\$||" | \
         grep -v "^\({}\)\?$"
-    )
-    do
-      if ${metaSubst["${sucheWonach}"]}
-      then
+    ); do
+      if ${metaSubst["${sucheWonach}"]}; then
         substituiere "${was}"
       else
         erg="perl-${was}"
-        if [[ "${erg}" == "${pkgname}="* ]]
-        then
+        if [[ "${erg}" == "${pkgname}="* ]]; then
           erg="perl-%skip"
         fi
       fi
-      if [[ "${erg}" != "perl-%skip"* ]]
-      then
+      if [[ "${erg}" != "perl-%skip"* ]]; then
         metaInfos["${sucheWonach}"]="${metaInfos["${sucheWonach}"]} ${erg}"
       fi
     done
@@ -142,22 +134,20 @@ versteheMetaYml() {
 
   err=false
 
-  for wasAusgeben in "${!metaRegexe[@]}"
-  do
-    eval tmp=( '"${'${wasAusgeben}'[@]}"' )
-    pkgBuild["${wasAusgeben}"]="$(
+  for wasAusgeben in "${!metaRegexe[@]}"; do
+    eval 'tmp=("${'${wasAusgeben}'[@]}")'
+    pkgBuild["${wasAusgeben}"]=$(
       echo "${tmp[@]}" | \
         tr " '" '\n\n' | \
         grep -v '^$' | \
         sort -u
-    )"
+    )
     if [ -z "${pkgBuild["${wasAusgeben}"]}" ] && \
-      [ "${wasAusgeben}" == "depends" ]
-    then
+      [ "${wasAusgeben}" == "depends" ]; then
       pkgBuild["${wasAusgeben}"]="perl"
     fi
 
-    metaYml["${wasAusgeben}"]="$(
+    metaYml["${wasAusgeben}"]=$(
       (
         echo "${metaInfos["${wasAusgeben}"]}" | \
           grep -v '^$' | \
@@ -166,15 +156,13 @@ versteheMetaYml() {
           grep -v '^\s*perl'
       ) | \
         versionsUniq
-    )"
+    )
     if [ -z "${metaYml["${wasAusgeben}"]}" ] && \
-      [ "${wasAusgeben}" == "depends" ]
-    then
+      [ "${wasAusgeben}" == "depends" ]; then
       metaYml["${wasAusgeben}"]="perl"
     fi
-    if [ "${wasAusgeben}" == "makedepends" ]
-    then
-      metaYml["${wasAusgeben}"]="$(
+    if [ "${wasAusgeben}" == "makedepends" ]; then
+      metaYml["${wasAusgeben}"]=$(
         (
           (
             (
@@ -190,7 +178,7 @@ versteheMetaYml() {
           echo "${metaYml["${wasAusgeben}"]}"
         ) | \
           versionsUniq -u
-      )"
+      )
     fi
   done
   echo "... fertig"
