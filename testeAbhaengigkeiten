@@ -22,6 +22,13 @@ if [ "${paket#perl-}" != "${paket}" ]; then
 
   versteheMetaYml "${paket}" || exit $[$?-1]
 
+elif [ "${paket#python-}" != "${paket}" ]; then
+
+  . pythonFunktionen
+
+  ladePkgbuild "${paket}" || exit $[$?-1]
+
+  versteheRequirements "${paket}" || exit $[$?-1]
 
 else
 
@@ -97,6 +104,7 @@ if ${err}; then
         s/\(^\|\\|\)_\?depends\($\|\\|\)/\1\2/
         s/\(\\|\)\{2\}/\1/g
         s/\\|$//
+        s/^\\|//
       '
   )"'\)=/d' -i PKGBUILD
   sed 's|^'"$(

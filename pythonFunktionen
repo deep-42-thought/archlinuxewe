@@ -1,0 +1,131 @@
+#!/bin/bash
+
+set -e
+
+versionsUniq() {
+  tr ' ' '\n' | \
+  sed 's|^python$|python>=0|' | \
+  sort -rV | \
+  sed 's@^\([^<=>]*\)\(\(>=\|=\|<\)[0-9.]*\)$@\1\2 \1@' | \
+  sed 's|^\(\S*\)$|\1 \1|' | \
+  uniq -f1 "$@" | \
+  awk '{print $1}' | \
+  sed 's|^python>=0$|python|' | \
+  sort | \
+  grep -v '^\s*$'
+}
+
+ladePkgbuild() {
+  paket="$1"
+
+  if [[ "${paket}" != "python-"* ]]
+  then
+    return 1
+  fi
+
+  cd "$(dirname "${me}")"
+  cd "${paket}"
+
+  makepkg -f --verifysource
+
+  . PKGBUILD
+}
+
+versteheRequirements() {
+  archiv="${_pkgname}-${pkgver}.tar.gz"
+  [ -r "${archiv}" ] || archiv="${_pkgname}-${pkgver}.tgz"
+
+  if [ ! -r "${archiv}" ]; then
+    >&2 echo "Kann Quelldatei nicht finden!"
+    return 2
+  fi
+
+  unset meta
+
+  echo "requirements.txt lesen ..."
+
+  meta="$(
+    tar -Oxzf "${archiv}" $(
+      tar -tzf "${archiv}" "${_pkgname}-${pkgver}" | \
+        grep 'requirements*.txt'
+    ) | \
+      sed '
+        /^#/d
+        /cython/ {
+          s/^/_makedepends:/
+          b
+        }
+        s/^/_depends:python-/
+      ' | \
+      sort -u
+  )"
+
+  for wasAusgeben in "${!metaRegexe[@]}"; do
+    metaInfos["${wasAusgeben}"]=$(
+      printf '%s\n' "${meta}" | \
+        sed -n '
+          s/^'"${wasAusgeben}"'://
+          T
+          p
+        '
+    )
+  done
+
+  for wasAusgeben in "${!metaRegexe[@]}"; do
+    eval 'tmp=("${'${wasAusgeben}'[@]}")'
+    pkgBuild["${wasAusgeben}"]=$(
+      echo "${tmp[@]}" | \
+        tr " '" '\n\n' | \
+        grep -v '^$' | \
+        sort -u
+    )
+    if [ -z "${pkgBuild["${wasAusgeben}"]}" ] && \
+      [ "${wasAusgeben}" == "_depends" ]; then
+      pkgBuild["${wasAusgeben}"]="python"
+    fi
+
+    metaYml["${wasAusgeben}"]="${metaInfos["${wasAusgeben}"]}"
+
+    if [ -z "${metaYml["${wasAusgeben}"]}" ] && \
+      [ "${wasAusgeben}" == "_depends" ]; then
+      metaYml["${wasAusgeben}"]="python"
+    fi
+    if [ "${wasAusgeben}" == "_makedepends" ]; then
+      metaYml["${wasAusgeben}"]=$(
+        {
+          {
+            {
+              {
+                echo "${metaYml["${wasAusgeben}"]}"
+                echo "${metYml["_depends"]}"
+              } | \
+                versionsUniq
+              echo "${metaYml["_depends"]}"
+            } | \
+              sort | \
+              uniq -d | \
+              sed 'p'
+            echo "${metaYml["${wasAusgeben}"]}"
+          } | \
+            versionsUniq -u
+          echo "${pkgBuild["${wasAusgeben}"]}" | \
+            grep '^\s*cython\($\|[<>=]\)'
+        } | \
+          versionsUniq
+      )
+    fi
+  done
+
+  echo "... fertig"
+}
+
+declare -A metaInfos
+declare -A metaRegexe
+declare -A metaSubst
+declare -A metaYml
+declare -A pkgBuild
+
+metaRegexe["_depends"]="requires"
+metaSubst["_depends"]=true
+metaRegexe["_makedepends"]="\(build\|configure\)_requires"
+metaSubst["_makedepends"]=true

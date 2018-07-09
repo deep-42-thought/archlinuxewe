@@ -61,7 +61,7 @@ if [ $# -eq 0 ]; then
 elif [ $# -gt 1 ]; then
   [ -n "${nichtPakete}" ] && verwendung
   err=0
-  for pkg in "$@"; do
+  for pkg in "$@";   do
     "${me}" "${pkg}"
     cErr=$?
     [ ${cErr} -gt ${err} ] && err=${cErr}
@@ -118,8 +118,7 @@ summen="$( \
 sed 's|sha512sums=.*$|'"${summen}"'|' -i PKGBUILD
 
 (
-  if ! yes '' | "${myDir}/testeAbhaengigkeiten" "${paket}"
-  then
+  if ! yes '' | "${myDir}/testeAbhaengigkeiten" "${paket}"; then
     was=''
     ec[0]='jJyY'
     ec[1]='nN'
