@@ -3,6 +3,7 @@
 # Upstream contact: silx at esrf dot fr
 pkgbase=python-fabio
 pkgname=(python2-fabio python-fabio)
+_pkgname=fabio
 pkgver=0.7.0
 pkgrel=1
 pkgdesc="I/O library for images produced by 2D X-ray detectors."
@@ -12,7 +13,7 @@ license=('MIT' 'LGPL' 'Apache')
 _depends=('python-numpy' 'python-pillow' 'python-lxml')
 _optdepends=('python-pyqt4: for the fabio_viewer program')
 _makedepends=('cython')
-source=("${pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${pkgname#*-}/archive/v${pkgver}.tar.gz")
+source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${_pkgname}/archive/v${pkgver}.tar.gz")
 sha256sums=('f2ba37584fe39e051cff89a61f13615a973e4bdc6f35979011057a1f9305d784')
 
 makedepends=(
@@ -23,15 +24,15 @@ makedepends=(
 )
 
 prepare() {
-  cp -r "${pkgname#*-}-${pkgver}" "py2-${pkgname#*-}-${pkgver}"
-  mv "${pkgname#*-}-${pkgver}" "py-${pkgname#*-}-${pkgver}"
+  cp -r "${_pkgname}-${pkgver}" "py2-${_pkgname}-${pkgver}"
+  mv "${_pkgname}-${pkgver}" "py-${_pkgname}-${pkgver}"
 }
 
 build() {
-  cd "${srcdir}/py-${pkgname#*-}-${pkgver}"
+  cd "${srcdir}/py-${_pkgname}-${pkgver}"
   python setup.py build
 
-  cd "${srcdir}/py2-${pkgname#*-}-${pkgver}"
+  cd "${srcdir}/py2-${_pkgname}-${pkgver}"
   python2 setup.py build
 }
 
@@ -42,7 +43,7 @@ package_python2-fabio() {
   optdepends=(
     "${_optdepends[@]//python/python2}"
   )
-  cd "${srcdir}/py2-${pkgname#*-}-${pkgver}"
+  cd "${srcdir}/py2-${_pkgname}-${pkgver}"
   python2 setup.py install --root="${pkgdir}/" --optimize=1
   install -D copyright "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
   for suffix in '-convert' '_viewer'; do
@@ -58,7 +59,7 @@ package_python-fabio() {
   optdepenends=(
     "${_optdepends[@]}"
   )
-  cd "${srcdir}/py-${pkgname#*-}-${pkgver}"
+  cd "${srcdir}/py-${_pkgname}-${pkgver}"
   python setup.py install --root="${pkgdir}/" --optimize=1
   install -D copyright "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
