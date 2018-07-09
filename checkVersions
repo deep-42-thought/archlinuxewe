@@ -510,7 +510,7 @@ then
           grep "^${quNam}v\?[0-9.]\+\$" | \
           sed "s|^${quNam}v\?||" | \
           (
-            if [ "${pkgname}" == "conky" ]
+            if [ "${pkgname}" == "conky-irc" ]
             then
               grep -v '\.999$'
             else
