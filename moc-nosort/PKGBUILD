@@ -2,8 +2,10 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Contributor: Eric Bélanger <eric@archlinux.org>
 
-pkgname=moc
+pkgname=moc-nosort
 pkgver=2.5.2
+provides=("moc=${pkgver}")
+conflicts=('moc')
 pkgrel=1
 epoch=1
 pkgdesc="An ncurses console audio player designed to be powerful and easy to use"
@@ -19,20 +21,23 @@ optdepends=('speex: for using the speex plugin'
             'wavpack: for using the wavpack plugin'
             'faad2: for using the aac plugin'
 	    'libmodplug: for using the modplug plugin')
-source=(http://ftp.daper.net/pub/soft/moc/stable/${pkgname}-${pkgver}.tar.bz2{,.sig}
-        disable-sort.patch)
+source=(http://ftp.daper.net/pub/soft/moc/stable/${pkgname%-nosort}-${pkgver}.tar.bz2{,.sig}
+        disable-sort.patch
+	moc-ffmpeg4.patch)
 sha512sums=('992d06809fb52e58dcee63704bde05795b99edbac46edd8381f314c564490013b18e1853926f419c2c3c7f1bb68ff35e97048de03ace3232b800cf4b3b7dbe0f'
             'SKIP'
-            '7a760eebf22d84f1ac21e3b429c10f7fb77bc8c7642adb57c57c1b6dfb9d2fa464398475778813a803738ec7a6ffee2c3da857bd36a6b89eaf3345ae419dc7ab')
+            '7a760eebf22d84f1ac21e3b429c10f7fb77bc8c7642adb57c57c1b6dfb9d2fa464398475778813a803738ec7a6ffee2c3da857bd36a6b89eaf3345ae419dc7ab'
+	    '270308ad7d2b300553a6cc0ddb9ef90441e32a20a3405ebcb710ff8f0a2cc036e0b59d01bf34f49144f22de5d24e25f9a66dd452a76b6a8994f2d8d75cd9795e')
 validpgpkeys=('59359B80406D9E73E80599BEF3121E4F2885A7AA')
 
 prepare() {
-  cd ${pkgname}-${pkgver}
+  cd "${pkgname%-nosort}-${pkgver}"
+  patch -p0 -i ../moc-ffmpeg4.patch # Fix build with ffmpeg 4
   patch -p0 -i ../disable-sort.patch
 }
 
 build() {
-  cd ${pkgname}-${pkgver}
+  cd "${pkgname%-nosort}-${pkgver}"
   ./configure --prefix=/usr --without-rcc \
     --with-oss --with-alsa --with-jack --with-aac --with-mp3 \
     --with-musepack --with-vorbis --with-flac --with-wavpack \
@@ -42,6 +47,6 @@ build() {
 }
 
 package() {
-  cd ${pkgname}-${pkgver}
+  cd "${pkgname%-nosort}-${pkgver}"
   make DESTDIR="${pkgdir}" install
 }
