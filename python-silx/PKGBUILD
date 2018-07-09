@@ -49,6 +49,11 @@ package_python2-silx() {
   cd "${srcdir}/py2-${pkgname#*-}-${pkgver}"
   python2 setup.py install --root="${pkgdir}/" --optimize=1
   install -D copyright "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  mv "${pkgdir}/usr/bin/silx" "${pkgdir}/usr/bin/silx2"
+  sed -i '1 s/python/python2/' "${pkgdir}/usr/bin/silx2"
+  mv \
+    "${pkgdir}/usr/silx/third_party/_local/scipy_spatial/qhull/COPYING.txt"
+    "${pkgdir}/usr/silx/third_party/_local/scipy_spatial/qhull/COPYING2.txt"
 }
 
 package_python-silx() {
