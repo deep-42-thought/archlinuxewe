@@ -1,0 +1,64 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Leonid B <leonid dot bloch at esrf dot fr>
+# Upstream contact: silx at esrf dot fr
+pkgbase=python-silx
+pkgname=(python2-silx python-silx)
+pkgver=0.8.0
+pkgrel=1
+pkgdesc="A collection of Python packages for data analysis at synchrotron radiation facilities."
+arch=('any')
+url="http://www.silx.org"
+license=('MIT' 'LGPL')
+_depends=('python-numpy' 'python-pyqt5' 'python-matplotlib')
+_optdepends=('python-h5py: for HDF5 input/output'
+            'ipython: for interactive console'
+            'python-qtconsole: for GUI console'
+            'python-pyopencl: for sift - OpenCL implementation'
+            'opencl-driver: for sift - OpenCL implementation')
+_makedepends=('cython')
+source=("https://github.com/silx-kit/${pkgname#*-}/archive/v${pkgver}.tar.gz")
+sha256sums=('991250e242d4be6b5e6eae4d9267b5ba1e70d3abdd2aa4244bd55ce0fe4d0a49')
+
+makedepends=(
+  "${_depends[@]}"
+  "${_depends[@]//python/python2}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]//ython/ython2}"
+)
+
+prepare() {
+  cp -r "${pkgname#*-}-${pkgver}" "py2-${pkgname#*-}-${pkgver}"
+  mv "${pkgname#*-}-${pkgver}" "py-${pkgname#*-}-${pkgver}"
+}
+
+build() {
+  cd "${srcdir}/py-${pkgname#*-}-${pkgver}"
+  python setup.py build
+
+  cd "${srcdir}/py2-${pkgname#*-}-${pkgver}"
+  python2 setup.py build
+}
+
+package_python2-silx() {
+  depends=(
+    "${_depends[@]//python/python2}"
+  )
+  optdepends=(
+    "${_optdepends[@]//python/python2}"
+  )
+  cd "${srcdir}/py2-${pkgname#*-}-${pkgver}"
+  python2 setup.py install --root="${pkgdir}/" --optimize=1
+  install -D copyright "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+package_python-silx() {
+  depends=(
+    "${_depends[@]}"
+  )
+  optdepenends=(
+    "${_optdepends[@]}"
+  )
+  cd "${srcdir}/py-${pkgname#*-}-${pkgver}"
+  python setup.py install --root="${pkgdir}/" --optimize=1
+  install -D copyright "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
