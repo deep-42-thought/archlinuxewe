@@ -10,10 +10,23 @@ pkgdesc="Discrete Wavelet Transforms in Python"
 arch=('x86_64' 'i686')
 url="https://github.com/PyWavelets/pywt"
 license=('MIT')
-_depends=('python' 'python-numpy')
-makedepends=('python-setuptools' 'python2-setuptools' 'cython' 'cython2' "${_depends[@]}" "${_depends[@]/python/python2}")
-source=("https://github.com/PyWavelets/pywt/archive/v$pkgver.tar.gz")
-sha256sums=('e36d629f40f7781da2dcaa2139bc476e9deaf91d79f675b5ce0bde6e775d1b53')
+_depends=(
+  'cython>=0.20.2'
+  'python-nose'
+  'python-numpy>=1.9.1'
+  'python-wheel')
+_makedepends=(
+  'cython'
+  'python-setuptools')
+source=("$_pkgname-$pkgver.tar.gz::https://github.com/PyWavelets/pywt/archive/v$pkgver.tar.gz")
+sha512sums=('8efc27eaf38f602c7e71b2c85033ab895f1603b2e436280f660f60b86ff4763d6d8f8f420ad6c42e5fc86f966d799f70bc1660579f9bfd881af217e8ab66a54c')
+
+makedepends=(
+  "${_makedepends[@]}"
+  "${_makedepends[@]/ython/ython2}"
+  "${_depends[@]}"
+  "${_depends[@]/python/python2}"
+)
 
 prepare() {
   cd "$srcdir/"
