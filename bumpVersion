@@ -23,8 +23,7 @@ eval set -- "$(
 
 unset nichtPakete
 
-while true
-do
+while true; do
   case "$1" in
     -h|--help)
       verwendung 0
@@ -44,8 +43,7 @@ do
   shift
 done
 
-if [ $# -eq 0 ]
-then
+if [ $# -eq 0 ]; then
   >&2 echo 'bumping versions of all packages ...'
   pkgs="$(
     (
@@ -60,12 +58,10 @@ then
   [ -z "${pkgs}" ] && exit 0
   "${me}" ${pkgs}
   exit $?
-elif [ $# -gt 1 ]
-then
+elif [ $# -gt 1 ]; then
   [ -n "${nichtPakete}" ] && verwendung
   err=0
-  for pkg in "$@"
-  do
+  for pkg in "$@"; do
     "${me}" "${pkg}"
     cErr=$?
     [ ${cErr} -gt ${err} ] && err=${cErr}
@@ -82,14 +78,12 @@ cd "${myDir}"
 vers="$(./checkVersions -m "${paket}")"
 [ -n "${remVer}" ] && vers="$(echo "${vers}" | grep -v 'remVer')"
 eval ${vers}
-if [ "${remVer}" == "${pkgver}" ]
-then
+if [ "${remVer}" == "${pkgver}" ]; then
   >&2 echo '... nothing to do here.'
   exit 0
 fi
 
-if [ -z "${remVer}" ]
-then
+if [ -z "${remVer}" ]; then
   >&2 echo '... remote Version not determined.'
   exit 0
 fi
@@ -129,8 +123,7 @@ sed 's|sha512sums=.*$|'"${summen}"'|' -i PKGBUILD
     was=''
     ec[0]='jJyY'
     ec[1]='nN'
-    while [[ "${ec[0]}" != *"${was}"* ]] && [[ "${ec[1]}" != *"${was}"* ]] || [ -z "${was}" ]
-    do
+    while [[ "${ec[0]}" != *"${was}"* ]] && [[ "${ec[1]}" != *"${was}"* ]] || [ -z "${was}" ]; do
       read -p 'Trotzdem weiter machen (j/y/n)? ' was
     done
     [[ "${ec[0]}" == *"${was}"* ]]
@@ -138,7 +131,7 @@ sed 's|sha512sums=.*$|'"${summen}"'|' -i PKGBUILD
 ) || exit $?
 
 if [ "${paket}" != 'qgis-git' ]; then
-  rm -rf pkg src
+  rm -rf "${paket}"
   sudo pacman -Sy
   makepkg -fcsr --noconfirm --asdeps || exit 1
   namcap ${paket}-${remVer}-1-*.pkg.tar.xz || exit 1
