@@ -81,14 +81,28 @@ if ${err}; then
     exit 1
   fi
   sed '
-      :begin;
-        $!N;
-        s@^\(\(provides\|makedepends\|depends\|optdepends\|conflicts\)=[^)]*\)\n\(.*\)$@\1 \3@;
-      tbegin;
-      P;
-      D
-    ' -i PKGBUILD
-  sed '/^\(provides\|makedepends\|optdepends\|conflicts\)=/d' -i PKGBUILD
-  sed "s|^depends=.*\$|${ersatz}|" -i PKGBUILD
+    :begin;
+      $!N;
+      s@^\(\('"$(
+        printf '%s\|' "${!metaRegexe[@]}" | \
+          sed 's/\\|$//'
+      )"'\)=[^)]*\)\n\(.*\)$@\1 \3@;
+    tbegin;
+    P;
+    D
+  ' -i PKGBUILD
+  sed '/^\('"$(
+    printf '%s\|' "${!metaRegexe[@]}" | \
+      sed '
+        s/\(^\|\\|\)_\?depends\($\|\\|\)/\1\2/
+        s/\(\\|\)\{2\}/\1/g
+        s/\\|$//
+      '
+  )"'\)=/d' -i PKGBUILD
+  sed 's|^'"$(
+    printf '%s\n' "${!metaRegexe[@]}" | \
+      grep -xm1 '_\?depends' | \
+      tr -d '\n'
+  )"'=.*$|'"${ersatz}"'|' -i PKGBUILD
   "${me}" "$@"
 fi
