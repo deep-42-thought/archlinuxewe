@@ -5,10 +5,12 @@
 # Contributor: James Rayner <james@archlinux.org>
 # Contributor: Partha Chowdhury <kira.laucas@gmail.com>
 
-pkgname=conky
+pkgname=conky-irc
 pkgver=1.10.8
+provides=("conky=${pkgver}")
+conflicts=('conky')
 pkgrel=1
-pkgdesc='Lightweight system monitor for X'
+pkgdesc='Lightweight system monitor for X - with irc-client enabled'
 url='https://github.com/brndnmtthws/conky'
 license=('BSD' 'GPL')
 arch=('i686' 'x86_64')
@@ -16,7 +18,7 @@ makedepends=('cmake' 'docbook2x' 'docbook-xml' 'man-db' 'git')
 depends=('glib2' 'lua' 'wireless_tools' 'libxdamage' 'libxinerama' 'libxft'
          'imlib2' 'libxml2' 'libpulse' 'libircclient')
 optdepends=('mounted')
-source=("https://github.com/brndnmtthws/conky/archive/v${pkgver}.tar.gz"
+source=("${pkgname%-irc}-${pkgver}.tar.gz::https://github.com/brndnmtthws/conky/archive/v${pkgver}.tar.gz"
         'lua53.patch'
         'MAX_SP.patch')
 sha512sums=('743b1d17db4ae654c7a319fe9157e9ebc5eb4ae0462a1f7269332d379e8bdd1dbfecc3ab6f46c8b5176b7e40918301649ac3ee883a84dc4fc8d766abbac6585a'
@@ -26,7 +28,7 @@ sha512sums=('743b1d17db4ae654c7a319fe9157e9ebc5eb4ae0462a1f7269332d379e8bdd1dbfe
 options=('!strip' 'debug')
 
 prepare() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+	cd "${srcdir}/${pkgname%-irc}-${pkgver}"
 	patch -p1 -i ../lua53.patch # lua_gettable returns an int in lua-5.3
 	patch -p1 -i ../MAX_SP.patch
 	sed '/^#include / s,<libircclient\.h>,<libircclient/libircclient.h>,' -i 'src/irc.cc'
@@ -34,19 +36,21 @@ prepare() {
 }
 
 build() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+	cd "${srcdir}/${pkgname%-irc}-${pkgver}"
 
 	cmake \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D MAINTAINER_MODE=ON \
 		-D BUILD_WLAN=ON \
 		-D BUILD_XDBE=ON \
+		-D BUILD_XSHAPE=ON \
 		-D BUILD_IMLIB2=ON \
 		-D BUILD_CURL=ON \
 		-D BUILD_RSS=ON \
 		-D BUILD_WEATHER_METAR=ON \
 		-D BUILD_WEATHER_XOAP=ON \
 		-D BUILD_PULSEAUDIO=ON \
+		-D BUILD_JOURNAL=ON \
 		-D BUILD_IRC=ON \
 		-D CMAKE_INSTALL_PREFIX=/usr \
 		.
@@ -55,7 +59,7 @@ build() {
 }
 
 package() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+	cd "${srcdir}/${pkgname%-irc}-${pkgver}"
 	make DESTDIR="${pkgdir}" install
 	install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 	install -Dm644 extras/vim/syntax/conkyrc.vim "${pkgdir}"/usr/share/vim/vimfiles/syntax/conkyrc.vim
