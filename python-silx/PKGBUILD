@@ -16,7 +16,7 @@ _optdepends=('python-h5py: for HDF5 input/output'
             'python-pyopencl: for sift - OpenCL implementation'
             'opencl-driver: for sift - OpenCL implementation')
 _makedepends=('cython')
-source=("https://github.com/silx-kit/${pkgname#*-}/archive/v${pkgver}.tar.gz")
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${pkgname#*-}/archive/v${pkgver}.tar.gz")
 sha256sums=('991250e242d4be6b5e6eae4d9267b5ba1e70d3abdd2aa4244bd55ce0fe4d0a49')
 
 makedepends=(
