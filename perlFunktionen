@@ -148,13 +148,13 @@ versteheMetaYml() {
     fi
 
     metaYml["${wasAusgeben}"]=$(
-      (
+      {
         echo "${metaInfos["${wasAusgeben}"]}" | \
           grep -v '^$' | \
           grep '^\s*perl'
         echo "${pkgBuild["${wasAusgeben}"]}" | \
           grep -v '^\s*perl'
-      ) | \
+      } | \
         versionsUniq
     )
     if [ -z "${metaYml["${wasAusgeben}"]}" ] && \
@@ -163,20 +163,20 @@ versteheMetaYml() {
     fi
     if [ "${wasAusgeben}" == "makedepends" ]; then
       metaYml["${wasAusgeben}"]=$(
-        (
-          (
-            (
+        {
+          {
+            {
               echo "${metaYml["${wasAusgeben}"]}"
               echo "${metaYml["depends"]}"
-            ) | \
+            } | \
               versionsUniq
             echo "${metaYml["depends"]}"
-          ) | \
+          } | \
             sort | \
             uniq -d | \
             sed 'p'
           echo "${metaYml["${wasAusgeben}"]}"
-        ) | \
+        } | \
           versionsUniq -u
       )
     fi
