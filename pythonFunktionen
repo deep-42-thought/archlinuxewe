@@ -42,21 +42,34 @@ versteheRequirements() {
 
   unset meta
 
-  echo "requirements.txt lesen ..."
+  echo "setup.py lesen ..."
 
   meta="$(
-    tar -Oxzf "${archiv}" $(
-      tar -tzf "${archiv}" "${_pkgname}-${pkgver}" | \
-        grep 'requirements*.txt'
-    ) | \
-      sed '
-        /^#/d
-        /cython/ {
-          s/^/_makedepends:/
-          b
-        }
-        s/^/_depends:python-/
-      ' | \
+    tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/setup.py" | \
+      sed -n "$(
+        for wasAusgeben in "${!metaRegexe[@]}"; do
+          printf '/^\\s*%s = \[/{\n' \
+            "${metaRegexe["${wasAusgeben}"]}"
+          printf '  :%s\n' \
+            "${wasAusgeben}"
+          printf '  $! N\n'
+          printf '  s/^\(\\s*\\S\\+\\s*=\\s*\\[[^]#]*\\)\\(#.*\\)\\?\\n/\\1 /\n'
+          printf '  t %s\n' \
+            "${wasAusgeben}"
+          printf '  s/\\s//g\n'
+          printf '  s/^%s=\[//\n' \
+            "${metaRegexe["${wasAusgeben}"]}"
+          printf '  s/\]$//\n'
+          printf '  s/\\s*%%[^"'"'"']*["'"'"']//g\n'
+          printf '  s/,/ /g\n'
+          printf '  s/["'"'"']//g\n'
+          printf '  s/^/%s:/\n' \
+            "${wasAusgeben}"
+          printf '  P\n'
+          printf '  D\n'
+          printf '}\n'
+        done
+      )" | \
       sort -u
   )"
 
@@ -66,7 +79,11 @@ versteheRequirements() {
         sed -n '
           s/^'"${wasAusgeben}"'://
           T
+          y/ /\n/
           p
+        ' | \
+        sed '
+          /^cython$/! s/^/python-/
         '
     )
   done
@@ -109,7 +126,7 @@ versteheRequirements() {
           } | \
             versionsUniq -u
           echo "${pkgBuild["${wasAusgeben}"]}" | \
-            grep '^\s*cython\($\|[<>=]\)'
+            grep '^\s*\(cython\|python-setuptools\)\($\|[<>=]\)'
         } | \
           versionsUniq
       )
@@ -125,7 +142,9 @@ declare -A metaSubst
 declare -A metaYml
 declare -A pkgBuild
 
-metaRegexe["_depends"]="requires"
+metaRegexe["_depends"]="install_requires"
 metaSubst["_depends"]=true
-metaRegexe["_makedepends"]="\(build\|configure\)_requires"
+metaRegexe["_makedepends"]="setup_requires"
 metaSubst["_makedepends"]=true
+metaRegexe["_checkdepends"]="test_requires"
+metaSubst["_checkdepends"]=true
