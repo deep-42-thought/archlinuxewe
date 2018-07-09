@@ -10,15 +10,23 @@ pkgdesc="Sphinx extension to include program output"
 arch=('any')
 url="https://bitbucket.org/birkenfeld/sphinx-contrib"
 license=('BSD')
-depends=('python' 'python-sphinx')
-makedepends=('python')
+_depends=(
+  'python')
+_makedepends=(
+  'python-setuptools')
 provides=('sphinxcontrib-programoutput')
 options=(!emptydirs)
 source=(
   "https://pypi.python.org/packages/source/s/${_pkgname}/${_pkgname}-${pkgver}.tar.gz"
 )
 source=(https://pypi.python.org/packages/25/34/fd1b61d3fe9ea705dff169d55426bf23d8be0f7b1976d17e79fbcc16e7d9/${_pkgname}-${pkgver}.tar.gz)
-sha256sums=('cbec3ee1c3abd09e105115ab69cb5ade8ca1be9811565a844f973e93e0314837')
+sha512sums=('4aa655f8632093035de986fa31291f95e95c4c0f4d1458bb8c8cc077cca73d579b16a8bf103d7b34faafb2171c617c40200008d89186f8ed37a812459f0376cf')
+makedepends=(
+  ${_makedepends[@]}
+  ${_makedepends[@]/python/python2}
+  ${_depends[@]}
+  ${_depends[@]/python/python2}
+)
 
 prepare() {
   cp -r "${srcdir}/${_pkgname}-${pkgver}" "${srcdir}/py2-${_pkgname}-${pkgver}"
@@ -34,6 +42,9 @@ build() {
 }
 
 package_python2-sphinxcontrib-programoutput() {
+  depends=(
+    ${_depends[@]/python/python2}
+  )
   cd "${srcdir}/py2-${_pkgname}-${pkgver}"
 
   python2 setup.py install --root="${pkgdir}/" --optimize=1
@@ -42,6 +53,9 @@ package_python2-sphinxcontrib-programoutput() {
 }
 
 package_python-sphinxcontrib-programoutput() {
+  depends=(
+    ${_depends[@]}
+  )
   cd "${srcdir}/py-${_pkgname}-${pkgver}"
 
   python setup.py install --root="${pkgdir}/" --optimize=1
