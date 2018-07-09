@@ -1,0 +1,59 @@
+# Package maintainer: Leonid B <leonid dot bloch at esrf dot fr>
+# Upstream contact: silx at esrf dot fr
+pkgbase=python-fabio
+pkgname=(python2-fabio python-fabio)
+pkgver=0.7.0
+pkgrel=1
+pkgdesc="I/O library for images produced by 2D X-ray detectors."
+arch=('any')
+url="http://www.silx.org"
+license=('MIT' 'LGPL' 'Apache')
+_depends=('python-numpy' 'python-pillow' 'python-lxml')
+_optdepends=('python-pyqt4: for the fabio_viewer program')
+_makedepends=('cython')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${pkgname#*-}/archive/v${pkgver}.tar.gz")
+sha256sums=('f2ba37584fe39e051cff89a61f13615a973e4bdc6f35979011057a1f9305d784')
+
+makedepends=(
+  "${_depends[@]}"
+  "${_depends[@]//python/python2}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]//ython/ython2}"
+)
+
+prepare() {
+  cp -r "${pkgname#*-}-${pkgver}" "py2-${pkgname#*-}-${pkgver}"
+  mv "${pkgname#*-}-${pkgver}" "py-${pkgname#*-}-${pkgver}"
+}
+
+build() {
+  cd "${srcdir}/py-${pkgname#*-}-${pkgver}"
+  python setup.py build
+
+  cd "${srcdir}/py2-${pkgname#*-}-${pkgver}"
+  python2 setup.py build
+}
+
+package_python2-fabio() {
+  depends=(
+    "${_depends[@]//python/python2}"
+  )
+  optdepends=(
+    "${_optdepends[@]//python/python2}"
+  )
+  cd "${srcdir}/py2-${pkgname#*-}-${pkgver}"
+  python2 setup.py install --root="${pkgdir}/" --optimize=1
+  install -D copyright "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+package_python-fabio() {
+  depends=(
+    "${_depends[@]}"
+  )
+  optdepenends=(
+    "${_optdepends[@]}"
+  )
+  cd "${srcdir}/py-${pkgname#*-}-${pkgver}"
+  python setup.py install --root="${pkgdir}/" --optimize=1
+  install -D copyright "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
