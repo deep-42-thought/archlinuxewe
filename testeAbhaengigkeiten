@@ -1,31 +1,38 @@
 #!/bin/bash
 
-if [ $# -ne 1 ]
-then
+if [ $# -ne 1 ]; then
   >&2 echo "Verwendung: testeAbhaengigkeiten paket"
   exit 1
 fi
 
 paket="$1"
-
-if [[ "${paket}" != "perl-"* ]]
-then
-# noch zu implementieren / zur Zeit unnötig
-  exit 0
-fi
-
 me="$(readlink -f "$0")"
 cd "$(dirname "${me}")"
-. perlFunktionen
 
-ladePkgbuild "${paket}" || exit $[$?-1]
+if [ ! -d "${paket}" ]; then
+  >&2 printf 'Paket "%s" existiert nicht.\n' "${paket}"
+  exit 1
+fi
 
-versteheMetaYml "${paket}" || exit $[$?-1]
+if [ "${paket#perl-}" != "${paket}" ]; then
+
+  . perlFunktionen
+
+  ladePkgbuild "${paket}" || exit $[$?-1]
+
+  versteheMetaYml "${paket}" || exit $[$?-1]
+
+
+else
+
+  # not python-* or perl-* => nothing to do / yet to be implemented
+  exit 0
+
+fi
 
 err=false
 
-for wasAusgeben in "${!metaRegexe[@]}"
-do
+for wasAusgeben in "${!metaRegexe[@]}"; do
   probleme="$(
     (
       echo "${pkgBuild["${wasAusgeben}"]}"
@@ -34,8 +41,7 @@ do
       sort | \
       uniq -u \
   )"
-  if [ -n "${probleme}" ]
-  then
+  if [ -n "${probleme}" ]; then
     >&2 echo "${wasAusgeben} in ${paket}/PKGBUILD unterscheidet sich:"
     >&2 echo '-------------------------------------'
     >&2 echo "${metaYml["${wasAusgeben}"]}"
@@ -48,13 +54,10 @@ do
   fi
 done
 
-if ${err}
-then
+if ${err}; then
   ersatz="$(
-    for wasAusgeben in "${!metaRegexe[@]}"
-    do
-      if [ -n "${metaYml["${wasAusgeben}"]}" ]
-      then
+    for wasAusgeben in "${!metaRegexe[@]}"; do
+      if [ -n "${metaYml["${wasAusgeben}"]}" ]; then
         echo "${wasAusgeben}=("
         echo "${metaYml["${wasAusgeben}"]})" | \
           sed "s|^\s*||; s|\s*\$||; s|^\(.*[^)]\)\()\?\)\$|  '\1'\2|"
@@ -74,8 +77,7 @@ then
   >&2 echo -e "${ersatz}"
   >&2 echo '-------------------------------------'
   read -p 'Ich würde das jetzt mal vollautomatisch verändern. Einwände? ' was
-  if [ -n "${was}" ]
-  then
+  if [ -n "${was}" ]; then
     exit 1
   fi
   sed '
