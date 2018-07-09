@@ -2,25 +2,24 @@
 # Generator : neuesPerlPaket (568f5d2df596725567f1a6081bf01d21ef231fbfd3571a4132eb004ebb50cfaada248486250b351491d5fd615f2c1d7f07d339c6e6ad8bb59146399a117bec0c)
 
 pkgname='perl-ppix-quotelike'
-pkgver='0.005'
-pkgrel='1'
+pkgver=0.006
+pkgrel=1
 pkgdesc='Parse Perl string literals and string-literal-like things.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-ppix-quotelike-constant=0.005'
-  'perl-ppix-quotelike-dumper=0.005'
-  'perl-ppix-quotelike-token=0.005'
-  'perl-ppix-quotelike-token-control=0.005'
-  'perl-ppix-quotelike-token-delimiter=0.005'
-  'perl-ppix-quotelike-token-interpolation=0.005'
-  'perl-ppix-quotelike-token-string=0.005'
-  'perl-ppix-quotelike-token-structure=0.005'
-  'perl-ppix-quotelike-token-unknown=0.005'
-  'perl-ppix-quotelike-token-whitespace=0.005'
-  'perl-ppix-quotelike-utils=0.005'
-)
+  'perl-ppix-quotelike-constant=0.006'
+  'perl-ppix-quotelike-dumper=0.006'
+  'perl-ppix-quotelike-token=0.006'
+  'perl-ppix-quotelike-token-control=0.006'
+  'perl-ppix-quotelike-token-delimiter=0.006'
+  'perl-ppix-quotelike-token-interpolation=0.006'
+  'perl-ppix-quotelike-token-string=0.006'
+  'perl-ppix-quotelike-token-structure=0.006'
+  'perl-ppix-quotelike-token-unknown=0.006'
+  'perl-ppix-quotelike-token-whitespace=0.006'
+  'perl-ppix-quotelike-utils=0.006')
 depends=(
   'perl>=5.6.0'
   'perl-base'
@@ -29,15 +28,13 @@ depends=(
   'perl-encode'
   'perl-exporter'
   'perl-ppi>=1.117'
-  'perl-scalar-list-utils'
-)
+  'perl-scalar-list-utils')
 makedepends=(
-  'perl-test-simple>=0.88'
-)
+  'perl-test-simple>=0.88')
 url='https://metacpan.org/release/PPIx-QuoteLike'
 _distdir="PPIx-QuoteLike-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/W/WY/WYANT/${_distdir}.tar.gz")
-sha512sums=('70cf66dfbe40d6587fe278010bddaa6d96f2d076aadd7854708c80e3dff68c37d35447bb0594e05e1237e3ac719522f89d3c5ff70336700ffd10aad94b404104')
+sha512sums=('6ec80ac4df9a80bfd9310b7a5a1fe514dcfaf340de9d88fcece5ecdda9e5a2183408bc4631f546a76f538c7dbb6c4d3827788671fc57cf73d956e18589d09f9f')
 
 build() {
   cd "${srcdir}/${_distdir}"
