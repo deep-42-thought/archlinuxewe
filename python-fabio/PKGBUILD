@@ -45,6 +45,10 @@ package_python2-fabio() {
   cd "${srcdir}/py2-${pkgname#*-}-${pkgver}"
   python2 setup.py install --root="${pkgdir}/" --optimize=1
   install -D copyright "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  for suffix in '-convert' '_viewer'; do
+    mv "${pkgdir}/usr/bin/fabio${suffix}" "${pkgdir}/usr/bin/fabio2${suffix}"
+    sed -i '1 s/python/python2/' "${pkgdir}/usr/bin/fabio2${suffix}"
+  done
 }
 
 package_python-fabio() {
