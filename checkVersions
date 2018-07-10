@@ -101,7 +101,7 @@ then
       if ! mountpoint -q /mnt/archlinux32; then
         mount /mnt/archlinux32
       fi
-      /usr/src/archlinux32/devops/watch-versions | tee -a "${tmpFile}"
+      /usr/src/archlinux32/devops/watch-versions | sed 's/$/ (arch32)/' | tee -a "${tmpFile}"
       ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||" | grep '32$') | tee -a "${tmpFile}"
       err=$?
     fi
@@ -120,6 +120,7 @@ then
     ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||")
     err=$?
   else
+    /usr/src/archlinux32/devops/watch-versions | sed 's/$/ (arch32)/'
     ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||" | grep '32$')
     err=$?
   fi
