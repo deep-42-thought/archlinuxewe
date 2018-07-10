@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=xraylarch
-pkgver=0.9.37
+pkgver=0.9.39
 pkgrel=1
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('i686' 'x86_64')
@@ -11,24 +11,32 @@ depends=(
   'python2'
   'python2-asteval>=0.9.12'
   'python2-backports.functools_lru_cache'
-  'python2-h5py>=2.2'
-  'python2-lmfit>=0.9.9'
-  'python2-matplotlib>=1.5.1'
-  'python2-numpy>=1.7'
+#  'python2-epics>=3.2.4'
+  'python2-h5py>=2.4'
+  'python2-lmfit>=0.9.11'
+  'python2-matplotlib>=2.0'
+  'python2-numpy>=1.10'
   'python2-peakutils>=1.0.0'
   'python2-pillow>=3.4'
   'python2-psutil'
+  'python2-pyfai>=0.12.0'
+  'python2-pyaml'
   'python2-requests>=2.1'
+  'python2-scikit-learn>=0.18'
   'python2-scipy>=0.17'
+  'python2-silx'
   'python2-six>=1.10'
-  'python2-sqlalchemy>=0.9'
+  'python2-sqlalchemy>=1.1.5'
   'python2-termcolor'
+  'python2-uncertainties>=3.0'
+  'python2-wxpython3>=2.8.12'
   'python2-wxutils'
   'python2-wxmplot'
-  'wxpython'
 )
 makedepends=()
-checkdepends=()
+checkdepends=(
+  'python2-pytest'
+)
 optdepends=(
   'python2-CifFile:        needed for xrd modules'
   'python2-epics:          needed for using the EPICS control system'
@@ -45,21 +53,39 @@ backup=()
 options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/xraypy/${pkgname}/archive/${pkgver}.tar.gz"
+    'fix-root.patch'
 )
-sha512sums=('a32bddfef459b9a61b28e31fff774e7db1b7cacd50414d9cfbfedfd8da0207da8b049e244620f19594312d8cf871002d8730236adfda12b7feac5b5d38203494')
+sha512sums=(
+    'fb766930df572117005b50f142936cd43dd687e5e22588d5c9ba4d30f36f0bd5ea65bb4096ba4feb46bac921ecb2f3e0b93377dd7fa851b256d979a56f2739d4'
+    '377a449d9839b2c47266b661939183701189b7a3f85edb14626e80c7fb24a8584b9668917fe0a24bf80a505f69850e36cef0c439fca44bdea8ecfb9acaa7be6e'
+)
+
+prepare() {
+
+  cd "${pkgname}-${pkgver}"
+  patch -p1 -i "${srcdir}/fix-root.patch"
+
+}
 
 build() {
 
-    cd ${pkgname}-${pkgver}
-#    sed "s|DEBUG = False|DEBUG = True|" -i setup.py
-    python2 setup.py build
+  cd "${pkgname}-${pkgver}"
+  sed "s|DEBUG = False|DEBUG = True|" -i setup.py
+  python2 setup.py build
+
+}
+
+check() {
+
+  cd "${pkgname}-${pkgver}"
+  python2 setup.py check
 
 }
 
 package() {
 
-    cd ${pkgname}-${pkgver}
-    python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
-    sed "s| python\$| python2|" -i $pkgdir/usr/bin/*
+  cd "${pkgname}-${pkgver}"
+  python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+  sed 's| python$| python2|' -i "${pkgdir}/usr/bin/"*
 
 }
