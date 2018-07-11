@@ -1,7 +1,7 @@
 # Maintainer:  Erich Eckner <arch at eckner dot net>
 # Contributor: David Scholl <djscholl at gmail dot com>
 pkgname=hdf4
-pkgver=2.13
+pkgver=2.14
 pkgrel=1
 pkgdesc="General purpose library and file format for storing scientific data."
 arch=('i686' 'x86_64')
@@ -14,10 +14,8 @@ source=(
   "https://support.hdfgroup.org/ftp/HDF/releases/HDF4.${pkgver}/src/hdf-4.${pkgver}.tar.bz2"
   'config.patch'
 )
-sha512sums=(
-  'd7be2b3650255590b72db4a6931325ec0af256db4b846cfe886c76bf24034901b2ba7a7e546566f426d265b1793287ea3f95d8fbd818a3d018fa6813a4541657'
-  '7c05f0bcaf769723e8dc4dcb05e9ec2d59516c3c1ab4be5a9948632c24e5e43677b4a732de72574075928aae3f15cc2dcb75b8f22f02d6b97d4c6d905cfb964b'
-)
+sha512sums=('5689525e18bfc6be205a0a21cded68d66630020c9a1445ce5afae41d58246e26ed9ba349da1bb197c31557aba127f51a2b697a868ec7e2747ac6153858171718'
+            '7c05f0bcaf769723e8dc4dcb05e9ec2d59516c3c1ab4be5a9948632c24e5e43677b4a732de72574075928aae3f15cc2dcb75b8f22f02d6b97d4c6d905cfb964b')
 
 prepare() {
   cd "$srcdir/hdf-4.$pkgver"
