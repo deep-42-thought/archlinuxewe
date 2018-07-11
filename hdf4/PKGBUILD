@@ -10,20 +10,32 @@ license=('custom')
 depends=('zlib' 'libjpeg-turbo')
 makedepends=('gcc-libs' 'gcc-fortran' 'flex' 'bison')
 conflicts=('netcdf')
-source=("https://support.hdfgroup.org/ftp/HDF/releases/HDF4.${pkgver}/src/hdf-4.${pkgver}.tar.bz2")
-sha512sums=('d7be2b3650255590b72db4a6931325ec0af256db4b846cfe886c76bf24034901b2ba7a7e546566f426d265b1793287ea3f95d8fbd818a3d018fa6813a4541657')
+source=(
+  "https://support.hdfgroup.org/ftp/HDF/releases/HDF4.${pkgver}/src/hdf-4.${pkgver}.tar.bz2"
+  'config.patch'
+)
+sha512sums=(
+  'd7be2b3650255590b72db4a6931325ec0af256db4b846cfe886c76bf24034901b2ba7a7e546566f426d265b1793287ea3f95d8fbd818a3d018fa6813a4541657'
+  '7c05f0bcaf769723e8dc4dcb05e9ec2d59516c3c1ab4be5a9948632c24e5e43677b4a732de72574075928aae3f15cc2dcb75b8f22f02d6b97d4c6d905cfb964b'
+)
+
+prepare() {
+  cd "$srcdir/hdf-4.$pkgver"
+  patch -p3 -i "${srcdir}/config.patch"
+  autoreconf -i
+}
 
 build() {
-  cd $srcdir/hdf-4.$pkgver
-  export CFLAGS=$CFLAGS" -fPIC"
-  export LDFLAGS=" -l:libjpeg.so.8 "$LDFLAGS
+  cd "$srcdir/hdf-4.$pkgver"
+  export CFLAGS="$CFLAGS -fPIC"
+  export LDFLAGS=" -l:libjpeg.so.8 $LDFLAGS"
   ./configure --prefix=/usr F77=gfortran 
   make
 }
 package() {
-  cd $srcdir/hdf-4.$pkgver
-  make prefix=$pkgdir/usr install
-  mkdir -p $pkgdir/usr/share/doc/$pkgname
-  mkdir -p $pkgdir/usr/share/licenses/$pkgname
-  cp $srcdir/hdf-4.$pkgver/COPYING $pkgdir/usr/share/licenses/$pkgname
+  cd "$srcdir/hdf-4.$pkgver"
+  make prefix="$pkgdir/usr" install
+  mkdir -p "$pkgdir/usr/share/doc/$pkgname"
+  mkdir -p "$pkgdir/usr/share/licenses/$pkgname"
+  cp "$srcdir/hdf-4.$pkgver/COPYING" "$pkgdir/usr/share/licenses/$pkgname"
 }
