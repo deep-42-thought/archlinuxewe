@@ -228,31 +228,35 @@ then
     elif [ "${pkgname}" == "archiso32" ] || [ "${pkgname}" == 'archiso-dual' ]
     then
       git -C /usr/src/archlinux/archiso fetch upstream
+      git -C /usr/src/archlinux32/archiso32 fetch origin
       remVer="$(
-        (
-          git -C /usr/src/archlinux/archiso tag | \
-            sed -n 's/^v//;T;p'
-          curl_it 'https://git.archlinux32.org/archlinux32/archiso32/releases' | \
-            tr '"' '\n' | \
-            grep '^/archlinux32/archiso32/archive/\(i686\|dual\)-v[0-9.]\+\.tar\.gz$' | \
-            sed 's@^/archlinux32/archiso32/archive/\(i686\|dual\)-v\([0-9.]\+\)\.tar\.gz$@\2@'
-        ) | \
+        {
+          git -C /usr/src/archlinux/archiso tag
+          git -C /usr/src/archlinux32/archiso32 tag
+        } | \
+          sed -n '
+            s/^\(i686-\|dual-\)v//
+            T
+            p
+          ' | \
           sort -V | \
           tail -n1
       )"
     elif [ "${pkgname}" == 'devtools32' ]
     then
       git -C /usr/src/archlinux/devtools fetch upstream
+      git -C /usr/src/archlinux32/devtools32 fetch origin
       remVer="$(
         (
-          git -C /usr/src/archlinux/devtools archive --format=tar upstream/master | \
-            tar -Ox Makefile | \
+          git -C /usr/src/archlinux/devtools archive --format=tar upstream/master -- Makefile | \
+            tar -Ox | \
             grep -m1 '^V=[0-9.]\+$' | \
             cut -d= -f2
-          curl_it 'https://git.archlinux32.org/archlinux32/devtools32/releases' | \
-            tr '"' '\n' | \
-            grep '^/archlinux32/devtools32/archive/v[0-9.]\+\.tar\.gz$' | \
-            sed 's@^/archlinux32/devtools32/archive/v\([0-9.]\+\)\.tar\.gz$@\1@'
+          git -C /usr/src/archlinux32/devtools32 tag | \
+            sed -n '
+              s/^v//
+              /^[0-9.]\+$/p
+            '
         ) | \
           sort -V | \
           tail -n1
