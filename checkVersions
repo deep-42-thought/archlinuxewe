@@ -560,11 +560,14 @@ then
     then
       quVer=$( \
         echo "${src}" | \
-          sed 's|/sourceforge/|/|' | \
-          sed 's|\(//sourceforge\.net/.*/\)[^/]*/[^/]*$|\1|' | \
-          sed "s|//\(pr\)\?downloads\.sourceforge\.net/\([^/]*\)/[^/]*\$|//sourceforge.net/projects/\2/files/\2/|" | \
-          sed 's|/scidavis/$|/SciDAVis/|' | \
-          sed 's|^http:|https:|'
+          sed '
+            s|/sourceforge/|/|
+            s|\(//sourceforge\.net/.*/\)[^/]*/[^/]*$|\1|
+            s|//\(pr\)\?downloads\.sourceforge\.net/\([^/]*\)/[^/]*$|//sourceforge.net/projects/\2/files/\2/|
+            s|//\(pr\)\?downloads\.sourceforge\.net/project/\([^/]*\)/files/\([^/]*\)/\([0-9.]\+/\)\?[^/]*$|//sourceforge.net/projects/\2/files/\3/|
+            s|/scidavis/$|/SciDAVis/|
+            s|^http:|https:|
+          '
       )
       remVer=$( \
         curl_it "${quVer}" | \
@@ -660,6 +663,7 @@ then
           'www\.iozone\.org' \
           'www\.vandenoever\.info' \
           'www\.wurzel\.org' \
+          'www.xcrysden.org' \
           | sed 's@\\|$@\n@'
       )"
     then
