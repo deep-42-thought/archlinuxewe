@@ -180,6 +180,14 @@ versteheMetaYml() {
           versionsUniq -u
       )
     fi
+    if ${metaStripVersion["${wasAusgeben}"]}; then
+      metaYml["${wasAusgeben}"]=$(
+        printf '%s\n' "${metaYml["${wasAusgeben}"]}" | \
+          sed '
+            s/[<>=]\S\+\( \|$\)/\1/g
+          '
+      )
+    fi
   done
   echo "... fertig"
 }
@@ -201,16 +209,22 @@ mangle_versions() {
 declare -A metaInfos
 declare -A metaRegexe
 declare -A metaSubst
+declare -A metaStripVersion
 declare -A metaYml
 declare -A pkgBuild
 
 metaRegexe["depends"]="requires"
 metaSubst["depends"]=true
+metaStripVersion["depends"]=false
 metaRegexe["makedepends"]="\(build\|configure\)_requires"
 metaSubst["makedepends"]=true
+metaStripVersion["makedepends"]=false
 metaRegexe["optdepends"]="recommends"
 metaSubst["optdepends"]=true
+metaStripVersion["optdepends"]=true
 metaRegexe["conflicts"]="conflicts"
 metaSubst["conflicts"]=true
+metaStripVersion["conflicts"]=false
 metaRegexe["provides"]="provides"
 metaSubst["provides"]=false
+metaStripVersion["provides"]=false
