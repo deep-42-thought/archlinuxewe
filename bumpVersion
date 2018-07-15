@@ -130,7 +130,7 @@ sed 's|sha512sums=.*$|'"${summen}"'|' -i PKGBUILD
 ) || exit $?
 
 if [ "${paket}" != 'qgis-git' ]; then
-  rm -rf "${paket}" "src" "pkg"
+  rm -rf "src" "pkg"
   sudo pacman -Sy
   makepkg -fcsr --noconfirm --asdeps || exit 1
   namcap ${paket}-${remVer}-1-*.pkg.tar.xz || exit 1
