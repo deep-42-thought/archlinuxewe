@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=xraylarch
-pkgver=0.9.39
+pkgver=0.9.40
 pkgrel=1
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('i686' 'x86_64')
@@ -53,17 +53,12 @@ backup=()
 options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/xraypy/${pkgname}/archive/${pkgver}.tar.gz"
-    'fix-root.patch'
 )
-sha512sums=(
-    'fb766930df572117005b50f142936cd43dd687e5e22588d5c9ba4d30f36f0bd5ea65bb4096ba4feb46bac921ecb2f3e0b93377dd7fa851b256d979a56f2739d4'
-    '377a449d9839b2c47266b661939183701189b7a3f85edb14626e80c7fb24a8584b9668917fe0a24bf80a505f69850e36cef0c439fca44bdea8ecfb9acaa7be6e'
-)
+sha512sums=('a37db5b2c2ad81d9731195156220fa7ff9be57b178cc17f5d0565f9cef2b2c3bd84cfa9791dd6aaee5535780c3e51ef7ec0d9f06d487a026aa6814ce2ac9dea5')
 
 prepare() {
 
-  cd "${pkgname}-${pkgver}"
-  patch -p1 -i "${srcdir}/fix-root.patch"
+  sed -i 's/pjoin(install_prefix, scriptdir)/install_prefix + scriptdir/' "${pkgname}-${pkgver}/setup.py"
 
 }
 
