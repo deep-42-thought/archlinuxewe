@@ -432,6 +432,28 @@ then
           tail -n1 \
       )
     elif echo "${src}" | \
+      grep -q "//git\.eckner\.net/"
+    then
+      quVer="${src%/*/*}"
+      quNam=$(
+        printf '%s\n' "${src}" | \
+          sed '
+            s,^.*/,,
+            s,-[0-9.]\+\.tar\.xz$,,
+          '
+      )
+      remVer=$( \
+        curl_it "${quVer}" | \
+          tr "<>'\"" '\n' | \
+          sed -n '
+            s,^/'"${quNam}"'\.git/snapshot/'"${quNam}"'-\([0-9.]\+\)\.tar\.xz$,\1,
+            T
+            p
+          ' | \
+          sort -V | \
+          tail -n1
+      )
+    elif echo "${src}" | \
       grep -q "//\(search\.m\?\)\?cpan\.org/\|//cpan\.metacpan\.org/authors/\|cpan\.org/modules/by-module/"
     then
       quVer=$( \
