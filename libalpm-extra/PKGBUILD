@@ -4,7 +4,7 @@ pkgver=0.1
 pkgrel=1
 pkgdesc="extra-capabilities for libalpm: a hook which misses from linux"
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/${pkgname}.git"
 license=('GPL')
 groups=()
 depends=()
@@ -17,9 +17,9 @@ replaces=()
 backup=()
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "https://git.eckner.net/${pkgname}.git/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('ad1b2f8ecbcb44d59fe2201a1095691ddf66394caec8619748461a58e730539daa5b060e40d7928e14325941a576cd3752a09806701722cb95eff584bd0c5b98')
+sha512sums=('7910713d7a226fe7296775511d237f8a82d17e96e6f0aec503534a2a67dfa945d350f1ac78d3035263f6f246647a6b99a8de08b688c0840ee5bea32207ce18ba')
 
 build() {
 

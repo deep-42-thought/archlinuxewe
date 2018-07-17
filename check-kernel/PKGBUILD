@@ -4,7 +4,7 @@ pkgver=0.3.2
 pkgrel=1
 pkgdesc='check if the installed kernel is currently running'
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/${pkgname}.git"
 license=('GPL')
 groups=()
 depends=()
@@ -17,9 +17,9 @@ replaces=()
 backup=()
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "https://git.eckner.net/${pkgname}.git/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('efc44daf5bacedd7f45a3b5235bac0e064ed8b272d7d0c159f76beb2ae81a73a35a8fbcf54fb6deb7775f67196b0e78f269ddfdae143f74a7b8a61ff72350761')
+sha512sums=('b834a6b1f6fa4bd07aa4421a5d353f0e155f061521e6485c3f42942e3b4222efb9261f59d6f7a5090d3750aa928a64a54824791e0aab50cd40e7b6e492e0011d')
 
 build() {
 

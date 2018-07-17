@@ -5,7 +5,7 @@ pkgver=1.2.2
 pkgrel=1
 pkgdesc='Generate hardlinked incremental backups via rsync (and possibly through a SOCKS-tunnel via ssh)'
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${_pkgname}"
+url="https://git.eckner.net/${_pkgname}.git"
 license=('GPL')
 groups=()
 depends=('rsync')
@@ -18,9 +18,9 @@ replaces=()
 backup=('etc/backup.conf')
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${_pkgname}-${pkgver}"
+    "https://git.eckner.net/${_pkgname}.git/snapshot/${_pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('da21832d729c281a19c213239a9157b1667008310ddad7af968349662c1a347e25f8dee2828dcce30d2f6c356d4d4a07fa31049d7f1ba0b5584e757a5e39bdb5')
+sha512sums=('63418cbd460fd88e90ed65bbbe6a434afd77d0b733f01e4018b80df1cc5049b463ef0487748295f021013c068e9f7c09f3d13bc335993a57f29bd30c3a80569b')
 
 build() {
 

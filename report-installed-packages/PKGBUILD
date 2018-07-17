@@ -4,7 +4,7 @@ pkgver=0.3
 pkgrel=1
 pkgdesc="report about installed (and therefore presumably working) packages from testing"
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/${pkgname}.git"
 license=('GPL')
 groups=()
 depends=()
@@ -17,9 +17,9 @@ replaces=()
 backup=()
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "https://git.eckner.net/${pkgname}.git/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('39028300900a016aae7e683bf9189e13bd2ef45f9b45ad915fd75093f626e32c7ad5f47f9fd94948ac38d3c3c14ea3a7fc6785f404a23ed7fd2faa4269c53c79')
+sha512sums=('28cf10710bef195b9106461d97f2510aafa533a340d5a721c7e5ad5c799d26516766765cb54c4a1bcc178ea73cbf0625de9b0b5410885b74d30695039a69f5b1')
 
 build() {
 

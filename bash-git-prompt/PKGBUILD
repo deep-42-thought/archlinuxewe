@@ -4,7 +4,7 @@ pkgver=1.2.1
 pkgrel=1
 pkgdesc="nice, git-aware prompt for bash"
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/${pkgname}.git"
 license=('GPL')
 groups=()
 depends=()
@@ -19,9 +19,9 @@ backup=(
 )
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "https://git.eckner.net/${pkgname}.git/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('cb4d74490b30ded54ed7f807ee0cc8ead6e285ceb4590c6fab202ae6b47acc6b31565d188233d859ac22a3c9fb9e2dc1318d6c9f514bd4691cbad9f91e93269e')
+sha512sums=('6e4e446f3d485c35082e2eef0160ded0951839ae43596a0313d06811b61dd72a501dc4f9bcbb3b229035254ac342c1ae423fd58279dc877c04a56d10594c08db')
 
 build() {
 

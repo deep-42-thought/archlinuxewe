@@ -4,7 +4,7 @@ pkgver=1.5
 pkgrel=1
 pkgdesc="Wrapper for sendmail, which generates stamps and encrypts."
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/${pkgname}.git"
 license=('GPL')
 groups=()
 depends=('gnupg' 'hashcash')
@@ -17,9 +17,9 @@ replaces=()
 backup=('etc/sendmailadvanced.conf')
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "https://git.eckner.net/${pkgname}.git/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('a0942c6a0abcc1af41e706ef875e0f1e8fcd19fa3187f551dac570ff89b6ae6d0d8f72a017d8e4e9b96da43e4f8a96df9348ad5d62df95624243b40356c045c0')
+sha512sums=('18819778eebd5ba4d84bdb415baaca272acdec3b76cdb203d40bb977231b3083d5728afc45fb6501e3dbcf69a19108ecca66127eaad36ddaf6dba11ad84164ef')
 
 build() {
 

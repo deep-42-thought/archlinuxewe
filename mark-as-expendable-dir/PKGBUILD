@@ -4,7 +4,7 @@ pkgver=0.1
 pkgrel=1
 pkgdesc="create CACHEDIR.TAG and .rsync-filter files"
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/${pkgname}.git"
 license=('GPL')
 groups=()
 depends=()
@@ -17,9 +17,9 @@ replaces=()
 backup=()
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "https://git.eckner.net/${pkgname}.git/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('376b4a32f839ad599c168131b2dea014fcc99281c871f22c3c66d3b7479b18d96bc46a39eb843e1f3f3b3072a19ced39e82f48edfe12b813856592300dcd9d52')
+sha512sums=('7cd0103a33e3154a9010c161fed3bb853e9708234b5e10e3e94cbd1f0320c43f28e54415f0f89d1b10f099240e8e3f97616e4bdb82775e861273142dbf329f20')
 
 build() {
 

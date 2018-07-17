@@ -4,7 +4,7 @@ pkgver=0.8
 pkgrel=1
 pkgdesc="extra-capabilities for logwatch: better cron-frontend"
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/${pkgname}.git"
 license=('GPL')
 groups=()
 depends=('logwatch')
@@ -17,9 +17,9 @@ replaces=()
 backup=()
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "https://git.eckner.net/${pkgname}.git/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('6a90a104d7e156ae57eda8a5a15d5624e6451f7b4eb8c165dc340617acaca111f95dcefb3a905b79294337b72d5fc63c3b9075dfe1933296d7bd33856d01d9d3')
+sha512sums=('3f2253291f51178a5e304160649ba8bce116194167a35cd3178d5dd40e2ce380104b70e45f1a371719572e87c2f70f516e36deb4f8433a57c2d0e8f52cdbc37e')
 
 build() {
 

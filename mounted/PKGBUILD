@@ -4,7 +4,7 @@ pkgver=0.1
 pkgrel=1
 pkgdesc='Wrapper for use by conky to show partitions.'
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/${pkgname}.git"
 license=('GPL')
 groups=()
 depends=('conky')
@@ -17,9 +17,9 @@ replaces=()
 backup=('etc/mounted.conf')
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "https://git.eckner.net/${pkgname}.git/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('f3a83dd6a7d1dcec5b40cfbf1e9754021d59286e0d95bcc0bce9fa7ab441581044d212ec0a941b542733f70f7ae205029081cefaf27ef4a15b6678ed9eeece6f')
+sha512sums=('9074fbdaac56c35a107c4c97b0608a5b566012f107b34dcf71b2b9541ffec956596ab9c8344e32ca074fe040d5e7382b9bc318600b4dc75fc70f8e4b83318c91')
 
 build() {
 

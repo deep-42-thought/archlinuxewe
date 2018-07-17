@@ -4,7 +4,7 @@ pkgver=0.4.4
 pkgrel=1
 pkgdesc='shell script and systemd unit for (automatically) (un)mounting encrypted partitions'
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/${pkgname}.git"
 license=('GPL')
 groups=()
 depends=('cryptsetup')
@@ -17,9 +17,9 @@ replaces=()
 backup=()
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "https://git.eckner.net/${pkgname}.git/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('08bf2fe9915e4db37c7c948def464d8898f2e29e1884def24ce399268d1f30ef3d65524cd9d42b287f1482aa798132e679ba86fcaf695f21017006ab3951cef0')
+sha512sums=('d9fca4bc0d3ec57c7e6156f7e8b56f612441fd77cef14fc5f42177eda2e672d22023881aa0877e0a6b18d850c81e6b8b763a02c987b9d39b2e9b5f5913da0f47')
 
 build() {
 

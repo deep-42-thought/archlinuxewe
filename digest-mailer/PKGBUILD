@@ -4,7 +4,7 @@ pkgver=0.2
 pkgrel=1
 pkgdesc="Sendmail replacement collecting emails into digests."
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/${pkgname}.git"
 license=('GPL')
 groups=()
 depends=()
@@ -17,9 +17,9 @@ replaces=()
 backup=('etc/digest-mailer.conf')
 options=()
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${pkgname}-${pkgver}"
+    "https://git.eckner.net/${pkgname}.git/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('5aaf4ebb973e0fe841947ad63dd5b1a40b257243bb4f4f141c36ad5c80552eb78a43775d9612d7c379f08d431e3c62c0d76ad2c516eccc0ea3b8c62038685507')
+sha512sums=('84eaec3f670bffc2c591a65744e854cc05db7b042968c8b304e1cca041eec7883fd93a97c4117699341b7c97aea74a2b068de98aa707c23c4ac4247ac911442d')
 
 build() {
 
