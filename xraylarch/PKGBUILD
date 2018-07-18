@@ -58,7 +58,7 @@ sha512sums=('a37db5b2c2ad81d9731195156220fa7ff9be57b178cc17f5d0565f9cef2b2c3bd84
 
 prepare() {
 
-  sed -i 's/pjoin(install_prefix, scriptdir)/install_prefix + scriptdir/' "${pkgname}-${pkgver}/setup.py"
+  sed -i 's/pjoin(install_prefix, scriptdir)/os.path.normpath(install_prefix + os.sep + scriptdir)/' "${pkgname}-${pkgver}/setup.py"
 
 }
 
