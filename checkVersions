@@ -446,7 +446,7 @@ then
         curl_it "${quVer}" | \
           tr "<>'\"" '\n' | \
           sed -n '
-            s,^/'"${quNam}"'\.git/snapshot/'"${quNam}"'-\([0-9.]\+\)\.tar\.xz$,\1,
+            s,^/'"${quVer#*//*/}"'/snapshot/'"${quNam}"'-\([0-9.]\+\)\.tar\.xz$,\1,
             T
             p
           ' | \
