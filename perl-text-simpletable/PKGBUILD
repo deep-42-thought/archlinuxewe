@@ -2,22 +2,25 @@
 # Generator : neuesPerlPaket (37df69590f524225e7f9bb438c878069de21511be11f310bd4383672cab4214e54600ffc2485feaca481ea2264439cc888cbb47a779ab2f3ff33881f1c0866bf)
 
 pkgname='perl-text-simpletable'
-pkgver=2.05
+pkgver=2.06
 pkgrel=1
 pkgdesc='Simple eyecandy ASCII tables'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+optdepends=(
+  'perl-text-visualwidth-pp'
+  'perl-text-visualwidth-utf8'
+  'perl-unicode-linebreak')
 depends=(
   'perl>=5.8.1'
   'perl-extutils-makemaker'
-  'perl-test-simple'
-  'perl-unicode-linebreak')
+  'perl-test-simple')
 checkdepends=('perl-test-pod' 'perl-test-pod-coverage')
 url='https://metacpan.org/release/Text-SimpleTable'
 _distdir="Text-SimpleTable-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MR/MRAMBERG/${_distdir}.tar.gz")
-sha512sums=('52a5f3a7469bf9c757c309315c5bd90ae28e854f6e19459c6a9ef5f863155e0dd02ae9bf39abfc2ec8c0b705775a1138c7e3d617e2b21f1b7a35c09cbc309a46')
+sha512sums=('9498d558f2abd70222fddf24e59553fc39b44c81812896de2aab6822909b3827929c73157f62c5f872ac845496ea51bb114f2f3b282b694f04f812524dee2bbe')
 
 build(){
   cd "${srcdir}/${_distdir}"
