@@ -10,11 +10,11 @@ url="http://www.slackware.com/"
 license=('BSD')
 provides=('adduser')
 depends=('gawk' 'shadow>=4.1.5.1-3')
-source=("https://mirrors.slackware.com/slackware/slackware64-current/source/a/shadow/adduser")
+source=("${pkgname}-${pkgver}::https://mirrors.slackware.com/slackware/slackware64-current/source/a/shadow/adduser")
 sha512sums=('68fcf9d4b437c574e8431f6be9cde54cd275e9076204e0d19f74024f25b12a57e2b71a5bd5d1cf9ab8e96621f648b3ede7f5f450b7ec61c90239f898b5538fe1')
 
 package() {
-  install -D -m755 adduser "${pkgdir}/usr/bin/adduser"
-  sed '/^###/q;1,2d;s/^# *//' adduser | head -n -2 > LICENSE
+  install -D -m755 "${pkgname}-${pkgver}" "${pkgdir}/usr/bin/adduser"
+  sed '/^###/q;1,2d;s/^# *//' "${pkgname}-${pkgver}" | head -n -2 > LICENSE
   install -D LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
