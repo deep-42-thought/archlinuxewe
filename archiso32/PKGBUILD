@@ -8,7 +8,7 @@
 _target_arch=$(printf '%s' i 6 8 6)
 
 pkgname=archiso32
-pkgver=36
+pkgver=37
 pkgrel=1
 pkgdesc='Tools for creating Arch Linux live and install iso images - for '"${_target_arch}"
 arch=('any')
@@ -19,7 +19,7 @@ conflicts=('archiso' 'archiso-dual')
 source=(
   "https://sources.archlinux32.org/sources/${pkgname}-${_target_arch}-v${pkgver}.tar.gz"{,.sig}
 )
-sha512sums=('9e031b0bafdb5b115a6f782fe82768b768eaaa3a78422147e2c16a7f9d0f2378f60b8186baaa1ef2eb2796c2df3ab3c7b2b306750e074591c63acfe74c54d033'
+sha512sums=('ee6f912c09009f42389bf9eaea97a3e3c59122f20c2a62edbf57430f48777fc97d1b16853a4b08d5fa4c554804e2f27adbebdca2f55c2396ac45079c430ac144'
             'SKIP')
 validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
 
