@@ -1,0 +1,84 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (568f5d2df596725567f1a6081bf01d21ef231fbfd3571a4132eb004ebb50cfaada248486250b351491d5fd615f2c1d7f07d339c6e6ad8bb59146399a117bec0c)
+
+pkgname='perl-http-cookiejar'
+pkgver='0.008'
+pkgrel='1'
+pkgdesc='A minimalist HTTP user agent cookie jar'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-http-cookiejar-lwp=0.008'
+)
+optdepends=(
+  'perl-mozilla-publicsuffix'
+)
+depends=(
+  'perl>=5.8.1'
+  'perl-carp'
+  'perl-http-date'
+  'perl-parent'
+  'perl-time-local>=1.19.01'
+)
+makedepends=(
+  'perl>=5.8.1'
+  'perl-extutils-makemaker>=6.17'
+  'perl-lib'
+  'perl-pathtools'
+  'perl-test-deep'
+  'perl-test-requires'
+  'perl-test-simple>=0.96'
+  'perl-uri'
+)
+url='https://metacpan.org/release/HTTP-CookieJar'
+_distdir="HTTP-CookieJar-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/${_distdir}.tar.gz")
+sha512sums=('6e85c22084ba2959b385f4cd706b2b937fcdb68f219ee03ccdd69dd2a01ff34b72bf7f442e414e3da43199fc43624b781af0c7599f856dc580a5d0a7742c6aff')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
