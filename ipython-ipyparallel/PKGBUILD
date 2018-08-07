@@ -3,12 +3,33 @@
 pkgbase=ipython-ipyparallel
 pkgname=('ipython-ipyparallel' 'ipython2-ipyparallel' 'ipython-ipyparallel-common')
 pkgver=6.2.2
-pkgrel=1
+pkgrel='2'
 pkgdesc="Interactive Parallel Computing in Python"
 url="https://github.com/ipython/ipyparallel"
 arch=(any)
 license=('BSD')
-makedepends=('python-setuptools' 'python2-setuptools' 'ipython' 'ipython2')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
+_depends=(
+  'ipython'
+)
+_makedepends=(
+  'python-setuptools'
+)
+makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]/python/python2}"
+  "${_depends[@]}"
+  "${_depends[@]/python/python2}"
+)
 source=("https://github.com/ipython/ipyparallel/archive/${pkgver}.tar.gz")
 sha512sums=('abfbfdc23999a442fb9a1cc1c04c71dbf456cb78af9133b7a5510819f55e645e0dc6ae9b0894c4d04a18591988c6ede8c2400cca6d11167797c7b41861f70d04')
 
@@ -36,7 +57,11 @@ _package_ipython-ipyparallel() {
 }
 
 package_ipython-ipyparallel() {
-  depends=('ipython' 'ipython-ipyparallel-common')
+  depends=(
+    "${_deppy[@]}"
+    "${_depends[@]}"
+    'ipython-ipyparallel-common'
+  )
 
   _package_ipython-ipyparallel
   for f in "${_common_files[@]}"; do
@@ -54,7 +79,11 @@ _package_ipython2-ipyparallel() {
 }
 
 package_ipython2-ipyparallel() {
-  depends=('ipython2' 'ipython-ipyparallel-common')
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]/python/python2}"
+    'ipython-ipyparallel-common'
+  )
 
   _package_ipython2-ipyparallel
   for f in "${_common_files[@]}"; do

@@ -3,22 +3,38 @@
 pkgbase=python-postpic
 pkgname=(python-postpic python2-postpic)
 pkgver=0.3.1
-pkgrel=1
+pkgrel='2'
 pkgdesc='The open source particle-in-cell post processor.'
 url='https://github.com/skuschel/postpic'
 arch=('i686' 'x86_64')
 license=('GPL3')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
 _depends=(
   'python-matplotlib' 'python-numpy>=1.7' 'python-scipy' 'python-future' 'python-urllib3' 'python-numexpr'
+)
+_makedepends=(
+  'python-setuptools'
+  'cython'
+  'python-h5py'
 )
 _optdepends=(
   'python-h5py: h5 reader for openPMD support'
   'python-sdf:  sdf support for EPOCH reader'
 )
 makedepends=(
-  'python' 'python2' 'python-setuptools' 'python2-setuptools' 'cython' 'cython2' 'python-h5py'
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
   "${_depends[@]}"
   "${_depends[@]/python/python2}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]/ython/ython2}"
 )
 source=($pkgname-$pkgver.tar.gz::https://github.com/skuschel/postpic/archive/v$pkgver.tar.gz)
 sha512sums=('0b1e2d80c7c8944b81da7c4b389c5d8190e856857acc56cd6c50545e15f7819182c2843e40a3cad5456406ad2d442b851cb6df732579d8e752cd09bc45e9cc79')
@@ -50,10 +66,8 @@ check() {
 }
 
 package_python-postpic() {
-  _pyVer=$(python -V 2>&1 | cut -d' ' -f2 | cut -d. -f2)
   depends=(
-    "python>=3.${_pyVer}"
-    "python<3.$((_pyVer+1))"
+    "${_deppy[@]}"
     "${_depends[@]}"
   )
   optdepends=("${_optdepends[@]}")
@@ -65,10 +79,8 @@ package_python-postpic() {
 }
 
 package_python2-postpic() {
-  _pyVer=$(python2 -V 2>&1 | cut -d' ' -f2 | cut -d. -f2)
   depends=(
-    "python2>=2.${_pyVer}"
-    "python2<2.$((_pyVer+1))"
+    "${_deppy2[@]}"
     "${_depends[@]}"
     "${_depends[@]/python/python2}"
   )

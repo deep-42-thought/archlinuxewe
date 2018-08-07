@@ -5,11 +5,19 @@ pkgbase=python-silx
 pkgname=(python2-silx python-silx)
 _pkgname=silx
 pkgver=0.8.0
-pkgrel=1
+pkgrel='2'
 pkgdesc="A collection of Python packages for data analysis at synchrotron radiation facilities."
 arch=('i686' 'x86_64')
 url="http://www.silx.org"
 license=('MIT' 'LGPL')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
 _depends=('python-numpy' 'python-pyqt5' 'python-matplotlib')
 _optdepends=('python-h5py: for HDF5 input/output'
             'ipython: for interactive console'
@@ -21,6 +29,8 @@ source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${_pkgname}/a
 sha256sums=('991250e242d4be6b5e6eae4d9267b5ba1e70d3abdd2aa4244bd55ce0fe4d0a49')
 
 makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
   "${_depends[@]}"
   "${_depends[@]//python/python2}"
   "${_makedepends[@]}"
@@ -42,6 +52,7 @@ build() {
 
 package_python2-silx() {
   depends=(
+    "${_deppy2[@]}"
     "${_depends[@]//python/python2}"
   )
   optdepends=(
@@ -59,6 +70,7 @@ package_python2-silx() {
 
 package_python-silx() {
   depends=(
+    "${_deppy[@]}"
     "${_depends[@]}"
   )
   optdepenends=(

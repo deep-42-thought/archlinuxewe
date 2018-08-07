@@ -4,15 +4,25 @@
 pkgbase=python-asteval
 pkgname=('python-asteval' 'python2-asteval')
 pkgver=0.9.12
-pkgrel=1
+pkgrel='2'
 pkgdesc='Minimal Python AST Evaluator'
 arch=('any')
 url='https://newville.github.io/asteval/'
 license=('MIT')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
 _depends=('python' 'python-numpy>=1.6' 'python-six')
 _makedepends=('python-setuptools')
 _checkdepends=('python-nose' 'python-pytest')
 makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
   "${_depends[@]}" "${_depends[@]/python/python2}"
   "${_makedepends[@]}" "${_makedepends[@]/python/python2}"
   )
@@ -44,13 +54,19 @@ check() {
 }
 
 package_python-asteval(){
-  depends=("${_depends[@]}")
+  depends=(
+    "${_deppy[@]}"
+    "${_depends[@]}"
+  )
   cd "$srcdir/asteval-py-$pkgver"
   python setup.py install --root="$pkgdir/" --optimize=1
 }
 
 package_python2-asteval(){
-  depends=("${_depends[@]/python/python2}")
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]/python/python2}"
+  )
   cd "$srcdir/asteval-py2-$pkgver"
   python2 setup.py install --root="$pkgdir/" --optimize=1
 }

@@ -5,11 +5,19 @@ pkgbase=python-fabio
 pkgname=(python2-fabio python-fabio)
 _pkgname=fabio
 pkgver=0.7.0
-pkgrel=1
+pkgrel='2'
 pkgdesc="I/O library for images produced by 2D X-ray detectors."
 arch=('i686' 'x86_64')
 url="http://www.silx.org"
 license=('MIT' 'LGPL' 'Apache')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
 _depends=(
   'python-numpy'
   'python-setuptools')
@@ -20,6 +28,8 @@ source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${_pkgname}/a
 sha512sums=('1ef84eb628f950d933db35335d2656c3385e07ede9bb833052661b8b6a5d39889889c9e58ddd3a5ccc3d3d0e7989c2b57942270142b6acca87d67ce7008a6fb4')
 
 makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
   "${_depends[@]}"
   "${_depends[@]//python/python2}"
   "${_makedepends[@]}"
@@ -41,6 +51,7 @@ build() {
 
 package_python2-fabio() {
   depends=(
+    "${_deppy2[@]}"
     "${_depends[@]//python/python2}"
   )
   optdepends=(
@@ -57,6 +68,7 @@ package_python2-fabio() {
 
 package_python-fabio() {
   depends=(
+    "${_deppy[@]}"
     "${_depends[@]}"
   )
   optdepenends=(

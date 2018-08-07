@@ -3,11 +3,19 @@ pkgbase=python-oauth2
 _pkgname=python-oauth2
 pkgname=(python-oauth2 python2-oauth2)
 pkgver=1.1.0
-pkgrel=1
+pkgrel='2'
 pkgdesc='framework that aims at making it easy to provide authentication via OAuth 2.0 within an application stack/'
 url='https://github.com/wndhydrnt/python-oauth2/'
 arch=('any')
 license=('MIT')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
 _depends=(
   'python-mock'
   'python-mysql-connector'
@@ -24,6 +32,8 @@ _optdepends=(
   'python-redis'
 )
 makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
   "${_depends[@]}"
   "${_depends[@]/python/python2}"
   "${_makedepends[@]}"
@@ -66,10 +76,8 @@ check() {
 }
 
 package_python-oauth2() {
-  _pyVer=$(python -V 2>&1 | cut -d' ' -f2 | cut -d. -f2)
   depends=(
-    "python>=3.${_pyVer}"
-    "python<3.$((_pyVer+1))"
+    "${_deppy[@]}"
     "${_depends[@]}"
   )
   optdepends=("${_optdepends[@]}")
@@ -80,10 +88,8 @@ package_python-oauth2() {
 }
 
 package_python2-oauth2() {
-  _pyVer=$(python2 -V 2>&1 | cut -d' ' -f2 | cut -d. -f2)
   depends=(
-    "python2>=2.${_pyVer}"
-    "python2<2.$((_pyVer+1))"
+    "${_deppy2[@]}"
     "${_depends[@]/python/python2}"
   )
   optdepends=("${_optdepends[@]/python/python2}")

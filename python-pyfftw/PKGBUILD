@@ -5,12 +5,33 @@ _pyname=pyFFTW
 pkgname=("python-pyfftw" "python2-pyfftw")
 pkgbase="python-pyfftw"
 pkgver=0.10.4
-pkgrel=1
+pkgrel='2'
 pkgdesc='A pythonic wrapper around FFTW.'
 url='http://hgomersall.github.io/pyFFTW/'
-depends=('fftw')
-_depends=('python-numpy' 'python-scipy')
-makedepends=('python-setuptools' 'python2-setuptools' "${_depends[@]}" "${_depends[@]/python-/python2-}")
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
+_depends=(
+  'python-numpy'
+  'python-scipy'
+  'fftw'
+)
+_makedepends=(
+  'python-setuptools'
+)
+makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
+  "${_depends[@]}"
+  "${_depends[@]/python-/python2-}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]/python-/python2-}"
+)
 license=('BSD')
 arch=('i686' 'x86_64')
 source=("https://pypi.python.org/packages/c2/2e/b25edc6960fc837e915eb1b38e5f0e3013e32e90aff14a1d0f4556b3d145/pyFFTW-${pkgver}.tar.gz")
@@ -23,14 +44,20 @@ build() {
 }
 
 package_python-pyfftw() {
-  depends+=("${_depends[@]}")
+  depends=(
+    "${_deppy[@]}"
+    "${_depends[@]}"
+  )
   cd $srcdir/$_pyname-$pkgver
   python setup.py install --root="$pkgdir" --optimize=1 
   install -D -m644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
 
 package_python2-pyfftw() {
-  depends+=("${_depends[@]/python-/python2-}")
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]/python-/python2-}"
+  )
   cd $srcdir/$_pyname-$pkgver
   python2 setup.py install --root="$pkgdir" --optimize=1 
   install -D -m644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"

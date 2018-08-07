@@ -5,14 +5,38 @@
 pkgbase=python-scikit-image
 pkgname=('python2-scikit-image' 'python-scikit-image')
 pkgver=0.14.0
-pkgrel=1
+pkgrel='2'
 pkgdesc="Image processing routines for SciPy"
 arch=('i686' 'x86_64')
 url="http://scikit-image.org/"
 license=('BSD')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
 _depends=('python-scipy' 'python-matplotlib' 'python-networkx'
           'python-pillow' 'python-pywavelets')
-makedepends=('cython2' 'cython' 'python2-six' 'python-six' "${_depends[@]}" "${_depends[@]/python-/python2-}")
+_makedepends=(
+  'cython'
+  'python-six'
+)
+_optdepends=(
+  'python-pyqt4: for imshow(x, fancy=True) and skivi'
+  'freeimage: for reading various types of image file formats'
+  'python-pyamg: fast cg_mg mode of random walker segmentation'
+)
+makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
+  "${_depends[@]}"
+  "${_depends[@]/python-/python2-}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]/python-/python2-}"
+)
 options=('!emptydirs')
 source=(https://pypi.python.org/packages/fc/20/d3e736493b16e9455ce8579722d644b313814c599d5824d34e448845f746/scikit-image-${pkgver}.tar.gz)
 sha512sums=('224a6af745e1eb7d38c425afa411a9baac3e9504b639233fd10300a55006c3babdf40a3e7ee124e81b327c9f06d0baf35d3f2ccf8f69d3d2d6a54be0e40132f9')
@@ -39,9 +63,13 @@ build() {
 }
 
 package_python2-scikit-image() {
-  depends=("${_depends[@]/python-/python2-}")
-  optdepends=('python2-pyqt4: for imshow(x, fancy=True) and skivi'
-              'freeimage: for reading various types of image file formats')
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]/python-/python2-}"
+  )
+  optdepends=(
+    "${_optdepends[@]/python-/python2-}"
+  )
   cd "${srcdir}"/scikit-image-py2-$pkgver
 
   python2 setup.py install --root="${pkgdir}"/ --optimize=1
@@ -50,10 +78,13 @@ package_python2-scikit-image() {
 }
 
 package_python-scikit-image() {
-  depends=("${_depends[@]}")
-  optdepends=('python-pyqt4: for imshow(x, fancy=True) and skivi'
-              'freeimage: for reading various types of image file formats'
-              'python-pyamg: fast cg_mg mode of random walker segmentation')
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]}"
+  )
+  optdepends=(
+    "${_optdepends[@]}"
+  )
   cd "${srcdir}"/scikit-image-$pkgver
 
   python setup.py install --root="${pkgdir}"/ --optimize=1
