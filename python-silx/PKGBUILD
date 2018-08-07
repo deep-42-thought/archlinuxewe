@@ -38,7 +38,7 @@ makedepends=(
 )
 
 prepare() {
-  cp -r "${_pkgname}" "py2-${_pkgname}-${pkgver}"
+  cp -r "${_pkgname}-${pkgver}" "py2-${_pkgname}-${pkgver}"
   mv "${_pkgname}-${pkgver}" "py-${_pkgname}-${pkgver}"
 }
 
