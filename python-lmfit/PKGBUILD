@@ -44,7 +44,7 @@ checkdepends=(
   "${_checkdepends[@]/python/python2}"
 )
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/lmfit/lmfit-py/archive/${pkgver}.tar.gz")
-sha512sums=('e0fdbc0b969a53d94939b7d9821d0ef2f718d39481dcaabc2a24af239b5cf24bcb058579f7555854144757ea6f9ef7b458b71b64d8af5e1881037012aa774662')
+sha512sums=('924bc793a9759e729c5b3936716dd902a94a581cccc45485d9cc12688411fcb77be4367628c5e15ca1c61717482243e20622ff9b709b1ec1944c17ab95151823')
 
 prepare() {
   cp -a "lmfit-py-${pkgver}" "lmfit-py2-${pkgver}"
