@@ -328,7 +328,7 @@ then
       [ ${#onlyArchs[@]} -eq 0 ] && consider=true || consider=false
       for ((i=0; i<${#onlyArchs[@]}; i++))
       do
-        [[ "${arch}" == "${onlyArchs[${i}]}" ]] && consider=true
+        [[ "${singleArch}" == "${onlyArchs[${i}]}" ]] && consider=true
       done
       ${consider} || continue
 
