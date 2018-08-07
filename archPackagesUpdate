@@ -33,6 +33,8 @@ usage()
   >&2 echo 'Skript zum Updaten der selbsterstellten Archlinux-Pakete'
   >&2 echo ''
   >&2 echo 'Optionen:'
+  >&2 echo '    --arch $arch:'
+  >&2 echo '      only compile for $arch'
   >&2 echo '    -b|--branch [commitish]:'
   >&2 echo '      branch to check out - defaults to "HEAD"'
   >&2 echo '    --cleanCache:'
@@ -89,6 +91,7 @@ cleanUp () {
 echo 'parse arguments ...'
 eval set -- "$(
   getopt -o b:cfL:pr \
+    --long arch: \
     --long branch: \
     --long cleanCache \
     --long cleanUnsigned \
@@ -112,6 +115,11 @@ args=("$@")
 while true
 do
   case $1 in
+    --arch)
+      shift
+      echo '"arch '"$1"'" erkannt'
+      onlyArchs[${#onlyArchs[@]}]="$1"
+    ;;
     -b|--branch)
       shift
       branch="$1"
@@ -317,6 +325,12 @@ then
         [ "${singleArch}" == "i686" ] || \
         [ "${singleArch}" == "any" ] || \
         continue
+      [ ${#onlyArchs[@]} -eq 0 ] && consider=true || consider=false
+      for ((i=0; i<${#onlyArchs[@]}; i++))
+      do
+        [[ "${arch}" == "${onlyArchs[${i}]}" ]] && consider=true
+      done
+      ${consider} || continue
 
       allExist=true
       for pkgnam in "${pkgname[@]}"; do
