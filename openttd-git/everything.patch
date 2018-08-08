@@ -1,5 +1,5 @@
 diff --git a/.gitignore b/.gitignore
-index e30aabe37..b1bee14ed 100644
+index e30aabe37c..b1bee14edf 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -6,6 +6,7 @@ bin/ai/*
@@ -12,7 +12,7 @@ index e30aabe37..b1bee14ed 100644
  !bin/baseset/orig_*.obg
 diff --git a/docs/tile_index_transformations.svg b/docs/tile_index_transformations.svg
 new file mode 100644
-index 000000000..47fffb238
+index 0000000000..47fffb2383
 --- /dev/null
 +++ b/docs/tile_index_transformations.svg
 @@ -0,0 +1,1849 @@
@@ -1866,7 +1866,7 @@ index 000000000..47fffb238
 +  </g>
 +</svg>
 diff --git a/projects/openttd_vs100.vcxproj b/projects/openttd_vs100.vcxproj
-index e400081df..dc44ed960 100644
+index e400081df7..dc44ed9602 100644
 --- a/projects/openttd_vs100.vcxproj
 +++ b/projects/openttd_vs100.vcxproj
 @@ -325,6 +325,7 @@
@@ -1945,7 +1945,7 @@ index e400081df..dc44ed960 100644
      <ClCompile Include="..\src\road_cmd.cpp" />
      <ClCompile Include="..\src\roadveh_cmd.cpp" />
 diff --git a/projects/openttd_vs100.vcxproj.filters b/projects/openttd_vs100.vcxproj.filters
-index 47f431e55..b91cbc942 100644
+index 47f431e556..b91cbc942d 100644
 --- a/projects/openttd_vs100.vcxproj.filters
 +++ b/projects/openttd_vs100.vcxproj.filters
 @@ -132,6 +132,9 @@
@@ -2048,7 +2048,7 @@ index 47f431e55..b91cbc942 100644
        <Filter>Command handlers</Filter>
      </ClCompile>
 diff --git a/projects/openttd_vs80.vcproj b/projects/openttd_vs80.vcproj
-index c5e41e925..e538833d7 100644
+index c5e41e9251..e538833d7d 100644
 --- a/projects/openttd_vs80.vcproj
 +++ b/projects/openttd_vs80.vcproj
 @@ -482,6 +482,10 @@
@@ -2163,7 +2163,7 @@ index c5e41e925..e538833d7 100644
  				RelativePath=".\..\src\rail_cmd.cpp"
  				>
 diff --git a/projects/openttd_vs90.vcproj b/projects/openttd_vs90.vcproj
-index d2e5744a2..95ea8f19e 100644
+index d2e5744a2f..95ea8f19e5 100644
 --- a/projects/openttd_vs90.vcproj
 +++ b/projects/openttd_vs90.vcproj
 @@ -479,6 +479,10 @@
@@ -2278,7 +2278,7 @@ index d2e5744a2..95ea8f19e 100644
  				RelativePath=".\..\src\rail_cmd.cpp"
  				>
 diff --git a/source.list b/source.list
-index 5dec0e861..ab81c2f23 100644
+index 5dec0e8617..ab81c2f235 100644
 --- a/source.list
 +++ b/source.list
 @@ -9,6 +9,7 @@ cargomonitor.cpp
@@ -2357,7 +2357,7 @@ index 5dec0e861..ab81c2f23 100644
  road_cmd.cpp
  roadveh_cmd.cpp
 diff --git a/src/airport_gui.cpp b/src/airport_gui.cpp
-index 6437f236c..1ba911594 100644
+index 6437f236cd..1ba9115948 100644
 --- a/src/airport_gui.cpp
 +++ b/src/airport_gui.cpp
 @@ -57,7 +57,7 @@ void CcBuildAirport(const CommandCost &result, TileIndex tile, uint32 p1, uint32
@@ -2370,7 +2370,7 @@ index 6437f236c..1ba911594 100644
  
  	uint32 p1 = AirportClass::Get(_selected_airport_class)->GetSpec(_selected_airport_index)->GetIndex();
 diff --git a/src/bridge.h b/src/bridge.h
-index badf045e3..2c7fc080f 100644
+index badf045e39..2c7fc080f6 100644
 --- a/src/bridge.h
 +++ b/src/bridge.h
 @@ -73,6 +73,7 @@ static inline const BridgeSpec *GetBridgeSpec(BridgeType i)
@@ -2382,7 +2382,7 @@ index badf045e3..2c7fc080f 100644
  
  void ResetBridges();
 diff --git a/src/bridge_map.cpp b/src/bridge_map.cpp
-index d1e0d6024..c76374512 100644
+index d1e0d6024a..c763745124 100644
 --- a/src/bridge_map.cpp
 +++ b/src/bridge_map.cpp
 @@ -21,9 +21,10 @@
@@ -2443,7 +2443,7 @@ index d1e0d6024..c76374512 100644
 +template int GetBridgeHeight<false>(TileIndex t);
 +template int GetBridgeHeight<true>(GenericTileIndex t);
 diff --git a/src/bridge_map.h b/src/bridge_map.h
-index 75b20498d..4ee4f45ce 100644
+index 75b20498d1..4ee4f45cef 100644
 --- a/src/bridge_map.h
 +++ b/src/bridge_map.h
 @@ -21,31 +21,46 @@
@@ -2669,7 +2669,7 @@ index 75b20498d..4ee4f45ce 100644
  
  #endif /* BRIDGE_MAP_H */
 diff --git a/src/clear_cmd.cpp b/src/clear_cmd.cpp
-index f9eb88df5..a32806ca2 100644
+index f9eb88df54..a32806ca28 100644
 --- a/src/clear_cmd.cpp
 +++ b/src/clear_cmd.cpp
 @@ -126,6 +126,7 @@ static void DrawTile_Clear(TileInfo *ti)
@@ -2687,7 +2687,7 @@ index f9eb88df5..a32806ca2 100644
 +	NULL,                     ///< copypaste_tile_proc
  };
 diff --git a/src/clear_map.h b/src/clear_map.h
-index 76b1e82d0..b8ddb34be 100644
+index d24916de35..11e8171e24 100644
 --- a/src/clear_map.h
 +++ b/src/clear_map.h
 @@ -37,7 +37,7 @@ enum ClearGround {
@@ -2837,7 +2837,7 @@ index 76b1e82d0..b8ddb34be 100644
  	}
  }
  
-@@ -261,14 +261,14 @@ static inline void SetFence(TileIndex t, DiagDirection side, uint h)
+@@ -261,15 +261,15 @@ static inline void SetFence(TileIndex t, DiagDirection side, uint h)
  static inline void MakeClear(TileIndex t, ClearGround g, uint density)
  {
  	SetTileType(t, MP_CLEAR);
@@ -2853,12 +2853,14 @@ index 76b1e82d0..b8ddb34be 100644
  	SetClearGroundDensity(t, g, density); // Sets m5
 -	_me[t].m6 = 0;
 -	_me[t].m7 = 0;
+-	_me[t].m8 = 0;
 +	GetTileEx(t)->m6 = 0;
 +	GetTileEx(t)->m7 = 0;
++	GetTileEx(t)->m8 = 0;
  }
  
  
-@@ -281,14 +281,14 @@ static inline void MakeClear(TileIndex t, ClearGround g, uint density)
+@@ -282,15 +282,15 @@ static inline void MakeClear(TileIndex t, ClearGround g, uint density)
  static inline void MakeField(TileIndex t, uint field_type, IndustryID industry)
  {
  	SetTileType(t, MP_CLEAR);
@@ -2874,12 +2876,14 @@ index 76b1e82d0..b8ddb34be 100644
  	SetClearGroundDensity(t, CLEAR_FIELDS, 3);
 -	SB(_me[t].m6, 2, 4, 0);
 -	_me[t].m7 = 0;
+-	_me[t].m8 = 0;
 +	SB(GetTileEx(t)->m6, 2, 4, 0);
 +	GetTileEx(t)->m7 = 0;
++	GetTileEx(t)->m8 = 0;
  }
  
  /**
-@@ -300,7 +300,7 @@ static inline void MakeField(TileIndex t, uint field_type, IndustryID industry)
+@@ -302,7 +302,7 @@ static inline void MakeField(TileIndex t, uint field_type, IndustryID industry)
  static inline void MakeSnow(TileIndex t, uint density = 0)
  {
  	assert(GetClearGround(t) != CLEAR_SNOW);
@@ -2888,7 +2892,7 @@ index 76b1e82d0..b8ddb34be 100644
  	if (GetRawClearGround(t) == CLEAR_FIELDS) {
  		SetClearGroundDensity(t, CLEAR_GRASS, density);
  	} else {
-@@ -316,7 +316,7 @@ static inline void MakeSnow(TileIndex t, uint density = 0)
+@@ -318,7 +318,7 @@ static inline void MakeSnow(TileIndex t, uint density = 0)
  static inline void ClearSnow(TileIndex t)
  {
  	assert(GetClearGround(t) == CLEAR_SNOW);
@@ -2899,7 +2903,7 @@ index 76b1e82d0..b8ddb34be 100644
  
 diff --git a/src/clipboard.cpp b/src/clipboard.cpp
 new file mode 100644
-index 000000000..4981a0590
+index 0000000000..4981a05906
 --- /dev/null
 +++ b/src/clipboard.cpp
 @@ -0,0 +1,293 @@
@@ -3198,7 +3202,7 @@ index 000000000..4981a0590
 +}
 diff --git a/src/clipboard_func.h b/src/clipboard_func.h
 new file mode 100644
-index 000000000..63582ce11
+index 0000000000..63582ce118
 --- /dev/null
 +++ b/src/clipboard_func.h
 @@ -0,0 +1,73 @@
@@ -3277,7 +3281,7 @@ index 000000000..63582ce11
 +#endif /* CLIPBOARD_FUNC_H */
 diff --git a/src/clipboard_gui.cpp b/src/clipboard_gui.cpp
 new file mode 100644
-index 000000000..50cdc9696
+index 0000000000..50cdc96965
 --- /dev/null
 +++ b/src/clipboard_gui.cpp
 @@ -0,0 +1,730 @@
@@ -4013,7 +4017,7 @@ index 000000000..50cdc9696
 +}
 diff --git a/src/clipboard_gui.h b/src/clipboard_gui.h
 new file mode 100644
-index 000000000..4cd232047
+index 0000000000..4cd2320474
 --- /dev/null
 +++ b/src/clipboard_gui.h
 @@ -0,0 +1,30 @@
@@ -4049,7 +4053,7 @@ index 000000000..4cd232047
 +#endif /* CLIPBOARD_GUI_H */
 diff --git a/src/clipboard_type.h b/src/clipboard_type.h
 new file mode 100644
-index 000000000..e3b19803d
+index 0000000000..e3b19803d2
 --- /dev/null
 +++ b/src/clipboard_type.h
 @@ -0,0 +1,46 @@
@@ -4100,7 +4104,7 @@ index 000000000..e3b19803d
 +
 +#endif /* CLIPBOARD_TYPE_H */
 diff --git a/src/command.cpp b/src/command.cpp
-index df0cd004c..bca03f295 100644
+index df0cd004c3..bca03f2952 100644
 --- a/src/command.cpp
 +++ b/src/command.cpp
 @@ -34,6 +34,7 @@
@@ -4142,7 +4146,7 @@ index df0cd004c..bca03f295 100644
  
  /*!
 diff --git a/src/command_func.h b/src/command_func.h
-index 336947567..de037e68b 100644
+index 3369475675..de037e68b6 100644
 --- a/src/command_func.h
 +++ b/src/command_func.h
 @@ -125,4 +125,7 @@ CommandCallback CcFoundRandomTown;
@@ -4154,7 +4158,7 @@ index 336947567..de037e68b 100644
 +
  #endif /* COMMAND_FUNC_H */
 diff --git a/src/command_type.h b/src/command_type.h
-index 0a2fde297..b3a125dd9 100644
+index 0a2fde297b..b3a125dd94 100644
 --- a/src/command_type.h
 +++ b/src/command_type.h
 @@ -162,6 +162,21 @@ public:
@@ -4234,7 +4238,7 @@ index 0a2fde297..b3a125dd9 100644
  
 diff --git a/src/copypaste_cmd.cpp b/src/copypaste_cmd.cpp
 new file mode 100644
-index 000000000..5b6acbe00
+index 0000000000..5b6acbe00c
 --- /dev/null
 +++ b/src/copypaste_cmd.cpp
 @@ -0,0 +1,689 @@
@@ -4929,7 +4933,7 @@ index 000000000..5b6acbe00
 +}
 diff --git a/src/copypaste_cmd.h b/src/copypaste_cmd.h
 new file mode 100644
-index 000000000..66e8cf596
+index 0000000000..66e8cf5963
 --- /dev/null
 +++ b/src/copypaste_cmd.h
 @@ -0,0 +1,116 @@
@@ -5050,7 +5054,7 @@ index 000000000..66e8cf596
 +
 +#endif /* COPYPASTE_CMD_H */
 diff --git a/src/core/bitmath_func.hpp b/src/core/bitmath_func.hpp
-index 31e679b00..af8015b96 100644
+index 31e679b005..af8015b968 100644
 --- a/src/core/bitmath_func.hpp
 +++ b/src/core/bitmath_func.hpp
 @@ -320,6 +320,39 @@ static inline T ROR(const T x, const uint8 n)
@@ -5094,7 +5098,7 @@ index 31e679b00..af8015b96 100644
   * Do an operation for each set bit in a value.
   *
 diff --git a/src/core/geometry_func.cpp b/src/core/geometry_func.cpp
-index 86f317a37..9fc1465d4 100644
+index 86f317a372..9fc1465d42 100644
 --- a/src/core/geometry_func.cpp
 +++ b/src/core/geometry_func.cpp
 @@ -12,6 +12,7 @@
@@ -5131,7 +5135,7 @@ index 86f317a37..9fc1465d4 100644
 +	return ret;
 +}
 diff --git a/src/core/geometry_func.hpp b/src/core/geometry_func.hpp
-index e7c53251c..8891e1141 100644
+index e7c53251c7..8891e11411 100644
 --- a/src/core/geometry_func.hpp
 +++ b/src/core/geometry_func.hpp
 @@ -13,7 +13,26 @@
@@ -5162,7 +5166,7 @@ index e7c53251c..8891e1141 100644
 +
  #endif /* GEOMETRY_FUNC_HPP */
 diff --git a/src/core/math_func.hpp b/src/core/math_func.hpp
-index df9142462..cb6c98983 100644
+index df9142462b..cb6c98983a 100644
 --- a/src/core/math_func.hpp
 +++ b/src/core/math_func.hpp
 @@ -85,6 +85,18 @@ static inline T abs(const T a)
@@ -5185,7 +5189,7 @@ index df9142462..cb6c98983 100644
   * Return the smallest multiple of n equal or greater than x
   *
 diff --git a/src/crashlog.cpp b/src/crashlog.cpp
-index 78d9b1465..4118301fc 100644
+index 78d9b1465b..4118301fca 100644
 --- a/src/crashlog.cpp
 +++ b/src/crashlog.cpp
 @@ -403,7 +403,7 @@ bool CrashLog::WriteSavegame(char *filename, const char *filename_last) const
@@ -5198,7 +5202,7 @@ index 78d9b1465..4118301fc 100644
  	try {
  		GamelogEmergency();
 diff --git a/src/depot_map.h b/src/depot_map.h
-index c304790f8..97012c172 100644
+index c304790f8a..97012c172c 100644
 --- a/src/depot_map.h
 +++ b/src/depot_map.h
 @@ -55,7 +55,7 @@ static inline DepotID GetDepotIndex(TileIndex t)
@@ -5211,7 +5215,7 @@ index c304790f8..97012c172 100644
  
  /**
 diff --git a/src/direction_func.h b/src/direction_func.h
-index 12aee5863..327c29871 100644
+index 12aee58639..327c298712 100644
 --- a/src/direction_func.h
 +++ b/src/direction_func.h
 @@ -13,6 +13,7 @@
@@ -5342,7 +5346,7 @@ index 12aee5863..327c29871 100644
 +
  #endif /* DIRECTION_FUNC_H */
 diff --git a/src/direction_type.h b/src/direction_type.h
-index e6e08a182..9c3a5b147 100644
+index e6e08a182f..9c3a5b1472 100644
 --- a/src/direction_type.h
 +++ b/src/direction_type.h
 @@ -115,6 +115,25 @@ enum DiagDirDiff {
@@ -5372,7 +5376,7 @@ index e6e08a182..9c3a5b147 100644
  /**
   * Enumeration for the two axis X and Y
 diff --git a/src/dock_gui.cpp b/src/dock_gui.cpp
-index 79eaa89b1..3d370711e 100644
+index 79eaa89b14..3d370711ec 100644
 --- a/src/dock_gui.cpp
 +++ b/src/dock_gui.cpp
 @@ -193,10 +193,11 @@ struct BuildDocksToolbarWindow : Window {
@@ -5389,7 +5393,7 @@ index 79eaa89b1..3d370711e 100644
  				/* Determine the watery part of the dock. */
  				DiagDirection dir = GetInclinedSlopeDirection(GetTileSlope(tile));
 diff --git a/src/genworld_gui.cpp b/src/genworld_gui.cpp
-index 04eea8e66..534d89c0b 100644
+index 04eea8e660..534d89c0bd 100644
 --- a/src/genworld_gui.cpp
 +++ b/src/genworld_gui.cpp
 @@ -20,6 +20,7 @@
@@ -5565,7 +5569,7 @@ index 04eea8e66..534d89c0b 100644
  	}
  
 diff --git a/src/gfxinit.cpp b/src/gfxinit.cpp
-index f73027e91..f8e026767 100644
+index f73027e91e..f8e0267671 100644
 --- a/src/gfxinit.cpp
 +++ b/src/gfxinit.cpp
 @@ -193,6 +193,9 @@ static void LoadSpriteTables()
@@ -5579,7 +5583,7 @@ index f73027e91..f8e026767 100644
  	InitializeUnicodeGlyphMap();
  
 diff --git a/src/group_gui.cpp b/src/group_gui.cpp
-index d3e1eafbb..464f17b20 100644
+index d3e1eafbb9..464f17b20e 100644
 --- a/src/group_gui.cpp
 +++ b/src/group_gui.cpp
 @@ -75,6 +75,7 @@ static const NWidgetPart _nested_group_widgets[] = {
@@ -5636,7 +5640,7 @@ index d3e1eafbb..464f17b20 100644
  	WDP_AUTO, "list_groups", 460, 246,
  	WC_INVALID, WC_NONE,
 diff --git a/src/gui.h b/src/gui.h
-index 39f1ea661..9a83d2ca2 100644
+index 39f1ea661e..9a83d2ca2d 100644
 --- a/src/gui.h
 +++ b/src/gui.h
 @@ -39,6 +39,9 @@ Window *ShowBuildDocksScenToolbar();
@@ -5650,7 +5654,7 @@ index 39f1ea661..9a83d2ca2 100644
  void ShowGenerateLandscape();
  void ShowHeightmapLoad();
 diff --git a/src/industry_cmd.cpp b/src/industry_cmd.cpp
-index 7d1a7e2e6..de556dddc 100644
+index 7d1a7e2e6a..de556dddc5 100644
 --- a/src/industry_cmd.cpp
 +++ b/src/industry_cmd.cpp
 @@ -343,6 +343,8 @@ static void DrawTile_Industry(TileInfo *ti)
@@ -5669,7 +5673,7 @@ index 7d1a7e2e6..de556dddc 100644
 +	NULL,                        // copypaste_tile_proc
  };
 diff --git a/src/industry_map.h b/src/industry_map.h
-index 9d2e3de21..e0193f0bf 100644
+index 9d2e3de211..e0193f0bf3 100644
 --- a/src/industry_map.h
 +++ b/src/industry_map.h
 @@ -65,7 +65,7 @@ enum IndustryGraphics {
@@ -5840,7 +5844,7 @@ index 9d2e3de21..e0193f0bf 100644
  
  #endif /* INDUSTRY_MAP_H */
 diff --git a/src/landscape.cpp b/src/landscape.cpp
-index 18f27807d..19bff768b 100644
+index 18f27807d7..19bff768b5 100644
 --- a/src/landscape.cpp
 +++ b/src/landscape.cpp
 @@ -727,12 +727,12 @@ void RunTileLoop()
@@ -5860,7 +5864,7 @@ index 18f27807d..19bff768b 100644
  
  	/* We update every tile every 256 ticks, so divide the map size by 2^8 = 256 */
 diff --git a/src/lang/afrikaans.txt b/src/lang/afrikaans.txt
-index b888e3799..d9c1bff91 100644
+index b888e37992..d9c1bff918 100644
 --- a/src/lang/afrikaans.txt
 +++ b/src/lang/afrikaans.txt
 @@ -4871,10 +4871,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -5883,7 +5887,7 @@ index b888e3799..d9c1bff91 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/basque.txt b/src/lang/basque.txt
-index cd97bf02c..434f185ec 100644
+index cd97bf02cf..434f185ecb 100644
 --- a/src/lang/basque.txt
 +++ b/src/lang/basque.txt
 @@ -4734,10 +4734,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -5906,7 +5910,7 @@ index cd97bf02c..434f185ec 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/catalan.txt b/src/lang/catalan.txt
-index 54f7aac65..e50949a76 100644
+index 54f7aac651..e50949a76a 100644
 --- a/src/lang/catalan.txt
 +++ b/src/lang/catalan.txt
 @@ -4950,10 +4950,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -5930,7 +5934,7 @@ index 54f7aac65..e50949a76 100644
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/catalan.txt.orig b/src/lang/catalan.txt.orig
 new file mode 100644
-index 000000000..2909a9c82
+index 0000000000..2909a9c82d
 --- /dev/null
 +++ b/src/lang/catalan.txt.orig
 @@ -0,0 +1,4985 @@
@@ -10920,7 +10924,7 @@ index 000000000..2909a9c82
 +
 +STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
 diff --git a/src/lang/danish.txt b/src/lang/danish.txt
-index 4b9ea6bf5..396993a08 100644
+index 4b9ea6bf56..396993a086 100644
 --- a/src/lang/danish.txt
 +++ b/src/lang/danish.txt
 @@ -4896,10 +4896,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -10943,7 +10947,7 @@ index 4b9ea6bf5..396993a08 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/dutch.txt b/src/lang/dutch.txt
-index 9b387f2f7..86ffaacca 100644
+index 9b387f2f7c..86ffaacca2 100644
 --- a/src/lang/dutch.txt
 +++ b/src/lang/dutch.txt
 @@ -4889,10 +4889,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -10966,7 +10970,7 @@ index 9b387f2f7..86ffaacca 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index 1be138706..6391ae276 100644
+index 0589ec4f11..3eeca5758a 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -232,6 +232,7 @@ STR_TOOLTIP_GROUP_ORDER                                         :{BLACK}Select g
@@ -11003,7 +11007,7 @@ index 1be138706..6391ae276 100644
  STR_GAME_OPTIONS_CURRENCY_RON                                   :Romanian Leu (RON)
  STR_GAME_OPTIONS_CURRENCY_RUR                                   :Russian Rubles (RUR)
  STR_GAME_OPTIONS_CURRENCY_SIT                                   :Slovenian Tolar (SIT)
-@@ -1255,6 +1259,9 @@ STR_CONFIG_SETTING_STOP_ON_COMPETITOR_ROAD_HELPTEXT             :Allow construct
+@@ -1256,6 +1260,9 @@ STR_CONFIG_SETTING_STOP_ON_COMPETITOR_ROAD_HELPTEXT             :Allow construct
  STR_CONFIG_SETTING_DYNAMIC_ENGINES_EXISTING_VEHICLES            :{WHITE}Changing this setting is not possible when there are vehicles
  STR_CONFIG_SETTING_INFRASTRUCTURE_MAINTENANCE                   :Infrastructure maintenance: {STRING2}
  STR_CONFIG_SETTING_INFRASTRUCTURE_MAINTENANCE_HELPTEXT          :When enabled, infrastructure causes maintenance costs. The cost grows over-proportional with the network size, thus affecting bigger companies more than smaller ones
@@ -11013,7 +11017,7 @@ index 1be138706..6391ae276 100644
  
  STR_CONFIG_SETTING_NEVER_EXPIRE_AIRPORTS                        :Airports never expire: {STRING2}
  STR_CONFIG_SETTING_NEVER_EXPIRE_AIRPORTS_HELPTEXT               :Enabling this setting makes each airport type stay available forever after its introduction
-@@ -1289,6 +1296,8 @@ STR_CONFIG_SETTING_POPULATION_IN_LABEL                          :Show town popul
+@@ -1290,6 +1297,8 @@ STR_CONFIG_SETTING_POPULATION_IN_LABEL                          :Show town popul
  STR_CONFIG_SETTING_POPULATION_IN_LABEL_HELPTEXT                 :Display the population of towns in their label on the map
  STR_CONFIG_SETTING_GRAPH_LINE_THICKNESS                         :Thickness of lines in graphs: {STRING2}
  STR_CONFIG_SETTING_GRAPH_LINE_THICKNESS_HELPTEXT                :Width of the line in the graphs. A thin line is more precisely readable, a thicker line is easier to see and colours are easier to distinguish
@@ -11022,7 +11026,7 @@ index 1be138706..6391ae276 100644
  
  STR_CONFIG_SETTING_LANDSCAPE                                    :Landscape: {STRING2}
  STR_CONFIG_SETTING_LANDSCAPE_HELPTEXT                           :Landscapes define basic gameplay scenarios with different cargos and town growth requirements. NewGRF and Game Scripts allow finer control though
-@@ -1417,6 +1426,7 @@ STR_CONFIG_SETTING_PERSISTENT_BUILDINGTOOLS                     :Keep building t
+@@ -1418,6 +1427,7 @@ STR_CONFIG_SETTING_PERSISTENT_BUILDINGTOOLS                     :Keep building t
  STR_CONFIG_SETTING_PERSISTENT_BUILDINGTOOLS_HELPTEXT            :Keep the building tools for bridges, tunnels, etc. open after use
  STR_CONFIG_SETTING_EXPENSES_LAYOUT                              :Group expenses in company finance window: {STRING2}
  STR_CONFIG_SETTING_EXPENSES_LAYOUT_HELPTEXT                     :Define the layout for the company expenses window
@@ -11030,7 +11034,7 @@ index 1be138706..6391ae276 100644
  
  STR_CONFIG_SETTING_SOUND_TICKER                                 :News ticker: {STRING2}
  STR_CONFIG_SETTING_SOUND_TICKER_HELPTEXT                        :Play sound for summarised news messages
-@@ -1466,6 +1476,7 @@ STR_CONFIG_SETTING_AI_IN_MULTIPLAYER_HELPTEXT                   :Allow AI comput
+@@ -1467,6 +1477,7 @@ STR_CONFIG_SETTING_AI_IN_MULTIPLAYER_HELPTEXT                   :Allow AI comput
  STR_CONFIG_SETTING_SCRIPT_MAX_OPCODES                           :#opcodes before scripts are suspended: {STRING2}
  STR_CONFIG_SETTING_SCRIPT_MAX_OPCODES_HELPTEXT                  :Maximum number of computation steps that a script can take in one turn
  
@@ -11038,7 +11042,7 @@ index 1be138706..6391ae276 100644
  STR_CONFIG_SETTING_SERVINT_ISPERCENT                            :Service intervals are in percents: {STRING2}
  STR_CONFIG_SETTING_SERVINT_ISPERCENT_HELPTEXT                   :Choose whether servicing of vehicles is triggered by the time passed since last service or by reliability dropping by a certain percentage of the maximum reliability
  STR_CONFIG_SETTING_SERVINT_TRAINS                               :Default service interval for trains: {STRING2}
-@@ -2282,6 +2293,7 @@ STR_TRANSPARENT_BRIDGES_TOOLTIP                                 :{BLACK}Toggle t
+@@ -2283,6 +2294,7 @@ STR_TRANSPARENT_BRIDGES_TOOLTIP                                 :{BLACK}Toggle t
  STR_TRANSPARENT_STRUCTURES_TOOLTIP                              :{BLACK}Toggle transparency for structures like lighthouses and antennas. Ctrl+Click to lock
  STR_TRANSPARENT_CATENARY_TOOLTIP                                :{BLACK}Toggle transparency for catenary. Ctrl+Click to lock
  STR_TRANSPARENT_LOADING_TOOLTIP                                 :{BLACK}Toggle transparency for loading indicators. Ctrl+Click to lock
@@ -11046,7 +11050,7 @@ index 1be138706..6391ae276 100644
  STR_TRANSPARENT_INVISIBLE_TOOLTIP                               :{BLACK}Set objects invisible instead of transparent
  
  # Linkgraph legend window
-@@ -2393,6 +2405,35 @@ STR_BRIDGE_NAME_CONCRETE                                        :Concrete
+@@ -2394,6 +2406,35 @@ STR_BRIDGE_NAME_CONCRETE                                        :Concrete
  STR_BRIDGE_NAME_TUBULAR_STEEL                                   :Tubular, Steel
  STR_BRIDGE_TUBULAR_SILICON                                      :Tubular, Silicon
  
@@ -11082,7 +11086,7 @@ index 1be138706..6391ae276 100644
  
  # Road construction toolbar
  STR_ROAD_TOOLBAR_ROAD_CONSTRUCTION_CAPTION                      :{WHITE}Road Construction
-@@ -2482,6 +2523,7 @@ STR_LANDSCAPING_TOOLBAR                                         :{WHITE}Landscap
+@@ -2483,6 +2524,7 @@ STR_LANDSCAPING_TOOLBAR                                         :{WHITE}Landscap
  STR_LANDSCAPING_TOOLTIP_LOWER_A_CORNER_OF_LAND                  :{BLACK}Lower a corner of land. Dragging lowers the first selected corner and levels the selected area to the new corner height. Ctrl selects the area diagonally. Shift toggles building/showing cost estimate
  STR_LANDSCAPING_TOOLTIP_RAISE_A_CORNER_OF_LAND                  :{BLACK}Raise a corner of land. Dragging raises the first selected corner and levels the selected area to the new corner height. Ctrl selects the area diagonally. Shift toggles building/showing cost estimate
  STR_LANDSCAPING_LEVEL_LAND_TOOLTIP                              :{BLACK}Level an area of land to the height of the first selected corner. Ctrl selects the area diagonally. Shift toggles building/showing cost estimate
@@ -11090,7 +11094,7 @@ index 1be138706..6391ae276 100644
  STR_LANDSCAPING_TOOLTIP_PURCHASE_LAND                           :{BLACK}Purchase land for future use. Shift toggles building/showing cost estimate
  
  # Object construction window
-@@ -2558,6 +2600,12 @@ STR_FUND_INDUSTRY_PROSPECT_NEW_INDUSTRY                         :{BLACK}Prospect
+@@ -2559,6 +2601,12 @@ STR_FUND_INDUSTRY_PROSPECT_NEW_INDUSTRY                         :{BLACK}Prospect
  STR_FUND_INDUSTRY_BUILD_NEW_INDUSTRY                            :{BLACK}Build
  STR_FUND_INDUSTRY_FUND_NEW_INDUSTRY                             :{BLACK}Fund
  
@@ -11103,7 +11107,7 @@ index 1be138706..6391ae276 100644
  # Industry cargoes window
  STR_INDUSTRY_CARGOES_INDUSTRY_CAPTION                           :{WHITE}Industry chain for {STRING} industry
  STR_INDUSTRY_CARGOES_CARGO_CAPTION                              :{WHITE}Industry chain for {STRING} cargo
-@@ -2667,8 +2715,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -2668,8 +2716,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -11114,7 +11118,7 @@ index 1be138706..6391ae276 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_SUSPENSION_STEEL                :Steel suspension rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
-@@ -2812,6 +2862,7 @@ STR_MAPGEN_HEIGHTMAP_ROTATION                                   :{BLACK}Heightma
+@@ -2813,6 +2863,7 @@ STR_MAPGEN_HEIGHTMAP_ROTATION                                   :{BLACK}Heightma
  STR_MAPGEN_HEIGHTMAP_NAME                                       :{BLACK}Heightmap name:
  STR_MAPGEN_HEIGHTMAP_SIZE_LABEL                                 :{BLACK}Size:
  STR_MAPGEN_HEIGHTMAP_SIZE                                       :{ORANGE}{NUM} x {NUM}
@@ -11122,7 +11126,7 @@ index 1be138706..6391ae276 100644
  
  STR_MAPGEN_MAX_HEIGHTLEVEL_QUERY_CAPT                           :{WHITE}Change maximum map height
  STR_MAPGEN_SNOW_LINE_QUERY_CAPT                                 :{WHITE}Change snow line height
-@@ -3216,6 +3267,8 @@ STR_CARGO_RATING_OUTSTANDING                                    :Outstanding
+@@ -3217,6 +3268,8 @@ STR_CARGO_RATING_OUTSTANDING                                    :Outstanding
  STR_STATION_VIEW_CENTER_TOOLTIP                                 :{BLACK}Centre main view on station location. Ctrl+Click opens a new viewport on station location
  STR_STATION_VIEW_RENAME_TOOLTIP                                 :{BLACK}Change name of station
  
@@ -11131,7 +11135,7 @@ index 1be138706..6391ae276 100644
  STR_STATION_VIEW_SCHEDULED_TRAINS_TOOLTIP                       :{BLACK}Show all trains which have this station on their schedule
  STR_STATION_VIEW_SCHEDULED_ROAD_VEHICLES_TOOLTIP                :{BLACK}Show all road vehicles which have this station on their schedule
  STR_STATION_VIEW_SCHEDULED_AIRCRAFT_TOOLTIP                     :{BLACK}Show all aircraft which have this station on their schedule
-@@ -3422,8 +3475,8 @@ STR_GROUP_REMOVE_ALL_VEHICLES                                   :Remove all vehi
+@@ -3423,8 +3476,8 @@ STR_GROUP_REMOVE_ALL_VEHICLES                                   :Remove all vehi
  
  STR_GROUP_RENAME_CAPTION                                        :{BLACK}Rename a group
  
@@ -11142,7 +11146,7 @@ index 1be138706..6391ae276 100644
  STR_GROUP_OCCUPANCY                                             :Current usage:
  STR_GROUP_OCCUPANCY_VALUE                                       :{NUM}%
  
-@@ -4195,6 +4248,8 @@ STR_ERROR_TREE_PLANT_LIMIT_REACHED                              :{WHITE}... tree
+@@ -4196,6 +4249,8 @@ STR_ERROR_TREE_PLANT_LIMIT_REACHED                              :{WHITE}... tree
  STR_ERROR_NAME_MUST_BE_UNIQUE                                   :{WHITE}Name must be unique
  STR_ERROR_GENERIC_OBJECT_IN_THE_WAY                             :{WHITE}{1:STRING} in the way
  STR_ERROR_NOT_ALLOWED_WHILE_PAUSED                              :{WHITE}Not allowed while paused
@@ -11151,7 +11155,7 @@ index 1be138706..6391ae276 100644
  
  # Local authority errors
  STR_ERROR_LOCAL_AUTHORITY_REFUSES_TO_ALLOW_THIS                 :{WHITE}{TOWN} local authority refuses to allow this
-@@ -4274,6 +4329,8 @@ STR_ERROR_CAN_T_BUILD_DOCK_HERE                                 :{WHITE}Can't bu
+@@ -4275,6 +4330,8 @@ STR_ERROR_CAN_T_BUILD_DOCK_HERE                                 :{WHITE}Can't bu
  STR_ERROR_CAN_T_BUILD_AIRPORT_HERE                              :{WHITE}Can't build airport here...
  
  STR_ERROR_ADJOINS_MORE_THAN_ONE_EXISTING                        :{WHITE}Adjoins more than one existing station/loading area
@@ -11160,7 +11164,7 @@ index 1be138706..6391ae276 100644
  STR_ERROR_STATION_TOO_SPREAD_OUT                                :{WHITE}... station too spread out
  STR_ERROR_TOO_MANY_STATIONS_LOADING                             :{WHITE}Too many stations/loading areas
  STR_ERROR_TOO_MANY_STATION_SPECS                                :{WHITE}Too many railway station parts
-@@ -4424,6 +4481,10 @@ STR_ERROR_COMPANY_HEADQUARTERS_IN                               :{WHITE}... comp
+@@ -4425,6 +4482,10 @@ STR_ERROR_COMPANY_HEADQUARTERS_IN                               :{WHITE}... comp
  STR_ERROR_CAN_T_PURCHASE_THIS_LAND                              :{WHITE}Can't purchase this land area...
  STR_ERROR_YOU_ALREADY_OWN_IT                                    :{WHITE}... you already own it!
  
@@ -11171,7 +11175,7 @@ index 1be138706..6391ae276 100644
  # Group related errors
  STR_ERROR_GROUP_CAN_T_CREATE                                    :{WHITE}Can't create group...
  STR_ERROR_GROUP_CAN_T_DELETE                                    :{WHITE}Can't delete this group...
-@@ -4949,10 +5010,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4950,10 +5011,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Spectator, {1:STRING1}
  
  # Viewport strings
@@ -11190,7 +11194,7 @@ index 1be138706..6391ae276 100644
  
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
-@@ -5010,6 +5079,7 @@ STR_DATE_LONG_SMALL                                             :{TINY_FONT}{BLA
+@@ -5011,6 +5080,7 @@ STR_DATE_LONG_SMALL                                             :{TINY_FONT}{BLA
  STR_TINY_GROUP                                                  :{TINY_FONT}{GROUP}
  STR_BLACK_INT                                                   :{BLACK}{NUM}
  STR_ORANGE_INT                                                  :{ORANGE}{NUM}
@@ -11199,7 +11203,7 @@ index 1be138706..6391ae276 100644
  STR_TINY_BLACK_STATION                                          :{TINY_FONT}{BLACK}{STATION}
  STR_BLACK_STRING                                                :{BLACK}{STRING}
 diff --git a/src/lang/estonian.txt b/src/lang/estonian.txt
-index 80c27eebf..1547470ed 100644
+index 80c27eebf6..1547470edb 100644
 --- a/src/lang/estonian.txt
 +++ b/src/lang/estonian.txt
 @@ -4928,10 +4928,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -11222,7 +11226,7 @@ index 80c27eebf..1547470ed 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/faroese.txt b/src/lang/faroese.txt
-index 2eb53ca21..1f6300df3 100644
+index 2eb53ca217..1f6300df3c 100644
 --- a/src/lang/faroese.txt
 +++ b/src/lang/faroese.txt
 @@ -4376,10 +4376,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -11245,7 +11249,7 @@ index 2eb53ca21..1f6300df3 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/german.txt b/src/lang/german.txt
-index cd7eb37d8..16cef397e 100644
+index cd7eb37d8a..16cef397e9 100644
 --- a/src/lang/german.txt
 +++ b/src/lang/german.txt
 @@ -233,6 +233,7 @@ STR_TOOLTIP_GROUP_ORDER                                         :{BLACK}Gruppier
@@ -11352,7 +11356,7 @@ index cd7eb37d8..16cef397e 100644
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/german.txt.orig b/src/lang/german.txt.orig
 new file mode 100644
-index 000000000..f0cc17660
+index 0000000000..f0cc17660d
 --- /dev/null
 +++ b/src/lang/german.txt.orig
 @@ -0,0 +1,4985 @@
@@ -16342,7 +16346,7 @@ index 000000000..f0cc17660
 +
 +STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
 diff --git a/src/lang/icelandic.txt b/src/lang/icelandic.txt
-index 6d8a4bae6..2953e17c6 100644
+index 6d8a4bae6c..2953e17c63 100644
 --- a/src/lang/icelandic.txt
 +++ b/src/lang/icelandic.txt
 @@ -4629,10 +4629,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -16365,7 +16369,7 @@ index 6d8a4bae6..2953e17c6 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/indonesian.txt b/src/lang/indonesian.txt
-index f3300c711..3df583fb0 100644
+index f3300c711f..3df583fb0f 100644
 --- a/src/lang/indonesian.txt
 +++ b/src/lang/indonesian.txt
 @@ -4870,10 +4870,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -16388,10 +16392,10 @@ index f3300c711..3df583fb0 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/italian.txt b/src/lang/italian.txt
-index 1ffafdcd7..0abc65085 100644
+index a1eb67ae99..32b8d30002 100644
 --- a/src/lang/italian.txt
 +++ b/src/lang/italian.txt
-@@ -4979,10 +4979,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4980,10 +4980,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Spettatore, {1:STRING}
  
  # Viewport strings
@@ -16412,7 +16416,7 @@ index 1ffafdcd7..0abc65085 100644
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/italian.txt.orig b/src/lang/italian.txt.orig
 new file mode 100644
-index 000000000..988a95758
+index 0000000000..988a95758a
 --- /dev/null
 +++ b/src/lang/italian.txt.orig
 @@ -0,0 +1,5014 @@
@@ -21431,7 +21435,7 @@ index 000000000..988a95758
 +
 +STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
 diff --git a/src/lang/luxembourgish.txt b/src/lang/luxembourgish.txt
-index c4978c0b8..2a87de85c 100644
+index c4978c0b88..2a87de85c6 100644
 --- a/src/lang/luxembourgish.txt
 +++ b/src/lang/luxembourgish.txt
 @@ -4889,10 +4889,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -21455,7 +21459,7 @@ index c4978c0b8..2a87de85c 100644
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/luxembourgish.txt.orig b/src/lang/luxembourgish.txt.orig
 new file mode 100644
-index 000000000..d1d26f75d
+index 0000000000..d1d26f75d4
 --- /dev/null
 +++ b/src/lang/luxembourgish.txt.orig
 @@ -0,0 +1,4984 @@
@@ -26444,7 +26448,7 @@ index 000000000..d1d26f75d
 +
 +STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
 diff --git a/src/lang/norwegian_nynorsk.txt b/src/lang/norwegian_nynorsk.txt
-index aa53408be..daa8eb3e2 100644
+index aa53408bea..daa8eb3e28 100644
 --- a/src/lang/norwegian_nynorsk.txt
 +++ b/src/lang/norwegian_nynorsk.txt
 @@ -4786,10 +4786,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -26467,7 +26471,7 @@ index aa53408be..daa8eb3e2 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/portuguese.txt b/src/lang/portuguese.txt
-index b071b9c18..9249f8ca0 100644
+index b071b9c185..9249f8ca04 100644
 --- a/src/lang/portuguese.txt
 +++ b/src/lang/portuguese.txt
 @@ -4890,10 +4890,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -26490,7 +26494,7 @@ index b071b9c18..9249f8ca0 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/spanish.txt b/src/lang/spanish.txt
-index d0deb739e..0c00b44fc 100644
+index d0deb739eb..0c00b44fc8 100644
 --- a/src/lang/spanish.txt
 +++ b/src/lang/spanish.txt
 @@ -4890,10 +4890,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
@@ -26514,7 +26518,7 @@ index d0deb739e..0c00b44fc 100644
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/spanish.txt.orig b/src/lang/spanish.txt.orig
 new file mode 100644
-index 000000000..525b29a31
+index 0000000000..525b29a312
 --- /dev/null
 +++ b/src/lang/spanish.txt.orig
 @@ -0,0 +1,4985 @@
@@ -31504,7 +31508,7 @@ index 000000000..525b29a31
 +
 +STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
 diff --git a/src/map.cpp b/src/map.cpp
-index 85590c3e8..81b7fad64 100644
+index 85590c3e88..81b7fad648 100644
 --- a/src/map.cpp
 +++ b/src/map.cpp
 @@ -22,16 +22,7 @@
@@ -31598,7 +31602,7 @@ index 85590c3e8..81b7fad64 100644
  /**
   * This function checks if we add addx/addy to tile, if we
 diff --git a/src/map_func.h b/src/map_func.h
-index 21d69b138..63152e6b4 100644
+index 21d69b1382..63152e6b40 100644
 --- a/src/map_func.h
 +++ b/src/map_func.h
 @@ -12,38 +12,122 @@
@@ -32282,7 +32286,7 @@ index 21d69b138..63152e6b4 100644
  /**
   * Determines the DiagDirection to get from one tile to another.
 diff --git a/src/map_type.h b/src/map_type.h
-index 7af391b46..fca0c2440 100644
+index 7af391b46c..fca0c24405 100644
 --- a/src/map_type.h
 +++ b/src/map_type.h
 @@ -38,6 +38,22 @@ struct TileExtended {
@@ -32323,7 +32327,7 @@ index 7af391b46..fca0c2440 100644
  /**
   * Approximation of the length of a straight track, relative to a diagonal
 diff --git a/src/misc_gui.cpp b/src/misc_gui.cpp
-index dd7541062..4b7fd5a2b 100644
+index dd75410628..4b7fd5a2b3 100644
 --- a/src/misc_gui.cpp
 +++ b/src/misc_gui.cpp
 @@ -123,15 +123,15 @@ public:
@@ -32352,7 +32356,7 @@ index dd7541062..4b7fd5a2b 100644
  	}
  
 diff --git a/src/network/network_command.cpp b/src/network/network_command.cpp
-index bc08bc5f1..cd26c733b 100644
+index bc08bc5f14..cd26c733be 100644
 --- a/src/network/network_command.cpp
 +++ b/src/network/network_command.cpp
 @@ -51,6 +51,7 @@ static CommandCallback * const _callback_table[] = {
@@ -32364,7 +32368,7 @@ index bc08bc5f1..cd26c733b 100644
  
  /**
 diff --git a/src/newgrf_airport.h b/src/newgrf_airport.h
-index 867362e9a..001a34207 100644
+index 867362e9ad..001a34207f 100644
 --- a/src/newgrf_airport.h
 +++ b/src/newgrf_airport.h
 @@ -28,10 +28,14 @@ struct AirportTileTable {
@@ -32424,7 +32428,7 @@ index 867362e9a..001a34207 100644
  enum AirportClassID {
  	APC_BEGIN     = 0,  ///< Lowest valid airport class id
 diff --git a/src/newgrf_debug_gui.cpp b/src/newgrf_debug_gui.cpp
-index 75b06967f..906994480 100644
+index 75b06967f7..9069944805 100644
 --- a/src/newgrf_debug_gui.cpp
 +++ b/src/newgrf_debug_gui.cpp
 @@ -56,7 +56,7 @@ NewGrfDebugSpritePicker _newgrf_debug_sprite_picker = { SPM_NONE, NULL, 0, Small
@@ -32457,7 +32461,7 @@ index 75b06967f..906994480 100644
  
  /**
 diff --git a/src/newgrf_house.cpp b/src/newgrf_house.cpp
-index 314f02b3d..420ffc2af 100644
+index 314f02b3dc..420ffc2afd 100644
 --- a/src/newgrf_house.cpp
 +++ b/src/newgrf_house.cpp
 @@ -442,6 +442,8 @@ static void DrawTileLayout(const TileInfo *ti, const TileLayoutSpriteGroup *grou
@@ -32470,7 +32474,7 @@ index 314f02b3d..420ffc2af 100644
  }
  
 diff --git a/src/newgrf_industrytiles.cpp b/src/newgrf_industrytiles.cpp
-index 69c4b1d07..f595ac1dd 100644
+index 69c4b1d07d..f595ac1ddb 100644
 --- a/src/newgrf_industrytiles.cpp
 +++ b/src/newgrf_industrytiles.cpp
 @@ -166,6 +166,8 @@ static void IndustryDrawTileLayout(const TileInfo *ti, const TileLayoutSpriteGro
@@ -32483,7 +32487,7 @@ index 69c4b1d07..f595ac1dd 100644
  }
  
 diff --git a/src/newgrf_station.cpp b/src/newgrf_station.cpp
-index 5271b2bfc..0c45bf456 100644
+index 5271b2bfc9..0c45bf4566 100644
 --- a/src/newgrf_station.cpp
 +++ b/src/newgrf_station.cpp
 @@ -652,6 +652,23 @@ CommandCost PerformStationTileSlopeCheck(TileIndex north_tile, TileIndex cur_til
@@ -32511,7 +32515,7 @@ index 5271b2bfc..0c45bf456 100644
  /**
   * Allocate a StationSpec to a Station. This is called once per build operation.
 diff --git a/src/newgrf_station.h b/src/newgrf_station.h
-index 123330d0a..c155ee364 100644
+index 123330d0ad..c155ee3644 100644
 --- a/src/newgrf_station.h
 +++ b/src/newgrf_station.h
 @@ -184,6 +184,8 @@ SpriteID GetCustomStationFoundationRelocation(const StationSpec *statspec, BaseS
@@ -32524,7 +32528,7 @@ index 123330d0a..c155ee364 100644
  int AllocateSpecToStation(const StationSpec *statspec, BaseStation *st, bool exec);
  
 diff --git a/src/object_cmd.cpp b/src/object_cmd.cpp
-index 9f03813df..a02e23d00 100644
+index 9f03813dfb..a02e23d004 100644
 --- a/src/object_cmd.cpp
 +++ b/src/object_cmd.cpp
 @@ -847,4 +847,5 @@ extern const TileTypeProcs _tile_type_object_procs = {
@@ -32534,7 +32538,7 @@ index 9f03813df..a02e23d00 100644
 +	NULL,                        // copypaste_tile_proc
  };
 diff --git a/src/object_map.h b/src/object_map.h
-index 1aaf98434..2258d9a8e 100644
+index 1aaf984345..2258d9a8ef 100644
 --- a/src/object_map.h
 +++ b/src/object_map.h
 @@ -49,7 +49,7 @@ static inline bool IsObjectTypeTile(TileIndex t, ObjectType type)
@@ -32575,7 +32579,7 @@ index 1aaf98434..2258d9a8e 100644
  
  #endif /* OBJECT_MAP_H */
 diff --git a/src/openttd.cpp b/src/openttd.cpp
-index 510f00427..d159d5ffd 100644
+index 510f00427e..d159d5ffde 100644
 --- a/src/openttd.cpp
 +++ b/src/openttd.cpp
 @@ -57,6 +57,7 @@
@@ -32660,7 +32664,7 @@ index 510f00427..d159d5ffd 100644
  			/* XXX: set date */
  			MarkWholeScreenDirty();
 diff --git a/src/order_cmd.cpp b/src/order_cmd.cpp
-index db812f6c5..072c2eff5 100644
+index db812f6c53..072c2eff58 100644
 --- a/src/order_cmd.cpp
 +++ b/src/order_cmd.cpp
 @@ -1900,14 +1900,14 @@ restart:
@@ -32682,7 +32686,7 @@ index db812f6c5..072c2eff5 100644
  	return false;
 diff --git a/src/overlay.h b/src/overlay.h
 new file mode 100644
-index 000000000..f7d8e2d75
+index 0000000000..f7d8e2d757
 --- /dev/null
 +++ b/src/overlay.h
 @@ -0,0 +1,73 @@
@@ -32762,7 +32766,7 @@ index 000000000..f7d8e2d75
 \ No newline at end of file
 diff --git a/src/overlay_cmd.cpp b/src/overlay_cmd.cpp
 new file mode 100644
-index 000000000..059121d8f
+index 0000000000..059121d8f3
 --- /dev/null
 +++ b/src/overlay_cmd.cpp
 @@ -0,0 +1,65 @@
@@ -32834,7 +32838,7 @@ index 000000000..059121d8f
 \ No newline at end of file
 diff --git a/src/overlay_cmd.h b/src/overlay_cmd.h
 new file mode 100644
-index 000000000..a8b43832f
+index 0000000000..a8b43832f1
 --- /dev/null
 +++ b/src/overlay_cmd.h
 @@ -0,0 +1,38 @@
@@ -32878,7 +32882,7 @@ index 000000000..a8b43832f
 +#endif // OVERLAY_CMD_H
 \ No newline at end of file
 diff --git a/src/pathfinder/follow_track.hpp b/src/pathfinder/follow_track.hpp
-index 70f148de3..909acb893 100644
+index 70f148de38..909acb893c 100644
 --- a/src/pathfinder/follow_track.hpp
 +++ b/src/pathfinder/follow_track.hpp
 @@ -356,7 +356,7 @@ protected:
@@ -32900,7 +32904,7 @@ index 70f148de3..909acb893 100644
  						return false;
  					}
 diff --git a/src/rail.cpp b/src/rail.cpp
-index d538064a2..fff67c68c 100644
+index d538064a23..fff67c68c7 100644
 --- a/src/rail.cpp
 +++ b/src/rail.cpp
 @@ -151,10 +151,23 @@ extern const TrackdirBits _uphill_trackdirs[] = {
@@ -32939,7 +32943,7 @@ index d538064a2..fff67c68c 100644
  /**
   * Finds out if a company has a certain railtype available
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index d21c1468c..b9b27c0b2 100644
+index d21c1468ca..b9b27c0b29 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -11,6 +11,7 @@
@@ -33591,7 +33595,7 @@ index d21c1468c..b9b27c0b2 100644
 +	CopyPasteTile_Rail,       // copypaste_tile_proc
  };
 diff --git a/src/rail_gui.cpp b/src/rail_gui.cpp
-index 5a533e5c5..4c1555086 100644
+index 5a533e5c55..4c1555086f 100644
 --- a/src/rail_gui.cpp
 +++ b/src/rail_gui.cpp
 @@ -192,7 +192,7 @@ static void PlaceRail_Station(TileIndex tile)
@@ -33613,7 +33617,7 @@ index 5a533e5c5..4c1555086 100644
  
  	CommandContainer cmdcont = { ta.tile, p1, p2, CMD_BUILD_RAIL_STATION | CMD_MSG(STR_ERROR_CAN_T_BUILD_RAILROAD_STATION), CcStation, "" };
 diff --git a/src/rail_map.h b/src/rail_map.h
-index 74afe5ace..254e17119 100644
+index 74afe5ace5..254e171190 100644
 --- a/src/rail_map.h
 +++ b/src/rail_map.h
 @@ -34,11 +34,16 @@ enum RailTileType {
@@ -34155,7 +34159,7 @@ index 74afe5ace..254e17119 100644
  
  #endif /* RAIL_MAP_H */
 diff --git a/src/rev.cpp.in b/src/rev.cpp.in
-index 0f4b2a6b5..315272d31 100644
+index 0f4b2a6b57..315272d310 100644
 --- a/src/rev.cpp.in
 +++ b/src/rev.cpp.in
 @@ -37,7 +37,7 @@ bool IsReleasedVersion()
@@ -34168,7 +34172,7 @@ index 0f4b2a6b5..315272d31 100644
  /**
   * The text version of OpenTTD's build date.
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index 5e432a2e6..7ee8acac8 100644
+index 5e432a2e6b..7ee8acac8a 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -11,6 +11,7 @@
@@ -34394,7 +34398,7 @@ index 5e432a2e6..7ee8acac8 100644
 +	CopyPasteTile_Road,      // copypaste_tile_proc
  };
 diff --git a/src/road_func.h b/src/road_func.h
-index c4af229d5..c6ea68ccb 100644
+index c4af229d53..c6ea68ccbf 100644
 --- a/src/road_func.h
 +++ b/src/road_func.h
 @@ -14,6 +14,7 @@
@@ -34447,7 +34451,7 @@ index c4af229d5..c6ea68ccb 100644
  
  /**
 diff --git a/src/road_gui.cpp b/src/road_gui.cpp
-index 6faa42262..2b7db72b7 100644
+index 6faa422627..2b7db72b7e 100644
 --- a/src/road_gui.cpp
 +++ b/src/road_gui.cpp
 @@ -639,7 +639,7 @@ struct BuildRoadToolbarWindow : Window {
@@ -34469,7 +34473,7 @@ index 6faa42262..2b7db72b7 100644
  					}
  					break;
 diff --git a/src/road_map.h b/src/road_map.h
-index 5b3e6b090..de507bd9f 100644
+index 5b3e6b0900..de507bd9f5 100644
 --- a/src/road_map.h
 +++ b/src/road_map.h
 @@ -32,11 +32,16 @@ enum RoadTileType {
@@ -35059,7 +35063,7 @@ index 5b3e6b090..de507bd9f 100644
  
  #endif /* ROAD_MAP_H */
 diff --git a/src/roadveh_cmd.cpp b/src/roadveh_cmd.cpp
-index ed67a5221..4715731ac 100644
+index ed67a52211..4715731aca 100644
 --- a/src/roadveh_cmd.cpp
 +++ b/src/roadveh_cmd.cpp
 @@ -1154,7 +1154,7 @@ bool IndividualRoadVehicleController(RoadVehicle *v, const RoadVehicle *prev)
@@ -35072,7 +35076,7 @@ index ed67a5221..4715731ac 100644
  	}
  
 diff --git a/src/saveload/afterload.cpp b/src/saveload/afterload.cpp
-index cca9ad328..310590957 100644
+index cca9ad328a..3105909573 100644
 --- a/src/saveload/afterload.cpp
 +++ b/src/saveload/afterload.cpp
 @@ -125,7 +125,7 @@ void SetWaterClassDependingOnSurroundings(TileIndex t, bool include_invalid_wate
@@ -35773,7 +35777,7 @@ index cca9ad328..310590957 100644
  		}
  	}
 diff --git a/src/saveload/map_sl.cpp b/src/saveload/map_sl.cpp
-index 693ddb7ce..d3c371d8a 100644
+index 693ddb7ce3..d3c371d8a2 100644
 --- a/src/saveload/map_sl.cpp
 +++ b/src/saveload/map_sl.cpp
 @@ -56,7 +56,7 @@ static void Load_MAPT()
@@ -35970,7 +35974,7 @@ index 693ddb7ce..d3c371d8a 100644
  	}
  }
 diff --git a/src/saveload/oldloader_sl.cpp b/src/saveload/oldloader_sl.cpp
-index 1974bb31f..d5b4f3a46 100644
+index 1974bb31fa..d5b4f3a463 100644
 --- a/src/saveload/oldloader_sl.cpp
 +++ b/src/saveload/oldloader_sl.cpp
 @@ -48,55 +48,55 @@ void FixOldMapArray()
@@ -36259,7 +36263,7 @@ index 1974bb31f..d5b4f3a46 100644
  
  	return true;
 diff --git a/src/saveload/station_sl.cpp b/src/saveload/station_sl.cpp
-index f01123da0..c7ad5bd7a 100644
+index f01123da0a..c7ad5bd7a4 100644
 --- a/src/saveload/station_sl.cpp
 +++ b/src/saveload/station_sl.cpp
 @@ -95,7 +95,7 @@ void MoveBuoysToWaypoints()
@@ -36272,7 +36276,7 @@ index f01123da0..c7ad5bd7a 100644
  			}
  
 diff --git a/src/saveload/waypoint_sl.cpp b/src/saveload/waypoint_sl.cpp
-index 0f9396985..0abd04cbf 100644
+index 0f93969853..0abd04cbf9 100644
 --- a/src/saveload/waypoint_sl.cpp
 +++ b/src/saveload/waypoint_sl.cpp
 @@ -75,10 +75,10 @@ void MoveWaypointsToBaseStations()
@@ -36306,7 +36310,7 @@ index 0f9396985..0abd04cbf 100644
  			new_wp->owner = GetTileOwner(t);
  
 diff --git a/src/script/api/game/game_window.hpp.sq b/src/script/api/game/game_window.hpp.sq
-index 7ce2c7029..580f71a09 100644
+index 7ce2c70292..580f71a098 100644
 --- a/src/script/api/game/game_window.hpp.sq
 +++ b/src/script/api/game/game_window.hpp.sq
 @@ -252,6 +252,28 @@ void SQGSWindow_Register(Squirrel *engine)
@@ -36347,7 +36351,7 @@ index 7ce2c7029..580f71a09 100644
  	SQGSWindow.DefSQConst(engine, ScriptWindow::WID_TT_BUY_LAND,                           "WID_TT_BUY_LAND");
  	SQGSWindow.DefSQConst(engine, ScriptWindow::WID_TT_PLANT_TREES,                        "WID_TT_PLANT_TREES");
 diff --git a/src/script/api/script_window.hpp b/src/script/api/script_window.hpp
-index 9dcf58e05..3c7f1ce39 100644
+index 9dcf58e05b..3c7f1ce397 100644
 --- a/src/script/api/script_window.hpp
 +++ b/src/script/api/script_window.hpp
 @@ -23,6 +23,7 @@
@@ -36411,7 +36415,7 @@ index 9dcf58e05..3c7f1ce39 100644
  		WID_TT_BUY_LAND                              = ::WID_TT_BUY_LAND,                              ///< Buy land button.
  		WID_TT_PLANT_TREES                           = ::WID_TT_PLANT_TREES,                           ///< Plant trees button (note: opens separate window, no place-push-button).
 diff --git a/src/script/api/template/template_window.hpp.sq b/src/script/api/template/template_window.hpp.sq
-index 3077215ec..2489b55ed 100644
+index 3077215ec2..2489b55ed9 100644
 --- a/src/script/api/template/template_window.hpp.sq
 +++ b/src/script/api/template/template_window.hpp.sq
 @@ -47,6 +47,8 @@ namespace SQConvert {
@@ -36424,7 +36428,7 @@ index 3077215ec..2489b55ed 100644
  	template <> inline int Return<ScriptWindow::CompanyWidgets>(HSQUIRRELVM vm, ScriptWindow::CompanyWidgets res) { sq_pushinteger(vm, (int32)res); return 1; }
  	template <> inline ScriptWindow::CompanyFinancesWidgets GetParam(ForceType<ScriptWindow::CompanyFinancesWidgets>, HSQUIRRELVM vm, int index, SQAutoFreePointers *ptr) { SQInteger tmp; sq_getinteger(vm, index, &tmp); return (ScriptWindow::CompanyFinancesWidgets)tmp; }
 diff --git a/src/settings_gui.cpp b/src/settings_gui.cpp
-index 5ebac0280..7344c2e7f 100644
+index 5ebac02807..7344c2e7f6 100644
 --- a/src/settings_gui.cpp
 +++ b/src/settings_gui.cpp
 @@ -1484,6 +1484,7 @@ static SettingsContainer &GetSettingsTree()
@@ -36453,7 +36457,7 @@ index 5ebac0280..7344c2e7f 100644
  			advisors->Add(new SettingEntry("news_display.open"));
 diff --git a/src/settings_gui.cpp.orig b/src/settings_gui.cpp.orig
 new file mode 100644
-index 000000000..0420ba15b
+index 0000000000..0420ba15b3
 --- /dev/null
 +++ b/src/settings_gui.cpp.orig
 @@ -0,0 +1,2671 @@
@@ -39129,7 +39133,7 @@ index 000000000..0420ba15b
 +	new CustomCurrencyWindow(&_cust_currency_desc);
 +}
 diff --git a/src/settings_type.h b/src/settings_type.h
-index f9cc00f3a..05ba16238 100644
+index f9cc00f3a3..05ba162384 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
 @@ -118,6 +118,7 @@ struct GUISettings {
@@ -39165,7 +39169,7 @@ index f9cc00f3a..05ba16238 100644
  	uint32 terraform_per_64k_frames;         ///< how many tile heights may, over a long period, be terraformed per 65536 frames?
  	uint16 terraform_frame_burst;            ///< how many tile heights may, over a short period, be terraformed?
 diff --git a/src/ship_cmd.cpp b/src/ship_cmd.cpp
-index ca8bdfc8e..f0613a215 100644
+index ca8bdfc8e7..f0613a2151 100644
 --- a/src/ship_cmd.cpp
 +++ b/src/ship_cmd.cpp
 @@ -616,7 +616,7 @@ static void ShipController(Ship *v)
@@ -39179,7 +39183,7 @@ index ca8bdfc8e..f0613a215 100644
  	}
 diff --git a/src/ship_cmd.cpp.orig b/src/ship_cmd.cpp.orig
 new file mode 100644
-index 000000000..771863a24
+index 0000000000..771863a24d
 --- /dev/null
 +++ b/src/ship_cmd.cpp.orig
 @@ -0,0 +1,725 @@
@@ -39909,7 +39913,7 @@ index 000000000..771863a24
 +	return true;
 +}
 diff --git a/src/signal.cpp b/src/signal.cpp
-index b37e15074..01b3256e4 100644
+index b37e15074a..01b3256e4f 100644
 --- a/src/signal.cpp
 +++ b/src/signal.cpp
 @@ -197,6 +197,14 @@ static Vehicle *TrainOnTileEnum(Vehicle *v, void *)
@@ -39990,7 +39994,7 @@ index b37e15074..01b3256e4 100644
  
  			case MP_RAILWAY:
 diff --git a/src/signs.cpp b/src/signs.cpp
-index 2a23a43c9..83179eeac 100644
+index 2a23a43c9c..83179eeac6 100644
 --- a/src/signs.cpp
 +++ b/src/signs.cpp
 @@ -49,7 +49,7 @@ void Sign::UpdateVirtCoord()
@@ -40003,7 +40007,7 @@ index 2a23a43c9..83179eeac 100644
  
  /** Update the coordinates of all signs */
 diff --git a/src/slope_func.h b/src/slope_func.h
-index 4aff6b9d3..40431b3a2 100644
+index 4aff6b9d31..40431b3a27 100644
 --- a/src/slope_func.h
 +++ b/src/slope_func.h
 @@ -188,6 +188,48 @@ static inline Corner OppositeCorner(Corner corner)
@@ -40056,7 +40060,7 @@ index 4aff6b9d3..40431b3a2 100644
   * Tests if a specific slope has exactly three corners raised.
   *
 diff --git a/src/station.cpp b/src/station.cpp
-index f86286f3d..c07fad14b 100644
+index f86286f3d9..c07fad14bd 100644
 --- a/src/station.cpp
 +++ b/src/station.cpp
 @@ -24,6 +24,7 @@
@@ -40219,7 +40223,7 @@ index f86286f3d..c07fad14b 100644
 +}
 \ No newline at end of file
 diff --git a/src/station_base.h b/src/station_base.h
-index 5e16b0d54..8357a530f 100644
+index 5e16b0d548..8357a530f8 100644
 --- a/src/station_base.h
 +++ b/src/station_base.h
 @@ -19,7 +19,9 @@
@@ -40280,7 +40284,7 @@ index 5e16b0d54..8357a530f 100644
  
  	/* virtual */ inline bool TileBelongsToRailStation(TileIndex tile) const
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index 6dd7bb2fd..84721eb87 100644
+index 6dd7bb2fd9..84721eb87e 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -13,6 +13,9 @@
@@ -41497,7 +41501,7 @@ index 6dd7bb2fd..84721eb87 100644
 +	CopyPasteTile_Station,      // copypaste_tile_proc
  };
 diff --git a/src/station_func.h b/src/station_func.h
-index 9748297f2..b224be9b7 100644
+index 9748297f21..b224be9b72 100644
 --- a/src/station_func.h
 +++ b/src/station_func.h
 @@ -30,6 +30,9 @@ void UpdateAllStationVirtCoords();
@@ -41511,7 +41515,7 @@ index 9748297f2..b224be9b7 100644
  
  const DrawTileSprites *GetStationTileLayout(StationType st, byte gfx);
 diff --git a/src/station_gui.cpp b/src/station_gui.cpp
-index 52738ab13..c45ede8f5 100644
+index 52738ab13f..c45ede8f5a 100644
 --- a/src/station_gui.cpp
 +++ b/src/station_gui.cpp
 @@ -30,6 +30,8 @@
@@ -41629,7 +41633,7 @@ index 52738ab13..c45ede8f5 100644
  
  /** Struct containing TileIndex and StationID */
 diff --git a/src/station_map.h b/src/station_map.h
-index 7ca9bd720..9dbc7bf49 100644
+index e591787e3b..6db0931328 100644
 --- a/src/station_map.h
 +++ b/src/station_map.h
 @@ -26,11 +26,16 @@ typedef byte StationGfx; ///< Index of station graphics. @see _station_display_d
@@ -42264,7 +42268,7 @@ index 7ca9bd720..9dbc7bf49 100644
  }
  
  /**
-@@ -530,19 +723,24 @@ static inline byte GetStationTileRandomBits(TileIndex t)
+@@ -530,20 +723,25 @@ static inline byte GetStationTileRandomBits(TileIndex t)
   * @param section the StationGfx to be used for this tile
   * @param wc The water class of the station
   */
@@ -42282,6 +42286,7 @@ index 7ca9bd720..9dbc7bf49 100644
 -	SB(_me[t].m6, 2, 1, 0);
 -	SB(_me[t].m6, 3, 3, st);
 -	_me[t].m7 = 0;
+-	_me[t].m8 = 0;
 +	GetTile(t)->m2 = sid;
 +	GetTile(t)->m3 = 0;
 +	GetTile(t)->m4 = 0;
@@ -42289,6 +42294,7 @@ index 7ca9bd720..9dbc7bf49 100644
 +	SB(GetTileEx(t)->m6, 2, 1, 0);
 +	SB(GetTileEx(t)->m6, 3, 3, st);
 +	GetTileEx(t)->m7 = 0;
++	GetTileEx(t)->m8 = 0;
  }
 +/** @copydoc MakeStation(TileIndexT<Tgeneric>::T,Owner,StationID,StationType,byte,WaterClass) */
 +static inline void MakeStation(TileIndex t, Owner o, StationID sid, StationType st, byte section, WaterClass wc = WATER_CLASS_INVALID) { MakeStation<false>(t, o, sid, st, section, wc); }
@@ -42297,7 +42303,7 @@ index 7ca9bd720..9dbc7bf49 100644
  
  /**
   * Make the given tile a rail station tile.
-@@ -553,12 +751,17 @@ static inline void MakeStation(TileIndex t, Owner o, StationID sid, StationType
+@@ -554,12 +752,17 @@ static inline void MakeStation(TileIndex t, Owner o, StationID sid, StationType
   * @param section the StationGfx to be used for this tile
   * @param rt the railtype of this tile
   */
@@ -42316,7 +42322,7 @@ index 7ca9bd720..9dbc7bf49 100644
  
  /**
   * Make the given tile a rail waypoint tile.
-@@ -569,12 +772,17 @@ static inline void MakeRailStation(TileIndex t, Owner o, StationID sid, Axis a,
+@@ -570,12 +773,17 @@ static inline void MakeRailStation(TileIndex t, Owner o, StationID sid, Axis a,
   * @param section the StationGfx to be used for this tile
   * @param rt the railtype of this tile
   */
@@ -42335,7 +42341,7 @@ index 7ca9bd720..9dbc7bf49 100644
  
  /**
   * Make the given tile a roadstop tile.
-@@ -585,13 +793,18 @@ static inline void MakeRailWaypoint(TileIndex t, Owner o, StationID sid, Axis a,
+@@ -586,13 +794,18 @@ static inline void MakeRailWaypoint(TileIndex t, Owner o, StationID sid, Axis a,
   * @param rt the roadtypes on this tile
   * @param d the direction of the roadstop
   */
@@ -42355,7 +42361,7 @@ index 7ca9bd720..9dbc7bf49 100644
  
  /**
   * Make the given tile a drivethrough roadstop tile.
-@@ -604,13 +817,18 @@ static inline void MakeRoadStop(TileIndex t, Owner o, StationID sid, RoadStopTyp
+@@ -605,13 +818,18 @@ static inline void MakeRoadStop(TileIndex t, Owner o, StationID sid, RoadStopTyp
   * @param rt the roadtypes on this tile
   * @param a the direction of the roadstop
   */
@@ -42375,7 +42381,7 @@ index 7ca9bd720..9dbc7bf49 100644
  
  /**
   * Make the given tile an airport tile.
-@@ -620,10 +838,15 @@ static inline void MakeDriveThroughRoadStop(TileIndex t, Owner station, Owner ro
+@@ -621,10 +839,15 @@ static inline void MakeDriveThroughRoadStop(TileIndex t, Owner station, Owner ro
   * @param section the StationGfx to be used for this tile
   * @param wc the type of water on this tile
   */
@@ -42392,7 +42398,7 @@ index 7ca9bd720..9dbc7bf49 100644
  
  /**
   * Make the given tile a buoy tile.
-@@ -631,13 +854,18 @@ static inline void MakeAirport(TileIndex t, Owner o, StationID sid, byte section
+@@ -632,13 +855,18 @@ static inline void MakeAirport(TileIndex t, Owner o, StationID sid, byte section
   * @param sid the station to which this tile belongs
   * @param wc the type of water on this tile
   */
@@ -42412,7 +42418,7 @@ index 7ca9bd720..9dbc7bf49 100644
  
  /**
   * Make the given tile a dock tile.
-@@ -647,11 +875,16 @@ static inline void MakeBuoy(TileIndex t, StationID sid, WaterClass wc)
+@@ -648,11 +876,16 @@ static inline void MakeBuoy(TileIndex t, StationID sid, WaterClass wc)
   * @param d the direction of the dock
   * @param wc the type of water on this tile
   */
@@ -42432,7 +42438,7 @@ index 7ca9bd720..9dbc7bf49 100644
  /**
   * Make the given tile an oilrig tile.
 diff --git a/src/strings.cpp b/src/strings.cpp
-index b79350318..2d744e68c 100644
+index b793503187..2d744e68c6 100644
 --- a/src/strings.cpp
 +++ b/src/strings.cpp
 @@ -1152,6 +1152,8 @@ static char *FormatString(char *buff, const char *str_arg, StringParameters *arg
@@ -42466,7 +42472,7 @@ index b79350318..2d744e68c 100644
  
  				/* If first is still true then no cargo is accepted */
 diff --git a/src/table/misc_settings.ini b/src/table/misc_settings.ini
-index 52ca2d16e..fda2f29aa 100644
+index 52ca2d16ef..fda2f29aae 100644
 --- a/src/table/misc_settings.ini
 +++ b/src/table/misc_settings.ini
 @@ -255,7 +255,7 @@ type     = SLE_UINT
@@ -42488,7 +42494,7 @@ index 52ca2d16e..fda2f29aa 100644
  
  [SDTG_VAR]
 diff --git a/src/table/settings.ini b/src/table/settings.ini
-index c061c394f..dd342a8c0 100644
+index c061c394f0..dd342a8c01 100644
 --- a/src/table/settings.ini
 +++ b/src/table/settings.ini
 @@ -416,6 +416,20 @@ str      = STR_CONFIG_SETTING_COMMAND_PAUSE_LEVEL
@@ -42557,7 +42563,7 @@ index c061c394f..dd342a8c0 100644
  var      = gui.drag_signals_density
  type     = SLE_UINT8
 diff --git a/src/table/sprites.h b/src/table/sprites.h
-index 81d5388f9..221eb4ca8 100644
+index 81d5388f99..221eb4ca8f 100644
 --- a/src/table/sprites.h
 +++ b/src/table/sprites.h
 @@ -163,7 +163,10 @@ static const SpriteID SPR_WINDOW_DEFSIZE             = SPR_OPENTTD_BASE + 168;
@@ -42616,7 +42622,7 @@ index 81d5388f9..221eb4ca8 100644
  
  static const CursorID SPR_CURSOR_DEMOLISH_FIRST = 704;
 diff --git a/src/terraform_cmd.cpp b/src/terraform_cmd.cpp
-index aad982282..5c090bfba 100644
+index aad9822822..5c090bfbaf 100644
 --- a/src/terraform_cmd.cpp
 +++ b/src/terraform_cmd.cpp
 @@ -10,7 +10,9 @@
@@ -42974,7 +42980,7 @@ index aad982282..5c090bfba 100644
 +	return result;
  }
 diff --git a/src/terraform_gui.cpp b/src/terraform_gui.cpp
-index 97749a8dc..8b60552eb 100644
+index 97749a8dcc..8b60552eb0 100644
 --- a/src/terraform_gui.cpp
 +++ b/src/terraform_gui.cpp
 @@ -192,6 +192,12 @@ struct TerraformToolbarWindow : Window {
@@ -43000,7 +43006,7 @@ index 97749a8dc..8b60552eb 100644
  								SetFill(0, 1), SetDataTip(SPR_IMG_DYNAMITE, STR_TOOLTIP_DEMOLISH_BUILDINGS_ETC),
  		NWidget(WWT_IMGBTN, COLOUR_DARK_GREEN, WID_TT_BUY_LAND), SetMinimalSize(22, 22),
 diff --git a/src/tile_cmd.h b/src/tile_cmd.h
-index ce70232a0..529a5906f 100644
+index ce70232a02..529a5906f4 100644
 --- a/src/tile_cmd.h
 +++ b/src/tile_cmd.h
 @@ -18,6 +18,8 @@
@@ -43039,7 +43045,7 @@ index ce70232a0..529a5906f 100644
  
  extern const TileTypeProcs * const _tile_type_procs[16];
 diff --git a/src/tile_map.cpp b/src/tile_map.cpp
-index c566ad02c..911f8bc4b 100644
+index c566ad02cd..911f8bc4b6 100644
 --- a/src/tile_map.cpp
 +++ b/src/tile_map.cpp
 @@ -112,9 +112,10 @@ static Slope GetTileSlopeGivenHeight(int hnorth, int hwest, int heast, int hsout
@@ -43137,7 +43143,7 @@ index c566ad02c..911f8bc4b 100644
 +template int GetTileMaxZ<false>(TileIndex t);
 +template int GetTileMaxZ<true>(GenericTileIndex t);
 diff --git a/src/tile_map.h b/src/tile_map.h
-index 66726df61..c0a34b53b 100644
+index 66726df610..c0a34b53bb 100644
 --- a/src/tile_map.h
 +++ b/src/tile_map.h
 @@ -26,13 +26,18 @@
@@ -43495,7 +43501,7 @@ index 66726df61..c0a34b53b 100644
  int GetTileMaxPixelZOutsideMap(int x, int y);
  
 diff --git a/src/tile_type.h b/src/tile_type.h
-index c02ba4fc4..4d7e527d9 100644
+index c02ba4fc45..4d7e527d95 100644
 --- a/src/tile_type.h
 +++ b/src/tile_type.h
 @@ -12,6 +12,8 @@
@@ -43602,7 +43608,7 @@ index c02ba4fc4..4d7e527d9 100644
 +
  #endif /* TILE_TYPE_H */
 diff --git a/src/tilearea.cpp b/src/tilearea.cpp
-index ec3b9aafb..f46759d3a 100644
+index ec3b9aafbb..f46759d3ae 100644
 --- a/src/tilearea.cpp
 +++ b/src/tilearea.cpp
 @@ -11,6 +11,7 @@
@@ -43900,7 +43906,7 @@ index ec3b9aafb..f46759d3a 100644
 +template struct DiagonalTileAreaT<true>;
 diff --git a/src/tilearea_func.h b/src/tilearea_func.h
 new file mode 100644
-index 000000000..84cfd77fa
+index 0000000000..84cfd77faa
 --- /dev/null
 +++ b/src/tilearea_func.h
 @@ -0,0 +1,42 @@
@@ -43947,7 +43953,7 @@ index 000000000..84cfd77fa
 +
 +#endif /* TILEAREA_FUNC_H */
 diff --git a/src/tilearea_type.h b/src/tilearea_type.h
-index 45bfb3d4c..114d10a15 100644
+index 45bfb3d4c0..114d10a15f 100644
 --- a/src/tilearea_type.h
 +++ b/src/tilearea_type.h
 @@ -9,16 +9,55 @@
@@ -44573,7 +44579,7 @@ index 45bfb3d4c..114d10a15 100644
 +
  #endif /* TILEAREA_TYPE_H */
 diff --git a/src/tilehighlight_type.h b/src/tilehighlight_type.h
-index 3d64248df..1157697d7 100644
+index 3d64248dff..1157697d77 100644
 --- a/src/tilehighlight_type.h
 +++ b/src/tilehighlight_type.h
 @@ -19,16 +19,17 @@
@@ -44605,7 +44611,7 @@ index 3d64248df..1157697d7 100644
  	/* lower bits (used with HT_LINE and HT_RAIL):
  	 * (see ASCII art in table/autorail.h for a visual interpretation) */
 diff --git a/src/toolbar_gui.cpp b/src/toolbar_gui.cpp
-index 40ac3634f..eea1840de 100644
+index 40ac3634f1..eea1840de9 100644
 --- a/src/toolbar_gui.cpp
 +++ b/src/toolbar_gui.cpp
 @@ -968,7 +968,7 @@ static CallBackFunction MenuClickBuildAir(int index)
@@ -44630,7 +44636,7 @@ index 40ac3634f..eea1840de 100644
  	return CBF_NONE;
  }
 diff --git a/src/town.h b/src/town.h
-index 19a4118ba..4a5d3d962 100644
+index 19a4118bad..4a5d3d9623 100644
 --- a/src/town.h
 +++ b/src/town.h
 @@ -15,6 +15,9 @@
@@ -44724,7 +44730,7 @@ index 19a4118ba..4a5d3d962 100644
   * Action types that a company must ask permission for to a town authority.
   * @see CheckforTownRating
 diff --git a/src/town_cmd.cpp b/src/town_cmd.cpp
-index 92a3991ba..1222499e2 100644
+index 92a3991ba9..1222499e21 100644
 --- a/src/town_cmd.cpp
 +++ b/src/town_cmd.cpp
 @@ -26,6 +26,7 @@
@@ -44848,7 +44854,7 @@ index 92a3991ba..1222499e2 100644
  
  
 diff --git a/src/town_gui.cpp b/src/town_gui.cpp
-index 17449854d..ebc523622 100644
+index 17449854d6..ebc5236220 100644
 --- a/src/town_gui.cpp
 +++ b/src/town_gui.cpp
 @@ -154,15 +154,7 @@ public:
@@ -44869,7 +44875,7 @@ index 17449854d..ebc523622 100644
  				SetDParam(2, str);
  				if (this->town->exclusivity == c->index) {
 diff --git a/src/town_map.h b/src/town_map.h
-index 016ff9a6d..4c648ad6f 100644
+index 016ff9a6d2..4c648ad6fd 100644
 --- a/src/town_map.h
 +++ b/src/town_map.h
 @@ -24,7 +24,7 @@
@@ -45122,7 +45128,7 @@ index 016ff9a6d..4c648ad6f 100644
  	SetHouseProcessingTime(t, HouseSpec::Get(type)->processing_time);
  }
 diff --git a/src/track_func.h b/src/track_func.h
-index 8e2056265..9de2f05cb 100644
+index 8e2056265e..9de2f05cbe 100644
 --- a/src/track_func.h
 +++ b/src/track_func.h
 @@ -16,6 +16,7 @@
@@ -45180,7 +45186,7 @@ index 8e2056265..9de2f05cb 100644
   * Determine the side in which the vehicle will leave the tile
   *
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index 60a7b2ca9..9857911fb 100644
+index 60a7b2ca92..9857911fb2 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
 @@ -1852,6 +1852,17 @@ void ReverseTrainDirection(Train *v)
@@ -45488,7 +45494,7 @@ index 60a7b2ca9..9857911fb 100644
  		u->UpdateViewport(false, false);
  	}
 diff --git a/src/transparency.h b/src/transparency.h
-index ab6f9a6f3..773a633e3 100644
+index ab6f9a6f33..773a633e3b 100644
 --- a/src/transparency.h
 +++ b/src/transparency.h
 @@ -31,6 +31,7 @@ enum TransparencyOption {
@@ -45500,7 +45506,7 @@ index ab6f9a6f3..773a633e3 100644
  	TO_INVALID,    ///< Invalid transparency option
  };
 diff --git a/src/transparency_gui.cpp b/src/transparency_gui.cpp
-index 4bad2b056..815622931 100644
+index 4bad2b0561..8156229318 100644
 --- a/src/transparency_gui.cpp
 +++ b/src/transparency_gui.cpp
 @@ -52,14 +52,15 @@ public:
@@ -45530,7 +45536,7 @@ index 4bad2b056..815622931 100644
  	EndContainer(),
  	/* Panel with 'invisibility' buttons. */
 diff --git a/src/tree_cmd.cpp b/src/tree_cmd.cpp
-index 7240cf86d..60769fd2f 100644
+index 7240cf86d3..60769fd2fa 100644
 --- a/src/tree_cmd.cpp
 +++ b/src/tree_cmd.cpp
 @@ -471,6 +471,8 @@ static void DrawTile_Trees(TileInfo *ti)
@@ -45549,7 +45555,7 @@ index 7240cf86d..60769fd2f 100644
 +	NULL                      // copypaste_tile_proc
  };
 diff --git a/src/tree_map.h b/src/tree_map.h
-index e614099fc..8eaa1a75e 100644
+index e614099fc9..8eaa1a75e2 100644
 --- a/src/tree_map.h
 +++ b/src/tree_map.h
 @@ -74,7 +74,7 @@ enum TreeGround {
@@ -45682,7 +45688,7 @@ index e614099fc..8eaa1a75e 100644
  
  #endif /* TREE_MAP_H */
 diff --git a/src/tunnel_map.cpp b/src/tunnel_map.cpp
-index 4e6d5a7e1..c992b09de 100644
+index 4e6d5a7e13..c992b09de9 100644
 --- a/src/tunnel_map.cpp
 +++ b/src/tunnel_map.cpp
 @@ -21,27 +21,90 @@
@@ -45796,7 +45802,7 @@ index 4e6d5a7e1..c992b09de 100644
  	int height;
  
 diff --git a/src/tunnel_map.h b/src/tunnel_map.h
-index d6f475d05..4234db7ef 100644
+index d6f475d05c..4234db7ef9 100644
 --- a/src/tunnel_map.h
 +++ b/src/tunnel_map.h
 @@ -21,25 +21,42 @@
@@ -45913,7 +45919,7 @@ index d6f475d05..4234db7ef 100644
  
  #endif /* TUNNEL_MAP_H */
 diff --git a/src/tunnelbridge.h b/src/tunnelbridge.h
-index 0a2c2293d..9e46c3ea8 100644
+index 0a2c2293d5..9e46c3ea8d 100644
 --- a/src/tunnelbridge.h
 +++ b/src/tunnelbridge.h
 @@ -23,7 +23,8 @@ void MarkBridgeDirty(TileIndex tile);
@@ -45938,7 +45944,7 @@ index 0a2c2293d..9e46c3ea8 100644
  extern TileIndex _build_tunnel_endtile;
  
 diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
-index ce14188fd..365d0884a 100644
+index ce14188fd0..365d0884ad 100644
 --- a/src/tunnelbridge_cmd.cpp
 +++ b/src/tunnelbridge_cmd.cpp
 @@ -17,6 +17,7 @@
@@ -46577,7 +46583,7 @@ index ce14188fd..365d0884a 100644
 +	CopyPasteTile_TunnelBridge,      // copypaste_tile_proc
  };
 diff --git a/src/tunnelbridge_map.h b/src/tunnelbridge_map.h
-index 0f7f17b3a..a077f1108 100644
+index 0f7f17b3ac..a077f1108a 100644
 --- a/src/tunnelbridge_map.h
 +++ b/src/tunnelbridge_map.h
 @@ -25,11 +25,16 @@
@@ -46772,7 +46778,7 @@ index 0f7f17b3a..a077f1108 100644
 +
  #endif /* TUNNELBRIDGE_MAP_H */
 diff --git a/src/vehicle.cpp b/src/vehicle.cpp
-index ae826a50c..891645368 100644
+index ae826a50c0..8916453687 100644
 --- a/src/vehicle.cpp
 +++ b/src/vehicle.cpp
 @@ -286,6 +286,13 @@ uint Vehicle::Crash(bool flooded)
@@ -46835,7 +46841,7 @@ index ae826a50c..891645368 100644
  				y >= v->coord.top && y <= v->coord.bottom) {
  
 diff --git a/src/vehicle_base.h b/src/vehicle_base.h
-index 73f499c48..a9db20a92 100644
+index 73f499c483..a9db20a923 100644
 --- a/src/vehicle_base.h
 +++ b/src/vehicle_base.h
 @@ -353,6 +353,12 @@ public:
@@ -46852,7 +46858,7 @@ index 73f499c48..a9db20a92 100644
  	 * Marks the vehicles to be redrawn and updates cached variables
  	 *
 diff --git a/src/viewport.cpp b/src/viewport.cpp
-index cb0b36f40..d5c2ba5d3 100644
+index cb0b36f40f..d5c2ba5d30 100644
 --- a/src/viewport.cpp
 +++ b/src/viewport.cpp
 @@ -41,19 +41,19 @@
@@ -47063,7 +47069,7 @@ index cb0b36f40..d5c2ba5d3 100644
  struct ViewportSSCSS {
  	VpSorterChecker fct_checker; ///< The check function.
 diff --git a/src/viewport_func.h b/src/viewport_func.h
-index cbdcc5019..fb6008d1a 100644
+index cbdcc5019a..fb6008d1a7 100644
 --- a/src/viewport_func.h
 +++ b/src/viewport_func.h
 @@ -17,6 +17,7 @@
@@ -47084,7 +47090,7 @@ index cbdcc5019..fb6008d1a 100644
 +#endif /* VIEWPORT_FUNC_H */
 \ No newline at end of file
 diff --git a/src/viewport_gui.cpp b/src/viewport_gui.cpp
-index 9c89a85f8..60ded314f 100644
+index 9c89a85f84..60ded314f4 100644
 --- a/src/viewport_gui.cpp
 +++ b/src/viewport_gui.cpp
 @@ -16,6 +16,7 @@
@@ -47168,7 +47174,7 @@ index 9c89a85f8..60ded314f 100644
  
  static WindowDesc _extra_view_port_desc(
 diff --git a/src/viewport_type.h b/src/viewport_type.h
-index 74cd88d95..1169ed3ab 100644
+index 74cd88d95d..1169ed3ab2 100644
 --- a/src/viewport_type.h
 +++ b/src/viewport_type.h
 @@ -121,6 +121,9 @@ enum ViewportDragDropSelectionProcess {
@@ -47182,7 +47188,7 @@ index 74cd88d95..1169ed3ab 100644
  
  
 diff --git a/src/void_cmd.cpp b/src/void_cmd.cpp
-index ffe54df99..83a6760fc 100644
+index ffe54df992..83a6760fcd 100644
 --- a/src/void_cmd.cpp
 +++ b/src/void_cmd.cpp
 @@ -83,4 +83,5 @@ extern const TileTypeProcs _tile_type_void_procs = {
@@ -47192,7 +47198,7 @@ index ffe54df99..83a6760fc 100644
 +	NULL                      // copypaste_tile_proc
  };
 diff --git a/src/void_map.h b/src/void_map.h
-index 5ccc4e9d7..97ce33f29 100644
+index 5ccc4e9d7d..97ce33f295 100644
 --- a/src/void_map.h
 +++ b/src/void_map.h
 @@ -18,17 +18,22 @@
@@ -47227,7 +47233,7 @@ index 5ccc4e9d7..97ce33f29 100644
  
  #endif /* VOID_MAP_H */
 diff --git a/src/water_cmd.cpp b/src/water_cmd.cpp
-index 737257a82..2c184457b 100644
+index 737257a823..2c184457ba 100644
 --- a/src/water_cmd.cpp
 +++ b/src/water_cmd.cpp
 @@ -11,6 +11,7 @@
@@ -47472,7 +47478,7 @@ index 737257a82..2c184457b 100644
 +	CopyPasteTile_Water,      // copypaste_tile_proc
  };
 diff --git a/src/water_map.h b/src/water_map.h
-index ab249a827..7e251829f 100644
+index ab249a8279..7e251829f3 100644
 --- a/src/water_map.h
 +++ b/src/water_map.h
 @@ -74,17 +74,22 @@ enum LockPart {
@@ -47948,7 +47954,7 @@ index ab249a827..7e251829f 100644
  
  #endif /* WATER_MAP_H */
 diff --git a/src/waypoint_cmd.cpp b/src/waypoint_cmd.cpp
-index 54489fa45..0595db172 100644
+index 639dce13bc..0ee5f74c0a 100644
 --- a/src/waypoint_cmd.cpp
 +++ b/src/waypoint_cmd.cpp
 @@ -13,6 +13,8 @@
@@ -48015,7 +48021,7 @@ index 54489fa45..0595db172 100644
  	if (ret.Failed()) return ret;
  
  	Slope tileh = GetTileSlope(tile);
-@@ -182,9 +198,8 @@ CommandCost CmdBuildRailWaypoint(TileIndex start_tile, DoCommandFlag flags, uint
+@@ -183,9 +199,8 @@ CommandCost CmdBuildRailWaypoint(TileIndex start_tile, DoCommandFlag flags, uint
  
  	bool reuse = (station_to_join != NEW_STATION);
  	if (!reuse) station_to_join = INVALID_STATION;
@@ -48026,7 +48032,7 @@ index 54489fa45..0595db172 100644
  
  	/* Make sure the area below consists of clear tiles. (OR tiles belonging to a certain rail station) */
  	StationID est = INVALID_STATION;
-@@ -193,7 +208,7 @@ CommandCost CmdBuildRailWaypoint(TileIndex start_tile, DoCommandFlag flags, uint
+@@ -194,7 +209,7 @@ CommandCost CmdBuildRailWaypoint(TileIndex start_tile, DoCommandFlag flags, uint
  	TileIndexDiff offset = TileOffsByDiagDir(AxisToDiagDir(OtherAxis(axis)));
  	for (int i = 0; i < count; i++) {
  		TileIndex tile = start_tile + i * offset;
@@ -48035,7 +48041,7 @@ index 54489fa45..0595db172 100644
  		if (ret.Failed()) return ret;
  	}
  
-@@ -253,7 +268,14 @@ CommandCost CmdBuildRailWaypoint(TileIndex start_tile, DoCommandFlag flags, uint
+@@ -254,7 +269,14 @@ CommandCost CmdBuildRailWaypoint(TileIndex start_tile, DoCommandFlag flags, uint
  			/* But for NewGRF waypoints we like to have their style. */
  			GetStationLayout(layout_ptr, count, 1, spec);
  		}
@@ -48051,7 +48057,7 @@ index 54489fa45..0595db172 100644
  
  		Company *c = Company::Get(wp->owner);
  		for (int i = 0; i < count; i++) {
-@@ -288,7 +310,18 @@ CommandCost CmdBuildRailWaypoint(TileIndex start_tile, DoCommandFlag flags, uint
+@@ -289,7 +311,18 @@ CommandCost CmdBuildRailWaypoint(TileIndex start_tile, DoCommandFlag flags, uint
   */
  CommandCost CmdBuildBuoy(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32 p2, const char *text)
  {
@@ -48071,7 +48077,7 @@ index 54489fa45..0595db172 100644
  	if (IsBridgeAbove(tile)) return_cmd_error(STR_ERROR_MUST_DEMOLISH_BRIDGE_FIRST);
  
  	if (!IsTileFlat(tile)) return_cmd_error(STR_ERROR_SITE_UNSUITABLE);
-@@ -423,3 +456,54 @@ CommandCost CmdRenameWaypoint(TileIndex tile, DoCommandFlag flags, uint32 p1, ui
+@@ -424,3 +457,54 @@ CommandCost CmdRenameWaypoint(TileIndex tile, DoCommandFlag flags, uint32 p1, ui
  	}
  	return CommandCost();
  }
@@ -48128,7 +48134,7 @@ index 54489fa45..0595db172 100644
 +}
 diff --git a/src/widgets/clipboard_widget.h b/src/widgets/clipboard_widget.h
 new file mode 100644
-index 000000000..a4c59d184
+index 0000000000..a4c59d1844
 --- /dev/null
 +++ b/src/widgets/clipboard_widget.h
 @@ -0,0 +1,49 @@
@@ -48182,7 +48188,7 @@ index 000000000..a4c59d184
 +
 +#endif /* WIDGETS_CLIPBOARD_WIDGET_H */
 diff --git a/src/widgets/group_widget.h b/src/widgets/group_widget.h
-index 41e0bcd45..7f4a0cdcd 100644
+index 41e0bcd45a..7f4a0cdcd6 100644
 --- a/src/widgets/group_widget.h
 +++ b/src/widgets/group_widget.h
 @@ -33,6 +33,7 @@ enum GroupListWidgets {
@@ -48194,7 +48200,7 @@ index 41e0bcd45..7f4a0cdcd 100644
  
  #endif /* WIDGETS_GROUP_WIDGET_H */
 diff --git a/src/widgets/station_widget.h b/src/widgets/station_widget.h
-index 82fe392e3..2fd2fd408 100644
+index 82fe392e33..2fd2fd4089 100644
 --- a/src/widgets/station_widget.h
 +++ b/src/widgets/station_widget.h
 @@ -23,6 +23,7 @@ enum StationViewWidgets {
@@ -48206,7 +48212,7 @@ index 82fe392e3..2fd2fd408 100644
  	WID_SV_RENAME,             ///< 'Rename' button.
  	WID_SV_CLOSE_AIRPORT,      ///< 'Close airport' button.
 diff --git a/src/widgets/terraform_widget.h b/src/widgets/terraform_widget.h
-index 7f8a4c4d1..4327d1f25 100644
+index 7f8a4c4d1b..4327d1f25b 100644
 --- a/src/widgets/terraform_widget.h
 +++ b/src/widgets/terraform_widget.h
 @@ -19,6 +19,7 @@ enum TerraformToolbarWidgets {
@@ -48218,7 +48224,7 @@ index 7f8a4c4d1..4327d1f25 100644
  	WID_TT_BUY_LAND,                          ///< Buy land button.
  	WID_TT_PLANT_TREES,                       ///< Plant trees button (note: opens separate window, no place-push-button).
 diff --git a/src/widgets/transparency_widget.h b/src/widgets/transparency_widget.h
-index 87618fcb6..dd3880ab7 100644
+index 87618fcb6e..dd3880ab7d 100644
 --- a/src/widgets/transparency_widget.h
 +++ b/src/widgets/transparency_widget.h
 @@ -25,6 +25,7 @@ enum TransparencyToolbarWidgets {
@@ -48230,7 +48236,7 @@ index 87618fcb6..dd3880ab7 100644
  
  	/* Panel with buttons for invisibility */
 diff --git a/src/widgets/viewport_widget.h b/src/widgets/viewport_widget.h
-index 187659f36..57c964e70 100644
+index 187659f362..57c964e704 100644
 --- a/src/widgets/viewport_widget.h
 +++ b/src/widgets/viewport_widget.h
 @@ -14,12 +14,13 @@
@@ -48254,7 +48260,7 @@ index 187659f36..57c964e70 100644
  
  #endif /* WIDGETS_VIEWPORT_WIDGET_H */
 diff --git a/src/window.cpp b/src/window.cpp
-index d46447d52..5bafcd40b 100644
+index d46447d52e..5bafcd40b3 100644
 --- a/src/window.cpp
 +++ b/src/window.cpp
 @@ -2775,6 +2775,7 @@ enum MouseClick {
@@ -48284,7 +48290,7 @@ index d46447d52..5bafcd40b 100644
  	HandleMouseOver();
  
 diff --git a/src/window_gui.h b/src/window_gui.h
-index b81b06e39..a0230028d 100644
+index b81b06e391..a0230028df 100644
 --- a/src/window_gui.h
 +++ b/src/window_gui.h
 @@ -768,6 +768,15 @@ public:
