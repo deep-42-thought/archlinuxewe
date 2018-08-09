@@ -1,0 +1,76 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgbase=python-sphinx-better-theme
+pkgname=(python2-sphinx-better-theme python-sphinx-better-theme)
+_pkgname=sphinx-better-theme
+pkgver=0.13
+pkgrel=1
+pkgdesc='theme for Sphinx that looks nice'
+arch=('any')
+url='https://sphinx-better-theme.readthedocs.io/'
+license=('custom')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
+_depends=()
+_makedepends=()
+_optdepends=()
+source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/irskep/${_pkgname}/archive/v${pkgver}.tar.gz")
+sha512sums=('ad9b52205b29a410c918f789e5b4d110ca6bb654da18203206504efef7f16228b93b764cf14d9cca1a89d1850a4327b51f1f6fe7219d5968b5e51e5cf1935f42')
+
+makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
+  "${_depends[@]}"
+  "${_depends[@]//python/python2}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]//ython/ython2}"
+)
+
+prepare() {
+  cp -r "${_pkgname}-${pkgver}" "py2-${_pkgname}-${pkgver}"
+  mv "${_pkgname}-${pkgver}" "py-${_pkgname}-${pkgver}"
+}
+
+build() {
+  cd "${srcdir}/py2-${_pkgname}-${pkgver}"
+  python2 setup.py build
+
+  cd "${srcdir}/py-${_pkgname}-${pkgver}"
+  python setup.py build
+}
+
+package_python2-sphinx-better-theme() {
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]//python/python2}"
+  )
+  optdepends=(
+    "${_optdepends[@]//python/python2}"
+  )
+  cd "${srcdir}/py2-${_pkgname}-${pkgver}"
+  python2 setup.py install --root="${pkgdir}/" --optimize=1
+  install -D LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  find "${pkgdir}/usr/bin" -maxdepth 1 -type f -printf '%f\n' | \
+    while read -r f; do
+      mv "${pkgdir}/usr/bin/${f}" "${pkgdir}/usr/bin/python2-${f}"
+      sed -i '1 s/python/python2/' "${pkgdir}/usr/bin/python2-${f}"
+    done
+}
+
+package_python-sphinx-better-theme() {
+  depends=(
+    "${_deppy[@]}"
+    "${_depends[@]}"
+  )
+  optdepends=(
+    "${_optdepends[@]}"
+  )
+  cd "${srcdir}/py-${_pkgname}-${pkgver}"
+  python setup.py install --root="${pkgdir}/" --optimize=1
+  install -D LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
