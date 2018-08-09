@@ -2,16 +2,19 @@
 # Generator : neuesPerlPaket (54bfd7cca693b229aa53ffc98d551b62ea234aaa5be7e6717857610a2da6803b0be2dfe7ddfe9810cf320c477023b3b4356d47df7f8c202ed8c14d71b472c0bc)
 
 pkgname='perl-carp-always'
-pkgver='0.13'
-pkgrel='3'
+pkgver=0.14
+pkgrel=1
 pkgdesc='Warns and dies noisily with stack backtraces'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl-carp ')
+  'perl>=5.6.0'
+  'perl-carp')
 makedepends=(
-  'perl-extutils-makemaker perl-test-base perl-test-simple ')
+  'perl-extutils-makemaker'
+  'perl-test-base'
+  'perl-test-simple')
 checkdepends=(
   'perl-test-pod'
   'perl-test-pod-coverage'
@@ -19,7 +22,7 @@ checkdepends=(
 url='https://metacpan.org/release/Carp-Always'
 _distdir="Carp-Always-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/${_distdir}.tar.gz")
-sha512sums=('0ef666c45ed85f4dad5f955d13116a4c3cccb3395db80547629bf0d87f9494653fe5a85405252b650d4d92a4008c0d541a995ccae1139c7374b057317324d361')
+sha512sums=('f091a0741c87bb04dfd4b8103d09298a06c284900b7ad007da76a486149364c71e99ed0c0213d0d7fde48bf9c5084109cda0f67c2d634f61dc9aab18ffff83e5')
 
 build() {
   cd "${srcdir}/${_distdir}"
