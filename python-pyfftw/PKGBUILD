@@ -22,6 +22,7 @@ _depends=(
   'fftw'
 )
 _makedepends=(
+  'cython'
   'python-setuptools'
 )
 makedepends=(
@@ -30,7 +31,7 @@ makedepends=(
   "${_depends[@]}"
   "${_depends[@]/python-/python2-}"
   "${_makedepends[@]}"
-  "${_makedepends[@]/python-/python2-}"
+  "${_makedepends[@]/ython/ython2}"
 )
 license=('BSD')
 arch=('i686' 'x86_64')
