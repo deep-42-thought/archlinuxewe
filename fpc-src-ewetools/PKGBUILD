@@ -5,7 +5,7 @@ pkgver=0.2.2
 pkgrel=1
 pkgdesc='fpc sources of some useful tools'
 arch=('any')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/Erich/units"
 license=('GPL')
 groups=()
 depends=()
@@ -17,9 +17,9 @@ conflicts=()
 replaces=()
 options=()
 source=(
-    "${_srcpkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${_srcpkgname}-${pkgver}"
+    "https://git.eckner.net/Erich/${_srcpkgname}/snapshot/${_srcpkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('523d8a38f3221890e817e79d0d494fffc266b4d1a8f434a75d46d07cfef2c708ef3319a2f6efbbb7712f4579fb32cfbdee547ad4d8d27705945584a4e1aefe28')
+sha512sums=('d2c61837cdf8a5215618abc11564b49c2ec7d0b111ee7e268a2a7929f500a5da07856c7c000a4419999dbf4b1aa84709c8a281416f67d6badb42ca39564b6b37')
 
 package() {
 
