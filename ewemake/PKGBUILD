@@ -5,7 +5,7 @@ pkgver=1.2.3
 pkgrel=1
 pkgdesc="somewhat more powerfull alternative to 'make'"
 arch=('x86_64' 'i686')
-url="https://opensources.eckner.net/ls.php?ls=${pkgname}"
+url="https://git.eckner.net/Erich/Make"
 license=('GPL')
 groups=()
 depends=('bash' 'gmp')
@@ -17,9 +17,9 @@ conflicts=()
 replaces=()
 options=()
 source=(
-    "${_srcpkgname}-${pkgver}.tar.gz::https://opensources.eckner.net/dl.php?dl=${_srcpkgname}-${pkgver}"
+    "https://git.eckner.net/Erich/${_srcpkgname}/snapshot/${_srcpkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('1c301ddac80c5192c9189dba622efd46e563fd749b170a97fea80f3a2a98c4602b5fece19331820b63f17295ce1c17898c48f0fad1b1fa0f4c02155b16d0b8d7')
+sha512sums=('a95f4317ee13733721c82219f7bb7671a969710703b1b11b36a112d3f9467a50bea88ea7fe8f2802389dbd4dfb6a22a227ac237491389a93751a9bd302fba29f')
 
 build() {
 
