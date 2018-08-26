@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (f491a18e07c10dc3afc2c601f6c928d4c12bffdefac18b868c0517faf8aae4d0e1a3637e244440eb73c0aa479b46161763c3bed0364a2edbed54625dd937ffcf)
 
 pkgname='perl-parse-mime'
-pkgver=1.004
+pkgver=1.005
 pkgrel=1
 pkgdesc='Parse mime-types, match against media ranges'
 arch=('any')
@@ -19,7 +19,7 @@ checkdepends=('perl-json-xs')
 url='https://metacpan.org/release/Parse-MIME'
 _distdir="Parse-MIME-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/A/AR/ARISTOTLE/${_distdir}.tar.gz")
-sha512sums=('540a83ac08ba96264453f46e2e507d7d94238b0eefc53624d55976a807bab1cd4a0687db97a09404d165644be13cea7726969744990fcea8c06bfd388d196e92')
+sha512sums=('e07caf6ada43c24f3db85fa713088214fcd1c8a5fb3dd6e95764291c69060ffc12e3c8053f6950aea1d85bae01bec786ca27172e392d833d6b3335cbc0dd4777')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
