@@ -4,8 +4,8 @@
 pkgbase=python-pywavelets
 pkgname=(python-pywavelets python2-pywavelets)
 _pkgname=pywt
-pkgver=0.5.2
-pkgrel='2'
+pkgver=1.0.0
+pkgrel=1
 pkgdesc="Discrete Wavelet Transforms in Python"
 arch=('x86_64' 'i686')
 url="https://github.com/PyWavelets/pywt"
@@ -19,15 +19,13 @@ _deppy=(
   'python<3.8'
 )
 _depends=(
-  'cython>=0.20.2'
-  'python-nose'
-  'python-numpy>=1.9.1'
-  'python-wheel')
+  'python-numpy')
 _makedepends=(
-  'cython'
+  'cython>=0.20.2'
+  'python-numpy'
   'python-setuptools')
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/PyWavelets/pywt/archive/v$pkgver.tar.gz")
-sha512sums=('8efc27eaf38f602c7e71b2c85033ab895f1603b2e436280f660f60b86ff4763d6d8f8f420ad6c42e5fc86f966d799f70bc1660579f9bfd881af217e8ab66a54c')
+sha512sums=('ef2ba5394f06e2d38d4526aa292428b81f37f94e875dcae34cdf7846f3fa4e8f62cd0ff6dd465a63ee8280440c6774a45b4025787e8a5ab22c901c4848da21ff')
 
 makedepends=(
   "${_deppy[@]}"
@@ -65,7 +63,7 @@ package_python2-pywavelets(){
   )
   cd "$srcdir/$_pkgname-$pkgver-py2"
   python2 setup.py install --root="$pkgdir/" --optimize=1
-  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
 package_python-pywavelets(){
@@ -75,7 +73,7 @@ package_python-pywavelets(){
   )
   cd "$srcdir/$_pkgname-$pkgver"
   python setup.py install --root="$pkgdir/" --optimize=1
-  install -Dm644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
 # vim:ts=2:sw=2:et:
