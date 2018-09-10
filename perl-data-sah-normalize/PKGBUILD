@@ -2,23 +2,21 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-sah-normalize'
-pkgver='0.04'
-pkgrel='2'
+pkgver=0.050
+pkgrel=1
 pkgdesc='Normalize Sah schema'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
   'perl>=5.10.1'
-)
+  'perl-exporter>=5.57')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
   'perl-test-exception'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -29,7 +27,7 @@ checkdepends=(
 url='https://metacpan.org/release/Data-Sah-Normalize'
 _distdir="Data-Sah-Normalize-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('7a4ee5180b33d30cb6989b1a12b217f63fd36d6a7ab9415ed85841b83299f54a325539524a124ca4c3ec88da8c54fb8fe16b67dbcb4702a3f4b5d7f70b3d09b0')
+sha512sums=('d19faecad9e2b87b16fcbc23ca9bec98a0aee43fdade385e3ed76c319cad70a0acbbb8a3a12ee1885cad65774221b844540f753a5c034e0ca2019e957152135e')
 
 build() {
   cd "${srcdir}/${_distdir}"
