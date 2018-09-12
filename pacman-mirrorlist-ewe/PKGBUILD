@@ -3,7 +3,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=pacman-mirrorlist-ewe
-pkgver=20180710
+pkgver=20180912
 provides=("pacman-mirrorlist=${pkgver}")
 conflicts=('pacman-mirrorlist')
 pkgrel=1
@@ -13,7 +13,7 @@ url="https://www.archlinux.org/mirrorlist/"
 license=('GPL')
 backup=(etc/pacman.d/mirrorlist)
 source=("https://arch.eckner.net/merged/core/os/$(uname -m)/${pkgname%-ewe}-${pkgver}-${pkgrel%%.*}-any.pkg.tar.xz")
-sha512sums=('08ae8f57247999d779abe8540e654fbd3203c2cef2a35ef89c27da7cb5ba368f5c8e502c0d5102453ee863ba28ad3d80bd938ccdd07a27bb8eb47497c9bff536')
+sha512sums=('c0f4eb3bc44ac93aabd7d3851cebb70173250c0b785893ae6da47ff34ff37f64e5c9e4f82b71bfea4a4ad3b42c26f8fa4c91d2d6864ba6683b22aded305869a7')
 
 build() {
   sed -i '
