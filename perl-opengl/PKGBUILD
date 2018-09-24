@@ -16,7 +16,9 @@ depends=(
   'perl-test-simple'
   'libxmu')
 makedepends=(
-  'perl-extutils-makemaker')
+  'perl-extutils-makemaker'
+  'mesa'
+)
 [ -z "$DISPLAY" ] && makedepends+=('xorg-server-xvfb')
 url='https://metacpan.org/release/OpenGL'
 _distdir="OpenGL-${pkgver}"
