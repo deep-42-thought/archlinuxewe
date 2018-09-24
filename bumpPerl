@@ -3,12 +3,41 @@
 me="$(readlink -f $0)"
 cd $(dirname "${me}")
 
+perlMinor=$(
+  pacman -Q perl | \
+    sed '
+      s/^\S\+ //
+    '
+)
+perlMajor="${perlMinor%%.*}"
+perlMinor="${perlMinor#${perlMajor}.}"
+perlMinor="${perlMinor%%.*}"
+
 for pkgbuild in perl-*/PKGBUILD demeter/PKGBUILD; do
 
   pkgrel="$(
     sed -n "/^pkgrel='\?[0-9]\+'\?\$/{s@^pkgrel='\?\([0-9]\+\)'\?\$@\1@;p}" "${pkgbuild}"
   )"
   sed -i "s@^\(pkgrel=\)'\?[0-9]\+'\?\$@\1'$[${pkgrel}+1]'@" "${pkgbuild}"
+  sed -i '
+    /^depends=(/{
+      :a
+      /)/! {
+        N
+        ba
+      }
+      s/\n\(\s*\('"'"'\?\)perl[<>]\S\+\2\n\)\+/\n/
+      s/^depends=([^\n]*\n/\0  '"'"'perl>='"${perlMajor}.${perlMinor}'"'\n  '"'"'perl<'"${perlMajor}.$((perlMinor+1))'"'\n/
+    }
+  ' "${pkgbuild}"
+  if ! grep -q '^depends=(' "${pkgbuild}"; then
+    sed -i '
+      /^arch=(/ a depends=(\
+  '"'"'perl>='"${perlMajor}.${perlMinor}'"'\
+  '"'"'perl<'"${perlMajor}.$((perlMinor+1))'"'\
+)
+    ' "${pkgbuild}"
+  fi
   git add "${pkgbuild}"
 
 done
