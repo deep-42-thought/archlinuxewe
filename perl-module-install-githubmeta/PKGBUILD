@@ -3,13 +3,14 @@
 
 pkgname='perl-module-install-githubmeta'
 pkgver='0.30'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='A Module::Install extension to include GitHub meta information in META.yml'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-module-install>=0.85'
 )
 makedepends=(

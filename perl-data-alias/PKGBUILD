@@ -6,13 +6,15 @@ _author=Z/ZE/ZEFRAM
 _perlmod=Data-Alias
 pkgname=perl-data-alias
 pkgver=1.21
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Data::Alias - Comprehensive set of aliasing operations'
 arch=('i686' 'x86_64')
 url="http://search.cpan.org/dist/Data-Alias/"
 license=('GPL' 'PerlArtistic')
 groups=()
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl>=5.8.1')
 makedepends=(
   'perl-module-install')

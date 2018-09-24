@@ -3,12 +3,14 @@
 
 pkgname='perl-test-dependentmodules'
 pkgver='0.26'
-pkgrel='6'
+pkgrel='7'
 pkgdesc='Test all modules which depend on your module'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-autodie'
   'perl-capture-tiny'
   'perl-cpan'

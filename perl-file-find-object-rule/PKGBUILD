@@ -2,13 +2,14 @@
 
 pkgname='perl-file-find-object-rule'
 pkgver=0.0309
-pkgrel='2'
+pkgrel='3'
 pkgdesc="Alternative interface to File::Find::Object"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-class-xsaccessor'
   'perl-file-find-object'

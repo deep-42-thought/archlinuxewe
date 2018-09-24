@@ -3,13 +3,14 @@
 
 pkgname='perl-context-preserve'
 pkgver=0.03
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Run code after a subroutine call, preserving the context the subroutine would have seen if it were the last statement in the caller'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-base'
   'perl-carp'
   'perl-exporter')

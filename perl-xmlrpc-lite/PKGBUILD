@@ -5,7 +5,7 @@ _cpanname=XMLRPC-Lite
 _cpanauthor=PHRED
 pkgname=perl-xmlrpc-lite
 pkgver=0.717
-pkgrel='5'
+pkgrel='6'
 _distdir="${_cpanname}-${pkgver}"
 pkgdesc="client and server implementation of XML-RPC protocol"
 arch=('any')
@@ -13,6 +13,8 @@ url="http://search.cpan.org/dist/${_cpanname}/"
 license=('unknown')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-soap-lite>=0.716')
 makedepends=(
   'perl-extutils-makemaker')

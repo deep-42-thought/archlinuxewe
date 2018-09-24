@@ -3,7 +3,7 @@
 
 pkgname='perl-complete-getopt-long'
 pkgver='0.46'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Complete command-line argument using Getopt::Long specification'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,7 +12,8 @@ optdepends=(
   'perl-unix-passwd-file'
 )
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-complete-env'
   'perl-complete-file'
   'perl-complete-util>=0.57'

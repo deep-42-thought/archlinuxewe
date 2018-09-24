@@ -3,7 +3,7 @@
 
 pkgname='perl-pod-spell-commonmistakes'
 pkgver='1.002'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Catches common typos in POD'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,7 +12,8 @@ provides=(
   'perl-pod-spell-commonmistakes-wordlist=1.002'
 )
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-exporter'
   'perl-io-stringy>=2.110'
   'perl-parent'

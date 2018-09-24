@@ -3,9 +3,13 @@
 
 pkgname='perl-tie-cache'
 pkgver='0.21'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='LRU Cache in Memory'
 arch=('any')
+depends=(
+  'perl>=5.28'
+  'perl<5.29'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 makedepends=(

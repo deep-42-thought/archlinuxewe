@@ -3,9 +3,13 @@
 
 pkgname='perl-text-tabs+wrap'
 pkgver='2013.0523'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Expand tabs and do simple line wrapping'
 arch=('any')
+depends=(
+  'perl>=5.28'
+  'perl<5.29'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 makedepends=(

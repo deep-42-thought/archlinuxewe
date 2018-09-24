@@ -3,9 +3,13 @@
 
 pkgname='perl-test-noplan'
 pkgver='0.0.6'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='check perl test files for '"'"'no_plan'"'"''
 arch=('any')
+depends=(
+  'perl>=5.28'
+  'perl<5.29'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 makedepends=(

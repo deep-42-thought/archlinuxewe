@@ -3,13 +3,14 @@
 
 pkgname='perl-math-base36'
 pkgver='0.14'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Encoding and decoding of base36 strings'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-math-bigint>=1.60'
 )
 makedepends=(

@@ -3,13 +3,14 @@
 
 pkgname='perl-sql-splitstatement'
 pkgver='1.00020'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Split any SQL code into atomic statements'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-class-accessor-fast'
   'perl-constant'

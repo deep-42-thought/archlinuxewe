@@ -3,12 +3,14 @@
 
 pkgname='perl-test-hasversion'
 pkgver='0.014'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Check Perl modules have version numbers'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl'
   'perl-extutils-makemaker'
   'perl-pathtools'

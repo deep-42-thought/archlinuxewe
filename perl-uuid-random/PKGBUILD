@@ -3,9 +3,13 @@
 
 pkgname='perl-uuid-random'
 pkgver='0.04'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Generate random uuid strings'
 arch=('any')
+depends=(
+  'perl>=5.28'
+  'perl<5.29'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 url='https://metacpan.org/release/UUID-Random'

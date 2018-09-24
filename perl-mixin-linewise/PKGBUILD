@@ -4,13 +4,14 @@
 
 pkgname='perl-mixin-linewise'
 pkgver='0.108'
-pkgrel='6'
+pkgrel='7'
 pkgdesc="write your linewise code for handles; this does the rest"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-io'
   'perl-perlio-utf8-strict'

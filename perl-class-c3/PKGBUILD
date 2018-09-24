@@ -3,13 +3,14 @@
 
 pkgname='perl-class-c3'
 pkgver=0.34
-pkgrel='2'
+pkgrel='3'
 pkgdesc='A pragma to use the C3 method resolution order algorithm'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-algorithm-c3>=0.07'
   'perl-scalar-list-utils'
 )

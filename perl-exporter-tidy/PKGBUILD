@@ -3,9 +3,13 @@
 
 pkgname='perl-exporter-tidy'
 pkgver='0.08'
-pkgrel='6'
+pkgrel='7'
 pkgdesc='Another way of exporting symbols'
 arch=('any')
+depends=(
+  'perl>=5.28'
+  'perl<5.29'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 makedepends=(

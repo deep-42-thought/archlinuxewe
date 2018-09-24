@@ -4,12 +4,14 @@
 
 pkgname='perl-devel-caller'
 pkgver='2.06'
-pkgrel='5'
+pkgrel='6'
 pkgdesc="meatier versions of caller"
 arch=('i686' 'x86_64')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-padwalker>=0.08'
   'perl-test-simple')
 makedepends=(

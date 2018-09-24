@@ -3,7 +3,7 @@
 
 pkgname='perl-devel-declare-parser'
 pkgver='0.020'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Higher level interface to Devel-Declare'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -16,6 +16,8 @@ provides=(
   'perl-devel-declare-parser-sublike=0.020'
 )
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-b-compiling>=0.02'
   'perl-b-hooks-endofscope>=0.08'
   'perl-carp'

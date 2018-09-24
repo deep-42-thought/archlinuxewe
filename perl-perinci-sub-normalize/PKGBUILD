@@ -3,13 +3,14 @@
 
 pkgname='perl-perinci-sub-normalize'
 pkgver=0.200
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Normalize Rinci function metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-data-sah-normalize'
   'perl-exporter>=5.57'
   'perl-sah-schemas-rinci>=1.1.82')

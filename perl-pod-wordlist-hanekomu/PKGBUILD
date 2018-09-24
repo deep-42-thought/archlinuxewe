@@ -3,13 +3,14 @@
 
 pkgname='perl-pod-wordlist-hanekomu'
 pkgver='1.132680'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Add words for spell checking POD (DEPRECATED)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-test-spelling'
 )
 makedepends=(

@@ -3,12 +3,14 @@
 
 pkgname='perl-mojolicious-plugin-bootstrap3'
 pkgver='3.3601'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='include http://getbootstrap.com/ CSS and JavaScript files into your project'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-mojolicious>=4.30'
   'perl-mojolicious-plugin-assetpack>=0.0601'
 )

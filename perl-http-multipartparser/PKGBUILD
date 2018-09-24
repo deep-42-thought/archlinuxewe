@@ -3,13 +3,14 @@
 
 pkgname='perl-http-multipartparser'
 pkgver=0.02
-pkgrel='5'
+pkgrel='6'
 pkgdesc='HTTP MultiPart Parser'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-scalar-list-utils')
 makedepends=(

@@ -4,13 +4,14 @@
 
 pkgname='perl-devel-partialdump'
 pkgver=0.20
-pkgrel='3'
+pkgrel='4'
 pkgdesc="Partial dumping of data structures, optimized for argument printing."
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-class-tiny'
   'perl-namespace-clean>=0.19'

@@ -3,7 +3,7 @@
 
 pkgname='perl-meta-builder'
 pkgver='0.003'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Tools for creating Meta objects to track custom metrics.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,6 +13,8 @@ provides=(
   'perl-meta-builder-util=0.003'
 )
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
 )
 makedepends=(

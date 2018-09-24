@@ -3,13 +3,14 @@
 
 pkgname='perl-gen-test-rinci-funcresult'
 pkgver='0.06'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Generate a test function for a function'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-data-dump-oneline'
   'perl-exporter'

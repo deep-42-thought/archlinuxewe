@@ -3,12 +3,14 @@
 
 pkgname='perl-class-dbi-plugin-deepabstractsearch'
 pkgver='0.08'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='deep_search_where() for Class::DBI'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-class-dbi>=0.96'
   'perl-class-dbi-plugin>=0.02'
   'perl-sql-abstract>=1.18'

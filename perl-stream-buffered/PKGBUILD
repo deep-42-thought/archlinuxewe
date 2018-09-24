@@ -3,12 +3,14 @@
 
 pkgname='perl-stream-buffered'
 pkgver='0.03'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='temporary buffer to save bytes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-io>=1.14'
   'perl>=5.8.1')
 makedepends=(

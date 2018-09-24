@@ -1,12 +1,14 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname='perl-pod-projectdocs'
 pkgver='0.40'
-pkgrel='5'
+pkgrel='6'
 pkgdesc="generates CPAN like pod pages"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-class-accessor-fast'
   'perl-class-data-inheritable'
   'perl-json>=0.991'

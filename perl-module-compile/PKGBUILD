@@ -2,14 +2,15 @@
 pkgname=perl-module-compile
 _pkgname='Module-Compile'
 pkgver=0.37
-pkgrel='2'
+pkgrel='3'
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Perl Module Compilation"
 arch=('any')
 url="http://pdl.perl.org/"
 license=('GPL' 'PerlArtistic')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-capture-tiny'
   'perl-digest-sha1>=2.13'
   'perl-test-harness')

@@ -3,7 +3,7 @@
 
 pkgname='perl-www-mechanize-cached'
 pkgver=1.51
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Cache response to be polite'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,7 +11,8 @@ options=('!emptydirs')
 optdepends=(
   'perl-chi')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-cache-cache'
   'perl-carp'
   'perl-data-dump'

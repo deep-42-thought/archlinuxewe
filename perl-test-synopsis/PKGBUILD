@@ -3,13 +3,14 @@
 
 pkgname='perl-test-synopsis'
 pkgver='0.15'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Test your SYNOPSIS code'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-extutils-manifest'
   'perl-parent'
   'perl-pod-simple>=3.09'

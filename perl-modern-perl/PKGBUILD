@@ -3,13 +3,14 @@
 
 pkgname='perl-modern-perl'
 pkgver=1.20180901
-pkgrel='2'
+pkgrel='3'
 pkgdesc='enable all of the features of Modern Perl with one import'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-autodie>=2.22'
   'perl-io')
 makedepends=(

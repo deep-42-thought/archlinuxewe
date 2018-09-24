@@ -3,12 +3,14 @@
 
 pkgname='perl-authen-simple'
 pkgver='0.5'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Simple Authentication'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-class-accessor-fast'
   'perl-class-data-inheritable'
   'perl-crypt-passwdmd5'

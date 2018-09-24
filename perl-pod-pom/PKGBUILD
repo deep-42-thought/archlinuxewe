@@ -4,13 +4,14 @@
 
 pkgname='perl-pod-pom'
 pkgver='0.29'
-pkgrel='5'
+pkgrel='6'
 pkgdesc="POD Object Model"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-encode'
   'perl-parent')
 makedepends=(

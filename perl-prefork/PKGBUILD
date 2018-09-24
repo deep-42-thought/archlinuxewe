@@ -3,13 +3,14 @@
 
 pkgname='perl-prefork'
 pkgver='1.04'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Optimized module loading for forking or non-forking processes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.5.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-scalar-list-utils>=0.18'
 )
 makedepends=(

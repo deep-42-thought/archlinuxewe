@@ -2,12 +2,14 @@
 
 pkgname='perl-moosex-insideout'
 pkgver='0.106'
-pkgrel='6'
+pkgrel='7'
 pkgdesc='inside-out objects with Moose'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-class-mop>=0.80'
   'perl-hash-util-fieldhash-compat'
   'perl-moose>=0.94'

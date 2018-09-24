@@ -3,7 +3,7 @@
 
 pkgname='perl-ipc-system-options'
 pkgver='0.330'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Perl'"'"'s system() and readpipe/qx replacement, with options'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,8 @@ optdepends=(
   'perl-log-ger>=0.023'
 )
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl'
   'perl-capture-tiny'
   'perl-ipc-run'

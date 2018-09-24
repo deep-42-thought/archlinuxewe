@@ -3,12 +3,14 @@
 
 pkgname='perl-test-class-most'
 pkgver='0.08'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Test Classes the easy way'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-test-class>=0.38'
   'perl-test-most>=0.31'
 )

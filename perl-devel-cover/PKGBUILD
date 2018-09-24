@@ -4,7 +4,7 @@
 
 pkgname='perl-devel-cover'
 pkgver=1.31
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Code coverage metrics for Perl'
 arch=('i686' 'x86_64')
 license=('PerlArtistic' 'GPL')
@@ -76,7 +76,8 @@ optdepends=(
   'perl-template-toolkit'
   'perl-test-differences')
 depends=(
-  'perl>=5.6.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-b-debug'
   'perl-digest-md5'
   'perl-html-parser>=3.69'

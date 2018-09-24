@@ -3,7 +3,7 @@
 
 pkgname='perl-array-diff'
 pkgver='0.07'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Find the differences between two arrays'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,8 @@ optdepends=(
   'perl-algorithm-diff-xs'
 )
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-algorithm-diff>=1.19'
   'perl-class-accessor-fast'
   'perl-filter-util-call'

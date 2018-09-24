@@ -3,13 +3,14 @@
 
 pkgname='perl-test-kwalitee'
 pkgver=1.27
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Test the Kwalitee of a distribution before you release it'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-exporter'
   'perl-module-cpants-analyse>=0.92'
   'perl-parent'

@@ -3,7 +3,7 @@
 
 pkgname='perl-metacpan-client'
 pkgver=2.025000
-pkgrel='2'
+pkgrel='3'
 pkgdesc='A comprehensive, DWIM-featured client to the MetaCPAN API'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -29,7 +29,8 @@ provides=(
   'perl-metacpan-client-scroll=2.025000'
   'perl-metacpan-client-types=2.025000')
 depends=(
-  'perl>=5.10.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-http-tiny>=0.056'
   'perl-io-socket-ssl>=1.42'

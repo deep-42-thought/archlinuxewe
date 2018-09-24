@@ -2,12 +2,14 @@
 
 pkgname='perl-graphics-gnuplotif'
 pkgver='1.8'
-pkgrel='6'
+pkgrel='7'
 pkgdesc="A dynamic Perl interface to gnuplot"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'gnuplot'
   'perl-test-simple'
   'perl-version')

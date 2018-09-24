@@ -3,9 +3,13 @@
 
 pkgname='perl-ole-storage_lite'
 pkgver='0.19'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Read and write OLE storage files.'
 arch=('any')
+depends=(
+  'perl>=5.28'
+  'perl<5.29'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 makedepends=(

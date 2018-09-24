@@ -3,12 +3,14 @@
 
 pkgname='perl-module-cpants-analyse'
 pkgver='0.96'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Generate Kwalitee ratings for a distribution'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-archive-any-lite>=0.06'
   'perl-archive-tar>=1.48'
   'perl-array-diff>=0.04'

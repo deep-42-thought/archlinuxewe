@@ -3,7 +3,7 @@
 
 pkgname='perl-test-dir'
 pkgver='1.16'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='test directory attributes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,6 +14,8 @@ optdepends=(
   'perl-test-pod-coverage'
 )
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-test-simple'
 )
 makedepends=(

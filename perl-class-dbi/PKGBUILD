@@ -3,12 +3,14 @@
 
 pkgname='perl-class-dbi'
 pkgver='3.0.17'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Simple Database Abstraction'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-class-accessor>=0.18'
   'perl-class-data-inheritable>=0.02'
   'perl-class-trigger>=0.07'

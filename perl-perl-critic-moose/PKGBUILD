@@ -3,7 +3,7 @@
 
 pkgname='perl-perl-critic-moose'
 pkgver='1.05'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Policies for Perl::Critic concerned with using Moose'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,7 +17,8 @@ provides=(
   'perl-perl-critic-policy-moose-requiremakeimmutable=1.05'
 )
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-base'
   'perl-namespace-autoclean'
   'perl-perl-critic-policy'

@@ -3,13 +3,14 @@
 
 pkgname='perl-moosex-types-loadableclass'
 pkgver='0.015'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='ClassName type constraint with coercion to load the class.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-if'
   'perl-module-runtime'
   'perl-moosex-types'

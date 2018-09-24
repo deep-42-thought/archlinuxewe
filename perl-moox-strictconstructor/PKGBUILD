@@ -3,7 +3,7 @@
 
 pkgname='perl-moox-strictconstructor'
 pkgver=0.010
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Make your Moo-based object constructors blow up on unknown attributes.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,7 +11,8 @@ options=('!emptydirs')
 provides=(
   'perl-method-generate-constructor-role-strictconstructor=0.010')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-class-method-modifiers'
   'perl-constant'
   'perl-moo>=1.001000'

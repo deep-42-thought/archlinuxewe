@@ -2,12 +2,14 @@
 
 pkgname='perl-search-elasticsearch'
 pkgver=6.00
-pkgrel='2'
+pkgrel='3'
 pkgdesc='The official client for Elasticsearch'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl')
 checkdepends=(
   'perl-any-uri-escape'

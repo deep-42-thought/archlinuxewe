@@ -3,7 +3,7 @@
 
 pkgname='perl-mce'
 pkgver=1.837
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Many-Core Engine for Perl providing parallel processing capabilities'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -36,7 +36,8 @@ optdepends=(
   'perl-sereal-decoder'
   'perl-sereal-encoder')
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-base'
   'perl-carp'
   'perl-constant'

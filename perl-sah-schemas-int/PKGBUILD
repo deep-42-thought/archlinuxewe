@@ -3,9 +3,13 @@
 
 pkgname='perl-sah-schemas-int'
 pkgver=0.071
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Sah schemas for various integers'
 arch=('any')
+depends=(
+  'perl>=5.28'
+  'perl<5.29'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 url='https://metacpan.org/release/Sah-Schemas-Int'

@@ -4,13 +4,14 @@
 
 pkgname='perl-test-object'
 pkgver='0.07'
-pkgrel='6'
+pkgrel='7'
 pkgdesc="Thoroughly testing objects via registered handlers"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.5.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-exporter'
   'perl-pathtools>=0.80'

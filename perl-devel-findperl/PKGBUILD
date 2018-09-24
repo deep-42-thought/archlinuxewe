@@ -3,7 +3,7 @@
 
 pkgname='perl-devel-findperl'
 pkgver='0.014'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Find the path to your perl'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,7 +12,8 @@ optdepends=(
   'perl-extutils-config>=0.007'
 )
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-exporter>=5.57'
   'perl-pathtools'

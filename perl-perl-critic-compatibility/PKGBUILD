@@ -3,7 +3,7 @@
 
 pkgname='perl-perl-critic-compatibility'
 pkgver='1.001'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Policies for Perl::Critic concerned with compatibility with various versions of Perl.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,8 @@ provides=(
   'perl-perl-critic-policy-compatibility-prohibitthreeargumentopen=1.001'
 )
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-perl-critic'
   'perl-version'
 )

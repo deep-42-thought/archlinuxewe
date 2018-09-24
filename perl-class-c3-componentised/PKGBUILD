@@ -3,13 +3,14 @@
 
 pkgname='perl-class-c3-componentised'
 pkgver='1.001000'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='        <title>Class-C3-Componentised-1.001000 -  - metacpan.org</title>'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.2'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-class-c3>=0.20'
   'perl-class-inspector'

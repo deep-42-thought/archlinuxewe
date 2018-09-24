@@ -3,13 +3,14 @@
 
 pkgname='perl-string-trim'
 pkgver='0.005'
-pkgrel='6'
+pkgrel='7'
 pkgdesc='trim whitespace from your strings'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-exporter>=5.57')
 makedepends=(
   'perl-data-dumper'

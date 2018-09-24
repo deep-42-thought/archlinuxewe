@@ -3,13 +3,14 @@
 
 pkgname='perl-posix-strftime-compiler'
 pkgver=0.42
-pkgrel='4'
+pkgrel='5'
 pkgdesc='GNU C library compatible strftime for loggers and servers'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-exporter'
   'perl-time-local')

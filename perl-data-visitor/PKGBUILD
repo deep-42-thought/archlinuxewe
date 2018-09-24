@@ -5,12 +5,14 @@
 
 pkgname='perl-data-visitor'
 pkgver='0.30'
-pkgrel='3'
+pkgrel='4'
 pkgdesc="Visitor style traversal of Perl data structures"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-class-load>=0.06'
   'perl-moose>=0.89'
   'perl-namespace-clean>=0.19'

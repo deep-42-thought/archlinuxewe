@@ -3,13 +3,14 @@
 
 pkgname='perl-test-script'
 pkgver='1.23'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Basic cross-platform tests for scripts'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-capture-tiny'
   'perl-io'
   'perl-pathtools>=0.80'

@@ -2,12 +2,14 @@
 
 pkgname='perl-cache-cache'
 pkgver='1.08'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='implements the Cache interface'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-digest-sha1>=2.02'
   'perl-error>=0.15'
   'perl-ipc-sharelite>=0.09'

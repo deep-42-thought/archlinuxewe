@@ -3,12 +3,14 @@
 
 pkgname='perl-perl-critic-itch'
 pkgver=1.0
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Perl::Critic::Itch - A collection of Policies to solve some Itches'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-perl-critic>=1.07'
   'perl-test-simple')
 url='https://metacpan.org/release/Perl-Critic-Itch'

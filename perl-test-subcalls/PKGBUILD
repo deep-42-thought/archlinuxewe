@@ -4,13 +4,14 @@
 
 pkgname='perl-test-subcalls'
 pkgver='1.09'
-pkgrel='5'
+pkgrel='6'
 pkgdesc="Track the number of times subs are called"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-hook-lexwrap>=0.20'
   'perl-pathtools>=0.80'
   'perl-test-simple>=0.42')

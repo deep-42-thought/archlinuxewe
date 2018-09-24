@@ -2,12 +2,14 @@
 
 pkgname='perl-asa'
 pkgver='1.03'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Lets your class/object say it works like something else'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl>=5.5.0')
 makedepends=(
   'perl-base'

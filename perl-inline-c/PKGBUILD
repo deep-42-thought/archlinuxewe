@@ -5,7 +5,7 @@
 
 pkgname=perl-inline-c
 pkgver=0.76
-pkgrel='7'
+pkgrel='8'
 _distdir="Inline-C-${pkgver}"
 pkgdesc='Perl module providing a way to write Perl subroutines in C'
 arch=('any')
@@ -13,7 +13,8 @@ url='https://metacpan.org/release/Inline-C'
 license=('PerlArtistic' 'GPL')
 options=(!emptydirs)
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-extutils-makemaker>=7.00'
   'perl-inline>=0.79'
   'perl-parse-recdescent>=1.967009'

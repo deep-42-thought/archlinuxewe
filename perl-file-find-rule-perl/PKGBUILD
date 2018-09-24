@@ -4,13 +4,14 @@
 
 pkgname='perl-file-find-rule-perl'
 pkgver='1.13'
-pkgrel='6'
+pkgrel='7'
 pkgdesc="Common rules for searching for Perl things"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.5.3'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-file-find-rule>=0.20'
   'perl-params-util>=0.38'
   'perl-cpan-meta>=1.38'

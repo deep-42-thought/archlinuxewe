@@ -3,7 +3,7 @@
 
 pkgname='perl-class-accessor-grouped'
 pkgver='0.10012'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Lets you build groups of accessors'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,7 +13,8 @@ optdepends=(
   'perl-sub-name>=0.05'
 )
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-module-runtime>=0.012'
   'perl-scalar-list-utils'

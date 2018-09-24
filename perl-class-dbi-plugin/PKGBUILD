@@ -3,12 +3,14 @@
 
 pkgname='perl-class-dbi-plugin'
 pkgver='0.03'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Abstract base class for Class::DBI plugins'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-class-dbi>=0.9'
 )
 url='https://metacpan.org/release/Class-DBI-Plugin'

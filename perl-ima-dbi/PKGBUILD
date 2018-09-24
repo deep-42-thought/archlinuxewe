@@ -3,12 +3,14 @@
 
 pkgname='perl-ima-dbi'
 pkgver='0.35'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Database connection caching and organization'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-class-data-inheritable>=0.02'
   'perl-dbi>=1.2'
   'perl-dbix-contextualfetch>=1'

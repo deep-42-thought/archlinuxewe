@@ -3,12 +3,14 @@
 
 pkgname='perl-log-trace'
 pkgver='1.070'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='provides a unified approach to tracing'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-test-simple'
 )
 url='https://metacpan.org/release/Log-Trace'

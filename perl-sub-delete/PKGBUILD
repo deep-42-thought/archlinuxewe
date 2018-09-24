@@ -3,12 +3,14 @@
 
 pkgname='perl-sub-delete'
 pkgver='1.00002'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='yet another framework for writing test scripts'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl'
   'perl-constant'
   'perl-exporter>=5.57'

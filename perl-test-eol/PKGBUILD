@@ -3,13 +3,14 @@
 
 pkgname='perl-test-eol'
 pkgver='2.00'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Check the correct line endings in your project'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-pathtools'
   'perl-test-simple'
 )

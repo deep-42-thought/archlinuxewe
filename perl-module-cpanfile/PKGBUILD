@@ -3,7 +3,7 @@
 
 pkgname='perl-module-cpanfile'
 pkgver=1.1004
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Parse cpanfile'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,6 +11,8 @@ options=('!emptydirs')
 optdepends=(
   'perl-pod-usage')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-cpan-meta>=2.12091'
   'perl-parent')
 makedepends=(

@@ -2,13 +2,14 @@
 
 pkgname='perl-encoding-fixlatin-xs'
 pkgver='1.01'
-pkgrel='6'
+pkgrel='7'
 pkgdesc='XS implementation layer for Encoding::FixLatin'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.14.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-encoding-fixlatin>=1.03')
 makedepends=(
   'perl-extutils-makemaker>=6.30'

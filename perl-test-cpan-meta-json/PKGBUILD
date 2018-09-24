@@ -3,7 +3,7 @@
 
 pkgname='perl-test-cpan-meta-json'
 pkgver='0.16'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Validate your CPAN META.json files'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,7 +17,8 @@ optdepends=(
   'perl-test-pod-coverage>=0.08'
 )
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-io'
   'perl-json>=2.15'
   'perl-test-simple>=0.62'

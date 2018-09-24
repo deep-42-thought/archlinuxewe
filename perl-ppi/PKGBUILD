@@ -3,13 +3,14 @@
 
 pkgname='perl-ppi'
 pkgver=1.236
-pkgrel='3'
+pkgrel='4'
 pkgdesc="Parse, Analyze and Manipulate Perl (without perl)"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-clone>=0.30'
   'perl-digest-md5>=2.35'
   'perl-io-string>=1.07'

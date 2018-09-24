@@ -3,7 +3,7 @@
 
 pkgname='perl-exporter-declare-magic'
 pkgver='0.107'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Enhance Exporter::Declare with some fancy magic.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,7 +13,8 @@ provides=(
   'perl-exporter-declare-magic-sub=0'
 )
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-aliased'
   'perl-carp'
   'perl-devel-declare-parser>=0.017'

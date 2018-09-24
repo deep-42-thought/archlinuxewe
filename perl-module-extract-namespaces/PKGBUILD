@@ -3,13 +3,14 @@
 
 pkgname='perl-module-extract-namespaces'
 pkgver=1.021
-pkgrel='2'
+pkgrel='3'
 pkgdesc='extract the package declarations from a module'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-ppi>=1.126')
 makedepends=(
   'perl-extutils-makemaker>=6.64'

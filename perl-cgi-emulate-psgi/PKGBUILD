@@ -3,12 +3,14 @@
 
 pkgname='perl-cgi-emulate-psgi'
 pkgver=0.22
-pkgrel='5'
+pkgrel='6'
 pkgdesc='PSGI adapter for CGI'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-cgi>=3.63'
   'perl-http-message'
   'perl>=5.8.1')

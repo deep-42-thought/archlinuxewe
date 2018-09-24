@@ -2,13 +2,14 @@
 
 pkgname='perl-safe-isa'
 pkgver=1.000010
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Call isa, can, does and DOES safely on things that may not be objects'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-exporter>=5.57'
   'perl-scalar-list-utils')
 makedepends=(

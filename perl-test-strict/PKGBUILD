@@ -3,13 +3,14 @@
 
 pkgname='perl-test-strict'
 pkgver=0.47
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Check syntax, presence of use strict; and test coverage'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-file-temp>=0.01'
   'perl-pathtools>=0.01'
   'perl-test-simple>=0.01')

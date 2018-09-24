@@ -2,14 +2,15 @@
 pkgname=perl-perlio-layers
 _pkgname='PerlIO-Layers'
 pkgver=0.011
-pkgrel='6'
+pkgrel='7'
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Querying your filehandle's capabilities"
 arch=('x86_64' 'i686')
 url="https://github.com/Leont/perlio-layers"
 license=('GPL' 'PerlArtistic')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-exporter>=5.57'
   'perl-scalar-list-utils'

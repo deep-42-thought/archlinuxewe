@@ -3,12 +3,14 @@
 
 pkgname='perl-filesys-notify-simple'
 pkgver=0.13
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Simple and dumb file system watcher'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl>=5.8.1')
 makedepends=(
   'perl-extutils-makemaker'

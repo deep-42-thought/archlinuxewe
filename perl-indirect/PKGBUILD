@@ -3,13 +3,14 @@
 
 pkgname='perl-indirect'
 pkgver=0.38
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Lexically warn about using the indirect method call syntax.'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-xsloader')
 makedepends=(

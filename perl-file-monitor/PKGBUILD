@@ -5,7 +5,7 @@
 pkgname=perl-file-monitor
 _realname=File-Monitor
 pkgver=1.00
-pkgrel='5'
+pkgrel='6'
 _distdir="${_realname}-${pkgver}"
 pkgdesc="Portable implementation of file-mon"
 arch=(any)
@@ -16,6 +16,8 @@ provides=(
   'perl-file-monitor-delta=1.00'
   'perl-file-monitor-object=1.00')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-test-simple'
   'perl-version')
 makedepends=(

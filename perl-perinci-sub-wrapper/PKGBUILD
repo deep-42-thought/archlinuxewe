@@ -3,13 +3,14 @@
 
 pkgname='perl-perinci-sub-wrapper'
 pkgver='0.84'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='A multi-purpose subroutine wrapping framework'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-data-dmp>=0.21'
   'perl-data-sah>=0.84'
   'perl-experimental'

@@ -2,12 +2,14 @@
 
 pkgname='perl-cpanel-json-xs'
 pkgver=4.06
-pkgrel='2'
+pkgrel='3'
 pkgdesc='cPanel fork of JSON::XS, fast and correct serializing'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-podlators>=2.08')
 makedepends=(
   'perl-extutils-makemaker')

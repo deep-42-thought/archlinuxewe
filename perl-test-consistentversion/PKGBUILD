@@ -3,7 +3,7 @@
 
 pkgname='perl-test-consistentversion'
 pkgver='0.3.0'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Ensures a CPAN distribution has consistent versioning.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,8 @@ optdepends=(
   'perl-test-pod-content'
 )
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-autodie'
   'perl-test-simple>=0.94'
   'perl-version'

@@ -3,13 +3,14 @@
 
 pkgname='perl-data-sah-util-type'
 pkgver='0.46'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Utility functions related to types'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-data-sah-normalize'
   'perl-exporter'
 )

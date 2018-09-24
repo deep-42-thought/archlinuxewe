@@ -3,13 +3,14 @@
 
 pkgname='perl-data-dumper-concise'
 pkgver='2.023'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Less indentation and newlines plus sub deparsing'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-data-dumper'
   'perl-exporter'
 )

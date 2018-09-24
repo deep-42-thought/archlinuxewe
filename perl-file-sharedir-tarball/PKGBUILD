@@ -3,12 +3,14 @@
 
 pkgname='perl-file-sharedir-tarball'
 pkgver='0.2.2'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Deal transparently with shared files distributed as tarballs'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl'
   'perl-archive-tar'
   'perl-carp'

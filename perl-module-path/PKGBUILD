@@ -3,13 +3,14 @@
 
 pkgname='perl-module-path'
 pkgver='0.19'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='get the full path to a locally installed module'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-exporter'
   'perl-getopt-long'
   'perl-pathtools'

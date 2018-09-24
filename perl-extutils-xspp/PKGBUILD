@@ -4,7 +4,7 @@
 
 pkgname=perl-extutils-xspp
 pkgver=0.18
-pkgrel='6'
+pkgrel='7'
 _author=S/SM/SMUELLER
 _distdir="ExtUtils-XSpp-${pkgver}"
 pkgdesc='ExtUtils::XSpp - XS for C++'
@@ -51,7 +51,8 @@ provides=(
   'perl-extutils-xspp-typemap-simple=0'
   'perl-extutils-xspp-typemap-wrapper=0')
 depends=(
-  'perl>=5.6.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-digest-md5>=2.0'
   'perl-extutils-parsexs>=3.07')
 makedepends=(

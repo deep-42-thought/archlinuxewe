@@ -3,7 +3,7 @@
 
 pkgname='perl-exporter-declare'
 pkgver='0.114'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Exporting done right'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -18,7 +18,8 @@ provides=(
   'perl-exporter-declare-specs=0.114'
 )
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-aliased'
   'perl-carp'
   'perl-meta-builder>=0.003'

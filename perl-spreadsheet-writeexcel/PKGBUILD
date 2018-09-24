@@ -1,12 +1,14 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname='perl-spreadsheet-writeexcel'
 pkgver='2.40'
-pkgrel='5'
+pkgrel='6'
 pkgdesc="Write to a cross-platform Excel binary file"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-file-temp'
   'perl-ole-storage_lite>=0.19'
   'perl-parse-recdescent')

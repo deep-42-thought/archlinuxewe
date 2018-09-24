@@ -3,7 +3,7 @@
 
 pkgname='perl-perl-metrics-simple'
 pkgver='0.18'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Count packages, subs, lines, etc. of many files.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -16,7 +16,8 @@ optdepends=(
   'perl-readonly-xs>=1.02'
 )
 depends=(
-  'perl>=1.01'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-data-dumper'
   'perl-io>=1.14'

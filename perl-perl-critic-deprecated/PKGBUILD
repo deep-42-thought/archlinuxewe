@@ -3,7 +3,7 @@
 
 pkgname='perl-perl-critic-deprecated'
 pkgver='1.119'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Policies and modules that were formerly included with Perl::Critic itself, but which have been superseded by others.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -15,6 +15,8 @@ provides=(
   'perl-perl-critic-utils-ppiregexp=1.119'
 )
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl'
   'perl-base'
   'perl-perl-critic-policy>=1.094'

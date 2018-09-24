@@ -3,13 +3,14 @@
 
 pkgname='perl-selenium-remote-driver'
 pkgver='1.20'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Perl Client for Selenium Remote Driver'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-archive-zip'
   'perl-base'
   'perl-carp'

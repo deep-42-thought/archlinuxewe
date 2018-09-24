@@ -3,12 +3,14 @@
 
 pkgname='perl-json-dwiw'
 pkgver='0.47'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='JSON converter that does what I want'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-test-simple'
 )
 makedepends=(

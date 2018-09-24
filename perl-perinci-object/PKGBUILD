@@ -3,13 +3,14 @@
 
 pkgname='perl-perinci-object'
 pkgver='0.30'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Object-oriented interface for Rinci metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-exporter'
   'perl-parent'
 )

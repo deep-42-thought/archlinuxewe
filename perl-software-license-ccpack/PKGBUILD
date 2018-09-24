@@ -3,7 +3,7 @@
 
 pkgname='perl-software-license-ccpack'
 pkgver='1.11'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Software::License pack for Creative Commons'"'"' licenses'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -36,7 +36,8 @@ provides=(
   'perl-software-license-cc_pdm_1_0=1.11'
 )
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-software-license'
 )
 makedepends=(

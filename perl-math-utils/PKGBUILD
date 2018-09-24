@@ -3,13 +3,14 @@
 
 pkgname='perl-math-utils'
 pkgver=1.12
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Useful mathematical functions not in Perl'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
 )
 makedepends=(
   'perl-module-build>=0.4'

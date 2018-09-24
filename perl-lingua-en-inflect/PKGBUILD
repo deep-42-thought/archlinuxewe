@@ -4,12 +4,14 @@
 
 pkgname='perl-lingua-en-inflect'
 pkgver=1.903
-pkgrel='2'
+pkgrel='3'
 pkgdesc="Convert singular to plural. Select \"a\" or \"an\"."
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-test-simple'
   'perl-version')
 makedepends=(

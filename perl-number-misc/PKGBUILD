@@ -3,12 +3,14 @@
 
 pkgname='perl-number-misc'
 pkgver='1.2'
-pkgrel='6'
+pkgrel='7'
 pkgdesc='Number::Misc - handy utilities for numbers'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl>=5.3.0')
 url='https://metacpan.org/release/Number-Misc'
 _distdir="Number-Misc-${pkgver}"

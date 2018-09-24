@@ -3,13 +3,14 @@
 
 pkgname='perl-perl-minimumversion'
 pkgver='1.38'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Find a minimum required version of perl for Perl code'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-exporter'
   'perl-file-find-rule'

@@ -3,13 +3,14 @@
 
 pkgname='perl-utf8-all'
 pkgver=0.024
-pkgrel='3'
+pkgrel='4'
 pkgdesc='turn on Unicode - all of it'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-encode'
   'perl-import-into'

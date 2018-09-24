@@ -4,13 +4,14 @@
 
 pkgname='perl-hook-lexwrap'
 pkgver=0.26
-pkgrel='4'
+pkgrel='5'
 pkgdesc="Lexically scoped subroutine wrappers"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp')
 makedepends=(
   'perl-extutils-makemaker'

@@ -3,12 +3,14 @@
 
 pkgname='perl-dbix-class-deploymenthandler'
 pkgver=0.002222
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Extensible DBIx::Class deployment'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-autodie'
   'perl-carp'
   'perl-carp-clan'

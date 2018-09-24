@@ -3,9 +3,13 @@
 
 pkgname='perl-list-compare'
 pkgver='0.53'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Compare elements of two or more lists'
 arch=('any')
+depends=(
+  'perl>=5.28'
+  'perl<5.29'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 makedepends=(

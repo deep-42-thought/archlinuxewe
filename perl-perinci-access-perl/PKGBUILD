@@ -3,13 +3,14 @@
 
 pkgname='perl-perinci-access-perl'
 pkgver='0.88'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Access Perl module, functions, variables through Riap'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-class-inspector'
   'perl-experimental'
   'perl-log-ger>=0.011'

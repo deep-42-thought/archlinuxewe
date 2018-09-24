@@ -4,7 +4,7 @@
 
 pkgname='perl-moosex-role-withoverloading'
 pkgver=0.17
-pkgrel='5'
+pkgrel='6'
 pkgdesc="Roles which support overloading"
 arch=('i686' 'x86_64')
 license=('PerlArtistic' 'GPL')
@@ -22,7 +22,8 @@ provides=(
   'perl-moosex-role-withoverloading-meta-role-application-torole=0.17'
   'perl-moosex-role-withoverloading-meta-role-composite=0.17')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-aliased'
   'perl-moose>=0.94'
   'perl-moose-exporter'

@@ -3,12 +3,14 @@
 
 pkgname='perl-cpan-distnameinfo'
 pkgver='0.12'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Extract distribution name and version from a distribution filename'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-test-simple'
 )
 makedepends=(

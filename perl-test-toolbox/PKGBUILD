@@ -3,12 +3,14 @@
 
 pkgname='perl-test-toolbox'
 pkgver='0.4'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Test::Toolbox - tools for testing'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl>=5.3.0')
 url='https://metacpan.org/release/Test-Toolbox'
 _distdir="Test-Toolbox-${pkgver}"

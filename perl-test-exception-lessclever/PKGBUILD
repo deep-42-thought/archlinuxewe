@@ -3,13 +3,14 @@
 
 pkgname='perl-test-exception-lessclever'
 pkgver='0.009'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='(DEPRECATED) Test::Exception simplified'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-base'
   'perl-carp'
   'perl-exporter'

@@ -3,13 +3,14 @@
 
 pkgname='perl-uri-query'
 pkgver=0.16
-pkgrel='4'
+pkgrel='5'
 pkgdesc='class providing URI query string manipulation'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.5.3'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-clone'
   'perl-parent'

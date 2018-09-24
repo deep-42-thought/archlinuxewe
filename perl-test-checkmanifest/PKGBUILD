@@ -3,12 +3,14 @@
 
 pkgname='perl-test-checkmanifest'
 pkgver=1.33
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Check if your Manifest matches your distro'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl'
   'perl-carp'
   'perl-pathtools'

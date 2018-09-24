@@ -3,9 +3,13 @@
 
 pkgname='perl-file-stat'
 pkgver='0.01'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='OOP interface for Perl'"'"'s built-in stat() functions'
 arch=('any')
+depends=(
+  'perl>=5.28'
+  'perl<5.29'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 url='https://metacpan.org/release/File-Stat'

@@ -3,12 +3,14 @@
 
 pkgname='perl-extutils-makemaker-cpanfile'
 pkgver='0.08'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='cpanfile support for EUMM'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-cpan-meta>=2.141170'
   'perl-extutils-makemaker>=6.17'
   'perl-file-path'

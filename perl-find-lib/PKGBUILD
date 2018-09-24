@@ -2,12 +2,14 @@
 
 pkgname='perl-find-lib'
 pkgver='1.04'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Helper to smartly find libs to use in the filesystem tree'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-pathtools'
   'perl-test-simple')
 makedepends=(

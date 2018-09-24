@@ -3,13 +3,14 @@
 
 pkgname='perl-package-variant'
 pkgver='1.003002'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Parameterizable packages'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-import-into>=1.000000'
   'perl-module-runtime>=0.013'

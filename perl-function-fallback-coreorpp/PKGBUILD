@@ -3,7 +3,7 @@
 
 pkgname='perl-function-fallback-coreorpp'
 pkgver='0.08'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Functions that use non-core XS module but provide pure-Perl/core fallback'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,7 +14,8 @@ optdepends=(
   'perl-list-moreutils'
 )
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-clone-pp'
   'perl-exporter'
 )

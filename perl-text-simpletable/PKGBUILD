@@ -3,7 +3,7 @@
 
 pkgname='perl-text-simpletable'
 pkgver=2.07
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Simple eyecandy ASCII tables'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,7 +13,8 @@ optdepends=(
   'perl-text-visualwidth-utf8'
   'perl-unicode-linebreak')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-extutils-makemaker'
   'perl-test-simple')
 checkdepends=('perl-test-pod' 'perl-test-pod-coverage')

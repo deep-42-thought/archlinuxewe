@@ -3,13 +3,14 @@
 
 pkgname='perl-data-sah-resolve'
 pkgver='0.007'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Resolve Sah schema'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-data-modemerge'
   'perl-data-sah-normalize'
   'perl-exporter'

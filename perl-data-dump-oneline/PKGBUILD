@@ -3,13 +3,14 @@
 
 pkgname='perl-data-dump-oneline'
 pkgver='0.07'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Dump data structures as single-line strings'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-data-dmp>=0.09'
 )
 makedepends=(

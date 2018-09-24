@@ -4,7 +4,7 @@
 
 pkgname='perl-class-tiny'
 pkgver=1.006
-pkgrel='4'
+pkgrel='5'
 pkgdesc="Minimalist class construction"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,7 +12,8 @@ options=('!emptydirs')
 provides=(
   'perl-class-tiny-object=1.006')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp')
 makedepends=(
   'perl-base'

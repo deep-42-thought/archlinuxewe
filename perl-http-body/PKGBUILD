@@ -3,12 +3,14 @@
 
 pkgname='perl-http-body'
 pkgver='1.22'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='HTTP Body Parser'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-digest-md5'
   'perl-file-temp>=0.14'

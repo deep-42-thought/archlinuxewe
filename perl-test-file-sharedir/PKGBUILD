@@ -3,7 +3,7 @@
 
 pkgname='perl-test-file-sharedir'
 pkgver='1.001002'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Create a Fake ShareDir for your modules for testing.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -18,7 +18,8 @@ provides=(
   'perl-test-file-sharedir-utils=1.001002'
 )
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-class-tiny'
   'perl-exporter>=5.57'

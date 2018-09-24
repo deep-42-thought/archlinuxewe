@@ -3,13 +3,14 @@
 
 pkgname='perl-html-restrict'
 pkgver=2.3.0
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Strip unwanted HTML tags and attributes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-data-dump'
   'perl-html-parser'

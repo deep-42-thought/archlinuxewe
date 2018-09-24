@@ -3,13 +3,14 @@
 
 pkgname='perl-complete-bash'
 pkgver='0.31'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Completion routines for bash shell'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-exporter'
 )
 makedepends=(

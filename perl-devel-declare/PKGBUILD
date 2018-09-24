@@ -3,13 +3,14 @@
 
 pkgname='perl-devel-declare'
 pkgver=0.006019
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Adding keywords to perl, in perl'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-b-hooks-endofscope>=0.05'
   'perl-b-hooks-op-check>=0.19'
   'perl-scalar-list-utils>=1.11'

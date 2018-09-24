@@ -3,13 +3,14 @@
 
 pkgname='perl-perl-osnames'
 pkgver='0.11'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='List possible $^O ($OSNAME) values, with description'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.28'
+  'perl<5.29'
 )
 makedepends=(
   'perl'

@@ -3,12 +3,14 @@
 
 pkgname='perl-carp-assert-more'
 pkgver=1.16
-pkgrel='4'
+pkgrel='5'
 pkgdesc='convenience wrappers around Carp::Assert'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-carp-assert'
   'perl-scalar-list-utils'

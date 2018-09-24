@@ -3,12 +3,14 @@
 
 pkgname='perl-string-rewriteprefix'
 pkgver='0.007'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='rewrite strings based on a set of known prefixes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-sub-exporter>=0.972')
 makedepends=(

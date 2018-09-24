@@ -3,13 +3,14 @@
 
 pkgname='perl-test-version'
 pkgver=2.09
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Check to see that version'"'"'s in modules are sane'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-exporter'
   'perl-file-find-rule-perl'

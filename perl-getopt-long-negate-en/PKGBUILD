@@ -3,13 +3,14 @@
 
 pkgname='perl-getopt-long-negate-en'
 pkgver='0.05'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Better negation of boolean option names'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-exporter'
 )
 makedepends=(

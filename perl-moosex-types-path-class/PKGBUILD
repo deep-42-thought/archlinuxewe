@@ -3,13 +3,14 @@
 
 pkgname='perl-moosex-types-path-class'
 pkgver='0.09'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='A Path::Class type library for Moose'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-if'
   'perl-moosex-types'
   'perl-moosex-types-moose'

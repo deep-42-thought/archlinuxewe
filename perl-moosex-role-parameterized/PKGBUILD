@@ -5,7 +5,7 @@
 
 pkgname='perl-moosex-role-parameterized'
 pkgver=1.10
-pkgrel='4'
+pkgrel='5'
 pkgdesc="roles with composition parameters"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,7 +17,8 @@ provides=(
   'perl-moosex-role-parameterized-meta-trait-parameterized=1.10'
   'perl-moosex-role-parameterized-parameters=1.10')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-module-runtime'
   'perl-moose>=2.0300'

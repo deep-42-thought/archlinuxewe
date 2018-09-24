@@ -3,12 +3,14 @@
 
 pkgname='perl-getopt-long-descriptive'
 pkgver=0.103
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Getopt::Long, but simpler and more powerful'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl'
   'perl-carp'
   'perl-getopt-long>=2.33'

@@ -2,13 +2,14 @@
 
 pkgname='perl-json-maybexs'
 pkgver=1.003009
-pkgrel='5'
+pkgrel='6'
 pkgdesc='Use Cpanel::JSON::XS with a fallback to JSON::XS and JSON::PP'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-json-pp>=2.27300'
   'perl-scalar-list-utils')

@@ -3,12 +3,14 @@
 
 pkgname='perl-opengl'
 pkgver='0.70'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Perl bindings to the OpenGL API, GLU, and GLUT/FreeGLUT'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'freeglut>=2.8.1'
   'glu>=9.0.0'
   'perl-test-simple'

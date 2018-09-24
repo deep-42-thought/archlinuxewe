@@ -4,13 +4,14 @@
 
 pkgname='perl-const-fast'
 pkgver='0.014'
-pkgrel='6'
+pkgrel='7'
 pkgdesc="Facility for creating read-only scalars, arrays, and hashes"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-scalar-list-utils'
   'perl-storable'

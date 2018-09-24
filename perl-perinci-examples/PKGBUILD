@@ -3,13 +3,14 @@
 
 pkgname='perl-perinci-examples'
 pkgver='0.80'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Various examples of Rinci metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-experimental'
   'perl-log-ger>=0.011'
   'perl-perinci-object>=0.26'

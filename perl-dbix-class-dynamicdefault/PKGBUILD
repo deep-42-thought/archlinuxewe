@@ -3,12 +3,14 @@
 
 pkgname='perl-dbix-class-dynamicdefault'
 pkgver='0.04'
-pkgrel='4'
+pkgrel='5'
 pkgdesc='Automatically set and update fields'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-dbix-class>=0.08127'
 )
 makedepends=(

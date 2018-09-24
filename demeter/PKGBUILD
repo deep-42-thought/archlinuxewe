@@ -2,13 +2,15 @@
 # Maintainer:  Erich Eckner <arch at eckner dot net>
 pkgname=demeter
 pkgver=0.9.26
-pkgrel='2'
+pkgrel='3'
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('x86_64' 'i686')
 url="https://bruceravel.github.io/demeter"
 license=('BSD')
 groups=()
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
     'ifeffit'
     'perl-archive-zip'
     'perl-capture-tiny'

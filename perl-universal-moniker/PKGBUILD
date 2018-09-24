@@ -3,9 +3,13 @@
 
 pkgname='perl-universal-moniker'
 pkgver='0.08'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='        <title>UNIVERSAL-moniker-0.08 -  - metacpan.org</title>'
 arch=('any')
+depends=(
+  'perl>=5.28'
+  'perl<5.29'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 url='https://metacpan.org/release/UNIVERSAL-moniker'

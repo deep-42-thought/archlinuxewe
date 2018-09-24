@@ -3,12 +3,14 @@
 
 pkgname='perl-test-perl-critic'
 pkgver='1.03'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Use Perl::Critic in test programs.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl'
   'perl-carp'
   'perl-mce>=1.52'

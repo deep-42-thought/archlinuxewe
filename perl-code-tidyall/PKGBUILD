@@ -3,7 +3,7 @@
 
 pkgname='perl-code-tidyall'
 pkgver=0.71
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Engine for tidyall, your all-in-one code tidier and validator'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -46,7 +46,8 @@ provides=(
 optdepends=(
   'perl-parallel-forkmanager')
 depends=(
-  'perl>=5.8.8'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-base'
   'perl-capture-tiny'
   'perl-config-ini'

@@ -3,13 +3,14 @@
 
 pkgname='perl-test-spelling'
 pkgver='0.20'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='check for spelling errors in POD files'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-ipc-run3>=0.044'
   'perl-pod-spell>=1.01'
 )

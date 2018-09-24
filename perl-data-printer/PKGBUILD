@@ -3,12 +3,14 @@
 
 pkgname='perl-data-printer'
 pkgver=0.40
-pkgrel='4'
+pkgrel='5'
 pkgdesc='colored pretty-print of Perl data structures and objects'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl'
   'perl-carp'
   'perl-clone-pp'

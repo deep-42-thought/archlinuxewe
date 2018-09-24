@@ -2,7 +2,7 @@
 
 pkgname='perl-moosex-nonmoose'
 pkgver='0.26'
-pkgrel='5'
+pkgrel='6'
 pkgdesc='easy subclassing of non-Moose classes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,8 @@ provides=(
   'perl-moosex-nonmoose-meta-role-class=0.26'
   'perl-moosex-nonmoose-meta-role-constructor=0.26')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-list-moreutils'
   'perl-module-runtime'
   'perl-moose-exporter'

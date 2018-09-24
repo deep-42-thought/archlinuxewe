@@ -3,13 +3,14 @@
 
 pkgname='perl-perinci-sub-util'
 pkgver='0.46'
-pkgrel='3'
+pkgrel='4'
 pkgdesc='Helper when writing functions'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-exporter'
   'perl-function-fallback-coreorpp'

@@ -3,7 +3,7 @@
 
 pkgname='perl-mock-quick'
 pkgver='1.111'
-pkgrel='2'
+pkgrel='3'
 pkgdesc='Quickly mock objects and classes, even temporarily replace them,'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,6 +17,8 @@ provides=(
   'perl-object-quick=1.111'
 )
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-carp'
   'perl-exporter-declare>=0.103'
   'perl-scalar-list-utils'

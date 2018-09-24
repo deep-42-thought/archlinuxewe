@@ -5,7 +5,7 @@
 
 pkgname=perl-dbm-deep
 pkgver=2.0014
-pkgrel='3'
+pkgrel='4'
 pkgdesc='A pure Perl multi-level hash/array DBM that supports transactions'
 arch=('any')
 url='https://metacpan.org/release/DBM-Deep'
@@ -37,6 +37,8 @@ provides=(
   'perl-dbm-deep-storage-file=2.0014'
   'perl-dbm-deep-storage=2.0014')
 depends=(
+  'perl>=5.28'
+  'perl<5.29'
   'perl-digest-md5>=1.00'
   'perl-scalar-list-utils>=1.14'
   'perl>=5.8.4')
