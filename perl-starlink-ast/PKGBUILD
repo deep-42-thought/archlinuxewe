@@ -81,16 +81,15 @@ source=("https://cpan.metacpan.org/authors/id/T/TJ/TJENNESS/${_distdir}.tar.gz")
 sha512sums=('9f1353c139cbecad4b468dbac73d27af53784ed0979fcd6dcb57277e1eae0d1f0d32d18dc4cf8d072b86e0534759c979e386ade809f75b0866a6afe953f00b31')
 
 build() {
-  ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
-      PERL_AUTOINSTALL=--skipdeps                            \
-      PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
-      PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
-      MODULEBUILDRC=/dev/null
+  export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
+    PERL_AUTOINSTALL=--skipdeps                            \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'"     \
+    PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
+    MODULEBUILDRC=/dev/null
 
-    cd "$srcdir/$_distdir"
-    perl Build.PL
-    perl Build
-  )
+  cd "$srcdir/$_distdir"
+  perl Build.PL
+  perl Build
 }
 
 check() {
