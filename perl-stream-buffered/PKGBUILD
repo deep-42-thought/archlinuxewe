@@ -15,6 +15,9 @@ depends=(
   'perl>=5.8.1')
 makedepends=(
   'perl-extutils-makemaker>=6.30')
+checkdepends=(
+  'perl-test-pod'
+)
 url='https://metacpan.org/release/Stream-Buffered'
 _distdir="Stream-Buffered-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DO/DOY/${_distdir}.tar.gz")
