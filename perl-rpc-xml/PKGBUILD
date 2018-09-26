@@ -1,0 +1,85 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (568f5d2df596725567f1a6081bf01d21ef231fbfd3571a4132eb004ebb50cfaada248486250b351491d5fd615f2c1d7f07d339c6e6ad8bb59146399a117bec0c)
+
+pkgname='perl-rpc-xml'
+pkgver='0.80'
+pkgrel='1'
+pkgdesc='Data, client and server classes for XML-RPC'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+optdepends=(
+  'perl-compress-raw-zlib>=2.063'
+  'perl-datetime>=0.70'
+  'perl-datetime-format-iso8601>=0.07'
+  'perl-xml-libxml>=1.85'
+)
+depends=(
+  'perl>=5.8.8'
+  'perl-constant>=1.03'
+  'perl-libwww>=5.834'
+  'perl-module-load>=0.24'
+  'perl-pathtools>=0.8'
+  'perl-scalar-list-utils>=1.33'
+  'perl-test-simple>=0.94'
+  'perl-xml-parser>=2.31'
+)
+makedepends=(
+  'perl-extutils-makemaker'
+)
+url='https://metacpan.org/release/RPC-XML'
+_distdir="RPC-XML-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/R/RJ/RJRAY/${_distdir}.tar.gz")
+sha512sums=('a91586ea903b3e633f85ca8d9048181a7c3aedcff6788c7ae5fb4971e8552c421c86f30254517c25caa35f1991146dcceb34301bb49002e4ec75a2ee9c195992')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/40_server.t"
+  rm "${srcdir}/${_distdir}/t/40_server_xmllibxml.t"
+}
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
