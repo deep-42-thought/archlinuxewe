@@ -2,17 +2,16 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-modern-perl'
-pkgver=1.20180901
-pkgrel='3'
+pkgver=1.20180928
+pkgrel=1
 pkgdesc='enable all of the features of Modern Perl with one import'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
   'perl-autodie>=2.22'
-  'perl-io')
+  'perl-io'
+  'perl>=5.10.0')
 makedepends=(
   'perl-extutils-makemaker'
   'perl-module-build>=0.28'
@@ -20,7 +19,7 @@ makedepends=(
 url='https://metacpan.org/release/Modern-Perl'
 _distdir="Modern-Perl-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC/${_distdir}.tar.gz")
-sha512sums=('8f031112b90e832190b72bc3047a0804cf07dbbbc90337c843e7fbdcf61315cf035db5fd9e7b3e03ba184dc134f47c39f704244b1aec8167ab2fa775e4b09db5')
+sha512sums=('ae3058bdc43c4170f29695b2ebe250a4fdfccb1672222cdaac2ad54d970c003de2fa07839ddb175040f5b85e6ceb3137f8aeaaf44eb9f4d771ec849a9c08d099')
 
 build() {
   cd "${srcdir}/${_distdir}"
