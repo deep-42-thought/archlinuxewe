@@ -54,7 +54,11 @@ prepare() {
 
     cd "${srcdir}/${pkgname}"
 
-    ISODATE=$(find {src,bin} -type f -printf "%TY%Tm%Td\n" | sort -n | tail -n1)
+    ISODATE=$(
+      date -d@$(
+        git log -n1 --pretty=format:%ct
+      ) +'%Y%m%d'
+    )
     HASH=$(find {src,bin} -type f -exec sha512sum {} \; | sort | sha512sum - | cut -d' ' -f1)
     SHORTHASH=$(echo ${HASH} | cut -c1-8)
     printf '%s\t%s\t%s\t%s\n' \
