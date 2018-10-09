@@ -1,0 +1,107 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: BlackIkeEagle <ike DOT devolder AT gmail DOT com>
+# Contributor: Valeriy Lyasotskiy <onestep@ukr.net>
+# Contributor: Jan Willemson <janwil@hot.ee>
+# Contributor: Hugo Ideler <hugoideler@dse.nl>
+# Original PKGBUILD: Andre Naumann <anaumann@SPARCed.org>
+# See http://bbs.archlinux.org/viewtopic.php?t=9318&highlight=fpc
+
+pkgbase=fpc-cross
+pkgname=(fpc-cross-common fpc-win32 fpc-win64)
+pkgver=3.0.4
+pkgrel=1
+arch=('i686' 'x86_64')
+url="http://www.freepascal.org/"
+license=('GPL' 'LGPL' 'custom')
+depends=('ncurses' 'zlib' 'expat' 'binutils' 'make')
+makedepends=("fpc=${pkgver}")
+options=(zipman staticlibs)
+source=(ftp://ftp.freepascal.org/pub/fpc/dist/$pkgver/source/fpcbuild-$pkgver.tar.gz)
+sha256sums=('f66514e6f2c2e4e1bccccb4d554c24b77682ed61c87811ae5dd210f421855e76')
+
+prepare() {
+  cp -a "$srcdir/fpcbuild-$pkgver" "$srcdir/fpcbuild-$pkgver-win64"
+  mv "$srcdir/fpcbuild-$pkgver" "$srcdir/fpcbuild-$pkgver-win32"
+}
+
+build() {
+  for architecture in win32:i386 win64:x86_64; do
+    (
+      cd "$srcdir/fpcbuild-$pkgver-${architecture%:*}"
+      pushd fpcsrc/compiler
+      export OS_TARGET="${architecture%:*}"
+      export CPU_TARGET="${architecture#*:}"
+      fpcmake -Tall
+      popd
+      make build NOGDB=1
+
+      mkdir "$srcdir/pkg-${architecture%:*}"
+      export HOME="$srcdir"
+
+      make -j1 PREFIX="$srcdir/pkg-${architecture%:*}/usr" install NOGDB=1
+
+      export PATH="$srcdir/pkg-${architecture%:*}/usr/bin:$PATH"
+      
+      install -Dm0644 fpcsrc/rtl/COPYING.FPC "$srcdir/pkg-${architecture%:*}/usr/share/licenses/${pkgname}/COPYING.FPC"
+      find "$srcdir/pkg-${architecture%:*}" -name '*.exe' -delete
+
+      {
+        pacman -Qql fpc | \
+          grep -v '/$'
+        cd "$srcdir/pkg-${architecture%:*}"
+        find . -type f | \
+          sed 's,^\./,/,'
+      } | \
+        sort | \
+        uniq -d | \
+        while read -r file; do
+          if ! diff -u --color "${file}" "$srcdir/pkg-${architecture%:*}${file}"; then
+            exit 1
+          fi
+          rm "$srcdir/pkg-${architecture%:*}${file}"
+        done
+    ) || exit $?
+  done
+  ln -s "/usr/lib/fpc/${pkgver}/ppcrossx64" "$srcdir/pkg-win64/usr/bin/"
+  ln -s "/usr/lib/fpc/${pkgver}/ppcrossx32" "$srcdir/pkg-win32/usr/bin/"
+  mkdir "$srcdir/pkg-common"
+  {
+    cd "$srcdir/pkg-win64"
+    find . -type f | \
+      sed 's,^\./,/,'
+    cd "$srcdir/pkg-win32"
+    find . -type f | \
+      sed 's,^\./,/,'
+  } | \
+    sort | \
+    uniq -d | \
+    while read -r file; do
+      if ! diff -u --color "$srcdir/pkg-win32${file}" "$srcdir/pkg-win64${file}"; then
+        exit 1
+      fi
+      rm "$srcdir/pkg-win32${file}"
+      mkdir -p "$srcdir/pkg-common${file%/*}"
+      mv "$srcdir/pkg-win64${file}" "$srcdir/pkg-common${file}"
+    done
+}
+
+_package() {
+  pkgdesc="Free Pascal Compiler, Turbo Pascal 7.0 and Delphi compatible - cross compiler for $1 target."
+  depends+=("fpc-cross-common=${pkgver}")
+
+  mv "$srcdir/pkg-$1" "$pkgdir"
+}
+
+package_fpc-cross-common() {
+  pkgdesc="Common files for fpc-win32 and fpc-win64 cross compilers."
+  mv "$srcdir/pkg-common" "$pkgdir"
+}
+
+package_fpc-win64() {
+  _package win64
+}
+
+package_fpc-win32() {
+  _package win32
+}
