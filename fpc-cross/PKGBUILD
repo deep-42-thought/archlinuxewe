@@ -94,6 +94,7 @@ _package() {
 }
 
 package_fpc-cross-common() {
+  arch=('any')
   pkgdesc="Common files for fpc-win32 and fpc-win64 cross compilers."
   mv "$srcdir/pkg-common" "$pkgdir"
 }
