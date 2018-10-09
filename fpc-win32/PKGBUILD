@@ -24,8 +24,8 @@ sha256sums=('f66514e6f2c2e4e1bccccb4d554c24b77682ed61c87811ae5dd210f421855e76')
 build() {
   cd "$srcdir"/fpcbuild-$pkgver
   pushd fpcsrc/compiler
-  export OS_TARGET=win64
-  export CPU_TARGET=x86_64
+  export OS_TARGET=win32
+  export CPU_TARGET=i386
   fpcmake -Tall
   popd
   make build NOGDB=1
