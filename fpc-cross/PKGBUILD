@@ -90,13 +90,13 @@ _package() {
   pkgdesc="Free Pascal Compiler, Turbo Pascal 7.0 and Delphi compatible - cross compiler for $1 target."
   depends+=("fpc-cross-common=${pkgver}")
 
-  mv "$srcdir/pkg-$1" "$pkgdir"
+  mv "$srcdir/pkg-$1/"* "$pkgdir/"
 }
 
 package_fpc-cross-common() {
   arch=('any')
   pkgdesc="Common files for fpc-win32 and fpc-win64 cross compilers."
-  mv "$srcdir/pkg-common" "$pkgdir"
+  mv "$srcdir/pkg-common/"* "$pkgdir/"
 }
 
 package_fpc-win64() {
