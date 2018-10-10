@@ -11,6 +11,7 @@ pkgbase=fpc-cross
 pkgname=(fpc-cross-common fpc-win32 fpc-win64)
 pkgver=3.0.4
 pkgrel=1
+pkgdesc='Free Pascal Compiler, Turbo Pascal 7.0 and Delphi compatible - cross compiler'
 arch=('i686' 'x86_64')
 url="http://www.freepascal.org/"
 license=('GPL' 'LGPL' 'custom')
@@ -39,11 +40,9 @@ build() {
       mkdir "$srcdir/pkg-${architecture%:*}"
       export HOME="$srcdir"
 
-      make -j1 PREFIX="$srcdir/pkg-${architecture%:*}/usr" install NOGDB=1
+      make -j1 PREFIX="$srcdir/pkg-${architecture%:*}/usr" crossinstall NOGDB=1
 
-      export PATH="$srcdir/pkg-${architecture%:*}/usr/bin:$PATH"
-      
-      install -Dm0644 fpcsrc/rtl/COPYING.FPC "$srcdir/pkg-${architecture%:*}/usr/share/licenses/${pkgname}/COPYING.FPC"
+      install -Dm0644 fpcsrc/rtl/COPYING.FPC "$srcdir/pkg-${architecture%:*}/usr/share/licenses/fpc-${architecture%:*}/COPYING.FPC"
       find "$srcdir/pkg-${architecture%:*}" -name '*.exe' -delete
 
       {
@@ -64,7 +63,7 @@ build() {
     ) || exit $?
   done
   ln -s "/usr/lib/fpc/${pkgver}/ppcrossx64" "$srcdir/pkg-win64/usr/bin/"
-  ln -s "/usr/lib/fpc/${pkgver}/ppcrossx32" "$srcdir/pkg-win32/usr/bin/"
+  ln -s "/usr/lib/fpc/${pkgver}/ppcross386" "$srcdir/pkg-win32/usr/bin/"
   mkdir "$srcdir/pkg-common"
   {
     cd "$srcdir/pkg-win64"
@@ -87,7 +86,7 @@ build() {
 }
 
 _package() {
-  pkgdesc="Free Pascal Compiler, Turbo Pascal 7.0 and Delphi compatible - cross compiler for $1 target."
+  pkgdesc+=" for $1 target."
   depends+=("fpc-cross-common=${pkgver}")
 
   mv "$srcdir/pkg-$1/"* "$pkgdir/"
@@ -95,7 +94,7 @@ _package() {
 
 package_fpc-cross-common() {
   arch=('any')
-  pkgdesc="Common files for fpc-win32 and fpc-win64 cross compilers."
+  pkgdesc+=' common files.'
   mv "$srcdir/pkg-common/"* "$pkgdir/"
 }
 
