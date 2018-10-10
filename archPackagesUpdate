@@ -288,7 +288,7 @@ then
 fi
 
 unset pakete
-unset pakete_teile_archs
+unset pakete_teile_und_archs
 unset archs
 unset verss
 unset repos
@@ -358,7 +358,7 @@ then
         ! ${allExist}
       then
         pakete[${#pakete[@]}]="${paket}"
-        pakete_teile_archs[${#pakete_teile_archs[@]}]=$(
+        pakete_teile_und_archs[${#pakete_teile_und_archs[@]}]=$(
           for pn in "${pkgname[@]}"; do
             printf '%s:%s\n' \
               "$(
@@ -388,7 +388,7 @@ then
     printf '%d scheduled builds:\n' "${#pakete[@]}"
     for ((i=0; i<${#pakete[@]}; i++)); do
       echo " ${pakete[${i}]} ${verss[${i}]} ${archs[${i}]}"
-      printf '   %s\n' ${pakete_teile_archs[${i}]}
+      printf '   %s\n' ${pakete_teile_und_archs[${i}]}
     done
     exit 0
   fi
@@ -540,7 +540,7 @@ then
   for ((i=0; i<${#pakete[@]}; i++))
   do
     paket="${pakete[${i}]}"
-    paket_teile_archs=(${pakete_teile_archs[${i}]})
+    paket_teile_und_archs=(${pakete_teile_und_archs[${i}]})
     arch="${archs[${i}]}"
     vers="${verss[${i}]}"
     repo="${repos[${i}]}"
@@ -593,13 +593,13 @@ then
       printf 'unbekannte Architektur "%s"\n' "${arch}"
       err[${i}]=128
     fi
-    for teil_arch in "${paket_teile_archs[@]}"; do
+    for teil_und_arch in "${paket_teile_und_archs[@]}"; do
       if [ ${err[${i}]} -ne 0 ]; then
         break
       fi
-      teil="${teil#* }"
-      arch="${teil% *}"
-      namcap "${tmpDir}/${paket}/${teil}-${vers}-${arch}.pkg.tar.xz" > \
+      teil="${teil_und_arch#*:}"
+      teil_arch="${teil_und_arch%%:*}"
+      namcap "${tmpDir}/${paket}/${teil}-${vers}-${teil_arch}.pkg.tar.xz" > \
         "${tmpDir}/namcap"
       err[${i}]=$?
       if [ -n "${log}" ]
@@ -639,12 +639,12 @@ then
         p
       ' "${tmpDir}/makepkg.conf"
     )"
-    for teil_arch in "${paket_teile_archs[@]}"; do
-      teil="${teil_arch#* }"
-      arch="${teil_arch% *}"
-      if ! gpg --verify ${teil}-${vers}-any.pkg.tar.xz{.sig,} &> /dev/null; then
-        rm -f "${teil}-${vers}-${arch}.pkg.tar.xz.sig"
-        gpg --detach-sign -u "${key}" --no-armor ${teil}-${vers}-${arch}.pkg.tar.xz
+    for teil_und_arch in "${paket_teile_und_archs[@]}"; do
+      teil="${teil_und_arch#*:}"
+      teil_arch="${teil_und_arch%%:*}"
+      if ! gpg --verify ${teil}-${vers}-${teil_arch}.pkg.tar.xz{.sig,} &> /dev/null; then
+        rm -f "${teil}-${vers}-${teil_arch}.pkg.tar.xz.sig"
+        gpg --detach-sign -u "${key}" --no-armor ${teil}-${vers}-${teil_arch}.pkg.tar.xz
       fi
     done
 
@@ -653,14 +653,14 @@ then
 
 # upload package and update db
       cd "${tmpDir}/${paket}"
-      printf '%s\n' "${paket_teile_archs[@]% *}" | \
+      printf '%s\n' "${paket_teile_und_archs[@]%%:*}" | \
         sort -u | \
         while read -r arch; do
           paket_teile=(
             $(
-              printf '%s\n' "${paket_teile_archs[@]}" | \
+              printf '%s\n' "${paket_teile_und_archs[@]}" | \
                 sed -n '
-                  s/^'"${arch}"' //
+                  s/^'"${arch}"'://
                   T
                   p
                 '
