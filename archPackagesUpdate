@@ -312,6 +312,7 @@ then
 
     unset epoch
     unset pkgname
+    unset arch
     . "${paket}/PKGBUILD"
     if grep -q '#\s*repo:\s*releng\s*\(#.*\)\?$' "${paket}/PKGBUILD"; then
       repo='releng'
@@ -319,44 +320,66 @@ then
       repo='archlinuxewe'
     fi
 
-    for singleArch in "${arch[@]}"; do
-
-      [ "${singleArch}" == "x86_64" ] || \
-        [ "${singleArch}" == "i686" ] || \
-        [ "${singleArch}" == "any" ] || \
-        continue
-      [ ${#onlyArchs[@]} -eq 0 ] && consider=true || consider=false
-      for ((i=0; i<${#onlyArchs[@]}; i++))
-      do
-        [[ "${singleArch}" == "${onlyArchs[${i}]}" ]] && consider=true
-      done
-      ${consider} || continue
-
-      allExist=true
+    missing_archs=$(
       for pkgnam in "${pkgname[@]}"; do
 
-        pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
+        archs=$(
+          declare -f package_${pkgnam} | \
+            sed -n '
+              s/^\s*arch=(\(.\+\));$/\1/
+              T
+              s/["'"'"']//g
+              y/ /\n/
+              p
+            ' | \
+            grep -xF 'any' || \
+            printf '%s\n' "${arch[@]}"
+        )
 
-        if [ "${repo}" == 'releng' ]; then
-          [ ! -e "${pkgDir32}/${pkgFile}" ] && allExist=false
-        else
-          [ "${singleArch}" == "any" ] && \
-            for dir in ${pkgDir}/*
-            do
-              [ ! -d "${dir}" ] && continue
-              [ ! -e "${dir}/${pkgFile}" ] && allExist=false
-            done
-  
-          if [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ]; then
-            allExist=false
+        for singleArch in ${archs}; do
+
+          [ "${singleArch}" == "x86_64" ] || \
+            [ "${singleArch}" == "i686" ] || \
+            [ "${singleArch}" == "any" ] || \
+            continue
+
+          pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
+
+          if ${force}; then
+            printf '%s\n' "${singleArch}"
+          elif [ "${repo}" == 'releng' ]; then
+            [ ! -e "${pkgDir32}/${pkgFile}" ] && printf '%s\n' "${singleArch}"
+          else
+            [ "${singleArch}" == "any" ] && \
+              for dir in ${pkgDir}/*
+              do
+                [ ! -d "${dir}" ] && continue
+                [ ! -e "${dir}/${pkgFile}" ] && printf '%s\n' "${singleArch}"
+              done
+    
+            if [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ]; then
+              printf '%s\n' "${singleArch}"
+            fi
           fi
+
+        done
+
+      done | \
+        sort -u
+    )
+    if [ ${#onlyArchs[@]} -ne 0 ]; then
+      missing_archs=$(
+        printf '%s\n' "${missing_archs}" | \
+          grep -xF "$(printf '%s\n' "${onlyArchs[@]}")"
+      )
+    fi
+
+    if [ -n "${missing_archs}" ]; then
+      for singleArch in ${missing_archs}; do
+        if ! printf '%s\n' "${arch[@]}" | \
+          grep -qxF "${singleArch}"; then
+          continue
         fi
-
-      done
-
-      if ${force} || \
-        ! ${allExist}
-      then
         pakete[${#pakete[@]}]="${paket}"
         pakete_teile_und_archs[${#pakete_teile_und_archs[@]}]=$(
           for pn in "${pkgname[@]}"; do
@@ -371,7 +394,7 @@ then
                     p
                   ' | \
                   grep -xF 'any' || \
-                  printf '%s' "${arch}"
+                  printf '%s' "${singleArch}"
               )" \
               "${pn}"
           done
@@ -379,8 +402,8 @@ then
         archs[${#archs[@]}]="${singleArch}"
         verss[${#verss[@]}]="${epoch:+${epoch}:}${pkgver}-${pkgrel}"
         repos[${#repos[@]}]="${repo}"
-      fi
-    done
+      done
+    fi
   done
 
 # only print packages to be built?
