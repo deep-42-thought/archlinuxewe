@@ -288,7 +288,7 @@ then
 fi
 
 unset pakete
-unset pakete_teile
+unset pakete_teile_archs
 unset archs
 unset verss
 unset repos
@@ -358,7 +358,24 @@ then
         ! ${allExist}
       then
         pakete[${#pakete[@]}]="${paket}"
-        pakete_teile[${#pakete_teile[@]}]="${pkgname[@]}"
+        pakete_teile_archs[${#pakete_teile_archs[@]}]=$(
+          for pn in "${pkgname[@]}"; do
+            printf '%s:%s\n' \
+              "$(
+                declare -f package_${pn} | \
+                  sed -n '
+                    s/^\s*arch=(\(.\+\));$/\1/
+                    T
+                    s/["'"'"']//g
+                    y/ /\n/
+                    p
+                  ' | \
+                  grep -xF 'any' || \
+                  printf '%s' "${arch}"
+              )" \
+              "${pn}"
+          done
+        )
         archs[${#archs[@]}]="${singleArch}"
         verss[${#verss[@]}]="${epoch:+${epoch}:}${pkgver}-${pkgrel}"
         repos[${#repos[@]}]="${repo}"
@@ -371,7 +388,7 @@ then
     printf '%d scheduled builds:\n' "${#pakete[@]}"
     for ((i=0; i<${#pakete[@]}; i++)); do
       echo " ${pakete[${i}]} ${verss[${i}]} ${archs[${i}]}"
-      printf '   %s\n' ${pakete_teile[${i}]}
+      printf '   %s\n' ${pakete_teile_archs[${i}]}
     done
     exit 0
   fi
@@ -523,13 +540,12 @@ then
   for ((i=0; i<${#pakete[@]}; i++))
   do
     paket="${pakete[${i}]}"
-    paket_teile=(${pakete_teile[${i}]})
+    paket_teile_archs=(${pakete_teile_archs[${i}]})
     arch="${archs[${i}]}"
     vers="${verss[${i}]}"
     repo="${repos[${i}]}"
 
     cd "${tmpDir}/${paket}"
-    rm -f ${paket}-*-${arch}.pkg.tar.xz*
     rm -rf --one-file-system src pkg
 
     # report installed packages at end of package() function - if the build process succeeded,
@@ -577,10 +593,12 @@ then
       printf 'unbekannte Architektur "%s"\n' "${arch}"
       err[${i}]=128
     fi
-    for teil in "${paket_teile[@]}"; do
+    for teil_arch in "${paket_teile_archs[@]}"; do
       if [ ${err[${i}]} -ne 0 ]; then
         break
       fi
+      teil="${teil#* }"
+      arch="${teil% *}"
       namcap "${tmpDir}/${paket}/${teil}-${vers}-${arch}.pkg.tar.xz" > \
         "${tmpDir}/namcap"
       err[${i}]=$?
@@ -621,8 +639,10 @@ then
         p
       ' "${tmpDir}/makepkg.conf"
     )"
-    for teil in "${paket_teile[@]}"; do
-      if ! gpg --verify ${teil}-${vers}-${arch}.pkg.tar.xz{.sig,} &> /dev/null; then
+    for teil_arch in "${paket_teile_archs[@]}"; do
+      teil="${teil_arch#* }"
+      arch="${teil_arch% *}"
+      if ! gpg --verify ${teil}-${vers}-any.pkg.tar.xz{.sig,} &> /dev/null; then
         rm -f "${teil}-${vers}-${arch}.pkg.tar.xz.sig"
         gpg --detach-sign -u "${key}" --no-armor ${teil}-${vers}-${arch}.pkg.tar.xz
       fi
@@ -633,111 +653,125 @@ then
 
 # upload package and update db
       cd "${tmpDir}/${paket}"
-      tar -cf - $(
-        printf " %s-${vers}-${arch}.pkg.tar.xz"     "${paket_teile[@]}"
-        printf " %s-${vers}-${arch}.pkg.tar.xz.sig" "${paket_teile[@]}"
-      ) | \
-        ssh paule@127.0.0.1 "$(
+      printf '%s\n' "${paket_teile_archs[@]% *}" | \
+        sort -u | \
+        while read -r arch; do
+          paket_teile=(
+            $(
+              printf '%s\n' "${paket_teile_archs[@]}" | \
+                sed -n '
+                  s/^'"${arch}"' //
+                  T
+                  p
+                '
+            )
+          )
+          tar -cf - $(
+            printf " %s-${vers}-${arch}.pkg.tar.xz"     "${paket_teile[@]}"
+            printf " %s-${vers}-${arch}.pkg.tar.xz.sig" "${paket_teile[@]}"
+          ) | \
+            ssh paule@127.0.0.1 "$(
 
-          printf '
-            entferneAltePakete() {
-              altePakete=$(
-                ls -1 | \
-                  grep "^$1-[^-]\+-[^-]\+-$2\.pkg\.tar\.xz\$"
-              )
-              if [ -n "${altePakete}" ]
-              then
-                if [ "$(basename "$(pwd)")" != "any" ]
-                then
+              printf '
+                entferneAltePakete() {
+                  altePakete=$(
+                    ls -1 | \
+                      grep "^$1-[^-]\+-[^-]\+-$2\.pkg\.tar\.xz\$"
+                  )
+                  if [ -n "${altePakete}" ]
+                  then
+                    if [ "$(basename "$(pwd)")" != "any" ]
+                    then
+                      if [ "$(basename "$(pwd)")" == "releng" ]
+                      then
+                        repo-remove releng.db.tar.gz "$1"
+                      else
+                        repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"' \
+                "${checkDbSig}"
+              printf '
+                      fi
+                    fi
+                    for altesPaket in ${altePakete}
+                    do
+                      rm "${altesPaket}"
+                      if [ -e "${altesPaket}.sig" ] || [ -h "${altesPaket}.sig" ]
+                      then
+                        rm "${altesPaket}.sig"
+                      fi
+                    done
+                  fi
+                }'
+
+              printf '
+                addPaket() {
                   if [ "$(basename "$(pwd)")" == "releng" ]
                   then
-                    repo-remove releng.db.tar.gz "$1"
+                    repo-add releng.db.tar.gz "$1"
                   else
-                    repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"' \
-            "${checkDbSig}"
-          printf '
+                    repo-add %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
                   fi
-                fi
-                for altesPaket in ${altePakete}
-                do
-                  rm "${altesPaket}"
-                  if [ -e "${altesPaket}.sig" ] || [ -h "${altesPaket}.sig" ]
-                  then
-                    rm "${altesPaket}.sig"
-                  fi
-                done
-              fi
-            }'
+                }' \
+                "${checkDbSig}"
 
-          printf '
-            addPaket() {
-              if [ "$(basename "$(pwd)")" == "releng" ]
+              if [ "${repo}" = 'releng' ]
               then
-                repo-add releng.db.tar.gz "$1"
+                printf '
+                cd "%s"' \
+                  "${pkgDir32}"
               else
-                repo-add %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
+                printf '
+                cd "%s/%s"' \
+                  "${pkgDir}" "${arch}"
               fi
-            }' \
-            "${checkDbSig}"
+              printf '
+                for teil in %s; do' \
+                "${paket_teile[*]}"
+              printf '
+                  entferneAltePakete "${teil}" "%s"' \
+                "${arch}"
+              printf '
+                done'
 
-          if [ "${repo}" = 'releng' ]
-          then
-            printf '
-            cd "%s"' \
-              "${pkgDir32}"
-          else
-            printf '
-            cd "%s/%s"' \
-              "${pkgDir}" "${arch}"
-          fi
-          printf '
-            for teil in %s; do' \
-            "${paket_teile[*]}"
-          printf '
-              entferneAltePakete "${teil}" "%s"' \
-            "${arch}"
-          printf '
-            done'
+              printf '
+                tar -xf -
+                for teil in %s; do' \
+                "${paket_teile[*]}"
 
-          printf '
-            tar -xf -
-            for teil in %s; do' \
-            "${paket_teile[*]}"
+              if [ "${arch}" == "any" ] && [ "${repo}" != 'releng' ]
+              then
+                printf '
+                  for lArch in $(ls ..)
+                  do
+                    [ ! -d "../${lArch}" ] && continue
+                    [ "${lArch}" == "any" ] && continue
+                    cd "../${lArch}"
 
-          if [ "${arch}" == "any" ] && [ "${repo}" != 'releng' ]
-          then
-            printf '
-              for lArch in $(ls ..)
-              do
-                [ ! -d "../${lArch}" ] && continue
-                [ "${lArch}" == "any" ] && continue
-                cd "../${lArch}"
-
-                entferneAltePakete "${teil}" "any"'
-            printf '
-                ln -s "%s/any/${teil}-%s-%s.pkg.tar.xz" "${teil}-%s-%s.pkg.tar.xz"' \
-              "${pkgDir}" "${vers}" "${arch}" "${vers}" "${arch}"
-            printf '
-                if [ -e "%s/any/${teil}-%s-%s.pkg.tar.xz.sig" ]' \
-              "${pkgDir}" "${vers}" "${arch}"
-            printf '
-                then
-                  ln -s "%s/any/${teil}-%s-%s.pkg.tar.xz.sig" "${teil}-%s-%s.pkg.tar.xz.sig"' \
-              "${pkgDir}" "${vers}" "${arch}" "${vers}" "${arch}"
-            printf '
-                fi
-                addPaket "${teil}-%s-%s.pkg.tar.xz"' \
-              "${vers}" "${arch}"
-            printf '
-              done'
-          else
-            printf '
-              addPaket "${teil}-%s-%s.pkg.tar.xz"' \
-              "${vers}" "${arch}"
-          fi
-          printf '
-            done'
-        )"
+                    entferneAltePakete "${teil}" "any"'
+                printf '
+                    ln -s "%s/any/${teil}-%s-%s.pkg.tar.xz" "${teil}-%s-%s.pkg.tar.xz"' \
+                  "${pkgDir}" "${vers}" "${arch}" "${vers}" "${arch}"
+                printf '
+                    if [ -e "%s/any/${teil}-%s-%s.pkg.tar.xz.sig" ]' \
+                  "${pkgDir}" "${vers}" "${arch}"
+                printf '
+                    then
+                      ln -s "%s/any/${teil}-%s-%s.pkg.tar.xz.sig" "${teil}-%s-%s.pkg.tar.xz.sig"' \
+                  "${pkgDir}" "${vers}" "${arch}" "${vers}" "${arch}"
+                printf '
+                    fi
+                    addPaket "${teil}-%s-%s.pkg.tar.xz"' \
+                  "${vers}" "${arch}"
+                printf '
+                  done'
+              else
+                printf '
+                  addPaket "${teil}-%s-%s.pkg.tar.xz"' \
+                  "${vers}" "${arch}"
+              fi
+              printf '
+                done'
+            )"
+        done
     fi
   done
 
