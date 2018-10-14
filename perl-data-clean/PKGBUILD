@@ -2,21 +2,19 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-clean'
-pkgver=0.501
+pkgver=0.502
 pkgrel=1
 pkgdesc='Clean data structure'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-optdepends=(
-  'perl-sereal-dclone')
 depends=(
-  'perl>=5.10.1'
   'perl-clone-pp'
   'perl-log-ger>=0.023'
   'perl-scalar-list-utils'
   'perl-string-linenumber'
-  'perl-string-perlquote')
+  'perl-string-perlquote'
+  'perl>=5.10.1')
 makedepends=(
   'perl-datetime'
   'perl-extutils-makemaker'
@@ -33,7 +31,7 @@ checkdepends=(
 url='https://metacpan.org/release/Data-Clean'
 _distdir="Data-Clean-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('5b6a6c27b20615264d156597a5d6abf100bb3bdd716c17a7a2e395db7352000bb741a0ed66855e64140f0bee9b55de28367f664cace2d0fb2efdfeebcf043ad0')
+sha512sums=('33b62c7a9ccd7a096a4d951a6e2f12b573a6e0613a8eff415bf9a92b203b01c3979da9dcf556884b3dc3814edf072bd95f3f5c07f7ac68220782461be3bb2c93')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
