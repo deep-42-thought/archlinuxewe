@@ -2,31 +2,27 @@
 # Generator : neuesPerlPaket (531f4ea05761761b97731706ac717c0b6492abe73967627888b9913e5b55c57b4ee55f1d39b2cbcfadfaa2e5c1487c41151b50bcc321d3ac2202a96e10461201)
 
 pkgname='perl-devel-findperl'
-pkgver='0.014'
-pkgrel='3'
+pkgver=0.015
+pkgrel=1
 pkgdesc='Find the path to your perl'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 optdepends=(
-  'perl-extutils-config>=0.007'
-)
+  'perl-extutils-config')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl>=5.6.0'
   'perl-carp'
   'perl-exporter>=5.57'
   'perl-pathtools'
-  'perl-scalar-list-utils'
-)
+  'perl-scalar-list-utils')
 makedepends=(
   'perl-extutils-makemaker'
-  'perl-test-simple'
-)
+  'perl-test-simple')
 url='https://metacpan.org/release/Devel-FindPerl'
 _distdir="Devel-FindPerl-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/L/LE/LEONT/${_distdir}.tar.gz")
-sha512sums=('958044c628ce1d004031f753673ec7cd066bb70387b2ecef6e91dcdb050a1aac0b036b7a78c38f731ec22d8fcf109f9421f640b4e008a44ff9de382cff944cea')
+sha512sums=('e6165e9db47eaf966a542822d84a14c4de0a7f6f60630f31873cd96eb71bbe2d9e2a52f52726d2ea98349d36fc1772ce850ba2a375c343eee7af5dd9cec74253')
 
 build() {
   cd "${srcdir}/${_distdir}"
