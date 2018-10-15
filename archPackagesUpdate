@@ -681,7 +681,7 @@ then
         while read -r arch; do
           if [ "${paket}" = 'pacman-static' ] && \
             [ "${arch}" = 'i686' ]; then
-            tar -OxJf "${paket_teile[*]}" usr/bin/pacman-static 2>/dev/null > /srv/arch-mirror/sources.archlinux32/sources/pacman-static
+            tar -OxJf "${paket_teile_und_archs[0]#*:}" usr/bin/pacman-static 2>/dev/null > /srv/arch-mirror/sources.archlinux32/sources/pacman-static
             gpg --detach-sign -u "${key}" --yes --no-armor /srv/arch-mirror/sources.archlinux32/sources/pacman-static
           fi
 
