@@ -2,32 +2,29 @@
 # Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
 
 pkgname='perl-module-extractuse'
-pkgver=0.342
-pkgrel='3'
+pkgver=0.343
+pkgrel=1
 pkgdesc='Find out what modules are used'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl>=5.8.0'
   'perl-carp'
   'perl-parse-recdescent>=1.967009'
-  'perl-pod-strip'
-)
+  'perl-pod-strip')
 makedepends=(
   'perl-module-build>=0.28'
   'perl-test-deep'
   'perl-test-nowarnings'
-  'perl-test-simple'
-)
+  'perl-test-simple')
 checkdepends=(
   'perl-universal-require'
 )
 url='https://metacpan.org/release/Module-ExtractUse'
 _distdir="Module-ExtractUse-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DO/DOMM/${_distdir}.tar.gz")
-sha512sums=('aed259d7b777ed44ef029b8b79d5b6fb4c9f7be046f471637cfe7850912bd38ca85115a06cb6a5ed63decbf08d0c4fa1e65d2de25cf39ca62442f9e05a079eaf')
+sha512sums=('fc8379adb7535bc35d0bf82e31f520f45d9c90dbd769549be7400acd4dad5a5df4cee3858247c20b8019fbd2e96ee365a087a4a4c9fac332f25102bf3476dd98')
 
 build() {
   cd "${srcdir}/${_distdir}"
