@@ -2,35 +2,36 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-object'
-pkgver='0.30'
-pkgrel='3'
+pkgver=0.310
+pkgrel=1
 pkgdesc='Object-oriented interface for Rinci metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
-  'perl-exporter'
-  'perl-parent'
-)
+  'perl>=5.10.1'
+  'perl-exporter>=5.57'
+  'perl-parent')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
   'perl-test-exception'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
 )
 url='https://metacpan.org/release/Perinci-Object'
 _distdir="Perinci-Object-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('1f9e67fba0c075c05f99eadb964f9c31a6906444c0f2cf548156c6fbea840e36a0c5381841de4ae39241759b9430f31cd4b41d5fdeb41fd93180e5a4a5048250')
+sha512sums=('9f04cbb9040dd6a27e284e56792d2262bb70d0ae7b737bf5edaffff1cc5b2835486137de842dacde1a2d3560e13000799ef7c48bac69edd18ce1bf1f1072d074')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
