@@ -62,7 +62,7 @@ versteheRequirements() {
               "${metaRegexe["${wasAusgeben}"]}"
             printf '  s/\]$//\n'
             printf '  s/\\s*%%[^"'"'"']*["'"'"']//g\n'
-            printf '  s/,/ /g\n'
+            printf '  s/,/\\n/g\n'
             printf '  s/["'"'"']//g\n'
             printf '  s/^/%s:/\n' \
               "${wasAusgeben}"
@@ -75,15 +75,15 @@ versteheRequirements() {
         tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/requirements.txt"
         tar -tzf "${archiv}" | \
           grep '^.*/.*/requirements.txt' | \
-          xargs -r tar -Oxzf "${archiv}" | \
-          sed '
-            /^[a-zA-Z]/! d
-            s/==/=/
-          '
+          xargs -r tar -Oxzf "${archiv}"
       } | \
         sed '
-          /^#/d
-          /^numpydoc\([<>=].*\)\?/d
+          /^[a-zA-Z]/! d
+          s/==/=/
+          s/\s*\([<=>]\+\)\s*/\1/
+          s/\s*[#;].*$//
+          /^$/d
+          /^numpydoc\s*\([<>=].*\)\?$/d
           s,^https\?:.*/mysql-connector-python-[^/]*$,mysql-connector,
           s/^/_depends:/
         '
