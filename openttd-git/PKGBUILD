@@ -82,13 +82,13 @@ build() {
 
     cd "${srcdir}/${pkgname}"
     ./configure ${_targetHost} \
-		--prefix-dir=/usr \
-                --binary-dir=bin \
-                --data-dir=share/openttd \
-                --icon-dir=share/openttd \
-                --man-dir=share/man \
-                --personal-dir=.openttd \
-                --install-dir=$pkgdir \
+        --prefix-dir=/usr \
+        --binary-dir=bin \
+        --data-dir=share/openttd \
+        --icon-dir=share/openttd \
+        --man-dir=share/man \
+        --personal-dir=.openttd \
+        --install-dir=$pkgdir
     make
     install -m644 "${srcdir}/clipboard.grf" "${srcdir}/${pkgname}/bin/baseset/"
 
