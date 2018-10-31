@@ -2,20 +2,17 @@
 # Generator : neuesPerlPaket (81044437a0458748ba63ce98e280fb950cfc5fd9f6a8e92edb2cd237a9a993a3dd847afaa0873f9e70622698c95b48c06c84512f1e0c154825fe84c9c758d8fa)
 
 pkgname='perl-math-utils'
-pkgver=1.12
-pkgrel='3'
+pkgver=1.13
+pkgrel=1
 pkgdesc='Useful mathematical functions not in Perl'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
-)
+  'perl>=5.10.1')
 makedepends=(
   'perl-module-build>=0.4'
-  'perl-test-simple'
-)
+  'perl-test-simple')
 checkdepends=(
   'perl-test-checkmanifest'
   'perl-test-pod'
@@ -23,7 +20,7 @@ checkdepends=(
 url='https://metacpan.org/release/Math-Utils'
 _distdir="Math-Utils-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/J/JG/JGAMBLE/${_distdir}.tar.gz")
-sha512sums=('21c7f8f02a2607448b74962758622e57da9a50046eff5ab3ae928174b761c91ddf0ecc73ad14c89c4ac6b2ed880a8ccc669ec942502387d8363062d3cc4fd380')
+sha512sums=('9462ee15e98e1b1a81a8d8c290a3a749c959865a9cd5df8d4306b04ffd51244716d9e0af9a7cd1ea5f25d6201570800a4278343d0136acbc0472560fbdcf5c31')
 
 build() {
   cd "${srcdir}/${_distdir}"
