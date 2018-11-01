@@ -604,6 +604,7 @@ if ${aufRechenknecht}; then
           "${tmpDir}/${paket}/${teil}-namcap-${arch}.log"
       fi
       if [ ${err[${i}]} -ne 0 ]; then
+        sed 's/^/namcap: /' "${tmpDir}/namcap"
         break
       fi
       if grep "$(
