@@ -32,7 +32,7 @@ replaces=()
 backup=()
 options=()
 source=(
-    "${pkgname}::git://github.com/OpenTTD/OpenTTD.git" #commit=${_commit}"
+    "${pkgname}::git://github.com/OpenTTD/OpenTTD.git#commit=${_commit}"
     "everything.patch"
     "clipboard.grf"
 )
@@ -46,7 +46,7 @@ pkgver() {
       $(git -C "${srcdir}/${pkgname}" rev-list --count master ^f84ad5f7c) + 28004
     ))" \
     "$(
-      git -C "${srcdir}/${pkgname}" rev-parse --short master
+      git -C "${srcdir}/${pkgname}" rev-parse --short=9 master
     )"
 }
 
