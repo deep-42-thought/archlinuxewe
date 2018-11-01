@@ -43,10 +43,10 @@ sha512sums=('SKIP'
 pkgver() {
   printf '%s.%s\n' \
     "$((
-      $(git -C "${srcdir}/${pkgname}" rev-list --count master ^f84ad5f7c) + 28004
+      $(git -C "${srcdir}/${pkgname}" rev-list --count "${_commit}" ^f84ad5f7c) + 28004
     ))" \
     "$(
-      git -C "${srcdir}/${pkgname}" rev-parse --short=9 master
+      git -C "${srcdir}/${pkgname}" rev-parse --short=9 "${_commit}"
     )"
 }
 
