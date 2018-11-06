@@ -2,31 +2,27 @@
 # Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
 
 pkgname='perl-meta-builder'
-pkgver='0.003'
-pkgrel='5'
+pkgver=0.004
+pkgrel=1
 pkgdesc='Tools for creating Meta objects to track custom metrics.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-meta-builder-base=0.003'
-  'perl-meta-builder-util=0.003'
-)
+  'perl-meta-builder-base=0.004'
+  'perl-meta-builder-util=0.004')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
   'perl-carp'
-)
+  'perl>=5.6.0')
 makedepends=(
   'perl-fennec-lite'
-  'perl-module-build>=0.36'
+  'perl-module-build>=0.42'
   'perl-test-exception'
-  'perl-test-simple'
-)
+  'perl-test-simple')
 url='https://metacpan.org/release/Meta-Builder'
 _distdir="Meta-Builder-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/E/EX/EXODIST/${_distdir}.tar.gz")
-sha512sums=('ee6c9b00116ba075d4e7c4b4f37b68a5f8e021b5e5414c7ee44a995b8820f72d631014185ce5ffc2fa9a0e2ce42db07322fbc1db6c5868426c366e1d7dcd08c7')
+sha512sums=('c8dcc7129b08f9e562bcb2077c41c7eb72e108f7a8fd0f41c0b84c5615af02b4f418003d0a86c8ecc6f6c6f693b5928626f6e22c40d303318675c41eb301d2bb')
 
 build() {
   cd "${srcdir}/${_distdir}"
