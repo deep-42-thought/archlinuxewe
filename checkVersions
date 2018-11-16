@@ -176,7 +176,7 @@ then
     elif [ "${pkgname}" = 'adduser' ]
     then
       remVer=$(
-        curl_it "${source[0]}" '-L' | \
+        curl_it "${source[0]#*::}" '-L' | \
           grep '^# Version: ' | \
           sed 's|^# Version: \+||'
       )
