@@ -113,7 +113,7 @@ build() {
 
     cd ${pkgname}-${pkgver}
     if [ -z "$DISPLAY" ]; then
-      warning "Empty \$DISPLAY - falling back to xvfb-run (xorg-server-xvfb)"
+      echo "Empty \$DISPLAY - falling back to xvfb-run (xorg-server-xvfb)"
       xvfb-run -a -s "+extension GLX -screen 0 1280x1024x24" perl ./Build.PL
       xvfb-run -a -s "+extension GLX -screen 0 1280x1024x24" ./Build
     else
@@ -127,7 +127,7 @@ check() {
 
     cd ${pkgname}-${pkgver}
     if [ -z "$DISPLAY" ]; then
-      warning "Empty \$DISPLAY - falling back to xvfb-run (xorg-server-xvfb)"
+      echo "Empty \$DISPLAY - falling back to xvfb-run (xorg-server-xvfb)"
       xvfb-run -a -s "+extension GLX -screen 0 1280x1024x24" ./Build test
     else
       ./Build test

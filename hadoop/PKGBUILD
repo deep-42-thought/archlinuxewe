@@ -111,7 +111,7 @@ if ! :; then
   ## Create some links, so Hadoop's KFS jar could access KFS libraries properly
   ## (it is still fine if KFS is not installed)
 
-  msg 'Creating KFS links...'
+  echo 'Creating KFS links...'
 
   for _lib in 'libkfsClient' 'libkfsCommon' 'libkfsEmulator' 'libkfsIO' 'libkfsMeta'; do
     for _ext in 'a' 'so'; do

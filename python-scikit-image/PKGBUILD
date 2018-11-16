@@ -53,11 +53,11 @@ prepare() {
 }
 
 build() {
-  msg "Building Python2"
+  echo "Building Python2"
   cd "${srcdir}"/scikit-image-py2-$pkgver
   python2 setup.py build
 
-  msg "Building Python3"
+  echo "Building Python3"
   cd "${srcdir}"/scikit-image-$pkgver
   python setup.py build
 }

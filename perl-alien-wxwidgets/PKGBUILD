@@ -37,7 +37,7 @@ prepare() {
     PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='$pkgdir'" \
     PERL_MB_OPT="--installdirs vendor --destdir '$pkgdir'" \
     MODULEBUILDRC=/dev/null
-  warning "If build stage tries to pull and compile WX - interrupt as resulting package wont work"
+  echo "If build stage tries to pull and compile WX - interrupt as resulting package wont work"
 #  warning "If package contains gtk2_3_0_0_uni_gcc_3_4.pm it is an improper package - do not attempt to install it - report in comments instead"
 
 # HAX HAX HAX - hax first in PATH to replace /usr/bin

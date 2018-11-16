@@ -44,22 +44,22 @@ prepare() {
 }
 
 build() {
-  msg2 "Building python..."
+  echo "Building python..."
   (cd postpic-${pkgver}
     python setup.py build
   )
-  msg2 "Building python2..."
+  echo "Building python2..."
   (cd postpic-${pkgver}-py2
     python2 setup.py build
   )
 }
 
 check() {
-  msg2 "Checking python..."
+  echo "Checking python..."
   (cd postpic-${pkgver}
     python setup.py test
   )
-  msg2 "Checking python2..."
+  echo "Checking python2..."
   (cd postpic-${pkgver}-py2
     python2 setup.py test
   )

@@ -50,11 +50,11 @@ prepare() {
 }
 
 build() {
-  msg "Building Python 2"
+  echo "Building Python 2"
   cd "$srcdir/${_pkgname}-${pkgver}-py2"
   python2 setup.py build
 
-  msg "Building Python 3"
+  echo "Building Python 3"
   cd "$srcdir/$_pkgname-$pkgver"
   python setup.py build
 }
