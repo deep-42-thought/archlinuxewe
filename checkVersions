@@ -185,8 +185,11 @@ then
       remVer=$(
         curl_it 'https://www.dropboxforum.com/t5/Desktop-client-builds/bd-p/101003016' | \
           tr '<>' '\n' | \
-          grep '^Stable Build [0-9.-]\+$' | \
-          sed 's|^Stable Build \([0-9.-]\+\)$|\1|' | \
+          sed '
+            s/^\s*Stable Build \([0-9.-]\+\)\s*$/\1/
+            t
+            d
+          ' | \
           sort -V | \
           tail -n1
       )
