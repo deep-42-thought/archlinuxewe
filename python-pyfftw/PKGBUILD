@@ -4,8 +4,8 @@
 _pyname=pyFFTW
 pkgname=("python-pyfftw" "python2-pyfftw")
 pkgbase="python-pyfftw"
-pkgver=0.10.4
-pkgrel='2'
+pkgver=0.11.0
+pkgrel=1
 pkgdesc='A pythonic wrapper around FFTW.'
 url='http://hgomersall.github.io/pyFFTW/'
 _deppy2=(
@@ -35,8 +35,8 @@ makedepends=(
 )
 license=('BSD')
 arch=('i686' 'x86_64')
-source=("https://pypi.python.org/packages/c2/2e/b25edc6960fc837e915eb1b38e5f0e3013e32e90aff14a1d0f4556b3d145/pyFFTW-${pkgver}.tar.gz")
-sha512sums=('6848133e30a02ee51bb86613f53a5fdbf9b5a0fea3cab01b8ca7d365f924a966ac9b94f4ed62979d418f9f847369f8c50568ca855e472035fa37e86e630fb9fd')
+source=("https://pypi.python.org/packages/64/39/8ab4ffd393bfff34619195227f6cba218972ab9536a46a4845b4e3c8ab25/pyFFTW-${pkgver}.tar.gz")
+sha512sums=('04dbc48136359f324551755682f9e87672ff896c0842db2d1ecd98a0cccf05186cb638a19ea79fe5d5c0199bdd3c21a107d62e117b362a89b8fe79c6c7ec15cb')
 
 build() {
   cd $srcdir/$_pyname-$pkgver
