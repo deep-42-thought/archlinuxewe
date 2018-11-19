@@ -1865,420 +1865,8 @@ index 0000000000..47fffb2383
 +         style="font-weight:bold">2</tspan></text>
 +  </g>
 +</svg>
-diff --git a/projects/openttd_vs100.vcxproj b/projects/openttd_vs100.vcxproj
-index e400081df7..dc44ed9602 100644
---- a/projects/openttd_vs100.vcxproj
-+++ b/projects/openttd_vs100.vcxproj
-@@ -325,6 +325,7 @@
-     <ClCompile Include="..\src\cargopacket.cpp" />
-     <ClCompile Include="..\src\cargotype.cpp" />
-     <ClCompile Include="..\src\cheat.cpp" />
-+    <ClCompile Include="..\src\clipboard.cpp" />
-     <ClCompile Include="..\src\command.cpp" />
-     <ClCompile Include="..\src\console.cpp" />
-     <ClCompile Include="..\src\console_cmds.cpp" />
-@@ -436,6 +437,9 @@
-     <ClInclude Include="..\src\cheat_func.h" />
-     <ClInclude Include="..\src\cheat_type.h" />
-     <ClInclude Include="..\src\clear_func.h" />
-+    <ClInclude Include="..\src\clipboard_func.h" />
-+    <ClInclude Include="..\src\clipboard_gui.h" />
-+    <ClInclude Include="..\src\clipboard_type.h" />
-     <ClInclude Include="..\src\cmd_helper.h" />
-     <ClInclude Include="..\src\command_func.h" />
-     <ClInclude Include="..\src\command_type.h" />
-@@ -448,6 +452,7 @@
-     <ClInclude Include="..\src\console_gui.h" />
-     <ClInclude Include="..\src\console_internal.h" />
-     <ClInclude Include="..\src\console_type.h" />
-+    <ClInclude Include="..\src\copypaste_cmd.h" />
-     <ClInclude Include="..\src\cpu.h" />
-     <ClInclude Include="..\src\crashlog.h" />
-     <ClInclude Include="..\src\currency.h" />
-@@ -583,6 +588,8 @@
-     <ClInclude Include="..\src\order_base.h" />
-     <ClInclude Include="..\src\order_func.h" />
-     <ClInclude Include="..\src\order_type.h" />
-+    <ClInclude Include="..\src\overlay.h" />
-+    <ClInclude Include="..\src\overlay_cmd.h" />
-     <ClInclude Include="..\src\pbs.h" />
-     <ClInclude Include="..\src\progress.h" />
-     <ClInclude Include="..\src\querystring_gui.h" />
-@@ -649,6 +656,7 @@
-     <ClInclude Include="..\src\tgp.h" />
-     <ClInclude Include="..\src\tile_cmd.h" />
-     <ClInclude Include="..\src\tile_type.h" />
-+    <ClInclude Include="..\src\tilearea_func.h" />
-     <ClInclude Include="..\src\tilearea_type.h" />
-     <ClInclude Include="..\src\tilehighlight_func.h" />
-     <ClInclude Include="..\src\tilehighlight_type.h" />
-@@ -724,6 +732,7 @@
-     <ClCompile Include="..\src\bridge_gui.cpp" />
-     <ClCompile Include="..\src\build_vehicle_gui.cpp" />
-     <ClCompile Include="..\src\cheat_gui.cpp" />
-+    <ClCompile Include="..\src\clipboard_gui.cpp" />
-     <ClCompile Include="..\src\company_gui.cpp" />
-     <ClCompile Include="..\src\console_gui.cpp" />
-     <ClCompile Include="..\src\date_gui.cpp" />
-@@ -782,6 +791,7 @@
-     <ClInclude Include="..\src\widgets\bridge_widget.h" />
-     <ClInclude Include="..\src\widgets\build_vehicle_widget.h" />
-     <ClInclude Include="..\src\widgets\cheat_widget.h" />
-+    <ClInclude Include="..\src\widgets\clipboard_widget.h" />
-     <ClInclude Include="..\src\widgets\company_widget.h" />
-     <ClInclude Include="..\src\widgets\console_widget.h" />
-     <ClInclude Include="..\src\widgets\date_widget.h" />
-@@ -836,6 +846,7 @@
-     <ClCompile Include="..\src\aircraft_cmd.cpp" />
-     <ClCompile Include="..\src\autoreplace_cmd.cpp" />
-     <ClCompile Include="..\src\clear_cmd.cpp" />
-+    <ClCompile Include="..\src\copypaste_cmd.cpp" />
-     <ClCompile Include="..\src\company_cmd.cpp" />
-     <ClCompile Include="..\src\depot_cmd.cpp" />
-     <ClCompile Include="..\src\group_cmd.cpp" />
-@@ -843,6 +854,7 @@
-     <ClCompile Include="..\src\misc_cmd.cpp" />
-     <ClCompile Include="..\src\object_cmd.cpp" />
-     <ClCompile Include="..\src\order_cmd.cpp" />
-+    <ClCompile Include="..\src\overlay_cmd.cpp" />
-     <ClCompile Include="..\src\rail_cmd.cpp" />
-     <ClCompile Include="..\src\road_cmd.cpp" />
-     <ClCompile Include="..\src\roadveh_cmd.cpp" />
-diff --git a/projects/openttd_vs100.vcxproj.filters b/projects/openttd_vs100.vcxproj.filters
-index 47f431e556..b91cbc942d 100644
---- a/projects/openttd_vs100.vcxproj.filters
-+++ b/projects/openttd_vs100.vcxproj.filters
-@@ -132,6 +132,9 @@
-     <ClCompile Include="..\src\cheat.cpp">
-       <Filter>Source Files</Filter>
-     </ClCompile>
-+    <ClCompile Include="..\src\clipboard.cpp">
-+      <Filter>Source Files</Filter>
-+    </ClCompile>
-     <ClCompile Include="..\src\command.cpp">
-       <Filter>Source Files</Filter>
-     </ClCompile>
-@@ -465,6 +468,15 @@
-     <ClInclude Include="..\src\clear_func.h">
-       <Filter>Header Files</Filter>
-     </ClInclude>
-+    <ClInclude Include="..\src\clipboard_func.h">
-+      <Filter>Header Files</Filter>
-+    </ClInclude>
-+    <ClInclude Include="..\src\clipboard_gui.h">
-+      <Filter>Header Files</Filter>
-+    </ClInclude>
-+    <ClInclude Include="..\src\clipboard_type.h">
-+      <Filter>Header Files</Filter>
-+    </ClInclude>
-     <ClInclude Include="..\src\cmd_helper.h">
-       <Filter>Header Files</Filter>
-     </ClInclude>
-@@ -501,6 +513,9 @@
-     <ClInclude Include="..\src\console_type.h">
-       <Filter>Header Files</Filter>
-     </ClInclude>
-+    <ClInclude Include="..\src\copypaste_cmd.h">
-+      <Filter>Header Files</Filter>
-+    </ClInclude>
-     <ClInclude Include="..\src\cpu.h">
-       <Filter>Header Files</Filter>
-     </ClInclude>
-@@ -906,6 +921,12 @@
-     <ClInclude Include="..\src\order_type.h">
-       <Filter>Header Files</Filter>
-     </ClInclude>
-+    <ClInclude Include="..\src\overlay.h">
-+      <Filter>Header Files</Filter>
-+    </ClInclude>
-+    <ClInclude Include="..\src\overlay_cmd.h">
-+      <Filter>Header Files</Filter>
-+    </ClInclude>
-     <ClInclude Include="..\src\pbs.h">
-       <Filter>Header Files</Filter>
-     </ClInclude>
-@@ -1104,6 +1125,9 @@
-     <ClInclude Include="..\src\tile_type.h">
-       <Filter>Header Files</Filter>
-     </ClInclude>
-+    <ClInclude Include="..\src\tilearea_func.h">
-+      <Filter>Header Files</Filter>
-+    </ClInclude>
-     <ClInclude Include="..\src\tilearea_type.h">
-       <Filter>Header Files</Filter>
-     </ClInclude>
-@@ -1329,6 +1353,9 @@
-     <ClCompile Include="..\src\cheat_gui.cpp">
-       <Filter>GUI Source Code</Filter>
-     </ClCompile>
-+    <ClCompile Include="..\src\clipboard_gui.cpp">
-+      <Filter>GUI Source Code</Filter>
-+    </ClCompile>
-     <ClCompile Include="..\src\company_gui.cpp">
-       <Filter>GUI Source Code</Filter>
-     </ClCompile>
-@@ -1503,6 +1530,9 @@
-     <ClInclude Include="..\src\widgets\cheat_widget.h">
-       <Filter>Widgets</Filter>
-     </ClInclude>
-+    <ClInclude Include="..\src\widgets\clipboard_widget.h">
-+      <Filter>Widgets</Filter>
-+    </ClInclude>
-     <ClInclude Include="..\src\widgets\company_widget.h">
-       <Filter>Widgets</Filter>
-     </ClInclude>
-@@ -1665,6 +1695,9 @@
-     <ClCompile Include="..\src\clear_cmd.cpp">
-       <Filter>Command handlers</Filter>
-     </ClCompile>
-+    <ClCompile Include="..\src\copypaste_cmd.cpp">
-+      <Filter>Command handlers</Filter>
-+    </ClCompile>
-     <ClCompile Include="..\src\company_cmd.cpp">
-       <Filter>Command handlers</Filter>
-     </ClCompile>
-@@ -1686,6 +1719,9 @@
-     <ClCompile Include="..\src\order_cmd.cpp">
-       <Filter>Command handlers</Filter>
-     </ClCompile>
-+    <ClCompile Include="..\src\overlay_cmd.cpp">
-+      <Filter>Command handlers</Filter>
-+    </ClCompile>
-     <ClCompile Include="..\src\rail_cmd.cpp">
-       <Filter>Command handlers</Filter>
-     </ClCompile>
-diff --git a/projects/openttd_vs80.vcproj b/projects/openttd_vs80.vcproj
-index c5e41e9251..e538833d7d 100644
---- a/projects/openttd_vs80.vcproj
-+++ b/projects/openttd_vs80.vcproj
-@@ -482,6 +482,10 @@
- 				RelativePath=".\..\src\cheat.cpp"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\clipboard.cpp"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\command.cpp"
- 				>
-@@ -930,6 +934,18 @@
- 				RelativePath=".\..\src\clear_func.h"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\clipboard_func.h"
-+				>
-+			</File>
-+			<File
-+				RelativePath=".\..\src\clipboard_gui.h"
-+				>
-+			</File>
-+			<File
-+				RelativePath=".\..\src\clipboard_type.h"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\cmd_helper.h"
- 				>
-@@ -978,6 +994,10 @@
- 				RelativePath=".\..\src\console_type.h"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\copypaste_cmd.h"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\cpu.h"
- 				>
-@@ -1518,6 +1538,14 @@
- 				RelativePath=".\..\src\order_type.h"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\overlay.h"
-+				>
-+			</File>
-+			<File
-+				RelativePath=".\..\src\overlay_cmd.h"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\pbs.h"
- 				>
-@@ -1782,6 +1810,10 @@
- 				RelativePath=".\..\src\tile_type.h"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\tilearea_func.h"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\tilearea_type.h"
- 				>
-@@ -2090,6 +2122,10 @@
- 				RelativePath=".\..\src\cheat_gui.cpp"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\clipboard_gui.cpp"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\company_gui.cpp"
- 				>
-@@ -2326,6 +2362,10 @@
- 				RelativePath=".\..\src\widgets\cheat_widget.h"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\widgets\clipboard_widget.h"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\widgets\company_widget.h"
- 				>
-@@ -2546,6 +2586,10 @@
- 				RelativePath=".\..\src\clear_cmd.cpp"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\copypaste_cmd.cpp"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\company_cmd.cpp"
- 				>
-@@ -2574,6 +2618,10 @@
- 				RelativePath=".\..\src\order_cmd.cpp"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\overlay_cmd.cpp"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\rail_cmd.cpp"
- 				>
-diff --git a/projects/openttd_vs90.vcproj b/projects/openttd_vs90.vcproj
-index d2e5744a2f..95ea8f19e5 100644
---- a/projects/openttd_vs90.vcproj
-+++ b/projects/openttd_vs90.vcproj
-@@ -479,6 +479,10 @@
- 				RelativePath=".\..\src\cheat.cpp"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\clipboard.cpp"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\command.cpp"
- 				>
-@@ -927,6 +931,18 @@
- 				RelativePath=".\..\src\clear_func.h"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\clipboard_func.h"
-+				>
-+			</File>
-+			<File
-+				RelativePath=".\..\src\clipboard_gui.h"
-+				>
-+			</File>
-+			<File
-+				RelativePath=".\..\src\clipboard_type.h"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\cmd_helper.h"
- 				>
-@@ -975,6 +991,10 @@
- 				RelativePath=".\..\src\console_type.h"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\copypaste_cmd.h"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\cpu.h"
- 				>
-@@ -1515,6 +1535,14 @@
- 				RelativePath=".\..\src\order_type.h"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\overlay.h"
-+				>
-+			</File>
-+			<File
-+				RelativePath=".\..\src\overlay_cmd.h"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\pbs.h"
- 				>
-@@ -1779,6 +1807,10 @@
- 				RelativePath=".\..\src\tile_type.h"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\tilearea_func.h"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\tilearea_type.h"
- 				>
-@@ -2087,6 +2119,10 @@
- 				RelativePath=".\..\src\cheat_gui.cpp"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\clipboard_gui.cpp"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\company_gui.cpp"
- 				>
-@@ -2323,6 +2359,10 @@
- 				RelativePath=".\..\src\widgets\cheat_widget.h"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\widgets\clipboard_widget.h"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\widgets\company_widget.h"
- 				>
-@@ -2543,6 +2583,10 @@
- 				RelativePath=".\..\src\clear_cmd.cpp"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\copypaste_cmd.cpp"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\company_cmd.cpp"
- 				>
-@@ -2571,6 +2615,10 @@
- 				RelativePath=".\..\src\order_cmd.cpp"
- 				>
- 			</File>
-+			<File
-+				RelativePath=".\..\src\overlay_cmd.cpp"
-+				>
-+			</File>
- 			<File
- 				RelativePath=".\..\src\rail_cmd.cpp"
- 				>
 diff --git a/source.list b/source.list
-index 5dec0e8617..ab81c2f235 100644
+index 7b31df91bb..78596246ec 100644
 --- a/source.list
 +++ b/source.list
 @@ -9,6 +9,7 @@ cargomonitor.cpp
@@ -2324,7 +1912,7 @@ index 5dec0e8617..ab81c2f235 100644
  tilearea_type.h
  tilehighlight_func.h
  tilehighlight_type.h
-@@ -455,6 +463,7 @@ bootstrap_gui.cpp
+@@ -456,6 +464,7 @@ bootstrap_gui.cpp
  bridge_gui.cpp
  build_vehicle_gui.cpp
  cheat_gui.cpp
@@ -2332,7 +1920,7 @@ index 5dec0e8617..ab81c2f235 100644
  company_gui.cpp
  console_gui.cpp
  date_gui.cpp
-@@ -515,6 +524,7 @@ widgets/bootstrap_widget.h
+@@ -516,6 +525,7 @@ widgets/bootstrap_widget.h
  widgets/bridge_widget.h
  widgets/build_vehicle_widget.h
  widgets/cheat_widget.h
@@ -2340,7 +1928,7 @@ index 5dec0e8617..ab81c2f235 100644
  widgets/company_widget.h
  widgets/console_widget.h
  widgets/date_widget.h
-@@ -571,6 +581,7 @@ widgets/waypoint_widget.h
+@@ -572,6 +582,7 @@ widgets/waypoint_widget.h
  aircraft_cmd.cpp
  autoreplace_cmd.cpp
  clear_cmd.cpp
@@ -2348,7 +1936,7 @@ index 5dec0e8617..ab81c2f235 100644
  company_cmd.cpp
  depot_cmd.cpp
  group_cmd.cpp
-@@ -578,6 +589,7 @@ industry_cmd.cpp
+@@ -579,6 +590,7 @@ industry_cmd.cpp
  misc_cmd.cpp
  object_cmd.cpp
  order_cmd.cpp
@@ -5654,7 +5242,7 @@ index 39f1ea661e..9a83d2ca2d 100644
  void ShowGenerateLandscape();
  void ShowHeightmapLoad();
 diff --git a/src/industry_cmd.cpp b/src/industry_cmd.cpp
-index ee55e490bd..65d46db841 100644
+index d918ef16bd..2693f2091f 100644
 --- a/src/industry_cmd.cpp
 +++ b/src/industry_cmd.cpp
 @@ -343,6 +343,8 @@ static void DrawTile_Industry(TileInfo *ti)
@@ -5666,7 +5254,7 @@ index ee55e490bd..65d46db841 100644
  	/* If industries are transparent and invisible, do not draw the upper part */
  	if (IsInvisibilitySet(TO_INDUSTRIES)) return;
  
-@@ -2865,4 +2867,5 @@ extern const TileTypeProcs _tile_type_industry_procs = {
+@@ -2900,4 +2902,5 @@ extern const TileTypeProcs _tile_type_industry_procs = {
  	NULL,                        // vehicle_enter_tile_proc
  	GetFoundation_Industry,      // get_foundation_proc
  	TerraformTile_Industry,      // terraform_tile_proc
@@ -10970,7 +10558,7 @@ index 4598851f64..2249285c66 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index d33afbfaa5..80178a7b97 100644
+index cb04a5cbd9..7bd8003bd6 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -232,6 +232,7 @@ STR_TOOLTIP_GROUP_ORDER                                         :{BLACK}Select g
@@ -11126,7 +10714,7 @@ index d33afbfaa5..80178a7b97 100644
  
  STR_MAPGEN_MAX_HEIGHTLEVEL_QUERY_CAPT                           :{WHITE}Change maximum map height
  STR_MAPGEN_SNOW_LINE_QUERY_CAPT                                 :{WHITE}Change snow line height
-@@ -3218,6 +3269,8 @@ STR_CARGO_RATING_OUTSTANDING                                    :Outstanding
+@@ -3220,6 +3271,8 @@ STR_CARGO_RATING_OUTSTANDING                                    :Outstanding
  STR_STATION_VIEW_CENTER_TOOLTIP                                 :{BLACK}Centre main view on station location. Ctrl+Click opens a new viewport on station location
  STR_STATION_VIEW_RENAME_TOOLTIP                                 :{BLACK}Change name of station
  
@@ -11135,7 +10723,7 @@ index d33afbfaa5..80178a7b97 100644
  STR_STATION_VIEW_SCHEDULED_TRAINS_TOOLTIP                       :{BLACK}Show all trains which have this station on their schedule
  STR_STATION_VIEW_SCHEDULED_ROAD_VEHICLES_TOOLTIP                :{BLACK}Show all road vehicles which have this station on their schedule
  STR_STATION_VIEW_SCHEDULED_AIRCRAFT_TOOLTIP                     :{BLACK}Show all aircraft which have this station on their schedule
-@@ -3424,8 +3477,8 @@ STR_GROUP_REMOVE_ALL_VEHICLES                                   :Remove all vehi
+@@ -3426,8 +3479,8 @@ STR_GROUP_REMOVE_ALL_VEHICLES                                   :Remove all vehi
  
  STR_GROUP_RENAME_CAPTION                                        :{BLACK}Rename a group
  
@@ -11146,7 +10734,7 @@ index d33afbfaa5..80178a7b97 100644
  STR_GROUP_OCCUPANCY                                             :Current usage:
  STR_GROUP_OCCUPANCY_VALUE                                       :{NUM}%
  
-@@ -4197,6 +4250,8 @@ STR_ERROR_TREE_PLANT_LIMIT_REACHED                              :{WHITE}... tree
+@@ -4199,6 +4252,8 @@ STR_ERROR_TREE_PLANT_LIMIT_REACHED                              :{WHITE}... tree
  STR_ERROR_NAME_MUST_BE_UNIQUE                                   :{WHITE}Name must be unique
  STR_ERROR_GENERIC_OBJECT_IN_THE_WAY                             :{WHITE}{1:STRING} in the way
  STR_ERROR_NOT_ALLOWED_WHILE_PAUSED                              :{WHITE}Not allowed while paused
@@ -11155,7 +10743,7 @@ index d33afbfaa5..80178a7b97 100644
  
  # Local authority errors
  STR_ERROR_LOCAL_AUTHORITY_REFUSES_TO_ALLOW_THIS                 :{WHITE}{TOWN} local authority refuses to allow this
-@@ -4276,6 +4331,8 @@ STR_ERROR_CAN_T_BUILD_DOCK_HERE                                 :{WHITE}Can't bu
+@@ -4278,6 +4333,8 @@ STR_ERROR_CAN_T_BUILD_DOCK_HERE                                 :{WHITE}Can't bu
  STR_ERROR_CAN_T_BUILD_AIRPORT_HERE                              :{WHITE}Can't build airport here...
  
  STR_ERROR_ADJOINS_MORE_THAN_ONE_EXISTING                        :{WHITE}Adjoins more than one existing station/loading area
@@ -11164,7 +10752,7 @@ index d33afbfaa5..80178a7b97 100644
  STR_ERROR_STATION_TOO_SPREAD_OUT                                :{WHITE}... station too spread out
  STR_ERROR_TOO_MANY_STATIONS_LOADING                             :{WHITE}Too many stations/loading areas
  STR_ERROR_TOO_MANY_STATION_SPECS                                :{WHITE}Too many railway station parts
-@@ -4425,6 +4482,10 @@ STR_ERROR_COMPANY_HEADQUARTERS_IN                               :{WHITE}... comp
+@@ -4427,6 +4484,10 @@ STR_ERROR_COMPANY_HEADQUARTERS_IN                               :{WHITE}... comp
  STR_ERROR_CAN_T_PURCHASE_THIS_LAND                              :{WHITE}Can't purchase this land area...
  STR_ERROR_YOU_ALREADY_OWN_IT                                    :{WHITE}... you already own it!
  
@@ -11175,7 +10763,7 @@ index d33afbfaa5..80178a7b97 100644
  # Group related errors
  STR_ERROR_GROUP_CAN_T_CREATE                                    :{WHITE}Can't create group...
  STR_ERROR_GROUP_CAN_T_DELETE                                    :{WHITE}Can't delete this group...
-@@ -4950,10 +5011,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4952,10 +5013,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Spectator, {1:STRING1}
  
  # Viewport strings
@@ -11194,7 +10782,7 @@ index d33afbfaa5..80178a7b97 100644
  
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
-@@ -5011,6 +5080,7 @@ STR_DATE_LONG_SMALL                                             :{TINY_FONT}{BLA
+@@ -5013,6 +5082,7 @@ STR_DATE_LONG_SMALL                                             :{TINY_FONT}{BLA
  STR_TINY_GROUP                                                  :{TINY_FONT}{GROUP}
  STR_BLACK_INT                                                   :{BLACK}{NUM}
  STR_ORANGE_INT                                                  :{ORANGE}{NUM}
@@ -16369,10 +15957,10 @@ index 31c6ff796b..257ac85a35 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/indonesian.txt b/src/lang/indonesian.txt
-index c715b2043e..78f1238bd3 100644
+index f0d8efc7a8..4de2f8bdbe 100644
 --- a/src/lang/indonesian.txt
 +++ b/src/lang/indonesian.txt
-@@ -4869,10 +4869,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4920,10 +4920,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Penonton, {1:STRING}
  
  # Viewport strings
@@ -16392,10 +15980,10 @@ index c715b2043e..78f1238bd3 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/italian.txt b/src/lang/italian.txt
-index f456797bf8..ae260e1e88 100644
+index 9ad7024496..919a691fd2 100644
 --- a/src/lang/italian.txt
 +++ b/src/lang/italian.txt
-@@ -4980,10 +4980,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4982,10 +4982,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Spettatore, {1:STRING}
  
  # Viewport strings
@@ -26494,10 +26082,10 @@ index a116b64f42..c1fafcec6a 100644
  STR_VIEWPORT_SIGN_SMALL_BLACK                                   :{TINY_FONT}{BLACK}{SIGN}
  STR_VIEWPORT_SIGN_SMALL_WHITE                                   :{TINY_FONT}{WHITE}{SIGN}
 diff --git a/src/lang/spanish.txt b/src/lang/spanish.txt
-index 3756395ced..8095ac6eec 100644
+index 1ba5d1ca98..e6b5a40b86 100644
 --- a/src/lang/spanish.txt
 +++ b/src/lang/spanish.txt
-@@ -4889,10 +4889,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
+@@ -4894,10 +4894,18 @@ STR_SAVEGAME_NAME_DEFAULT                                       :{COMPANY}, {STR
  STR_SAVEGAME_NAME_SPECTATOR                                     :Espectador, {1:STRING}
  
  # Viewport strings
@@ -32327,7 +31915,7 @@ index 0c57d37700..a7bd2eb3ff 100644
  /**
   * Approximation of the length of a straight track, relative to a diagonal
 diff --git a/src/misc_gui.cpp b/src/misc_gui.cpp
-index e23da4293c..ea93e348f3 100644
+index b122d172d1..dd9e0ff911 100644
 --- a/src/misc_gui.cpp
 +++ b/src/misc_gui.cpp
 @@ -123,16 +123,16 @@ public:
@@ -32581,7 +32169,7 @@ index 1aaf984345..2258d9a8ef 100644
  
  #endif /* OBJECT_MAP_H */
 diff --git a/src/openttd.cpp b/src/openttd.cpp
-index 88739a9eac..53e060939a 100644
+index 03c8aa2869..6511ff096f 100644
 --- a/src/openttd.cpp
 +++ b/src/openttd.cpp
 @@ -57,6 +57,7 @@
@@ -32592,7 +32180,7 @@ index 88739a9eac..53e060939a 100644
  #include "game/game.hpp"
  #include "game/game_config.hpp"
  #include "town.h"
-@@ -960,6 +961,24 @@ static void MakeNewGameDone()
+@@ -963,6 +964,24 @@ static void MakeNewGameDone()
  	MarkWholeScreenDirty();
  }
  
@@ -32617,7 +32205,7 @@ index 88739a9eac..53e060939a 100644
  static void MakeNewGame(bool from_heightmap, bool reset_settings)
  {
  	_game_mode = GM_NORMAL;
-@@ -967,6 +986,7 @@ static void MakeNewGame(bool from_heightmap, bool reset_settings)
+@@ -970,6 +989,7 @@ static void MakeNewGame(bool from_heightmap, bool reset_settings)
  	ResetGRFConfig(true);
  
  	GenerateWorldSetCallback(&MakeNewGameDone);
@@ -32625,7 +32213,7 @@ index 88739a9eac..53e060939a 100644
  	GenerateWorld(from_heightmap ? GWM_HEIGHTMAP : GWM_NEWGAME, 1 << _settings_game.game_creation.map_x, 1 << _settings_game.game_creation.map_y, reset_settings);
  }
  
-@@ -982,6 +1002,7 @@ static void MakeNewEditorWorld()
+@@ -985,6 +1005,7 @@ static void MakeNewEditorWorld()
  	ResetGRFConfig(true);
  
  	GenerateWorldSetCallback(&MakeNewEditorWorldDone);
@@ -32633,7 +32221,7 @@ index 88739a9eac..53e060939a 100644
  	GenerateWorld(GWM_EMPTY, 1 << _settings_game.game_creation.map_x, 1 << _settings_game.game_creation.map_y);
  }
  
-@@ -1070,8 +1091,13 @@ void SwitchToMode(SwitchMode new_mode)
+@@ -1073,8 +1094,13 @@ void SwitchToMode(SwitchMode new_mode)
  		}
  	}
  #endif /* ENABLE_NETWORK */
@@ -32649,7 +32237,7 @@ index 88739a9eac..53e060939a 100644
  
  	switch (new_mode) {
  		case SM_EDITOR: // Switch to scenario editor
-@@ -1128,6 +1154,7 @@ void SwitchToMode(SwitchMode new_mode)
+@@ -1131,6 +1157,7 @@ void SwitchToMode(SwitchMode new_mode)
  		case SM_LOAD_HEIGHTMAP: // Load heightmap from scenario editor
  			SetLocalCompany(OWNER_NONE);
  
@@ -32657,7 +32245,7 @@ index 88739a9eac..53e060939a 100644
  			GenerateWorld(GWM_HEIGHTMAP, 1 << _settings_game.game_creation.map_x, 1 << _settings_game.game_creation.map_y);
  			MarkWholeScreenDirty();
  			break;
-@@ -1170,6 +1197,7 @@ void SwitchToMode(SwitchMode new_mode)
+@@ -1173,6 +1200,7 @@ void SwitchToMode(SwitchMode new_mode)
  
  		case SM_GENRANDLAND: // Generate random land within scenario editor
  			SetLocalCompany(OWNER_NONE);
@@ -35078,7 +34666,7 @@ index 207a3f23b2..b05a63b829 100644
  	}
  
 diff --git a/src/saveload/afterload.cpp b/src/saveload/afterload.cpp
-index cca9ad328a..3105909573 100644
+index 077f86bf62..e5db649c94 100644
 --- a/src/saveload/afterload.cpp
 +++ b/src/saveload/afterload.cpp
 @@ -125,7 +125,7 @@ void SetWaterClassDependingOnSurroundings(TileIndex t, bool include_invalid_wate
@@ -46862,7 +46450,7 @@ index b2a2a5d7a4..cddf23c1e7 100644
  	 * Marks the vehicles to be redrawn and updates cached variables
  	 *
 diff --git a/src/viewport.cpp b/src/viewport.cpp
-index 13f87de1da..beda6e679b 100644
+index 350bb92381..30682e95ad 100644
 --- a/src/viewport.cpp
 +++ b/src/viewport.cpp
 @@ -41,19 +41,19 @@
@@ -46913,7 +46501,7 @@ index 13f87de1da..beda6e679b 100644
  #include "window_gui.h"
  #include "linkgraph/linkgraph_gui.h"
  #include "viewport_sprite_sorter.h"
-@@ -942,6 +945,32 @@ static void DrawTileSelectionRect(const TileInfo *ti, PaletteID pal)
+@@ -941,6 +944,32 @@ static void DrawTileSelectionRect(const TileInfo *ti, PaletteID pal)
  	DrawSelectionSprite(sel, pal, ti, 7, FOUNDATION_PART_NORMAL);
  }
  
@@ -46946,7 +46534,7 @@ index 13f87de1da..beda6e679b 100644
  static bool IsPartOfAutoLine(int px, int py)
  {
  	px -= _thd.selstart.x;
-@@ -1009,6 +1038,31 @@ static void DrawAutorailSelection(const TileInfo *ti, uint autorail_type)
+@@ -1008,6 +1037,31 @@ static void DrawAutorailSelection(const TileInfo *ti, uint autorail_type)
  	DrawSelectionSprite(image, _thd.make_square_red ? PALETTE_SEL_TILE_RED : pal, ti, 7, foundation_part);
  }
  
@@ -46978,7 +46566,7 @@ index 13f87de1da..beda6e679b 100644
  /**
   * Checks if the specified tile is selected and if so draws selection using correct selectionstyle.
   * @param *ti TileInfo Tile that is being drawn
-@@ -1034,22 +1088,11 @@ draw_inner:
+@@ -1033,22 +1087,11 @@ draw_inner:
  		if (_thd.drawstyle & HT_RECT) {
  			if (!is_redsq) DrawTileSelectionRect(ti, _thd.make_square_red ? PALETTE_SEL_TILE_RED : PAL_NONE);
  		} else if (_thd.drawstyle & HT_POINT) {
@@ -47005,7 +46593,7 @@ index 13f87de1da..beda6e679b 100644
  		} else if (_thd.drawstyle & HT_RAIL) {
  			/* autorail highlight piece under cursor */
  			HighLightStyle type = _thd.drawstyle & HT_DIR_MASK;
-@@ -1260,8 +1303,7 @@ static void ViewportAddTownNames(DrawPixelInfo *dpi)
+@@ -1259,8 +1302,7 @@ static void ViewportAddTownNames(DrawPixelInfo *dpi)
  	const Town *t;
  	FOR_ALL_TOWNS(t) {
  		ViewportAddString(dpi, ZOOM_LVL_OUT_16X, &t->cache.sign,
@@ -47015,7 +46603,7 @@ index 13f87de1da..beda6e679b 100644
  				t->index, t->cache.population);
  	}
  }
-@@ -2173,7 +2215,7 @@ static void PlaceObject()
+@@ -2159,7 +2201,7 @@ static void PlaceObject()
  	pt = GetTileBelowCursor();
  	if (pt.x == -1) return;
  
@@ -47024,7 +46612,7 @@ index 13f87de1da..beda6e679b 100644
  		pt.x += TILE_SIZE / 2;
  		pt.y += TILE_SIZE / 2;
  	}
-@@ -2416,8 +2458,10 @@ void UpdateTileSelection()
+@@ -2402,8 +2444,10 @@ void UpdateTileSelection()
  					break;
  				case HT_POINT:
  					new_drawstyle = HT_POINT;
@@ -47037,7 +46625,7 @@ index 13f87de1da..beda6e679b 100644
  					break;
  				case HT_RAIL:
  					/* Draw one highlighted tile in any direction */
-@@ -3160,6 +3204,19 @@ EventState VpHandlePlaceSizingDrag()
+@@ -3146,6 +3190,19 @@ EventState VpHandlePlaceSizingDrag()
  	return ES_HANDLED;
  }
  
@@ -47057,7 +46645,7 @@ index 13f87de1da..beda6e679b 100644
  /**
   * Change the cursor and mouse click/drag handling to a mode for performing special operations like tile area selection, object placement, etc.
   * @param icon New shape of the mouse cursor.
-@@ -3244,6 +3301,14 @@ Point GetViewportStationMiddle(const ViewPort *vp, const Station *st)
+@@ -3230,6 +3287,14 @@ Point GetViewportStationMiddle(const ViewPort *vp, const Station *st)
  	return p;
  }
  
