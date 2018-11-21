@@ -1420,10 +1420,10 @@ index 0000000000..7228fb4b66
 +
 diff --git a/src/layer_func.h b/src/layer_func.h
 new file mode 100644
-index 0000000000..be060cc27c
+index 0000000000..d472d23b50
 --- /dev/null
 +++ b/src/layer_func.h
-@@ -0,0 +1,161 @@
+@@ -0,0 +1,102 @@
 +/* $Id: layer_func.h 2012-09-07 18:11:11 constructor $ */
 +
 +/*
@@ -1453,65 +1453,6 @@ index 0000000000..be060cc27c
 +#define UNDERGROUND_COST_MULTIPLIER(tile)  (1 + 100 * (TileHeight(TopTile(tile))-TileHeight(tile)-LayerIndex(tile)))
 +
 +#define FOR_ALL_LAYERS(var) for (uint var = 0; var < LayerCount(); var++)
-+
-+
-+/**
-+ * Get the size of the layer along the X
-+ * @return the number of tiles along the X of the layer
-+ */
-+static inline uint LayerSizeX()
-+{
-+	extern uint _map_size_x;
-+	return _map_size_x;
-+}
-+
-+/**
-+ * Get the size of the layer along the Y
-+ * @return the number of tiles along the Y of the layer
-+ */
-+static inline uint LayerSizeY()
-+{
-+	extern uint _layer_size_y;
-+	return _layer_size_y;
-+}
-+
-+/**
-+ * Gets the maximum X coordinate within the map, including MP_VOID
-+ * @return the maximum X coordinate
-+ */
-+static inline uint LayerMaxX()
-+{
-+	return LayerSizeX() - 1;
-+}
-+
-+/**
-+ * Gets the maximum Y coordinate within the map, including MP_VOID
-+ * @return the maximum Y coordinate
-+ */
-+static inline uint LayerMaxY()
-+{
-+	return LayerSizeY() - 1;
-+}
-+
-+/**
-+ * Get the layer counts
-+ * @return the number of layers
-+ */
-+static inline uint LayerCount()
-+{
-+	extern uint _layer_count;
-+	return _layer_count;
-+}
-+
-+/**
-+ * Get the layer counts
-+ * @return the number of layers
-+ */
-+static inline uint LayerCountLog()
-+{
-+	extern uint _layer_count_log;
-+	return _layer_count_log;
-+}
 +
 +/**
 + * Get the X component of a tile
@@ -1736,7 +1677,7 @@ index 85590c3e88..c00faa18c1 100644
  	} else {
  		return CircularTileSearch(tile, size / 2, 0, 0, proc, user_data);
 diff --git a/src/map_func.h b/src/map_func.h
-index 21d69b1382..08cf12b5f0 100644
+index 21d69b1382..b0a59eb148 100644
 --- a/src/map_func.h
 +++ b/src/map_func.h
 @@ -43,7 +43,7 @@ extern Tile *_m;
@@ -1748,6 +1689,80 @@ index 21d69b1382..08cf12b5f0 100644
  
  /**
   * Logarithm of the map size along the X side.
+@@ -115,6 +115,64 @@ static inline uint MapMaxY()
+ 	return MapSizeY() - 1;
+ }
+ 
++/**
++ * Get the size of the layer along the X
++ * @return the number of tiles along the X of the layer
++ */
++static inline uint LayerSizeX()
++{
++	extern uint _map_size_x;
++	return _map_size_x;
++}
++
++/**
++ * Get the size of the layer along the Y
++ * @return the number of tiles along the Y of the layer
++ */
++static inline uint LayerSizeY()
++{
++	extern uint _layer_size_y;
++	return _layer_size_y;
++}
++
++/**
++ * Gets the maximum X coordinate within the map, including MP_VOID
++ * @return the maximum X coordinate
++ */
++static inline uint LayerMaxX()
++{
++	return LayerSizeX() - 1;
++}
++
++/**
++ * Gets the maximum Y coordinate within the map, including MP_VOID
++ * @return the maximum Y coordinate
++ */
++static inline uint LayerMaxY()
++{
++	return LayerSizeY() - 1;
++}
++
++/**
++ * Get the layer counts
++ * @return the number of layers
++ */
++static inline uint LayerCount()
++{
++	extern uint _layer_count;
++	return _layer_count;
++}
++
++/**
++ * Get the layer counts
++ * @return the number of layers
++ */
++static inline uint LayerCountLog()
++{
++	extern uint _layer_count_log;
++	return _layer_count_log;
++}
++
+ /**
+  * Scales the given value by the map size, where the given value is
+  * for a 256 by 256 map.
+@@ -125,7 +183,7 @@ static inline uint ScaleByMapSize(uint n)
+ {
+ 	/* Subtract 12 from shift in order to prevent integer overflow
+ 	 * for large values of n. It's safe since the min mapsize is 64x64. */
+-	return CeilDiv(n << (MapLogX() + MapLogY() - 12), 1 << 4);
++	return CeilDiv(n << (MapLogX() + MapLogY() - LayerCountLog() - 12), 1 << 4);
+ }
+ 
+ 
 diff --git a/src/misc.cpp b/src/misc.cpp
 index d9d506993f..f5184c0581 100644
 --- a/src/misc.cpp
