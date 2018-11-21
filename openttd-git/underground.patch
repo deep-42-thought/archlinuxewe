@@ -1,0 +1,3462 @@
+diff --git a/layer.txt b/layer.txt
+new file mode 100644
+index 0000000000..a5947189b9
+--- /dev/null
++++ b/layer.txt
+@@ -0,0 +1,48 @@
++* Card generation (extended card)
++
++VISUALIZATION
++
++*	arrange a "shift" of the viewport to select a layer
++-	and restriction on movement
+++	each viewport has its own layer
++
++LOGICS
++
++dungeon:
++	unavailability:
++*		flood
++*		landscape change
++*		building
++*			houses
++*			trees
++*			water
++*			factories
++*			bridges
++*			tunnels
++*			airports
++*		roads at the intersection of layers
++?	generator
++?	rivers, cities
++*	edges (independent lifting, void)
++
++activity restriction
++synchronization of landscape changes
++
++GUI
++
++**	construction of a two-level station
++-	construction of a worm-hole from one layer to a neighbour layer
++**	work with the station (construction, removal / blocking of parts / cost)
++*	menu template for management / construction
++
+++	add selection of number of layers
+++	only show layer switches for available layers
++?	only show tiles of current layer
+++	fix the coordinates in the "help area"
++-	fix the coordinates in the start screen
++-	signatures, station names (on all layers), effects (on the desired layer)
++
++BAGI
+++	station deletion (departure)
++*	Expansion of the underground station does not work (when adding cells, a new one is added)
++-	GF. "jumps" (the non-editable part of the station changes randomly when the station is modified)
+diff --git a/source.list b/source.list
+index 7b31df91bb..d50c1ee287 100644
+--- a/source.list
++++ b/source.list
+@@ -1197,3 +1197,12 @@ thread/thread.h
+ #else
+ 	thread/thread_none.cpp
+ #end
++
++# underground
++layer.cpp
++underground_gui.cpp
++layer_type.h
++layer_func.h
++layer_gui.h
++underground_gui.h
++widgets/underground_widget.h
+diff --git a/src/base_station_base.h b/src/base_station_base.h
+index cd512c5177..3602a56d19 100644
+--- a/src/base_station_base.h
++++ b/src/base_station_base.h
+@@ -28,6 +28,13 @@ struct StationSpecList {
+ 
+ 
+ /** StationRect - used to track station spread out rectangle - cheaper than scanning whole map */
++/*
++**	Ïàò÷ "layer"
++**	Êðèòè÷åñêîå èçìåíåíèå:
++**	"Rect" ïîäðàçóìåâàåò òîëüêî âåðõíèé ñëîé (ïîâåðõíîñòü)
++**	(ñòàíöèÿ ìîæåò ðàñïîëàãàòüñÿ íà ëþáîì ñëîå, -- 
++**	Rect îïèñûâàåò ñîîòâåòñòâóþùóþ ÷àñòü âåðõíåãî ñëîÿ)	
++*/
+ struct StationRect : public Rect {
+ 	enum StationRectMode
+ 	{
+@@ -38,7 +45,7 @@ struct StationRect : public Rect {
+ 
+ 	StationRect();
+ 	void MakeEmpty();
+-	bool PtInExtendedRect(int x, int y, int distance = 0) const;
++	bool PtInExtendedRect(int topx, int topy, int distance = 0) const;
+ 	bool IsEmpty() const;
+ 	CommandCost BeforeAddTile(TileIndex tile, StationRectMode mode);
+ 	CommandCost BeforeAddRect(TileIndex tile, int w, int h, StationRectMode mode);
+diff --git a/src/clear_cmd.cpp b/src/clear_cmd.cpp
+index f9eb88df54..0db7590be7 100644
+--- a/src/clear_cmd.cpp
++++ b/src/clear_cmd.cpp
+@@ -14,6 +14,7 @@
+ #include "command_func.h"
+ #include "landscape.h"
+ #include "genworld.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "water.h"
+ #include "core/random_func.hpp"
+@@ -100,8 +101,28 @@ static void DrawClearLandFence(const TileInfo *ti)
+ 	EndSpriteCombine();
+ }
+ 
++static void DrawUndergroundTile_Clear(TileInfo *ti)
++{
++	
++}
++
+ static void DrawTile_Clear(TileInfo *ti)
+ {
++	uint base_tile = TopTile(ti->tile);
++	uint underground_tile = DownTile(base_tile);
++	
++	bool self_underground = IsUnderground(ti->tile);
++
++	bool have_canalization = IsTileType(base_tile, MP_HOUSE);
++	bool have_underground = !IsTileType(underground_tile, MP_CLEAR);
++
++	if (self_underground && !have_canalization)
++		DrawGroundSprite(SPR_FLAT_BARE_LAND + SlopeToSpriteOffset(ti->tileh), PAL_NONE);
++
++	if (self_underground && have_canalization)
++		DrawGroundSprite(SPR_FLAT_GRASS_TILE + SlopeToSpriteOffset(ti->tileh), PAL_NONE);
++
++	if (!self_underground)
+ 	switch (GetClearGround(ti->tile)) {
+ 		case CLEAR_GRASS:
+ 			DrawClearLandTile(ti, GetClearDensity(ti->tile));
+@@ -126,6 +147,9 @@ static void DrawTile_Clear(TileInfo *ti)
+ 			break;
+ 	}
+ 
++	if (!self_underground && have_underground)
++		DrawGroundSprite(SPR_FLAT_BARE_LAND + SlopeToSpriteOffset(ti->tileh), PAL_NONE);
++
+ 	DrawBridgeMiddle(ti);
+ }
+ 
+diff --git a/src/console_cmds.cpp b/src/console_cmds.cpp
+index d9155a97db..07cca44b71 100644
+--- a/src/console_cmds.cpp
++++ b/src/console_cmds.cpp
+@@ -27,6 +27,7 @@
+ #include "screenshot.h"
+ #include "genworld.h"
+ #include "strings_func.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "window_func.h"
+ #include "date_func.h"
+@@ -1061,6 +1062,7 @@ DEF_CONSOLE_CMD(ConRestart)
+ 	}
+ 
+ 	/* Don't copy the _newgame pointers to the real pointers, so call SwitchToMode directly */
++	_settings_game.game_creation.layers = FindFirstBit(LayerCount());
+ 	_settings_game.game_creation.map_x = MapLogX();
+ 	_settings_game.game_creation.map_y = FindFirstBit(MapSizeY());
+ 	_switch_mode = SM_RESTARTGAME;
+diff --git a/src/genworld_gui.cpp b/src/genworld_gui.cpp
+index b22ba5287e..dd1a2cadea 100644
+--- a/src/genworld_gui.cpp
++++ b/src/genworld_gui.cpp
+@@ -18,6 +18,8 @@
+ #include "window_func.h"
+ #include "date_func.h"
+ #include "sound_func.h"
++#include "map_type.h"
++#include "layer_type.h"
+ #include "fios.h"
+ #include "string_func.h"
+ #include "widgets/dropdown_type.h"
+@@ -81,6 +83,7 @@ static const NWidgetPart _nested_generate_landscape_widgets[] = {
+ 				/* Left column with labels. */
+ 				NWidget(NWID_VERTICAL, NC_EQUALSIZE), SetPIP(0, 4, 0),
+ 					NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_MAPSIZE, STR_MAPGEN_MAPSIZE_TOOLTIP), SetFill(1, 1),
++                                       NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_UNDERGROUND_LAYER_COUNT, STR_NULL), SetFill(1, 1),
+ 					NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_LAND_GENERATOR, STR_NULL), SetFill(1, 1),
+ 					NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_NUMBER_OF_TOWNS, STR_NULL), SetFill(1, 1),
+ 					NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_TERRAIN_TYPE, STR_NULL), SetFill(1, 1),
+@@ -97,6 +100,7 @@ static const NWidgetPart _nested_generate_landscape_widgets[] = {
+ 						NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_BY, STR_NULL), SetPadding(1, 0, 0, 0), SetFill(1, 1),
+ 						NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_GL_MAPSIZE_Y_PULLDOWN), SetDataTip(STR_JUST_INT, STR_MAPGEN_MAPSIZE_TOOLTIP), SetFill(1, 0),
+ 					EndContainer(),
++					NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_GL_LAYER_COUNT_PULLDOWN), SetDataTip(STR_JUST_INT, STR_NULL), SetFill(1, 0),
+ 					NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_GL_LANDSCAPE_PULLDOWN), SetDataTip(STR_JUST_STRING, STR_NULL), SetFill(1, 0),
+ 					NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_GL_TOWN_PULLDOWN), SetDataTip(STR_JUST_STRING, STR_NULL), SetFill(1, 0),
+ 					NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_GL_TERRAIN_PULLDOWN), SetDataTip(STR_JUST_STRING, STR_NULL), SetFill(1, 0),
+@@ -201,6 +205,7 @@ static const NWidgetPart _nested_heightmap_load_widgets[] = {
+ 				NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_HEIGHTMAP_NAME, STR_NULL), SetFill(1, 1),
+ 				NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_MAPSIZE, STR_NULL), SetFill(1, 1),
+ 				NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_HEIGHTMAP_ROTATION, STR_NULL), SetFill(1, 1),
++				NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_UNDERGROUND_LAYER_COUNT, STR_NULL), SetFill(1, 1),
+ 				NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_NUMBER_OF_TOWNS, STR_NULL), SetFill(1, 1),
+ 				NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_NUMBER_OF_INDUSTRIES, STR_NULL), SetFill(1, 1),
+ 				NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_QUANTITY_OF_RIVERS, STR_NULL), SetFill(1, 1),
+@@ -218,6 +223,7 @@ static const NWidgetPart _nested_heightmap_load_widgets[] = {
+ 							NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_GL_MAPSIZE_Y_PULLDOWN), SetDataTip(STR_JUST_INT, STR_NULL), SetFill(1, 0),
+ 						EndContainer(),
+ 						NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_GL_HEIGHTMAP_ROTATION_PULLDOWN), SetDataTip(STR_JUST_STRING, STR_NULL), SetFill(1, 0),
++						NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_GL_LAYER_COUNT_PULLDOWN), SetDataTip(STR_JUST_INT, STR_NULL), SetFill(1, 0),
+ 						NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_GL_TOWN_PULLDOWN), SetDataTip(STR_JUST_STRING, STR_NULL), SetFill(1, 0),
+ 						NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_GL_INDUSTRY_PULLDOWN), SetDataTip(STR_JUST_STRING, STR_NULL), SetFill(1, 0),
+ 						NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_GL_RIVER_PULLDOWN), SetDataTip(STR_JUST_STRING, STR_NULL), SetFill(1, 0),
+@@ -282,11 +288,11 @@ static void LandscapeGenerationCallback(Window *w, bool confirmed)
+ 	if (confirmed) StartGeneratingLandscape((GenerateLandscapeWindowMode)w->window_number);
+ }
+ 
+-static DropDownList *BuildMapsizeDropDown()
++static DropDownList *BuildBitListDropDown(uint min_bits, uint max_bits)
+ {
+ 	DropDownList *list = new DropDownList();
+ 
+-	for (uint i = MIN_MAP_SIZE_BITS; i <= MAX_MAP_SIZE_BITS; i++) {
++	for (uint i = min_bits; i <= max_bits; i++) {
+ 		DropDownListParamStringItem *item = new DropDownListParamStringItem(STR_JUST_INT, i, false);
+ 		item->SetParam(0, 1LL << i);
+ 		*list->Append() = item;
+@@ -295,6 +301,16 @@ static DropDownList *BuildMapsizeDropDown()
+ 	return list;
+ }
+ 
++static DropDownList *BuildMapsizeDropDown()
++{
++	return BuildBitListDropDown(MIN_MAP_SIZE_BITS, MAX_MAP_SIZE_BITS);
++}
++
++static DropDownList *BuildLayerDropDown()
++{
++	return BuildBitListDropDown(MIN_LAYER_COUNT_BITS, MAX_LAYER_COUNT_BITS);
++}
++
+ static const StringID _elevations[]  = {STR_TERRAIN_TYPE_VERY_FLAT, STR_TERRAIN_TYPE_FLAT, STR_TERRAIN_TYPE_HILLY, STR_TERRAIN_TYPE_MOUNTAINOUS, STR_TERRAIN_TYPE_ALPINIST, INVALID_STRING_ID};
+ static const StringID _sea_lakes[]   = {STR_SEA_LEVEL_VERY_LOW, STR_SEA_LEVEL_LOW, STR_SEA_LEVEL_MEDIUM, STR_SEA_LEVEL_HIGH, STR_SEA_LEVEL_CUSTOM, INVALID_STRING_ID};
+ static const StringID _rivers[]      = {STR_RIVERS_NONE, STR_RIVERS_FEW, STR_RIVERS_MODERATE, STR_RIVERS_LOT, INVALID_STRING_ID};
+@@ -338,6 +354,7 @@ struct GenerateLandscapeWindow : public Window {
+ 			case WID_GL_START_DATE_TEXT:      SetDParam(0, ConvertYMDToDate(_settings_newgame.game_creation.starting_year, 0, 1)); break;
+ 			case WID_GL_MAPSIZE_X_PULLDOWN:   SetDParam(0, 1LL << _settings_newgame.game_creation.map_x); break;
+ 			case WID_GL_MAPSIZE_Y_PULLDOWN:   SetDParam(0, 1LL << _settings_newgame.game_creation.map_y); break;
++			case WID_GL_LAYER_COUNT_PULLDOWN: SetDParam(0, 1 << _settings_newgame.game_creation.layers); break;
+ 			case WID_GL_MAX_HEIGHTLEVEL_TEXT: SetDParam(0, _settings_newgame.construction.max_heightlevel); break;
+ 			case WID_GL_SNOW_LEVEL_TEXT:      SetDParam(0, _settings_newgame.game_creation.snow_line_height); break;
+ 
+@@ -460,6 +477,11 @@ struct GenerateLandscapeWindow : public Window {
+ 				*size = maxdim(*size, GetStringBoundingBox(STR_JUST_INT));
+ 				break;
+ 
++			case WID_GL_LAYER_COUNT_PULLDOWN:
++				SetDParam(0, MAX_LAYER_COUNT);
++				*size = GetStringBoundingBox(STR_JUST_INT);
++				break;
++
+ 			case WID_GL_SNOW_LEVEL_TEXT:
+ 				SetDParamMaxValue(0, MAX_TILE_HEIGHT);
+ 				*size = maxdim(*size, GetStringBoundingBox(STR_JUST_INT));
+@@ -546,6 +568,10 @@ struct GenerateLandscapeWindow : public Window {
+ 				ShowDropDownList(this, BuildMapsizeDropDown(), _settings_newgame.game_creation.map_y, WID_GL_MAPSIZE_Y_PULLDOWN);
+ 				break;
+ 
++			case WID_GL_LAYER_COUNT_PULLDOWN: // Mapsize Z
++				ShowDropDownList(this, BuildLayerDropDown(), _settings_newgame.game_creation.layers, WID_GL_LAYER_COUNT_PULLDOWN);
++				break;
++
+ 			case WID_GL_TOWN_PULLDOWN: // Number of towns
+ 				ShowDropDownMenu(this, _num_towns, _settings_newgame.difficulty.number_towns, WID_GL_TOWN_PULLDOWN, 0, 0);
+ 				break;
+@@ -719,6 +745,7 @@ struct GenerateLandscapeWindow : public Window {
+ 		switch (widget) {
+ 			case WID_GL_MAPSIZE_X_PULLDOWN:     _settings_newgame.game_creation.map_x = index; break;
+ 			case WID_GL_MAPSIZE_Y_PULLDOWN:     _settings_newgame.game_creation.map_y = index; break;
++			case WID_GL_LAYER_COUNT_PULLDOWN:   _settings_newgame.game_creation.layers = index; break;
+ 			case WID_GL_TREE_PULLDOWN:          _settings_newgame.game_creation.tree_placer = index; break;
+ 			case WID_GL_RIVER_PULLDOWN:         _settings_newgame.game_creation.amount_of_rivers = index; break;
+ 			case WID_GL_SMOOTHNESS_PULLDOWN:    _settings_newgame.game_creation.tgen_smoothness = index;  break;
+@@ -903,6 +930,10 @@ struct CreateScenarioWindow : public Window
+ 				SetDParam(0, 1LL << _settings_newgame.game_creation.map_y);
+ 				break;
+ 
++			case WID_CS_LAYER_COUNT_PULLDOWN:
++				SetDParam(0, 1 << _settings_newgame.game_creation.layers);
++				break;
++
+ 			case WID_CS_FLAT_LAND_HEIGHT_TEXT:
+ 				SetDParam(0, _settings_newgame.game_creation.se_flat_world_height);
+ 				break;
+@@ -936,6 +967,10 @@ struct CreateScenarioWindow : public Window
+ 			case WID_CS_MAPSIZE_X_PULLDOWN:
+ 			case WID_CS_MAPSIZE_Y_PULLDOWN:
+ 				SetDParamMaxValue(0, MAX_MAP_SIZE);
++                               break;
++
++                       case WID_CS_LAYER_COUNT_PULLDOWN:
++                               SetDParam(0, MAX_LAYER_COUNT);
+ 				break;
+ 
+ 			case WID_CS_FLAT_LAND_HEIGHT_TEXT:
+@@ -969,6 +1004,10 @@ struct CreateScenarioWindow : public Window
+ 				ShowDropDownList(this, BuildMapsizeDropDown(), _settings_newgame.game_creation.map_y, WID_CS_MAPSIZE_Y_PULLDOWN);
+ 				break;
+ 
++			case WID_CS_LAYER_COUNT_PULLDOWN: // Mapsize Y
++				ShowDropDownList(this, BuildLayerDropDown(), _settings_newgame.game_creation.layers, WID_CS_LAYER_COUNT_PULLDOWN);
++				break;
++
+ 			case WID_CS_EMPTY_WORLD: // Empty world / flat world
+ 				StartGeneratingLandscape(GLWM_SCENARIO);
+ 				break;
+@@ -1031,6 +1070,7 @@ struct CreateScenarioWindow : public Window
+ 		switch (widget) {
+ 			case WID_CS_MAPSIZE_X_PULLDOWN: _settings_newgame.game_creation.map_x = index; break;
+ 			case WID_CS_MAPSIZE_Y_PULLDOWN: _settings_newgame.game_creation.map_y = index; break;
++			case WID_CS_LAYER_COUNT_PULLDOWN: _settings_newgame.game_creation.layers = index; break;
+ 		}
+ 		this->SetDirty();
+ 	}
+@@ -1086,6 +1126,7 @@ static const NWidgetPart _nested_create_scenario_widgets[] = {
+ 					NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_CS_MAPSIZE_X_PULLDOWN), SetDataTip(STR_JUST_INT, STR_NULL), SetPadding(0, 4, 0, 0),
+ 					NWidget(WWT_TEXT, COLOUR_ORANGE), SetDataTip(STR_MAPGEN_BY, STR_NULL), SetPadding(1, 2, 0, 0),
+ 					NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_CS_MAPSIZE_Y_PULLDOWN), SetDataTip(STR_JUST_INT, STR_NULL),
++					NWidget(WWT_DROPDOWN, COLOUR_ORANGE, WID_CS_LAYER_COUNT_PULLDOWN), SetDataTip(STR_JUST_INT, STR_NULL),
+ 				EndContainer(),
+ 				/* Date. */
+ 				NWidget(NWID_HORIZONTAL),
+diff --git a/src/gfx_type.h b/src/gfx_type.h
+index 4cfc149a86..c39d428ac3 100644
+--- a/src/gfx_type.h
++++ b/src/gfx_type.h
+@@ -157,6 +157,7 @@ struct DrawPixelInfo {
+ 	void *dst_ptr;
+ 	int left, top, width, height;
+ 	int pitch;
++	int layer;
+ 	ZoomLevel zoom;
+ };
+ 
+diff --git a/src/heightmap.cpp b/src/heightmap.cpp
+index 17bdbbf610..6521cee6f9 100644
+--- a/src/heightmap.cpp
++++ b/src/heightmap.cpp
+@@ -16,6 +16,7 @@
+ #include "error.h"
+ #include "saveload/saveload.h"
+ #include "bmp.h"
++#include "layer_func.h"
+ #include "gfx_func.h"
+ #include "fios.h"
+ #include "fileio_func.h"
+@@ -397,6 +398,9 @@ void FixSlopes()
+ 	width   = MapSizeX();
+ 	height  = MapSizeY();
+ 
++	/* Layers height correct */
++	FixUndergroundHeights();
++
+ 	/* Top and left edge */
+ 	for (row = 0; (uint)row < height; row++) {
+ 		for (col = 0; (uint)col < width; col++) {
+diff --git a/src/industry_cmd.cpp b/src/industry_cmd.cpp
+index d918ef16bd..f278275fae 100644
+--- a/src/industry_cmd.cpp
++++ b/src/industry_cmd.cpp
+@@ -14,6 +14,7 @@
+ #include "industry.h"
+ #include "station_base.h"
+ #include "landscape.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "command_func.h"
+ #include "town.h"
+@@ -1399,7 +1400,7 @@ static CommandCost CheckIfIndustryTilesAreFree(TileIndex tile, const IndustryTil
+ 		IndustryGfx gfx = GetTranslatedIndustryTileID(it->gfx);
+ 		TileIndex cur_tile = TileAddWrap(tile, it->ti.x, it->ti.y);
+ 
+-		if (!IsValidTile(cur_tile)) {
++		if (!IsValidTile(cur_tile) || IsUnderground(cur_tile)) {
+ 			return_cmd_error(STR_ERROR_SITE_UNSUITABLE);
+ 		}
+ 
+diff --git a/src/landscape.cpp b/src/landscape.cpp
+index 18f27807d7..152aceda70 100644
+--- a/src/landscape.cpp
++++ b/src/landscape.cpp
+@@ -35,6 +35,7 @@
+ #include "framerate_type.h"
+ #include <list>
+ #include <set>
++#include "layer_func.h"
+ 
+ #include "table/strings.h"
+ #include "table/sprites.h"
+@@ -760,22 +761,25 @@ void RunTileLoop()
+ 
+ void InitializeLandscape()
+ {
+-	uint maxx = MapMaxX();
+-	uint maxy = MapMaxY();
++	uint maxx = LayerMaxX();
++	uint maxy = LayerMaxY();
+ 	uint sizex = MapSizeX();
+-
+-	uint y;
+-	for (y = _settings_game.construction.freeform_edges ? 1 : 0; y < maxy; y++) {
+-		uint x;
+-		for (x = _settings_game.construction.freeform_edges ? 1 : 0; x < maxx; x++) {
+-			MakeClear(sizex * y + x, CLEAR_GRASS, 3);
+-			SetTileHeight(sizex * y + x, 0);
+-			SetTropicZone(sizex * y + x, TROPICZONE_NORMAL);
+-			ClearBridgeMiddle(sizex * y + x);
++	uint layersize = LayerSize();
++
++	FOR_ALL_LAYERS(layer) {
++		uint y;
++		for (y = _settings_game.construction.freeform_edges ? 1 : 0; y < maxy; y++) {
++			uint x;
++			for (x = _settings_game.construction.freeform_edges ? 1 : 0; x < maxx; x++) {
++				MakeClear(layer * layersize + sizex * y + x, CLEAR_GRASS, 3);
++				SetTileHeight(layer * layersize + sizex * y + x, 0);
++				SetTropicZone(layer * layersize + sizex * y + x, TROPICZONE_NORMAL);
++				ClearBridgeMiddle(layer * layersize + sizex * y + x);
++			}
++			MakeVoid(layer * layersize + sizex * y + x);
+ 		}
+-		MakeVoid(sizex * y + x);
++		for (uint x = 0; x < sizex; x++) MakeVoid(layer * layersize + sizex * y + x);
+ 	}
+-	for (uint x = 0; x < sizex; x++) MakeVoid(sizex * y + x);
+ }
+ 
+ static const byte _genterrain_tbl_1[5] = { 10, 22, 33, 37, 4  };
+diff --git a/src/lang/afrikaans.txt b/src/lang/afrikaans.txt
+index d1e96d41d7..4591f2b744 100644
+--- a/src/lang/afrikaans.txt
++++ b/src/lang/afrikaans.txt
+@@ -2573,7 +2573,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tremweg
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Spoorweg eienaar: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Plaaslike raad: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Geen
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}KoÃ¶rdinate: {LTBLUE}{NUM}x{NUM}x{NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}KoÃ¶rdinate: {LTBLUE}{NUM}x{NUM}x{NUM}x-{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Gebou: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stasie klas: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stasie tiepe: {LTBLUE}{STRING}
+diff --git a/src/lang/arabic_egypt.txt b/src/lang/arabic_egypt.txt
+index 8c4c06b55b..c4bf5e94f0 100644
+--- a/src/lang/arabic_egypt.txt
++++ b/src/lang/arabic_egypt.txt
+@@ -2207,7 +2207,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Ù…Ø§Ù„Ùƒ
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Ù…Ø§Ù„Ùƒ Ø³ÙƒØ© Ø§Ù„Ø­Ø¯ÙŠØ¯: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Ø§Ù„Ø³Ù„Ø·Ø© Ø§Ù„Ù…Ø­Ù„ÙŠØ©: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :ÙØ§Ø±Øº
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Ø§Ù„Ø£Ø­Ø¯Ø§Ø«ÙŠØ§Øª: {LTBLUE}{NUM}x{NUM}x{NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Ø§Ù„Ø£Ø­Ø¯Ø§Ø«ÙŠØ§Øª: {LTBLUE}{NUM}x{NUM}x{NUM}x-{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Ø¨Ù†ÙŠ: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK} ÙØ¦Ø© Ø§Ù„Ù…Ø­Ø·Ø©: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Ù†ÙˆØ¹ Ø§Ù„Ù…Ø­Ø·Ø©: {LTBLUE}{STRING}
+diff --git a/src/lang/basque.txt b/src/lang/basque.txt
+index d5511050b1..93e069ed16 100644
+--- a/src/lang/basque.txt
++++ b/src/lang/basque.txt
+@@ -2476,7 +2476,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tranbia
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Trenbidearen jabea: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Udaletxea {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ezer ez
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordenadak: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordenadak: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Eraikia: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Geltoki mota: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Geltoki mota: {LTBLUE}{STRING}
+diff --git a/src/lang/belarusian.txt b/src/lang/belarusian.txt
+index 819bce4a2b..deeb9d2c82 100644
+--- a/src/lang/belarusian.txt
++++ b/src/lang/belarusian.txt
+@@ -2919,7 +2919,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Ð£Ð»Ð°Ð´
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Ð£Ð»Ð°Ð´Ð°Ð»ÑŒÐ½iÐº Ñ‡Ñ‹Ð³ÑƒÐ½Ðºi: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}ÐœÑÑÑ†Ð¾Ð²Ð°Ñ Ð°Ð´Ð¼Ñ–Ð½Ñ–ÑÑ‚Ñ€Ð°Ñ†Ñ‹Ñ: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :ÐÑÐ¼Ð°
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ÐšÐ°Ð°Ñ€Ð´Ñ‹Ð½Ð°Ñ‚Ñ‹: {LTBLUE}{NUM}x{NUM}x{NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ÐšÐ°Ð°Ñ€Ð´Ñ‹Ð½Ð°Ñ‚Ñ‹: {LTBLUE}{NUM}x{NUM}x{NUM}x-{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}ÐŸÐ°Ð±ÑƒÐ´Ð°Ð²Ð°Ð½Ð°: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}ÐšÐ»ÑÑÐ° ÑÑ‚Ð°Ð½Ñ†Ñ‹Ñ–: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Ð¢Ñ‹Ð¿ ÑÑ‚Ð°Ð½Ñ†Ñ‹i: {LTBLUE}{STRING}
+diff --git a/src/lang/brazilian_portuguese.txt b/src/lang/brazilian_portuguese.txt
+index 5c943e651e..012f1cfa1b 100644
+--- a/src/lang/brazilian_portuguese.txt
++++ b/src/lang/brazilian_portuguese.txt
+@@ -2590,7 +2590,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Dono da
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Dono da linha ferroviÃ¡ria: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Prefeitura: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nenhum
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenadas: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenadas: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}ConstruÃ­do: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Classe de EstaÃ§Ã£o: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de EstaÃ§Ã£o: {LTBLUE}{STRING}
+diff --git a/src/lang/bulgarian.txt b/src/lang/bulgarian.txt
+index d085371987..f230c63d0b 100644
+--- a/src/lang/bulgarian.txt
++++ b/src/lang/bulgarian.txt
+@@ -2518,7 +2518,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Ð¡Ð¾Ð±Ñ
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Ð¡Ð¾Ð±ÑÑ‚Ð²ÐµÐ½Ð¸Ðº Ð½Ð° Ð¶ÐµÐ»ÐµÐ·Ð¾Ð¿ÑŠÑ‚Ð½Ð°Ñ‚Ð° Ð»Ð¸Ð½Ð¸Ñ: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}ÐžÐ±Ñ‰Ð¸Ð½Ð°: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :ÐÐ¸Ñ‰Ð¾
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ÐšÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ð¸: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ÐšÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ð¸: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}ÐŸÐ¾ÑÑ‚Ñ€Ð¾ÐµÐ½: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}ÐšÐ»Ð°Ñ Ð½Ð° ÑÑ‚Ð°Ð½Ñ†Ð¸ÑÑ‚Ð°: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Ð¢Ð¸Ð¿ Ð½Ð° ÑÑ‚Ð°Ð½Ñ†Ð¸ÑÑ‚Ð°: {LTBLUE}{STRING}
+diff --git a/src/lang/catalan.txt b/src/lang/catalan.txt
+index cc641141af..fdd62ba981 100644
+--- a/src/lang/catalan.txt
++++ b/src/lang/catalan.txt
+@@ -2588,7 +2588,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Propietari del rail: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoritat Local: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Cap
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenades: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenades: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}ConstruÃ¯t: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Classe d'estaciÃ³: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipus d'estaciÃ³: {LTBLUE}{STRING}
+diff --git a/src/lang/croatian.txt b/src/lang/croatian.txt
+index a1c9dd86d0..b9b6d099dd 100644
+--- a/src/lang/croatian.txt
++++ b/src/lang/croatian.txt
+@@ -2685,7 +2685,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Vlasnik
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Vlasnik Å¾eljeznice: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}PodruÄna nadleÅ¾nost: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nijedan/Nitko/NiÅ¡ta
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinate: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinate: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}IzgraÄ‘eno: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Klasa postaje: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Vrsta postaje: {LTBLUE}{STRING}
+diff --git a/src/lang/czech.txt b/src/lang/czech.txt
+index 5512bc616d..d424f68e89 100644
+--- a/src/lang/czech.txt
++++ b/src/lang/czech.txt
+@@ -2674,7 +2674,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Majitel
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Majitel tratÄ›: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}MÃ­stnÃ­ sprÃ¡va: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nic
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}SouÅ™adnice: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}SouÅ™adnice: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Postaveno: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}TÅ™Ã­da stanice: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Druh stanice: {LTBLUE}{STRING}
+diff --git a/src/lang/danish.txt b/src/lang/danish.txt
+index 813a496d15..5cc7b109ce 100644
+--- a/src/lang/danish.txt
++++ b/src/lang/danish.txt
+@@ -2581,7 +2581,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Ejer af
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Ejer af jernbane: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokal myndighed: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ingen
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinater: {LTBLUE}{NUM}x{NUM}x{NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinater: {LTBLUE}{NUM}x{NUM}x{NUM}x-{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Produceret: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklasse: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstype: {LTBLUE}{STRING}
+diff --git a/src/lang/dutch.txt b/src/lang/dutch.txt
+index 4598851f64..a65ce6d35f 100644
+--- a/src/lang/dutch.txt
++++ b/src/lang/dutch.txt
+@@ -2588,7 +2588,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eigenaar
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Eigenaar van spoorweg: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Gemeente: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Geen
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}CoÃ¶rdinaten: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}CoÃ¶rdinaten: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Bouwjaar: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklasse: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstype: {LTBLUE}{STRING}
+diff --git a/src/lang/english.txt b/src/lang/english.txt
+index cb04a5cbd9..d6a7086adc 100644
+--- a/src/lang/english.txt
++++ b/src/lang/english.txt
+@@ -457,6 +457,18 @@ STR_LANDSCAPING_MENU_PLANT_TREES                                :Plant trees
+ STR_LANDSCAPING_MENU_PLACE_SIGN                                 :Place sign
+ ############ range ends here
+ 
++############ range for underground menu starts
++STR_LANDSCAPING_MENU_UNDERGROUND                                :Special constructions
++STR_LANDSCAPING_MENU_LAYER_1                                    :Surface
++STR_LANDSCAPING_MENU_LAYER_2                                    :Undergroound (-1)
++STR_LANDSCAPING_MENU_LAYER_3                                    :Undergroound (-2)
++STR_LANDSCAPING_MENU_LAYER_4                                    :Undergroound (-3)
++STR_LANDSCAPING_MENU_LAYER_5                                    :Undergroound (-4)
++STR_LANDSCAPING_MENU_LAYER_6                                    :Undergroound (-5)
++STR_LANDSCAPING_MENU_LAYER_7                                    :Undergroound (-6)
++STR_LANDSCAPING_MENU_LAYER_8                                    :Undergroound (-7)
++############ range ends here
++
+ ############ range for music menu starts
+ STR_TOOLBAR_SOUND_MUSIC                                         :Sound/music
+ ############ range ends here
+@@ -2589,7 +2601,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Railway owner: {LTBLUE}{STRING1}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Local authority: {LTBLUE}{STRING1}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :None
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordinates: {LTBLUE}{NUM} x {NUM} x {NUM} ({RAW_STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordinates: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({RAW_STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Built: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Station class: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Station type: {LTBLUE}{STRING}
+@@ -5041,3 +5053,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
+ STR_SHIP                                                        :{BLACK}{SHIP}
+ 
+ STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
++
++#	underground
++
++#	error
++STR_ERROR_UNDERGROUND_CAN_T_BUILD_UNDER_GROUND			    	:{WHITE}Can't build this underground
++STR_ERROR_UNDERGROUND_CAN_T_BUILD_OVER_GROUND					:{WHITE}Can't build this on surface
++STR_ERROR_UNDERGROUND_CAN_T_TERRAFORM							:{WHITE}Can't terraform underground
++STR_ERROR_UNDERGROUND_CAN_T_BUILD_PART                          :{WHITE}Can't build escalator here...
++STR_ERROR_UNDERGROUND_CAN_T_BUILD_TOP_PART                      :{WHITE}Can't build escalator top here...
++STR_ERROR_UNDERGROUND_CAN_T_BUILD_BOTTOM_PART                   :{WHITE}Can't build escalator bottom here...
++
++#	menus
++STR_UNDERGROUND_LAYER_COUNT										:{BLACK}Layers count
++STR_UNDERGROUND_BUILD											:{WHITE}Underground
++
++#	underground land types
++STR_UNDERGROUND_FLAT											:Cave
++STR_UNDERGROUND_SOLID											:Ground
++STR_UNDERGROUND_ROCKS											:Rocks
++STR_UNDERGROUND_HEAVY_ROCKS										:Hard rocks
++
++#	underground special build types
++STR_UNDERGROUND_ESCALATOR										:Escalator
++STR_UNDERGROUND_CONNECT											:Connect
++STR_UNDERGROUND_PIPE											:Pipe
++
++#	underground tool tip
++STR_UNDERGROUND_TOOLTIP_ESCALATOR								:{BLACK}Build escalator (underground station connect with surface)
++STR_UNDERGROUND_TOOLTIP_CONNECT									:{BLACK}Build connect (underground track connect with surface)
++STR_UNDERGROUND_TOOLTIP_PIPE									:{BLACK}Pipe (xm... anything...)
++
++#	end underground string
+diff --git a/src/lang/english_AU.txt b/src/lang/english_AU.txt
+index 8e001d956a..1e836803ab 100644
+--- a/src/lang/english_AU.txt
++++ b/src/lang/english_AU.txt
+@@ -2547,7 +2547,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Railway owner: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Local authority: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :None
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordinates: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordinates: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Built: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Station class: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Station type: {LTBLUE}{STRING}
+diff --git a/src/lang/english_US.txt b/src/lang/english_US.txt
+index b93ecb6836..888cfdeea9 100644
+--- a/src/lang/english_US.txt
++++ b/src/lang/english_US.txt
+@@ -2586,7 +2586,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Streetca
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Railroad owner: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Local authority: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :None
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Co-ordinates: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Co-ordinates: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Built: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Station class: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Station type: {LTBLUE}{STRING}
+diff --git a/src/lang/esperanto.txt b/src/lang/esperanto.txt
+index 49149b638f..7ffea76c71 100644
+--- a/src/lang/esperanto.txt
++++ b/src/lang/esperanto.txt
+@@ -2176,7 +2176,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Posedant
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Posedanto de fervojo: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokaj estroj: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Neniu
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}TroviÄo: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}TroviÄo: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Kreite: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stacioklaso: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Staciotipo: {LTBLUE}{STRING}
+diff --git a/src/lang/estonian.txt b/src/lang/estonian.txt
+index 771994978b..7478caf63a 100644
+--- a/src/lang/estonian.txt
++++ b/src/lang/estonian.txt
+@@ -2630,7 +2630,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Trammite
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Raudtee omanik: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Kohalik omavalitsus: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :puudub
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinaadid: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinaadid: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Ehitatud: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Jaama liik: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Jaama rÃ¼hm: {LTBLUE}{STRING}
+diff --git a/src/lang/faroese.txt b/src/lang/faroese.txt
+index ae2729c216..430cca1001 100644
+--- a/src/lang/faroese.txt
++++ b/src/lang/faroese.txt
+@@ -2313,7 +2313,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Sporvogn
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Jarnbreyta eigari: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Mynduleikar Ã¡ staÃ°num: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Eingin
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinatar: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinatar: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Bygt: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}StÃ¸Ã° klassi: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}StÃ¸Ã° slag: {LTBLUE}{STRING}
+diff --git a/src/lang/finnish.txt b/src/lang/finnish.txt
+index 1de667ab0c..d0e61fb9af 100644
+--- a/src/lang/finnish.txt
++++ b/src/lang/finnish.txt
+@@ -2583,7 +2583,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Raitioti
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Rautatien omistaja: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Kunta: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ei mitÃ¤Ã¤n
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinaatit: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinaatit: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Rakennettu: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Aseman luokka: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Aseman tyyppi: {LTBLUE}{STRING}
+diff --git a/src/lang/french.txt b/src/lang/french.txt
+index b7729e5067..fd942b535a 100644
+--- a/src/lang/french.txt
++++ b/src/lang/french.txt
+@@ -2589,7 +2589,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}PropriÃ©
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}PropriÃ©taire des rails{NBSP}: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}MunicipalitÃ©{NBSP}: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Aucune
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}CoordonnÃ©es{NBSP}: {LTBLUE}{NUM} Ã— {NUM} Ã— {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}CoordonnÃ©es{NBSP}: {LTBLUE}{NUM} Ã— {NUM} Ã— {NUM} Ã— -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Construit le{NBSP}: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Type de station{NBSP}: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Type de station{NBSP}: {LTBLUE}{STRING}
+diff --git a/src/lang/gaelic.txt b/src/lang/gaelic.txt
+index 139d775cd3..26d873b67d 100644
+--- a/src/lang/gaelic.txt
++++ b/src/lang/gaelic.txt
+@@ -2798,7 +2798,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Seilbhea
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Seilbheadair na rathaid-iarainn: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Ã™ghdarras ionadail: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Chan eil gin
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Ionad: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Ionad: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Air a thogail: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}SeÃ²rsa an stÃ¨isein: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}SeÃ²rsa an stÃ¨isein: {LTBLUE}{STRING}
+diff --git a/src/lang/galician.txt b/src/lang/galician.txt
+index a40620073f..4f7ef44573 100644
+--- a/src/lang/galician.txt
++++ b/src/lang/galician.txt
+@@ -2576,7 +2576,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Propietario da vÃ­a ferroviaria: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoridade local: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ningunha
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenadas: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenadas: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}ConstruÃ­do: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clase de estaciÃ³n: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estaciÃ³n: {LTBLUE}{STRING}
+diff --git a/src/lang/german.txt b/src/lang/german.txt
+index cd117258b4..9b0a8e9410 100644
+--- a/src/lang/german.txt
++++ b/src/lang/german.txt
+@@ -2576,7 +2576,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}StraÃŸen
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}GleiseigentÃ¼mer: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}GehÃ¶rt zur Gemeinde: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Keine
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinaten: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinaten: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Errichtet am: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklasse: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstyp: {LTBLUE}{STRING}
+diff --git a/src/lang/greek.txt b/src/lang/greek.txt
+index 5b5cd91621..7cdce99530 100644
+--- a/src/lang/greek.txt
++++ b/src/lang/greek.txt
+@@ -2693,7 +2693,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Î™Î´Î¹Î¿
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Î™Î´Î¹Î¿ÎºÏ„Î®Ï„Î·Ï‚ Ï„Î¿Ï… ÏƒÎ¹Î´Î·ÏÎ¿Î´ÏÏŒÎ¼Î¿Ï…: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Î¤Î¿Ï€Î¹ÎºÎ® Î±ÏÏ‡Î®: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :ÎšÎ±Î¼Î¹Î¬
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Î£Ï…Î½Ï„ÎµÏ„Î±Î³Î¼Î­Î½ÎµÏ‚: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Î£Ï…Î½Ï„ÎµÏ„Î±Î³Î¼Î­Î½ÎµÏ‚: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}ÎšÎ±Ï„Î±ÏƒÎºÎµÏ…Î®: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}ÎšÎ±Ï„Î·Î³Î¿ÏÎ¯Î± ÏƒÏ„Î±Î¸Î¼Î¿Ï: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Î¤ÏÏ€Î¿Ï‚ ÏƒÏ„Î±Î¸Î¼Î¿Ï: {LTBLUE}{STRING}
+diff --git a/src/lang/hebrew.txt b/src/lang/hebrew.txt
+index 8f15c95ef6..b42010e807 100644
+--- a/src/lang/hebrew.txt
++++ b/src/lang/hebrew.txt
+@@ -2594,7 +2594,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}:×‘×¢×œ
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}×‘×¢×œ×™ ×ž×¡×™×œ×ª ×”×¨×›×‘×ª: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{LTBLUE}{STRING}{BLACK} :×¨×©×•×ª ×ž×§×•×ž×™×ª
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :××™×Ÿ
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}×§×•××•×¨×“×™× ×˜×•×ª: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}×§×•××•×¨×“×™× ×˜×•×ª: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{LTBLUE}{DATE_LONG}{BLACK} : ×ª××¨×™×š ×‘× ×™×”
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}{LTBLUE}{STRING}: ××•×¤×™ ×”×ª×—× ×”
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK} {LTBLUE}{STRING}: ×¡×•×’ ×”×ª×—× ×”
+diff --git a/src/lang/hungarian.txt b/src/lang/hungarian.txt
+index f9f2e19a2b..0730cae6f4 100644
+--- a/src/lang/hungarian.txt
++++ b/src/lang/hungarian.txt
+@@ -2639,7 +2639,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}A villam
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}A vasÃºti pÃ¡lya tulajdonosa: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Helyi Ã¶nkormÃ¡nyzat: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nincs
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}KoordinÃ¡tÃ¡k: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}KoordinÃ¡tÃ¡k: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Ã‰pÃ¼lt: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}ÃllomÃ¡s osztÃ¡lya: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}ÃllomÃ¡s tÃ­pusa: {LTBLUE}{STRING}
+diff --git a/src/lang/icelandic.txt b/src/lang/icelandic.txt
+index 31c6ff796b..7dae358f7d 100644
+--- a/src/lang/icelandic.txt
++++ b/src/lang/icelandic.txt
+@@ -2422,7 +2422,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eigandi
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Eigandi jÃ¡rnbrautarspors: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}BÃ¦jaryfirvÃ¶ld: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Enginn
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Hnit: {LTBLUE}{NUM}x{NUM}x{NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Hnit: {LTBLUE}{NUM}x{NUM}x{NUM}x-{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Byggt: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Tegund stÃ¶Ã°var: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tegund stÃ¶Ã°var: {LTBLUE}{STRING}
+diff --git a/src/lang/indonesian.txt b/src/lang/indonesian.txt
+index f0d8efc7a8..afac4b92bc 100644
+--- a/src/lang/indonesian.txt
++++ b/src/lang/indonesian.txt
+@@ -2583,7 +2583,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Pemilik
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Pemilik Rel Kereta: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Pemkot setempat: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Kosong
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinat: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinat: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Dibuat: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Kelas Stasiun: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipe Stasiun: {LTBLUE}{STRING}
+diff --git a/src/lang/irish.txt b/src/lang/irish.txt
+index 0ea266d541..feaf341195 100644
+--- a/src/lang/irish.txt
++++ b/src/lang/irish.txt
+@@ -2572,7 +2572,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}ÃšinÃ©ir
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}ÃšinÃ©ir an iarnrÃ³id: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}ÃšdarÃ¡s Ã¡itiÃºil: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ceann ar bith
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ComhordanÃ¡idÃ­: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ComhordanÃ¡idÃ­: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}TÃ³gtha: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Aicme an stÃ¡isiÃºin: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}CineÃ¡l stÃ¡isiÃºin: {LTBLUE}{STRING}
+diff --git a/src/lang/italian.txt b/src/lang/italian.txt
+index 9ad7024496..1a749f2c7c 100644
+--- a/src/lang/italian.txt
++++ b/src/lang/italian.txt
+@@ -2619,7 +2619,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propriet
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Proprietario ferrovia: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}AutoritÃ  locale: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nessuna
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordinate: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordinate: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Costruito il: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Tipo stazione: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo stazione: {LTBLUE}{STRING}
+diff --git a/src/lang/korean.txt b/src/lang/korean.txt
+index 249189ebb0..b3d96b6c74 100644
+--- a/src/lang/korean.txt
++++ b/src/lang/korean.txt
+@@ -2590,7 +2590,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}ì „ì°»
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}ì² ë„ ì†Œìœ ì£¼: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}ì§€ì—­ ë‹¹êµ­: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :ì—†ìŒ
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ì¢Œí‘œ: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ì¢Œí‘œ: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}ê±´ì„¤ë‚ ì§œ: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}ì—­ ë¶„ë¥˜: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}ì—­ ì¢…ë¥˜: {LTBLUE}{STRING}
+diff --git a/src/lang/latin.txt b/src/lang/latin.txt
+index 9fa9f87293..142de2683a 100644
+--- a/src/lang/latin.txt
++++ b/src/lang/latin.txt
+@@ -2788,7 +2788,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Possesso
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Possessor ferriviae: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Auctoritas vicinalis: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nulla
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordinatae: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordinatae: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Dies struendi: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Classis stationis: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Typus stationis: {LTBLUE}{STRING}
+diff --git a/src/lang/latvian.txt b/src/lang/latvian.txt
+index 4f723b5a88..4d17a801aa 100644
+--- a/src/lang/latvian.txt
++++ b/src/lang/latvian.txt
+@@ -2518,7 +2518,7 @@ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Dzelzce
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER.kas                        :{BLACK}DzelzceÄ¼a Ä«paÅ¡niece: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}PaÅ¡valdÄ«ba: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Neviena
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}KoordinÄtes: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}KoordinÄtes: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}UzbÅ«vÄ“ts: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stacijas klase: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stacijas tips: {LTBLUE}{STRING}
+diff --git a/src/lang/lithuanian.txt b/src/lang/lithuanian.txt
+index 163c90c70d..a0b57f013a 100644
+--- a/src/lang/lithuanian.txt
++++ b/src/lang/lithuanian.txt
+@@ -2791,7 +2791,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramvaja
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}GeleÅ¾inkelio savininkas: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Vietos valdÅ¾ia: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :NÄ—ra
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}KoordinatÄ—s: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}KoordinatÄ—s: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Pastatytas: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}StotelÄ—s rÅ«Å¡is: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}StotelÄ—s tipas: {LTBLUE}{STRING}
+diff --git a/src/lang/luxembourgish.txt b/src/lang/luxembourgish.txt
+index 60ffaf64a3..195faa1a0b 100644
+--- a/src/lang/luxembourgish.txt
++++ b/src/lang/luxembourgish.txt
+@@ -2575,7 +2575,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramschi
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}SchinnebesÃ«tzer: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Gemeng: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Keng
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinaten: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinaten: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Gebaut: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Statiounsklass: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Statiounstyp: {LTBLUE}{STRING}
+diff --git a/src/lang/malay.txt b/src/lang/malay.txt
+index e5ba9a2dc0..a09ddafbf8 100644
+--- a/src/lang/malay.txt
++++ b/src/lang/malay.txt
+@@ -2318,7 +2318,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Pemilik
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Pemilik landasan keretapi: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Pihak berkuasa: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Tiada
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinat: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinat: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Dibina: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Kelas stesen: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Jenis stesen: {LTBLUE}{STRING}
+diff --git a/src/lang/norwegian_bokmal.txt b/src/lang/norwegian_bokmal.txt
+index 65c4e10c7f..860ef64a89 100644
+--- a/src/lang/norwegian_bokmal.txt
++++ b/src/lang/norwegian_bokmal.txt
+@@ -2579,7 +2579,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eier av
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Eier av jernbanespor: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Bystyret: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ingen
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinater: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinater: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Bygget: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stasjonstype: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stasjonstype: {LTBLUE}{STRING}
+diff --git a/src/lang/norwegian_nynorsk.txt b/src/lang/norwegian_nynorsk.txt
+index 93db95f84b..efaa7e6e94 100644
+--- a/src/lang/norwegian_nynorsk.txt
++++ b/src/lang/norwegian_nynorsk.txt
+@@ -2495,7 +2495,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Trikkesp
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Jernbaneskjene-eigar: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Bystyret: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ingen
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinatar: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinatar: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Byggd: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stasjonsklasse: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stasjontype: {LTBLUE}{STRING}
+diff --git a/src/lang/polish.txt b/src/lang/polish.txt
+index 965c08cb42..f5cef7fe0d 100644
+--- a/src/lang/polish.txt
++++ b/src/lang/polish.txt
+@@ -2960,7 +2960,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Wlascici
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}WlaÅ›ciciel linii kolejowej: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokalne wÅ‚adze: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Brak
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}WspÃ³Å‚rzÄ™dne: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}WspÃ³Å‚rzÄ™dne: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Zbudowano: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Rodzaj stacji: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Typ stacji: {LTBLUE}{STRING}
+diff --git a/src/lang/portuguese.txt b/src/lang/portuguese.txt
+index a116b64f42..1ca178439d 100644
+--- a/src/lang/portuguese.txt
++++ b/src/lang/portuguese.txt
+@@ -2576,7 +2576,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Dono da
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Dono da linha fÃ©rrea: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoridade local: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nenhum
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenadas: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenadas: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}ConstruÃ­do: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Tipo de EstaÃ§Ã£o: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de EstaÃ§Ã£o: {LTBLUE}{STRING}
+diff --git a/src/lang/romanian.txt b/src/lang/romanian.txt
+index 6b891bb7e8..f87bb8b8c0 100644
+--- a/src/lang/romanian.txt
++++ b/src/lang/romanian.txt
+@@ -2537,7 +2537,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propriet
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Proprietar al cÄƒii ferate: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoritatea localÄƒ: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nici una
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordonate: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordonate: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Data construcÅ£iei: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clasa staÅ£iei: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tip staÅ£ie: {LTBLUE}{STRING}
+diff --git a/src/lang/russian.txt b/src/lang/russian.txt
+index 542c1384a4..a44e3a335b 100644
+--- a/src/lang/russian.txt
++++ b/src/lang/russian.txt
+@@ -583,6 +583,18 @@ STR_LANDSCAPING_MENU_PLANT_TREES                                :Ð’Ñ‹ÑÐ°Ð´ÐºÐ°
+ STR_LANDSCAPING_MENU_PLACE_SIGN                                 :ÐŸÐ¾ÑÑ‚Ð°Ð²Ð¸Ñ‚ÑŒ Ð¼ÐµÑ‚ÐºÑƒ
+ ############ range ends here
+ 
++############ range for underground menu starts
++STR_LANDSCAPING_MENU_UNDERGROUND                                :Ð¡Ð¿ÐµÑ†. ÐºÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ†Ð¸Ð¸
++STR_LANDSCAPING_MENU_LAYER_1                                    :ÐŸÐ¾Ð²ÐµÑ€Ñ…Ð½Ð¾ÑÑ‚ÑŒ
++STR_LANDSCAPING_MENU_LAYER_2                                    :ÐŸÐ¾Ð´Ð·ÐµÐ¼ÐµÐ»ÑŒÐµ (-1)
++STR_LANDSCAPING_MENU_LAYER_3                                    :ÐŸÐ¾Ð´Ð·ÐµÐ¼ÐµÐ»ÑŒÐµ (-2)
++STR_LANDSCAPING_MENU_LAYER_4                                    :ÐŸÐ¾Ð´Ð·ÐµÐ¼ÐµÐ»ÑŒÐµ (-3)
++STR_LANDSCAPING_MENU_LAYER_5                                    :ÐŸÐ¾Ð´Ð·ÐµÐ¼ÐµÐ»ÑŒÐµ (-4)
++STR_LANDSCAPING_MENU_LAYER_6                                    :ÐŸÐ¾Ð´Ð·ÐµÐ¼ÐµÐ»ÑŒÐµ (-5)
++STR_LANDSCAPING_MENU_LAYER_7                                    :ÐŸÐ¾Ð´Ð·ÐµÐ¼ÐµÐ»ÑŒÐµ (-6)
++STR_LANDSCAPING_MENU_LAYER_8                                    :ÐŸÐ¾Ð´Ð·ÐµÐ¼ÐµÐ»ÑŒÐµ (-7)
++############ range ends here
++
+ ############ range for music menu starts
+ STR_TOOLBAR_SOUND_MUSIC                                         :Ð—Ð²ÑƒÐº/Ð¼ÑƒÐ·Ñ‹ÐºÐ°
+ ############ range ends here
+@@ -2767,7 +2779,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Ð’Ð»Ð°Ð´
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Ð’Ð»Ð°Ð´ÐµÐ»ÐµÑ† Ð¶/Ð´ Ð¿ÑƒÑ‚Ð¸: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}ÐÐ´Ð¼Ð¸Ð½Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ñ: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :ÐÐµÑ‚
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ÐšÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ñ‹: {LTBLUE}{NUM} Ã— {NUM} Ã— {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ÐšÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ñ‹: {LTBLUE}{NUM} Ã— {NUM} Ã— {NUM} Ã— -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}ÐŸÐ¾ÑÑ‚Ñ€Ð¾ÐµÐ½Ð¾: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}ÐšÐ»Ð°ÑÑ ÑÑ‚Ð°Ð½Ñ†Ð¸Ð¸: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Ð¢Ð¸Ð¿ ÑÑ‚Ð°Ð½Ñ†Ð¸Ð¸: {LTBLUE}{STRING}
+@@ -5230,3 +5242,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
+ STR_SHIP                                                        :{BLACK}{SHIP}
+ 
+ STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
++
++#	underground
++
++#	error
++STR_ERROR_UNDERGROUND_CAN_T_BUILD_UNDER_GROUND			    	:{WHITE}ÐÐµ Ð¼Ð¾Ð¶ÐµÑ‚ ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒÑÑ Ð¿Ð¾Ð´ Ð·ÐµÐ¼Ð»ÐµÐ¹
++STR_ERROR_UNDERGROUND_CAN_T_BUILD_OVER_GROUND					:{WHITE}ÐÐµ Ð¼Ð¾Ð¶ÐµÑ‚ ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒÑÑ Ð½Ð° Ð¿Ð¾Ð²ÐµÑ€Ñ…Ð½Ð¾ÑÑ‚Ð¸
++STR_ERROR_UNDERGROUND_CAN_T_TERRAFORM							:{WHITE}Ð˜Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ Ð»Ð°Ð½Ð´ÑˆÐ°Ñ„Ñ‚Ð° Ð½ÐµÐ´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾
++STR_ERROR_UNDERGROUND_CAN_T_BUILD_PART                          :{WHITE}ÐÐµÐ»ÑŒÐ·Ñ Ð¿Ð¾ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒ ÑÑÐºÐ°Ð»Ð°Ñ‚Ð¾Ñ€...
++STR_ERROR_UNDERGROUND_CAN_T_BUILD_TOP_PART                      :{WHITE}ÐÐµÐ»ÑŒÐ·Ñ Ð¿Ð¾ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒ Ð²ÐµÑ€Ñ…Ð½ÑŽÑŽ Ñ‡Ð°ÑÑ‚ÑŒ ÑÑÐºÐ°Ð»Ð°Ñ‚Ð¾Ñ€Ð°...
++STR_ERROR_UNDERGROUND_CAN_T_BUILD_BOTTOM_PART                   :{WHITE}ÐÐµÐ»ÑŒÐ·Ñ Ð¿Ð¾ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒ Ð½Ð¸Ð¶Ð½ÑŽÑŽ Ñ‡Ð°ÑÑ‚ÑŒ ÑÑÐºÐ°Ð»Ð°Ñ‚Ð¾Ñ€Ð°...
++
++#	menus
++STR_UNDERGROUND_LAYER_COUNT										:{BLACK}ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»Ð¾ÐµÐ²
++STR_UNDERGROUND_BUILD											:{WHITE}ÐŸÐ¾Ð´Ð·ÐµÐ¼ÐµÐ»ÑŒÐµ
++
++#	underground land types
++STR_UNDERGROUND_FLAT											:ÐŸÐµÑ‰ÐµÑ€Ð°
++STR_UNDERGROUND_SOLID											:Ð“Ñ€ÑƒÐ½Ñ‚
++STR_UNDERGROUND_ROCKS											:Ð¡ÐºÐ°Ð»Ñ‹
++STR_UNDERGROUND_HEAVY_ROCKS										:Ð¢Ð²ÐµÑ€Ð´Ñ‹Ðµ Ð¿Ð¾Ñ€Ð¾Ð´Ñ‹
++
++#	underground special build types
++STR_UNDERGROUND_ESCALATOR										:Ð­ÑÐºÐ°Ð»Ð°Ñ‚Ð¾Ñ€
++STR_UNDERGROUND_CONNECT											:Ð¡Ð¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ðµ
++STR_UNDERGROUND_PIPE											:Ð¢Ñ€ÑƒÐ±Ñ‹
++
++#	underground tool tip
++STR_UNDERGROUND_TOOLTIP_ESCALATOR								:{BLACK}ÐŸÐ¾ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ° ÑÑÐºÐ°Ð»Ð°Ñ‚Ð¾Ñ€Ð° (ÑÐ²ÑÐ·ÑŒ Ð¿Ð¾Ð´Ð·ÐµÐ¼Ð½Ð¾Ð¹ ÑÑ‚Ð°Ð½Ñ†Ð¸Ð¸ Ñ Ð¿Ð¾Ð²ÐµÑ€Ñ…Ð½Ð¾ÑÑ‚ÑŒÑŽ)
++STR_UNDERGROUND_TOOLTIP_CONNECT									:{BLACK}ÐŸÐ¾ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ° Ð¿Ð¾Ð´ÑŠÐµÐ¼Ð° (Ð¿Ð¾Ð´Ð·ÐµÐ¼Ð½Ñ‹Ðµ Ñ€ÐµÐ»ÑŒÑÑ‹ Ð²Ñ‹Ñ…Ð¾Ð´ÑÑ‚ Ð½Ð°Ñ€ÑƒÐ¶Ñƒ)
++STR_UNDERGROUND_TOOLTIP_PIPE									:{BLACK}Ð¢Ñ€ÑƒÐ±Ñ‹ (Ñ…Ð¼... Ñ‡Ñ‚Ð¾-Ñ‚Ð¾...)
++
++#	end underground string
+diff --git a/src/lang/serbian.txt b/src/lang/serbian.txt
+index d253ac97ed..2f674e77e5 100644
+--- a/src/lang/serbian.txt
++++ b/src/lang/serbian.txt
+@@ -2780,7 +2780,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Vlasnik
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Vlasnik Å¾elezniÄke pruge: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokalna vlast: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nema
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinate: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinate: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}SagraÄ‘eno: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Klasa stanice: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Vrsta stanice: {LTBLUE}{STRING}
+diff --git a/src/lang/simplified_chinese.txt b/src/lang/simplified_chinese.txt
+index f486a6b9a0..e629270997 100644
+--- a/src/lang/simplified_chinese.txt
++++ b/src/lang/simplified_chinese.txt
+@@ -2575,7 +2575,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}æœ‰è½¨
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}é“è·¯å½’å±žï¼š{LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}åœ°æ–¹æ”¿åºœï¼š{LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :æ²¡æœ‰
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}åæ ‡ï¼š {LTBLUE}{NUM} Ã— {NUM} Ã— {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}åæ ‡ï¼š {LTBLUE}{NUM} Ã— {NUM} Ã— {NUM} Ã— -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}å»ºé€ æ—¶é—´ï¼š{LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}è½¦ç«™åˆ†ç±»: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}è½¦ç«™ç±»åž‹: {LTBLUE}{STRING}
+diff --git a/src/lang/slovak.txt b/src/lang/slovak.txt
+index b828879d48..b6f8085875 100644
+--- a/src/lang/slovak.txt
++++ b/src/lang/slovak.txt
+@@ -2640,7 +2640,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}VlastnÃ­
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}VlastnÃ­k Å¾eleznice: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Miestna sprÃ¡va: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :NeznÃ¡me
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}SÃºradnice: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}SÃºradnice: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Postavene: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Trieda stanice: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Typ stanice: {LTBLUE}{STRING}
+diff --git a/src/lang/slovenian.txt b/src/lang/slovenian.txt
+index 0704d6e95b..1ec598e7e1 100644
+--- a/src/lang/slovenian.txt
++++ b/src/lang/slovenian.txt
+@@ -2726,7 +2726,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Lastnik
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Lastnik Å¾eleznice: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokalna oblast: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Brez
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinate: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinate: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Zgrajeno: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Razred postaje: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Vrsta postaje: {LTBLUE}{STRING}
+diff --git a/src/lang/spanish.txt b/src/lang/spanish.txt
+index 1ba5d1ca98..a34202ad86 100644
+--- a/src/lang/spanish.txt
++++ b/src/lang/spanish.txt
+@@ -2576,7 +2576,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Propietario del ferrocarril: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoridad local: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ninguna
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenadas: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenadas: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Construido: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clase de estaciÃ³n: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estaciÃ³n: {LTBLUE}{STRING}
+diff --git a/src/lang/spanish_MX.txt b/src/lang/spanish_MX.txt
+index 2a4e930a79..8a0bc004ac 100644
+--- a/src/lang/spanish_MX.txt
++++ b/src/lang/spanish_MX.txt
+@@ -2590,7 +2590,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Propietario del ferrocarril: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Ayuntamiento: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ninguno
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenadas: {LTBLUE}{NUM}Ã—{NUM}Ã—{NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Coordenadas: {LTBLUE}{NUM}Ã—{NUM}Ã—{NUM}Ã—-{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Construido: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clase de estaciÃ³n: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estaciÃ³n: {LTBLUE}{STRING}
+diff --git a/src/lang/swedish.txt b/src/lang/swedish.txt
+index 1e9fe336a7..443f46c876 100644
+--- a/src/lang/swedish.txt
++++ b/src/lang/swedish.txt
+@@ -2575,7 +2575,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}SpÃ¥rvÃ¤
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}JÃ¤rnvÃ¤gens Ã¤gare: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokala myndigheter: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ingen
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinater: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinater: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Byggt: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklass: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstyp: {LTBLUE}{STRING}
+diff --git a/src/lang/tamil.txt b/src/lang/tamil.txt
+index d123db86e1..8f6e9ffff1 100644
+--- a/src/lang/tamil.txt
++++ b/src/lang/tamil.txt
+@@ -2266,7 +2266,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}à®Ÿà¯
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}à®‡à®°à®¯à®¿à®²à¯à®µà¯‡ à®‰à®°à®¿à®®à¯ˆà®¯à®¾à®³à®°à¯: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}à®¨à®•à®°à®¾à®Ÿà¯à®šà®¿: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :à®’à®©à¯à®±à¯à®®à®¿à®²à¯à®²à¯ˆ
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}à®…à®šà¯à®šà¯à®¤à¯ à®¤à¯‚à®°à®™à¯à®•à®³à¯: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}à®…à®šà¯à®šà¯à®¤à¯ à®¤à¯‚à®°à®™à¯à®•à®³à¯: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}à®•à®Ÿà¯à®Ÿà®ªà¯à®ªà®Ÿà¯à®Ÿà®¤à¯: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}à®¨à®¿à®²à¯ˆà®¯à®¤à¯à®¤à®¿à®©à¯ à®ªà®¿à®°à®¿à®µà¯: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}à®¨à®¿à®²à¯ˆà®¯à®¤à¯à®¤à®¿à®©à¯ à®µà®•à¯ˆ: {LTBLUE}{STRING}
+diff --git a/src/lang/thai.txt b/src/lang/thai.txt
+index 878b9c26c5..9fcbfe31ad 100644
+--- a/src/lang/thai.txt
++++ b/src/lang/thai.txt
+@@ -2521,7 +2521,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}à¸œà¸¹
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}à¸œà¸¹à¹‰à¸„à¸£à¸­à¸šà¸„à¸£à¸­à¸‡à¸—à¸²à¸‡à¸£à¸–à¹„à¸Ÿ: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}à¸‚à¸¶à¹‰à¸™à¸•à¸£à¸‡à¸à¸±à¸šà¸œà¸¹à¹‰à¸”à¸¹à¹à¸¥à¹ƒà¸™à¸—à¹‰à¸­à¸‡à¸–à¸´à¹ˆà¸™: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :à¹„à¸¡à¹ˆà¸¡à¸µ
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}à¸•à¸³à¹à¸«à¸™à¹ˆà¸‡: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}à¸•à¸³à¹à¸«à¸™à¹ˆà¸‡: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}à¸ªà¸£à¹‰à¸²à¸‡à¹€à¸¡à¸·à¹ˆà¸­: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}à¸›à¸£à¸°à¹€à¸ à¸—à¸‚à¸­à¸‡à¸ªà¸–à¸²à¸™à¸µ: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}à¸£à¸¹à¸›à¹à¸šà¸šà¸‚à¸­à¸‡à¸ªà¸–à¸²à¸™à¸µ: {LTBLUE}{STRING}
+diff --git a/src/lang/traditional_chinese.txt b/src/lang/traditional_chinese.txt
+index e837d1efef..877b178f3e 100644
+--- a/src/lang/traditional_chinese.txt
++++ b/src/lang/traditional_chinese.txt
+@@ -2572,7 +2572,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}é›»è»Š
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}éµè·¯æ‰€æœ‰è€…ï¼š{LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}åœ°æ–¹æ”¿åºœï¼š{LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :ç„¡
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}åº§æ¨™ï¼š{LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}åº§æ¨™ï¼š{LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}å»ºæ–¼ï¼š{LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}è»Šç«™é¢¨æ ¼ï¼š{LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}è»Šç«™ç¨®é¡žï¼š{LTBLUE}{STRING}
+diff --git a/src/lang/turkish.txt b/src/lang/turkish.txt
+index c7b456f68d..c4bf38b3f1 100644
+--- a/src/lang/turkish.txt
++++ b/src/lang/turkish.txt
+@@ -2576,7 +2576,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramvay
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Demiryolu sahibi: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Belediyesi: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :HiÃ§biri
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinatlar: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Koordinatlar: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}YapÄ±m: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Ä°stasyon sÄ±nÄ±fÄ±: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Ä°stasyon tÃ¼rÃ¼: {LTBLUE}{STRING}
+diff --git a/src/lang/ukrainian.txt b/src/lang/ukrainian.txt
+index d4f33017f1..9cfc8a1b13 100644
+--- a/src/lang/ukrainian.txt
++++ b/src/lang/ukrainian.txt
+@@ -2703,7 +2703,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Ð’Ð»Ð°Ñ
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Ð’Ð»Ð°ÑÐ½Ð¸Ðº Ð·Ð°Ð»Ñ–Ð·Ð½Ð¸Ñ†Ñ–: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}ÐœÑ–ÑÑ†ÐµÐ²Ð° Ð²Ð»Ð°Ð´Ð°: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :ÐÐµÐ¼Ð°Ñ”
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ÐšÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ð¸: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}ÐšÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ð¸: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Ð Ñ–Ðº Ð²Ð¸Ð¿ÑƒÑÐºÑƒ: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}ÐšÐ»Ð°Ñ ÑÑ‚Ð°Ð½Ñ†Ñ–Ñ—: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Ð¢Ð¸Ð¿ ÑÑ‚Ð°Ð½Ñ†Ñ–Ñ—: {LTBLUE}{STRING}
+diff --git a/src/lang/unfinished/persian.txt b/src/lang/unfinished/persian.txt
+index 231f11af81..284c1a6535 100644
+--- a/src/lang/unfinished/persian.txt
++++ b/src/lang/unfinished/persian.txt
+@@ -2276,7 +2276,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Ù…Ø§Ù„Ú©
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Ù…Ø§Ù„Ú© Ø±ÛŒÙ„ Ø±Ø§Ù‡ Ø¢Ù‡Ù†: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}ÙØ±Ù…Ø§Ù†Ø¯Ø§Ø± Ù…Ø­Ù„ÛŒ: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ù‡ÛŒÚ†Ú©Ø¯Ø§Ù…
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Ù…Ø®ØªØµØ§Øª: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Ù…Ø®ØªØµØ§Øª: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Ø³Ø§Ø®ØªÙ‡ Ø´Ø¯Ù‡ Ø¯Ø±: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Ú©Ù„Ø§Ø³ Ø§ÛŒØ³ØªÚ¯Ø§Ù‡: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Ù†ÙˆØ¹ Ø§ÛŒØ³ØªÚ¯Ø§Ù‡: {LTBLUE}{STRING}
+diff --git a/src/lang/vietnamese.txt b/src/lang/vietnamese.txt
+index 61a15d3681..3fde90f3bb 100644
+--- a/src/lang/vietnamese.txt
++++ b/src/lang/vietnamese.txt
+@@ -2589,7 +2589,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Chá»§ Ä‘
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Chá»§ Ä‘Æ°á»ng ray: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Thuá»™c vá» Ä‘á»‹a phÆ°Æ¡ng: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :KhÃ´ng
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Toáº¡ Ä‘á»™: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Toáº¡ Ä‘á»™: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}XÃ¢y lÃºc: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Loáº¡i ga,báº¿n: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Kiá»ƒu ga,báº¿n: {LTBLUE}{STRING}
+diff --git a/src/lang/welsh.txt b/src/lang/welsh.txt
+index 9561354fb0..c10e124e47 100644
+--- a/src/lang/welsh.txt
++++ b/src/lang/welsh.txt
+@@ -2575,7 +2575,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Perchenn
+ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Perchennog rheilffordd: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Awdurdod Lleol: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Dim
+-STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Cyfeirnodau: {LTBLUE}{NUM} x {NUM} x {NUM} ({STRING})
++STR_LAND_AREA_INFORMATION_LANDINFO_COORDS                       :{BLACK}Cyfeirnodau: {LTBLUE}{NUM} x {NUM} x {NUM} x -{NUM} ({STRING})
+ STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Adeiladwyd: {LTBLUE}{DATE_LONG}
+ STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Dosbarth gorsaf: {LTBLUE}{STRING}
+ STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Math gorsaf: {LTBLUE}{STRING}
+diff --git a/src/layer.cpp b/src/layer.cpp
+new file mode 100644
+index 0000000000..7228fb4b66
+--- /dev/null
++++ b/src/layer.cpp
+@@ -0,0 +1,137 @@
++/* $Id: map.cpp 23740 2012-01-03 21:32:51Z  $ */
++/*
++	
++Ýòî ìîäóëü, äëÿ âîçìîæíîñòè ïîëíîöåííîé èãðû â òðåõ èçìåðåíèÿõ
++(ïîäçåìåëüå, ìåòðî, èòï.)
++
++
++Ïëîñêîå èãðîâîå ïîëå âûãëÿäèò ïðèìåðíî òàê:
++*-----------*
++|           |
++|           |
++|           |
++*-----------*
++
++Ìûñëåííî íàðåæåì åãî íà îäèíàêîâûå ÷àñòè:
++*---*---*---*
++|   |   |   |
++|   |   |   |
++|   |   |   |
++*---*---*---*
++
++Ìûñëåííî ñîáåðåì ÷àñòè â âåðòèêàëüíóþ ñòîïî÷êó:
++*---*
++| *---*
++| | *---*
++| | |   |
++* | |   |
++  * |   |
++    *---*
++
++Òàêèì îáðàçîì èìåÿ ïëîñêóþ êàðòó ìû îïèñûâàåì 3ä ïðîñòðàíñòâî.
++
++Äëÿ ïðîñòîòû âñÿ êàðòà äåëèòñÿ òîëüêî ïî îñè Y (ðàçðåçû ïàðàëëåëüíû îñè X)
++Äåëåíèå ïðîèñõîäèò íà 1, 2, 4, èëè 8 êóñî÷êîâ.
++
++Íàïðèìåð áûëî âûáðàíî ïîëå 64õ64, ñ 4-ìÿ ñëîÿìè:
++Ñîçäàåòñÿ êàðòà 64õ256, ïîäðàçóìåâàåòñÿ, ÷òî:
++
++	                  X        Y
++	âåðõíèé ñëîé    0--63    0--63
++	âòîðîé ñëîé	   	0--63    64--127
++	òðåòèé ñëîé	    0--63    128--191
++	÷åòâåðòûé ñëîé  0--63    192--255
++
++
++Îáû÷íàÿ êàðòà
++	MapSizeX õ (MapSizeY)
++	
++Ïðåäñòàâëåíèå â âèäå ñëîåâ
++	LayerSizeX x (LayerSizeY x LayerCount)
++
++Èíûìè ñëîâàìè èãðîâûå êîîðäèíàòû "ïëîñêîãî" ïðîñòðàíñòâà 
++
++	MapX, MapY, MapZ
++
++ïåðåõîäÿò â êîîðäèíàòû íîâîãî "3ä" ïðîñòðàíñòâà
++
++	//	Êîíñòàíòû
++	LayerCount = ÷èñëî êóñî÷êîâ... (1, èëè 2, èëè 4, èòä.)
++	LayerSizeZ = ñäâèã ñëîÿ ïî âåðòèêàëè (íàïðèìåð 1)
++
++	//	Àêñèîìû
++	MapSizeX == LayerSizeX
++	MapSizeY == LayerSizeY * LayerCount
++
++	//	Ðàñ÷åò êîîðäèíàò
++	LayerIndex = MapY / LayerSizeY
++
++	WorldX = MapX
++	WorldY = MapY - LayerIndex*LayerSizeY
++	WorldZ = MapZ + LayerIndex*LayerSizeZ
++*/
++
++/** @file map.cpp Base functions related to the map and distances on them. */
++
++#include "stdafx.h"
++#include "debug.h"
++#include "core/alloc_func.hpp"
++#include "void_map.h"
++#include "layer_func.h"
++#include "layer_type.h"
++#include "landscape.h"
++
++#if defined(_MSC_VER)
++/* Why the hell is that not in all MSVC headers?? */
++extern "C" _CRTIMP void __cdecl _assert(void *, void *, unsigned);
++#endif
++
++uint _layer_size_x;    ///< Size of the map along the X
++uint _layer_size_y;    ///< Size of the map along the Y
++uint _layer_count;     ///< The number of tiles on the map
++uint _layer_count_log;
++uint _layer_size;      ///< Layer size (sizeX * sizeY)	
++
++void InstallLayerSystem(uint size_x, uint size_y, uint layer_count)
++{
++	if (!IsInsideMM(layer_count, MIN_LAYER_COUNT, MAX_LAYER_COUNT+1))
++		error("invalid layer count");
++
++	_layer_size_x = size_x;
++	_layer_size_y = size_y;
++	_layer_size = size_x * size_y;
++	_layer_count = layer_count;
++	_layer_count_log = FindFirstBit(layer_count);
++}
++
++void FixUndergroundHeights()
++{
++	uint width = MapSizeX();
++	uint height = MapSizeY();
++
++	/* Layer correct */
++	for (uint row = 0; (uint)row < height; row++) {
++
++		/*	Ãðàíèöà ìåæäó ñëîÿìè	*/
++		if (!(row % LayerSizeY()))
++			for (uint x = 0; x < width; x++) MakeVoid(width * row + x);
++
++		for (uint col = 0; (uint)col < width; col++) {
++			uint tile = TileXY(row, col);
++			if (IsUnderground(tile))
++				SetTileHeight(tile, 0);
++		}
++	}
++}
++
++uint8 calculateLayer(const ViewPort *vp)
++{
++	//	Ôóíêöèÿ ViewportDoDraw âûçûâàåòñÿ íåñêîëüêî ðàç ñ ðàçíûìè ïàðàìåòðàìè
++	//	Íóæíî æå íàéòè òîëüêî îäèí ñëîé.
++	//	Îïèðàåìñÿ íà âüþïîðò.
++	
++	Point pt = InverseRemapCoords(vp->virtual_left+(vp->virtual_width >> 1),vp->virtual_top+(vp->virtual_height >> 1));
++	TileIndex center = TileVirtXY(pt.x, pt.y);
++	return LayerIndex(center);
++}
++
+diff --git a/src/layer_func.h b/src/layer_func.h
+new file mode 100644
+index 0000000000..be060cc27c
+--- /dev/null
++++ b/src/layer_func.h
+@@ -0,0 +1,161 @@
++/* $Id: layer_func.h 2012-09-07 18:11:11 constructor $ */
++
++/*
++*	Ïîäðîáîå îïèñàíèå ñì. â layer.cpp
++*/
++
++/** @file layer_func.h Functions related to layer in maps. */
++
++#ifndef LAYER_FUNC_H
++#define LAYER_FUNC_H
++
++#include "map_func.h"
++#include "viewport_type.h"
++
++/*
++*
++*	Èíèöèàëèçàöèÿ "ïîäçåìåëèé"
++*	Êîëè÷åñòâî ñëîåâ "1" ðàâíîñèëüíî èãðå áåç "ïîäçåìåëèé"
++*
++*/
++void InstallLayerSystem(uint size_x, uint size_y, uint layer_count);
++
++/*	Êîððåêòèðîâêà "ïîäçåìíûõ" ñëîåâ 
++*	(â áóäóùåì ñëîè ìîãóò ìåíÿòü âûñîòû -- â ïðåäåëàõ ñîñåäåé) */
++void FixUndergroundHeights();
++
++#define UNDERGROUND_COST_MULTIPLIER(tile)  (1 + 100 * (TileHeight(TopTile(tile))-TileHeight(tile)-LayerIndex(tile)))
++
++#define FOR_ALL_LAYERS(var) for (uint var = 0; var < LayerCount(); var++)
++
++
++/**
++ * Get the size of the layer along the X
++ * @return the number of tiles along the X of the layer
++ */
++static inline uint LayerSizeX()
++{
++	extern uint _map_size_x;
++	return _map_size_x;
++}
++
++/**
++ * Get the size of the layer along the Y
++ * @return the number of tiles along the Y of the layer
++ */
++static inline uint LayerSizeY()
++{
++	extern uint _layer_size_y;
++	return _layer_size_y;
++}
++
++/**
++ * Gets the maximum X coordinate within the map, including MP_VOID
++ * @return the maximum X coordinate
++ */
++static inline uint LayerMaxX()
++{
++	return LayerSizeX() - 1;
++}
++
++/**
++ * Gets the maximum Y coordinate within the map, including MP_VOID
++ * @return the maximum Y coordinate
++ */
++static inline uint LayerMaxY()
++{
++	return LayerSizeY() - 1;
++}
++
++/**
++ * Get the layer counts
++ * @return the number of layers
++ */
++static inline uint LayerCount()
++{
++	extern uint _layer_count;
++	return _layer_count;
++}
++
++/**
++ * Get the layer counts
++ * @return the number of layers
++ */
++static inline uint LayerCountLog()
++{
++	extern uint _layer_count_log;
++	return _layer_count_log;
++}
++
++/**
++ * Get the X component of a tile
++ * @param tile the tile to get the X component of
++ * @return the X component
++ */
++static inline uint LayerX(TileIndex tile)
++{
++	return tile & LayerMaxX();
++}
++
++/**
++ * Get the Y component of a tile
++ * @param tile the tile to get the Y component of
++ * @return the Y component
++ */
++static inline uint LayerY(TileIndex tile)
++{
++	return (tile >> MapLogX()) & LayerMaxY();
++}
++
++static inline uint LayerIndex(TileIndex tile)
++{
++	return (tile >> MapLogX()) / LayerSizeY();
++}
++
++static inline bool IsUnderground(TileIndex tile)
++{
++	return LayerIndex(tile) != 0;
++}
++
++/**
++*	Ðàçìåð ñëîÿ. 
++*	Ìîæíî ïðèáàâèòü ê êëåòêå, ÷òîáû ïîëó÷èòü êëåòêó íèæå
++*/
++static inline uint LayerSize()
++{
++	extern uint _layer_size;
++	return _layer_size;
++}
++
++/**
++ * Èùåì êëåòêó ïîâåðõíîñòè äëÿ äàííîé (ñàìóþ âåðõíþþ êëåòêó)
++ * @param tile the tile to get the Y component of
++ * @return the Y component
++ */
++static inline uint TopTile(TileIndex tile)
++{
++	uint layer = LayerIndex(tile);
++	return (tile - layer * LayerSize());
++}
++
++/*	Îïðåäåëèòü âåðõíÿÿ ëè êëåòî÷êà î÷åíü ïðîñòî	*/
++static inline bool IsTopTile(TileIndex tile)
++{
++	return (tile < LayerSize());
++}
++
++/*	Èùåò êëåòêó íàä äàííîé. (Äëÿ ñàìîé âåðõíåé âåðíåò íèæíþþ??)
++*/
++static inline uint UpTile(TileIndex tile)
++{
++	return TILE_MASK(tile - LayerSize());
++}
++
++/*	Èùåò êëåòêó ïîä äàííîé. (Äëÿ ñàìîé íèæíåé âåðíåò âåðõíþþ??)
++*/
++static inline uint DownTile(TileIndex tile)
++{
++	return TILE_MASK(tile + LayerSize());
++}
++
++#endif /* LAYER_FUNC_H */
+diff --git a/src/layer_gui.h b/src/layer_gui.h
+new file mode 100644
+index 0000000000..303fa32a3a
+--- /dev/null
++++ b/src/layer_gui.h
+@@ -0,0 +1,17 @@
++/* $Id: layer_func.h 2012-09-07 18:11:11 constructor $ */
++
++/*
++*	Ïîäðîáîå îïèñàíèå ñì. â layer.cpp
++*/
++
++/** @file layer_gui.h Functions for visualisation map with support layers */
++
++#ifndef LAYER_GUI_H
++#define LAYER_GUI_H
++
++#include "layer_func.h"
++#include "viewport_type.h"
++
++uint8 calculateLayer(const ViewPort *vp);
++
++#endif /* LAYER_GUI_H */
+diff --git a/src/layer_type.h b/src/layer_type.h
+new file mode 100644
+index 0000000000..53eafdde63
+--- /dev/null
++++ b/src/layer_type.h
+@@ -0,0 +1,22 @@
++/* $Id: layer_type.h 21493 2012-09-11 2:21:53Z constructor $ */
++
++/*
++ * This file is part of OpenTTD.
++ * OpenTTD is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2.
++ * OpenTTD is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++ * See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with OpenTTD. If not, see <http://www.gnu.org/licenses/>.
++ */
++
++/** @file layer_type.h Types related to maps. */
++
++#ifndef LAYER_TYPE_H
++#define LAYER_TYPE_H
++
++/** Minimal and maximal layer counts */
++static const uint MIN_LAYER_COUNT_BITS = 0;							///< Minimal size of map is equal to 2 ^ MIN_LAYER_SIZE_BITS
++static const uint MAX_LAYER_COUNT_BITS = 3;							///< Maximal size of map is equal to 2 ^ MAX_LAYER_SIZE_BITS
++static const uint MIN_LAYER_COUNT      = 1 << MIN_LAYER_COUNT_BITS;	///< Minimal layer count = 1
++static const uint MAX_LAYER_COUNT      = 1 << MAX_LAYER_COUNT_BITS;	///< Maximal layer count = 8
++
++
++#endif /* LAYER_TYPE_H */
+diff --git a/src/main_gui.cpp b/src/main_gui.cpp
+index 199546d439..b7c8702624 100644
+--- a/src/main_gui.cpp
++++ b/src/main_gui.cpp
+@@ -32,6 +32,9 @@
+ #include "linkgraph/linkgraph_gui.h"
+ #include "tilehighlight_func.h"
+ #include "hotkeys.h"
++#include "gfx_func.h"
++#include "layer_gui.h"
++#include "landscape.h"
+ 
+ #include "saveload/saveload.h"
+ 
+@@ -107,7 +110,7 @@ bool HandlePlacePushButton(Window *w, int widget, CursorID cursor, HighLightStyl
+ 	if (_settings_client.sound.click_beep) SndPlayFx(SND_15_BEEP);
+ 	w->SetDirty();
+ 
+-	if (w->IsWidgetLowered(widget)) {
++	if (w->IsWidgetLowered(widget) && mode == _thd.place_mode) {
+ 		ResetObjectToPlace();
+ 		return false;
+ 	}
+@@ -204,6 +207,22 @@ void ZoomInOrOutToCursorWindow(bool in, Window *w)
+ 	}
+ }
+ 
++void LayerUpOrDownToCursorWindow(bool in, Window *w)
++{
++	assert(w != NULL);
++
++	if (_game_mode != GM_MENU) {
++		int layer = calculateLayer(w->viewport) + (in ? -1 : 1);
++		if ((layer < 0) || (layer >= LayerCount())) return;
++
++		Point pt = RemapCoords(0, (in ? -1 : 1) * LayerSizeY() * TILE_SIZE, 0);
++		w->viewport->dest_scrollpos_x += pt.x;
++		w->viewport->dest_scrollpos_y += pt.y;
++		w->InvalidateData();
++
++	}
++}
++
+ static const struct NWidgetPart _nested_main_window_widgets[] = {
+ 	NWidget(NWID_VIEWPORT, INVALID_COLOUR, WID_M_VIEWPORT), SetResize(1, 1),
+ };
+@@ -440,7 +459,11 @@ struct MainWindow : Window
+ 	virtual void OnMouseWheel(int wheel)
+ 	{
+ 		if (_settings_client.gui.scrollwheel_scrolling != 2) {
+-			ZoomInOrOutToCursorWindow(wheel < 0, this);
++			if (_ctrl_pressed) {
++				LayerUpOrDownToCursorWindow(wheel < 0, this);
++			} else {
++				ZoomInOrOutToCursorWindow(wheel < 0, this);
++			}
+ 		}
+ 	}
+ 
+diff --git a/src/map.cpp b/src/map.cpp
+index 85590c3e88..c00faa18c1 100644
+--- a/src/map.cpp
++++ b/src/map.cpp
+@@ -13,6 +13,7 @@
+ #include "debug.h"
+ #include "core/alloc_func.hpp"
+ #include "water_map.h"
++#include "layer_func.h"
+ #include "string_func.h"
+ 
+ #include "safeguards.h"
+@@ -38,7 +39,7 @@ TileExtended *_me = NULL; ///< Extended Tiles of the map
+  * @param size_x the width of the map along the NE/SW edge
+  * @param size_y the 'height' of the map along the SE/NW edge
+  */
+-void AllocateMap(uint size_x, uint size_y)
++void AllocateMap(uint size_x, uint size_y, uint layer_count)
+ {
+ 	/* Make sure that the map size is within the limits and that
+ 	 * size of both axes is a power of 2. */
+@@ -49,6 +50,10 @@ void AllocateMap(uint size_x, uint size_y)
+ 		error("Invalid map size");
+ 	}
+ 
++	/*	Ïîñêîëüêó ñëîè ÷àñòü êàðòû, âêëþ÷àåì èõ çäåñü	*/
++	InstallLayerSystem(size_x, size_y, layer_count);
++	size_y *= layer_count;
++
+ 	DEBUG(map, 1, "Allocating map of size %dx%d", size_x, size_y);
+ 
+ 	_map_log_x = FindFirstBit(size_x);
+@@ -270,6 +275,7 @@ bool CircularTileSearch(TileIndex *tile, uint size, TestTileOnSearchProc proc, v
+ 		/* If tile test is not successful, get one tile up,
+ 		 * ready for a test in first circle around center tile */
+ 		*tile = TileAddByDir(*tile, DIR_N);
++		if (size / 2 == 0) return false;
+ 		return CircularTileSearch(tile, size / 2, 1, 1, proc, user_data);
+ 	} else {
+ 		return CircularTileSearch(tile, size / 2, 0, 0, proc, user_data);
+diff --git a/src/map_func.h b/src/map_func.h
+index 21d69b1382..08cf12b5f0 100644
+--- a/src/map_func.h
++++ b/src/map_func.h
+@@ -43,7 +43,7 @@ extern Tile *_m;
+  */
+ extern TileExtended *_me;
+ 
+-void AllocateMap(uint size_x, uint size_y);
++void AllocateMap(uint size_x, uint size_y, uint layer_count);
+ 
+ /**
+  * Logarithm of the map size along the X side.
+diff --git a/src/misc.cpp b/src/misc.cpp
+index d9d506993f..f5184c0581 100644
+--- a/src/misc.cpp
++++ b/src/misc.cpp
+@@ -10,6 +10,7 @@
+ /** @file misc.cpp Misc functions that shouldn't be here. */
+ 
+ #include "stdafx.h"
++#include "layer_func.h"
+ #include "landscape.h"
+ #include "news_func.h"
+ #include "ai/ai.hpp"
+@@ -57,7 +58,7 @@ void InitializeGame(uint size_x, uint size_y, bool reset_date, bool reset_settin
+ 	 * related to the new game we're about to start/load. */
+ 	UnInitWindowSystem();
+ 
+-	AllocateMap(size_x, size_y);
++	AllocateMap(size_x, size_y, 1 << _settings_game.game_creation.layers);
+ 
+ 	_pause_mode = PM_UNPAUSED;
+ 	_fast_forward = 0;
+diff --git a/src/misc_gui.cpp b/src/misc_gui.cpp
+index b122d172d1..41af74e22a 100644
+--- a/src/misc_gui.cpp
++++ b/src/misc_gui.cpp
+@@ -213,10 +213,11 @@ public:
+ 		/* Location */
+ 		char tmp[16];
+ 		seprintf(tmp, lastof(tmp), "0x%.4X", tile);
+-		SetDParam(0, TileX(tile));
+-		SetDParam(1, TileY(tile));
++		SetDParam(0, LayerX(tile));
++		SetDParam(1, LayerY(tile));
+ 		SetDParam(2, GetTileZ(tile));
+-		SetDParamStr(3, tmp);
++		SetDParam(3, LayerIndex(tile));
++		SetDParamStr(4, tmp);
+ 		GetString(this->landinfo_data[line_nr], STR_LAND_AREA_INFORMATION_LANDINFO_COORDS, lastof(this->landinfo_data[line_nr]));
+ 		line_nr++;
+ 
+diff --git a/src/rail.h b/src/rail.h
+index b7258d3016..5ff4bd3a17 100644
+--- a/src/rail.h
++++ b/src/rail.h
+@@ -150,7 +150,7 @@ public:
+ 		SpriteID signals[SIGTYPE_END][2][2]; ///< signal GUI sprites (type, variant, state)
+ 	} gui_sprites;
+ 
+-	struct {
++	struct Cursor {
+ 		CursorID rail_ns;    ///< Cursor for building rail in N-S direction
+ 		CursorID rail_swne;  ///< Cursor for building rail in X direction
+ 		CursorID rail_ew;    ///< Cursor for building rail in E-W direction
+diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
+index a0fd968cc6..60697b636d 100644
+--- a/src/rail_cmd.cpp
++++ b/src/rail_cmd.cpp
+@@ -531,7 +531,7 @@ CommandCost CmdBuildSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1, u
+ 					/* ...but tram is not required. */
+ 					uint num_new_tram_pieces = (tram != ROAD_NONE) ? 2 - CountBits(tram) : 0;
+ 
+-					cost.AddCost((num_new_road_pieces + num_new_tram_pieces) * _price[PR_BUILD_ROAD]);
++					cost.AddCost((num_new_road_pieces + num_new_tram_pieces) * _price[PR_BUILD_ROAD] * UNDERGROUND_COST_MULTIPLIER(tile));
+ 
+ 					if (flags & DC_EXEC) {
+ 						MakeRoadCrossing(tile, road_owner, tram_owner, _current_company, (track == TRACK_X ? AXIS_Y : AXIS_X), railtype, roadtypes, GetTownIndex(tile));
+@@ -590,7 +590,7 @@ CommandCost CmdBuildSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1, u
+ 		YapfNotifyTrackLayoutChange(tile, track);
+ 	}
+ 
+-	cost.AddCost(RailBuildCost(railtype));
++	cost.AddCost(RailBuildCost(railtype) * UNDERGROUND_COST_MULTIPLIER(tile));
+ 	return cost;
+ }
+ 
+@@ -634,7 +634,7 @@ CommandCost CmdRemoveSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1,
+ 				if (ret.Failed()) return ret;
+ 			}
+ 
+-			cost.AddCost(RailClearCost(GetRailType(tile)));
++			cost.AddCost(RailClearCost(GetRailType(tile)) * UNDERGROUND_COST_MULTIPLIER(tile));
+ 
+ 			if (flags & DC_EXEC) {
+ 				if (HasReservedTracks(tile, trackbit)) {
+@@ -667,7 +667,7 @@ CommandCost CmdRemoveSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1,
+ 			if ((present & trackbit) == 0) return_cmd_error(STR_ERROR_THERE_IS_NO_RAILROAD_TRACK);
+ 			if (present == (TRACK_BIT_X | TRACK_BIT_Y)) crossing = true;
+ 
+-			cost.AddCost(RailClearCost(GetRailType(tile)));
++			cost.AddCost(RailClearCost(GetRailType(tile)) * UNDERGROUND_COST_MULTIPLIER(tile));
+ 
+ 			/* Charge extra to remove signals on the track, if they are there */
+ 			if (HasSignalOnTrack(tile, track)) {
+@@ -980,7 +980,7 @@ CommandCost CmdBuildTrainDepot(TileIndex tile, DoCommandFlag flags, uint32 p1, u
+ 		if (!_settings_game.construction.build_on_slopes || !CanBuildDepotByTileh(dir, tileh)) {
+ 			return_cmd_error(STR_ERROR_FLAT_LAND_REQUIRED);
+ 		}
+-		cost.AddCost(_price[PR_BUILD_FOUNDATION]);
++		cost.AddCost(_price[PR_BUILD_FOUNDATION] * UNDERGROUND_COST_MULTIPLIER(tile));
+ 	}
+ 
+ 	cost.AddCost(DoCommand(tile, 0, 0, flags, CMD_LANDSCAPE_CLEAR));
+@@ -1005,8 +1005,8 @@ CommandCost CmdBuildTrainDepot(TileIndex tile, DoCommandFlag flags, uint32 p1, u
+ 		YapfNotifyTrackLayoutChange(tile, DiagDirToDiagTrack(dir));
+ 	}
+ 
+-	cost.AddCost(_price[PR_BUILD_DEPOT_TRAIN]);
+-	cost.AddCost(RailBuildCost(railtype));
++	cost.AddCost(_price[PR_BUILD_DEPOT_TRAIN] * UNDERGROUND_COST_MULTIPLIER(tile));
++	cost.AddCost(RailBuildCost(railtype) * UNDERGROUND_COST_MULTIPLIER(tile));
+ 	return cost;
+ }
+ 
+@@ -1656,7 +1656,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
+ 							InvalidateWindowData(WC_VEHICLE_DEPOT, tile);
+ 							InvalidateWindowData(WC_BUILD_VEHICLE, tile);
+ 						}
+-						cost.AddCost(RailConvertCost(type, totype));
++						cost.AddCost(RailConvertCost(type, totype) * UNDERGROUND_COST_MULTIPLIER(tile));
+ 						break;
+ 
+ 					default: // RAIL_TILE_NORMAL, RAIL_TILE_SIGNALS
+@@ -1667,7 +1667,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
+ 								YapfNotifyTrackLayoutChange(tile, RemoveFirstTrack(&tracks));
+ 							}
+ 						}
+-						cost.AddCost(RailConvertCost(type, totype) * CountBits(GetTrackBits(tile)));
++						cost.AddCost(RailConvertCost(type, totype) * CountBits(GetTrackBits(tile)) * UNDERGROUND_COST_MULTIPLIER(tile));
+ 						break;
+ 				}
+ 				break;
+@@ -1729,7 +1729,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
+ 					}
+ 				}
+ 
+-				cost.AddCost((GetTunnelBridgeLength(tile, endtile) + 2) * RailConvertCost(type, totype));
++				cost.AddCost((GetTunnelBridgeLength(tile, endtile) + 2) * RailConvertCost(type, totype) * UNDERGROUND_COST_MULTIPLIER(tile));
+ 				break;
+ 			}
+ 
+@@ -1739,7 +1739,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
+ 					YapfNotifyTrackLayoutChange(tile, track);
+ 				}
+ 
+-				cost.AddCost(RailConvertCost(type, totype));
++				cost.AddCost(RailConvertCost(type, totype) * UNDERGROUND_COST_MULTIPLIER(tile));
+ 				break;
+ 		}
+ 
+diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
+index bdc8ce7f30..dce9907192 100644
+--- a/src/road_cmd.cpp
++++ b/src/road_cmd.cpp
+@@ -255,7 +255,7 @@ static CommandCost RemoveRoad(TileIndex tile, DoCommandFlag flags, RoadBits piec
+ 			}
+ 		} else {
+ 			assert(IsDriveThroughStopTile(tile));
+-			cost.AddCost(_price[PR_CLEAR_ROAD] * 2);
++			cost.AddCost(_price[PR_CLEAR_ROAD] * 2 * UNDERGROUND_COST_MULTIPLIER(tile));
+ 			if (flags & DC_EXEC) {
+ 				Company *c = Company::GetIfValid(GetRoadOwner(tile, rt));
+ 				if (c != NULL) {
+@@ -737,7 +737,7 @@ do_clear:;
+ 			/* Count pieces */
+ 			CountBits(pieces);
+ 
+-	cost.AddCost(num_pieces * _price[PR_BUILD_ROAD]);
++	cost.AddCost(num_pieces * _price[PR_BUILD_ROAD] * UNDERGROUND_COST_MULTIPLIER(tile));
+ 
+ 	if (flags & DC_EXEC) {
+ 		switch (GetTileType(tile)) {
+@@ -1046,7 +1046,7 @@ CommandCost CmdBuildRoadDepot(TileIndex tile, DoCommandFlag flags, uint32 p1, ui
+ 		MarkTileDirtyByTile(tile);
+ 		MakeDefaultName(dep);
+ 	}
+-	cost.AddCost(_price[PR_BUILD_DEPOT_ROAD]);
++	cost.AddCost(_price[PR_BUILD_DEPOT_ROAD] * UNDERGROUND_COST_MULTIPLIER(tile));
+ 	return cost;
+ }
+ 
+diff --git a/src/saveload/map_sl.cpp b/src/saveload/map_sl.cpp
+index 693ddb7ce3..e2e9f4877b 100644
+--- a/src/saveload/map_sl.cpp
++++ b/src/saveload/map_sl.cpp
+@@ -11,6 +11,7 @@
+ 
+ #include "../stdafx.h"
+ #include "../map_func.h"
++#include "../layer_func.h"
+ #include "../core/bitmath_func.hpp"
+ #include "../fios.h"
+ 
+@@ -20,10 +21,12 @@
+ 
+ static uint32 _map_dim_x;
+ static uint32 _map_dim_y;
++static uint32 _layer_count;
+ 
+ static const SaveLoadGlobVarList _map_dimensions[] = {
+ 	SLEG_CONDVAR(_map_dim_x, SLE_UINT32, 6, SL_MAX_VERSION),
+ 	SLEG_CONDVAR(_map_dim_y, SLE_UINT32, 6, SL_MAX_VERSION),
++	SLEG_CONDVAR(_layer_count, SLE_UINT32, 6, SL_MAX_VERSION),
+ 	    SLEG_END()
+ };
+ 
+@@ -31,13 +34,14 @@ static void Save_MAPS()
+ {
+ 	_map_dim_x = MapSizeX();
+ 	_map_dim_y = MapSizeY();
++	_layer_count = LayerCount();
+ 	SlGlobList(_map_dimensions);
+ }
+ 
+ static void Load_MAPS()
+ {
+ 	SlGlobList(_map_dimensions);
+-	AllocateMap(_map_dim_x, _map_dim_y);
++	AllocateMap(_map_dim_x, _map_dim_y/_layer_count, _layer_count);
+ }
+ 
+ static void Check_MAPS()
+diff --git a/src/script/api/script_window.hpp b/src/script/api/script_window.hpp
+index 9dcf58e05b..9585ba3659 100644
+--- a/src/script/api/script_window.hpp
++++ b/src/script/api/script_window.hpp
+@@ -1317,6 +1317,7 @@ public:
+ 
+ 		WID_GL_MAPSIZE_X_PULLDOWN                    = ::WID_GL_MAPSIZE_X_PULLDOWN,                    ///< Dropdown 'map X size'.
+ 		WID_GL_MAPSIZE_Y_PULLDOWN                    = ::WID_GL_MAPSIZE_Y_PULLDOWN,                    ///< Dropdown 'map Y size'.
++               WID_GL_LAYER_COUNT_PULLDOWN                      = ::WID_GL_LAYER_COUNT_PULLDOWN,                  ///< Dropdown 'map layer count'
+ 
+ 		WID_GL_TOWN_PULLDOWN                         = ::WID_GL_TOWN_PULLDOWN,                         ///< Dropdown 'No. of towns'.
+ 		WID_GL_INDUSTRY_PULLDOWN                     = ::WID_GL_INDUSTRY_PULLDOWN,                     ///< Dropdown 'No. of industries'.
+@@ -1365,6 +1366,7 @@ public:
+ 		WID_CS_RANDOM_WORLD                          = ::WID_CS_RANDOM_WORLD,                          ///< Generate random land button
+ 		WID_CS_MAPSIZE_X_PULLDOWN                    = ::WID_CS_MAPSIZE_X_PULLDOWN,                    ///< Pull-down arrow for x map size.
+ 		WID_CS_MAPSIZE_Y_PULLDOWN                    = ::WID_CS_MAPSIZE_Y_PULLDOWN,                    ///< Pull-down arrow for y map size.
++               WID_CS_LAYER_COUNT_PULLDOWN          = ::WID_CS_LAYER_COUNT_PULLDOWN,          ///< Pull-down arrow for map layer count.
+ 		WID_CS_START_DATE_DOWN                       = ::WID_CS_START_DATE_DOWN,                       ///< Decrease start year (start earlier).
+ 		WID_CS_START_DATE_TEXT                       = ::WID_CS_START_DATE_TEXT,                       ///< Clickable start date value.
+ 		WID_CS_START_DATE_UP                         = ::WID_CS_START_DATE_UP,                         ///< Increase start year (start later).
+diff --git a/src/settings.cpp b/src/settings.cpp
+index 0dc1e24d45..ea42ae6d07 100644
+--- a/src/settings.cpp
++++ b/src/settings.cpp
+@@ -32,6 +32,7 @@
+ #include "command_func.h"
+ #include "console_func.h"
+ #include "pathfinder/pathfinder_type.h"
++#include "layer_type.h"
+ #include "genworld.h"
+ #include "train.h"
+ #include "news_func.h"
+diff --git a/src/settings_type.h b/src/settings_type.h
+index 690f6d8036..d2022fd894 100644
+--- a/src/settings_type.h
++++ b/src/settings_type.h
+@@ -147,6 +147,8 @@ struct GUISettings {
+ 	uint8  graph_line_thickness;             ///< the thickness of the lines in the various graph guis
+ 	uint8  osk_activation;                   ///< Mouse gesture to trigger the OSK.
+ 
++	uint32 layer_view_type;                   ///< çàðåçåðâèðîâàíî (òèï îòîáðàæåíèÿ)
++
+ 	uint16 console_backlog_timeout;          ///< the minimum amount of time items should be in the console backlog before they will be removed in ~3 seconds granularity.
+ 	uint16 console_backlog_length;           ///< the minimum amount of items in the console backlog before items will be removed.
+ 
+@@ -286,6 +288,7 @@ struct GameCreationSettings {
+ 	Year   starting_year;                    ///< starting date
+ 	uint8  map_x;                            ///< X size of map
+ 	uint8  map_y;                            ///< Y size of map
++	uint8  layers;                           ///< map layer count
+ 	byte   land_generator;                   ///< the landscape generator
+ 	byte   oil_refinery_limit;               ///< distance oil refineries allowed from map edge
+ 	byte   snow_line_height;                 ///< the configured snow line height
+diff --git a/src/station.cpp b/src/station.cpp
+index f86286f3d9..fac559e5fd 100644
+--- a/src/station.cpp
++++ b/src/station.cpp
+@@ -13,6 +13,7 @@
+ #include "company_func.h"
+ #include "company_base.h"
+ #include "roadveh.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "date_func.h"
+ #include "command_func.h"
+@@ -331,8 +332,8 @@ static bool FindIndustryToDeliver(TileIndex ind_tile, void *user_data)
+ 	if (riv->industries_near->Contains(ind)) return false;
+ 
+ 	/* Only process tiles in the station acceptance rectangle */
+-	int x = TileX(ind_tile);
+-	int y = TileY(ind_tile);
++	int x = LayerX(ind_tile);
++	int y = LayerY(ind_tile);
+ 	if (x < riv->rect.left || x > riv->rect.right || y < riv->rect.top || y > riv->rect.bottom) return false;
+ 
+ 	/* Include only industries that can accept cargo */
+@@ -362,10 +363,11 @@ void Station::RecomputeIndustriesNear()
+ 	};
+ 
+ 	/* Compute maximum extent of acceptance rectangle wrt. station sign */
+-	TileIndex start_tile = this->xy;
++	/*	Îõâàòûâàåì âåðõíþþ òåððèòîðèþ	*/
++	TileIndex start_tile = TopTile(this->xy);
+ 	uint max_radius = max(
+-		max(DistanceManhattan(start_tile, TileXY(riv.rect.left,  riv.rect.top)), DistanceManhattan(start_tile, TileXY(riv.rect.left,  riv.rect.bottom))),
+-		max(DistanceManhattan(start_tile, TileXY(riv.rect.right, riv.rect.top)), DistanceManhattan(start_tile, TileXY(riv.rect.right, riv.rect.bottom)))
++		max(DistanceManhattan(start_tile, TopTile(TileXY(riv.rect.left,  riv.rect.top))), DistanceManhattan(start_tile, TopTile(TileXY(riv.rect.left,  riv.rect.bottom)))),
++		max(DistanceManhattan(start_tile, TopTile(TileXY(riv.rect.right, riv.rect.top))), DistanceManhattan(start_tile, TopTile(TileXY(riv.rect.right, riv.rect.bottom))))
+ 	);
+ 
+ 	CircularTileSearch(&start_tile, 2 * max_radius + 1, &FindIndustryToDeliver, &riv);
+@@ -397,7 +399,7 @@ void StationRect::MakeEmpty()
+ /**
+  * Determines whether a given point (x, y) is within a certain distance of
+  * the station rectangle.
+- * @note x and y are in Tile coordinates
++ * @note x and y are in Tile coordinates (in top layer)
+  * @param x X coordinate
+  * @param y Y coordinate
+  * @param distance The maximum distance a point may have (L1 norm)
+@@ -416,8 +418,10 @@ bool StationRect::IsEmpty() const
+ 
+ CommandCost StationRect::BeforeAddTile(TileIndex tile, StationRectMode mode)
+ {
+-	int x = TileX(tile);
+-	int y = TileY(tile);
++	/*	Ñòàíöèÿ ìîæåò íàõîäèòñÿ íà ëþáîì óðîâíå.
++	*	Íî îõâàòûâàåò òîëüêî ïîâåðõíîñòü		*/
++	int x = LayerX(tile);
++	int y = LayerY(tile);
+ 	if (this->IsEmpty()) {
+ 		/* we are adding the first station tile */
+ 		if (mode != ADD_TEST) {
+@@ -470,28 +474,35 @@ CommandCost StationRect::BeforeAddRect(TileIndex tile, int w, int h, StationRect
+  */
+ /* static */ bool StationRect::ScanForStationTiles(StationID st_id, int left_a, int top_a, int right_a, int bottom_a)
+ {
+-	TileArea ta(TileXY(left_a, top_a), TileXY(right_a, bottom_a));
+-	TILE_AREA_LOOP(tile, ta) {
+-		if (IsTileType(tile, MP_STATION) && GetStationIndex(tile) == st_id) return true;
++	/*	Ñòàíöèÿ ìîæåò íàõîäèòñÿ íà ëþáîì óðîâíå.
++	*	Çíà÷èò íàäî îáîéòè âñå ñëîè		*/
++	TileArea ta(TopTile(TileXY(left_a, top_a)), TopTile(TileXY(right_a, bottom_a)));
++
++	FOR_ALL_LAYERS(layer) {
++		ta.tile = TopTile(ta.tile) + layer * LayerSize();
++		TILE_AREA_LOOP(tile, ta) {
++			if (IsTileType(tile, MP_STATION) && GetStationIndex(tile) == st_id) return true;
++		}
+ 	}
+-
+ 	return false;
+ }
+ 
+ bool StationRect::AfterRemoveTile(BaseStation *st, TileIndex tile)
+ {
+-	int x = TileX(tile);
+-	int y = TileY(tile);
++	/*	Ñòàíöèÿ ìîæåò íàõîäèòñÿ íà ëþáîì óðîâíå.
++	*	Íî îõâàòûâàåò òîëüêî ïîâåðõíîñòü		*/
++	int x = LayerX(tile);
++	int y = LayerY(tile);
+ 
+ 	/* look if removed tile was on the bounding rect edge
+ 	 * and try to reduce the rect by this edge
+ 	 * do it until we have empty rect or nothing to do */
+ 	for (;;) {
+ 		/* check if removed tile is on rect edge */
+-		bool left_edge = (x == this->left);
+-		bool right_edge = (x == this->right);
+-		bool top_edge = (y == this->top);
+-		bool bottom_edge = (y == this->bottom);
++		bool left_edge = (x == TopTile(this->left));
++		bool right_edge = (x == TopTile(this->right));
++		bool top_edge = (y == TopTile(this->top));
++		bool bottom_edge = (y == TopTile(this->bottom));
+ 
+ 		/* can we reduce the rect in either direction? */
+ 		bool reduce_x = ((left_edge || right_edge) && !ScanForStationTiles(st->index, x, this->top, x, this->bottom));
+@@ -530,8 +541,13 @@ bool StationRect::AfterRemoveTile(BaseStation *st, TileIndex tile)
+ 
+ bool StationRect::AfterRemoveRect(BaseStation *st, TileArea ta)
+ {
+-	assert(this->PtInExtendedRect(TileX(ta.tile), TileY(ta.tile)));
+-	assert(this->PtInExtendedRect(TileX(ta.tile) + ta.w - 1, TileY(ta.tile) + ta.h - 1));
++	/*	Ñòàíöèÿ ìîæåò íàõîäèòñÿ íà ëþáîì óðîâíå.
++	*	Íî îõâàòûâàåò òîëüêî ïîâåðõíîñòü		*/
++	int topx = LayerX(ta.tile);
++	int topy = LayerY(ta.tile);
++
++	assert(this->PtInExtendedRect(topx, topy));
++	assert(this->PtInExtendedRect(topx + ta.w - 1, topy + ta.h - 1));
+ 
+ 	bool empty = this->AfterRemoveTile(st, ta.tile);
+ 	if (ta.w != 1 || ta.h != 1) empty = empty || this->AfterRemoveTile(st, TILE_ADDXY(ta.tile, ta.w - 1, ta.h - 1));
+diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
+index 16f135df25..d3ea5b7ecf 100644
+--- a/src/station_cmd.cpp
++++ b/src/station_cmd.cpp
+@@ -13,6 +13,7 @@
+ #include "aircraft.h"
+ #include "bridge_map.h"
+ #include "cmd_helper.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "command_func.h"
+ #include "town.h"
+@@ -97,23 +98,26 @@ bool IsHangar(TileIndex t)
+  * @return Succeeded command (if zero or one station found) or failed command (for two or more stations found).
+  */
+ template <class T>
+-CommandCost GetStationAround(TileArea ta, StationID closest_station, CompanyID company, T **st)
++CommandCost GetStationAround(TileArea ta, StationID closest_station, CompanyID company, T **st, bool layers=false)
+ {
+ 	ta.tile -= TileDiffXY(1, 1);
+ 	ta.w    += 2;
+ 	ta.h    += 2;
+ 
+ 	/* check around to see if there are any stations there owned by the company */
+-	TILE_AREA_LOOP(tile_cur, ta) {
+-		if (IsTileType(tile_cur, MP_STATION)) {
+-			StationID t = GetStationIndex(tile_cur);
+-			if (!T::IsValidID(t) || Station::Get(t)->owner != company) continue;
+-			if (closest_station == INVALID_STATION) {
+-				closest_station = t;
+-			} else if (closest_station != t) {
+-				return_cmd_error(STR_ERROR_ADJOINS_MORE_THAN_ONE_EXISTING);
++	FOR_ALL_LAYERS(layer) {
++		TILE_AREA_LOOP(tile_cur, ta) {
++			if (IsTileType(tile_cur, MP_STATION)) {
++				StationID t = GetStationIndex(tile_cur);
++				if (!T::IsValidID(t) || Station::Get(t)->owner != company) continue;
++				if (closest_station == INVALID_STATION) {
++					closest_station = t;
++				} else if (closest_station != t) {
++					return_cmd_error(STR_ERROR_ADJOINS_MORE_THAN_ONE_EXISTING);
++				}
+ 			}
+ 		}
++		if (!layers) break;
+ 	}
+ 	*st = (closest_station == INVALID_STATION) ? NULL : T::Get(closest_station);
+ 	return CommandCost();
+@@ -756,7 +760,7 @@ CommandCost CheckBuildableTile(TileIndex tile, uint invalid_dirs, int &allowed_z
+ 				return_cmd_error(STR_ERROR_FLAT_LAND_REQUIRED);
+ 			}
+ 		}
+-		cost.AddCost(_price[PR_BUILD_FOUNDATION]);
++		cost.AddCost(_price[PR_BUILD_FOUNDATION] * UNDERGROUND_COST_MULTIPLIER(tile));
+ 	}
+ 
+ 	/* The level of this tile must be equal to allowed_z. */
+@@ -985,7 +989,7 @@ static CommandCost CheckFlatLandRoadStop(TileArea tile_area, DoCommandFlag flags
+ 			}
+ 
+ 			uint roadbits_to_build = CountBits(rts) * 2 - num_roadbits;
+-			cost.AddCost(_price[PR_BUILD_ROAD] * roadbits_to_build);
++			cost.AddCost(_price[PR_BUILD_ROAD] * roadbits_to_build * UNDERGROUND_COST_MULTIPLIER(cur_tile));
+ 		}
+ 	}
+ 
+@@ -1004,11 +1008,13 @@ CommandCost CanExpandRailStation(const BaseStation *st, TileArea &new_ta, Axis a
+ 	TileArea cur_ta = st->train_station;
+ 
+ 	/* determine new size of train station region.. */
+-	int x = min(TileX(cur_ta.tile), TileX(new_ta.tile));
+-	int y = min(TileY(cur_ta.tile), TileY(new_ta.tile));
+-	new_ta.w = max(TileX(cur_ta.tile) + cur_ta.w, TileX(new_ta.tile) + new_ta.w) - x;
+-	new_ta.h = max(TileY(cur_ta.tile) + cur_ta.h, TileY(new_ta.tile) + new_ta.h) - y;
+-	new_ta.tile = TileXY(x, y);
++	/*	Ôàêòè÷åñêè, ïîäçåìíàÿ ñòàíöèÿ ("ýñêàëàòîð") áîëüøå øèðèíû êàðòû.
++	*	Ïîýòîìó ïðîâåðÿì ðàçìåð â ïðåäåëàõ îäíîãî ñëîÿ	 	*/
++	int topx = min(LayerX(cur_ta.tile), LayerX(new_ta.tile));
++	int topy = min(LayerY(cur_ta.tile), LayerY(new_ta.tile));
++	new_ta.w = max(LayerX(cur_ta.tile) + cur_ta.w, LayerX(new_ta.tile) + new_ta.w) - topx;
++	new_ta.h = max(LayerY(cur_ta.tile) + cur_ta.h, LayerY(new_ta.tile) + new_ta.h) - topy;
++	new_ta.tile = TileXY(topx, topy);
+ 
+ 	/* make sure the final size is not too big. */
+ 	if (new_ta.w > _settings_game.station.station_spread || new_ta.h > _settings_game.station.station_spread) {
+@@ -1080,7 +1086,7 @@ void GetStationLayout(byte *layout, int numtracks, int plat_len, const StationSp
+  * @return command cost with the error or 'okay'
+  */
+ template <class T, StringID error_message>
+-CommandCost FindJoiningBaseStation(StationID existing_station, StationID station_to_join, bool adjacent, TileArea ta, T **st)
++CommandCost FindJoiningBaseStation(StationID existing_station, StationID station_to_join, bool adjacent, TileArea ta, T **st, bool layers=false)
+ {
+ 	assert(*st == NULL);
+ 	bool check_surrounding = true;
+@@ -1106,7 +1112,7 @@ CommandCost FindJoiningBaseStation(StationID existing_station, StationID station
+ 
+ 	if (check_surrounding) {
+ 		/* Make sure there is no more than one other station around us that is owned by us. */
+-		CommandCost ret = GetStationAround(ta, existing_station, _current_company, st);
++		CommandCost ret = GetStationAround(ta, existing_station, _current_company, st, layers);
+ 		if (ret.Failed()) return ret;
+ 	}
+ 
+@@ -1125,9 +1131,9 @@ CommandCost FindJoiningBaseStation(StationID existing_station, StationID station
+  * @param st 'return' pointer for the found station
+  * @return command cost with the error or 'okay'
+  */
+-static CommandCost FindJoiningStation(StationID existing_station, StationID station_to_join, bool adjacent, TileArea ta, Station **st)
++static CommandCost FindJoiningStation(StationID existing_station, StationID station_to_join, bool adjacent, TileArea ta, Station **st, bool layers=false)
+ {
+-	return FindJoiningBaseStation<Station, STR_ERROR_MUST_REMOVE_RAILWAY_STATION_FIRST>(existing_station, station_to_join, adjacent, ta, st);
++	return FindJoiningBaseStation<Station, STR_ERROR_MUST_REMOVE_RAILWAY_STATION_FIRST>(existing_station, station_to_join, adjacent, ta, st, layers);
+ }
+ 
+ /**
+@@ -1236,8 +1242,8 @@ CommandCost CmdBuildRailStation(TileIndex tile_org, DoCommandFlag flags, uint32
+ 	CommandCost cost = CheckFlatLandRailStation(new_location, flags, axis, &est, rt, affected_vehicles, spec_class, spec_index, plat_len, numtracks);
+ 	if (cost.Failed()) return cost;
+ 	/* Add construction expenses. */
+-	cost.AddCost((numtracks * _price[PR_BUILD_STATION_RAIL] + _price[PR_BUILD_STATION_RAIL_LENGTH]) * plat_len);
+-	cost.AddCost(numtracks * plat_len * RailBuildCost(rt));
++	cost.AddCost((numtracks * _price[PR_BUILD_STATION_RAIL] + _price[PR_BUILD_STATION_RAIL_LENGTH]) * plat_len * UNDERGROUND_COST_MULTIPLIER(tile_org));
++	cost.AddCost(numtracks * plat_len * RailBuildCost(rt) * UNDERGROUND_COST_MULTIPLIER(tile_org));
+ 
+ 	Station *st = NULL;
+ 	ret = FindJoiningStation(est, station_to_join, adjacent, new_location, &st);
+@@ -1277,8 +1283,10 @@ CommandCost CmdBuildRailStation(TileIndex tile_org, DoCommandFlag flags, uint32
+ 		byte numtracks_orig;
+ 		Track track;
+ 
++		TileIndex top_tile = TopTile(new_location.tile);
+ 		st->train_station = new_location;
+-		st->AddFacility(FACIL_TRAIN, new_location.tile);
++		st->train_station.tile = top_tile;
++		st->AddFacility(FACIL_TRAIN, tile_org);
+ 
+ 		st->rect.BeforeAddRect(tile_org, w_org, h_org, StationRect::ADD_TRY);
+ 
+@@ -1505,7 +1513,7 @@ CommandCost RemoveFromRailBaseStation(TileArea ta, SmallVector<T *, 4> &affected
+ 		}
+ 
+ 		/* If we reached here, the tile is valid so increase the quantity of tiles we will remove */
+-		quantity++;
++		quantity += UNDERGROUND_COST_MULTIPLIER(tile);
+ 
+ 		if (keep_rail || IsStationTileBlocked(tile)) {
+ 			/* Don't refund the 'steel' of the track when we keep the
+@@ -1585,7 +1593,7 @@ CommandCost RemoveFromRailBaseStation(TileArea ta, SmallVector<T *, 4> &affected
+ CommandCost CmdRemoveFromRailStation(TileIndex start, DoCommandFlag flags, uint32 p1, uint32 p2, const char *text)
+ {
+ 	TileIndex end = p1 == 0 ? start : p1;
+-	if (start >= MapSize() || end >= MapSize()) return CMD_ERROR;
++	if (start >= MapSize() || end >= MapSize() || (LayerIndex(start) != LayerIndex(end))) return CMD_ERROR;
+ 
+ 	TileArea ta(start, end);
+ 	SmallVector<Station *, 4> affected_stations;
+@@ -1649,11 +1657,16 @@ CommandCost RemoveRailStation(T *st, DoCommandFlag flags, Money removal_cost)
+ 	/* determine width and height of platforms */
+ 	TileArea ta = st->train_station;
+ 
+-	assert(ta.w != 0 && ta.h != 0);
++	/*	TileArea is top finite area	*/
++	assert(IsTopTile(ta.tile));
++	assert(ta.IsFinite());
+ 
+ 	CommandCost cost(EXPENSES_CONSTRUCTION);
++	/* Check all layers */
++	FOR_ALL_LAYERS(layer)
+ 	/* clear all areas of the station */
+-	TILE_AREA_LOOP(tile, ta) {
++	TILE_AREA_LOOP(top_tile, ta) {
++		TileIndex tile = top_tile + layer * LayerSize();
+ 		/* only remove tiles that are actually train station tiles */
+ 		if (st->TileBelongsToRailStation(tile)) {
+ 			SmallVector<T*, 4> affected_stations; // dummy
+@@ -2027,13 +2040,21 @@ CommandCost CmdRemoveRoadStop(TileIndex tile, DoCommandFlag flags, uint32 p1, ui
+ 	/* Bankrupting company is not supposed to remove roads, there may be road vehicles. */
+ 	if (!keep_drive_through_roads && (flags & DC_BANKRUPT)) return CMD_ERROR;
+ 
+-	TileArea roadstop_area(tile, width, height);
++	/*	Ýòî òåððèòîðèÿ óäàëåíèÿ îñòàíîâîê (ÍÅ ñàìèõ îñòàíîâîê)	*/
++	TileArea roadstop_area(TopTile(tile), width, height);
++	
++	/*	TileArea is top finite area	*/
++	assert(IsTopTile(roadstop_area.tile));
++	assert(roadstop_area.IsFinite());
+ 
+ 	CommandCost cost(EXPENSES_CONSTRUCTION);
+ 	CommandCost last_error(STR_ERROR_THERE_IS_NO_STATION);
+ 	bool had_success = false;
+ 
+-	TILE_AREA_LOOP(cur_tile, roadstop_area) {
++	/* Check all layers */
++	FOR_ALL_LAYERS(layer)
++	TILE_AREA_LOOP(top_tile, roadstop_area) {
++		TileIndex cur_tile = top_tile + layer * LayerSize();
+ 		/* Make sure the specified tile is a road stop of the correct type */
+ 		if (!IsTileType(cur_tile, MP_STATION) || !IsRoadStop(cur_tile) || (uint32)GetRoadStopType(cur_tile) != GB(p2, 0, 1)) continue;
+ 
+@@ -2217,6 +2238,10 @@ CommandCost CmdBuildAirport(TileIndex tile, DoCommandFlag flags, uint32 p1, uint
+ 	if (w > _settings_game.station.station_spread || h > _settings_game.station.station_spread) {
+ 		return_cmd_error(STR_ERROR_STATION_TOO_SPREAD_OUT);
+ 	}
++       /* can't make underground airport  */
++       if (IsUnderground(tile)) {
++               return_cmd_error(STR_ERROR_UNDERGROUND_CAN_T_BUILD_UNDER_GROUND);
++       }
+ 
+ 	CommandCost cost = CheckFlatLand(airport_area, flags);
+ 	if (cost.Failed()) return cost;
+diff --git a/src/station_gui.cpp b/src/station_gui.cpp
+index 3f64b139ac..d143d7aa2e 100644
+--- a/src/station_gui.cpp
++++ b/src/station_gui.cpp
+@@ -21,6 +21,7 @@
+ #include "strings_func.h"
+ #include "string_func.h"
+ #include "window_func.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "widgets/dropdown_func.h"
+ #include "station_base.h"
+@@ -2178,8 +2179,15 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
+ 	_deleted_stations_nearby.Clear();
+ 
+ 	/* Check the inside, to return, if we sit on another station */
+-	TILE_AREA_LOOP(t, ta) {
+-		if (t < MapSize() && IsTileType(t, MP_STATION) && T::IsValidID(GetStationIndex(t))) return T::GetByTile(t);
++	FOR_ALL_LAYERS(layer) {
++		TILE_AREA_LOOP(tile, ta) {
++			TileIndex t = TopTile(tile) + layer * LayerSize();
++			if (t < MapSize() && IsTileType(t, MP_STATION) && T::IsValidID(GetStationIndex(t)))
++			{
++				if (t == tile) return T::GetByTile(t);
++				AddNearbyStation<T>(t, &ctx);
++			}
++		}
+ 	}
+ 
+ 	/* Look for deleted stations */
+@@ -2187,14 +2195,14 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
+ 	FOR_ALL_BASE_STATIONS(st) {
+ 		if (T::IsExpected(st) && !st->IsInUse() && st->owner == _local_company) {
+ 			/* Include only within station spread (yes, it is strictly less than) */
+-			if (max(DistanceMax(ta.tile, st->xy), DistanceMax(TILE_ADDXY(ta.tile, ta.w - 1, ta.h - 1), st->xy)) < _settings_game.station.station_spread) {
++			if (max(DistanceMax(TopTile(ta.tile), TopTile(st->xy)), DistanceMax(TILE_ADDXY(TopTile(ta.tile), ta.w - 1, ta.h - 1), TopTile(st->xy))) < _settings_game.station.station_spread) {
+ 				TileAndStation *ts = _deleted_stations_nearby.Append();
+ 				ts->tile = st->xy;
+ 				ts->station = st->index;
+ 
+ 				/* Add the station when it's within where we're going to build */
+-				if (IsInsideBS(TileX(st->xy), TileX(ctx.tile), ctx.w) &&
+-						IsInsideBS(TileY(st->xy), TileY(ctx.tile), ctx.h)) {
++				if (IsInsideBS(LayerX(st->xy), LayerX(ctx.tile), ctx.w) &&
++						IsInsideBS(LayerY(st->xy), LayerY(ctx.tile), ctx.h)) {
+ 					AddNearbyStation<T>(st->xy, &ctx);
+ 				}
+ 			}
+@@ -2207,8 +2215,11 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
+ 	if (distant_join && min(ta.w, ta.h) >= _settings_game.station.station_spread) return NULL;
+ 	uint max_dist = distant_join ? _settings_game.station.station_spread - min(ta.w, ta.h) : 1;
+ 
+-	TileIndex tile = TileAddByDir(ctx.tile, DIR_N);
+-	CircularTileSearch(&tile, max_dist, ta.w, ta.h, AddNearbyStation<T>, &ctx);
++	FOR_ALL_LAYERS(layer) {
++		ctx.tile = TopTile(ctx.tile) + layer * LayerSize();
++		TileIndex tile = TileAddByDir(ctx.tile, DIR_N);
++		CircularTileSearch(&tile, max_dist, ta.w, ta.h, AddNearbyStation<T>, &ctx);
++	}
+ 
+ 	return NULL;
+ }
+diff --git a/src/table/settings.ini b/src/table/settings.ini
+index c061c394f0..d940ca6da2 100644
+--- a/src/table/settings.ini
++++ b/src/table/settings.ini
+@@ -1848,6 +1848,15 @@ min      = 500
+ max      = 1000000
+ cat      = SC_EXPERT
+ 
++[SDT_VAR]
++base     = GameSettings
++var      = game_creation.layers
++type     = SLE_UINT8
++flags    = SLF_NOT_IN_SAVE | SLF_NO_NETWORK_SYNC
++def      = 1
++min      = MIN_LAYER_COUNT_BITS
++max      = MAX_LAYER_COUNT_BITS
++
+ [SDT_BOOL]
+ base     = GameSettings
+ var      = pf.yapf.rail_firstred_twoway_eol
+@@ -3143,6 +3152,15 @@ strhelp  = STR_CONFIG_SETTING_GRAPH_LINE_THICKNESS_HELPTEXT
+ strval   = STR_JUST_COMMA
+ proc     = RedrawScreen
+ 
++[SDTC_VAR]
++var      = gui.layer_view_type
++type     = SLE_UINT32
++flags    = SLF_NOT_IN_SAVE | SLF_NO_NETWORK_SYNC
++def      = 0
++min      = 0
++max      = UINT32_MAX
++proc     = RedrawScreen
++
+ ; For the dedicated build we'll enable dates in logs by default.
+ [SDTC_BOOL]
+ ifdef    = DEDICATED
+diff --git a/src/terraform_cmd.cpp b/src/terraform_cmd.cpp
+index aad9822822..ac96a0b637 100644
+--- a/src/terraform_cmd.cpp
++++ b/src/terraform_cmd.cpp
+@@ -10,6 +10,7 @@
+ /** @file terraform_cmd.cpp Commands related to terraforming. */
+ 
+ #include "stdafx.h"
++#include "layer_func.h"
+ #include "command_func.h"
+ #include "tunnel_map.h"
+ #include "bridge_map.h"
+@@ -253,6 +254,10 @@ CommandCost CmdTerraformLand(TileIndex tile, DoCommandFlag flags, uint32 p1, uin
+ 			if (z_N > z_min) tileh |= SLOPE_N;
+ 
+ 			if (pass == 0) {
++				/*	Terrafrom enable only top layer	*/
++				if (IsUnderground(tile)) {
++					return_cmd_error(STR_ERROR_UNDERGROUND_CAN_T_TERRAFORM);
++				}
+ 				/* Check if bridge would take damage */
+ 				if (IsBridgeAbove(tile)) {
+ 					int bridge_height = GetBridgeHeight(GetSouthernBridgeEnd(tile));
+diff --git a/src/tgp.cpp b/src/tgp.cpp
+index 436870b412..a9f43bb779 100644
+--- a/src/tgp.cpp
++++ b/src/tgp.cpp
+@@ -14,6 +14,7 @@
+ #include "clear_map.h"
+ #include "void_map.h"
+ #include "genworld.h"
++#include "layer_func.h"
+ #include "core/random_func.hpp"
+ #include "landscape_type.h"
+ 
+@@ -170,6 +171,8 @@ struct HeightMap
+ 	int      total_size; //< height map total size
+ 	int      size_x;     //< MapSizeX()
+ 	int      size_y;     //< MapSizeY()
++	int      map_x;	     //< MapSizeX()
++	int      map_y;      //< MapSizeY()
+ 
+ 	/**
+ 	 * Height map accessor
+@@ -307,8 +310,11 @@ static inline bool AllocHeightMap()
+ {
+ 	height_t *h;
+ 
+-	_height_map.size_x = MapSizeX();
+-	_height_map.size_y = MapSizeY();
++	_height_map.map_x = MapSizeX();
++	_height_map.map_y = MapSizeY();
++
++	_height_map.size_x = LayerSizeX();
++	_height_map.size_y = LayerSizeY();
+ 
+ 	/* Allocate memory block for height map row pointers */
+ 	_height_map.total_size = (_height_map.size_x + 1) * (_height_map.size_y + 1);
+@@ -995,8 +1001,8 @@ void GenerateTerrainPerlin()
+ 
+ 	/* First make sure the tiles at the north border are void tiles if needed. */
+ 	if (_settings_game.construction.freeform_edges) {
+-		for (int y = 0; y < _height_map.size_y - 1; y++) MakeVoid(_height_map.size_x * y);
+-		for (int x = 0; x < _height_map.size_x;     x++) MakeVoid(x);
++		for (int y = 0; y < _height_map.map_y - 1; y++) MakeVoid(_height_map.size_x * y);
++		for (int x = 0; x < _height_map.map_x;     x++) MakeVoid(x);
+ 	}
+ 
+ 	int max_height = H2I(TGPGetMaxHeight());
+diff --git a/src/tile_map.h b/src/tile_map.h
+index 7ee5727bea..0e2cc8ec26 100644
+--- a/src/tile_map.h
++++ b/src/tile_map.h
+@@ -16,6 +16,7 @@
+ #include "map_func.h"
+ #include "core/bitmath_func.hpp"
+ #include "settings_type.h"
++#include "layer_func.h"
+ 
+ /**
+  * Returns the height of a tile
+@@ -103,10 +104,10 @@ static inline bool IsInnerTile(TileIndex tile)
+ {
+ 	assert(tile < MapSize());
+ 
+-	uint x = TileX(tile);
+-	uint y = TileY(tile);
++	uint x = LayerX(tile);
++	uint y = LayerY(tile);
+ 
+-	return x < MapMaxX() && y < MapMaxY() && ((x > 0 && y > 0) || !_settings_game.construction.freeform_edges);
++	return x < LayerMaxX() && y < LayerMaxY() && ((x > 0 && y > 0) || !_settings_game.construction.freeform_edges);
+ }
+ 
+ /**
+@@ -127,7 +128,7 @@ static inline void SetTileType(TileIndex tile, TileType type)
+ 	/* VOID tiles (and no others) are exactly allowed at the lower left and right
+ 	 * edges of the map. If _settings_game.construction.freeform_edges is true,
+ 	 * the upper edges of the map are also VOID tiles. */
+-	assert(IsInnerTile(tile) == (type != MP_VOID));
++	assert(IsInnerTile(tile) == (type != MP_VOID)); // was commented in <underground>
+ 	SB(_m[tile].type, 4, 4, type);
+ }
+ 
+diff --git a/src/tilearea_type.h b/src/tilearea_type.h
+index 45bfb3d4c0..11094ea17a 100644
+--- a/src/tilearea_type.h
++++ b/src/tilearea_type.h
+@@ -44,6 +44,16 @@ struct OrthogonalTileArea {
+ 		this->h    = 0;
+ 	}
+ 
++	inline bool IsEmpty() const
++	{	
++		return (w==0 && h==0);	
++	}
++
++	inline bool IsFinite() const
++	{	
++		return (w!=0 && h!=0);	
++	}
++
+ 	bool Intersects(const OrthogonalTileArea &ta) const;
+ 
+ 	bool Contains(TileIndex tile) const;
+diff --git a/src/toolbar_gui.cpp b/src/toolbar_gui.cpp
+index 40ac3634f1..2d6f768bee 100644
+--- a/src/toolbar_gui.cpp
++++ b/src/toolbar_gui.cpp
+@@ -13,7 +13,10 @@
+ #include "gui.h"
+ #include "window_gui.h"
+ #include "window_func.h"
++#include "layer_gui.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
++#include "landscape.h"
+ #include "command_func.h"
+ #include "vehicle_gui.h"
+ #include "rail_gui.h"
+@@ -22,6 +25,7 @@
+ #include "vehicle_func.h"
+ #include "sound_func.h"
+ #include "terraform_gui.h"
++#include "underground_gui.h"
+ #include "strings_func.h"
+ #include "company_func.h"
+ #include "company_gui.h"
+@@ -988,6 +992,39 @@ static CallBackFunction MenuClickForest(int index)
+ 	return CBF_NONE;
+ }
+ 
++/* --- Underground button menu --- */
++
++/**
++ * Handle click on the entry in the underground menu.
++ *
++ * @param index Menu entry clicked.
++ * @return #CBF_NONE
++ */
++static CallBackFunction MenuClickUnderground(int index)
++{
++	if (index==0) {
++		ShowUndergroundToolbar();
++		return CBF_NONE;
++	}
++	index -= 1;
++	if ((index<0) || (uint(index) >= LayerCount()))
++		return CBF_NONE;
++	Window *w = FindWindowById(WC_MAIN_WINDOW, 0);
++	int delta_layer = calculateLayer(w->viewport) - index;
++	Point pt = RemapCoords(0, -delta_layer * LayerSizeY() * TILE_SIZE, 0);
++	w->viewport->dest_scrollpos_x += pt.x;
++	w->viewport->dest_scrollpos_y += pt.y;
++	w->InvalidateData();
++	return CBF_NONE;
++}
++
++static CallBackFunction ToolbarUndergroundClick(Window *w)
++{
++	PopupMainToolbMenu(w, WID_TN_UNDERGROUND, STR_LANDSCAPING_MENU_UNDERGROUND, 1+LayerCount());
++	if (_settings_client.sound.click_beep) SndPlayFx(SND_15_BEEP);
++	return CBF_NONE;
++}
++
+ /* --- Music button menu --- */
+ 
+ static CallBackFunction ToolbarMusicClick(Window *w)
+@@ -1303,9 +1340,10 @@ static MenuClickedProc * const _menu_clicked_procs[] = {
+ 	MenuClickBuildWater,  // 23
+ 	MenuClickBuildAir,    // 24
+ 	MenuClickForest,      // 25
+-	MenuClickMusicWindow, // 26
+-	MenuClickNewspaper,   // 27
+-	MenuClickHelp,        // 28
++	MenuClickUnderground, // 26
++	MenuClickMusicWindow, // 27
++	MenuClickNewspaper,   // 28
++	MenuClickHelp,        // 29
+ };
+ 
+ /** Full blown container to make it behave exactly as we want :) */
+@@ -1470,7 +1508,7 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
+ 	/* virtual */ const byte *GetButtonArrangement(uint &width, uint &arrangable_count, uint &button_count, uint &spacer_count) const
+ 	{
+ 		static const uint SMALLEST_ARRANGEMENT = 14;
+-		static const uint BIGGEST_ARRANGEMENT  = 20;
++		static const uint BIGGEST_ARRANGEMENT  = 21;
+ 
+ 		/* The number of buttons of each row of the toolbar should match the number of items which we want to be visible.
+ 		 * The total number of buttons should be equal to arrangable_count * 2.
+@@ -1737,6 +1775,67 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
+ 			WID_TN_ZOOM_OUT,
+ 			WID_TN_SWITCH_BAR,
+ 		};
++		static const byte arrange21[] = {
++			WID_TN_PAUSE,
++			WID_TN_FAST_FORWARD,
++			WID_TN_SETTINGS,
++			WID_TN_SMALL_MAP,
++			WID_TN_TOWNS,
++			WID_TN_SUBSIDIES,
++			WID_TN_STATIONS,
++			WID_TN_FINANCES,
++			WID_TN_COMPANIES,
++			WID_TN_STORY,
++			WID_TN_GOAL,
++			WID_TN_GRAPHS,
++			WID_TN_LEAGUE,
++			WID_TN_INDUSTRIES,
++			WID_TN_TRAINS,
++			WID_TN_ROADVEHS,
++			WID_TN_SHIPS,
++			WID_TN_AIRCRAFT,
++			WID_TN_ZOOM_IN,
++			WID_TN_ZOOM_OUT,
++			WID_TN_RAILS,
++			WID_TN_ROADS,
++			WID_TN_WATER,
++			WID_TN_AIR,
++			WID_TN_LANDSCAPE,
++			WID_TN_UNDERGROUND,
++			WID_TN_MUSIC_SOUND,
++			WID_TN_MESSAGES,
++			WID_TN_HELP,
++			// lower toolbar
++			WID_TN_PAUSE,
++			WID_TN_FAST_FORWARD,
++			WID_TN_SAVE,
++			WID_TN_SMALL_MAP,
++			WID_TN_TOWNS,
++			WID_TN_SUBSIDIES,
++			WID_TN_STATIONS,
++			WID_TN_FINANCES,
++			WID_TN_COMPANIES,
++			WID_TN_STORY,
++			WID_TN_GOAL,
++			WID_TN_GRAPHS,
++			WID_TN_LEAGUE,
++			WID_TN_INDUSTRIES,
++			WID_TN_TRAINS,
++			WID_TN_ROADVEHS,
++			WID_TN_SHIPS,
++			WID_TN_AIRCRAFT,
++			WID_TN_ZOOM_IN,
++			WID_TN_ZOOM_OUT,
++			WID_TN_RAILS,
++			WID_TN_ROADS,
++			WID_TN_WATER,
++			WID_TN_AIR,
++			WID_TN_LANDSCAPE,
++			WID_TN_UNDERGROUND,
++			WID_TN_MUSIC_SOUND,
++			WID_TN_MESSAGES,
++			WID_TN_HELP,
++		};
+ 		static const byte arrange_all[] = {
+ 			WID_TN_PAUSE,
+ 			WID_TN_FAST_FORWARD,
+@@ -1764,6 +1863,7 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
+ 			WID_TN_WATER,
+ 			WID_TN_AIR,
+ 			WID_TN_LANDSCAPE,
++			WID_TN_UNDERGROUND,
+ 			WID_TN_MUSIC_SOUND,
+ 			WID_TN_MESSAGES,
+ 			WID_TN_HELP
+@@ -1778,7 +1878,7 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
+ 		}
+ 
+ 		/* Introduce the split toolbar */
+-		static const byte * const arrangements[] = { arrange14, arrange15, arrange16, arrange17, arrange18, arrange19, arrange20 };
++		static const byte * const arrangements[] = { arrange14, arrange15, arrange16, arrange17, arrange18, arrange19, arrange20, arrange21 };
+ 
+ 		button_count = arrangable_count = full_buttons;
+ 		spacer_count = this->spacers;
+@@ -1929,6 +2029,7 @@ static ToolbarButtonProc * const _toolbar_button_procs[] = {
+ 	ToolbarBuildWaterClick,
+ 	ToolbarBuildAirClick,
+ 	ToolbarForestClick,
++	ToolbarUndergroundClick,
+ 	ToolbarMusicClick,
+ 	ToolbarNewspaperClick,
+ 	ToolbarHelpClick,
+@@ -2211,6 +2312,7 @@ static NWidgetBase *MakeMainToolbar(int *biggest_index)
+ 		SPR_IMG_BUILDWATER,      // WID_TN_WATER
+ 		SPR_IMG_BUILDAIR,        // WID_TN_AIR
+ 		SPR_IMG_LANDSCAPING,     // WID_TN_LANDSCAPE
++		SPR_IMG_LANDSCAPING,     // WID_TN_UNDERGROUND
+ 		SPR_IMG_MUSIC,           // WID_TN_MUSIC_SOUND
+ 		SPR_IMG_MESSAGES,        // WID_TN_MESSAGES
+ 		SPR_IMG_QUERY,           // WID_TN_HELP
+diff --git a/src/town_cmd.cpp b/src/town_cmd.cpp
+index 927651864f..9c542378a9 100644
+--- a/src/town_cmd.cpp
++++ b/src/town_cmd.cpp
+@@ -13,6 +13,7 @@
+ #include "road_internal.h" /* Cleaning up road bits */
+ #include "road_cmd.h"
+ #include "landscape.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "cmd_helper.h"
+ #include "command_func.h"
+@@ -2108,6 +2109,9 @@ static inline bool CanBuildHouseHere(TileIndex tile, bool noslope)
+ 	Slope slope = GetTileSlope(tile);
+ 	if ((noslope && slope != SLOPE_FLAT) || IsSteepSlope(slope)) return false;
+ 
++	/*	Íåäîïóñòèìî ñòðîèòåëüñòâî îáúåêòà ïîä çåìëåé	*/
++	if (IsUnderground(tile)) return false;
++
+ 	/* building under a bridge? */
+ 	if (IsBridgeAbove(tile)) return false;
+ 
+@@ -2539,6 +2543,8 @@ CommandCost CmdRenameTown(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32
+ 
+ 		t->UpdateVirtCoord();
+ 		InvalidateWindowData(WC_TOWN_DIRECTORY, 0, 1);
++		InvalidateWindowClassesData(WC_TOWN_VIEW);
++		InvalidateWindowClassesData(WC_INDUSTRY_VIEW);
+ 		UpdateAllStationVirtCoords();
+ 	}
+ 	return CommandCost();
+diff --git a/src/tree_cmd.cpp b/src/tree_cmd.cpp
+index 7240cf86d3..824ec2c2f9 100644
+--- a/src/tree_cmd.cpp
++++ b/src/tree_cmd.cpp
+@@ -13,6 +13,7 @@
+ #include "clear_map.h"
+ #include "landscape.h"
+ #include "tree_map.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "command_func.h"
+ #include "town.h"
+@@ -72,7 +73,8 @@ static bool CanPlantTreesOnTile(TileIndex tile, bool allow_desert)
+ 
+ 		case MP_CLEAR:
+ 			return !IsBridgeAbove(tile) && !IsClearGround(tile, CLEAR_FIELDS) && GetRawClearGround(tile) != CLEAR_ROCKS &&
+-			       (allow_desert || !IsClearGround(tile, CLEAR_DESERT));
++			       (allow_desert || !IsClearGround(tile, CLEAR_DESERT))
++				   && !IsUnderground(tile);
+ 
+ 		default: return false;
+ 	}
+@@ -339,6 +341,10 @@ CommandCost CmdPlantTree(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32
+ 	const byte tree_to_plant = GB(p1, 0, 8); // We cannot use Extract as min and max are climate specific.
+ 
+ 	if (p2 >= MapSize()) return CMD_ERROR;
++
++	/*	tree only top layer	*/
++	if (IsUnderground(p2)) return CMD_ERROR;
++
+ 	/* Check the tree type within the current climate */
+ 	if (tree_to_plant != TREE_INVALID && !IsInsideBS(tree_to_plant, _tree_base_by_landscape[_settings_game.game_creation.landscape], _tree_count_by_landscape[_settings_game.game_creation.landscape])) return CMD_ERROR;
+ 
+diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
+index 297a01d30a..3a5ae05ad1 100644
+--- a/src/tunnelbridge_cmd.cpp
++++ b/src/tunnelbridge_cmd.cpp
+@@ -15,6 +15,7 @@
+ 
+ #include "stdafx.h"
+ #include "newgrf_object.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "cmd_helper.h"
+ #include "command_func.h"
+@@ -277,6 +278,10 @@ CommandCost CmdBuildBridge(TileIndex end_tile, DoCommandFlag flags, uint32 p1, u
+ 		return_cmd_error(STR_ERROR_CAN_T_START_AND_END_ON);
+ 	}
+ 
++	if (IsUnderground(tile_start) || IsUnderground(tile_end)) {
++		return_cmd_error(STR_ERROR_UNDERGROUND_CAN_T_BUILD_UNDER_GROUND);
++	}
++
+ 	Axis direction;
+ 	if (TileX(tile_start) == TileX(tile_end)) {
+ 		direction = AXIS_Y;
+@@ -641,6 +646,12 @@ CommandCost CmdBuildTunnel(TileIndex start_tile, DoCommandFlag flags, uint32 p1,
+ 	for (;;) {
+ 		end_tile += delta;
+ 		if (!IsValidTile(end_tile)) return_cmd_error(STR_ERROR_TUNNEL_THROUGH_MAP_BORDER);
++
++
++		if (IsUnderground(start_tile) || IsUnderground(end_tile)) {
++			return_cmd_error(STR_ERROR_UNDERGROUND_CAN_T_BUILD_UNDER_GROUND);
++		}
++
+ 		end_tileh = GetTileSlope(end_tile, &end_z);
+ 
+ 		if (start_z == end_z) break;
+diff --git a/src/underground_gui.cpp b/src/underground_gui.cpp
+new file mode 100644
+index 0000000000..5c8f37dccc
+--- /dev/null
++++ b/src/underground_gui.cpp
+@@ -0,0 +1,321 @@
++/* $Id: terraform_gui.cpp 23547 2011-12-16 18:21:13Z truebrain $ */
++
++/*
++ * This file is part of OpenTTD.
++ * OpenTTD is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2.
++ * OpenTTD is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++ * See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with OpenTTD. If not, see <http://www.gnu.org/licenses/>.
++ */
++
++/** @file terraform_gui.cpp GUI related to terraforming the map. */
++
++#include "stdafx.h"
++#include "clear_map.h"
++#include "company_func.h"
++#include "company_base.h"
++#include "gui.h"
++#include "window_gui.h"
++#include "window_func.h"
++#include "layer_func.h"
++#include "viewport_func.h"
++#include "command_func.h"
++#include "signs_func.h"
++#include "sound_func.h"
++#include "base_station_base.h"
++#include "textbuf_gui.h"
++#include "genworld.h"
++#include "tree_map.h"
++#include "landscape_type.h"
++#include "tilehighlight_func.h"
++#include "strings_func.h"
++#include "newgrf_object.h"
++#include "newgrf_station.h"
++#include "object.h"
++#include "hotkeys.h"
++#include "engine_base.h"
++
++#include "widgets/underground_widget.h"
++
++#include "table/strings.h"
++#include "error.h"
++
++void ShowError(TileIndex tile, CommandCost res, uint32 cmd)
++{
++	int x = TileX(tile) * TILE_SIZE;
++	int y = TileY(tile) * TILE_SIZE;
++	StringID error_part1 = GB(cmd, 16, 16);
++
++	if (IsLocalCompany() && error_part1 != 0) {
++		ShowErrorMessage(error_part1, res.GetErrorMessage(), WL_INFO, x, y, res.GetTextRefStackGRF(), res.GetTextRefStackSize(), res.GetTextRefStack());
++	}
++}
++
++
++/**
++ * Place a escalator.
++ * @param tile Position to place or start dragging a station.
++ */
++static void PlaceUnderground_Escalator(TileIndex tile)
++{
++	RailType railtype = RAILTYPE_RAIL;
++	Axis orientation = AXIS_X;
++	StationClassID station_class = STAT_CLASS_DFLT;
++	byte station_type = 0;
++
++	uint32 p1 = railtype | orientation << 4 | 1 << 8 | 1 << 16 | _ctrl_pressed << 24;
++	uint32 p2 = station_class | station_type << 8 | INVALID_STATION << 16;
++	
++	int w = 1;
++	int h = 1;
++
++	uint top_tile = TopTile(tile);
++	uint base_tile = tile;
++	bool from_top = false;	//	Ñòðîèì îò âåðõíåãî ñëîÿ
++
++	if (top_tile == base_tile)
++	{
++		from_top = true;
++		base_tile += LayerSize();
++	};
++
++	uint32 cmdS = CMD_BUILD_RAIL_STATION | CMD_MSG(STR_ERROR_UNDERGROUND_CAN_T_BUILD_PART);
++	uint32 cmdT = CMD_BUILD_RAIL_STATION | CMD_MSG(STR_ERROR_UNDERGROUND_CAN_T_BUILD_TOP_PART);
++	uint32 cmdB = CMD_BUILD_RAIL_STATION | CMD_MSG(STR_ERROR_UNDERGROUND_CAN_T_BUILD_BOTTOM_PART);
++	CommandContainer cmdTop = { top_tile, p1, p2, cmdT, CcStation, "" };
++	CommandContainer cmdBase = { base_tile, p1, p2, cmdB, CcStation, "" };
++
++	DoCommandFlag flags = DC_AUTO | DC_NO_WATER;
++	CommandCost resTop;
++	CommandCost res;
++	
++	//	Ïðîâåðÿåì âîçìîæíîñòü ïîñòðîéêè âåðõà è íèçà:
++	resTop=DoCommand(&cmdTop, flags | DC_QUERY_COST);
++	if (resTop.Failed())
++	{
++		ShowError(tile, resTop, cmdT);
++		return;
++	}
++
++	res=DoCommand(&cmdBase, flags | DC_QUERY_COST);
++	if (res.Failed())
++	{
++		ShowError(tile, res, cmdB);
++		return;
++	}
++
++	res.AddCost(resTop.GetCost());
++	if (_shift_pressed || !CheckCompanyHasMoney(res))
++	{
++		if (res.Failed()) ShowError(tile, res, cmdS);
++		else ShowEstimatedCostOrIncome(res.GetCost(), TileX(tile) * TILE_SIZE, TileY(tile) * TILE_SIZE);
++		return;
++	}
++
++	//	Ñòàíöèè ìîãóò áûòü ñâåðõó è ñíèçó.
++	//	×òîáû íå áûëî êîíôëèêòà, íóæíî ñòðîèòü îò àêòèâíîãî ñëîÿ
++	CommandContainer *cmd1 = from_top ? &cmdTop : &cmdBase;
++	CommandContainer *cmd2 = from_top ? &cmdBase : &cmdTop;
++
++	//	Ñòðîèì óðîâåíü (â àêòèâíîì ñëîå)
++	res=DoCommand(cmd1, flags | DC_EXEC);
++	assert(!res.Failed());
++
++	//	Óòî÷íÿåì ïàðàìåòðû
++	StationID station = GetStationIndex(cmd1->tile);
++	cmd2->p2 = station_class | station_type << 8 | station << 16;
++	
++	//	Ñòðîèì óðîâåíü (â äðóãîì ñëîå)
++	res=DoCommand(cmd2, flags | DC_EXEC);
++	assert(!res.Failed());
++}
++
++/** Underground toolbar managing class. */
++struct UndergroundToolbarWindow : Window {
++	int last_user_action; ///< Last started user action.
++
++	UndergroundToolbarWindow(WindowDesc *desc, WindowNumber window_number) : Window(desc)
++	{
++		/* This is needed as we like to have the tree available on OnInit. */
++		this->CreateNestedTree(desc);
++		this->FinishInitNested(window_number);
++		this->last_user_action = WIDGET_LIST_END;
++	}
++
++	~UndergroundToolbarWindow()
++	{
++	}
++
++	virtual void OnInit()
++	{
++	}
++
++	virtual void OnClick(Point pt, int widget, int click_count)
++	{
++		switch (widget) {
++			case WID_UT_BUILD_ESCALATOR: // WID_TT_BUILD_ESCALATOR
++				HandlePlacePushButton(this, WID_UT_BUILD_ESCALATOR, SPR_CURSOR_RAIL_STATION, HT_RECT);
++				this->last_user_action = widget;
++				break;
++
++			case WID_UT_DEMOLISH: // Demolish aka dynamite button
++				HandlePlacePushButton(this, WID_UT_DEMOLISH, ANIMCURSOR_DEMOLISH, HT_RECT | HT_DIAGONAL);
++				this->last_user_action = widget;
++				break;
++
++			default: NOT_REACHED();
++		}
++	}
++
++	virtual void OnTimeout()
++	{
++	}
++
++	virtual void OnPlaceObject(Point pt, TileIndex tile)
++	{
++		switch (this->last_user_action) {
++			case WID_UT_BUILD_ESCALATOR:
++				PlaceUnderground_Escalator(tile);
++				break;
++
++			case WID_UT_DEMOLISH: // Demolish aka dynamite button
++				PlaceProc_DemolishArea(tile);
++				break;
++
++			default: NOT_REACHED();
++		}
++	}
++
++	virtual void OnPlaceDrag(ViewportPlaceMethod select_method, ViewportDragDropSelectionProcess select_proc, Point pt)
++	{
++		VpSelectTilesWithMethod(pt.x, pt.y, select_method);
++	}
++
++	virtual Point OnInitialPosition(const WindowDesc *desc, int16 sm_width, int16 sm_height, int window_number)
++	{
++		Point pt = GetToolbarAlignedWindowPosition(sm_width);
++		pt.y += sm_height;
++		return pt;
++	}
++
++	virtual void OnPlaceMouseUp(ViewportPlaceMethod select_method, ViewportDragDropSelectionProcess select_proc, Point pt, TileIndex start_tile, TileIndex end_tile)
++	{
++		if (pt.x != -1) {
++			switch (select_proc) {
++				default: NOT_REACHED();
++				case DDSP_DEMOLISH_AREA:
++					GUIPlaceProcDragXY(select_proc, start_tile, end_tile);
++					break;
++			}
++		}
++	}
++
++	virtual void OnPlaceObjectAbort()
++	{
++		DeleteWindowById(WC_BUILD_OBJECT, 0);
++		this->RaiseButtons();
++	}
++
++	static HotkeyList hotkeys;
++};
++
++/**
++ * Handler for global hotkeys of the UndergroundToolbarWindow.
++ * @param hotkey Hotkey
++ * @return ES_HANDLED if hotkey was accepted.
++ */
++static EventState UndergroundToolbarGlobalHotkeys(int hotkey)
++{
++       if (_game_mode != GM_NORMAL) return ES_NOT_HANDLED;
++/* TODO       Window *w = ShowAIDebugWindow(INVALID_COMPANY);
++       if (w == NULL) return ES_NOT_HANDLED;
++       return w->OnHotkey(hotkey); */
++}
++
++EventState UndergroundToolbarGlobalHotkeys(uint16 key, uint16 keycode)
++{
++/*	int num = CheckHotkeyMatch<UndergroundToolbarWindow>(_underground_hotkeys, keycode, NULL, true);
++	if (num == -1) return ES_NOT_HANDLED;
++	Window *w = ShowUndergroundToolbar(NULL);  TODO
++	if (w == NULL) return ES_NOT_HANDLED;
++	return w->OnKeyPress(key, keycode);
++}
++		int num = CheckHotkeyMatch(underground_hotkeys, keycode, this);
++		if (num == -1) return ES_NOT_HANDLED;
++		this->OnClick(Point(), num, 1);
++		return ES_HANDLED;
+++static EventState AIDebugGlobalHotkeys(int hotkey)
+++{
+++       if (_game_mode != GM_NORMAL) return ES_NOT_HANDLED;
+++       Window *w = ShowAIDebugWindow(INVALID_COMPANY);
+++       if (w == NULL) return ES_NOT_HANDLED;
+++       return w->OnHotkey(hotkey);
+++}
++-EventState AIDebugGlobalHotkeys(uint16 key, uint16 keycode)
++-{
++-       int num = CheckHotkeyMatch<AIDebugWindow>(_aidebug_hotkeys, keycode, NULL, true);
++-       if (num == -1) return ES_NOT_HANDLED;
++-       Window *w = ShowAIDebugWindow(INVALID_COMPANY);
++-       if (w == NULL) return ES_NOT_HANDLED;
++-       return w->OnKeyPress(key, keycode);
++-}
++- */
++  return ES_NOT_HANDLED;
++}
++
++static Hotkey underground_hotkeys[] = {
++	Hotkey('D' | WKC_GLOBAL_HOTKEY, "dynamite", WID_UT_DEMOLISH),
++	Hotkey('0', "placeescalator", WID_UT_BUILD_ESCALATOR),
++	HOTKEY_LIST_END
++};
++HotkeyList UndergroundToolbarWindow::hotkeys("undergroundtoolbar", underground_hotkeys, UndergroundToolbarGlobalHotkeys);
++
++static const NWidgetPart _nested_underground_widgets[] = {
++	NWidget(NWID_HORIZONTAL),
++		NWidget(WWT_CLOSEBOX, COLOUR_DARK_GREEN),
++		NWidget(WWT_CAPTION, COLOUR_DARK_GREEN), SetDataTip(STR_UNDERGROUND_BUILD, STR_TOOLTIP_WINDOW_TITLE_DRAG_THIS),
++		NWidget(WWT_STICKYBOX, COLOUR_DARK_GREEN),
++	EndContainer(),
++	NWidget(NWID_HORIZONTAL),
++		NWidget(WWT_IMGBTN, COLOUR_DARK_GREEN, WID_UT_BUILD_ESCALATOR),
++						SetFill(0, 1), SetMinimalSize(42, 22), SetDataTip(SPR_IMG_RAIL_STATION, STR_UNDERGROUND_TOOLTIP_ESCALATOR),
++		NWidget(WWT_PANEL, COLOUR_DARK_GREEN), SetMinimalSize(64, 22), EndContainer(),
++		NWidget(WWT_IMGBTN, COLOUR_DARK_GREEN, WID_UT_DEMOLISH), SetMinimalSize(22, 22),
++						SetFill(0, 1), SetDataTip(SPR_IMG_DYNAMITE, STR_TOOLTIP_DEMOLISH_BUILDINGS_ETC),
++	EndContainer(),
++};
++
++static WindowDesc _underground_desc(
++	WDP_MANUAL, "undergroundtoolbar", 0, 0,
++	WC_UNDERGROUND, WC_NONE,
++	WDF_CONSTRUCTION,
++	_nested_underground_widgets, lengthof(_nested_underground_widgets)
++);
++
++/**
++ * Show the toolbar for terraforming in the game.
++ * @param link The toolbar we might want to link to.
++ * @return The allocated toolbar.
++ */
++Window *ShowUndergroundToolbar(Window *link)
++{
++	if (!Company::IsValidID(_local_company)) return NULL;
++
++	Window *w;
++	if (link == NULL) {
++		w = AllocateWindowDescFront<UndergroundToolbarWindow>(&_underground_desc, 0);
++		return w;
++	}
++
++	/* Delete the terraform toolbar to place it again. */
++	DeleteWindowById(WC_UNDERGROUND, 0, true);
++	w = AllocateWindowDescFront<UndergroundToolbarWindow>(&_underground_desc, 0);
++	/* Align the terraform toolbar under the main toolbar. */
++	w->top -= w->height;
++	w->SetDirty();
++	/* Put the linked toolbar to the left / right of it. */
++	link->left = w->left + (_current_text_dir == TD_RTL ? w->width : -link->width);
++	link->top  = w->top;
++	link->SetDirty();
++
++	return w;
++}
+diff --git a/src/underground_gui.h b/src/underground_gui.h
+new file mode 100644
+index 0000000000..81b119545e
+--- /dev/null
++++ b/src/underground_gui.h
+@@ -0,0 +1,19 @@
++/* $Id: underground_gui.h 21608 2012-09-08 1:13:14 constructor $ */
++
++/*
++ * This file is part of OpenTTD.
++ * OpenTTD is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2.
++ * OpenTTD is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++ * See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with OpenTTD. If not, see <http://www.gnu.org/licenses/>.
++ */
++
++/** @file underground_gui.h GUI stuff related to terraforming. */
++
++#ifndef UNDERGROUND_GUI_H
++#define UNDERGROUND_GUI_H
++
++#include "window_type.h"
++
++Window *ShowUndergroundToolbar(Window *link = NULL);
++
++#endif /* UNDERGROUND_GUI_H */
+diff --git a/src/vehicle.cpp b/src/vehicle.cpp
+index 9015396a8b..2f4322d54c 100644
+--- a/src/vehicle.cpp
++++ b/src/vehicle.cpp
+@@ -15,6 +15,7 @@
+ #include "ship.h"
+ #include "spritecache.h"
+ #include "timetable.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "news_func.h"
+ #include "command_func.h"
+@@ -1142,6 +1143,7 @@ void ViewportAddVehicles(DrawPixelInfo *dpi)
+ 			const Vehicle *v = _vehicle_viewport_hash[x + y]; // already masked & 0xFFF
+ 
+ 			while (v != NULL) {
++				if (LayerIndex(v->tile) == dpi->layer)
+ 				if (!(v->vehstatus & VS_HIDDEN) &&
+ 						l <= v->coord.right &&
+ 						t <= v->coord.bottom &&
+diff --git a/src/viewport.cpp b/src/viewport.cpp
+index 350bb92381..56d443d311 100644
+--- a/src/viewport.cpp
++++ b/src/viewport.cpp
+@@ -64,6 +64,8 @@
+ 
+ #include "stdafx.h"
+ #include "landscape.h"
++#include "layer_gui.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "station_base.h"
+ #include "waypoint_base.h"
+@@ -1175,24 +1177,27 @@ static void ViewportAddLandscape()
+ 			int min_visible_height = viewport_y - (_vd.dpi.top + _vd.dpi.height);
+ 			bool tile_visible = min_visible_height <= 0;
+ 
+-			if (tile_type != MP_VOID) {
+-				/* Is tile with buildings visible? */
+-				if (min_visible_height < MAX_TILE_EXTENT_TOP) tile_visible = true;
+-
+-				if (IsBridgeAbove(tile_info.tile)) {
+-					/* Is the bridge visible? */
+-					TileIndex bridge_tile = GetNorthernBridgeEnd(tile_info.tile);
+-					int bridge_height = ZOOM_LVL_BASE * (GetBridgePixelHeight(bridge_tile) - TilePixelHeight(tile_info.tile));
+-					if (min_visible_height < bridge_height + MAX_TILE_EXTENT_TOP) tile_visible = true;
+-				}
++			/*	Âàëèäíû òîëüêî êëåòêè òåêóùåãî ñëîÿ	*/
++			if (LayerIndex(tile_info.tile) == _vd.dpi.layer) {
++				if (tile_type != MP_VOID) {
++					/* Is tile with buildings visible? */
++					if (min_visible_height < MAX_TILE_EXTENT_TOP) tile_visible = true;
++
++					if (IsBridgeAbove(tile_info.tile)) {
++						/* Is the bridge visible? */
++						TileIndex bridge_tile = GetNorthernBridgeEnd(tile_info.tile);
++						int bridge_height = ZOOM_LVL_BASE * (GetBridgePixelHeight(bridge_tile) - TilePixelHeight(tile_info.tile));
++						if (min_visible_height < bridge_height + MAX_TILE_EXTENT_TOP) tile_visible = true;
++					}
+ 
+-				/* Would a higher bridge on a more southern tile be visible?
+-				 * If yes, we need to loop over more rows to possibly find one. */
+-				if (min_visible_height < potential_bridge_height + MAX_TILE_EXTENT_TOP) last_row = false;
+-			} else {
+-				/* Outside of map. If we are on the north border of the map, there may still be a bridge visible,
+-				 * so we need to loop over more rows to possibly find one. */
+-				if ((tilecoord.x <= 0 || tilecoord.y <= 0) && min_visible_height < potential_bridge_height + MAX_TILE_EXTENT_TOP) last_row = false;
++					/* Would a higher bridge on a more southern tile be visible?
++					 * If yes, we need to loop over more rows to possibly find one. */
++					if (min_visible_height < potential_bridge_height + MAX_TILE_EXTENT_TOP) last_row = false;
++				} else {
++					/* Outside of map. If we are on the north border of the map, there may still be a bridge visible,
++					 * so we need to loop over more rows to possibly find one. */
++					if ((tilecoord.x <= 0 || tilecoord.y <= 0) && min_visible_height < potential_bridge_height + MAX_TILE_EXTENT_TOP) last_row = false;
++				}
+ 			}
+ 
+ 			if (tile_visible) {
+@@ -1555,6 +1560,9 @@ void ViewportDoDraw(const ViewPort *vp, int left, int top, int right, int bottom
+ 
+ 	_vd.dpi.dst_ptr = BlitterFactory::GetCurrentBlitter()->MoveTo(old_dpi->dst_ptr, x - old_dpi->left, y - old_dpi->top);
+ 
++	/*	Îïðåäåëåíèå ñëîÿ (êîòîðûé áóäåì ðèñîâàòü)	*/
++	_vd.dpi.layer = calculateLayer(vp);
++
+ 	ViewportAddLandscape();
+ 	ViewportAddVehicles(&_vd.dpi);
+ 
+diff --git a/src/viewport_func.h b/src/viewport_func.h
+index cbdcc5019a..33e83f1a76 100644
+--- a/src/viewport_func.h
++++ b/src/viewport_func.h
+@@ -33,6 +33,7 @@ void MarkAllViewportsDirty(int left, int top, int right, int bottom);
+ 
+ bool DoZoomInOutWindow(ZoomStateChange how, Window *w);
+ void ZoomInOrOutToCursorWindow(bool in, Window * w);
++void LayerUpOrDownToCursorWindow(bool in, Window * w);
+ Point GetTileZoomCenterWindow(bool in, Window * w);
+ void HandleZoomMessage(Window *w, const ViewPort *vp, byte widget_zoom_in, byte widget_zoom_out);
+ 
+diff --git a/src/viewport_gui.cpp b/src/viewport_gui.cpp
+index 9c89a85f84..da5772d43c 100644
+--- a/src/viewport_gui.cpp
++++ b/src/viewport_gui.cpp
+@@ -16,6 +16,7 @@
+ #include "strings_func.h"
+ #include "zoom_func.h"
+ #include "window_func.h"
++#include "gfx_func.h"
+ 
+ #include "widgets/viewport_widget.h"
+ 
+@@ -139,7 +140,11 @@ public:
+ 	virtual void OnMouseWheel(int wheel)
+ 	{
+ 		if (_settings_client.gui.scrollwheel_scrolling != 2) {
+-			ZoomInOrOutToCursorWindow(wheel < 0, this);
++			if (_ctrl_pressed) {
++				LayerUpOrDownToCursorWindow(wheel < 0, this);
++			} else {
++				ZoomInOrOutToCursorWindow(wheel < 0, this);
++			}
+ 		}
+ 	}
+ 
+diff --git a/src/water_cmd.cpp b/src/water_cmd.cpp
+index 31dafe57fa..c5c7e47f27 100644
+--- a/src/water_cmd.cpp
++++ b/src/water_cmd.cpp
+@@ -12,6 +12,7 @@
+ #include "stdafx.h"
+ #include "cmd_helper.h"
+ #include "landscape.h"
++#include "layer_func.h"
+ #include "viewport_func.h"
+ #include "command_func.h"
+ #include "town.h"
+@@ -416,6 +417,11 @@ CommandCost CmdBuildCanal(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32
+ 		/* can't make water of water! */
+ 		if (IsTileType(tile, MP_WATER) && (!IsTileOwner(tile, OWNER_WATER) || wc == WATER_CLASS_SEA)) continue;
+ 
++               /* can't make underground water  */
++               if (IsUnderground(tile)) {
++                       return_cmd_error(STR_ERROR_UNDERGROUND_CAN_T_BUILD_UNDER_GROUND);
++               }
++
+ 		bool water = IsWaterTile(tile);
+ 		ret = DoCommand(tile, 0, 0, flags | DC_FORCE_CLEAR_TILE, CMD_LANDSCAPE_CLEAR);
+ 		if (ret.Failed()) return ret;
+@@ -1042,6 +1048,9 @@ void DoFloodTile(TileIndex target)
+ {
+ 	assert(!IsTileType(target, MP_WATER));
+ 
++	/*	Ïîäçåìíàÿ ÷àñòü êàðòû íå çàëèâàåòñÿ	*/
++	if (IsUnderground(target)) return;
++
+ 	bool flooded = false; // Will be set to true if something is changed.
+ 
+ 	Backup<CompanyByte> cur_company(_current_company, OWNER_WATER, FILE_LINE);
+@@ -1199,7 +1208,7 @@ void ConvertGroundTilesIntoWaterTiles()
+ 
+ 	for (TileIndex tile = 0; tile < MapSize(); ++tile) {
+ 		Slope slope = GetTileSlope(tile, &z);
+-		if (IsTileType(tile, MP_CLEAR) && z == 0) {
++		if (IsTileType(tile, MP_CLEAR) && z == 0 && !IsUnderground(tile)) {
+ 			/* Make both water for tiles at level 0
+ 			 * and make shore, as that looks much better
+ 			 * during the generation. */
+diff --git a/src/widgets/genworld_widget.h b/src/widgets/genworld_widget.h
+index 877efbb921..9766a06400 100644
+--- a/src/widgets/genworld_widget.h
++++ b/src/widgets/genworld_widget.h
+@@ -21,6 +21,7 @@ enum GenerateLandscapeWidgets {
+ 
+ 	WID_GL_MAPSIZE_X_PULLDOWN,          ///< Dropdown 'map X size'.
+ 	WID_GL_MAPSIZE_Y_PULLDOWN,          ///< Dropdown 'map Y size'.
++	WID_GL_LAYER_COUNT_PULLDOWN,        ///< Dropdown 'map layer count'.
+ 
+ 	WID_GL_TOWN_PULLDOWN,               ///< Dropdown 'No. of towns'.
+ 	WID_GL_INDUSTRY_PULLDOWN,           ///< Dropdown 'No. of industries'.
+@@ -69,6 +70,7 @@ enum CreateScenarioWidgets {
+ 	WID_CS_RANDOM_WORLD,           ///< Generate random land button
+ 	WID_CS_MAPSIZE_X_PULLDOWN,     ///< Pull-down arrow for x map size.
+ 	WID_CS_MAPSIZE_Y_PULLDOWN,     ///< Pull-down arrow for y map size.
++	WID_CS_LAYER_COUNT_PULLDOWN,   ///< Pull-down arrow for map layer count.
+ 	WID_CS_START_DATE_DOWN,        ///< Decrease start year (start earlier).
+ 	WID_CS_START_DATE_TEXT,        ///< Clickable start date value.
+ 	WID_CS_START_DATE_UP,          ///< Increase start year (start later).
+diff --git a/src/widgets/toolbar_widget.h b/src/widgets/toolbar_widget.h
+index c317fc9574..280d0f969c 100644
+--- a/src/widgets/toolbar_widget.h
++++ b/src/widgets/toolbar_widget.h
+@@ -42,6 +42,7 @@ enum ToolbarNormalWidgets {
+ 	WID_TN_WATER,         ///< Water building toolbar.
+ 	WID_TN_AIR,           ///< Airport building toolbar.
+ 	WID_TN_LANDSCAPE,     ///< Landscaping toolbar.
++	WID_TN_UNDERGROUND,   ///< Landscaping toolbar.
+ 	WID_TN_MUSIC_SOUND,   ///< Music/sound configuration menu.
+ 	WID_TN_MESSAGES,      ///< Messages menu.
+ 	WID_TN_HELP,          ///< Help menu.
+diff --git a/src/widgets/underground_widget.h b/src/widgets/underground_widget.h
+new file mode 100644
+index 0000000000..522c9db8bf
+--- /dev/null
++++ b/src/widgets/underground_widget.h
+@@ -0,0 +1,21 @@
++/* $Id: terraform_widget.h 23600 2011-12-19 20:46:17Z truebrain $ */
++
++/*
++ * This file is part of OpenTTD.
++ * OpenTTD is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 2.
++ * OpenTTD is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++ * See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with OpenTTD. If not, see <http://www.gnu.org/licenses/>.
++ */
++
++/** @file terraform_widget.h Types related to the terraform widgets. */
++
++#ifndef WIDGETS_UNDERGROUND_WIDGET_H
++#define WIDGETS_UNDERGROUND_WIDGET_H
++
++/** Widgets of the #TerraformToolbarWindow class. */
++enum UndergroundToolbarWidgets {
++	WID_UT_BUILD_ESCALATOR,					  ///< Build escalator
++	WID_UT_DEMOLISH,                          ///< Demolish aka dynamite button.
++};
++
++#endif /* WIDGETS_UNDERGROUND_WIDGET_H */
+diff --git a/src/window_type.h b/src/window_type.h
+index 7185bfcb4f..85f54f0760 100644
+--- a/src/window_type.h
++++ b/src/window_type.h
+@@ -443,6 +443,12 @@ enum WindowClass {
+ 	 */
+ 	WC_SCEN_LAND_GEN,
+ 
++	/**
++	 * Underground (in game); %Window numbers:
++	 *   - 0 = #UndergroundToolbarWidgets
++	 */
++	WC_UNDERGROUND,
++
+ 	/**
+ 	 * Generate landscape (newgame); %Window numbers:
+ 	 *   - GLWM_SCENARIO = #CreateScenarioWidgets

@@ -33,12 +33,14 @@ backup=()
 options=()
 source=(
     "${pkgname}::git://github.com/OpenTTD/OpenTTD.git#commit=${_commit}"
-    "everything.patch"
-    "clipboard.grf"
+    "signaltunnel.patch"
+    "sloped-stations.patch"
+    "underground.patch"
 )
 sha512sums=('SKIP'
-            '58769509e3a6c88ff158ba5960956706f7d81eb80b6bfd6eecdcbaca09d21d2af0625a72fde38ecba05d13271d7f6834a40eaecaec2f041fffecf3531a4f5016'
-            'aa1f5d5c4fd9ff487bc03ed5c10701e99ae9fd29ae0cd65a06171486298558d1c26ced49ac8687acc5b1003a6538f6c83917992348cbd2b7426afdf0759cb1a5')
+            '1b591b07d5f15c49b5ce0e961398e8cc7db99854724f7da6e23ccdff885cbbf3bcc707c42dc20cc4d6928d1b1e7559fd6e64828f31585da7f8e1d5fac5cbc4a2'
+            'b9995b78a2cdffbc9a6decd4c3aefcc4d9c821d1420ddf91aa372938bec316573dd85eb9827bdcbad15e6476c30ec8d5217fd5ade614cb4db5b8f9c890040245'
+            'ccf09e6ea85f80debef0e41e4dc65f2f86c7d17d69818dc4c098a9c4916c0c0b7fd44c1c9605066f2ab05a83a3367b27de0a5d1ff2bc537ad1c835c4b3242f4e')
 
 pkgver() {
   printf '%s.%s\n' \
@@ -71,7 +73,8 @@ prepare() {
       s,"\$ROOT_DIR/\.git","/dev/does/not/exist",
     ' findversion.sh
 
-    git apply < ${srcdir}/everything.patch
+    cat ${srcdir}/{signaltunnel,sloped-stations,underground}.patch | \
+      git apply
     sed -i '
       s/readme\.txt/README.md/g
     ' Makefile.bundle.in
@@ -90,7 +93,6 @@ build() {
         --personal-dir=.openttd \
         --install-dir=$pkgdir
     make
-    install -m644 "${srcdir}/clipboard.grf" "${srcdir}/${pkgname}/bin/baseset/"
 
 }
 

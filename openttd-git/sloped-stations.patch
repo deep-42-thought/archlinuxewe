@@ -1,0 +1,436 @@
+diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
+index a0fd968cc6..980e2fb42b 100644
+--- a/src/rail_cmd.cpp
++++ b/src/rail_cmd.cpp
+@@ -186,14 +186,6 @@ RailType AllocateRailType(RailTypeLabel label)
+ 	return INVALID_RAILTYPE;
+ }
+ 
+-static const byte _track_sloped_sprites[14] = {
+-	14, 15, 22, 13,
+-	 0, 21, 17, 12,
+-	23,  0, 18, 20,
+-	19, 16
+-};
+-
+-
+ /*         4
+  *     ---------
+  *    |\       /|
+diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
+index bdc8ce7f30..b1c1744eee 100644
+--- a/src/road_cmd.cpp
++++ b/src/road_cmd.cpp
+@@ -35,6 +35,7 @@
+ #include "date_func.h"
+ #include "genworld.h"
+ #include "company_gui.h"
++#include "road_cmd.h"
+ 
+ #include "table/strings.h"
+ 
+@@ -101,8 +102,6 @@ static const RoadBits _invalid_tileh_slopes_road[2][15] = {
+ 	}
+ };
+ 
+-static Foundation GetRoadFoundation(Slope tileh, RoadBits bits);
+-
+ /**
+  * Is it allowed to remove the given road bits from the given tile?
+  * @param tile      the tile to remove the road from
+@@ -1143,7 +1142,7 @@ struct DrawRoadTileStruct {
+  * @param bits The RoadBits part
+  * @return The resulting Foundation
+  */
+-static Foundation GetRoadFoundation(Slope tileh, RoadBits bits)
++Foundation GetRoadFoundation(Slope tileh, RoadBits bits)
+ {
+ 	/* Flat land and land without a road doesn't require a foundation */
+ 	if (tileh == SLOPE_FLAT || bits == ROAD_NONE) return FOUNDATION_NONE;
+@@ -1165,13 +1164,6 @@ static Foundation GetRoadFoundation(Slope tileh, RoadBits bits)
+ 	return (bits == ROAD_X ? FOUNDATION_INCLINED_X : FOUNDATION_INCLINED_Y);
+ }
+ 
+-const byte _road_sloped_sprites[14] = {
+-	0,  0,  2,  0,
+-	0,  1,  0,  0,
+-	3,  0,  0,  0,
+-	0,  0
+-};
+-
+ /**
+  * Should the road be drawn as a unpaved snow/desert road?
+  * By default, roads are always drawn as unpaved if they are on desert or
+diff --git a/src/road_cmd.h b/src/road_cmd.h
+index 3cf588dcd6..2a0da61427 100644
+--- a/src/road_cmd.h
++++ b/src/road_cmd.h
+@@ -14,8 +14,11 @@
+ 
+ #include "direction_type.h"
+ #include "road_type.h"
++#include "slope_type.h"
+ 
+ void DrawRoadDepotSprite(int x, int y, DiagDirection dir, RoadType rt);
+ void UpdateNearestTownForRoadTiles(bool invalidate);
+ 
++Foundation GetRoadFoundation(Slope tileh, RoadBits bits);
++
+ #endif /* ROAD_CMD_H */
+diff --git a/src/road_type.h b/src/road_type.h
+index 5251a53923..ce9ac81518 100644
+--- a/src/road_type.h
++++ b/src/road_type.h
+@@ -73,4 +73,11 @@ enum RoadBits {
+ DECLARE_ENUM_AS_BIT_SET(RoadBits)
+ template <> struct EnumPropsT<RoadBits> : MakeEnumPropsT<RoadBits, byte, ROAD_NONE, ROAD_END, ROAD_NONE, 4> {};
+ 
++const byte _road_sloped_sprites[14] = {
++	0,  0,  2,  0,
++	0,  1,  0,  0,
++	3,  0,  0,  0,
++	0,  0
++};
++
+ #endif /* ROAD_TYPE_H */
+diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
+index 16f135df25..726205fd8b 100644
+--- a/src/station_cmd.cpp
++++ b/src/station_cmd.cpp
+@@ -53,6 +53,7 @@
+ #include "linkgraph/linkgraph_base.h"
+ #include "linkgraph/refresh.h"
+ #include "widgets/station_widget.h"
++#include "road_cmd.h"
+ 
+ #include "table/strings.h"
+ 
+@@ -721,7 +722,7 @@ CommandCost ClearTile_Station(TileIndex tile, DoCommandFlag flags);
+  * Checks if the given tile is buildable, flat and has a certain height.
+  * @param tile TileIndex to check.
+  * @param invalid_dirs Prohibited directions for slopes (set of #DiagDirection).
+- * @param allowed_z Height allowed for the tile. If allowed_z is negative, it will be set to the height of this tile.
++ * @param allowed_z Height allowed for the tile. If allowed_z is -1, it will be set to the height of this tile.
+  * @param allow_steep Whether steep slopes are allowed.
+  * @param check_bridge Check for the existence of a bridge.
+  * @return The cost in case of success, or an error code if it failed.
+@@ -760,10 +761,10 @@ CommandCost CheckBuildableTile(TileIndex tile, uint invalid_dirs, int &allowed_z
+ 	}
+ 
+ 	/* The level of this tile must be equal to allowed_z. */
+-	if (allowed_z < 0) {
++	if (allowed_z == -1) {
+ 		/* First tile. */
+ 		allowed_z = flat_z;
+-	} else if (allowed_z != flat_z) {
++	} else if (allowed_z != flat_z && allowed_z >= 0) {
+ 		return_cmd_error(STR_ERROR_FLAT_LAND_REQUIRED);
+ 	}
+ 
+@@ -811,14 +812,14 @@ CommandCost CheckFlatLand(TileArea tile_area, DoCommandFlag flags)
+ static CommandCost CheckFlatLandRailStation(TileArea tile_area, DoCommandFlag flags, Axis axis, StationID *station, RailType rt, SmallVector<Train *, 4> &affected_vehicles, StationClassID spec_class, byte spec_index, byte plat_len, byte numtracks)
+ {
+ 	CommandCost cost(EXPENSES_CONSTRUCTION);
+-	int allowed_z = -1;
++	int allowed_z = -2;
+ 	uint invalid_dirs = 5 << axis;
+ 
+ 	const StationSpec *statspec = StationClass::Get(spec_class)->GetSpec(spec_index);
+ 	bool slope_cb = statspec != NULL && HasBit(statspec->callback_mask, CBM_STATION_SLOPE_CHECK);
+ 
+ 	TILE_AREA_LOOP(tile_cur, tile_area) {
+-		CommandCost ret = CheckBuildableTile(tile_cur, invalid_dirs, allowed_z, false);
++		CommandCost ret = CheckBuildableTile(tile_cur, 0, allowed_z, true);
+ 		if (ret.Failed()) return ret;
+ 		cost.AddCost(ret);
+ 
+@@ -897,10 +898,10 @@ static CommandCost CheckFlatLandRailStation(TileArea tile_area, DoCommandFlag fl
+ static CommandCost CheckFlatLandRoadStop(TileArea tile_area, DoCommandFlag flags, uint invalid_dirs, bool is_drive_through, bool is_truck_stop, Axis axis, StationID *station, RoadTypes rts)
+ {
+ 	CommandCost cost(EXPENSES_CONSTRUCTION);
+-	int allowed_z = -1;
++	int allowed_z = -2;
+ 
+ 	TILE_AREA_LOOP(cur_tile, tile_area) {
+-		CommandCost ret = CheckBuildableTile(cur_tile, invalid_dirs, allowed_z, !is_drive_through);
++		CommandCost ret = CheckBuildableTile(cur_tile, invalid_dirs, allowed_z, true);
+ 		if (ret.Failed()) return ret;
+ 		cost.AddCost(ret);
+ 
+@@ -1803,7 +1804,7 @@ CommandCost CmdBuildRoadStop(TileIndex tile, DoCommandFlag flags, uint32 p1, uin
+ 	/* Total road stop cost. */
+ 	CommandCost cost(EXPENSES_CONSTRUCTION, roadstop_area.w * roadstop_area.h * _price[type ? PR_BUILD_STATION_TRUCK : PR_BUILD_STATION_BUS]);
+ 	StationID est = INVALID_STATION;
+-	ret = CheckFlatLandRoadStop(roadstop_area, flags, is_drive_through ? 5 << axis : 1 << ddir, is_drive_through, type, axis, &est, rts);
++	ret = CheckFlatLandRoadStop(roadstop_area, flags, is_drive_through ? 0 : 1 << ddir, is_drive_through, type, axis, &est, rts);
+ 	if (ret.Failed()) return ret;
+ 	cost.AddCost(ret);
+ 
+@@ -2766,6 +2767,32 @@ static void DrawTile_Station(TileInfo *ti)
+ 		palette = PALETTE_TO_GREY;
+ 	}
+ 
++	/* always draw leveled foundations only for airports and road bays! */
++	if (ti->tileh != SLOPE_FLAT && (IsAirport(ti->tile) || IsStandardRoadStopTile(ti->tile)))
++		DrawFoundation(ti, FOUNDATION_LEVELED);
++
++	if (HasStationTileRail(ti->tile) && IsCustomStationSpecIndex(ti->tile)) {
++		/* look for customization */
++		st = BaseStation::GetByTile(ti->tile);
++		statspec = st->speclist[GetCustomStationSpecIndex(ti->tile)].spec;
++
++		if (statspec != NULL) {
++			uint tile = GetStationGfx(ti->tile);
++
++			relocation = GetCustomStationRelocation(statspec, st, ti->tile);
++
++			if (HasBit(statspec->callback_mask, CBM_STATION_SPRITE_LAYOUT)) {
++				uint16 callback = GetStationCallback(CBID_STATION_SPRITE_LAYOUT, 0, 0, statspec, st, ti->tile);
++				if (callback != CALLBACK_FAILED) tile = (callback & ~1) + GetRailStationAxis(ti->tile);
++			}
++
++			/* Ensure the chosen tile layout is valid for this custom station */
++			if (statspec->renderdata != NULL) {
++				t = &statspec->renderdata[tile < statspec->tiles ? tile : (uint)GetRailStationAxis(ti->tile)];
++			}
++		}
++	}
++
+ 	if (layout == NULL && (t == NULL || t->seq == NULL)) t = GetStationTileLayout(GetStationType(ti->tile), gfx);
+ 
+ 	/* don't show foundation for docks */
+@@ -2832,10 +2859,10 @@ static void DrawTile_Station(TileInfo *ti)
+ 			}
+ 
+ 			OffsetGroundSprite(31, 1);
+-			ti->z += ApplyPixelFoundationToSlope(FOUNDATION_LEVELED, &ti->tileh);
++			ti->z += ApplyPixelFoundationToSlope(FOUNDATION_NONE, &ti->tileh); //FOUNDATION_LEVELED, &ti->tileh);
+ 		} else {
+ draw_default_foundation:
+-			DrawFoundation(ti, FOUNDATION_LEVELED);
++			DrawFoundation(ti, FOUNDATION_NONE); //FOUNDATION_LEVELED);
+ 		}
+ 	}
+ 
+@@ -2891,14 +2918,64 @@ draw_default_foundation:
+ 				DrawGroundSprite(overlay + overlay_offset, PALETTE_CRASH);
+ 			}
+ 		} else {
+-			image += HasBit(image, SPRITE_MODIFIER_CUSTOM_SPRITE) ? ground_relocation : total_offset;
+-			if (HasBit(pal, SPRITE_MODIFIER_CUSTOM_SPRITE)) pal += ground_relocation;
++			if (HasBit(pal, SPRITE_MODIFIER_CUSTOM_SPRITE)) {
++				pal += ground_relocation;
++			} else {
++        if (HasBit(image, SPRITE_MODIFIER_CUSTOM_SPRITE)) {
++          image += ground_relocation;
++        } else {
++          if (ti->tileh != SLOPE_FLAT && (IsRailStation(ti->tile) || IsRoadStop(ti->tile))) {
++				    /* It's a sloped rail station? */
++				    Foundation rf = FOUNDATION_NONE;
++            if (IsRoadStop(ti->tile)) {
++              /* Roadstops without foundation on a slope
++               * and on Slopes with one corner raised */
++              rf = GetRoadFoundation(ti->tileh, AxisToRoadBits(DiagDirToAxis(GetRoadStopDir(ti->tile))));
++              DrawFoundation(ti, rf);
++              /* Draws the sloped road */
++              if (ti->tileh != SLOPE_FLAT) image = _road_sloped_sprites[ti->tileh - 1] + 0x53F;
++            } else {
++              /* sloped rail station */
++              TrackBits track = AxisToTrackBits(GetRailStationAxis(ti->tile));
++              rf = GetRailFoundation(ti->tileh, track);
++              DrawFoundation(ti, rf);
++              if (rf != FOUNDATION_LEVELED) {
++                image = _track_sloped_sprites[ti->tileh - 1] + rti->base_sprites.track_y;
++              } else {
++                (image = rti->base_sprites.track_y, track == TRACK_BIT_Y ) || (image++, track == TRACK_BIT_X);
++              }
++            }
++          } else {
++            /* it's not a slope */
++            image += total_offset;
++          }
++        }
++      }
+ 			DrawGroundSprite(image, GroundSpritePaletteTransform(image, pal, palette));
+ 
+ 			/* PBS debugging, draw reserved tracks darker */
+ 			if (_game_mode != GM_MENU && _settings_client.gui.show_track_reservation && HasStationRail(ti->tile) && HasStationReservation(ti->tile)) {
+ 				const RailtypeInfo *rti = GetRailTypeInfo(GetRailType(ti->tile));
+-				DrawGroundSprite(GetRailStationAxis(ti->tile) == AXIS_X ? rti->base_sprites.single_x : rti->base_sprites.single_y, PALETTE_CRASH);
++				TrackBits pbs = AxisToTrackBits(GetRailStationAxis(ti->tile));
++				// TODO: possibly inverted in 7b136d1fddbb2d0840076dfe2ddbe666b29fee8d
++				if (pbs & TRACK_BIT_X) {
++					if (ti->tileh == SLOPE_FLAT || ti->tileh == SLOPE_ELEVATED) {
++						DrawGroundSprite(rti->base_sprites.single_y, PALETTE_CRASH);
++					} else {
++						DrawGroundSprite(_track_sloped_sprites[ti->tileh - 1] + rti->base_sprites.single_sloped - 20, PALETTE_CRASH);
++					}
++				}
++				if (pbs & TRACK_BIT_Y) {
++					if (ti->tileh == SLOPE_FLAT || ti->tileh == SLOPE_ELEVATED) {
++						DrawGroundSprite(rti->base_sprites.single_x, PALETTE_CRASH);
++					} else {
++						DrawGroundSprite(_track_sloped_sprites[ti->tileh - 1] + rti->base_sprites.single_sloped - 20, PALETTE_CRASH);
++					}
++				}
++				if (pbs & TRACK_BIT_UPPER) AddSortableSpriteToDraw(rti->base_sprites.single_n, PALETTE_CRASH, ti->x, ti->y, 16, 16, 0, ti->z + (ti->tileh & SLOPE_N ? 8 : 0));
++				if (pbs & TRACK_BIT_LOWER) AddSortableSpriteToDraw(rti->base_sprites.single_s, PALETTE_CRASH, ti->x, ti->y, 16, 16, 0, ti->z + (ti->tileh & SLOPE_S ? 8 : 0));
++				if (pbs & TRACK_BIT_LEFT)  AddSortableSpriteToDraw(rti->base_sprites.single_w, PALETTE_CRASH, ti->x, ti->y, 16, 16, 0, ti->z + (ti->tileh & SLOPE_W ? 8 : 0));
++				if (pbs & TRACK_BIT_RIGHT) AddSortableSpriteToDraw(rti->base_sprites.single_e, PALETTE_CRASH, ti->x, ti->y, 16, 16, 0, ti->z + (ti->tileh & SLOPE_E ? 8 : 0));
+ 			}
+ 		}
+ 	}
+@@ -2951,6 +3028,16 @@ void StationPickerDrawSprite(int x, int y, StationType st, RailType railtype, Ro
+ 
+ static int GetSlopePixelZ_Station(TileIndex tile, uint x, uint y)
+ {
++	/* this code makes vehicles and trains follow the slope on sloped stations */
++	if (IsRailStation(tile)) {
++		int z;
++		Slope tileh = GetTilePixelSlope(tile, &z);
++		Axis axis = GetRailStationAxis(tile);
++
++		z += 8*ApplyFoundationToSlope(GetRailFoundation(tileh,AxisToTrackBits(axis)), &tileh);
++		return z + GetPartialPixelZ(x & 0xF, y & 0xF, tileh);
++	}
++
+ 	return GetTileMaxPixelZ(tile);
+ }
+ 
+diff --git a/src/table/sprites.h b/src/table/sprites.h
+index 81d5388f99..12ef72840f 100644
+--- a/src/table/sprites.h
++++ b/src/table/sprites.h
+@@ -255,7 +255,26 @@ static const SpriteID SPR_TRUCK_STOP_DT_Y_W = SPR_ROADSTOP_BASE + 4;
+ static const SpriteID SPR_TRUCK_STOP_DT_Y_E = SPR_ROADSTOP_BASE + 5;
+ static const SpriteID SPR_TRUCK_STOP_DT_X_W = SPR_ROADSTOP_BASE + 6;
+ static const SpriteID SPR_TRUCK_STOP_DT_X_E = SPR_ROADSTOP_BASE + 7;
+-static const uint16 ROADSTOP_SPRITE_COUNT = 8;
++
++/* sprites for sloped graphics */
++static const SpriteID SPR_BUS_STOP_DT_SE_W   = SPR_ROADSTOP_BASE + 12;
++static const SpriteID SPR_BUS_STOP_DT_SE_E   = SPR_ROADSTOP_BASE + 13;
++static const SpriteID SPR_BUS_STOP_DT_NE_E   = SPR_ROADSTOP_BASE + 14;
++static const SpriteID SPR_BUS_STOP_DT_NE_W   = SPR_ROADSTOP_BASE + 15;
++static const SpriteID SPR_BUS_STOP_DT_NW_W   = SPR_ROADSTOP_BASE + 16;
++static const SpriteID SPR_BUS_STOP_DT_NW_E   = SPR_ROADSTOP_BASE + 17;
++static const SpriteID SPR_BUS_STOP_DT_SW_E   = SPR_ROADSTOP_BASE + 18;
++static const SpriteID SPR_BUS_STOP_DT_SW_W   = SPR_ROADSTOP_BASE + 19;
++static const SpriteID SPR_TRUCK_STOP_DT_SE_W = SPR_ROADSTOP_BASE + 20;
++static const SpriteID SPR_TRUCK_STOP_DT_SE_E = SPR_ROADSTOP_BASE + 21;
++static const SpriteID SPR_TRUCK_STOP_DT_NE_E = SPR_ROADSTOP_BASE + 22;
++static const SpriteID SPR_TRUCK_STOP_DT_NE_W = SPR_ROADSTOP_BASE + 23;
++static const SpriteID SPR_TRUCK_STOP_DT_NW_W = SPR_ROADSTOP_BASE + 24;
++static const SpriteID SPR_TRUCK_STOP_DT_NW_E = SPR_ROADSTOP_BASE + 25;
++static const SpriteID SPR_TRUCK_STOP_DT_SW_E = SPR_ROADSTOP_BASE + 26;
++static const SpriteID SPR_TRUCK_STOP_DT_SW_W = SPR_ROADSTOP_BASE + 27;
++
++static const uint16 ROADSTOP_SPRITE_COUNT = 28;
+ 
+ /** Tramway sprites */
+ static const SpriteID SPR_TRAMWAY_BASE                 = SPR_ROADSTOP_BASE + ROADSTOP_SPRITE_COUNT;
+diff --git a/src/table/station_land.h b/src/table/station_land.h
+index 3327dab5dd..991c5d3bec 100644
+--- a/src/table/station_land.h
++++ b/src/table/station_land.h
+@@ -777,6 +777,62 @@ static const DrawTileSeqStruct _station_display_datas_waypoint_Y[] = {
+ 	TILE_SEQ_END()
+ };
+ 
++// drive-through bus stop SE slope
++static const DrawTileSeqStruct _station_display_datas_0172[] = {
++	TILE_SEQ_LINE( 0,  0,  0,  16,  3, 16, SPR_BUS_STOP_DT_SE_W | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_LINE( 0, 13,  0,  16,  3, 16, SPR_BUS_STOP_DT_SE_E | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_END()
++};
++
++// drive-through bus stop NE slope
++static const DrawTileSeqStruct _station_display_datas_0173[] = {
++	TILE_SEQ_LINE( 0,  0,  0,  16,  3, 16, SPR_BUS_STOP_DT_NE_W | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_LINE( 0, 13,  0,  16,  3, 16, SPR_BUS_STOP_DT_NE_E | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_END()
++};
++
++// drive-through bus stop NW slope
++static const DrawTileSeqStruct _station_display_datas_0174[] = {
++	TILE_SEQ_LINE( 0,  0,  0,  16,  3, 16, SPR_BUS_STOP_DT_NW_W | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_LINE( 0, 13,  0,  16,  3, 16, SPR_BUS_STOP_DT_NW_E | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_END()
++};
++
++// drive-through bus stop SW slope
++static const DrawTileSeqStruct _station_display_datas_0175[] = {
++	TILE_SEQ_LINE( 0,  0,  0,  16,  3, 16, SPR_BUS_STOP_DT_SW_W | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_LINE( 0, 13,  0,  16,  3, 16, SPR_BUS_STOP_DT_SW_E | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_END()
++};
++
++// drive-through truck stop SE slope
++static const DrawTileSeqStruct _station_display_datas_0176[] = {
++	TILE_SEQ_LINE( 0,  0,  0,  16,  3, 16, SPR_TRUCK_STOP_DT_SE_W | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_LINE( 0, 13,  0,  16,  3, 16, SPR_TRUCK_STOP_DT_SE_E | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_END()
++};
++
++// drive-through truck stop NE slope
++static const DrawTileSeqStruct _station_display_datas_0177[] = {
++	TILE_SEQ_LINE( 0,  0,  0,  16,  3, 16, SPR_TRUCK_STOP_DT_NE_W | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_LINE( 0, 13,  0,  16,  3, 16, SPR_TRUCK_STOP_DT_NE_E | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_END()
++};
++
++// drive-through truck stop NW slope
++static const DrawTileSeqStruct _station_display_datas_0178[] = {
++	TILE_SEQ_LINE( 0,  0,  0,  16,  3, 16, SPR_TRUCK_STOP_DT_NW_W | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_LINE( 0, 13,  0,  16,  3, 16, SPR_TRUCK_STOP_DT_NW_E | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_END()
++};
++
++// drive-through truck stop SW slope
++static const DrawTileSeqStruct _station_display_datas_0179[] = {
++	TILE_SEQ_LINE( 0,  0,  0,  16,  3, 16, SPR_TRUCK_STOP_DT_SW_W | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_LINE( 0, 13,  0,  16,  3, 16, SPR_TRUCK_STOP_DT_SW_E | (1 << PALETTE_MODIFIER_COLOUR))
++	TILE_SEQ_END()
++};
++
+ #undef TILE_SEQ_END
+ #undef TILE_SEQ_LINE
+ #undef TILE_SEQ_LINE_PAL
+@@ -946,6 +1002,10 @@ static const DrawTileSprites _station_display_datas_truck[] = {
+ 	TILE_SPRITE_LINE(SPR_TRUCK_STOP_NW_GROUND | (1U << PALETTE_MODIFIER_COLOUR), _station_display_datas_70)
+ 	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_X,      _station_display_datas_0168)
+ 	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_Y,      _station_display_datas_0169)
++	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_X,      _station_display_datas_0176)
++	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_Y,      _station_display_datas_0177)
++	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_X,      _station_display_datas_0178)
++	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_Y,      _station_display_datas_0179)
+ };
+ 
+ static const DrawTileSprites _station_display_datas_bus[] = {
+@@ -955,6 +1015,10 @@ static const DrawTileSprites _station_display_datas_bus[] = {
+ 	TILE_SPRITE_LINE(SPR_BUS_STOP_NW_GROUND   | (1U << PALETTE_MODIFIER_COLOUR), _station_display_datas_74)
+ 	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_X,      _station_display_datas_0170)
+ 	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_Y,      _station_display_datas_0171)
++	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_X,      _station_display_datas_0172)
++	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_Y,      _station_display_datas_0173)
++	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_X,      _station_display_datas_0174)
++	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_Y,      _station_display_datas_0175)
+ };
+ 
+ static const DrawTileSprites _station_display_datas_oilrig[] = {
+diff --git a/src/track_type.h b/src/track_type.h
+index 2982288bba..a89fd708cd 100644
+--- a/src/track_type.h
++++ b/src/track_type.h
+@@ -126,4 +126,11 @@ typedef SimpleTinyEnumT<TrackdirBits, uint16> TrackdirBitsShort;
+ 
+ typedef uint32 TrackStatus;
+ 
++static const byte _track_sloped_sprites[14] = {
++	14, 15, 22, 13,
++	 0, 21, 17, 12,
++	23,  0, 18, 20,
++	19, 16
++};
++
+ #endif /* TRACK_TYPE_H */
