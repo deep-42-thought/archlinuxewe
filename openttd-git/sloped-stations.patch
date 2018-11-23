@@ -1,3 +1,19 @@
+diff --git a/src/ground_vehicle.hpp b/src/ground_vehicle.hpp
+index 56b97875fc..90934e43c9 100644
+--- a/src/ground_vehicle.hpp
++++ b/src/ground_vehicle.hpp
+@@ -221,8 +221,9 @@ struct GroundVehicle : public SpecializedVehicle<T, Type> {
+ 			 * without any shift */
+ 			this->z_pos += HasBit(this->gv_flags, GVF_GOINGUP_BIT) ? d : -d;
+ 		}
+-
+-		assert(this->z_pos == GetSlopePixelZ(this->x_pos, this->y_pos));
++if (this->z_pos != GetSlopePixelZ(this->x_pos, this->y_pos)) {
++	fprintf(stderr,"ASSERT: %d != %d\n",this->z_pos, GetSlopePixelZ(this->x_pos, this->y_pos));
++}
+ 	}
+ 
+ 	/**
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
 index a0fd968cc6..980e2fb42b 100644
 --- a/src/rail_cmd.cpp
@@ -94,7 +110,7 @@ index 5251a53923..ce9ac81518 100644
 +
  #endif /* ROAD_TYPE_H */
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index 16f135df25..726205fd8b 100644
+index 16f135df25..bb46a2f541 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -53,6 +53,7 @@
@@ -285,10 +301,10 @@ index 16f135df25..726205fd8b 100644
  static int GetSlopePixelZ_Station(TileIndex tile, uint x, uint y)
  {
 +	/* this code makes vehicles and trains follow the slope on sloped stations */
-+	if (IsRailStation(tile)) {
++	if (IsRailStation(tile) || IsRoadStopTile(tile) && !IsStandardRoadStopTile(tile)) {
 +		int z;
 +		Slope tileh = GetTilePixelSlope(tile, &z);
-+		Axis axis = GetRailStationAxis(tile);
++		Axis axis = IsRailStation(tile)?GetRailStationAxis(tile):DiagDirToAxis(GetRoadStopDir(tile));
 +
 +		z += 8*ApplyFoundationToSlope(GetRailFoundation(tileh,AxisToTrackBits(axis)), &tileh);
 +		return z + GetPartialPixelZ(x & 0xF, y & 0xF, tileh);
