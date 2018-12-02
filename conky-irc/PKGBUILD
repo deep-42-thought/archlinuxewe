@@ -6,7 +6,7 @@
 # Contributor: Partha Chowdhury <kira.laucas@gmail.com>
 
 pkgname=conky-irc
-pkgver=1.10.8
+pkgver=1.11.0
 provides=("conky=${pkgver}")
 conflicts=('conky')
 pkgrel=1
@@ -19,17 +19,14 @@ depends=('glib2' 'lua' 'wireless_tools' 'libxdamage' 'libxinerama' 'libxft'
          'imlib2' 'libxml2' 'libpulse' 'libircclient')
 optdepends=('mounted')
 source=("${pkgname%-irc}-${pkgver}.tar.gz::https://github.com/brndnmtthws/conky/archive/v${pkgver}.tar.gz"
-        'lua53.patch'
         'MAX_SP.patch')
-sha512sums=('743b1d17db4ae654c7a319fe9157e9ebc5eb4ae0462a1f7269332d379e8bdd1dbfecc3ab6f46c8b5176b7e40918301649ac3ee883a84dc4fc8d766abbac6585a'
-            'a8f7184b0e21daaff137a07431c736269a94b654f50b45ac531cdb0d0edbfa8509def72254c36dce0ca4a1ee5ebae62aac5894f89cda2feae3d54cfcbd85377b'
-            'ca23309b45a471b075fbebd2f6ec34b1d7b3198528056ddb3018af4010623a5de83a80ecfc98677b48676fd2600224c33772f55b515c897a3cc917997c70bb38')
+sha512sums=('785707fe34d72c84e26799cf07a15349d803dc5f37a910059f98026dae32fe371063578a5e9e98e7b378ac02622c4d66ab550004f5c785fdd3f7da78cbf03e98'
+            '1ea39f88b5f2620fc0c4485cc16645dbad91f97be17b4b13a732205dde6265d621c7f2bc92be33b65f9db2815312beb42b516ddebbba90cfe947104e1a410a52')
 
 options=('!strip' 'debug')
 
 prepare() {
 	cd "${srcdir}/${pkgname%-irc}-${pkgver}"
-	patch -p1 -i ../lua53.patch # lua_gettable returns an int in lua-5.3
 	patch -p1 -i ../MAX_SP.patch
 	sed '/^#include / s,<libircclient\.h>,<libircclient/libircclient.h>,' -i 'src/irc.cc'
 	sed '/check_include_files(/ s,libircclient\.h,libircclient/libircclient.h,' -i 'cmake/ConkyPlatformChecks.cmake'
