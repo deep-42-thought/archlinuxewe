@@ -608,12 +608,20 @@ then
       quVer=$( \
         echo "${src}" | \
           sed '
-            s|/sourceforge/|/|
-            s|\(//sourceforge\.net/.*/\)[^/]*/[^/]*$|\1|
-            s|//\(pr\)\?downloads\.sourceforge\.net/\([^/]*\)/[^/]*$|//sourceforge.net/projects/\2/files/\2/|
-            s|//\(pr\)\?downloads\.sourceforge\.net/project/\([^/]*\)/files/\([^/]*\)/\([0-9.]\+/\)\?[^/]*$|//sourceforge.net/projects/\2/files/\3/|
-            s|/scidavis/$|/SciDAVis/|
-            s|^http:|https:|
+            s,^https\?://\(\(pr\)\?downloads\.\)\?sourceforge\.net/,,
+            s,^sourceforge/,,
+            s,^projects\?/,,
+          ' | \
+          sed '
+            s,^\([^/]\+\)/[^/]\+$,\1/\1,
+            t end
+            s,^\([^/]\+\)/\(files/\)\?\([^/]\+\)/[0-9.]\+/[^/]\+$,\1/\3,
+            t end
+            w /dev/stderr
+            d
+            :end
+            s,/scidavis$,/SciDAVis,
+            s,\([^/]\+\)/\([^/]\+\),https://sourceforge.net/projects/\1/files/\2/,
           '
       )
       remVer=$( \
