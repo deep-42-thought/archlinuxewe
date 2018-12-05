@@ -266,14 +266,9 @@ then
       )"
     elif [ "${pkgname}" == 'pacman-mirrorlist32' ]
     then
-      git -C "/usr/src/archlinux/packages" fetch origin >/dev/null 2>&1
       git -C "/usr/src/archlinux32/packages" fetch origin >/dev/null 2>&1
       remVer=$(
         {
-          git -C "/usr/src/archlinux/packages" archive origin/master -- pacman-mirrorlist/repos/core-any/PKGBUILD | \
-            tar -Ox | \
-            grep -m1 '^pkgver=[0-9.]\+$' | \
-            cut -d= -f2
           git -C "/usr/src/archlinux32/packages" archive origin/master -- core/pacman-mirrorlist/PKGBUILD | \
             tar -Ox | \
             grep -m1 '^pkgver=[0-9.]\+$' | \
