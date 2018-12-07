@@ -2,15 +2,14 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-examples'
-pkgver=0.810
+pkgver=0.811
 pkgrel=1
 pkgdesc='Various examples of Rinci metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl>=5.10.1'
   'perl-experimental'
   'perl-log-ger>=0.023'
   'perl-perinci-object>=0.310'
@@ -33,7 +32,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Examples'
 _distdir="Perinci-Examples-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('00058ab26ba9a7d84c5628b47f1fa15bd52f1d8a8f9a2a203e7d95dea55d9e8339ff98942bc542d3d9715ae459f1c512c30a86af986c37653ab3a92c79360754')
+sha512sums=('533eb7cb9d821645738ba0cd17f23360a98d29885ec8074214438d0752d4e93116024707b21e4d85e25cd98630701873f470fa697b0c93f0e4ea601b94828e81')
 
 prepare() {
   cd "${srcdir}/${_distdir}"
