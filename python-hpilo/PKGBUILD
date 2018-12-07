@@ -1,0 +1,77 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgbase=python-hpilo
+pkgname=(python2-hpilo python-hpilo)
+pkgver=4.3
+pkgrel=1
+pkgdesc='Accessing the HP iLO XML interface from python'
+arch=('any')
+url='http://seveas.github.io/python-hpilo/'
+license=('GPL3')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
+_depends=(
+)
+_makedepends=(
+)
+_optdepends=()
+source=("${pkgbase}-${pkgver}.tar.gz::https://github.com/seveas/${pkgbase}/archive/${pkgver}.tar.gz")
+sha512sums=('c339825a42187c2b4e070c4a5a8c29282adfdc349120b09a927e2eadca16aa46d3f1cbb15a36b5d32959dd2ff61dce2d6755ac91040ded8bc05907575ed93700')
+
+makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
+  "${_depends[@]}"
+  "${_depends[@]//python/python2}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]//ython/ython2}"
+)
+
+prepare() {
+  cp -r "${pkgbase}-${pkgver}" "py2-${pkgbase}-${pkgver}"
+  mv "${pkgbase}-${pkgver}" "py-${pkgbase}-${pkgver}"
+}
+
+build() {
+  cd "${srcdir}/py2-${pkgbase}-${pkgver}"
+  python2 setup.py build
+
+  cd "${srcdir}/py-${pkgbase}-${pkgver}"
+  python setup.py build
+}
+
+package_python2-hpilo() {
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]//python/python2}"
+  )
+  optdepends=(
+    "${_optdepends[@]//python/python2}"
+  )
+  cd "${srcdir}/py2-${pkgbase}-${pkgver}"
+  python2 setup.py install --root="${pkgdir}/" --optimize=1
+  install -D COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  find "${pkgdir}/usr/bin" -maxdepth 1 -type f -printf '%f\n' | \
+    while read -r f; do
+      mv "${pkgdir}/usr/bin/${f}" "${pkgdir}/usr/bin/python2-${f}"
+      sed -i '1 { /python2/! s/python/python2/; }' "${pkgdir}/usr/bin/python2-${f}"
+    done
+}
+
+package_python-hpilo() {
+  depends=(
+    "${_deppy[@]}"
+    "${_depends[@]}"
+  )
+  optdepends=(
+    "${_optdepends[@]}"
+  )
+  cd "${srcdir}/py-${pkgbase}-${pkgver}"
+  python setup.py install --root="${pkgdir}/" --optimize=1
+  install -D COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+}
