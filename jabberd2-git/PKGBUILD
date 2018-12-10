@@ -79,7 +79,7 @@ package() {
   install -d "${pkgdir}/usr/share/jabberd/"
   install tools/{db-setup.*,pipe-auth.pl,jabberd-authpipe-pam-0.1.pl} "${pkgdir}/usr/share/jabberd/"
 
-  chmod o= "${pkgdir}/etc/jabberd/"
+  chmod -R o= "${pkgdir}/etc/jabberd/"
 
   rm -fr "${pkgdir}/usr/etc"
   rm -f "${pkgdir}/etc/jabberd/"jabberd-*.conf
