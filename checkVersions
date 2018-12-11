@@ -18,7 +18,7 @@ curl_it() {
 
 me="$(readlink -f $0)"
 cd $(dirname "${me}")
-versionenDatei="/var/cache/$(basename "$(dirname "${me}")").lastVersions"
+versionenDatei="/var/cache/$(basename "$(dirname "${me}")")/lastVersions"
 jobs=0
 maschinenlesbar=false
 force=false
@@ -45,7 +45,7 @@ do
   case $1 in
     --32)
       archlinuxewe=false
-      versionenDatei="/var/cache/$(basename "$(dirname "${me}")").lastVersions32"
+      versionenDatei="/var/cache/$(basename "$(dirname "${me}")")/lastVersions32"
       optArgs[${#optArgs[@]}]="--32"
     ;;
     -f|--force)
