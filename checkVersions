@@ -110,11 +110,7 @@ then
     rm "${tmpFile}"
   elif ! ${versionenErmitteln}
   then
-    cat "${versionenDatei}" | \
-      ( \
-        read dummy
-        cat
-      )
+    sed '1d' "${versionenDatei}"
     err=$?
   elif ${archlinuxewe}; then
     ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||")
