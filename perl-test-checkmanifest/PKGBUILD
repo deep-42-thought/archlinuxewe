@@ -2,28 +2,24 @@
 # Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
 
 pkgname='perl-test-checkmanifest'
-pkgver=1.33
-pkgrel='3'
+pkgver=1.35
+pkgrel=1
 pkgdesc='Check if your Manifest matches your distro'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
-  'perl'
+  'perl>=5.8.0'
   'perl-carp'
   'perl-pathtools'
-  'perl-test-simple'
-)
+  'perl-test-simple')
 makedepends=(
   'perl-cpan-meta-yaml'
-  'perl-extutils-makemaker'
-)
+  'perl-extutils-makemaker')
 url='https://metacpan.org/release/Test-CheckManifest'
 _distdir="Test-CheckManifest-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RE/RENEEB/${_distdir}.tar.gz")
-sha512sums=('0599b87694b40bd8df1a6436b8b38922988e9336e45a4c7aa2c48552b6d823864d71783291091d83551f57f6bc3b76b30913ae3dbdcb8166bfbf70fe272d93cb')
+sha512sums=('9fdfa4018a085adb3a0170bd52ccccf3cf7c251db67fa03480504e7f07e88da097344f7bc00a83be6e59ab1dac189045873998781a3c2ea654e0a2c3834503b5')
 
 build() {
   cd "${srcdir}/${_distdir}"
