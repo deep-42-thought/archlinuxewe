@@ -6,7 +6,7 @@
 # Contributor: Partha Chowdhury <kira.laucas@gmail.com>
 
 pkgname=conky-irc
-pkgver=1.11.0
+pkgver=1.11.1
 provides=("conky=${pkgver}")
 conflicts=('conky')
 pkgrel=1
@@ -20,7 +20,7 @@ depends=('glib2' 'lua' 'wireless_tools' 'libxdamage' 'libxinerama' 'libxft'
 optdepends=('mounted')
 source=("${pkgname%-irc}-${pkgver}.tar.gz::https://github.com/brndnmtthws/conky/archive/v${pkgver}.tar.gz"
         'MAX_SP.patch')
-sha512sums=('785707fe34d72c84e26799cf07a15349d803dc5f37a910059f98026dae32fe371063578a5e9e98e7b378ac02622c4d66ab550004f5c785fdd3f7da78cbf03e98'
+sha512sums=('83398758b99a6a9b4153ad2ac890bd62937a6b754730fac08b499ff83ffe955546a28c59c27e03860b675f9e794777232e0e7ce4ea6e5806009d1e5edfcf02b4'
             '1ea39f88b5f2620fc0c4485cc16645dbad91f97be17b4b13a732205dde6265d621c7f2bc92be33b65f9db2815312beb42b516ddebbba90cfe947104e1a410a52')
 
 options=('!strip' 'debug')
