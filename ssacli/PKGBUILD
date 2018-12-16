@@ -3,7 +3,7 @@
 
 pkgname=ssacli
 pkgver=3.30_14.0
-pkgrel=1
+pkgrel=2
 pkgdesc="HP Command Line Smart Storage Administrator"
 arch=(x86_64)
 url="https://downloads.linux.hpe.com/SDR/downloads/mcp"
@@ -12,13 +12,16 @@ replaces=(hpacucli hpssacli)
 groups=(hpproliant)
 license=("CUSTOM")
 
-source=("https://downloads.linux.hpe.com/SDR/repo/mcp/centos/7/x86_64/current/$pkgname-${pkgver//_/-}.x86_64.rpm")
-sha256sums=('499f454e195eaa0b211f7118c3224a0a26fc5626677e26054e860137c2342c0f')
+source=("https://downloads.linux.hpe.com/SDR/repo/mcp/centos/7/x86_64/current/$pkgname-${pkgver//_/-}.x86_64.rpm"
+        'ssacli.conf')
+sha256sums=('499f454e195eaa0b211f7118c3224a0a26fc5626677e26054e860137c2342c0f'
+            '236549070720861f9eeb88ff4355029f8a5bbbaf3d5f803c2d82935e89e85d48')
 
 package() {
 	mv usr/{sbin,bin}
 	mv usr/{,share/}man
 	install -Dm644 opt/smartstorageadmin/ssacli/bin/ssacli.license "$pkgdir"/usr/share/licenses/$pkgname/LICENSE.txt
+	install -Dm644 "$srcdir/ssacli.conf" "$pkgdir/usr/lib/modules-load.d/ssacli.conf"
 	rm opt/smartstorageadmin/ssacli/bin/ssacli.license
 	cp -a opt usr "$pkgdir"
 }
