@@ -169,6 +169,29 @@ then
           p
         ' "${pkgname}/PKGBUILD"
       )"
+    elif [ "${pkgname}" = 'ssacli' ]; then
+      centosVer=$(
+        curl_it "${src%/*/*/*/*}/" | \
+          tr '"' '\n' | \
+          sed '
+            s,^\([0-9]\+\)/$,\1,
+            t
+            d
+          ' | \
+          sort -V | \
+          tail -n1
+      )
+      newVer=$(
+        curl_it "${src%/*/*/*/*}/${centosVer}/x86_64/current/" | \
+          tr '"' '\n' | \
+          sed '
+            s,^ssacli-\([0-9.]\+\)-\([0-9.]\+\)\.x86_64\.rpm$,\1_\2,
+            t
+            d
+          ' | \
+          sort -V | \
+          tail -n1
+      )
     elif [ "${pkgname}" = 'adduser' ]
     then
       remVer=$(
