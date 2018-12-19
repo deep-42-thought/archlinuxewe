@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (568f5d2df596725567f1a6081bf01d21ef231fbfd3571a4132eb004ebb50cfaada248486250b351491d5fd615f2c1d7f07d339c6e6ad8bb59146399a117bec0c)
 
 pkgname='perl-date-timeofday'
-pkgver='0.003'
-pkgrel='1'
+pkgver=0.004
+pkgrel=1
 pkgdesc='Represent time of day (hh:mm:ss)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,20 +11,17 @@ options=('!emptydirs')
 depends=(
   'perl>=5.10.1'
   'perl-time-hires'
-  'perl-time-local'
-)
+  'perl-time-local')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
   'perl-test-exception'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 url='https://metacpan.org/release/Date-TimeOfDay'
 _distdir="Date-TimeOfDay-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('4cae579863c9dc30b93e2b3a406cb8b0a2e24045543629eb3689af9e9d95f14a0f0951b138a21c54035b1472a04bfa32a19375a49f053c5369add24db8a58b8a')
+sha512sums=('36833a2a58b53e207b538d931e27d61a535ef1aaa103b8583bdf1870860a12101fe1f322a1b4fd854130b2e2811f31ffa3ae2d951e7a8dffd89947e2bb51fcd3')
 
 build() {
   cd "${srcdir}/${_distdir}"
