@@ -34,7 +34,13 @@ curl_it() {
   if [ ! -s "${tmp_file}" ]; then
     curl --compressed -o "${tmp_file}" --connect-timeout 10 -s -x socks5://127.0.0.1:9050 "$@" "${source}"
   fi
-  mv "${tmp_file}" "${cache_file}"
+  local trials=5
+  while ! mv "${tmp_file}" "${cache_file}" && \
+    [ ${trials} -gt 0 ]; do
+    sleep 1
+    trials=$((trials-1))
+  done
+  rm -f "${tmp_file}"
   cat "${cache_file}"
 }
 
