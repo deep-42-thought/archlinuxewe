@@ -2,30 +2,24 @@
 # Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
 
 pkgname='perl-extutils-makemaker-cpanfile'
-pkgver='0.08'
-pkgrel='5'
+pkgver=0.09
+pkgrel=1
 pkgdesc='cpanfile support for EUMM'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
   'perl-cpan-meta>=2.141170'
   'perl-extutils-makemaker>=6.17'
   'perl-file-path'
   'perl-module-cpanfile'
   'perl-pathtools'
   'perl-test-simple>=0.88'
-  'perl-version>=0.76'
-)
-makedepends=(
-  'perl-extutils-makemaker'
-)
+  'perl-version>=0.76')
 url='https://metacpan.org/release/ExtUtils-MakeMaker-CPANfile'
 _distdir="ExtUtils-MakeMaker-CPANfile-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/${_distdir}.tar.gz")
-sha512sums=('ac2cd88843d88954fdd1a6ff2c6277238a1eeddc0e9e0693eee3920c93e67f9b6e43f4b96d3471b5d4ff2ae6dde93216de2a85ee242fb3fd68c6dc134ba4923a')
+sha512sums=('ff5b9d81ce5d8204fcd84ee88a2b5d8fe037cf5cae7a7291d7ccdc411301979093ae66d90203c6c16fddad5173a663f20fef0504ae684a8e522ef4b21c9edc13')
 
 build() {
   cd "${srcdir}/${_distdir}"
