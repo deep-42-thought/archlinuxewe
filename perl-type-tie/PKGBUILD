@@ -2,23 +2,22 @@
 # Generator : neuesPerlPaket (7a589202ce266b15e6e8f34ddfb805093ba7f16e64bbfa81b115133edde2e298f11971b376ba22faf61d0371b1e3eddcf51bc530a4c5bd76e486299dde8985ee)
 
 pkgname='perl-type-tie'
-pkgver=0.011
-pkgrel='3'
+pkgver=0.012
+pkgrel=1
 pkgdesc='tie a variable to a type constraint'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-type-nano=0.011'
-  'perl-type-tie-array=0.011'
-  'perl-type-tie-base=0.011'
-  'perl-type-tie-hash=0.011'
-  'perl-type-tie-scalar=0.011')
+  'perl-type-nano=0.012'
+  'perl-type-tie-array=0.012'
+  'perl-type-tie-base=0.012'
+  'perl-type-tie-hash=0.012'
+  'perl-type-tie-scalar=0.012')
 optdepends=(
   'perl-hash-fieldhash')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl>=5.8.5'
   'perl-exporter-tiny>=0.026')
 makedepends=(
   'perl-extutils-makemaker>=6.17'
@@ -36,7 +35,7 @@ checkdepends=(
 url='https://metacpan.org/release/Type-Tie'
 _distdir="Type-Tie-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/${_distdir}.tar.gz")
-sha512sums=('ce4de19c14c46066e9b58cb13cf9ac4c108f99b8db604e9d8766168193b2e617e92bccc9f27fadd96f7103eae3a380c2041087b451239d713b7ce02eac202d43')
+sha512sums=('6c6802db810d332c15a738fa98a0e4d404818454558ebe4e2f08d875d70ce948ec025fb1160146b6ed5f1a21084b5914dfd91cef28977cd3bece13418c3ce88e')
 
 build(){
   cd "${srcdir}/${_distdir}"
