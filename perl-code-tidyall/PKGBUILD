@@ -2,52 +2,51 @@
 # Generator : neuesPerlPaket (c76f19eeb8ac0e674222223e3f2f0b1a4250e725fbc76c117ed5a925d0a78bc530c4457ecc3b31370951fc9b8729fc0272fa9206231f2dcd7aab2565a892a173)
 
 pkgname='perl-code-tidyall'
-pkgver=0.71
-pkgrel='3'
+pkgver=0.72
+pkgrel=1
 pkgdesc='Engine for tidyall, your all-in-one code tidier and validator'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-code-tidyall-cache=0.71'
-  'perl-code-tidyall-cachemodel=0.71'
-  'perl-code-tidyall-cachemodel-shared=0.71'
-  'perl-code-tidyall-config-ini-reader=0.71'
-  'perl-code-tidyall-git-precommit=0.71'
-  'perl-code-tidyall-git-prereceive=0.71'
-  'perl-code-tidyall-git-util=0.71'
-  'perl-code-tidyall-plugin=0.71'
-  'perl-code-tidyall-plugin-cssunminifier=0.71'
-  'perl-code-tidyall-plugin-generictransformer=0.71'
-  'perl-code-tidyall-plugin-genericvalidator=0.71'
-  'perl-code-tidyall-plugin-jsbeautify=0.71'
-  'perl-code-tidyall-plugin-jshint=0.71'
-  'perl-code-tidyall-plugin-jslint=0.71'
-  'perl-code-tidyall-plugin-json=0.71'
-  'perl-code-tidyall-plugin-masontidy=0.71'
-  'perl-code-tidyall-plugin-perlcritic=0.71'
-  'perl-code-tidyall-plugin-perltidy=0.71'
-  'perl-code-tidyall-plugin-perltidysweet=0.71'
-  'perl-code-tidyall-plugin-phpcodesniffer=0.71'
-  'perl-code-tidyall-plugin-podchecker=0.71'
-  'perl-code-tidyall-plugin-podspell=0.71'
-  'perl-code-tidyall-plugin-podtidy=0.71'
-  'perl-code-tidyall-plugin-sortlines=0.71'
-  'perl-code-tidyall-result=0.71'
-  'perl-code-tidyall-role-genericexecutable=0.71'
-  'perl-code-tidyall-role-hasignore=0.71'
-  'perl-code-tidyall-role-runscommand=0.71'
-  'perl-code-tidyall-role-tempdir=0.71'
-  'perl-code-tidyall-svn-precommit=0.71'
-  'perl-code-tidyall-svn-util=0.71'
-  'perl-code-tidyall-util-zglob=0.71'
-  'perl-code-tidyall-zglob=0.71'
-  'perl-test-code-tidyall=0.71')
+  'perl-code-tidyall-cache=0.72'
+  'perl-code-tidyall-cachemodel=0.72'
+  'perl-code-tidyall-cachemodel-shared=0.72'
+  'perl-code-tidyall-config-ini-reader=0.72'
+  'perl-code-tidyall-git-precommit=0.72'
+  'perl-code-tidyall-git-prereceive=0.72'
+  'perl-code-tidyall-git-util=0.72'
+  'perl-code-tidyall-plugin=0.72'
+  'perl-code-tidyall-plugin-cssunminifier=0.72'
+  'perl-code-tidyall-plugin-generictransformer=0.72'
+  'perl-code-tidyall-plugin-genericvalidator=0.72'
+  'perl-code-tidyall-plugin-jsbeautify=0.72'
+  'perl-code-tidyall-plugin-jshint=0.72'
+  'perl-code-tidyall-plugin-jslint=0.72'
+  'perl-code-tidyall-plugin-json=0.72'
+  'perl-code-tidyall-plugin-masontidy=0.72'
+  'perl-code-tidyall-plugin-perlcritic=0.72'
+  'perl-code-tidyall-plugin-perltidy=0.72'
+  'perl-code-tidyall-plugin-perltidysweet=0.72'
+  'perl-code-tidyall-plugin-phpcodesniffer=0.72'
+  'perl-code-tidyall-plugin-podchecker=0.72'
+  'perl-code-tidyall-plugin-podspell=0.72'
+  'perl-code-tidyall-plugin-podtidy=0.72'
+  'perl-code-tidyall-plugin-sortlines=0.72'
+  'perl-code-tidyall-result=0.72'
+  'perl-code-tidyall-role-genericexecutable=0.72'
+  'perl-code-tidyall-role-hasignore=0.72'
+  'perl-code-tidyall-role-runscommand=0.72'
+  'perl-code-tidyall-role-tempdir=0.72'
+  'perl-code-tidyall-svn-precommit=0.72'
+  'perl-code-tidyall-svn-util=0.72'
+  'perl-code-tidyall-util-zglob=0.72'
+  'perl-code-tidyall-zglob=0.72'
+  'perl-test-code-tidyall=0.72')
 optdepends=(
   'perl-parallel-forkmanager')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl>=5.8.8'
   'perl-base'
   'perl-capture-tiny'
   'perl-config-ini'
@@ -94,7 +93,7 @@ checkdepends=(
 url='https://metacpan.org/release/Code-TidyAll'
 _distdir="Code-TidyAll-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
-sha512sums=('b8d29eaceedf95ce8dc92142a861a7f552443dd713cbfe4a273bcbaa7222ec48646bde434e81cc209adde07d5a2f6e2d6b408e7427dfc574df0af884c8a61f92')
+sha512sums=('651b1623db1a96f2b6d87f4410cf0cec038459a31a30adb8e96db71e7a4b49359056f43f2119f8d404c2c384efeaba9fa671b63a9469c69d4ba874fb1673ae15')
 
 build() {
   cd "${srcdir}/${_distdir}"
