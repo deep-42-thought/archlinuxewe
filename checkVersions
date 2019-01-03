@@ -30,10 +30,10 @@ curl_it() {
     return
   fi
   curl --compressed --connect-timeout 10 -s "$@" "${source}" \
-    > "${cache_file}"
+    | sponge "${cache_file}"
   if [ ! -s "${cache_file}" ]; then
     curl --compressed --connect-timeout 10 -s -x socks5://127.0.0.1:9050 "$@" "${source}" \
-      > "${cache_file}"
+      | sponge "${cache_file}"
   fi
   cat "${cache_file}"
 }
