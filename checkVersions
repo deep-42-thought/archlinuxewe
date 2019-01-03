@@ -192,7 +192,8 @@ then
           p
         ' "${pkgname}/PKGBUILD"
       )"
-    elif [ "${pkgname}" = 'ssacli' ]; then
+    elif echo "${src}" | \
+      grep -qF '/ssacli-'; then
       centosVer=$(
         curl_it "${src%/*/*/*/*}/" | \
           tr '"' '\n' | \
@@ -204,7 +205,7 @@ then
           sort -V | \
           tail -n1
       )
-      newVer=$(
+      remVer=$(
         curl_it "${src%/*/*/*/*}/${centosVer}/x86_64/current/" | \
           tr '"' '\n' | \
           sed '
