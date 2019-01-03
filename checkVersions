@@ -516,7 +516,8 @@ then
         post='s|\(\...\)0$|\1|'
       elif [ "${pkgname}" = 'perl-opengl' ] || \
         [ "${pkgname}" = 'perl-array-diff' ] || \
-        [ "${pkgname}" = 'perl-module-cpants-analyse' ]
+        [ "${pkgname}" = 'perl-module-cpants-analyse' ] || \
+        [ "${pkgname}" = 'perl-data-clean' ]
       then
         pre='s|\(\...\)\(.\)|\1.\2|'
         post='s|\(\...\)\.\(.\)|\1\2|'
