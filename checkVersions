@@ -29,12 +29,12 @@ curl_it() {
     cat "${cache_file}"
     return
   fi
-  curl --compressed --connect-timeout 10 -s "$@" "${source}" \
-    | sponge "${cache_file}"
-  if [ ! -s "${cache_file}" ]; then
-    curl --compressed --connect-timeout 10 -s -x socks5://127.0.0.1:9050 "$@" "${source}" \
-      | sponge "${cache_file}"
+  tmp_file=$(mktemp)
+  curl --compressed -o "${tmp_file}" --connect-timeout 10 -s "$@" "${source}"
+  if [ ! -s "${tmp_file}" ]; then
+    curl --compressed -o "${tmp_file}" --connect-timeout 10 -s -x socks5://127.0.0.1:9050 "$@" "${source}"
   fi
+  mv "${tmp_file}" "${cache_file}"
   cat "${cache_file}"
 }
 
