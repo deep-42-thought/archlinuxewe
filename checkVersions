@@ -30,9 +30,9 @@ curl_it() {
     return
   fi
   tmp_file=$(mktemp)
-  curl --compressed -o "${tmp_file}" --connect-timeout 10 -s "$@" "${source}"
+  curl --compressed -o "${tmp_file}" --connect-timeout 10 -s -x socks5://127.0.0.1:9050 "$@" "${source}"
   if [ ! -s "${tmp_file}" ]; then
-    curl --compressed -o "${tmp_file}" --connect-timeout 10 -s -x socks5://127.0.0.1:9050 "$@" "${source}"
+    curl --compressed -o "${tmp_file}" --connect-timeout 10 -s "$@" "${source}"
   fi
   local trials=5
   while ! mv "${tmp_file}" "${cache_file}" && \
