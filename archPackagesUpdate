@@ -554,7 +554,6 @@ if ${aufRechenknecht}; then
       for patch in "${tmp_dir}/"*".PKGBUILDpatch"; do
         printf '    cat "${srcdir}/%s"\n' \
           "${patch##*/}"
-        cp "${patch}" .
       done
       printf '%s\n' \
         ')"' \
@@ -562,6 +561,7 @@ if ${aufRechenknecht}; then
       for patch in "${tmp_dir}/"*".PKGBUILDpatch"; do
         printf '"%s"\n' \
           "${patch##*/}"
+        cp "${patch}" .
       done
       printf ')\n'
       sed '
