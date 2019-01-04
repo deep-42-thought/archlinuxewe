@@ -547,17 +547,28 @@ if ${aufRechenknecht}; then
 
     # add PKGBUILD-patches to the PKGBUILD
     {
-      printf '%s\n' \
-        'eval "$(' \
-        '  declare -f package | \' \
-        '    sed '"'"'$d'"'"
-      for patch in "${tmp_dir}/"*".PKGBUILDpatch"; do
-        printf '    cat "${srcdir}/%s"\n' \
-          "${patch##*/}"
-      done
-      printf '%s\n' \
-        ')"' \
-        'source+=('
+      if grep -q '^\s*pkgbase=' PKGBUILD; then
+        (
+          eval "$(
+            sed -n '/^\s*pkgname=(/,/)/ p' PKGBUILD
+          )"
+          printf 'package_%s\n' "${pkgname[@]}"
+        )
+      else
+        printf 'package\n'
+      fi \
+        | while read -r function; do
+          printf '%s\n' \
+            'eval "$(' \
+            '  declare -f package | \' \
+            '    sed '"'"'$d'"'"
+          for patch in "${tmp_dir}/"*".PKGBUILDpatch"; do
+            printf '  cat "%s"\n' \
+              "${patch##*/}"
+          done
+          printf ')\n}"\n'
+        done
+      printf 'source+=(\n'
       for patch in "${tmp_dir}/"*".PKGBUILDpatch"; do
         printf '"%s"\n' \
           "${patch##*/}"
@@ -576,8 +587,9 @@ if ${aufRechenknecht}; then
             | awk '{print $1}'
           printf ')\n'
         done
-    } | \
-      sponge -a PKGBUILD
+    } > PKGBUILD.append
+    cat PKGBUILD.append >> PKGBUILD
+    rm PKGBUILD.append
 
     if [ "${arch}" = 'i686' ]; then
       # 32-bit is built in chroot /opt/arch32
