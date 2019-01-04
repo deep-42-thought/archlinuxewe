@@ -545,18 +545,39 @@ if ${aufRechenknecht}; then
     cd "${tmpDir}/${paket}"
     rm -rf --one-file-system src pkg
 
-    # report installed packages at end of package() function - if the build process succeeded,
-    # these packages should work
-    echo '
-      if [ "$(uname -m)" = "i686" ]; then
-        eval "$(
-          declare -f package | \
-            sed '"'"'
-              $ i sudo report-installed-packages archlinux-reports@eckner.net buildmaster@archlinux32.org
-            '"'"'
-        )"
-      fi
-    ' >> PKGBUILD
+    # add PKGBUILD-patches to the PKGBUILD
+    {
+      printf '%s\n' \
+        'eval "$(' \
+        '  declare -f package | \' \
+        '    sed '"'"'$d'"'"
+      for patch in "${tmp_dir}/"*".PKGBUILDpatch"; do
+        printf '    cat "${srcdir}/%s"\n' \
+          "${patch##*/}"
+        cp "${patch}" .
+      done
+      printf '%s\n' \
+        ')"' \
+        'source+=('
+      for patch in "${tmp_dir}/"*".PKGBUILDpatch"; do
+        printf '"%s"\n' \
+          "${patch##*/}"
+      done
+      printf ')\n'
+      sed '
+        s/^\s*\([^=[:space:]]\+sums\)=.*$/\1/
+        t
+        d
+      ' PKGBUILD \
+        | while read -r sum_type; do
+          printf '%s+=(' \
+            "${sum_type}"
+          "${sum_type%s}" "${tmp_dir}/"*".PKGBUILDpatch" \
+            | awk '{print $1}'
+          printf ')\n'
+        done
+    } | \
+      sponge -a PKGBUILD
 
     if [ "${arch}" = 'i686' ]; then
       # 32-bit is built in chroot /opt/arch32
