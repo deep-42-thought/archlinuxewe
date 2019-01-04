@@ -1,0 +1,33 @@
+_depends=(
+  $(
+    {
+      printf '%s\n' "${depends[@]}"
+      find "${pkgdir}" -type f -exec objdump -x {} \; 2>/dev/null \
+        | sed '
+          s/^\s*NEEDED\s\+\(\S\+\)\s*$/\1/
+          t
+          d
+        ' \
+        | sort -u \
+        | while read -r _lib; do
+          pacman -Qqo "/usr/lib/${_lib}" 2>/dev/null || true
+        done \
+        | sort -u \
+        | xargs -r pacman -Q \
+        | sed '
+          s/ \([^-]\+\)-[^-]\+$/=\1/
+          t
+          w /dev/stderr
+          d
+        '
+    } \
+      | sed '
+        s/^\([^=[:space:]]\+\)\(=\(\S\+\)\)\?$/\0 \1 \3/
+      ' \
+      | sort -k2,2 -k3Vr,3 \
+      | cut -d' ' -f1,2 \
+      | uniq -f1 \
+      | cut -d' ' -f1
+  )
+)
+depends=("${_depends[@]}")
