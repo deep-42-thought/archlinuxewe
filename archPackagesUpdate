@@ -562,14 +562,14 @@ if ${aufRechenknecht}; then
             'eval "$(' \
             '  declare -f package | \' \
             '    sed '"'"'$d'"'"
-          for patch in "${tmp_dir}/"*".PKGBUILDpatch"; do
+          for patch in "${tmpDir}/"*".PKGBUILDpatch"; do
             printf '  cat "%s"\n' \
               "${patch##*/}"
           done
           printf ')\n}"\n'
         done
       printf 'source+=(\n'
-      for patch in "${tmp_dir}/"*".PKGBUILDpatch"; do
+      for patch in "${tmpDir}/"*".PKGBUILDpatch"; do
         printf '"%s"\n' \
           "${patch##*/}"
         cp "${patch}" .
@@ -583,7 +583,7 @@ if ${aufRechenknecht}; then
         | while read -r sum_type; do
           printf '%s+=(' \
             "${sum_type}"
-          "${sum_type%s}" "${tmp_dir}/"*".PKGBUILDpatch" \
+          "${sum_type%s}" "${tmpDir}/"*".PKGBUILDpatch" \
             | awk '{print $1}'
           printf ')\n'
         done
