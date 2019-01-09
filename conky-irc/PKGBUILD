@@ -19,15 +19,18 @@ depends=('glib2' 'lua' 'wireless_tools' 'libxdamage' 'libxinerama' 'libxft'
          'imlib2' 'libxml2' 'libpulse' 'libircclient')
 optdepends=('mounted')
 source=("${pkgname%-irc}-${pkgver}.tar.gz::https://github.com/brndnmtthws/conky/archive/v${pkgver}.tar.gz"
-        'MAX_SP.patch')
+        'MAX_SP.patch'
+        'fix-type-mismatch.patch')
 sha512sums=('bdc501311c364dc357b53bd61ce0073115371672bc6e7347c3e514a45d1e7a0a584be151630791ddfbec85eecb33e00cc3c9c317567a91f2418ddd0c384eff1b'
-            '1ea39f88b5f2620fc0c4485cc16645dbad91f97be17b4b13a732205dde6265d621c7f2bc92be33b65f9db2815312beb42b516ddebbba90cfe947104e1a410a52')
+            '1ea39f88b5f2620fc0c4485cc16645dbad91f97be17b4b13a732205dde6265d621c7f2bc92be33b65f9db2815312beb42b516ddebbba90cfe947104e1a410a52'
+            'ff6837139ac2c8983d02f8288a4502c908cbf7dc0b2cfb1370e671a2067d983c6700f05b0d246cded6cc00f059eb9c064828ffa8ddae4004eca2e942cd893f62')
 
 options=('!strip' 'debug')
 
 prepare() {
 	cd "${srcdir}/${pkgname%-irc}-${pkgver}"
 	patch -p1 -i ../MAX_SP.patch
+	patch -p1 -i "${srcdir}/fix-type-mismatch.patch"
 	sed '/^#include / s,<libircclient\.h>,<libircclient/libircclient.h>,' -i 'src/irc.cc'
 	sed '/check_include_files(/ s,libircclient\.h,libircclient/libircclient.h,' -i 'cmake/ConkyPlatformChecks.cmake'
 }
