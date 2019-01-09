@@ -563,6 +563,11 @@ if ${aufRechenknecht}; then
             '  declare -f package | \' \
             '    sed '"'"'$d'"'"
           for patch in "${tmpDir}/"*".PKGBUILDpatch"; do
+            patch_name="${patch##*/}"
+            patch_name="${patch_name%.*}"
+            if grep -qF "skip ${patch_name}" PKGBUILD; then
+              continue
+            fi
             printf '  cat "%s"\n' \
               "${patch##*/}"
           done
