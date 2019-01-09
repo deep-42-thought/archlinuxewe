@@ -3,7 +3,7 @@
 # repo: releng
 
 pkgname=archlinux32-keyring
-pkgver=20180603
+pkgver=20190108
 pkgrel=1
 pkgdesc='Arch Linux 32 PGP keyring'
 arch=('any')
@@ -13,9 +13,8 @@ install="${pkgname}.install"
 conflicts=('archlinux32-keyring-transition')
 replaces=('archlinux32-keyring-transition')
 source=("https://sources.archlinux32.org/sources/${pkgname}-v${pkgver}.tar.gz"{,.sig})
-sha512sums=(
-  '74f92707d259657d21ddd4606c391f7efb358e14851fee980ac95418685b3a6098794400bbf46f681d010463ff186655885de6a9943ed51e1d6e7bbe31191f24'
-  'SKIP')
+sha512sums=('8332d4634c543106eb0baeafedb3304bb4d43430a62260a551dbd76849fb2271d00dc0d6dfc73c2e276a0e9cc51f07e2ddf74c780f6dc4b135d2ab193afa520d'
+            'SKIP')
 validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
 
 package() {
