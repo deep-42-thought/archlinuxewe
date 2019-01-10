@@ -10,13 +10,42 @@ eval "$(
 git -C openttd-git fetch local
 git -C openttd-git fetch --all -p
 
-printf '%s\n' "${source[@]}" \
-  | sed '
-    s/\.patch$//
+sums=$(
+  {
+    printf '%s\n' "${source[@]}" \
+      | sed '
+        s/\.patch$//
+        t
+        s/^.*$/SKIP/
+        w /dev/stderr
+        d
+      ' \
+      | while read -r patch; do
+        git -C openttd-git diff master "remotes/local/${patch}" -- \
+          > "${patch}.patch"
+        sha512sum "${patch}.patch" | \
+          awk '{print $1}'
+      done
+  } 2>&1 \
+    | sed '
+      s/^/'"'"'/
+      s/$/'"'"'/
+      1  s/^/sha512sums=(/
+      1! s/^/            /
+      $  s/$/)/
+    ' \
+    | sed '
+      :a
+        N
+        $! ba
+      s/\n/\\n/g
+    '
+)
+
+sed -i '
+  /^sha512sums=(/,/^[^#]*)$/ {
+    s/^sha512sums=(.*$/'"${sums}"'/
     t
     d
-  ' \
-  | while read -r patch; do
-    git -C openttd-git diff master "remotes/local/${patch}" -- \
-      > "${patch}.patch"
-  done
+  }
+' PKGBUILD
