@@ -48,7 +48,7 @@ me="$(readlink -f $0)"
 cd $(dirname "${me}")
 versionenDatei="/var/cache/$(basename "$(dirname "${me}")")/lastVersions"
 curl_cache="/var/cache/$(basename "$(dirname "${me}")")/curl-cache"
-jobs=0
+jobs=100
 maschinenlesbar=false
 force=false
 unForce=false
