@@ -1,0 +1,22 @@
+#!/bin/bash
+
+cd "$(dirname "$0")"
+eval "$(
+  sed -n '
+    /^source=(/,/)/ p
+  ' PKGBUILD
+)"
+
+git -C openttd-git fetch local
+git -C openttd-git fetch --all -p
+
+printf '%s\n' "${source[@]}" \
+  | sed '
+    s/\.patch$//
+    t
+    d
+  ' \
+  | while read -r patch; do
+    git -C openttd-git diff master "remotes/local/${patch}" -- \
+      > "${patch}.patch"
+  done
