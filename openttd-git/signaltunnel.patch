@@ -1,8 +1,8 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index cb04a5cbd9..cd0f86a863 100644
+index c0231557ce0c..68ba87f083af 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
-@@ -1531,6 +1531,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Allow buying sh
+@@ -1535,6 +1535,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Allow buying sh
  STR_CONFIG_SETTING_ALLOW_SHARES_HELPTEXT                        :When enabled, allow buying and selling of company shares. Shares will only be available for companies reaching a certain age
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE                         :Percentage of leg profit to pay in feeder systems: {STRING2}
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE_HELPTEXT                :Percentage of income given to the intermediate legs in feeder systems, giving more control over the income
@@ -11,7 +11,7 @@ index cb04a5cbd9..cd0f86a863 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :When dragging, place signals every: {STRING2}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Set the distance at which signals will be built on a track up to the next obstacle (signal, junction), if signals are dragged
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} tile{P 0 "" s}
-@@ -2669,8 +2671,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -2673,8 +2675,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -23,10 +23,10 @@ index cb04a5cbd9..cd0f86a863 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index 542c1384a4..02e3ebf09b 100644
+index 22eaeb0782a3..b69a1a1aa5cd 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
-@@ -1681,6 +1681,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Разреши
+@@ -1683,6 +1683,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Разреши
  STR_CONFIG_SETTING_ALLOW_SHARES_HELPTEXT                        :Разрешает торговлю акциями транспортных компаний. Акции выпускаются компаниями через некоторое время после основания.
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE                         :Процент дохода, начисляемый при частичной перевозке: {STRING}
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE_HELPTEXT                :Процент прибыли, начисляемый транспорту за частичную перевозку груза.
@@ -35,7 +35,7 @@ index 542c1384a4..02e3ebf09b 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :При перетаскивании ставить сигналы каждые: {STRING}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Настройка периодичности расстановки сигналов методом перетаскивания. Сигналы будут устанавливаться до первого встреченного препятствия (пересечения или другого сигнала).
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} клет{P ку ки ок}
-@@ -2847,8 +2849,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
+@@ -2849,8 +2851,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Железнодорожный туннель
@@ -47,7 +47,7 @@ index 542c1384a4..02e3ebf09b 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Стальной балочный ж/д мост
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Стальной консольный ж/д мост
 diff --git a/src/pathfinder/follow_track.hpp b/src/pathfinder/follow_track.hpp
-index 0aec3951ed..4a63c265eb 100644
+index 9b4377248e28..6eedaab0c2e4 100644
 --- a/src/pathfinder/follow_track.hpp
 +++ b/src/pathfinder/follow_track.hpp
 @@ -360,7 +360,7 @@ protected:
@@ -69,7 +69,7 @@ index 0aec3951ed..4a63c265eb 100644
  						return false;
  					}
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index a0fd968cc6..c18db10120 100644
+index a0fd968cc66e..c18db1012079 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -1045,9 +1045,12 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
@@ -261,7 +261,7 @@ index a0fd968cc6..c18db10120 100644
  
  /**
 diff --git a/src/settings_gui.cpp b/src/settings_gui.cpp
-index 5ebac02807..92b8d9e5b7 100644
+index 134b1f58ffc7..db47f6f8b4fd 100644
 --- a/src/settings_gui.cpp
 +++ b/src/settings_gui.cpp
 @@ -1535,6 +1535,7 @@ static SettingsContainer &GetSettingsTree()
@@ -273,10 +273,10 @@ index 5ebac02807..92b8d9e5b7 100644
  				construction->Add(new SettingEntry("gui.persistent_buildingtools"));
  				construction->Add(new SettingEntry("gui.quick_goto"));
 diff --git a/src/settings_type.h b/src/settings_type.h
-index 690f6d8036..3f3b8cabcf 100644
+index 8f03b1dc15b0..7129525b6118 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
-@@ -321,6 +321,7 @@ struct ConstructionSettings {
+@@ -322,6 +322,7 @@ struct ConstructionSettings {
  	bool   freeform_edges;                   ///< allow terraforming the tiles at the map edges
  	uint8  extra_tree_placement;             ///< (dis)allow building extra trees in-game
  	uint8  command_pause_level;              ///< level/amount of commands that can't be executed while paused
@@ -285,7 +285,7 @@ index 690f6d8036..3f3b8cabcf 100644
  	uint32 terraform_per_64k_frames;         ///< how many tile heights may, over a long period, be terraformed per 65536 frames?
  	uint16 terraform_frame_burst;            ///< how many tile heights may, over a short period, be terraformed?
 diff --git a/src/signal.cpp b/src/signal.cpp
-index b37e15074a..01b3256e4f 100644
+index b37e15074aca..01b3256e4fea 100644
 --- a/src/signal.cpp
 +++ b/src/signal.cpp
 @@ -197,6 +197,14 @@ static Vehicle *TrainOnTileEnum(Vehicle *v, void *)
@@ -366,7 +366,7 @@ index b37e15074a..01b3256e4f 100644
  
  			case MP_RAILWAY:
 diff --git a/src/table/settings.ini b/src/table/settings.ini
-index c061c394f0..cc05404bda 100644
+index bb6159693ac0..7470652160ae 100644
 --- a/src/table/settings.ini
 +++ b/src/table/settings.ini
 @@ -541,6 +541,20 @@ str      = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH
@@ -391,7 +391,7 @@ index c061c394f0..cc05404bda 100644
  [SDT_NULL]
  length   = 1
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index 0672ac2093..e675bd6d02 100644
+index c8387d0a9599..ecf0457dd831 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
 @@ -1852,6 +1852,17 @@ void ReverseTrainDirection(Train *v)
@@ -663,7 +663,7 @@ index 0672ac2093..e675bd6d02 100644
  				/* Perform look-ahead on tunnel exit. */
  				if (v->IsFrontEngine()) {
 diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
-index 297a01d30a..460388e623 100644
+index 06dc24e84fc2..eeafcf863d28 100644
 --- a/src/tunnelbridge_cmd.cpp
 +++ b/src/tunnelbridge_cmd.cpp
 @@ -30,6 +30,7 @@
@@ -674,7 +674,7 @@ index 297a01d30a..460388e623 100644
  #include "sound_func.h"
  #include "tunnelbridge.h"
  #include "cheat_type.h"
-@@ -1127,6 +1128,103 @@ static void DrawBridgeTramBits(int x, int y, int z, int offset, bool overlay, bo
+@@ -1128,6 +1129,103 @@ static void DrawBridgeTramBits(int x, int y, int z, int offset, bool overlay, bo
  	}
  }
  
@@ -778,7 +778,7 @@ index 297a01d30a..460388e623 100644
  /**
   * Draws a tunnel of bridge tile.
   * For tunnels, this is rather simple, as you only need to draw the entrance.
-@@ -1241,6 +1339,9 @@ static void DrawTile_TunnelBridge(TileInfo *ti)
+@@ -1242,6 +1340,9 @@ static void DrawTile_TunnelBridge(TileInfo *ti)
  		AddSortableSpriteToDraw(SPR_EMPTY_BOUNDING_BOX, PAL_NONE, ti->x,              ti->y,              BB_data[6], BB_data[7], TILE_HEIGHT, ti->z);
  		AddSortableSpriteToDraw(SPR_EMPTY_BOUNDING_BOX, PAL_NONE, ti->x + BB_data[4], ti->y + BB_data[5], BB_data[6], BB_data[7], TILE_HEIGHT, ti->z);
  
@@ -788,7 +788,7 @@ index 297a01d30a..460388e623 100644
  		DrawBridgeMiddle(ti);
  	} else { // IsBridge(ti->tile)
  		const PalSpriteID *psid;
-@@ -1348,6 +1449,9 @@ static void DrawTile_TunnelBridge(TileInfo *ti)
+@@ -1349,6 +1450,9 @@ static void DrawTile_TunnelBridge(TileInfo *ti)
  			}
  		}
  
@@ -798,7 +798,7 @@ index 297a01d30a..460388e623 100644
  		DrawBridgeMiddle(ti);
  	}
  }
-@@ -1496,6 +1600,9 @@ void DrawBridgeMiddle(const TileInfo *ti)
+@@ -1497,6 +1601,9 @@ void DrawBridgeMiddle(const TileInfo *ti)
  		if (HasRailCatenaryDrawn(GetRailType(rampsouth))) {
  			DrawRailCatenaryOnBridge(ti);
  		}
@@ -808,7 +808,7 @@ index 297a01d30a..460388e623 100644
  	}
  
  	/* draw roof, the component of the bridge which is logically between the vehicle and the camera */
-@@ -1584,9 +1691,9 @@ static void GetTileDesc_TunnelBridge(TileIndex tile, TileDesc *td)
+@@ -1585,9 +1692,9 @@ static void GetTileDesc_TunnelBridge(TileIndex tile, TileDesc *td)
  	TransportType tt = GetTunnelBridgeTransportType(tile);
  
  	if (IsTunnel(tile)) {
@@ -821,7 +821,7 @@ index 297a01d30a..460388e623 100644
  	}
  	td->owner[0] = GetTileOwner(tile);
  
-@@ -1656,6 +1763,26 @@ static void TileLoop_TunnelBridge(TileIndex tile)
+@@ -1657,6 +1764,26 @@ static void TileLoop_TunnelBridge(TileIndex tile)
  	}
  }
  
@@ -848,7 +848,7 @@ index 297a01d30a..460388e623 100644
  static TrackStatus GetTileTrackStatus_TunnelBridge(TileIndex tile, TransportType mode, uint sub_mode, DiagDirection side)
  {
  	TransportType transport_type = GetTunnelBridgeTransportType(tile);
-@@ -1908,7 +2035,7 @@ extern const TileTypeProcs _tile_type_tunnelbridge_procs = {
+@@ -1909,7 +2036,7 @@ extern const TileTypeProcs _tile_type_tunnelbridge_procs = {
  	NULL,                            // add_accepted_cargo_proc
  	GetTileDesc_TunnelBridge,        // get_tile_desc_proc
  	GetTileTrackStatus_TunnelBridge, // get_tile_track_status_proc
@@ -858,7 +858,7 @@ index 297a01d30a..460388e623 100644
  	TileLoop_TunnelBridge,           // tile_loop_proc
  	ChangeTileOwner_TunnelBridge,    // change_tile_owner_proc
 diff --git a/src/tunnelbridge_map.h b/src/tunnelbridge_map.h
-index 0f7f17b3ac..57f338b8be 100644
+index 0f7f17b3ac6e..57f338b8be3c 100644
 --- a/src/tunnelbridge_map.h
 +++ b/src/tunnelbridge_map.h
 @@ -121,4 +121,98 @@ static inline TrackBits GetTunnelBridgeReservationTrackBits(TileIndex t)

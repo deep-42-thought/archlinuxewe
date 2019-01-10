@@ -1,5 +1,5 @@
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index a0fd968cc6..980e2fb42b 100644
+index a0fd968cc66e..980e2fb42bc9 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -186,14 +186,6 @@ RailType AllocateRailType(RailTypeLabel label)
@@ -18,7 +18,7 @@ index a0fd968cc6..980e2fb42b 100644
   *     ---------
   *    |\       /|
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index bdc8ce7f30..b1c1744eee 100644
+index bdc8ce7f301a..b1c1744eeeee 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -35,6 +35,7 @@
@@ -62,7 +62,7 @@ index bdc8ce7f30..b1c1744eee 100644
   * Should the road be drawn as a unpaved snow/desert road?
   * By default, roads are always drawn as unpaved if they are on desert or
 diff --git a/src/road_cmd.h b/src/road_cmd.h
-index 3cf588dcd6..2a0da61427 100644
+index 3cf588dcd60f..2a0da614270b 100644
 --- a/src/road_cmd.h
 +++ b/src/road_cmd.h
 @@ -14,8 +14,11 @@
@@ -78,7 +78,7 @@ index 3cf588dcd6..2a0da61427 100644
 +
  #endif /* ROAD_CMD_H */
 diff --git a/src/road_type.h b/src/road_type.h
-index 5251a53923..ce9ac81518 100644
+index 5251a53923ab..ce9ac8151844 100644
 --- a/src/road_type.h
 +++ b/src/road_type.h
 @@ -73,4 +73,11 @@ enum RoadBits {
@@ -94,7 +94,7 @@ index 5251a53923..ce9ac81518 100644
 +
  #endif /* ROAD_TYPE_H */
 diff --git a/src/roadveh_cmd.cpp b/src/roadveh_cmd.cpp
-index 207a3f23b2..33020b302c 100644
+index 207a3f23b2f0..33020b302ca9 100644
 --- a/src/roadveh_cmd.cpp
 +++ b/src/roadveh_cmd.cpp
 @@ -1458,7 +1458,7 @@ again:
@@ -107,7 +107,7 @@ index 207a3f23b2..33020b302c 100644
  				}
  			}
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index 16f135df25..bb46a2f541 100644
+index 16f135df25b9..bb46a2f541b2 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -53,6 +53,7 @@
@@ -311,7 +311,7 @@ index 16f135df25..bb46a2f541 100644
  }
  
 diff --git a/src/table/sprites.h b/src/table/sprites.h
-index 81d5388f99..12ef72840f 100644
+index 81d5388f994f..12ef72840f6c 100644
 --- a/src/table/sprites.h
 +++ b/src/table/sprites.h
 @@ -255,7 +255,26 @@ static const SpriteID SPR_TRUCK_STOP_DT_Y_W = SPR_ROADSTOP_BASE + 4;
@@ -343,7 +343,7 @@ index 81d5388f99..12ef72840f 100644
  /** Tramway sprites */
  static const SpriteID SPR_TRAMWAY_BASE                 = SPR_ROADSTOP_BASE + ROADSTOP_SPRITE_COUNT;
 diff --git a/src/table/station_land.h b/src/table/station_land.h
-index 3327dab5dd..991c5d3bec 100644
+index 3327dab5dddb..991c5d3becc2 100644
 --- a/src/table/station_land.h
 +++ b/src/table/station_land.h
 @@ -777,6 +777,62 @@ static const DrawTileSeqStruct _station_display_datas_waypoint_Y[] = {
@@ -432,7 +432,7 @@ index 3327dab5dd..991c5d3bec 100644
  
  static const DrawTileSprites _station_display_datas_oilrig[] = {
 diff --git a/src/track_type.h b/src/track_type.h
-index 2982288bba..a89fd708cd 100644
+index 2982288bba8c..a89fd708cd3b 100644
 --- a/src/track_type.h
 +++ b/src/track_type.h
 @@ -126,4 +126,11 @@ typedef SimpleTinyEnumT<TrackdirBits, uint16> TrackdirBitsShort;
