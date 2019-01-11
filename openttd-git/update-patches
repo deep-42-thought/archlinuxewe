@@ -21,7 +21,7 @@ sums=$(
         d
       ' \
       | while read -r patch; do
-        git -C openttd-git diff master "remotes/local/${patch}" -- \
+        git -C openttd-git diff $(git -C openttd-git merge-base master "remotes/local/${patch}") "remotes/local/${patch}" -- \
           > "${patch}.patch"
         sha512sum "${patch}.patch" | \
           awk '{print $1}'
