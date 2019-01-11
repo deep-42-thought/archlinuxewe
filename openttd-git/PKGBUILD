@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-git
-pkgver=28357.916e91180
+pkgver=28366.c80608a83
 _commit=${pkgver#*.}
 pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
@@ -9,6 +9,7 @@ url="http://www.openttd.org"
 license=('GPL2')
 groups=()
 depends=(
+    'fluidsynth'
     'fontconfig'
     'hicolor-icon-theme'
     'icu'
@@ -38,9 +39,9 @@ source=(
     "underground.patch"
 )
 sha512sums=('SKIP'
-            'e486a0fc689e23edf84379211c6b0da1a5c4931ca9ec7fc1a8794dec04d924b27a62fba16a26f940dc2eea582425a21c32c5b9a66de35f9d4a3f42b82030fd6e'
+            '67eaa220008b4fb7b8ecd9c57043229841cf25c743dcf1affec2bb97434fc2d2568187769ba671100762768b509bbb14e2d443a4f4f4866b7d8b7632568e4657'
             '26b069f20ce3b4d77c6487f753711f46325897bbb657b618c2b491f0bbfa143438695758a473772a06d8c57c2c48bb899eebeedb3767557ba4d2a2fe778915e9'
-            '8a404a09375b27693b46d2a8ae585072387fe7c1f801e145833b8c6319e71ae798e22515ff675915327e3ec4f427097b73e3ad7f5e101c0014df1c5d538b0722')
+            '51d372a000e35f116032a1670538b2cc02a0156f37bc8e9c0eb220770a188f97c6799c5376421405edbc910d2a1e3381911d1a46e440329fd074a9e21bbe6018')
 
 pkgver() {
   printf '%s.%s\n' \
@@ -73,8 +74,11 @@ prepare() {
       s,"\$ROOT_DIR/\.git","/dev/does/not/exist",
     ' findversion.sh
 
-    cat ${srcdir}/{signaltunnel,sloped-stations,underground}.patch | \
-      git apply
+    for _p in "${srcdir}/"{signaltunnel,sloped-stations,underground}.patch; do
+      >&2 echo "patching ${_p##*/} ..."
+      git apply "${_p}"
+      >&2 echo "... ok"
+    done
     sed -i '
       s/readme\.txt/README.md/g
     ' Makefile.bundle.in

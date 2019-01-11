@@ -23,10 +23,10 @@ index c0231557ce0c..68ba87f083af 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index 22eaeb0782a3..b69a1a1aa5cd 100644
+index 7574bd8bfb71..feb89df2754d 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
-@@ -1683,6 +1683,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Разреши
+@@ -1684,6 +1684,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Разреши
  STR_CONFIG_SETTING_ALLOW_SHARES_HELPTEXT                        :Разрешает торговлю акциями транспортных компаний. Акции выпускаются компаниями через некоторое время после основания.
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE                         :Процент дохода, начисляемый при частичной перевозке: {STRING}
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE_HELPTEXT                :Процент прибыли, начисляемый транспорту за частичную перевозку груза.
@@ -35,7 +35,7 @@ index 22eaeb0782a3..b69a1a1aa5cd 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :При перетаскивании ставить сигналы каждые: {STRING}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Настройка периодичности расстановки сигналов методом перетаскивания. Сигналы будут устанавливаться до первого встреченного препятствия (пересечения или другого сигнала).
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} клет{P ку ки ок}
-@@ -2849,8 +2851,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
+@@ -2850,8 +2852,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Железнодорожный туннель
@@ -69,7 +69,7 @@ index 9b4377248e28..6eedaab0c2e4 100644
  						return false;
  					}
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index a0fd968cc66e..c18db1012079 100644
+index a0fd968cc66e..7275a55a4fca 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -1045,9 +1045,12 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
@@ -112,7 +112,7 @@ index a0fd968cc66e..c18db1012079 100644
 +					ClrBitTunnelBridgeExit(tile);
 +					SetBitTunnelBridgeExit(tile_exit);
 +					SetBitTunnelBridgeSignal(tile);
-+				}			
++				}
 +			} else{
 +				/* Create one direction tunnel/bridge if required. */
 +				if (p2 == 0) {
@@ -129,7 +129,7 @@ index a0fd968cc66e..c18db1012079 100644
 +						SetBitTunnelBridgeSignal(tile_exit);
 +						SetBitTunnelBridgeExit(tile);
 +					}
-+				}			
++				}
 +			}
 +			MarkTileDirtyByTile(tile);
 +			MarkTileDirtyByTile(tile_exit);
@@ -285,7 +285,7 @@ index 8f03b1dc15b0..7129525b6118 100644
  	uint32 terraform_per_64k_frames;         ///< how many tile heights may, over a long period, be terraformed per 65536 frames?
  	uint16 terraform_frame_burst;            ///< how many tile heights may, over a short period, be terraformed?
 diff --git a/src/signal.cpp b/src/signal.cpp
-index b37e15074aca..01b3256e4fea 100644
+index b37e15074aca..0de45a57c7dc 100644
 --- a/src/signal.cpp
 +++ b/src/signal.cpp
 @@ -197,6 +197,14 @@ static Vehicle *TrainOnTileEnum(Vehicle *v, void *)
@@ -333,7 +333,7 @@ index b37e15074aca..01b3256e4fea 100644
 +							if (HasVehicleOnPos(tile, &tile, &TrainInWormholeTileEnum)) flags |= SF_TRAIN;
 +							if (!(flags & SF_TRAIN) && IsTunnelBridgeExit(tile)) {
 +								if (HasVehicleOnPos(GetOtherTunnelBridgeEnd(tile), &tile, &TrainInWormholeTileEnum)) flags |= SF_TRAIN;
-+							} 
++							}
 +						}
 +						continue;
 +					}
@@ -391,7 +391,7 @@ index bb6159693ac0..7470652160ae 100644
  [SDT_NULL]
  length   = 1
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index c8387d0a9599..ecf0457dd831 100644
+index c8387d0a9599..4b534cdb6d03 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
 @@ -1852,6 +1852,17 @@ void ReverseTrainDirection(Train *v)
@@ -401,7 +401,7 @@ index c8387d0a9599..ecf0457dd831 100644
 +	/* We are inside tunnel/bidge with signals, reversing will close the entrance. */
 +	if (HasWormholeSignals(v->tile)) {
 +		/* Flip signal on tunnel entrance tile red. */
-+		SetBitTunnelBridgeExit(v->tile); 
++		SetBitTunnelBridgeExit(v->tile);
 +		MarkTileDirtyByTile(v->tile);
 +		/* Clear counters. */
 +		v->wait_counter = 0;
@@ -501,7 +501,7 @@ index c8387d0a9599..ecf0457dd831 100644
 +static bool IsToCloseBehindTrain(Vehicle *v, TileIndex tile, bool check_endtile)
 +{
 +	Train *t = (Train *)v;
-+	
++
 +	if (t->force_proceed != 0) return false;
 +
 +	if (HasVehicleOnPos(t->tile, v, &FindSpaceBetweenTrainsEnum)) {
@@ -531,7 +531,7 @@ index c8387d0a9599..ecf0457dd831 100644
 +static bool CheckTrainStayInWormHole(Train *t, TileIndex tile)
 +{
 +	if (t->force_proceed != 0) return false;
-+	
++
 +	/* When not exit reverse train. */
 +	if (!IsTunnelBridgeExit(tile)) {
 +		t->cur_speed = 0;
@@ -544,7 +544,7 @@ index c8387d0a9599..ecf0457dd831 100644
 +		return true;
 +	}
 +
-+	return false; 
++	return false;
 +}
 +
 +static void HandleSignalBehindTrain(Train *v, uint signal_number)
@@ -589,7 +589,7 @@ index c8387d0a9599..ecf0457dd831 100644
 +							goto invalid_rail;
 +						}
 +						/* Flip signal on tunnel entrance tile red. */
-+						SetBitTunnelBridgeExit(gp.new_tile); 
++						SetBitTunnelBridgeExit(gp.new_tile);
 +						MarkTileDirtyByTile(gp.new_tile);
 +					}
 +				}
@@ -663,7 +663,7 @@ index c8387d0a9599..ecf0457dd831 100644
  				/* Perform look-ahead on tunnel exit. */
  				if (v->IsFrontEngine()) {
 diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
-index 06dc24e84fc2..eeafcf863d28 100644
+index 06dc24e84fc2..4b293fa02d5e 100644
 --- a/src/tunnelbridge_cmd.cpp
 +++ b/src/tunnelbridge_cmd.cpp
 @@ -30,6 +30,7 @@
@@ -813,10 +813,9 @@ index 06dc24e84fc2..eeafcf863d28 100644
  
  	if (IsTunnel(tile)) {
 -		td->str = (tt == TRANSPORT_RAIL) ? STR_LAI_TUNNEL_DESCRIPTION_RAILROAD : STR_LAI_TUNNEL_DESCRIPTION_ROAD;
--	} else { // IsBridge(tile)
--		td->str = (tt == TRANSPORT_WATER) ? STR_LAI_BRIDGE_DESCRIPTION_AQUEDUCT : GetBridgeSpec(GetBridgeType(tile))->transport_name[tt];
 +		td->str = (tt == TRANSPORT_RAIL) ? HasWormholeSignals(tile) ? STR_LAI_TUNNEL_DESCRIPTION_RAILROAD_SIGNAL : STR_LAI_TUNNEL_DESCRIPTION_RAILROAD : STR_LAI_TUNNEL_DESCRIPTION_ROAD;
-+ 	} else { // IsBridge(tile)
+ 	} else { // IsBridge(tile)
+-		td->str = (tt == TRANSPORT_WATER) ? STR_LAI_BRIDGE_DESCRIPTION_AQUEDUCT : GetBridgeSpec(GetBridgeType(tile))->transport_name[tt];
 +		td->str = (tt == TRANSPORT_WATER) ? STR_LAI_BRIDGE_DESCRIPTION_AQUEDUCT : HasWormholeSignals(tile) ? STR_LAI_BRIDGE_DESCRIPTION_RAILROAD_SIGNAL : GetBridgeSpec(GetBridgeType(tile))->transport_name[tt];
  	}
  	td->owner[0] = GetTileOwner(tile);
