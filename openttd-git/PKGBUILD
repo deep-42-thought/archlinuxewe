@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-git
-pkgver=28366.c80608a83
+pkgver=28368.06cd561ce
 _commit=${pkgver#*.}
 pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
@@ -76,7 +76,7 @@ prepare() {
 
     for _p in "${srcdir}/"{signaltunnel,sloped-stations,underground}.patch; do
       >&2 echo "patching ${_p##*/} ..."
-      git apply "${_p}"
+      patch -p1 -i "${_p}"
       >&2 echo "... ok"
     done
     sed -i '
