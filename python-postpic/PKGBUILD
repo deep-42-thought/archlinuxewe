@@ -81,7 +81,6 @@ package_python-postpic() {
 package_python2-postpic() {
   depends=(
     "${_deppy2[@]}"
-    "${_depends[@]}"
     "${_depends[@]/python/python2}"
   )
   optdepends=("${_optdepends[@]/python/python2}")
