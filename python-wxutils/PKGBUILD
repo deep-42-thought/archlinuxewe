@@ -1,0 +1,70 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgbase=python-wxutils
+pkgname=(python2-wxutils python-wxutils)
+pkgver=0.2.3
+pkgrel=1
+pkgdesc='A library of convenience functions for wxPython'
+arch=('any')
+url='https://pypi.python.org/pypi/wxutils/0.1.2'
+license=('BSD')
+groups=()
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+  'wxpython'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+  'python-wxpython'
+)
+_makedepends=(
+  'python-setuptools'
+)
+makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]/ython/ython2}"
+)
+source=(
+    "${pkgname}-${pkgver}.tar.gz::https://pypi.python.org/packages/55/e9/dbec604ebb961cca28c6e835d050326d87f592d4bdc8171097230ea5b407/${pkgname#*-}-${pkgver}.tar.gz"
+)
+sha512sums=('098d9b1030f16478db37960fcb9fc414222c8e3623bb6910b5281b986a43b4a6c879b1af09a836bd659b220aeb5e2d3f31d4d6474e241fe03c4893a3dea85218')
+
+prepare() {
+    cp -a ${pkgbase#*-}-${pkgver}{,-py2}
+}
+
+build() {
+
+    echo "Building python2..."
+    cd "${srcdir}/${pkgbase#*-}-${pkgver}-py2"
+    python2 setup.py build
+
+    echo "Building python..."
+    cd "${srcdir}/${pkgbase#*-}-${pkgver}"
+    python setup.py build
+
+}
+
+package_python2-wxutils() {
+
+    depends=(
+      "${_deppy2[@]}"
+    )
+    cd ${pkgname#*-}-${pkgver}-py2
+    python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+    find "${pkgdir}" -type f -exec sed -i '1 s@^\(#!/usr/bin\(/env\s\+\)\?python\)\s*$@\12@' {} \;
+
+}
+
+package_python-wxutils() {
+
+    depends=(
+      "${_deppy[@]}"
+    )
+    cd ${pkgname#*-}-${pkgver}
+    python setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+
+}
