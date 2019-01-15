@@ -2,44 +2,39 @@
 # Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
 
 pkgname='perl-module-cpants-analyse'
-pkgver='0.96'
-pkgrel='5'
+pkgver=0.99
+pkgrel=1
 pkgdesc='Generate Kwalitee ratings for a distribution'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-extutils-makemaker-cpanfile>=0.08'
+  'perl-pathtools'
+  'perl-test-failwarnings'
+  'perl-test-simple>=0.88')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
   'perl-archive-any-lite>=0.06'
-  'perl-archive-tar>=1.48'
+  'perl-archive-tar>=1.76'
   'perl-array-diff>=0.04'
   'perl-class-accessor>=0.19'
   'perl-cpan-distnameinfo>=0.06'
   'perl-cpan-meta>=2.133380'
   'perl-cpan-meta-yaml>=0.008'
+  'perl-data-binary'
   'perl-file-find-object>=0.2.1'
-  'perl-io-capture>=0.05'
-  'perl-json-maybexs'
+  'perl-json-pp'
   'perl-module-extractuse>=0.33'
-  'perl-module-pluggable>=2.96'
-  'perl-set-scalar'
-  'perl-software-license>=0.103008'
-  'perl-software-license-cc_by_sa_3_0'
+  'perl-module-find'
+  'perl-scalar-list-utils>=1.33'
+  'perl-software-license>=0.103012'
   'perl-text-balanced'
-  'perl-version>=0.73'
-)
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-extutils-makemaker-cpanfile>=0.06'
-  'perl-pathtools'
-  'perl-test-failwarnings'
-  'perl-test-simple>=0.88'
-)
+  'perl-version>=0.73')
 url='https://metacpan.org/release/Module-CPANTS-Analyse'
 _distdir="Module-CPANTS-Analyse-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/${_distdir}.tar.gz")
-sha512sums=('6631648cd386120df8f1a37729f1c5b50505bda66708faac33f233e6f06ce5c438a73d1228158d787e808426332ada108c1466c31adad662e8efb33cfb9c1652')
+sha512sums=('52588e82bf52a6c4db60dbdcc2fbeaf7e145ba7b94751640bb1bf4b2b0cd502620b1a41c5712e79d54bef4bd4f3867e7fa93ac215fd89466f2d2d9e3025fcc7c')
 
 build() {
   cd "${srcdir}/${_distdir}"
