@@ -560,7 +560,7 @@ if ${aufRechenknecht}; then
         | while read -r function; do
           printf '%s\n' \
             'eval "$(' \
-            '  declare -f package | \' \
+            '  declare -f '"${function}"' | \' \
             '    sed '"'"'$d'"'"
           for patch in "${tmpDir}/"*".PKGBUILDpatch"; do
             patch_name="${patch##*/}"
