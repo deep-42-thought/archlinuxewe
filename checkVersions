@@ -36,12 +36,14 @@ curl_it() {
   fi
   cat "${tmp_file}"
   local trials=5
-  while ! mv "${tmp_file}" "${cache_file}" && \
-    [ ${trials} -gt 0 ]; do
+  while [ ${trials} -gt 0 ] && \
+    ! mv "${tmp_file}" "${cache_file}"; do
     sleep 1
     trials=$((trials-1))
   done
-  rm -f "${tmp_file}"
+  if [ ${trials} -le 0 ]; then
+    rm -f "${tmp_file}"
+  fi
 }
 
 me="$(readlink -f $0)"
