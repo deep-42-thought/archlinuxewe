@@ -564,7 +564,10 @@ then
           sort -V | \
           tail -n1 \
       )
-      [ "${pkgname}" == "pgplot" ] && remVer="${tmpVer:0:1}.${tmpVer:1:1}.${tmpVer:2}" || remVer="${tmpVer}"
+      [ "${pkgname}" == "pgplot" ] \
+        && [ -n "${tmpVer}" ] \
+        && remVer="${tmpVer:0:1}.${tmpVer:1:1}.${tmpVer:2}" \
+        || remVer="${tmpVer}"
     elif echo "${src}" | \
       grep -q '//arch\.eckner\.net/\|//mirror\.archlinux32\.org/'
     then
