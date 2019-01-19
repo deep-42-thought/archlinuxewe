@@ -3,7 +3,7 @@
 # Past maintainer: Joris Steyn <jorissteyn@gmail.com>
 # Contributor: TDY <tdy@gmx.com>
 pkgname=iozone
-pkgver=3.486
+pkgver=3.487
 pkgrel=1
 pkgdesc="A filesystem benchmark tool"
 arch=('i686' 'x86_64')
@@ -12,7 +12,7 @@ license=('custom')
 depends=('sh')
 optdepends=('gnuplot: for generating graph reports')
 source=("http://www.${pkgname}.org/src/current/${pkgname}${pkgver/./_}.tar")
-sha512sums=('11b8ca50c0c2393c684b1753e3bc8e3f5613a0ccf5c0052b68a20ec036600d58d918399512141f1895c22aef1008956c9b44e40bdbf2bbdaea9d1fca89691415')
+sha512sums=('2f3a9d259ca531e45124e8ad55358706e2f9615f50fbf434e786b832622aa5f673dbed1b2706c6450c200e0af7f7374e40402e0b06ad116d5f2a0704a6156a1a')
 
 build() {
   cd "${srcdir}/${pkgname}${pkgver/./_}/src/current"
