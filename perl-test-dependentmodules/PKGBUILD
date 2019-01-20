@@ -2,15 +2,23 @@
 # Generator : neuesPerlPaket (5872fdbe767f20dd006eece094815303adfcd3b336cb5ad02d10742b82e6f11e31530fef3b41a2af59678d729daebff83cde847dab68d62647f62cf8dc586685)
 
 pkgname='perl-test-dependentmodules'
-pkgver='0.26'
-pkgrel='7'
+pkgver=0.27
+pkgrel=1
 pkgdesc='Test all modules which depend on your module'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+optdepends=(
+  'perl-parallel-forkmanager')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-file-copy-recursive'
+  'perl-module-build'
+  'perl-module-build-tiny'
+  'perl-pathtools'
+  'perl-test-simple>=0.96')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl'
   'perl-autodie'
   'perl-capture-tiny'
   'perl-cpan'
@@ -20,19 +28,12 @@ depends=(
   'perl-file-temp'
   'perl-io-handle-util'
   'perl-ipc-run3'
+  'perl-json-pp'
   'perl-log-dispatch'
   'perl-metacpan-client'
   'perl-pathtools'
   'perl-test-simple'
   'perl-try-tiny')
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-file-copy-recursive'
-  'perl-module-build'
-  'perl-module-build-tiny'
-  'perl-test-simple>=0.96')
-optdepends=(
-  'perl-parallel-forkmanager>=0.7.6')
 checkdepends=(
   'perl-namespace-clean'
   'perl-test-eol'
@@ -44,7 +45,7 @@ checkdepends=(
 url='https://metacpan.org/release/Test-DependentModules'
 _distdir="Test-DependentModules-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
-sha512sums=('255e193bbe1234c1b09af92e526fa9873b7cfba8031620fcce821f85d13614159409d54aaeeaa2fdf6eec16f89962a4540e0f13514a9f78a5f22af9fc3da8ee9')
+sha512sums=('3d55006dd186bee3592cc250da1a7c76c85fe9c92859943603d89de0bb26f53f3629750aff744eb8cf55a8521729ce6ddcfa9770e78e7d587ed23e8a267e12a5')
 
 build() {
   cd "${srcdir}/${_distdir}"
