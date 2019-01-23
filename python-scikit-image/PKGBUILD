@@ -3,8 +3,9 @@
 # Contributor: Andrzej Giniewicz <gginiu@gmail.com>
 
 pkgbase=python-scikit-image
+_pkgname="${pkgbase#*-}"
 pkgname=('python2-scikit-image' 'python-scikit-image')
-pkgver=0.14.1
+pkgver=0.14.2
 pkgrel=1
 pkgdesc="Image processing routines for SciPy"
 arch=('i686' 'x86_64')
@@ -18,12 +19,15 @@ _deppy=(
   'python>=3.7'
   'python<3.8'
 )
-_depends=('python-scipy' 'python-matplotlib' 'python-networkx'
-          'python-pillow' 'python-pywavelets')
-_makedepends=(
-  'cython>=0.23'
-  'python-six'
+_depends=(
+  'python-scipy'
+  'python-matplotlib'
+  'python-networkx'
+  'python-pillow'
+  'python-pywavelets'
 )
+_makedepends=(
+  'cython>=0.23')
 _optdepends=(
   'python-pyqt4: for imshow(x, fancy=True) and skivi'
   'freeimage: for reading various types of image file formats'
@@ -38,8 +42,8 @@ makedepends=(
   "${_makedepends[@]/ython/ython2}"
 )
 options=('!emptydirs')
-source=(https://pypi.python.org/packages/a4/5d/05d40ad281cb16bc9dbd91982a918162b374c43e84eb2c8f7070e4be6729/scikit-image-${pkgver}.tar.gz)
-sha512sums=('30c2b7c985568f9b03b82be4839c16882adfdec664f69293aaccf1deee12305e88d42ff9a6f193a46e4ecd1337b032d319a1b7ea1a0fdbb01f96451cf7ed73cf')
+source=(https://pypi.python.org/packages/7f/bd/74ed9add17c3c7529c18693c17846753649c6cf2e674e7482fbf85d636cb/scikit-image-${pkgver}.tar.gz)
+sha512sums=('ab31fdb5b1d16b794ccc4d673f6c8bce0a8a54b81c0e43c9a4cdd5eb0465ef69ac184a06e395a1d27da51c2e0911db9afa2be4e740f44bceab952428eb7f599a')
 
 prepare() {
   cd "${srcdir}"
