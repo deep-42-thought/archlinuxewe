@@ -4,7 +4,7 @@
 pkgbase=python-peakutils
 pkgname=('python-peakutils' 'python2-peakutils')
 _pkgname='PeakUtils'
-pkgver=1.3.0
+pkgver=1.3.2
 pkgrel=1
 pkgdesc="Peak detection utilities for 1D data"
 arch=('any')
@@ -30,8 +30,8 @@ makedepends=(
   "${_makedepends[@]}"
   "${_makedepends[@]/python/python2}"
 )
-source=("https://pypi.python.org/packages/cf/07/7bd0f10c2f35884fdb04affdb3c137a955d68c3840da86c896f4dcc9b6ee/${_pkgname}-${pkgver}.tar.gz")
-sha512sums=('dd9d26dd2d0e41fe480a92f61d5b22f45adf2988e2078589369dfabf003e39dfd96e0308ce19f08d10bfeafab1e4fcf4478a58fdd4deebeefeff9a7a2108d009')
+source=("https://pypi.python.org/packages/2a/e0/a45948450946a87dae44d936ea7646d862e1014753c496468a05f20e95c5/${_pkgname}-${pkgver}.tar.gz")
+sha512sums=('156982b48f174f578660d1213237811b3c95f2c5dc06c40915e87b96c78827fd2fe64d1fff08870d652d7103f7048ebf154532c105b313f74fd7fab88f94bc35')
 
 prepare() {
   cd "${srcdir}"
