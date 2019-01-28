@@ -7,6 +7,7 @@ eval "$(
   ' PKGBUILD
 )"
 
+makepkg --verifysource
 git -C openttd-git fetch local
 git -C openttd-git fetch --all -p
 
