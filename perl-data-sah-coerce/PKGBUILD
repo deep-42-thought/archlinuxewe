@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-sah-coerce'
-pkgver=0.032
+pkgver=0.033
 pkgrel=1
 pkgdesc='Coercion rules for Data::Sah'
 arch=('any')
@@ -38,7 +38,7 @@ checkdepends=(
 url='https://metacpan.org/release/Data-Sah-Coerce'
 _distdir="Data-Sah-Coerce-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('f410c4247d104e2bb212f44b79e29e7a9937cf2589088f9ee1c33df56732737b8c6225c5ee84294c9da56957a78634868c214ff2e3ee0eff2295369d48f225f9')
+sha512sums=('b7667378843c9557763fdcf56d51b0044e77a0cdb477fb04462a45248be37b3939c063ebe48098fbe385c62635a0a2ab159d91d263f06f779657c1cec473b70d')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
