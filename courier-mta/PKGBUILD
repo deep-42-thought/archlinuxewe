@@ -12,7 +12,7 @@
 
 pkgname=courier-mta
 pkgver=1.0.5
-pkgrel=1
+pkgrel=2
 pkgdesc="IMAP(s)/POP3(s) and SMTP Server with ML-manager, webmail and webconfig"
 arch=(i686 x86_64)
 license=('GPL2')
@@ -123,6 +123,8 @@ package() {
   echo archwebadmin > "${pkgdir}/etc/courier/webadmin/password"
   chown courier:courier "${pkgdir}/etc/courier/webadmin/password"
   chmod 400 "${pkgdir}/etc/courier/webadmin/password"
+
+  install -m 644 "/dev/null" "${pkgdir}/etc/courier/shared/index"
 
   # install the imapd binary as /usr/lib/courier/courierimapd and modify usr/share scripts.
   # courier-mta by default installs usr/bin/imapd as the binary, usr/share/imapd as script file and usr/sbin/imapd as link to /usr/share/imapd
