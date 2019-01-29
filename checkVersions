@@ -25,12 +25,16 @@ curl_it() {
   shift
   cache_file="${curl_cache}/${cache_file}"
   if [ -s "${cache_file}" ] && \
-    [ $(stat -c%Y "${cache_file}") -gt $(($(date +%s)-300)) ]; then
+    [ $(stat -c%Y "${cache_file}") -gt $(($(date +%s)-300)) ] &&
+    ! grep -qiF 'access denied' "${cache_file}"; then
     cat "${cache_file}"
     return
   fi
   tmp_file=$(mktemp)
   curl --compressed -o "${tmp_file}" --connect-timeout 10 -s -x socks5://127.0.0.1:9050 "$@" "${source}"
+  if grep -qiF 'access denied' "${tmp_file}"; then
+    : >"${tmp_file}"
+  fi
   if [ ! -s "${tmp_file}" ]; then
     curl --compressed -o "${tmp_file}" --connect-timeout 10 -s "$@" "${source}"
   fi
