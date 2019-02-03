@@ -2,19 +2,21 @@
 # Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
 
 pkgname='perl-module-cpants-analyse'
-pkgver=0.99
+pkgver=1.00
 pkgrel=1
 pkgdesc='Generate Kwalitee ratings for a distribution'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 makedepends=(
+  'perl>=5.8.1'
   'perl-extutils-makemaker'
   'perl-extutils-makemaker-cpanfile>=0.08'
   'perl-pathtools'
   'perl-test-failwarnings'
   'perl-test-simple>=0.88')
 depends=(
+  'perl>=5.8.1'
   'perl-archive-any-lite>=0.06'
   'perl-archive-tar>=1.76'
   'perl-array-diff>=0.04'
@@ -25,8 +27,8 @@ depends=(
   'perl-data-binary'
   'perl-file-find-object>=0.2.1'
   'perl-json-pp'
-  'perl-module-extractuse>=0.33'
   'perl-module-find'
+  'perl-perl-prereqscanner-notquitelite>=0.9901'
   'perl-scalar-list-utils>=1.33'
   'perl-software-license>=0.103012'
   'perl-text-balanced'
@@ -34,7 +36,7 @@ depends=(
 url='https://metacpan.org/release/Module-CPANTS-Analyse'
 _distdir="Module-CPANTS-Analyse-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/${_distdir}.tar.gz")
-sha512sums=('52588e82bf52a6c4db60dbdcc2fbeaf7e145ba7b94751640bb1bf4b2b0cd502620b1a41c5712e79d54bef4bd4f3867e7fa93ac215fd89466f2d2d9e3025fcc7c')
+sha512sums=('d1097cad93a94038464569a4912897bae583771af65d61ca2385c8107ee63674742601d6faf3e9dd4f70b66bceac1db5a63e7326c0507b8d4ab4457f76a30caf')
 
 build() {
   cd "${srcdir}/${_distdir}"
