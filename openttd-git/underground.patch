@@ -766,10 +766,10 @@ index 604a82102bf..e22d1424780 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clase de estaci√≥n: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estaci√≥n: {LTBLUE}{STRING}
 diff --git a/src/lang/german.txt b/src/lang/german.txt
-index 8857344f93a..cf51659237d 100644
+index 03d338b19db..c9f4c02195b 100644
 --- a/src/lang/german.txt
 +++ b/src/lang/german.txt
-@@ -2587,7 +2587,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Stra√üen
+@@ -2596,7 +2596,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Stra√üen
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Gleiseigent√ºmer: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Geh√∂rt zur Gemeinde: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Keine
@@ -3251,7 +3251,7 @@ index 62d279db62f..0e7a7773846 100644
  						l <= v->coord.right &&
  						t <= v->coord.bottom &&
 diff --git a/src/viewport.cpp b/src/viewport.cpp
-index cb4307f0afc..035949d5688 100644
+index 11a15871266..d69647d229b 100644
 --- a/src/viewport.cpp
 +++ b/src/viewport.cpp
 @@ -64,6 +64,8 @@
@@ -3263,25 +3263,52 @@ index cb4307f0afc..035949d5688 100644
  #include "viewport_func.h"
  #include "station_base.h"
  #include "waypoint_base.h"
-@@ -1128,7 +1130,7 @@ static void ViewportAddLandscape()
- 			tile_info.x = tilecoord.x * TILE_SIZE; // FIXME: tile_info should use signed integers
- 			tile_info.y = tilecoord.y * TILE_SIZE;
+@@ -1137,24 +1139,27 @@ static void ViewportAddLandscape()
+ 			int min_visible_height = viewport_y - (_vd.dpi.top + _vd.dpi.height);
+ 			bool tile_visible = min_visible_height <= 0;
  
--			if (IsInsideBS(tilecoord.x, 0, MapSizeX()) && IsInsideBS(tilecoord.y, 0, MapSizeY())) {
-+			if (IsInsideBS(tilecoord.x, 0, LayerSizeX()) && IsInsideBS(tilecoord.y, 0, MapSizeY())) {
- 				/* This includes the south border at MapMaxX / MapMaxY. When terraforming we still draw tile selections there. */
- 				tile_info.tile = TileXY(tilecoord.x, tilecoord.y);
- 				tile_type = GetTileType(tile_info.tile);
-@@ -1142,7 +1144,7 @@ static void ViewportAddLandscape()
- 			 * Until 'bottom_empty' every tile is visible, also "black" tiles outside map.
- 			 * Since 'bottom_empty' only tiles with a content might be visible. */
- 			if (y_pos >= bottom_empty) {
--				if (tilecoord.x >= (int)MapSizeX() || tilecoord.y >= (int)MapSizeY()) break; // No more non-void tiles in this column? Then stop.
-+				if (tilecoord.x >= (int)LayerSizeX() || tilecoord.y >= (int)LayerSizeY() || LayerIndex(tile_info.tile) != _vd.dpi.layer) break; // No more non-void tiles in this column? Then stop.
- 				if (tile_type == MP_VOID) continue; // No content on the tile? Then skip.
+-			if (tile_type != MP_VOID) {
+-				/* Is tile with buildings visible? */
+-				if (min_visible_height < MAX_TILE_EXTENT_TOP) tile_visible = true;
+-
+-				if (IsBridgeAbove(tile_info.tile)) {
+-					/* Is the bridge visible? */
+-					TileIndex bridge_tile = GetNorthernBridgeEnd(tile_info.tile);
+-					int bridge_height = ZOOM_LVL_BASE * (GetBridgePixelHeight(bridge_tile) - TilePixelHeight(tile_info.tile));
+-					if (min_visible_height < bridge_height + MAX_TILE_EXTENT_TOP) tile_visible = true;
+-				}
++			/*	¬‡ÎË‰Ì˚ ÚÓÎ¸ÍÓ ÍÎÂÚÍË ÚÂÍÛ˘Â„Ó ÒÎÓˇ	*/
++			if (LayerIndex(tile_info.tile) == _vd.dpi.layer) {
++				if (tile_type != MP_VOID) {
++					/* Is tile with buildings visible? */
++					if (min_visible_height < MAX_TILE_EXTENT_TOP) tile_visible = true;
++
++					if (IsBridgeAbove(tile_info.tile)) {
++						/* Is the bridge visible? */
++						TileIndex bridge_tile = GetNorthernBridgeEnd(tile_info.tile);
++						int bridge_height = ZOOM_LVL_BASE * (GetBridgePixelHeight(bridge_tile) - TilePixelHeight(tile_info.tile));
++						if (min_visible_height < bridge_height + MAX_TILE_EXTENT_TOP) tile_visible = true;
++					}
  
- 				/* Since 'bottom_building' only bridges might be visible. */
-@@ -1511,6 +1513,9 @@ void ViewportDoDraw(const ViewPort *vp, int left, int top, int right, int bottom
+-				/* Would a higher bridge on a more southern tile be visible?
+-				 * If yes, we need to loop over more rows to possibly find one. */
+-				if (min_visible_height < potential_bridge_height + MAX_TILE_EXTENT_TOP) last_row = false;
+-			} else {
+-				/* Outside of map. If we are on the north border of the map, there may still be a bridge visible,
+-				 * so we need to loop over more rows to possibly find one. */
+-				if ((tilecoord.x <= 0 || tilecoord.y <= 0) && min_visible_height < potential_bridge_height + MAX_TILE_EXTENT_TOP) last_row = false;
++					/* Would a higher bridge on a more southern tile be visible?
++					 * If yes, we need to loop over more rows to possibly find one. */
++					if (min_visible_height < potential_bridge_height + MAX_TILE_EXTENT_TOP) last_row = false;
++				} else {
++					/* Outside of map. If we are on the north border of the map, there may still be a bridge visible,
++					 * so we need to loop over more rows to possibly find one. */
++					if ((tilecoord.x <= 0 || tilecoord.y <= 0) && min_visible_height < potential_bridge_height + MAX_TILE_EXTENT_TOP) last_row = false;
++				}
+ 			}
+ 
+ 			if (tile_visible) {
+@@ -1517,6 +1522,9 @@ void ViewportDoDraw(const ViewPort *vp, int left, int top, int right, int bottom
  
  	_vd.dpi.dst_ptr = BlitterFactory::GetCurrentBlitter()->MoveTo(old_dpi->dst_ptr, x - old_dpi->left, y - old_dpi->top);
  
