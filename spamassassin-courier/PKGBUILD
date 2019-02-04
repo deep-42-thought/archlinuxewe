@@ -27,8 +27,8 @@ source=("https://www.us.apache.org/dist/${pkgname%-*}/source/Mail-SpamAssassin-$
         'spamassassin.service'
         'spamassassin-update.service'
         'spamassassin-update.timer'
-	'AuthCourier.pm' # http://da.andaka.org/dl/AuthCourier.pm
-	'spamd.patch')
+        'AuthCourier.pm' # http://da.andaka.org/dl/AuthCourier.pm
+        'spamd.patch')
 validpgpkeys=(D8099BC79E17D7E49BC21E31FDE52F40F7D39814)
 sha512sums=('85e3d78bb885ad1d0bf2066d1bc919d6ad5e9f86795069397e7c28cc1ba02870566ec014c08c81f68e7ed03b7f60d2de0b9730b3415b35d848abde2c8920a28f'
             'SKIP'
@@ -45,9 +45,6 @@ prepare() {
 
   sed -i t/sa_compile.t \
 	  -e 's#^my $temp_binpath = $Config{sitebinexp};#my $temp_binpath = "/bin/site_perl/";#'
-  sed -i '
-    /^&run_makefile_pl (".*");$/ s/PREFIX=\S\+//
-  ' t/sa_compile.t
 }
 
 build() {
@@ -67,7 +64,7 @@ check() {
   # parallel tests cause lots of failures; disable for now
   #export HARNESS_OPTIONS="j$(echo $MAKEFLAGS | sed 's/.*-j\([0-9][0-9]*\).*/\1/')"
 
-  make test || true
+  make test
 }
 
 package() {
@@ -79,5 +76,5 @@ package() {
   install -m444 -t "${pkgdir}/usr/share/perl5/vendor_perl/Mail/SpamAssassin/" "${srcdir}/AuthCourier.pm"
 
   echo 'u spamd 182 - /var/lib/spamassassin' |
-	  install -Dm644 /dev/stdin "$pkgdir"/usr/lib/sysusers.d/${pkgname%-*}.conf
+	  install -Dm644 /dev/stdin "$pkgdir/usr/lib/sysusers.d/${pkgname%-*}.conf"
 }
