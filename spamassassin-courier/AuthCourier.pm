@@ -57,6 +57,7 @@ sub getpwnam {
     my $name = shift;
     my $socket = IO::Socket::UNIX->new('/usr/lib/courier/var/authdaemon/socket');
          $socket = IO::Socket::UNIX->new('/var/run/courier/authdaemon/socket') unless $socket;
+         $socket = IO::Socket::UNIX->new('/run/authdaemon/socket') unless $socket;
          die "authdaemond socket error: $!\n" unless $socket;
 
     print $socket "PRE . login $name\n";
