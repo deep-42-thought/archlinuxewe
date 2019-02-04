@@ -906,6 +906,20 @@ then
             d
           '
       )
+    elif echo "${src}" | \
+      grep -q '//www\.us\.apache\.org/dist/spamassassin/source/'
+    then
+      remVer=$(
+        curl_it 'https://spamassassin.apache.org/downloads.cgi' | \
+          tr '"' '\n' | \
+          sed '
+            s,^.*/Mail-SpamAssassin-\([0-9.]\+\)\.tar\.gz$,\1,
+            t
+            d
+          ' | \
+          sort -V | \
+          tail -n1
+      )
     else
       continue
     fi
