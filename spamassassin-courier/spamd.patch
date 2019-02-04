@@ -1,0 +1,10 @@
+--- a/spamd	2019-02-04 09:48:12.828476850 +0100
++++ b/spamd	2019-02-04 09:48:26.385192138 +0100
+@@ -246,6 +246,7 @@
+                                 exit_status_str am_running_on_windows
+                                 get_user_groups);
+ use Mail::SpamAssassin::Timeout;
++use Mail::SpamAssassin::AuthCourier;
+ 
+ use Getopt::Long;
+ use POSIX qw(:sys_wait_h);

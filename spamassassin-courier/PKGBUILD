@@ -1,0 +1,76 @@
+# Maintainer: Florian Pritz <bluewind@xinu.at>
+# Contributor: Dale Blount <dale@archlinux.org>
+# Contributor: Manolis Tzanidakis
+pkgname=spamassassin-courier
+pkgver=3.4.2
+pkgrel=1
+pkgdesc="A mail filter to identify spam - patched for courier-mta."
+arch=('i686' 'x86_64')
+license=('APACHE' 'GPL2')
+url="http://spamassassin.apache.org"
+depends=('openssl' 'zlib' 're2c' 'perl-net-dns' 'perl-io-socket-ssl'
+         'perl-libwww' 'perl-mail-spf' 'perl-http-message' 'perl-net-http'
+         'perl-io-socket-inet6' 'perl-mail-dkim' 'perl-crypt-ssleay')
+makedepends=('razor' 'perl-dbi')
+optdepends=('razor: to identify collaborately-flagged spam'
+            'make: to use sa-compile'
+            'gcc: to use sa-compile')
+backup=('etc/mail/spamassassin/local.cf'
+        'etc/mail/spamassassin/init.pre'
+        'etc/mail/spamassassin/v310.pre'
+        'etc/mail/spamassassin/v312.pre'
+        'etc/mail/spamassassin/v320.pre'
+        'etc/mail/spamassassin/v330.pre')
+install="${pkgname}.install"
+source=("http://www.us.apache.org/dist/${pkgname%-*}/source/Mail-SpamAssassin-${pkgver}.tar.gz"{,.asc}
+        'spamassassin.service'
+	'AuthCourier.pm' # http://da.andaka.org/dl/AuthCourier.pm
+	'spamd.patch')
+validpgpkeys=(D8099BC79E17D7E49BC21E31FDE52F40F7D39814)
+sha512sums=('85e3d78bb885ad1d0bf2066d1bc919d6ad5e9f86795069397e7c28cc1ba02870566ec014c08c81f68e7ed03b7f60d2de0b9730b3415b35d848abde2c8920a28f'
+            'SKIP'
+            '7e44370e9433134816db51681de388618f8b00f27e9229b673ca7da5821b6bfc27dfc9f6f7387ef18d1d310ea03a4569f46cae3089bba91dd71692b9eee8c8e4'
+            '56fd65798efea805dac6900528c9720e6af8c81d93c08ab99adedca1c63757334c7a1d4cabed0a427c447dc1bbf05ece6abb8be3a3cbaf19919c7a86729f99af'
+	    'c0333a744dc2e6e34e341dea4242c2a9337c015fe0e918ede1c24051f7f6992f260bb1329b86ae7d884d9287497c25eab13602a024be45e901d14d1faad74b3d')
+
+prepare() {
+  cd "${srcdir}/Mail-SpamAssassin-${pkgver}"
+
+  sed -i t/sa_compile.t \
+	  -e 's#^my $temp_binpath = $Config{sitebinexp};#my $temp_binpath = "/bin/site_perl/";#'
+  sed -i '
+    /^&run_makefile_pl (".*");$/ s/PREFIX=\S\+//
+  ' t/sa_compile.t
+}
+
+build() {
+  cd "${srcdir}/Mail-SpamAssassin-${pkgver}"
+
+  # install module in vendor directories.
+  export PERL_USE_UNSAFE_INC=1
+  PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor \
+      CONTACT_ADDRESS=root@localhost ENABLE_SSL=yes PERL_TAINT=no
+  make
+  find . -name 'spamd' -type f -execdir patch -p1 -i "${srcdir}/spamd.patch" \;
+}
+
+check() {
+  cd "${srcdir}/Mail-SpamAssassin-${pkgver}"
+
+  # parallel tests cause lots of failures; disable for now
+  #export HARNESS_OPTIONS="j$(echo $MAKEFLAGS | sed 's/.*-j\([0-9][0-9]*\).*/\1/')"
+
+  make test || true
+}
+
+package() {
+  cd "${srcdir}/Mail-SpamAssassin-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+
+  install -D -m644 "${srcdir}/spamassassin.service" "${pkgdir}/usr/lib/systemd/system/spamassassin.service"
+  install -d -o 182 -g 182 -m 755 "$pkgdir/var/lib/spamassassin"
+  install -m444 -t "${pkgdir}/usr/share/perl5/vendor_perl/Mail/SpamAssassin/" "${srcdir}/AuthCourier.pm"
+
+  echo 'u spamd 182 - /var/lib/spamassassin' |
+	  install -Dm644 /dev/stdin "$pkgdir"/usr/lib/sysusers.d/${pkgname%-*}.conf
+}
