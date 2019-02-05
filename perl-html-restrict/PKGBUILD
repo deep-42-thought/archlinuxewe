@@ -2,15 +2,20 @@
 # Generator : neuesPerlPaket (7a589202ce266b15e6e8f34ddfb805093ba7f16e64bbfa81b115133edde2e298f11971b376ba22faf61d0371b1e3eddcf51bc530a4c5bd76e486299dde8985ee)
 
 pkgname='perl-html-restrict'
-pkgver=2.3.0
-pkgrel='4'
+pkgver=2.4.0
+pkgrel=1
 pkgdesc='Strip unwanted HTML tags and attributes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+makedepends=(
+  'perl>=5.6.0'
+  'perl-extutils-makemaker'
+  'perl-pathtools'
+  'perl-test-fatal'
+  'perl-test-simple')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl>=5.6.0'
   'perl-carp'
   'perl-data-dump'
   'perl-html-parser'
@@ -20,11 +25,6 @@ depends=(
   'perl-type-tiny>=1.000001'
   'perl-uri'
   'perl-version')
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-pathtools'
-  'perl-test-fatal'
-  'perl-test-simple')
 checkdepends=(
   'perl-code-tidyall'
   'perl-code-tidyall-plugin-sortlines-naturally'
@@ -39,7 +39,7 @@ checkdepends=(
 url='https://metacpan.org/release/HTML-Restrict'
 _distdir="HTML-Restrict-v${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
-sha512sums=('992efd27c2b632b43e50ca01c3b5ea4c2f59b46be4de745ee5c3e750bffd39a7296dd43777548cd5380993327d6745f00d4db087d6ce81da127c8784e00da3fa')
+sha512sums=('2cc5440ab1fa5c8bea131b46ef8ca1d9580452202eb3000986fa1415825696d69e191d99f5a06c8268d9d763325d37658c694194bec7df0e8fb4205881ec40e1')
 
 build(){
   cd "${srcdir}/${_distdir}"
