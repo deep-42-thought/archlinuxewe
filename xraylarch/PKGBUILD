@@ -67,6 +67,18 @@ prepare() {
     /subprocess\.check_call/ { N; d; }
   ' "${pkgname}-${pkgver}/setup.py"
 
+  if [ "${CARCH}" = 'i686' ]; then
+    sed -i '
+      /^\s*compiled_exes\s*=\s*(/,/)/ {
+        s/(.*/(/
+        t
+        s/.*)/)/
+        t
+        d
+      }
+    ' "${pkgname}-${pkgver}/setup.py"
+  fi
+
 }
 
 build() {
