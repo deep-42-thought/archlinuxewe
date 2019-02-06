@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (7a589202ce266b15e6e8f34ddfb805093ba7f16e64bbfa81b115133edde2e298f11971b376ba22faf61d0371b1e3eddcf51bc530a4c5bd76e486299dde8985ee)
 
 pkgname='perl-html-restrict'
-pkgver=2.4.0
+pkgver=2.4.1
 pkgrel=1
 pkgdesc='Strip unwanted HTML tags and attributes'
 arch=('any')
@@ -22,7 +22,7 @@ depends=(
   'perl-moo>=1.002000'
   'perl-namespace-clean'
   'perl-scalar-list-utils>=1.33'
-  'perl-type-tiny>=1.000001'
+  'perl-type-tiny>=1.002001'
   'perl-uri'
   'perl-version')
 checkdepends=(
@@ -39,7 +39,7 @@ checkdepends=(
 url='https://metacpan.org/release/HTML-Restrict'
 _distdir="HTML-Restrict-v${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
-sha512sums=('2cc5440ab1fa5c8bea131b46ef8ca1d9580452202eb3000986fa1415825696d69e191d99f5a06c8268d9d763325d37658c694194bec7df0e8fb4205881ec40e1')
+sha512sums=('96e68215215471bd64b4faac237b2eb183939704e43122f17fb6aa387bacb7c46e2c4dc45cb8dfbb9cc175325ef367a7ecae02e60862714cf6840396119256fa')
 
 build(){
   cd "${srcdir}/${_distdir}"
