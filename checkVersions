@@ -767,6 +767,7 @@ then
           'qgis\.org' \
           'sources\.archlinux32\.org' \
           'webhome\.phy\.duke\.edu' \
+          'www\.dragonsdawn\.net' \
           'www\.gaia-gis\.it' \
           'www\.hashcash\.org' \
           'www\.iozone\.org' \
@@ -786,8 +787,8 @@ then
       remVer="$( \
         curl_it "${quVer}" | \
           tr '"<>' '\n\n\n' | \
-          grep "^${pkgname}\(-src\)\?-\?v\?[0-9._]\+[a-z]\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
-          sed "s@^${pkgname}\(-src\)\?-\?v\?\([0-9._]\+[a-z]\?\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
+          grep "^${pkgname#python2-}\(-src\)\?-\?v\?[0-9._]\+[a-z]\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
+          sed "s@^${pkgname#python2-}\(-src\)\?-\?v\?\([0-9._]\+[a-z]\?\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
           tr '_' '.' | \
           sort -V | \
           tail -n1
