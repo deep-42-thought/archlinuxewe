@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=xraylarch
-pkgver=0.9.40
+pkgver=0.9.41
 pkgrel=1
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('i686' 'x86_64')
@@ -22,6 +22,7 @@ depends=(
   'python2-psutil'
   'python2-pyfai>=0.12.0'
   'python2-pyaml'
+  'python2-pyshortcuts'
   'python2-requests>=2.1'
   'python2-scikit-learn>=0.18'
   'python2-scipy>=0.17'
@@ -55,11 +56,15 @@ options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/xraypy/${pkgname}/archive/${pkgver}.tar.gz"
 )
-sha512sums=('a37db5b2c2ad81d9731195156220fa7ff9be57b178cc17f5d0565f9cef2b2c3bd84cfa9791dd6aaee5535780c3e51ef7ec0d9f06d487a026aa6814ce2ac9dea5')
+sha512sums=('32a19b9f900ea4829fbb1632c4787f5ccad003baad5b4823dee155608f8ec96269a5bb3ad349d852d2dc3d5cac3c5e3d8eae8bc83cc0f3a322cf20cf1063e0e2')
 
 prepare() {
 
-  sed -i 's/pjoin(install_prefix, scriptdir)/os.path.normpath(install_prefix + os.sep + scriptdir)/' "${pkgname}-${pkgver}/setup.py"
+  sed -i '
+    /^\s*pyexe\s*=/ s/python/python2/
+    s/^\s*setup(/_setup = \0/
+    s/^\(\s*dest\s*=\s*\)\(\S.*\)$/\1_setup.get_command_obj('"'"'install'"'"').root + os.path.abspath(\2)/
+  ' "${pkgname}-${pkgver}/setup.py"
 
 }
 
