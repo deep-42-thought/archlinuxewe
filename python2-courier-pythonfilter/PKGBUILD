@@ -3,7 +3,7 @@
 pkgname=python2-courier-pythonfilter
 _pkgname='courier-pythonfilter'
 pkgver=1.11
-pkgrel=1
+pkgrel=2
 pkgdesc='collection of useful filters for the Courier MTA, and a framework for developing new filters in Python'
 arch=('any')
 url='http://www.dragonsdawn.net/~gordon/courier-pythonfilter/'
@@ -16,6 +16,7 @@ makedepends=(
   'python2-setuptools')
 source=("http://www.dragonsdawn.net/~gordon/courier-pythonfilter/${_pkgname}-${pkgver}.tar.gz")
 sha512sums=('75ffff7d9692861c535ee18d1d25954c79e81275641172ad706caf0c65dc715ffd4a1c021b0e26fc992fffdf6c2842ed8fc688eff82ec42591b35af834c0ace4')
+backup=('etc/pythonfilter-modules.conf' 'etc/pythonfilter.conf')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
