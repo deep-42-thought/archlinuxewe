@@ -1,0 +1,32 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname=python2-courier-pythonfilter
+_pkgname='courier-pythonfilter'
+pkgver=1.11
+pkgrel=1
+pkgdesc='collection of useful filters for the Courier MTA, and a framework for developing new filters in Python'
+arch=('any')
+url='http://www.dragonsdawn.net/~gordon/courier-pythonfilter/'
+license=('GPL')
+depends=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+makedepends=(
+  'python2-setuptools')
+source=("http://www.dragonsdawn.net/~gordon/courier-pythonfilter/${_pkgname}-${pkgver}.tar.gz")
+sha512sums=('75ffff7d9692861c535ee18d1d25954c79e81275641172ad706caf0c65dc715ffd4a1c021b0e26fc992fffdf6c2842ed8fc688eff82ec42591b35af834c0ace4')
+
+build() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  python2 setup.py build
+}
+
+package() {
+  depends+=('courier-mta')
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  python2 setup.py install --prefix=/usr --root="${pkgdir}" --optimize=1
+  find "${pkgdir}" -type f -exec sed -i ' 1 s,^#!/usr/bin/python$,\02,' {} \;
+  rm "${pkgdir}/usr/lib/python2"*"/site-packages/${_pkgname//-/_}-${pkgver}-py2"*".egg-info"
+}
+
