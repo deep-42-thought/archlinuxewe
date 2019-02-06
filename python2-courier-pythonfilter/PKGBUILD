@@ -18,8 +18,10 @@ source=("http://www.dragonsdawn.net/~gordon/courier-pythonfilter/${_pkgname}-${p
 sha512sums=('75ffff7d9692861c535ee18d1d25954c79e81275641172ad706caf0c65dc715ffd4a1c021b0e26fc992fffdf6c2842ed8fc688eff82ec42591b35af834c0ace4')
 backup=('etc/pythonfilter-modules.conf' 'etc/pythonfilter.conf')
 optdepends=(
-  'clamav:        Virus Scan'
-  'spamassassin:  Spam Detection'
+  'python2-pyclamav:  Virus Scan'
+  'python2-pydns:     dialback'
+  'python2-spf:       spfcheck and whitelist_spf'
+  'spamassassin:      Spam Detection'
 )
 
 build() {
