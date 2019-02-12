@@ -15,10 +15,7 @@ perlMinor="${perlMinor%%.*}"
 
 for pkgbuild in perl-*/PKGBUILD demeter/PKGBUILD; do
 
-  pkgrel="$(
-    sed -n "/^pkgrel='\?[0-9]\+'\?\$/{s@^pkgrel='\?\([0-9]\+\)'\?\$@\1@;p}" "${pkgbuild}"
-  )"
-  sed -i "s@^\(pkgrel=\)'\?[0-9]\+'\?\$@\1'$[${pkgrel}+1]'@" "${pkgbuild}"
+  ./bumpPkgrel -n "${pkgbuild%/PKGBUILD}"
   sed -i '
     /^depends=(/{
       :a

@@ -48,11 +48,8 @@ pyverupper="${pymajor}.$((${pyver#*.}+1))"
 
 for pkgbuild in "${pkgbuilds[@]}"; do
 
-  eval "$(
-    grep '^pkgrel=' "${pkgbuild}"
-  )"
+  ./bumpPkgrel -n "${pkgbuild%/PKGBUILD}"
   sed -i '
-    s@^\(pkgrel=\)\('"'"'\?\)[0-9]\+\2$@\1'"'$((pkgrel+1))'"'@
     s@'"'python>=${pymajor}\.[0-9]\+'@'python>=${pyver}'"'@
     s@'"'python<${pymajor}\.[0-9]\+'@'python<${pyverupper}'"'@
   ' "${pkgbuild}"
