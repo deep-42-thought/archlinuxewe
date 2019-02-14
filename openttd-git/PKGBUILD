@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-git
-pkgver=28543.aa737715d
+pkgver=28549.045503e72
 _commit=${pkgver#*.}
 pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
@@ -64,11 +64,12 @@ prepare() {
     )
     HASH=$(find {src,bin} -type f -exec sha512sum {} \; | sort | sha512sum - | cut -d' ' -f1)
     SHORTHASH=$(echo ${HASH} | cut -c1-8)
-    printf '%s\t%s\t%s\t%s\n' \
+    printf '%s\t%s\t%s\t%s\t%s\n' \
       "${ISODATE}-ewe-g${SHORTHASH}" \
       "${ISODATE}" \
       "0" \
       "${HASH}" \
+      "0" \
       > .ottdrev
     sed -i '
       s,"\$ROOT_DIR/\.git","/dev/does/not/exist",
