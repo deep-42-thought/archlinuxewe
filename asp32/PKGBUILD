@@ -13,16 +13,15 @@ license=(MIT)
 depends=(awk bash jq git libarchive)
 makedepends=(asciidoc)
 conflicts=('asp')
-source=("https://sources.archlinux32.org/sources/${pkgname}-${pkgver}.tar.gz"{,.sig})
-sha512sums=('908b9170dd49bd3bfabe1f1f950d785f93d972036af69d17be2e589ad4534f86baac60b6b8d6123273f051e88a1fd858677c0219509f7f90b6abd19490c4cff6'
-            'SKIP')
+source=("git+https://git.archlinux32.org/archlinux32/${pkgname}#tag=${pkgver}")
+sha512sums=('SKIP')
 validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
 
 build() {
-  make -C "${pkgname}-${pkgver}"
+  make -C "${pkgname}"
 }
 
 package() {
-  make -C "${pkgname}-${pkgver}" PREFIX=/usr DESTDIR="$pkgdir" install
-  install -Dm644 "${pkgname}-${pkgver}/LICENSE" "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
+  make -C "${pkgname}" PREFIX=/usr DESTDIR="$pkgdir" install
+  install -Dm644 "${pkgname}/LICENSE" "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
 }
