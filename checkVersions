@@ -395,17 +395,20 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
-      grep -q '^git://anonscm\.debian\.org/\|^git\(+https\?\)\?://github\.com/.*#tag='
+      grep -q '^git://anonscm\.debian\.org/\|^git\(+https\?\)\?://git\(hub\.com\|\.archlinux32\.org\)/.*#tag='
     then
       src="${src#git+}"
-      remVer="$(
+      remVer=$(
         git ls-remote --tags "${src%#*}" | \
           awk '{print $2}' | \
-          grep '^refs/tags/v[0-9.]\+$' | \
-          sed 's|^refs/tags/v\([0-9.]\+\)$|\1|' | \
+          sed '
+            s|^refs/tags/v\?\([0-9.]\+\)$|\1|
+            t
+            d
+          ' | \
           sort -V | \
           tail -n1
-      )"
+      )
     elif echo "${src}" | \
       grep -q '^git\(+[^:]\+\)\?://[^#]\+\(#commit=[^#]\+\)\?$'
     then
