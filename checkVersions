@@ -402,7 +402,12 @@ then
         git ls-remote --tags "${src%#*}" | \
           awk '{print $2}' | \
           sed '
-            s|^refs/tags/v\?\([0-9.]\+\)$|\1|
+            s|^refs/tags/'"$(
+              if ! echo "${src}" | \
+                grep -qF archlinux32; then
+                printf 'v'
+              fi
+            )"'\([0-9.]\+\)$|\1|
             t
             d
           ' | \
