@@ -929,6 +929,19 @@ then
           sort -V | \
           tail -n1
       )
+    elif echo "${src}" | \
+      grep -q '//zircon\.org\.uk/topal/'
+    then
+      remVer=$(
+        curl_it "${src%/*/*}/" | \
+          sed '
+            s,^.*<a href="\(rel-\([0-9.]\+\)\)">\1</a>.*$,\2,
+            t
+            d
+          ' | \
+          sort -V | \
+          tail -n1
+      )
     else
       continue
     fi
