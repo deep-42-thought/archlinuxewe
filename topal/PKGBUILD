@@ -3,11 +3,11 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=topal
-pkgver=76
+pkgver=78
 pkgrel=1
 pkgdesc="Topal is a glue program that links GnuPG and Alpine"
 arch=("i686" "x86_64")
-#url="http://homepage.ntlworld.com/phil.brooke/topal"
+url="https://zircon.org.uk/topal/rel-${pkgver}/"
 license=("GPL3")
 makedepends=("gcc-ada" "make" "lynx")
 optdepends=("alpine: for which topal was mainly written for"
@@ -18,8 +18,8 @@ optdepends=("alpine: for which topal was mainly written for"
             "openssh: for remote and server mode of operation")
 install="${pkgname}.install"
 options=("!makeflags")
-source=("https://fossies.org/linux/privat/topal-package-${pkgver}.tgz")
-md5sums=('afe0010716bcb0073d31b3328c7b65ae')
+source=("https://zircon.org.uk/topal/rel-${pkgver}/topal-package-${pkgver}.tgz")
+sha512sums=('717de379e879b1bf63b891ea596a0804aa92bc0c7e68d36a8ba3dbcaf2f6fc097b9eecbc0ee6b9bd2205c3c1eff1479676f0598aca4783ced4e311b126bc831b')
 
 
 build() {
