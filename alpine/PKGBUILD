@@ -20,14 +20,11 @@ provides=("pine")
 conflicts=("pine" "re-alpine")
 replaces=("pine")
 options=("!makeflags")
-source=("alpine::git://repo.or.cz/alpine.git#commit=${_commit}")
+source=("alpine::git+https://git.eckner.net/Erich/alpine#commit=${_commit}")
 sha512sums=('SKIP')
 
 prepare() {
-  sed -i '
-    /^\s*ERR_free_strings();\s*$/d
-    /^\s*EVP_cleanup();\s*$/d
-  '  "${srcdir}/${pkgname}/pith/smime.c"
+  cd "${srcdir}/${pkgname}"
 }
 
 pkgver() {
