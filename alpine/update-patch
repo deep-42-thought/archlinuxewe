@@ -1,0 +1,51 @@
+#!/bin/bash
+
+cd "$(dirname "$0")"
+eval "$(
+  sed -n '
+    /^source=(/,/)/ p
+  ' PKGBUILD
+)"
+
+makepkg --verifysource
+git -C /usr/src/sonstiges/alpine/ fetch --all -p
+
+sums=$(
+  {
+    printf '%s\n' "${source[@]}" \
+      | sed '
+        s/\.patch$//
+        t
+        s/^.*$/SKIP/
+        w /dev/stderr
+        d
+      ' \
+      | while read -r patch; do
+        git -C /usr/src/sonstiges/alpine/ diff $(git -C /usr/src/sonstiges/alpine/ merge-base "${patch}" master) "${patch}" -- \
+          > "${patch}.patch"
+        sha512sum "${patch}.patch" | \
+          awk '{print $1}'
+      done
+  } 2>&1 \
+    | sed '
+      s/^/'"'"'/
+      s/$/'"'"'/
+      1  s/^/sha512sums=(/
+      1! s/^/            /
+      $  s/$/)/
+    ' \
+    | sed '
+      :a
+        N
+        $! ba
+      s/\n/\\n/g
+    '
+)
+
+sed -i '
+  /^sha512sums=(/,/^[^#]*)$/ {
+    s/^sha512sums=(.*$/'"${sums}"'/
+    t
+    d
+  }
+' PKGBUILD

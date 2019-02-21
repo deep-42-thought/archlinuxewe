@@ -6,7 +6,7 @@
 pkgname=alpine
 pkgver=2.21.999.r71.08fcd1b
 _commit=${pkgver##*.}
-pkgrel=1
+pkgrel=2
 arch=("i686" "x86_64")
 pkgdesc="Apache licensed PINE mail user agent"
 url="http://alpine.freeiz.com"
@@ -20,12 +20,16 @@ provides=("pine")
 conflicts=("pine" "re-alpine")
 replaces=("pine")
 options=("!makeflags")
-source=("alpine::git+https://git.eckner.net/Erich/alpine#commit=${_commit}")
-sha512sums=('SKIP')
+source=(
+  "alpine::git+https://git.eckner.net/Erich/alpine#commit=${_commit}"
+  'topal-patch.patch'
+)
+sha512sums=('SKIP'
+            'bc7a3143cb2f7d79438c49b89bfdc52db7473521a7870ad621ecba96fff2f1688f4f3d58def9b8d57f8beba4e1e9c8b193f9281571e0564538ca7c7db16f0027')
 
 prepare() {
   cd "${srcdir}/${pkgname}"
-  git cherry-pick origin/topal-patch^ origin/topal-patch
+  patch -p1 -i "${srcdir}/topal-patch.patch"
 }
 
 pkgver() {
