@@ -19,9 +19,10 @@ optdepends=("alpine: for which topal was mainly written for"
             "procmail: to use formail")
 install="${pkgname}.install"
 options=("!makeflags")
-source=("https://zircon.org.uk/topal/rel-${pkgver}/topal-package-${pkgver}.tgz")
-sha512sums=('06c6bb9f504e5df5ffb2c8c776dd95071c90087bcc8353664d979ea4acd8d7563a8ca0b32cbe85f64c23419f479134d48bc795eb6db6bd716877ab414a37a030')
-
+source=("https://zircon.org.uk/topal/rel-${pkgver}/topal-package-${pkgver}.tgz"{,.asc})
+sha512sums=('06c6bb9f504e5df5ffb2c8c776dd95071c90087bcc8353664d979ea4acd8d7563a8ca0b32cbe85f64c23419f479134d48bc795eb6db6bd716877ab414a37a030'
+'SKIP')
+validpgpkeys=('D312B4FF825FCA97472A558F9623D47747DC67A1') # Phil Brooke
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
