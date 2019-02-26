@@ -22,7 +22,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=17.2.7
-pkgrel=1
+pkgrel=2
 arch=(i686 x86_64 armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -58,6 +58,15 @@ build() {
     --disable-rpath \
     --with-postgresql \
     --with-sqlite3 \
+    --with-hostname='XXX_REPLACE_WITH_LOCAL_HOSTNAME_XXX' \
+    --with-dir-password="XXX_REPLACE_WITH_DIRECTOR_PASSWORD_XXX" \
+    --with-fd-password="XXX_REPLACE_WITH_CLIENT_PASSWORD_XXX" \
+    --with-sd-password="XXX_REPLACE_WITH_STORAGE_PASSWORD_XXX" \
+    --with-mon-dir-password="XXX_REPLACE_WITH_DIRECTOR_MONITOR_PASSWORD_XXX" \
+    --with-mon-fd-password="XXX_REPLACE_WITH_CLIENT_MONITOR_PASSWORD_XXX" \
+    --with-mon-sd-password="XXX_REPLACE_WITH_STORAGE_MONITOR_PASSWORD_XXX" \
+    --with-basename="XXX_REPLACE_WITH_LOCAL_HOSTNAME_XXX" \
+    --with-hostname="XXX_REPLACE_WITH_LOCAL_HOSTNAME_XXX" \
     --with-logdir=/var/log/$pkgbase \
     --with-dir-user=$pkgbase \
     --with-dir-group=$pkgbase \
