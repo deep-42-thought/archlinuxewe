@@ -610,7 +610,7 @@ then
       quVer=$(
         echo "${src#*::}" | \
           sed '
-            s|/archive/[^/]*$|/releases|
+            s|/archive/\(Release/\)\?[^/]*$|/releases|
             s|/download/[^/]*/[^/]*$||
             s|http:|https:|
           '
@@ -623,8 +623,8 @@ then
         curl_it "${quVer}" | \
           tr "\"" "\n" | \
           tr '[[:upper:]]' '[[:lower:]]' | \
-          grep "^${quNam}v\?[0-9.]\+\$" | \
-          sed "s|^${quNam}v\?||" | \
+          grep "^${quNam}\(v\|release%2f\|\)[0-9.]\+\$" | \
+          sed "s@^${quNam}\(v\|release%2f\|\)@@" | \
           (
             if [ "${pkgname}" == "conky-irc" ]
             then

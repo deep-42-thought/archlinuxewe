@@ -29,16 +29,16 @@ pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
 url="http://www.bareos.org"
 license=('AGPL3')
 makedepends=('libmariadbclient' 'postgresql-libs' 'sqlite3' 'python2')
-source=("git+https://github.com/bareos/bareos.git#tag=Release/$pkgver")
+source=("$pkgbase-$pkgver.tar.gz::https://github.com/$pkgbase/$pkgbase/archive/Release/$pkgver.tar.gz")
 md5sums=('SKIP')
 
 prepare() {
-  cd $pkgbase
+  cd $pkgbase-Release-$pkgver
   sed -i "s/python-config/python2-config/g" configure
 }
 
 build() {
-  cd $pkgbase
+  cd $pkgbase-Release-$pkgver
 
   # Disable cephfs, broken
   sed -i 's/have_cephfs=\"yes\"/have_cephfs=\"no\"/' ./configure
@@ -297,8 +297,8 @@ package_bareos-director() {
   done
 
   # Currently upstream systemd file does not automatically create run directory
-  sed -i '/\[Service\]/a RuntimeDirectory=bareos' $srcdir/bareos/platforms/systemd/bareos-dir.service
-  _cp $srcdir/bareos/platforms/systemd/bareos-dir.service $pkgdir/usr/lib/systemd/system/bareos-dir.service
+  sed -i '/\[Service\]/a RuntimeDirectory=bareos' $srcdir/bareos-Release-$pkgver/platforms/systemd/bareos-dir.service
+  _cp $srcdir/bareos-Release-$pkgver/platforms/systemd/bareos-dir.service $pkgdir/usr/lib/systemd/system/bareos-dir.service
 }
 
 package_bareos-storage-fifo() {
@@ -355,8 +355,8 @@ package_bareos-filedaemon() {
   done
 
   # Currently upstream systemd file does not automatically create run directory
-  sed -i '/\[Service\]/a RuntimeDirectory=bareos' $srcdir/bareos/platforms/systemd/bareos-fd.service
-  _cp $srcdir/bareos/platforms/systemd/bareos-fd.service $pkgdir/usr/lib/systemd/system/bareos-fd.service
+  sed -i '/\[Service\]/a RuntimeDirectory=bareos' $srcdir/bareos-Release-$pkgver/platforms/systemd/bareos-fd.service
+  _cp $srcdir/bareos-Release-$pkgver/platforms/systemd/bareos-fd.service $pkgdir/usr/lib/systemd/system/bareos-fd.service
 }
 
 package_bareos-storage() {
@@ -382,8 +382,8 @@ package_bareos-storage() {
 
   install -d $pkgdir/var/lib/bareos/storage
   # Currently upstream systemd file does not automatically create run directory
-  sed -i '/\[Service\]/a RuntimeDirectory=bareos' $srcdir/bareos/platforms/systemd/bareos-sd.service
-  _cp $srcdir/bareos/platforms/systemd/bareos-sd.service $pkgdir/usr/lib/systemd/system/bareos-sd.service
+  sed -i '/\[Service\]/a RuntimeDirectory=bareos' $srcdir/bareos-Release-$pkgver/platforms/systemd/bareos-sd.service
+  _cp $srcdir/bareos-Release-$pkgver/platforms/systemd/bareos-sd.service $pkgdir/usr/lib/systemd/system/bareos-sd.service
 }
 
 package_bareos-storage-tape() {
