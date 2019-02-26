@@ -1,5 +1,5 @@
 if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
-  _depends=(
+  depends=(
     $(
       {
         printf '%s\n' "${depends[@]}"
@@ -31,5 +31,4 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
         | cut -d' ' -f1
     )
   )
-  depends=("${_depends[@]}")
 fi
