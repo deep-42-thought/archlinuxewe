@@ -160,15 +160,20 @@ then
 elif [ $# -eq 1 ] && ${versionenErmitteln}
 then
 
+  unset pkgbase
+  unset pkgname
+  unset pkgver
   if ${archlinuxewe}; then
     . $1/PKGBUILD
     srcKnown=false
   else
     eval "$(
-      grep '^pkgname=' $1/PKGBUILD
-      grep '^pkgver=' $1/PKGBUILD
+      grep '^pkg(base|name|ver)=' $1/PKGBUILD
     )"
     source=(dummy)
+  fi
+  if [ -n "${pkgbase}" ]; then
+    pkgname="${pkgbase}"
   fi
 
   for src in "${source[@]}" "${source_i686[@]}" "${source_x86_64[@]}"
