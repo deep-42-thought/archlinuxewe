@@ -38,13 +38,15 @@ pkgver() {
     git rev-parse --short master
   )
   _pkgver=$(
-    git archive "${_rev}" -- Makefile | \
+    git archive "${_rev}" -- configure | \
       tar -Ox | \
       sed -n '
-        /^VERSION\s*=/!d
+        /^\s*VERSION\s*=/!d
         =
         s/^.*=\s*//
+        s/['"'"'"]//g
         p
+        q
       ' | \
       sed '
         N
@@ -54,7 +56,7 @@ pkgver() {
   _line=${_pkgver% *}
   _pkgver=${_pkgver#* }
   _rev_count=$(
-    git rev-list "${_rev}" ^$(git blame -L${_line},${_line} "${_rev}" -- Makefile | cut -d' ' -f1) --count
+    git rev-list "${_rev}" ^$(git blame -L${_line},${_line} "${_rev}" -- configure | cut -d' ' -f1) --count
   )
   printf '%s.r%s.%s' \
     "${_pkgver}" \
