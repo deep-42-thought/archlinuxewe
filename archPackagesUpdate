@@ -546,55 +546,30 @@ if ${aufRechenknecht}; then
     rm -rf --one-file-system src pkg
 
     # add PKGBUILD-patches to the PKGBUILD
-    {
-      if grep -q '^\s*pkgbase=' PKGBUILD; then
-        (
-          eval "$(
-            sed -n '/^\s*pkgname=(/,/)/ p' PKGBUILD
-          )"
-          printf 'package_%s\n' "${pkgname[@]}"
-        )
-      else
-        printf 'package\n'
-      fi \
-        | while read -r function; do
-          printf '%s\n' \
-            'eval "$(' \
-            '  declare -f '"${function}"' | \' \
-            '    sed '"'"'$d'"'"
-          for patch in "${tmpDir}/"*".PKGBUILDpatch"; do
-            patch_name="${patch##*/}"
-            patch_name="${patch_name%.*}"
-            if grep -qF "skip ${patch_name}" PKGBUILD; then
-              continue
-            fi
-            printf '  cat "%s"\n' \
-              "${patch##*/}"
-          done
-          printf ')\n}"\n'
-        done
-      printf 'source+=(\n'
-      for patch in "${tmpDir}/"*".PKGBUILDpatch"; do
-        printf '"%s"\n' \
-          "${patch##*/}"
-        cp "${patch}" .
+    if grep -q '^\s*pkgbase=' PKGBUILD; then
+      (
+        eval "$(
+          sed -n '/^\s*pkgname=(/,/)/ p' PKGBUILD
+        )"
+        printf 'package_%s\n' "${pkgname[@]}"
+      )
+    else
+      printf 'package\n'
+    fi \
+      | sponge \
+      | while read -r function; do
+        sed -i '
+          /^'"${function}"'() {$/,/^}$/ {
+            /^}$/ {'"$(
+                ls -1 "${tmpDir}/"*".PKGBUILDpatch" | \
+                  sed 's/^/r /'
+              )"'
+              a }
+              d
+            }
+          }
+        ' PKGBUILD
       done
-      printf ')\n'
-      sed '
-        s/^\s*\([^=[:space:]]\+sums\)=.*$/\1/
-        t
-        d
-      ' PKGBUILD \
-        | while read -r sum_type; do
-          printf '%s+=(' \
-            "${sum_type}"
-          "${sum_type%s}" "${tmpDir}/"*".PKGBUILDpatch" \
-            | awk '{print $1}'
-          printf ')\n'
-        done
-    } > PKGBUILD.append
-    cat PKGBUILD.append >> PKGBUILD
-    rm PKGBUILD.append
 
     if [ "${arch}" = 'i686' ]; then
       # 32-bit is built in chroot /opt/arch32
