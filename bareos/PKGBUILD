@@ -22,7 +22,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=18.2.6
-pkgrel=2
+pkgrel=3
 arch=(x86_64 armv7h aarch64) # i686 has no ceph >.<
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -107,8 +107,10 @@ package_bareos-common() {
 
   for f in \
     usr/lib/bareos/libbareos.so \
+    usr/lib/bareos/libbareos.so.${pkgver%%.*} \
     usr/lib/bareos/libbareos.so.$pkgver \
     usr/lib/bareos/libbareosfind.so \
+    usr/lib/bareos/libbareosfind.so.${pkgver%%.*} \
     usr/lib/bareos/libbareosfind.so.$pkgver \
     usr/lib/bareos/scripts/bareos-config \
     usr/lib/bareos/scripts/bareos-config-lib.sh \
@@ -147,8 +149,10 @@ package_bareos-database-common() {
 
   for f in \
     usr/lib/bareos/libbareoscats.so \
+    usr/lib/bareos/libbareoscats.so.${pkgver%%.*} \
     usr/lib/bareos/libbareoscats.so.$pkgver \
     usr/lib/bareos/libbareossql.so \
+    usr/lib/bareos/libbareossql.so.${pkgver%%.*} \
     usr/lib/bareos/libbareossql.so.$pkgver \
     usr/lib/bareos/scripts/create_bareos_database \
     usr/lib/bareos/scripts/drop_bareos_database \
