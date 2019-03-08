@@ -101,7 +101,7 @@ _cp() {
 
 _cp_all() {
   mkdir -p "$(dirname $2)"
-  cp -a "$1"* "$2"
+  cp -a "$1"* "$(dirname $2)/"
 }
 
 package_bareos-common() {
