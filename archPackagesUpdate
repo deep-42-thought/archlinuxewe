@@ -562,6 +562,13 @@ if ${aufRechenknecht}; then
           /^'"${function}"'() {$/,/^}$/ {
             /^}$/ {'"$(
                 ls -1 "${tmpDir}/"*".PKGBUILDpatch" | \
+                  grep -vxF "$(
+                    sed '
+                      s,^# skip \(\S\+\)\(\s\|$\).*$,'"${tmpDir}"'/\1.PKGBUILDpatch,
+                      t
+                      d
+                    ' PKGBUILD
+                  )" | \
                   sed 's/^/r /'
               )"'
               a }
