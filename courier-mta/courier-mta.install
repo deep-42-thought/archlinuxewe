@@ -3,13 +3,14 @@ post_install() {
   systemd-tmpfiles --create /usr/lib/tmpfiles.d/courier-mta.conf
 
   # perform all the tasks required of a standard Courier install
-  echo Performing install-configure...
-  /usr/lib/courier/sysconftool /etc/courier/*.dist > /etc/courier/install-configure-$1.log
-  echo "...output saved to /etc/courier/install-configure-$1.log"
-  echo "Don't forget to configure an account to receive postmaster mail"
-  makealiases
-  makesmtpaccess
-  /usr/bin/mkdhparams
+  echo <<<EOF
+To finish the installation, run:
+$ /usr/lib/courier/sysconftool /etc/courier/*.dist
+$ makealiases
+$ makesmtpaccess
+$ /usr/bin/mkdhparams
+And don't forget to configure an account to receive postmaster mail!
+EOF
 }
 
 pre_upgrade() {
@@ -19,8 +20,10 @@ pre_upgrade() {
 }
 
 post_upgrade() {
-  echo Performing install-configure...
-  /usr/lib/courier/sysconftool /etc/courier/*.dist > /etc/courier/install-configure-$1.log
+  echo <<<EOF
+Please run
+$ /usr/lib/courier/sysconftool /etc/courier/*.dist
+EOF
 }
 
 pre_remove() {
