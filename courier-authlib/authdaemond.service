@@ -5,6 +5,7 @@ Description=Courier Authentification Daemon
 Type=forking
 User=courier
 Group=courier
+RuntimeDirectory=authdaemon
 ExecStart=/usr/bin/authdaemond start
 ExecStop=/usr/bin/authdaemond stop
 PIDFile=/run/authdaemon/pid
@@ -12,4 +13,3 @@ AmbientCapabilities=CAP_DAC_OVERRIDE
 
 [Install]
 WantedBy=multi-user.target
-

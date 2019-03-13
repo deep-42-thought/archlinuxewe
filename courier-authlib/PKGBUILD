@@ -8,7 +8,7 @@
 
 pkgname=courier-authlib
 pkgver=0.69.0
-pkgrel='6'
+pkgrel='7'
 pkgdesc="Authentication library for the Courier mailserver(s)"
 arch=(i686 x86_64)
 license=('GPL2')
@@ -25,12 +25,10 @@ optdepends=('sqlite: With support for the authsqlite authentication module'
 options=(!libtool !staticlibs emptydirs)
 install=${pkgname}.install
 source=(https://downloads.sourceforge.net/project/courier/authlib/${pkgver}/${pkgname}-${pkgver}.tar.bz2
-        courier-authlib.tmpfiles
 	authdaemond.service
 	courier.conf)
 sha512sums=('c3806aa50d7ff13f75536064ec46028db3d5e1f4ef64692b5ece64810b4042ae0840bb346c73ae9d36f6113173f0e5e922356a178c10815640a26caa921e1614'
-'5047fea9990cd2cd415e11c81fbd8ff83b70dadf0fc178b2398b2c9930843a4669abb3c6801f2953c1ebfdae73c1f82d0ee8c24e900f3876ee6b3aa689363b62'
-'64a33dff492448c5ccb470b6b34fd2fbe4d97c60a88216ddfa91db0f64f984593a15138d28d717c29e8dc81c889b6c32f3ea9a52773ac8a808c560bcaf1d1831'
+'7855fadbef9e6845868d720f9637cc6fe97814b9d994641a351e48536e1985323f095c708f30abe0f3a0c1cb8e25a746da1bb5b2baf9f63d0498d01df39f843b'
 '997f755516a64f38abb626790e22e0ad6c3d9fbd7d3e76199cc335ce60f9d5e94dfa083deb637cc36fe039b5b1aa713224e2175b65b1980bf3b304499e3e96e6')
 
 build() {
@@ -81,9 +79,9 @@ package() {
   # Install service file
   install -Dm 644 "${srcdir}/authdaemond.service" "${pkgdir}/usr/lib/systemd/system/authdaemond.service"
 
-  # Install systemd configuration file
-  install -Dm 644 "$srcdir/courier-authlib.tmpfiles" "$pkgdir/usr/lib/tmpfiles.d/courier-authlib.conf"
-
   mkdir -p "$pkgdir/var/spool/courier"
-}
 
+  echo '/usr/lib/courier-authlib' \
+    | install -Dm 644 '/dev/stdin' "${pkgdir}/etc/ld.so.conf.d/courier-authlib.conf"
+
+}
