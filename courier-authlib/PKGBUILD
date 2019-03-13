@@ -84,4 +84,6 @@ package() {
   echo '/usr/lib/courier-authlib' \
     | install -Dm 644 '/dev/stdin' "${pkgdir}/etc/ld.so.conf.d/courier-authlib.conf"
 
+  rmdir "${pkgdir}/run/authdaemon"
+
 }
