@@ -2,35 +2,23 @@
 # Generator : neuesPerlPaket (5872fdbe767f20dd006eece094815303adfcd3b336cb5ad02d10742b82e6f11e31530fef3b41a2af59678d729daebff83cde847dab68d62647f62cf8dc586685)
 
 pkgname='perl-metacpan-client'
-pkgver=2.025000
-pkgrel='3'
+pkgver=2.026000
+pkgrel=1
 pkgdesc='A comprehensive, DWIM-featured client to the MetaCPAN API'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-metacpan-client-author=2.025000'
-  'perl-metacpan-client-cover=2.025000'
-  'perl-metacpan-client-distribution=2.025000'
-  'perl-metacpan-client-downloadurl=2.025000'
-  'perl-metacpan-client-favorite=2.025000'
-  'perl-metacpan-client-file=2.025000'
-  'perl-metacpan-client-mirror=2.025000'
-  'perl-metacpan-client-module=2.025000'
-  'perl-metacpan-client-package=2.025000'
-  'perl-metacpan-client-permission=2.025000'
-  'perl-metacpan-client-pod=2.025000'
-  'perl-metacpan-client-rating=2.025000'
-  'perl-metacpan-client-release=2.025000'
-  'perl-metacpan-client-request=2.025000'
-  'perl-metacpan-client-resultset=2.025000'
-  'perl-metacpan-client-role-entity=2.025000'
-  'perl-metacpan-client-role-hasua=2.025000'
-  'perl-metacpan-client-scroll=2.025000'
-  'perl-metacpan-client-types=2.025000')
+makedepends=(
+  'perl>=1.01'
+  'perl-base'
+  'perl-extutils-makemaker>=7.11.01'
+  'perl-lwp-protocol-https'
+  'perl-pathtools'
+  'perl-test-fatal'
+  'perl-test-needs>=0.002005'
+  'perl-test-simple')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl>=5.10.0'
   'perl-carp'
   'perl-http-tiny>=0.056'
   'perl-io-socket-ssl>=1.42'
@@ -42,21 +30,33 @@ depends=(
   'perl-safe-isa'
   'perl-type-tiny'
   'perl-uri-escape')
-makedepends=(
-  'perl-base'
-  'perl-extutils-makemaker>=7.11.01'
-  'perl-lwp-protocol-https'
-  'perl-pathtools'
-  'perl-test-fatal'
-  'perl-test-needs>=0.002005'
-  'perl-test-simple')
+provides=(
+  'perl-metacpan-client-author=2.026000'
+  'perl-metacpan-client-cover=2.026000'
+  'perl-metacpan-client-distribution=2.026000'
+  'perl-metacpan-client-downloadurl=2.026000'
+  'perl-metacpan-client-favorite=2.026000'
+  'perl-metacpan-client-file=2.026000'
+  'perl-metacpan-client-mirror=2.026000'
+  'perl-metacpan-client-module=2.026000'
+  'perl-metacpan-client-package=2.026000'
+  'perl-metacpan-client-permission=2.026000'
+  'perl-metacpan-client-pod=2.026000'
+  'perl-metacpan-client-rating=2.026000'
+  'perl-metacpan-client-release=2.026000'
+  'perl-metacpan-client-request=2.026000'
+  'perl-metacpan-client-resultset=2.026000'
+  'perl-metacpan-client-role-entity=2.026000'
+  'perl-metacpan-client-role-hasua=2.026000'
+  'perl-metacpan-client-scroll=2.026000'
+  'perl-metacpan-client-types=2.026000')
 checkdepends=(
   'perl-namespace-clean'
   'perl-uri')
 url='https://metacpan.org/release/MetaCPAN-Client'
 _distdir="MetaCPAN-Client-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MICKEY/${_distdir}.tar.gz")
-sha512sums=('0da5aaa823b372626ed54206208e9d763afa5ba1668730e4feeab2b1539177a31f165173ba471f7071e568b2343096eb5780d1a61645e92c6000e9408140ea2f')
+sha512sums=('982207bf8acbc816443c3c4a00a6111735ae694e3644e3644d4ddec80c9e79293ae587a561516f3aa0e59c526840a93118703814b5d199925f4301c297083f09')
 
 build() {
   cd "${srcdir}/${_distdir}"
