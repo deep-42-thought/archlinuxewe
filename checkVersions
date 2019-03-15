@@ -209,6 +209,20 @@ then
           ' \
           | head -n1
       )
+    elif [ "${pkgname}" = 'python2-courier-pythonfilter' ]
+    then
+      remVer=$(
+        curl_it 'https://bitbucket.org/gordonmessmer/courier-pythonfilter/downloads/?tab=tags' \
+          | tr '"' '\n' \
+          | sed '
+            s,^/gordonmessmer/courier-pythonfilter/get/release-\([-0-9]\+\)\.tar\.gz$,\1,
+            t
+            d
+          ' \
+          | tr '-' '.' \
+          | sort -V \
+          | tail -n1
+      )
     elif [ "${pkgname}" = 'pacman-static' ]
     then
       git submodule update "${pkgname}"
