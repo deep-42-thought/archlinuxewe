@@ -168,7 +168,7 @@ then
     srcKnown=false
   else
     eval "$(
-      grep '^pkg(base|name|ver)=' $1/PKGBUILD
+      grep '^pkg\(base\|name\|ver\)=' $1/PKGBUILD
     )"
     source=(dummy)
   fi
