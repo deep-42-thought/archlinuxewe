@@ -1,0 +1,40 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributer: Allan McRae <allan@archlinux.org>
+# Contributer: Jan de Groot <jgc@archlinux.org>
+
+pkgname=gmp-static
+_pkgname=gmp
+pkgver=6.1.2
+pkgrel=2
+pkgdesc="A free library for arbitrary precision arithmetic"
+arch=('x86_64')
+url="http://gmplib.org/"
+depends=('gcc-libs' 'sh' 'gmp')
+license=('LGPL3' 'GPL')
+source=(https://gmplib.org/download/gmp/gmp-${pkgver}.tar.xz{,.sig})
+md5sums=('f58fa8001d60c4c77595fbbb62b63c1d'
+         'SKIP')
+validpgpkeys=('343C2FF0FBEE5EC2EDBEF399F3599FF828C67298')   # Niels Möller
+
+build() {
+  cd "${_pkgname}-${pkgver}"
+
+  LDFLAGS+=' -static '
+
+  ./configure --build=${CHOST} \
+    --prefix=/usr \
+    --enable-cxx \
+    --enable-fat
+  make
+}
+
+check() {
+  cd "${_pkgname}-${pkgver}"
+  make check
+}
+
+package() {
+  cd "${_pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+  rm -rf --one-file-system "${pkgdir}/usr/include" "${pkgdir}/usr/share"
+}
