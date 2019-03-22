@@ -1,0 +1,31 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Gaetan Bisson <bisson@archlinux.org>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+
+pkgname=libmpdclient-static
+_pkgname=libmpdclient
+pkgver=2.16
+pkgrel=1
+pkgdesc='Asynchronous API library for interfacing MPD in the C, C++ & Objective C languages'
+url='https://www.musicpd.org/libs/libmpdclient/'
+license=('custom:BSD')
+arch=('x86_64')
+makedepends=('meson')
+depends=('libmpdclient')
+validpgpkeys=('0392335A78083894A4301C43236E8A58C6DB4512')
+source=("https://www.musicpd.org/download/${_pkgname}/${pkgver%.*}/${_pkgname}-${pkgver}.tar.xz"{,.sig})
+sha256sums=('fa6bdab67c0e0490302b38f00c27b4959735c3ec8aef7a88327adb1407654464'
+            'SKIP')
+
+build() {
+	cd "${srcdir}/${_pkgname}-${pkgver}"
+	LDFLAGS+=' -static '
+	arch-meson --default-library static . build
+	ninja -C build
+}
+
+package() {
+	cd "${srcdir}/${_pkgname}-${pkgver}"
+	DESTDIR="${pkgdir}" ninja -C build install
+	rm -rf --one-file-system "$pkgdir/usr/share/" "$pkgdir/usr/share/doc/" "$pkgdir/usr/lib/pkgconfig/" "$pkgdir/usr/include/"
+}
