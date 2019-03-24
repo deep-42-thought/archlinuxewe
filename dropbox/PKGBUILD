@@ -6,8 +6,8 @@
 # skip pin-dependencies -- we do not build, so "recompiling" will do nothing
 
 pkgname=dropbox
-pkgver=68.4.102
-pkgrel='2'
+pkgver=69.4.102
+pkgrel=1
 pkgdesc="A free service that lets you bring your photos, docs, and videos anywhere and share them easily."
 arch=("i686" "x86_64")
 url="https://www.dropbox.com"
@@ -29,8 +29,8 @@ sha512sums=('b1a2ca11479c9f243c0368d79b36ef87910311af2dd126a3291438083544ed10a64
             '73db250803f4af26eca0730749b93cb23e3fd55e3645b3d8dbdb7b1959c4732674a456fe6ff2e65940caf82c6d197c00ae1ac805c4e88a1aadfd8a2a1160f2c7'
             'edb11b5a07b6a1512a5345d8ce476562fbfd9ec5642f36315a0969a2583f0e6ce371d39d25063af3734f9527ad53abdc29278c046abc2921222777af6f693a4f'
             '2d9e37272f401a65a6e1ffe3f6bcf2034cb09cc6c282145272c0e3e27f3f3518f7df488adb6368ee48f04ae89bfb0d4e77a9e4411d93d315c41366592b3abbac')
-sha512sums_i686=('0403cb9566c95879cdf9a446f1f45f25b328f8e0f4472071ecbf020f6d2ede979e7ca9cc8b0a43a598758f1fc926f31c5d17c323d3fb6dade170a1438313d809')
-sha512sums_x86_64=('473907dec79c6524c014d9abcabc16fbba702ee46465a8674b703307c93d7a57ba3aa876e1d635bf01f249242f15ac6608f71c8cda372ac8116ee1b353738878')
+sha512sums_i686=('0714895014ef0b1b30458fd506283d9ea4e0dad278b4018924154766e6302a1b2f5f70f5bee2590e408e119892e0681969c14b1062b83e30e3fa49d8e7c71b09')
+sha512sums_x86_64=('d475ca9d322b25c0a8d299572e50d361848206540daa1ba473601dbaaf081b9072bd1f22ac27342b28b02f76fcd22f43b6aedbb33df83a96a80f2a8fcfc55bf6')
                                                 
 package() {
 	_source_arch="${CARCH/i6/x}"
