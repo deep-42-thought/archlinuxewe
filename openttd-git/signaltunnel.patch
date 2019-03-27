@@ -1,5 +1,5 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index 8bcfd95885..137c1b033f 100644
+index 61fa2a91ba..5cc35d96c0 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -1547,6 +1547,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Allow buying sh
@@ -11,7 +11,7 @@ index 8bcfd95885..137c1b033f 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :When dragging, place signals every: {STRING2}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Set the distance at which signals will be built on a track up to the next obstacle (signal, junction), if signals are dragged
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} tile{P 0 "" s}
-@@ -2686,8 +2688,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -2684,8 +2686,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -23,7 +23,7 @@ index 8bcfd95885..137c1b033f 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index 0dea4ef89b..a4d8541003 100644
+index dae1be714b..457f5d7631 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
 @@ -1699,6 +1699,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Разреши
@@ -35,7 +35,7 @@ index 0dea4ef89b..a4d8541003 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :При перетаскивании ставить сигналы каждые: {STRING}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Настройка периодичности расстановки сигналов методом перетаскивания. Сигналы будут устанавливаться до первого встреченного препятствия (пересечения или другого сигнала).
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} клет{P ку ки ок}
-@@ -2866,8 +2868,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
+@@ -2864,8 +2866,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Железнодорожный туннель
@@ -69,7 +69,7 @@ index 2bbad8d70b..0d5f5bad7b 100644
  						return false;
  					}
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index aa4e7ab551..a49778c7fd 100644
+index 4257b5258f..e2226bc615 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -1049,9 +1049,12 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
@@ -261,7 +261,7 @@ index aa4e7ab551..a49778c7fd 100644
  
  /**
 diff --git a/src/settings_gui.cpp b/src/settings_gui.cpp
-index 60430b4906..58cfa1464e 100644
+index cfed29d4d0..187fbe9fbb 100644
 --- a/src/settings_gui.cpp
 +++ b/src/settings_gui.cpp
 @@ -1566,6 +1566,7 @@ static SettingsContainer &GetSettingsTree()
@@ -273,10 +273,10 @@ index 60430b4906..58cfa1464e 100644
  				construction->Add(new SettingEntry("gui.persistent_buildingtools"));
  				construction->Add(new SettingEntry("gui.quick_goto"));
 diff --git a/src/settings_type.h b/src/settings_type.h
-index 503342545f..1b6bd19c35 100644
+index 2459058979..8a1d0408af 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
-@@ -322,6 +322,7 @@ struct ConstructionSettings {
+@@ -317,6 +317,7 @@ struct ConstructionSettings {
  	bool   freeform_edges;                   ///< allow terraforming the tiles at the map edges
  	uint8  extra_tree_placement;             ///< (dis)allow building extra trees in-game
  	uint8  command_pause_level;              ///< level/amount of commands that can't be executed while paused
@@ -366,10 +366,10 @@ index b37e15074a..0de45a57c7 100644
  
  			case MP_RAILWAY:
 diff --git a/src/table/settings.ini b/src/table/settings.ini
-index 13d8483627..2160835b0a 100644
+index 78ed234ce2..92fb11e426 100644
 --- a/src/table/settings.ini
 +++ b/src/table/settings.ini
-@@ -542,6 +542,20 @@ str      = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH
+@@ -541,6 +541,20 @@ str      = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH
  strhelp  = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH_HELPTEXT
  strval   = STR_CONFIG_SETTING_TILE_LENGTH
  
@@ -391,10 +391,10 @@ index 13d8483627..2160835b0a 100644
  [SDT_NULL]
  length   = 1
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index 9f17bd898c..7d6c3e1d95 100644
+index 008d515576..8a23bb5ac3 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
-@@ -1852,6 +1852,17 @@ void ReverseTrainDirection(Train *v)
+@@ -1851,6 +1851,17 @@ void ReverseTrainDirection(Train *v)
  		return;
  	}
  
@@ -412,7 +412,7 @@ index 9f17bd898c..7d6c3e1d95 100644
  	/* VehicleExitDir does not always produce the desired dir for depots and
  	 * tunnels/bridges that is needed for UpdateSignalsOnSegment. */
  	DiagDirection dir = VehicleExitDir(v->direction, v->track);
-@@ -2186,6 +2197,42 @@ static bool CheckTrainStayInDepot(Train *v)
+@@ -2185,6 +2196,42 @@ static bool CheckTrainStayInDepot(Train *v)
  	return false;
  }
  
@@ -455,7 +455,7 @@ index 9f17bd898c..7d6c3e1d95 100644
  /**
   * Clear the reservation of \a tile that was just left by a wagon on \a track_dir.
   * @param v %Train owning the reservation.
-@@ -2201,7 +2248,8 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
+@@ -2200,7 +2247,8 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
  		if (GetTunnelBridgeDirection(tile) == ReverseDiagDir(dir)) {
  			TileIndex end = GetOtherTunnelBridgeEnd(tile);
  
@@ -465,7 +465,7 @@ index 9f17bd898c..7d6c3e1d95 100644
  				/* Free the reservation only if no other train is on the tiles. */
  				SetTunnelBridgeReservation(tile, false);
  				SetTunnelBridgeReservation(end, false);
-@@ -2215,6 +2263,7 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
+@@ -2214,6 +2262,7 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
  					}
  				}
  			}
@@ -473,7 +473,7 @@ index 9f17bd898c..7d6c3e1d95 100644
  		}
  	} else if (IsRailStationTile(tile)) {
  		TileIndex new_tile = TileAddByDiagDir(tile, dir);
-@@ -3081,6 +3130,99 @@ static Vehicle *CheckTrainAtSignal(Vehicle *v, void *data)
+@@ -3080,6 +3129,99 @@ static Vehicle *CheckTrainAtSignal(Vehicle *v, void *data)
  	return t;
  }
  
@@ -573,7 +573,7 @@ index 9f17bd898c..7d6c3e1d95 100644
  /**
   * Move a vehicle chain one movement stop forwards.
   * @param v First vehicle to move.
-@@ -3266,6 +3408,23 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
+@@ -3265,6 +3407,23 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
  					goto invalid_rail;
  				}
  
@@ -597,7 +597,7 @@ index 9f17bd898c..7d6c3e1d95 100644
  				if (!HasBit(r, VETS_ENTERED_WORMHOLE)) {
  					Track track = FindFirstTrack(chosen_track);
  					Trackdir tdir = TrackDirectionToTrackdir(track, chosen_dir);
-@@ -3318,6 +3477,64 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
+@@ -3317,6 +3476,64 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
  				}
  			}
  		} else {
@@ -663,7 +663,7 @@ index 9f17bd898c..7d6c3e1d95 100644
  				/* Perform look-ahead on tunnel exit. */
  				if (v->IsFrontEngine()) {
 diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
-index 06dc24e84f..4b293fa02d 100644
+index 79011a3bd5..1cf9be1214 100644
 --- a/src/tunnelbridge_cmd.cpp
 +++ b/src/tunnelbridge_cmd.cpp
 @@ -30,6 +30,7 @@
