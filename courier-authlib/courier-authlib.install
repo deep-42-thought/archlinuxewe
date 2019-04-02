@@ -1,6 +1,5 @@
 # arg 1:  the new package version
 post_install() {
-   if ! (grep -q '^courier:.*:72:72:' /etc/passwd); then echo courier user has incorrect uid:gid - please fix!; fi;
   # make sure the system can see authlib libraries
   ldconfig
 }
@@ -8,5 +7,5 @@ post_install() {
 # arg 1:  the new package version
 # arg 2:  the old package version
 post_upgrade() {
-    post_install $1
+  post_install $1
 }

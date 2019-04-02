@@ -8,7 +8,7 @@
 
 pkgname=courier-authlib
 pkgver=0.69.0
-pkgrel='9'
+pkgrel=10
 pkgdesc="Authentication library for the Courier mailserver(s)"
 arch=(i686 x86_64)
 license=('GPL2')
@@ -26,10 +26,10 @@ options=(!libtool !staticlibs emptydirs)
 install=${pkgname}.install
 source=(https://downloads.sourceforge.net/project/courier/authlib/${pkgver}/${pkgname}-${pkgver}.tar.bz2
 	authdaemond.service
-	courier.conf)
+	courier-sysusers.conf)
 sha512sums=('c3806aa50d7ff13f75536064ec46028db3d5e1f4ef64692b5ece64810b4042ae0840bb346c73ae9d36f6113173f0e5e922356a178c10815640a26caa921e1614'
 '7855fadbef9e6845868d720f9637cc6fe97814b9d994641a351e48536e1985323f095c708f30abe0f3a0c1cb8e25a746da1bb5b2baf9f63d0498d01df39f843b'
-'997f755516a64f38abb626790e22e0ad6c3d9fbd7d3e76199cc335ce60f9d5e94dfa083deb637cc36fe039b5b1aa713224e2175b65b1980bf3b304499e3e96e6')
+'c8c7dfd245ca7c6bf9174bb170bb45ff548eaa4c0b4049e3def12cf15f83d98347a0d3e0174dd7aae86c412117eee98f51428e8d3c8df61ccdcb5e929ab939a3')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
@@ -74,7 +74,7 @@ package() {
   chown 72:72 "${pkgdir}/usr/lib/courier-authlib"
 
   # Install systemd sysuser file
-  install -Dm 644 "$srcdir/courier.conf" "${pkgdir}/usr/lib/sysusers.d/courier.conf"
+  install -Dm 644 "$srcdir/courier-sysusers.conf" "${pkgdir}/usr/lib/sysusers.d/courier.conf"
 
   # Install service file
   install -Dm 644 "${srcdir}/authdaemond.service" "${pkgdir}/usr/lib/systemd/system/authdaemond.service"
