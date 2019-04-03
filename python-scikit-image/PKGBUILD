@@ -2,93 +2,39 @@
 # Contributor: Jaroslav Lichtblau <svetlemodry@archlinux.org>
 # Contributor: Andrzej Giniewicz <gginiu@gmail.com>
 
-pkgbase=python-scikit-image
-_pkgname="${pkgbase#*-}"
-pkgname=('python2-scikit-image' 'python-scikit-image')
-pkgver=0.14.2
-pkgrel='3'
+pkgname='python-scikit-image'
+_pkgname="${pkgname#*-}"
+pkgver=0.15.0
+pkgrel=1
 pkgdesc="Image processing routines for SciPy"
 arch=('i686' 'x86_64')
 url="http://scikit-image.org/"
 license=('BSD')
-_deppy2=(
-  'python2>=2.7'
-  'python2<2.8'
-)
-_deppy=(
+depends=(
   'python>=3.7'
   'python<3.8'
-)
-_depends=(
   'python-scipy'
   'python-matplotlib'
   'python-networkx'
   'python-pillow'
-  'python-pywavelets'
-)
-_makedepends=(
+  'python-pywavelets')
+makedepends=(
   'cython>=0.23')
-_optdepends=(
+optdepends=(
   'python-pyqt4: for imshow(x, fancy=True) and skivi'
   'freeimage: for reading various types of image file formats'
   'python-pyamg: fast cg_mg mode of random walker segmentation'
 )
-makedepends=(
-  "${_deppy[@]}"
-  "${_deppy2[@]}"
-  "${_depends[@]}"
-  "${_depends[@]/python-/python2-}"
-  "${_makedepends[@]}"
-  "${_makedepends[@]/ython/ython2}"
-)
 options=('!emptydirs')
-source=(https://pypi.python.org/packages/7f/bd/74ed9add17c3c7529c18693c17846753649c6cf2e674e7482fbf85d636cb/scikit-image-${pkgver}.tar.gz)
-sha512sums=('ab31fdb5b1d16b794ccc4d673f6c8bce0a8a54b81c0e43c9a4cdd5eb0465ef69ac184a06e395a1d27da51c2e0911db9afa2be4e740f44bceab952428eb7f599a')
-
-prepare() {
-  cd "${srcdir}"
-  cp -a scikit-image-$pkgver scikit-image-py2-$pkgver
-  cd scikit-image-py2-$pkgver
-
-  sed -e "s|#![ ]*/usr/bin/python$|#!/usr/bin/python2|" \
-      -e "s|#![ ]*/usr/bin/env python$|#!/usr/bin/env python2|" \
-      -e "s|#![ ]*/bin/env python$|#!/usr/bin/env python2|" \
-      -i $(find . -name '*.py')
-}
+source=(https://pypi.python.org/packages/e0/46/ca035f5d7d3414124a3a5ef22cd2e75c0c5149042a668375f1d44eb69f8f/scikit-image-${pkgver}.tar.gz)
+sha512sums=('9d0be54ddd564c0f28eae979b6f348011f7b38c8811f70ad460330905e706fe145dd6a30b502d15126450148fdbb3f54a271227d46e2d078030054ad00f35bc3')
 
 build() {
-  echo "Building Python2"
-  cd "${srcdir}"/scikit-image-py2-$pkgver
-  python2 setup.py build
-
-  echo "Building Python3"
   cd "${srcdir}"/scikit-image-$pkgver
   python setup.py build
 }
 
-package_python2-scikit-image() {
-  depends=(
-    "${_deppy2[@]}"
-    "${_depends[@]/python-/python2-}"
-  )
-  optdepends=(
-    "${_optdepends[@]/python-/python2-}"
-  )
-  cd "${srcdir}"/scikit-image-py2-$pkgver
-
-  python2 setup.py install --root="${pkgdir}"/ --optimize=1
-  mv "${pkgdir}"/usr/bin/skivi "${pkgdir}"/usr/bin/skivi2
-  install -D LICENSE.txt "${pkgdir}"/usr/share/licenses/$pkgname/LICENSE
-}
-
-package_python-scikit-image() {
-  depends=(
-    "${_deppy2[@]}"
-    "${_depends[@]}"
-  )
-  optdepends=(
-    "${_optdepends[@]}"
-  )
+package() {
   cd "${srcdir}"/scikit-image-$pkgver
 
   python setup.py install --root="${pkgdir}"/ --optimize=1
