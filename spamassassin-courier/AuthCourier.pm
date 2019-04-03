@@ -76,13 +76,16 @@ sub getpwnam {
     # it's moral equivalent until Sam patches these as per my request...
     my $uid = $results{'UID'} || CORE::getpwnam($name); 
 
+    # the same seems to be true for the GID
+    my $gid = $results{'GID'} || CORE::getgrnam($name);
+
     # stop some naf 'uninitialized' errors ...
     return wantarray ? ('','','','','','','') : undef unless $uid; # uid 0 = root !!!
 
     return wantarray ? ( $results{'USERNAME'}, 
 			 $results{'PASSWD'},
 			 int($uid),
-			 int($results{'GID'}),
+			 int($gid),
 			 $results{'QUOTA'},
 			 $results{'COMMENT'},
 			 $results{'GCOS'},
