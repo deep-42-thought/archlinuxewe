@@ -21,7 +21,7 @@ if [ $# -eq 1 ]; then
     grep '^pkgrel=' "${pkg}/PKGBUILD"
   )"
   sed -i '
-    s@^\(pkgrel=\)\('"'"'\?\)[0-9]\+\2$@\1'"'$((pkgrel+1))'"'@
+    s@^\(pkgrel=\)\('"'"'\?\)[0-9]\+\2$@\1'"$((pkgrel+1))"'@
   ' "${pkg}/PKGBUILD"
   if ${commit}; then
     git commit "${pkg}/PKGBUILD" -m "${pkg}: rebuild"
