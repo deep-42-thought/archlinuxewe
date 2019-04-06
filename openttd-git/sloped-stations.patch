@@ -1,5 +1,5 @@
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 4257b5258f..afe669fc3a 100644
+index 4257b5258f7..afe669fc3af 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -190,14 +190,6 @@ RailType AllocateRailType(RailTypeLabel label)
@@ -18,7 +18,7 @@ index 4257b5258f..afe669fc3a 100644
   *     ---------
   *    |\       /|
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index d9825c9bfa..15b804af8d 100644
+index d9825c9bfae..15b804af8d6 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -35,6 +35,7 @@
@@ -62,7 +62,7 @@ index d9825c9bfa..15b804af8d 100644
   * Should the road be drawn as a unpaved snow/desert road?
   * By default, roads are always drawn as unpaved if they are on desert or
 diff --git a/src/road_cmd.h b/src/road_cmd.h
-index 3cf588dcd6..2a0da61427 100644
+index 3cf588dcd60..2a0da614270 100644
 --- a/src/road_cmd.h
 +++ b/src/road_cmd.h
 @@ -14,8 +14,11 @@
@@ -78,7 +78,7 @@ index 3cf588dcd6..2a0da61427 100644
 +
  #endif /* ROAD_CMD_H */
 diff --git a/src/road_type.h b/src/road_type.h
-index 5251a53923..ce9ac81518 100644
+index 5251a53923a..ce9ac815184 100644
 --- a/src/road_type.h
 +++ b/src/road_type.h
 @@ -73,4 +73,11 @@ enum RoadBits {
@@ -94,7 +94,7 @@ index 5251a53923..ce9ac81518 100644
 +
  #endif /* ROAD_TYPE_H */
 diff --git a/src/roadveh_cmd.cpp b/src/roadveh_cmd.cpp
-index 559b875479..0e09e34741 100644
+index 559b8754792..0e09e347412 100644
 --- a/src/roadveh_cmd.cpp
 +++ b/src/roadveh_cmd.cpp
 @@ -1483,7 +1483,7 @@ again:
@@ -107,7 +107,7 @@ index 559b875479..0e09e34741 100644
  				}
  			}
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index 5dfba2d196..b8840b0511 100644
+index a79480448af..922552830ce 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -55,6 +55,7 @@
@@ -179,7 +179,7 @@ index 5dfba2d196..b8840b0511 100644
  	if (ret.Failed()) return ret;
  	cost.AddCost(ret);
  
-@@ -2811,6 +2812,32 @@ static void DrawTile_Station(TileInfo *ti)
+@@ -2813,6 +2814,32 @@ static void DrawTile_Station(TileInfo *ti)
  		palette = PALETTE_TO_GREY;
  	}
  
@@ -212,7 +212,7 @@ index 5dfba2d196..b8840b0511 100644
  	if (layout == NULL && (t == NULL || t->seq == NULL)) t = GetStationTileLayout(GetStationType(ti->tile), gfx);
  
  	/* don't show foundation for docks */
-@@ -2877,10 +2904,10 @@ static void DrawTile_Station(TileInfo *ti)
+@@ -2879,10 +2906,10 @@ static void DrawTile_Station(TileInfo *ti)
  			}
  
  			OffsetGroundSprite(31, 1);
@@ -225,7 +225,7 @@ index 5dfba2d196..b8840b0511 100644
  		}
  	}
  
-@@ -2936,14 +2963,64 @@ draw_default_foundation:
+@@ -2938,14 +2965,64 @@ draw_default_foundation:
  				DrawGroundSprite(overlay + overlay_offset, PALETTE_CRASH);
  			}
  		} else {
@@ -293,7 +293,7 @@ index 5dfba2d196..b8840b0511 100644
  			}
  		}
  	}
-@@ -2996,6 +3073,16 @@ void StationPickerDrawSprite(int x, int y, StationType st, RailType railtype, Ro
+@@ -2998,6 +3075,16 @@ void StationPickerDrawSprite(int x, int y, StationType st, RailType railtype, Ro
  
  static int GetSlopePixelZ_Station(TileIndex tile, uint x, uint y)
  {
@@ -311,7 +311,7 @@ index 5dfba2d196..b8840b0511 100644
  }
  
 diff --git a/src/table/sprites.h b/src/table/sprites.h
-index da3bc76271..8e1f5b6a40 100644
+index da3bc762718..8e1f5b6a40f 100644
 --- a/src/table/sprites.h
 +++ b/src/table/sprites.h
 @@ -260,7 +260,26 @@ static const SpriteID SPR_TRUCK_STOP_DT_Y_W = SPR_ROADSTOP_BASE + 4;
@@ -343,7 +343,7 @@ index da3bc76271..8e1f5b6a40 100644
  /** Tramway sprites */
  static const SpriteID SPR_TRAMWAY_BASE                 = SPR_ROADSTOP_BASE + ROADSTOP_SPRITE_COUNT;
 diff --git a/src/table/station_land.h b/src/table/station_land.h
-index 3327dab5dd..991c5d3bec 100644
+index 3327dab5ddd..991c5d3becc 100644
 --- a/src/table/station_land.h
 +++ b/src/table/station_land.h
 @@ -777,6 +777,62 @@ static const DrawTileSeqStruct _station_display_datas_waypoint_Y[] = {
@@ -432,7 +432,7 @@ index 3327dab5dd..991c5d3bec 100644
  
  static const DrawTileSprites _station_display_datas_oilrig[] = {
 diff --git a/src/track_type.h b/src/track_type.h
-index 2982288bba..a89fd708cd 100644
+index 2982288bba8..a89fd708cd3 100644
 --- a/src/track_type.h
 +++ b/src/track_type.h
 @@ -126,4 +126,11 @@ typedef SimpleTinyEnumT<TrackdirBits, uint16> TrackdirBitsShort;
