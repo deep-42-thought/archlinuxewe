@@ -665,39 +665,6 @@ then
           tail -n1 \
       )
     elif echo "${src}" | \
-      grep -q '^https\?://git\.archlinux32\.org/'
-    then
-      quVer=$(
-        echo "${src#*::}" | \
-          sed '
-            s|/archive/[^/]*$|/releases|
-            s|/download/[^/]*/[^/]*$||
-            s|http:|https:|
-          '
-      )
-      quNam=$(
-        echo "/${quVer#*.org/}" | \
-          tr '[[:upper:]]' '[[:lower:]]' | \
-          sed 's,/releases$,/archive/,'
-      )
-      remVer=$( \
-        curl_it "${quVer}" | \
-          tr "\"" "\n" | \
-          tr '[[:upper:]]' '[[:lower:]]' | \
-          grep "^${quNam}v\?[0-9.]\+\.tar\.gz\$" | \
-          sed '
-            s|^'"${quNam}"'v\?||
-            s/\.tar\.gz$//
-          ' | \
-          if [ "${pkgname}" = 'asp32' ]; then
-            grep -vx '[12]'
-          else
-            cat
-          fi | \
-          sort -V | \
-          tail -n1 \
-      )
-    elif echo "${src}" | \
       grep -q "//\(\(pr\)\?downloads\.\)\?sourceforge\.net/"
     then
       quVer=$( \
