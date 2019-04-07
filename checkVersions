@@ -427,8 +427,12 @@ then
       grep -q '^git://anonscm\.debian\.org/\|^git\(+https\?\)\?://git\(hub\.com\|\.archlinux32\.org\)/.*#tag='
     then
       src="${src#git+}"
+      src="${src%#*}"
       remVer=$(
-        git ls-remote --tags "${src%#*}" | \
+        {
+          git ls-remote --tags "${src}" 2>/dev/null || \
+          git ls-remote --tags "${src//git.archlinux32.org\/archlinux32\//git2.archlinux32.org/Archlinux32/}" 2>/dev/null
+        } | \
           awk '{print $2}' | \
           sed '
             s|^refs/tags/'"$(
