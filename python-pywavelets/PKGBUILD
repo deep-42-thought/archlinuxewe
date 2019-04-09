@@ -4,8 +4,8 @@
 pkgbase=python-pywavelets
 pkgname=(python-pywavelets python2-pywavelets)
 _pkgname=pywt
-pkgver=1.0.2
-pkgrel='2'
+pkgver=1.0.3
+pkgrel=1
 pkgdesc="Discrete Wavelet Transforms in Python"
 arch=('x86_64' 'i686')
 url="https://github.com/PyWavelets/pywt"
@@ -28,7 +28,7 @@ _makedepends=(
   'cython>=0.20.2'
   'python-setuptools')
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/PyWavelets/pywt/archive/v$pkgver.tar.gz")
-sha512sums=('3bdd25350442ee2200ff14c1aaad4ab7f5cf7388a9234b7026eb992a134b29932ed49a93a712091f08e6a05e5009e15a7f240bcf167f53f6e0357fa7d819954a')
+sha512sums=('130dc962c22bcd66c2de9b018ff6324cc5c8016acfafbddc22091b94f3cd8666e5d401f2ee3014730ce4b9969d196ae5f82aad5de0b9578b837ef1672abb4d5e')
 
 makedepends=(
   "${_deppy[@]}"
