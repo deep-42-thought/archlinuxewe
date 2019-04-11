@@ -70,7 +70,7 @@ index 5496edc55a..c8c16a28b8 100644
 +underground_gui.h
 +widgets/underground_widget.h
 diff --git a/src/base_station_base.h b/src/base_station_base.h
-index 8af01f8a70..b5b07eaf32 100644
+index d7a67bd657..b48057b583 100644
 --- a/src/base_station_base.h
 +++ b/src/base_station_base.h
 @@ -28,6 +28,13 @@ struct StationSpecList {
@@ -97,7 +97,7 @@ index 8af01f8a70..b5b07eaf32 100644
  	CommandCost BeforeAddTile(TileIndex tile, StationRectMode mode);
  	CommandCost BeforeAddRect(TileIndex tile, int w, int h, StationRectMode mode);
 diff --git a/src/clear_cmd.cpp b/src/clear_cmd.cpp
-index c4aeb3a52e..9639957f6a 100644
+index bfe5c66b3c..230fc9421a 100644
 --- a/src/clear_cmd.cpp
 +++ b/src/clear_cmd.cpp
 @@ -14,6 +14,7 @@
@@ -148,7 +148,7 @@ index c4aeb3a52e..9639957f6a 100644
  }
  
 diff --git a/src/console_cmds.cpp b/src/console_cmds.cpp
-index 7a7d4827d8..fbe7fec405 100644
+index 2b74f1d000..f25aa2802c 100644
 --- a/src/console_cmds.cpp
 +++ b/src/console_cmds.cpp
 @@ -27,6 +27,7 @@
@@ -168,7 +168,7 @@ index 7a7d4827d8..fbe7fec405 100644
  	_settings_game.game_creation.map_y = FindFirstBit(MapSizeY());
  	_switch_mode = SM_RESTARTGAME;
 diff --git a/src/genworld_gui.cpp b/src/genworld_gui.cpp
-index 53cc2d39ea..b43f99f5de 100644
+index 550a193d79..011fe186f9 100644
 --- a/src/genworld_gui.cpp
 +++ b/src/genworld_gui.cpp
 @@ -18,6 +18,8 @@
@@ -344,7 +344,7 @@ index 7eeddb4078..39c3ed5107 100644
  };
  
 diff --git a/src/heightmap.cpp b/src/heightmap.cpp
-index 17bdbbf610..6521cee6f9 100644
+index 4609dceeb9..86ee14cc56 100644
 --- a/src/heightmap.cpp
 +++ b/src/heightmap.cpp
 @@ -16,6 +16,7 @@
@@ -366,7 +366,7 @@ index 17bdbbf610..6521cee6f9 100644
  	for (row = 0; (uint)row < height; row++) {
  		for (col = 0; (uint)col < width; col++) {
 diff --git a/src/industry_cmd.cpp b/src/industry_cmd.cpp
-index c20b0a05bb..53e49c5d6f 100644
+index df9286308e..48b2f4dc10 100644
 --- a/src/industry_cmd.cpp
 +++ b/src/industry_cmd.cpp
 @@ -14,6 +14,7 @@
@@ -387,7 +387,7 @@ index c20b0a05bb..53e49c5d6f 100644
  		}
  
 diff --git a/src/landscape.cpp b/src/landscape.cpp
-index b36f5c8842..84dd03ba3f 100644
+index 66be73bd65..dced07599e 100644
 --- a/src/landscape.cpp
 +++ b/src/landscape.cpp
 @@ -35,6 +35,7 @@
@@ -916,10 +916,10 @@ index 68bc4f9657..6b7b54485f 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stotelės rūšis: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stotelės tipas: {LTBLUE}{STRING}
 diff --git a/src/lang/luxembourgish.txt b/src/lang/luxembourgish.txt
-index 1190cd30f3..75c5fbd896 100644
+index 30507953f4..e71eefd00e 100644
 --- a/src/lang/luxembourgish.txt
 +++ b/src/lang/luxembourgish.txt
-@@ -2597,7 +2597,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramschi
+@@ -2598,7 +2598,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramschi
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Schinnebesëtzer: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Gemeng: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Keng
@@ -1140,7 +1140,7 @@ index 82918400a8..1bebdb738e 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clase de estación: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estación: {LTBLUE}{STRING}
 diff --git a/src/lang/spanish_MX.txt b/src/lang/spanish_MX.txt
-index 04eb6c7fdb..4051a1358a 100644
+index ca0b6f0785..3faba92366 100644
 --- a/src/lang/spanish_MX.txt
 +++ b/src/lang/spanish_MX.txt
 @@ -2603,7 +2603,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
@@ -1571,7 +1571,7 @@ index 0000000000..53eafdde63
 +
 +#endif /* LAYER_TYPE_H */
 diff --git a/src/main_gui.cpp b/src/main_gui.cpp
-index 808484b0ea..7a5f06561e 100644
+index d4559c216e..d7b29c278b 100644
 --- a/src/main_gui.cpp
 +++ b/src/main_gui.cpp
 @@ -33,6 +33,9 @@
@@ -1630,7 +1630,7 @@ index 808484b0ea..7a5f06561e 100644
  	}
  
 diff --git a/src/map.cpp b/src/map.cpp
-index 85590c3e88..c00faa18c1 100644
+index 53e26ed73e..c45ac1b0ff 100644
 --- a/src/map.cpp
 +++ b/src/map.cpp
 @@ -13,6 +13,7 @@
@@ -1641,7 +1641,7 @@ index 85590c3e88..c00faa18c1 100644
  #include "string_func.h"
  
  #include "safeguards.h"
-@@ -38,7 +39,7 @@ TileExtended *_me = NULL; ///< Extended Tiles of the map
+@@ -38,7 +39,7 @@ TileExtended *_me = nullptr; ///< Extended Tiles of the map
   * @param size_x the width of the map along the NE/SW edge
   * @param size_y the 'height' of the map along the SE/NW edge
   */
@@ -1778,7 +1778,7 @@ index 3d09f26f26..251ea4990d 100644
  	_pause_mode = PM_UNPAUSED;
  	_fast_forward = 0;
 diff --git a/src/misc_gui.cpp b/src/misc_gui.cpp
-index 4aeb81736b..d94c7439db 100644
+index 4c7557c36f..0e09284a9f 100644
 --- a/src/misc_gui.cpp
 +++ b/src/misc_gui.cpp
 @@ -214,10 +214,11 @@ public:
@@ -1797,7 +1797,7 @@ index 4aeb81736b..d94c7439db 100644
  		line_nr++;
  
 diff --git a/src/rail.h b/src/rail.h
-index 004593ce7c..f01bb15d25 100644
+index 8bfc3f025b..bddf9ecdfb 100644
 --- a/src/rail.h
 +++ b/src/rail.h
 @@ -160,7 +160,7 @@ public:
@@ -1810,7 +1810,7 @@ index 004593ce7c..f01bb15d25 100644
  		CursorID rail_swne;  ///< Cursor for building rail in X direction
  		CursorID rail_ew;    ///< Cursor for building rail in E-W direction
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 4257b5258f..7c2f91ae02 100644
+index d8327c4449..ccdb86a52c 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -535,7 +535,7 @@ CommandCost CmdBuildSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1, u
@@ -1906,7 +1906,7 @@ index 4257b5258f..7c2f91ae02 100644
  		}
  
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index d9825c9bfa..f9d420c5d7 100644
+index e9edbf2549..b3270e7004 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -255,7 +255,7 @@ static CommandCost RemoveRoad(TileIndex tile, DoCommandFlag flags, RoadBits piec
@@ -1917,7 +1917,7 @@ index d9825c9bfa..f9d420c5d7 100644
 +			cost.AddCost(_price[PR_CLEAR_ROAD] * 2 * UNDERGROUND_COST_MULTIPLIER(tile));
  			if (flags & DC_EXEC) {
  				Company *c = Company::GetIfValid(GetRoadOwner(tile, rt));
- 				if (c != NULL) {
+ 				if (c != nullptr) {
 @@ -737,7 +737,7 @@ do_clear:;
  			/* Count pieces */
  			CountBits(pieces);
@@ -1937,7 +1937,7 @@ index d9825c9bfa..f9d420c5d7 100644
  }
  
 diff --git a/src/saveload/map_sl.cpp b/src/saveload/map_sl.cpp
-index 5402ecc0d2..deec8eef70 100644
+index 18c1351176..f72855041f 100644
 --- a/src/saveload/map_sl.cpp
 +++ b/src/saveload/map_sl.cpp
 @@ -11,6 +11,7 @@
@@ -1998,7 +1998,7 @@ index fa584693af..99ef125e4d 100644
  		WID_CS_START_DATE_TEXT                       = ::WID_CS_START_DATE_TEXT,                       ///< Clickable start date value.
  		WID_CS_START_DATE_UP                         = ::WID_CS_START_DATE_UP,                         ///< Increase start year (start later).
 diff --git a/src/settings.cpp b/src/settings.cpp
-index 749050132d..b64bf2ecad 100644
+index b111f87282..c9bbca01c5 100644
 --- a/src/settings.cpp
 +++ b/src/settings.cpp
 @@ -32,6 +32,7 @@
@@ -2031,7 +2031,7 @@ index 2459058979..923861f8c6 100644
  	byte   oil_refinery_limit;               ///< distance oil refineries allowed from map edge
  	byte   snow_line_height;                 ///< the configured snow line height
 diff --git a/src/station.cpp b/src/station.cpp
-index 6f10806a4b..dddda62b40 100644
+index b211c6422e..a3560f2fd4 100644
 --- a/src/station.cpp
 +++ b/src/station.cpp
 @@ -13,6 +13,7 @@
@@ -2127,7 +2127,7 @@ index 6f10806a4b..dddda62b40 100644
  	bool empty = this->AfterRemoveTile(st, ta.tile);
  	if (ta.w != 1 || ta.h != 1) empty = empty || this->AfterRemoveTile(st, TILE_ADDXY(ta.tile, ta.w - 1, ta.h - 1));
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index 873be3be56..d2814a8d21 100644
+index acffe113dd..566bd84fb2 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -13,6 +13,7 @@
@@ -2172,7 +2172,7 @@ index 873be3be56..d2814a8d21 100644
  		}
 +		if (!layers) break;
  	}
- 	*st = (closest_station == INVALID_STATION) ? NULL : T::Get(closest_station);
+ 	*st = (closest_station == INVALID_STATION) ? nullptr : T::Get(closest_station);
  	return CommandCost();
 @@ -835,7 +839,7 @@ CommandCost CheckBuildableTile(TileIndex tile, uint invalid_dirs, int &allowed_z
  				return_cmd_error(STR_ERROR_FLAT_LAND_REQUIRED);
@@ -2218,7 +2218,7 @@ index 873be3be56..d2814a8d21 100644
 -CommandCost FindJoiningBaseStation(StationID existing_station, StationID station_to_join, bool adjacent, TileArea ta, T **st)
 +CommandCost FindJoiningBaseStation(StationID existing_station, StationID station_to_join, bool adjacent, TileArea ta, T **st, bool layers=false)
  {
- 	assert(*st == NULL);
+ 	assert(*st == nullptr);
  	bool check_surrounding = true;
 @@ -1185,7 +1191,7 @@ CommandCost FindJoiningBaseStation(StationID existing_station, StationID station
  
@@ -2250,7 +2250,7 @@ index 873be3be56..d2814a8d21 100644
 +	cost.AddCost((numtracks * _price[PR_BUILD_STATION_RAIL] + _price[PR_BUILD_STATION_RAIL_LENGTH]) * plat_len * UNDERGROUND_COST_MULTIPLIER(tile_org));
 +	cost.AddCost(numtracks * plat_len * RailBuildCost(rt) * UNDERGROUND_COST_MULTIPLIER(tile_org));
  
- 	Station *st = NULL;
+ 	Station *st = nullptr;
  	ret = FindJoiningStation(est, station_to_join, adjacent, new_location, &st);
 @@ -1356,8 +1362,10 @@ CommandCost CmdBuildRailStation(TileIndex tile_org, DoCommandFlag flags, uint32
  		byte numtracks_orig;
@@ -2337,7 +2337,7 @@ index 873be3be56..d2814a8d21 100644
  	AirportTileTableIterator iter(as->table[layout], tile);
  	CommandCost cost = CheckFlatLandAirport(iter, flags);
 diff --git a/src/station_gui.cpp b/src/station_gui.cpp
-index edd02d6aef..06bad070ee 100644
+index a3013c847f..6c8a6e6253 100644
 --- a/src/station_gui.cpp
 +++ b/src/station_gui.cpp
 @@ -21,6 +21,7 @@
@@ -2383,7 +2383,7 @@ index edd02d6aef..06bad070ee 100644
  				}
  			}
 @@ -2204,8 +2212,11 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
- 	if (distant_join && min(ta.w, ta.h) >= _settings_game.station.station_spread) return NULL;
+ 	if (distant_join && min(ta.w, ta.h) >= _settings_game.station.station_spread) return nullptr;
  	uint max_dist = distant_join ? _settings_game.station.station_spread - min(ta.w, ta.h) : 1;
  
 -	TileIndex tile = TileAddByDir(ctx.tile, DIR_N);
@@ -2394,7 +2394,7 @@ index edd02d6aef..06bad070ee 100644
 +		CircularTileSearch(&tile, max_dist, ta.w, ta.h, AddNearbyStation<T>, &ctx);
 +	}
  
- 	return NULL;
+ 	return nullptr;
  }
 diff --git a/src/table/settings.ini b/src/table/settings.ini
 index 78ed234ce2..745b62ba76 100644
@@ -2433,7 +2433,7 @@ index 78ed234ce2..745b62ba76 100644
  [SDTC_BOOL]
  ifdef    = DEDICATED
 diff --git a/src/terraform_cmd.cpp b/src/terraform_cmd.cpp
-index 9839f5e34b..faaf01b275 100644
+index eb6ec2b530..8dd16dce11 100644
 --- a/src/terraform_cmd.cpp
 +++ b/src/terraform_cmd.cpp
 @@ -10,6 +10,7 @@
@@ -2456,7 +2456,7 @@ index 9839f5e34b..faaf01b275 100644
  				if (IsBridgeAbove(tile)) {
  					int bridge_height = GetBridgeHeight(GetSouthernBridgeEnd(tile));
 diff --git a/src/tgp.cpp b/src/tgp.cpp
-index 4dbb79aa82..01e2609c6e 100644
+index 3fd42e0fdb..433dd7cb75 100644
 --- a/src/tgp.cpp
 +++ b/src/tgp.cpp
 @@ -14,6 +14,7 @@
@@ -2502,7 +2502,7 @@ index 4dbb79aa82..01e2609c6e 100644
  
  	int max_height = H2I(TGPGetMaxHeight());
 diff --git a/src/tile_map.h b/src/tile_map.h
-index 7a76f2b974..96a1418395 100644
+index 0cb28122d8..c6f62dac0f 100644
 --- a/src/tile_map.h
 +++ b/src/tile_map.h
 @@ -16,6 +16,7 @@
@@ -2558,7 +2558,7 @@ index 45bfb3d4c0..164781814b 100644
  
  	bool Contains(TileIndex tile) const;
 diff --git a/src/toolbar_gui.cpp b/src/toolbar_gui.cpp
-index 00d0bba0b0..f3c38af3f1 100644
+index bd7472ecdc..36fb30322b 100644
 --- a/src/toolbar_gui.cpp
 +++ b/src/toolbar_gui.cpp
 @@ -13,7 +13,10 @@
@@ -2745,7 +2745,7 @@ index 00d0bba0b0..f3c38af3f1 100644
  		SPR_IMG_MESSAGES,        // WID_TN_MESSAGES
  		SPR_IMG_QUERY,           // WID_TN_HELP
 diff --git a/src/town_cmd.cpp b/src/town_cmd.cpp
-index d918fbceda..d54d5d86f2 100644
+index 367eba45f9..fa2e6ab631 100644
 --- a/src/town_cmd.cpp
 +++ b/src/town_cmd.cpp
 @@ -13,6 +13,7 @@
@@ -2776,7 +2776,7 @@ index d918fbceda..d54d5d86f2 100644
  	}
  	return CommandCost();
 diff --git a/src/tree_cmd.cpp b/src/tree_cmd.cpp
-index 7240cf86d3..824ec2c2f9 100644
+index e982abfb28..a8283b8da8 100644
 --- a/src/tree_cmd.cpp
 +++ b/src/tree_cmd.cpp
 @@ -13,6 +13,7 @@
@@ -2809,7 +2809,7 @@ index 7240cf86d3..824ec2c2f9 100644
  	if (tree_to_plant != TREE_INVALID && !IsInsideBS(tree_to_plant, _tree_base_by_landscape[_settings_game.game_creation.landscape], _tree_count_by_landscape[_settings_game.game_creation.landscape])) return CMD_ERROR;
  
 diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
-index 79011a3bd5..d5b2b4b746 100644
+index 78586b1a2e..f297a7bd59 100644
 --- a/src/tunnelbridge_cmd.cpp
 +++ b/src/tunnelbridge_cmd.cpp
 @@ -15,6 +15,7 @@
@@ -3197,7 +3197,7 @@ index 0000000000..81b119545e
 +
 +#endif /* UNDERGROUND_GUI_H */
 diff --git a/src/vehicle.cpp b/src/vehicle.cpp
-index 856fc6737c..cda355815a 100644
+index e6df365b05..c27e1f681e 100644
 --- a/src/vehicle.cpp
 +++ b/src/vehicle.cpp
 @@ -15,6 +15,7 @@
@@ -3211,13 +3211,13 @@ index 856fc6737c..cda355815a 100644
 @@ -1143,6 +1144,7 @@ void ViewportAddVehicles(DrawPixelInfo *dpi)
  			const Vehicle *v = _vehicle_viewport_hash[x + y]; // already masked & 0xFFF
  
- 			while (v != NULL) {
+ 			while (v != nullptr) {
 +				if (LayerIndex(v->tile) == dpi->layer)
  				if (!(v->vehstatus & VS_HIDDEN) &&
  						l <= v->coord.right &&
  						t <= v->coord.bottom &&
 diff --git a/src/viewport.cpp b/src/viewport.cpp
-index 9bbe6a4623..803b76a714 100644
+index 804aa1cc6f..0a49dcdc0d 100644
 --- a/src/viewport.cpp
 +++ b/src/viewport.cpp
 @@ -64,6 +64,8 @@
@@ -3285,7 +3285,7 @@ index 9bbe6a4623..803b76a714 100644
  	ViewportAddVehicles(&_vd.dpi);
  
 diff --git a/src/viewport_func.h b/src/viewport_func.h
-index 319d4efd60..b87ba55574 100644
+index 49ad4b2e83..4d5b75987a 100644
 --- a/src/viewport_func.h
 +++ b/src/viewport_func.h
 @@ -33,6 +33,7 @@ void MarkAllViewportsDirty(int left, int top, int right, int bottom);
@@ -3297,7 +3297,7 @@ index 319d4efd60..b87ba55574 100644
  void HandleZoomMessage(Window *w, const ViewPort *vp, byte widget_zoom_in, byte widget_zoom_out);
  
 diff --git a/src/viewport_gui.cpp b/src/viewport_gui.cpp
-index 936990ac5b..773360e3bc 100644
+index 85b278b2a7..8e03178ffc 100644
 --- a/src/viewport_gui.cpp
 +++ b/src/viewport_gui.cpp
 @@ -16,6 +16,7 @@
@@ -3322,7 +3322,7 @@ index 936990ac5b..773360e3bc 100644
  	}
  
 diff --git a/src/water_cmd.cpp b/src/water_cmd.cpp
-index 03b321e686..ccdcb158b9 100644
+index e3247ec665..e112612576 100644
 --- a/src/water_cmd.cpp
 +++ b/src/water_cmd.cpp
 @@ -12,6 +12,7 @@

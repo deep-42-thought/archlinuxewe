@@ -47,7 +47,7 @@ index 22476579be..02e4899594 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Стальной балочный ж/д мост
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Стальной консольный ж/д мост
 diff --git a/src/pathfinder/follow_track.hpp b/src/pathfinder/follow_track.hpp
-index 2bbad8d70b..0d5f5bad7b 100644
+index 999f7f94de..728e252f94 100644
 --- a/src/pathfinder/follow_track.hpp
 +++ b/src/pathfinder/follow_track.hpp
 @@ -360,7 +360,7 @@ protected:
@@ -69,7 +69,7 @@ index 2bbad8d70b..0d5f5bad7b 100644
  						return false;
  					}
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 4257b5258f..e2226bc615 100644
+index d8327c4449..69dc63750c 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -1049,9 +1049,12 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
@@ -248,7 +248,7 @@ index 4257b5258f..e2226bc615 100644
 +			return CommandCost(EXPENSES_CONSTRUCTION, cost);
 +		}
 +
- 		Train *v = NULL;
+ 		Train *v = nullptr;
  		if (HasReservedTracks(tile, TrackToTrackBits(track))) {
  			v = GetTrainForReservation(tile, track);
 @@ -1502,7 +1586,7 @@ CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1
@@ -261,10 +261,10 @@ index 4257b5258f..e2226bc615 100644
  
  /**
 diff --git a/src/settings_gui.cpp b/src/settings_gui.cpp
-index c15f075ecf..afc35bd919 100644
+index 51b5340e39..5a62f40296 100644
 --- a/src/settings_gui.cpp
 +++ b/src/settings_gui.cpp
-@@ -1566,6 +1566,7 @@ static SettingsContainer &GetSettingsTree()
+@@ -1554,6 +1554,7 @@ static SettingsContainer &GetSettingsTree()
  			SettingsPage *construction = interface->Add(new SettingsPage(STR_CONFIG_SETTING_INTERFACE_CONSTRUCTION));
  			{
  				construction->Add(new SettingEntry("gui.link_terraform_toolbar"));
@@ -285,7 +285,7 @@ index 2459058979..8a1d0408af 100644
  	uint32 terraform_per_64k_frames;         ///< how many tile heights may, over a long period, be terraformed per 65536 frames?
  	uint16 terraform_frame_burst;            ///< how many tile heights may, over a short period, be terraformed?
 diff --git a/src/signal.cpp b/src/signal.cpp
-index b37e15074a..0de45a57c7 100644
+index 8952000a51..137e435fb3 100644
 --- a/src/signal.cpp
 +++ b/src/signal.cpp
 @@ -197,6 +197,14 @@ static Vehicle *TrainOnTileEnum(Vehicle *v, void *)
@@ -308,13 +308,13 @@ index b37e15074a..0de45a57c7 100644
  				DiagDirection dir = GetTunnelBridgeDirection(tile);
  
 -				if (enterdir == INVALID_DIAGDIR) { // incoming from the wormhole
--					if (!(flags & SF_TRAIN) && HasVehicleOnPos(tile, NULL, &TrainOnTileEnum)) flags |= SF_TRAIN;
+-					if (!(flags & SF_TRAIN) && HasVehicleOnPos(tile, nullptr, &TrainOnTileEnum)) flags |= SF_TRAIN;
 -					enterdir = dir;
 -					exitdir = ReverseDiagDir(dir);
 -					tile += TileOffsByDiagDir(exitdir); // just skip to next tile
 -				} else { // NOT incoming from the wormhole!
 -					if (ReverseDiagDir(enterdir) != dir) continue;
--					if (!(flags & SF_TRAIN) && HasVehicleOnPos(tile, NULL, &TrainOnTileEnum)) flags |= SF_TRAIN;
+-					if (!(flags & SF_TRAIN) && HasVehicleOnPos(tile, nullptr, &TrainOnTileEnum)) flags |= SF_TRAIN;
 -					tile = GetOtherTunnelBridgeEnd(tile); // just skip to exit tile
 -					enterdir = INVALID_DIAGDIR;
 -					exitdir = INVALID_DIAGDIR;
@@ -339,13 +339,13 @@ index b37e15074a..0de45a57c7 100644
 +					}
 +				} else {
 +					if (enterdir == INVALID_DIAGDIR) { // incoming from the wormhole
-+						if (!(flags & SF_TRAIN) && HasVehicleOnPos(tile, NULL, &TrainOnTileEnum)) flags |= SF_TRAIN;
++						if (!(flags & SF_TRAIN) && HasVehicleOnPos(tile, nullptr, &TrainOnTileEnum)) flags |= SF_TRAIN;
 +						enterdir = dir;
 +						exitdir = ReverseDiagDir(dir);
 +						tile += TileOffsByDiagDir(exitdir); // just skip to next tile
 +					} else { // NOT incoming from the wormhole!
 +						if (ReverseDiagDir(enterdir) != dir) continue;
-+						if (!(flags & SF_TRAIN) && HasVehicleOnPos(tile, NULL, &TrainOnTileEnum)) flags |= SF_TRAIN;
++						if (!(flags & SF_TRAIN) && HasVehicleOnPos(tile, nullptr, &TrainOnTileEnum)) flags |= SF_TRAIN;
 +						tile = GetOtherTunnelBridgeEnd(tile); // just skip to exit tile
 +						enterdir = INVALID_DIAGDIR;
 +						exitdir = INVALID_DIAGDIR;
@@ -391,7 +391,7 @@ index 78ed234ce2..92fb11e426 100644
  [SDT_NULL]
  length   = 1
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index 008d515576..8a23bb5ac3 100644
+index 71b34d6ba2..8ee34b5f00 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
 @@ -1851,6 +1851,17 @@ void ReverseTrainDirection(Train *v)
@@ -663,7 +663,7 @@ index 008d515576..8a23bb5ac3 100644
  				/* Perform look-ahead on tunnel exit. */
  				if (v->IsFrontEngine()) {
 diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
-index 79011a3bd5..1cf9be1214 100644
+index 78586b1a2e..89f756d17b 100644
 --- a/src/tunnelbridge_cmd.cpp
 +++ b/src/tunnelbridge_cmd.cpp
 @@ -30,6 +30,7 @@
@@ -847,15 +847,17 @@ index 79011a3bd5..1cf9be1214 100644
  static TrackStatus GetTileTrackStatus_TunnelBridge(TileIndex tile, TransportType mode, uint sub_mode, DiagDirection side)
  {
  	TransportType transport_type = GetTunnelBridgeTransportType(tile);
-@@ -1909,7 +2036,7 @@ extern const TileTypeProcs _tile_type_tunnelbridge_procs = {
- 	NULL,                            // add_accepted_cargo_proc
+@@ -1909,8 +2036,8 @@ extern const TileTypeProcs _tile_type_tunnelbridge_procs = {
+ 	nullptr,                            // add_accepted_cargo_proc
  	GetTileDesc_TunnelBridge,        // get_tile_desc_proc
  	GetTileTrackStatus_TunnelBridge, // get_tile_track_status_proc
--	NULL,                            // click_tile_proc
+-	nullptr,                            // click_tile_proc
+-	nullptr,                            // animate_tile_proc
 +	ClickTile_TunnelBridge,          // click_tile_proc
- 	NULL,                            // animate_tile_proc
++	nullptr,                         // animate_tile_proc
  	TileLoop_TunnelBridge,           // tile_loop_proc
  	ChangeTileOwner_TunnelBridge,    // change_tile_owner_proc
+ 	nullptr,                            // add_produced_cargo_proc
 diff --git a/src/tunnelbridge_map.h b/src/tunnelbridge_map.h
 index 0f7f17b3ac..57f338b8be 100644
 --- a/src/tunnelbridge_map.h

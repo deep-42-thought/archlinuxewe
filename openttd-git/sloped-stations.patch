@@ -1,5 +1,5 @@
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 4257b5258f..afe669fc3a 100644
+index d8327c4449..af261cbf2e 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -190,14 +190,6 @@ RailType AllocateRailType(RailTypeLabel label)
@@ -18,7 +18,7 @@ index 4257b5258f..afe669fc3a 100644
   *     ---------
   *    |\       /|
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index d9825c9bfa..15b804af8d 100644
+index e9edbf2549..fa60de4506 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -35,6 +35,7 @@
@@ -94,7 +94,7 @@ index 5251a53923..ce9ac81518 100644
 +
  #endif /* ROAD_TYPE_H */
 diff --git a/src/roadveh_cmd.cpp b/src/roadveh_cmd.cpp
-index 559b875479..0e09e34741 100644
+index 7086d151d0..3252327972 100644
 --- a/src/roadveh_cmd.cpp
 +++ b/src/roadveh_cmd.cpp
 @@ -1483,7 +1483,7 @@ again:
@@ -107,7 +107,7 @@ index 559b875479..0e09e34741 100644
  				}
  			}
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index 873be3be56..1c91f2a359 100644
+index acffe113dd..675385d777 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -55,6 +55,7 @@
@@ -149,7 +149,7 @@ index 873be3be56..1c91f2a359 100644
  	uint invalid_dirs = 5 << axis;
  
  	const StationSpec *statspec = StationClass::Get(spec_class)->GetSpec(spec_index);
- 	bool slope_cb = statspec != NULL && HasBit(statspec->callback_mask, CBM_STATION_SLOPE_CHECK);
+ 	bool slope_cb = statspec != nullptr && HasBit(statspec->callback_mask, CBM_STATION_SLOPE_CHECK);
  
  	TILE_AREA_LOOP(tile_cur, tile_area) {
 -		CommandCost ret = CheckBuildableTile(tile_cur, invalid_dirs, allowed_z, false);
@@ -192,7 +192,7 @@ index 873be3be56..1c91f2a359 100644
 +		st = BaseStation::GetByTile(ti->tile);
 +		statspec = st->speclist[GetCustomStationSpecIndex(ti->tile)].spec;
 +
-+		if (statspec != NULL) {
++		if (statspec != nullptr) {
 +			uint tile = GetStationGfx(ti->tile);
 +
 +			relocation = GetCustomStationRelocation(statspec, st, ti->tile);
@@ -203,13 +203,13 @@ index 873be3be56..1c91f2a359 100644
 +			}
 +
 +			/* Ensure the chosen tile layout is valid for this custom station */
-+			if (statspec->renderdata != NULL) {
++			if (statspec->renderdata != nullptr) {
 +				t = &statspec->renderdata[tile < statspec->tiles ? tile : (uint)GetRailStationAxis(ti->tile)];
 +			}
 +		}
 +	}
 +
- 	if (layout == NULL && (t == NULL || t->seq == NULL)) t = GetStationTileLayout(GetStationType(ti->tile), gfx);
+ 	if (layout == nullptr && (t == nullptr || t->seq == nullptr)) t = GetStationTileLayout(GetStationType(ti->tile), gfx);
  
  	/* don't show foundation for docks */
 @@ -2887,10 +2914,10 @@ static void DrawTile_Station(TileInfo *ti)
@@ -343,7 +343,7 @@ index a573269975..7db27ec181 100644
  /** Tramway sprites */
  static const SpriteID SPR_TRAMWAY_BASE                 = SPR_ROADSTOP_BASE + ROADSTOP_SPRITE_COUNT;
 diff --git a/src/table/station_land.h b/src/table/station_land.h
-index 3327dab5dd..991c5d3bec 100644
+index b678297d90..2291ba6bd3 100644
 --- a/src/table/station_land.h
 +++ b/src/table/station_land.h
 @@ -777,6 +777,62 @@ static const DrawTileSeqStruct _station_display_datas_waypoint_Y[] = {
