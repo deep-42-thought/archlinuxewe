@@ -1,0 +1,19 @@
+--- makepkg-pentium4.conf	2019-04-13 17:03:11.540419301 +0200
++++ makepkg-pentium4.conf	2019-04-13 17:04:45.040742728 +0200
+@@ -32,13 +32,13 @@
+ # ARCHITECTURE, COMPILE FLAGS
+ #########################################################################
+ #
+-CARCH="i686"
++CARCH="pentium4"
+ CHOST="i686-pc-linux-gnu"
+ 
+ #-- Compiler and Linker Flags
+ CPPFLAGS="-D_FORTIFY_SOURCE=2"
+-CFLAGS="-m32 -march=i686 -mtune=generic -O2 -pipe -fno-plt"
+-CXXFLAGS="-m32 -march=i686 -mtune=generic -O2 -pipe -fno-plt"
++CFLAGS="-m32 -march=pentium4 -mtune=generic -O2 -pipe -fno-plt"
++CXXFLAGS="-m32 -march=pentium4 -mtune=generic -O2 -pipe -fno-plt"
+ LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
+ #-- Make Flags: change this for DistCC/SMP systems
+ MAKEFLAGS="-j4"

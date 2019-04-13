@@ -502,7 +502,7 @@ if ${aufRechenknecht}; then
 
   maxErr=0
 
-# generate current makepkg.conf and makepkg-i686.conf
+# generate current makepkg.conf, makepkg-i686.conf and makepkg-pentium4.conf
   cd "${tmpDir}"
   cp /etc/makepkg.conf .
   if ! patch -p0 -i makepkgSystem.patch; then
@@ -512,6 +512,11 @@ if ${aufRechenknecht}; then
   sed 's|^\(BUILDENV=.*\)!sign|\1sign|' -i makepkg.conf
   cp makepkg{,-i686}.conf
   if ! patch -p0 -i makepkg-i686.patch; then
+    cleanUp
+    exit 1
+  fi
+  cp makepkg-{i686,pentium4}.conf
+  if ! patch -p0 -i makepkg-pentium4.patch; then
     cleanUp
     exit 1
   fi
