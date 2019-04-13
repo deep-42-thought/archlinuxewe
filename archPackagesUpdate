@@ -475,7 +475,7 @@ if ${aufRechenknecht}; then
     )
 
     if [ -n "${zuvielePakete}" ]; then
-      >&2 echo 'zu viele Pakete in "'"/opt/arch${chrootArch}"'" installiert:'
+      >&2 echo 'zu viele Pakete in "'"/opt/arch-${chrootArch}"'" installiert:'
       >&2 echo "${zuvielePakete}"
       if ${rmAddPkgs}; then
         echo '
