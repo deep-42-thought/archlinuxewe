@@ -35,7 +35,11 @@ sha512sums_pentium4=('fa017da1109f4f81ddc4747af6c20cab5213b99c323a28d8e63eedc7bd
 sha512sums_x86_64=('5537aea2459a2f86dbc7e9664a0ab9884d1e78a836d2bdc505441c64c9fa0c2d566c02fa618278dff7a817587b135b6c6242bebd580f9457786bfe100d0cfeaa')
                                                 
 package() {
-	_source_arch="${CARCH/i6/x}"
+	if [ "${CARCH}" = 'i686' ] || [ "${CARCH}" = 'pentium4' ]; then
+		_source_arch=x86
+	else
+		_source_arch="${CARCH}"
+	fi
 
 	install -d "$pkgdir"/opt
 	cp -R "$srcdir"/.dropbox-dist/dropbox-lnx.$_source_arch-$pkgver "$pkgdir"/opt/dropbox
