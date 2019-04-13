@@ -10,7 +10,7 @@ pkgname='hadoop'
 pkgver=3.2.0
 pkgrel=1
 pkgdesc='MapReduce implementation and distributed filesystem'
-arch=('i686' 'x86_64')
+arch=('i686' 'pentium4' 'x86_64')
 url='http://hadoop.apache.org'
 license=('apache')
 depends=('java-environment>=7' 'openssh' 'apache-ant' 'polkit')
@@ -96,7 +96,7 @@ EOF
 
 if ! :; then
   ## fix native
-  if [ "${CARCH}" = 'i686' ]; then
+  if [ "${CARCH}" = 'i686' ] || [ "${CARCH}" = 'pentium4' ]; then
     rm -rf 'lib/native/Linux-amd64-64'
     cd 'lib/native/Linux-i386-32'
     sed -i -e "s:dependency_libs=':dependency_libs='-L/opt/java/jre/lib/i386/server :" 'libhadoop.la'

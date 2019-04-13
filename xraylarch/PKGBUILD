@@ -3,7 +3,7 @@ pkgname=xraylarch
 pkgver=0.9.42
 pkgrel=1
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
-arch=('i686' 'x86_64')
+arch=('i686' 'pentium4' 'x86_64')
 url="http://xraypy.github.io/xraylarch/"
 license=('BSD')
 groups=()
@@ -67,7 +67,7 @@ prepare() {
     /subprocess\.check_call/ { N; d; }
   ' "${pkgname}-${pkgver}/setup.py"
 
-  if [ "${CARCH}" = 'i686' ]; then
+  if [ "${CARCH}" = 'i686' ] || [ "${CARCH}" = 'pentium4' ]; then
     sed -i '
       /^\s*compiled_exes\s*=\s*(/,/)/ {
         s/(.*/(/

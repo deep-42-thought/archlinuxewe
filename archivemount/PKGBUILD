@@ -12,7 +12,7 @@ makedepends=("automake" "autoconf")
 conflicts=("archivemount-git")
 source=("https://www.cybernoia.de/software/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 sha512sums=('4ce9e7ec8585b07d5bf48df41cc4a1b4ba7fe2268864ec70c445a6b9c21237f267a19814f00c5ef5a940a90ebaa47c9626aff1dbbff6fbb22e2c260da666ccd9')
-arch=("i686" "x86_64")
+arch=("i686" "pentium4" "x86_64")
 
 build() {
 	cd "${srcdir}/${pkgname}-${pkgver}"

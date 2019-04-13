@@ -322,6 +322,7 @@ if ${aufRechenknecht}; then
         for singleArch in ${archs}; do
 
           [ "${singleArch}" == "x86_64" ] || \
+            [ "${singleArch}" == "pentium4" ] || \
             [ "${singleArch}" == "i686" ] || \
             [ "${singleArch}" == "any" ] || \
             continue
@@ -400,7 +401,7 @@ if ${aufRechenknecht}; then
 
 # check sanity of build-chroots
   err=false
-  for chrootArch in i686 x86_64; do
+  for chrootArch in i686 pentium4 x86_64; do
     [ -d "/opt/arch-${chrootArch}" ] || continue
     basePakete=$(
       (
@@ -579,7 +580,7 @@ if ${aufRechenknecht}; then
       done
 
     if [ "${arch}" = 'i686' ]; then
-      # 32-bit is built in chroot /opt/arch-i686
+      # i686 is built in chroot /opt/arch-i686
       (
         ${cleanCache} && \
           echo 'sudo pacman -Sc --noconfirm && \'
@@ -592,8 +593,22 @@ if ${aufRechenknecht}; then
       ) | \
         chrootUnpriv i686
       err[${i}]=$?
+    elif [ "${arch}" = 'pentium4' ]; then
+      # pentium4 is built in chroot /opt/arch-pentium4
+      (
+        ${cleanCache} && \
+          echo 'sudo pacman -Sc --noconfirm && \'
+        echo '\
+          sudo pacman -Sy && \
+          cd "'"${tmpDir}/${paket}"'" && \
+          _targetHost='"'"'--host=i686-pc-linux-gnu'"'"' makepkg '"${log} ${checkMakepkg}"' --holdver --config "'"${tmpDir}"'/makepkg-pentium4.conf" -fsr --noconfirm --asdeps
+          exit $?
+        '
+      ) | \
+        chrootUnpriv pentium4
+      err[${i}]=$?
     elif [ "${arch}" = 'x86_64' ] || [ "${arch}" = 'any' ]; then
-      # 64-bit and any is built in chroot /opt/arch-x86_64
+      # x86_64 and any is built in chroot /opt/arch-x86_64
       (
         ${cleanCache} && \
           echo 'sudo pacman -Sc --noconfirm && \'

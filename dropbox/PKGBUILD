@@ -9,7 +9,7 @@ pkgname=dropbox
 pkgver=70.4.93
 pkgrel=1
 pkgdesc="A free service that lets you bring your photos, docs, and videos anywhere and share them easily."
-arch=("i686" "x86_64")
+arch=("i686" "pentium4" "x86_64")
 url="https://www.dropbox.com"
 license=(custom)
 depends=("libsm" "libxslt" "libxmu" "libxdamage" "libxrender" "libxxf86vm" "libxcomposite" "fontconfig" "dbus")
@@ -23,6 +23,7 @@ options=('!strip')
 
 source=("dropbox.png" "dropbox.desktop" "terms.txt" "dropbox.service" "dropbox@.service")
 source_i686=("https://clientupdates.dropboxstatic.com/dbx-releng/client/${pkgname}-lnx.x86-${pkgver}.tar.gz")
+source_pentium4=("https://clientupdates.dropboxstatic.com/dbx-releng/client/${pkgname}-lnx.x86-${pkgver}.tar.gz")
 source_x86_64=("https://clientupdates.dropboxstatic.com/dbx-releng/client/${pkgname}-lnx.x86_64-${pkgver}.tar.gz")
 sha512sums=('b1a2ca11479c9f243c0368d79b36ef87910311af2dd126a3291438083544ed10a640143a58e73be1d27bf016c114e668ea504ed6eed6955370bfcac309e5fb7d'
             '690c934012a897771ed82115912fc49a81c9b1ba7ac6a6067c733b4693c9c112b1e4c808319068a2adce7b38c2cf23d3befb8ab41259b1c5280cbe8ee468c15c'
@@ -30,6 +31,7 @@ sha512sums=('b1a2ca11479c9f243c0368d79b36ef87910311af2dd126a3291438083544ed10a64
             'edb11b5a07b6a1512a5345d8ce476562fbfd9ec5642f36315a0969a2583f0e6ce371d39d25063af3734f9527ad53abdc29278c046abc2921222777af6f693a4f'
             '2d9e37272f401a65a6e1ffe3f6bcf2034cb09cc6c282145272c0e3e27f3f3518f7df488adb6368ee48f04ae89bfb0d4e77a9e4411d93d315c41366592b3abbac')
 sha512sums_i686=('fa017da1109f4f81ddc4747af6c20cab5213b99c323a28d8e63eedc7bd4acfec90f68a6304556b52c5d7770d02cffa41814a1d1509a8dca29a0ea2a5a1f2684a')
+sha512sums_pentium4=('fa017da1109f4f81ddc4747af6c20cab5213b99c323a28d8e63eedc7bd4acfec90f68a6304556b52c5d7770d02cffa41814a1d1509a8dca29a0ea2a5a1f2684a')
 sha512sums_x86_64=('5537aea2459a2f86dbc7e9664a0ab9884d1e78a836d2bdc505441c64c9fa0c2d566c02fa618278dff7a817587b135b6c6242bebd580f9457786bfe100d0cfeaa')
                                                 
 package() {
