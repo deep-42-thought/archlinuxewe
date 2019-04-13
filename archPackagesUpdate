@@ -400,8 +400,8 @@ if ${aufRechenknecht}; then
 
 # check sanity of build-chroots
   err=false
-  for chrootArch in 32 64; do
-    [ -d "/opt/arch${chrootArch}" ] || continue
+  for chrootArch in i686 x86_64; do
+    [ -d "/opt/arch-${chrootArch}" ] || continue
     basePakete=$(
       (
         echo '
@@ -501,7 +501,7 @@ if ${aufRechenknecht}; then
 
   maxErr=0
 
-# generate current makepkg.conf and makepkg32.conf
+# generate current makepkg.conf and makepkg-i686.conf
   cd "${tmpDir}"
   cp /etc/makepkg.conf .
   if ! patch -p0 -i makepkgSystem.patch; then
@@ -509,8 +509,8 @@ if ${aufRechenknecht}; then
     exit 1
   fi
   sed 's|^\(BUILDENV=.*\)!sign|\1sign|' -i makepkg.conf
-  cp makepkg{,32}.conf
-  if ! patch -p0 -i makepkg32.patch; then
+  cp makepkg{,-i686}.conf
+  if ! patch -p0 -i makepkg-i686.patch; then
     cleanUp
     exit 1
   fi
@@ -579,21 +579,21 @@ if ${aufRechenknecht}; then
       done
 
     if [ "${arch}" = 'i686' ]; then
-      # 32-bit is built in chroot /opt/arch32
+      # 32-bit is built in chroot /opt/arch-i686
       (
         ${cleanCache} && \
           echo 'sudo pacman -Sc --noconfirm && \'
         echo '\
           sudo pacman -Sy && \
           cd "'"${tmpDir}/${paket}"'" && \
-          _targetHost='"'"'--host=i686-pc-linux-gnu'"'"' makepkg '"${log} ${checkMakepkg}"' --holdver --config "'"${tmpDir}"'/makepkg32.conf" -fsr --noconfirm --asdeps
+          _targetHost='"'"'--host=i686-pc-linux-gnu'"'"' makepkg '"${log} ${checkMakepkg}"' --holdver --config "'"${tmpDir}"'/makepkg-i686.conf" -fsr --noconfirm --asdeps
           exit $?
         '
       ) | \
-        chrootUnpriv 32
+        chrootUnpriv i686
       err[${i}]=$?
     elif [ "${arch}" = 'x86_64' ] || [ "${arch}" = 'any' ]; then
-      # 64-bit and any is built in chroot /opt/arch64
+      # 64-bit and any is built in chroot /opt/arch-x86_64
       (
         ${cleanCache} && \
           echo 'sudo pacman -Sc --noconfirm && \'
@@ -604,7 +604,7 @@ if ${aufRechenknecht}; then
           exit $?
         '
       ) | \
-        chrootUnpriv 64
+        chrootUnpriv x86_64
       err[${i}]=$?
     else
       printf 'unbekannte Architektur "%s"\n' "${arch}"
