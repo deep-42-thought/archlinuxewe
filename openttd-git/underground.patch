@@ -366,7 +366,7 @@ index 4609dceeb9..86ee14cc56 100644
  	for (row = 0; (uint)row < height; row++) {
  		for (col = 0; (uint)col < width; col++) {
 diff --git a/src/industry_cmd.cpp b/src/industry_cmd.cpp
-index df9286308e..48b2f4dc10 100644
+index 9978145fac..fbee8dcc65 100644
 --- a/src/industry_cmd.cpp
 +++ b/src/industry_cmd.cpp
 @@ -14,6 +14,7 @@
@@ -377,7 +377,7 @@ index df9286308e..48b2f4dc10 100644
  #include "viewport_func.h"
  #include "command_func.h"
  #include "town.h"
-@@ -1400,7 +1401,7 @@ static CommandCost CheckIfIndustryTilesAreFree(TileIndex tile, const IndustryTil
+@@ -1399,7 +1400,7 @@ static CommandCost CheckIfIndustryTilesAreFree(TileIndex tile, const IndustryTil
  		IndustryGfx gfx = GetTranslatedIndustryTileID(it->gfx);
  		TileIndex cur_tile = TileAddWrap(tile, it->ti.x, it->ti.y);
  
@@ -1937,7 +1937,7 @@ index e9edbf2549..b3270e7004 100644
  }
  
 diff --git a/src/saveload/map_sl.cpp b/src/saveload/map_sl.cpp
-index 18c1351176..f72855041f 100644
+index 17a793a09f..f9d15cc137 100644
 --- a/src/saveload/map_sl.cpp
 +++ b/src/saveload/map_sl.cpp
 @@ -11,6 +11,7 @@
@@ -2031,7 +2031,7 @@ index 2459058979..923861f8c6 100644
  	byte   oil_refinery_limit;               ///< distance oil refineries allowed from map edge
  	byte   snow_line_height;                 ///< the configured snow line height
 diff --git a/src/station.cpp b/src/station.cpp
-index b211c6422e..a3560f2fd4 100644
+index 85603a38c8..903528a767 100644
 --- a/src/station.cpp
 +++ b/src/station.cpp
 @@ -13,6 +13,7 @@
@@ -2127,7 +2127,7 @@ index b211c6422e..a3560f2fd4 100644
  	bool empty = this->AfterRemoveTile(st, ta.tile);
  	if (ta.w != 1 || ta.h != 1) empty = empty || this->AfterRemoveTile(st, TILE_ADDXY(ta.tile, ta.w - 1, ta.h - 1));
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index acffe113dd..566bd84fb2 100644
+index 4aa6401279..510bc30724 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -13,6 +13,7 @@
@@ -2138,16 +2138,14 @@ index acffe113dd..566bd84fb2 100644
  #include "viewport_func.h"
  #include "viewport_kdtree.h"
  #include "command_func.h"
-@@ -99,23 +100,26 @@ bool IsHangar(TileIndex t)
+@@ -99,21 +100,24 @@ bool IsHangar(TileIndex t)
   * @return Succeeded command (if zero or one station found) or failed command (for two or more stations found).
   */
  template <class T>
 -CommandCost GetStationAround(TileArea ta, StationID closest_station, CompanyID company, T **st)
 +CommandCost GetStationAround(TileArea ta, StationID closest_station, CompanyID company, T **st, bool layers=false)
  {
- 	ta.tile -= TileDiffXY(1, 1);
- 	ta.w    += 2;
- 	ta.h    += 2;
+ 	ta.Expand(1);
  
  	/* check around to see if there are any stations there owned by the company */
 -	TILE_AREA_LOOP(tile_cur, ta) {
@@ -2174,7 +2172,7 @@ index acffe113dd..566bd84fb2 100644
  	}
  	*st = (closest_station == INVALID_STATION) ? nullptr : T::Get(closest_station);
  	return CommandCost();
-@@ -835,7 +839,7 @@ CommandCost CheckBuildableTile(TileIndex tile, uint invalid_dirs, int &allowed_z
+@@ -799,7 +803,7 @@ CommandCost CheckBuildableTile(TileIndex tile, uint invalid_dirs, int &allowed_z
  				return_cmd_error(STR_ERROR_FLAT_LAND_REQUIRED);
  			}
  		}
@@ -2183,7 +2181,7 @@ index acffe113dd..566bd84fb2 100644
  	}
  
  	/* The level of this tile must be equal to allowed_z. */
-@@ -1064,7 +1068,7 @@ static CommandCost CheckFlatLandRoadStop(TileArea tile_area, DoCommandFlag flags
+@@ -1028,7 +1032,7 @@ static CommandCost CheckFlatLandRoadStop(TileArea tile_area, DoCommandFlag flags
  			}
  
  			uint roadbits_to_build = CountBits(rts) * 2 - num_roadbits;
@@ -2192,7 +2190,7 @@ index acffe113dd..566bd84fb2 100644
  		}
  	}
  
-@@ -1083,11 +1087,13 @@ CommandCost CanExpandRailStation(const BaseStation *st, TileArea &new_ta, Axis a
+@@ -1047,11 +1051,13 @@ CommandCost CanExpandRailStation(const BaseStation *st, TileArea &new_ta, Axis a
  	TileArea cur_ta = st->train_station;
  
  	/* determine new size of train station region.. */
@@ -2211,7 +2209,7 @@ index acffe113dd..566bd84fb2 100644
  
  	/* make sure the final size is not too big. */
  	if (new_ta.w > _settings_game.station.station_spread || new_ta.h > _settings_game.station.station_spread) {
-@@ -1159,7 +1165,7 @@ void GetStationLayout(byte *layout, int numtracks, int plat_len, const StationSp
+@@ -1123,7 +1129,7 @@ void GetStationLayout(byte *layout, int numtracks, int plat_len, const StationSp
   * @return command cost with the error or 'okay'
   */
  template <class T, StringID error_message>
@@ -2220,7 +2218,7 @@ index acffe113dd..566bd84fb2 100644
  {
  	assert(*st == nullptr);
  	bool check_surrounding = true;
-@@ -1185,7 +1191,7 @@ CommandCost FindJoiningBaseStation(StationID existing_station, StationID station
+@@ -1149,7 +1155,7 @@ CommandCost FindJoiningBaseStation(StationID existing_station, StationID station
  
  	if (check_surrounding) {
  		/* Make sure there is no more than one other station around us that is owned by us. */
@@ -2229,7 +2227,7 @@ index acffe113dd..566bd84fb2 100644
  		if (ret.Failed()) return ret;
  	}
  
-@@ -1204,9 +1210,9 @@ CommandCost FindJoiningBaseStation(StationID existing_station, StationID station
+@@ -1168,9 +1174,9 @@ CommandCost FindJoiningBaseStation(StationID existing_station, StationID station
   * @param st 'return' pointer for the found station
   * @return command cost with the error or 'okay'
   */
@@ -2241,7 +2239,7 @@ index acffe113dd..566bd84fb2 100644
  }
  
  /**
-@@ -1315,8 +1321,8 @@ CommandCost CmdBuildRailStation(TileIndex tile_org, DoCommandFlag flags, uint32
+@@ -1279,8 +1285,8 @@ CommandCost CmdBuildRailStation(TileIndex tile_org, DoCommandFlag flags, uint32
  	CommandCost cost = CheckFlatLandRailStation(new_location, flags, axis, &est, rt, affected_vehicles, spec_class, spec_index, plat_len, numtracks);
  	if (cost.Failed()) return cost;
  	/* Add construction expenses. */
@@ -2252,7 +2250,7 @@ index acffe113dd..566bd84fb2 100644
  
  	Station *st = nullptr;
  	ret = FindJoiningStation(est, station_to_join, adjacent, new_location, &st);
-@@ -1356,8 +1362,10 @@ CommandCost CmdBuildRailStation(TileIndex tile_org, DoCommandFlag flags, uint32
+@@ -1320,8 +1326,10 @@ CommandCost CmdBuildRailStation(TileIndex tile_org, DoCommandFlag flags, uint32
  		byte numtracks_orig;
  		Track track;
  
@@ -2264,7 +2262,7 @@ index acffe113dd..566bd84fb2 100644
  
  		st->rect.BeforeAddRect(tile_org, w_org, h_org, StationRect::ADD_TRY);
  
-@@ -1578,7 +1586,7 @@ CommandCost RemoveFromRailBaseStation(TileArea ta, std::vector<T *> &affected_st
+@@ -1542,7 +1550,7 @@ CommandCost RemoveFromRailBaseStation(TileArea ta, std::vector<T *> &affected_st
  		}
  
  		/* If we reached here, the tile is valid so increase the quantity of tiles we will remove */
@@ -2273,7 +2271,7 @@ index acffe113dd..566bd84fb2 100644
  
  		if (keep_rail || IsStationTileBlocked(tile)) {
  			/* Don't refund the 'steel' of the track when we keep the
-@@ -1657,7 +1665,7 @@ CommandCost RemoveFromRailBaseStation(TileArea ta, std::vector<T *> &affected_st
+@@ -1621,7 +1629,7 @@ CommandCost RemoveFromRailBaseStation(TileArea ta, std::vector<T *> &affected_st
  CommandCost CmdRemoveFromRailStation(TileIndex start, DoCommandFlag flags, uint32 p1, uint32 p2, const char *text)
  {
  	TileIndex end = p1 == 0 ? start : p1;
@@ -2282,7 +2280,7 @@ index acffe113dd..566bd84fb2 100644
  
  	TileArea ta(start, end);
  	std::vector<Station *> affected_stations;
-@@ -1720,11 +1728,16 @@ CommandCost RemoveRailStation(T *st, DoCommandFlag flags, Money removal_cost)
+@@ -1684,11 +1692,16 @@ CommandCost RemoveRailStation(T *st, DoCommandFlag flags, Money removal_cost)
  	/* determine width and height of platforms */
  	TileArea ta = st->train_station;
  
@@ -2301,7 +2299,7 @@ index acffe113dd..566bd84fb2 100644
  		/* only remove tiles that are actually train station tiles */
  		if (st->TileBelongsToRailStation(tile)) {
  			std::vector<T*> affected_stations; // dummy
-@@ -2089,13 +2102,21 @@ CommandCost CmdRemoveRoadStop(TileIndex tile, DoCommandFlag flags, uint32 p1, ui
+@@ -2053,13 +2066,21 @@ CommandCost CmdRemoveRoadStop(TileIndex tile, DoCommandFlag flags, uint32 p1, ui
  	/* Bankrupting company is not supposed to remove roads, there may be road vehicles. */
  	if (!keep_drive_through_roads && (flags & DC_BANKRUPT)) return CMD_ERROR;
  
@@ -2325,7 +2323,7 @@ index acffe113dd..566bd84fb2 100644
  		/* Make sure the specified tile is a road stop of the correct type */
  		if (!IsTileType(cur_tile, MP_STATION) || !IsRoadStop(cur_tile) || (uint32)GetRoadStopType(cur_tile) != GB(p2, 0, 1)) continue;
  
-@@ -2279,6 +2300,10 @@ CommandCost CmdBuildAirport(TileIndex tile, DoCommandFlag flags, uint32 p1, uint
+@@ -2243,6 +2264,10 @@ CommandCost CmdBuildAirport(TileIndex tile, DoCommandFlag flags, uint32 p1, uint
  	if (w > _settings_game.station.station_spread || h > _settings_game.station.station_spread) {
  		return_cmd_error(STR_ERROR_STATION_TOO_SPREAD_OUT);
  	}
@@ -2337,7 +2335,7 @@ index acffe113dd..566bd84fb2 100644
  	AirportTileTableIterator iter(as->table[layout], tile);
  	CommandCost cost = CheckFlatLandAirport(iter, flags);
 diff --git a/src/station_gui.cpp b/src/station_gui.cpp
-index a3013c847f..6c8a6e6253 100644
+index 4e6b94caf6..9d4046fa57 100644
 --- a/src/station_gui.cpp
 +++ b/src/station_gui.cpp
 @@ -21,6 +21,7 @@
@@ -2397,7 +2395,7 @@ index a3013c847f..6c8a6e6253 100644
  	return nullptr;
  }
 diff --git a/src/table/settings.ini b/src/table/settings.ini
-index 78ed234ce2..745b62ba76 100644
+index 1aacb76349..726036977a 100644
 --- a/src/table/settings.ini
 +++ b/src/table/settings.ini
 @@ -1861,6 +1861,15 @@ min      = 500
@@ -2537,7 +2535,7 @@ index 0cb28122d8..c6f62dac0f 100644
  }
  
 diff --git a/src/tilearea_type.h b/src/tilearea_type.h
-index 45bfb3d4c0..164781814b 100644
+index c599753498..869ff3e09a 100644
 --- a/src/tilearea_type.h
 +++ b/src/tilearea_type.h
 @@ -44,6 +44,16 @@ struct OrthogonalTileArea {

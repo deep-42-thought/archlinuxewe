@@ -107,7 +107,7 @@ index 7086d151d0..3252327972 100644
  				}
  			}
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index acffe113dd..675385d777 100644
+index 4aa6401279..7230ee2198 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -55,6 +55,7 @@
@@ -118,7 +118,7 @@ index acffe113dd..675385d777 100644
  
  #include "table/strings.h"
  
-@@ -800,7 +801,7 @@ CommandCost ClearTile_Station(TileIndex tile, DoCommandFlag flags);
+@@ -764,7 +765,7 @@ CommandCost ClearTile_Station(TileIndex tile, DoCommandFlag flags);
   * Checks if the given tile is buildable, flat and has a certain height.
   * @param tile TileIndex to check.
   * @param invalid_dirs Prohibited directions for slopes (set of #DiagDirection).
@@ -127,7 +127,7 @@ index acffe113dd..675385d777 100644
   * @param allow_steep Whether steep slopes are allowed.
   * @param check_bridge Check for the existence of a bridge.
   * @return The cost in case of success, or an error code if it failed.
-@@ -839,10 +840,10 @@ CommandCost CheckBuildableTile(TileIndex tile, uint invalid_dirs, int &allowed_z
+@@ -803,10 +804,10 @@ CommandCost CheckBuildableTile(TileIndex tile, uint invalid_dirs, int &allowed_z
  	}
  
  	/* The level of this tile must be equal to allowed_z. */
@@ -140,7 +140,7 @@ index acffe113dd..675385d777 100644
  		return_cmd_error(STR_ERROR_FLAT_LAND_REQUIRED);
  	}
  
-@@ -890,14 +891,14 @@ static CommandCost CheckFlatLandAirport(AirportTileTableIterator tile_iter, DoCo
+@@ -854,14 +855,14 @@ static CommandCost CheckFlatLandAirport(AirportTileTableIterator tile_iter, DoCo
  static CommandCost CheckFlatLandRailStation(TileArea tile_area, DoCommandFlag flags, Axis axis, StationID *station, RailType rt, std::vector<Train *> &affected_vehicles, StationClassID spec_class, byte spec_index, byte plat_len, byte numtracks)
  {
  	CommandCost cost(EXPENSES_CONSTRUCTION);
@@ -157,7 +157,7 @@ index acffe113dd..675385d777 100644
  		if (ret.Failed()) return ret;
  		cost.AddCost(ret);
  
-@@ -976,10 +977,10 @@ static CommandCost CheckFlatLandRailStation(TileArea tile_area, DoCommandFlag fl
+@@ -940,10 +941,10 @@ static CommandCost CheckFlatLandRailStation(TileArea tile_area, DoCommandFlag fl
  static CommandCost CheckFlatLandRoadStop(TileArea tile_area, DoCommandFlag flags, uint invalid_dirs, bool is_drive_through, bool is_truck_stop, Axis axis, StationID *station, RoadTypes rts)
  {
  	CommandCost cost(EXPENSES_CONSTRUCTION);
@@ -170,7 +170,7 @@ index acffe113dd..675385d777 100644
  		if (ret.Failed()) return ret;
  		cost.AddCost(ret);
  
-@@ -1874,7 +1875,7 @@ CommandCost CmdBuildRoadStop(TileIndex tile, DoCommandFlag flags, uint32 p1, uin
+@@ -1838,7 +1839,7 @@ CommandCost CmdBuildRoadStop(TileIndex tile, DoCommandFlag flags, uint32 p1, uin
  	/* Total road stop cost. */
  	CommandCost cost(EXPENSES_CONSTRUCTION, roadstop_area.w * roadstop_area.h * _price[type ? PR_BUILD_STATION_TRUCK : PR_BUILD_STATION_BUS]);
  	StationID est = INVALID_STATION;
@@ -179,7 +179,7 @@ index acffe113dd..675385d777 100644
  	if (ret.Failed()) return ret;
  	cost.AddCost(ret);
  
-@@ -2821,6 +2822,32 @@ static void DrawTile_Station(TileInfo *ti)
+@@ -2785,6 +2786,32 @@ static void DrawTile_Station(TileInfo *ti)
  		palette = PALETTE_TO_GREY;
  	}
  
@@ -212,7 +212,7 @@ index acffe113dd..675385d777 100644
  	if (layout == nullptr && (t == nullptr || t->seq == nullptr)) t = GetStationTileLayout(GetStationType(ti->tile), gfx);
  
  	/* don't show foundation for docks */
-@@ -2887,10 +2914,10 @@ static void DrawTile_Station(TileInfo *ti)
+@@ -2851,10 +2878,10 @@ static void DrawTile_Station(TileInfo *ti)
  			}
  
  			OffsetGroundSprite(31, 1);
@@ -225,7 +225,7 @@ index acffe113dd..675385d777 100644
  		}
  	}
  
-@@ -2946,14 +2973,64 @@ draw_default_foundation:
+@@ -2910,14 +2937,64 @@ draw_default_foundation:
  				DrawGroundSprite(overlay + overlay_offset, PALETTE_CRASH);
  			}
  		} else {
@@ -293,7 +293,7 @@ index acffe113dd..675385d777 100644
  			}
  		}
  	}
-@@ -3006,6 +3083,16 @@ void StationPickerDrawSprite(int x, int y, StationType st, RailType railtype, Ro
+@@ -2970,6 +3047,16 @@ void StationPickerDrawSprite(int x, int y, StationType st, RailType railtype, Ro
  
  static int GetSlopePixelZ_Station(TileIndex tile, uint x, uint y)
  {
