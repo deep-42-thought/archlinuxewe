@@ -12,7 +12,7 @@ license=('GPL2')
 provides=('mtx')
 conflicts=('mtx')
 makedepends=('subversion')
-source=('mtx-svn::svn+http://svn.code.sf.net/p/mtx/code/trunk')
+source=("mtx-svn::svn+http://svn.code.sf.net/p/mtx/code/trunk#revision=${pkgver#r}")
 md5sums=('SKIP')
 
 pkgver() {

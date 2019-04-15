@@ -458,6 +458,18 @@ then
         pkgver
       )
     elif echo "${src}" | \
+      grep -q '^svn\(+[^:]\+\)\?://[^#]\+\(#revision=[^#]\+\)\?$'
+    then
+      remVer=$(
+        cd "$1"
+        (
+          cd "${src_name}"
+          svn update >/dev/null
+        )
+        srcdir=$(pwd)
+        pkgver
+      )
+    elif echo "${src}" | \
       grep -q "^https://pypi\.python\.org/packages/"
     then
       qu=$(
