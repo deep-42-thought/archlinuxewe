@@ -120,9 +120,8 @@ package() {
 
   # create password file for webadmin -> standard archwebadmin
 
-  echo archwebadmin > "${pkgdir}/etc/courier/webadmin/password"
-  chown courier:courier "${pkgdir}/etc/courier/webadmin/password"
-  chmod 400 "${pkgdir}/etc/courier/webadmin/password"
+  echo archwebadmin \
+    | install -o courier:courier -Dm400 /dev/stdin "${pkgdir}/etc/courier/webadmin/password"
 
   install -m 644 "/dev/null" "${pkgdir}/etc/courier/shared/index"
 
