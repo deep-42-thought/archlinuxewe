@@ -2,25 +2,26 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-examples'
-pkgver=0.811
+pkgver=0.812
 pkgrel=1
 pkgdesc='Various examples of Rinci metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.10.1'
-  'perl-experimental'
-  'perl-log-ger>=0.023'
-  'perl-perinci-object>=0.310'
-  'perl-perinci-sub-property-arg-cmdline'
-  'perl-perinci-sub-util>=0.46'
-  'perl-scalar-list-utils>=1.45')
 makedepends=(
+  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
   'perl-test-simple')
+depends=(
+  'perl>=5.10.1'
+  'perl-experimental'
+  'perl-log-ger>=0.027'
+  'perl-perinci-object>=0.310'
+  'perl-perinci-sub-property-arg-cmdline'
+  'perl-perinci-sub-util>=0.46'
+  'perl-scalar-list-utils>=1.45')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-perl-critic'
@@ -32,11 +33,12 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Examples'
 _distdir="Perinci-Examples-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('533eb7cb9d821645738ba0cd17f23360a98d29885ec8074214438d0752d4e93116024707b21e4d85e25cd98630701873f470fa697b0c93f0e4ea601b94828e81')
+sha512sums=('faaef5aafd2d36e8e163ac082eebf1fca791fd859d9aae8b0bdb7924f0e80137bf1c1f7a0c071bae46f85db35fe666e8020d1a5eee309cd2f84a574de75aef01')
 
 prepare() {
   cd "${srcdir}/${_distdir}"
   rm "t/author-critic.t"
+  rm "t/release-rinci.t"
 }
 
 build() {
