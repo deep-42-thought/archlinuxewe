@@ -1,0 +1,68 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (6d6eb887751f0274ce913321f40e306c692f5baa957799c6668772e8771f1b10c566613dde872a04de2cb279fd80591fac591849b34aeed27f7fa5f9120faf43)
+
+pkgname='perl-rinci'
+pkgver='1.1.89'
+pkgrel='1'
+pkgdesc='Language-neutral metadata for your code'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+makedepends=(
+  'perl'
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-simple'
+)
+url='https://metacpan.org/release/Rinci'
+_distdir="Rinci-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
+sha512sums=('7880e9d4ebfc1776a0218168d059c6529d230f587e5a5b99142770ecf3c3672e87fb89d6a22851afb807430f979433de5e56f0f64029d449fac3244897f387a3')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
