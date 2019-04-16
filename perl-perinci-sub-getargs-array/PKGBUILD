@@ -2,27 +2,25 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-sub-getargs-array'
-pkgver='0.16'
-pkgrel='4'
+pkgver=0.170
+pkgrel=1
 pkgdesc='Get subroutine arguments (%args) from array'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.28'
-  'perl<5.29'
-  'perl-exporter'
-  'perl-perinci-sub-normalize>=0.18'
-)
 makedepends=(
   'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
+depends=(
+  'perl>=5.10.1'
+  'perl-exporter>=5.57'
+  'perl-perinci-sub-normalize>=0.19')
 checkdepends=(
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
   'perl-test-rinci'
@@ -31,7 +29,13 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Sub-GetArgs-Array'
 _distdir="Perinci-Sub-GetArgs-Array-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('78cb3ec1fe787d637432dd484e0af5f2fe3ab29e19a317885d9619564fe2620f017109b3b928363388cba4bc7446c9807c98f3a01c2979b505969c8601398672')
+sha512sums=('efc8baf17f7a4059116c1a9393fa65a2cb9b5d1d60f75b598d454adf334a72a30c7fb4344c48492ec2372f94c9326db7c8235b5ad608ec832d89e63145d4e502')
+
+prepare() {
+  rm \
+    "${srcdir}/${_distdir}/t/author-critic.t" \
+    "${srcdir}/${_distdir}/t/01-basics.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
