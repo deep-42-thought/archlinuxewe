@@ -2,38 +2,17 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-sub-getargs-argv'
-pkgver='0.840'
-pkgrel='4'
+pkgver=0.841
+pkgrel=1
 pkgdesc='Get subroutine arguments from command line arguments (@ARGV)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 optdepends=(
-  'perl-yaml-libyaml'
-)
-depends=(
-  'perl>=5.28'
-  'perl<5.29'
-  'perl-data-clean-json>=0.11'
-  'perl-data-sah-normalize'
-  'perl-data-sah-resolve>=0.003'
-  'perl-data-sah-util-type>=0.45'
-  'perl-exporter>=5.57'
-  'perl-getopt-long'
-  'perl-getopt-long-negate-en'
-  'perl-getopt-long-util>=0.890'
-  'perl-json-pp'
-  'perl-lingua-en-pluraltosingular'
-  'perl-mime-base64'
-  'perl-perinci-sub-getargs-array>=0.16'
-  'perl-perinci-sub-normalize>=0.19'
-  'perl-perinci-sub-util>=0.46'
-  'perl-scalar-list-utils'
-  'perl-yaml-old'
-)
+  'perl-yaml-libyaml')
 makedepends=(
   'perl'
-  'perl-data-clean-json>=0.38'
+  'perl-data-clean-json>=0.390'
   'perl-data-dmp>=0.21'
   'perl-data-sah'
   'perl-extutils-makemaker'
@@ -41,8 +20,24 @@ makedepends=(
   'perl-io'
   'perl-pathtools'
   'perl-test-needs'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
+depends=(
+  'perl>=5.10.1'
+  'perl-data-sah-normalize'
+  'perl-data-sah-resolve>=0.003'
+  'perl-data-sah-util-type>=0.45'
+  'perl-exporter>=5.57'
+  'perl-getopt-long>=2.5'
+  'perl-getopt-long-negate-en'
+  'perl-getopt-long-util>=0.890'
+  'perl-json-pp'
+  'perl-lingua-en-pluraltosingular'
+  'perl-mime-base64'
+  'perl-perinci-sub-getargs-array>=0.170'
+  'perl-perinci-sub-normalize>=0.19'
+  'perl-perinci-sub-util>=0.46'
+  'perl-scalar-list-utils>=1.45'
+  'perl-yaml-old')
 checkdepends=(
   'perl-data-sah-coercerule-array-str_comma_sep'
   'perl-sah-schemas-collection'
@@ -53,7 +48,11 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Sub-GetArgs-Argv'
 _distdir="Perinci-Sub-GetArgs-Argv-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('ef2839a2530e9709d6ca3db9fd035b369c42e2a83d9dd7eb1a25096608589902a277cf55feb30750b2312b51e972a1d33a8eb6fab7a3e96be5ca117ca53dade7')
+sha512sums=('5fa7d6e67214a71a742bcd17c8561436797dcda85fdc110e0c812d3b19d7353d98ebd47dddf82789b76c290b1eb3dc087633aa6ed666fdd1389cc77c59f3e7d3')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/get_args_from_argv.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
