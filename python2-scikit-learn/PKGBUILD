@@ -1,0 +1,47 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Andrzej Giniewicz <gginiu@gmail.com>
+
+pkgname=python2-scikit-learn
+pkgver=0.20.3
+pkgrel=1
+pkgdesc="A set of python modules for machine learning and data mining"
+arch=('x86_64' i686 pentium4)
+url="http://scikit-learn.sourceforge.net/"
+license=('BSD')
+makedepends=('python2-setuptools' 'cython2')
+options=(!emptydirs)
+
+source=("https://github.com/scikit-learn/scikit-learn/archive/${pkgver}.tar.gz")
+sha256sums=('cadeefa9a824671bdcad790a075efbaa0d5a00458c43c9b4ce7110b129df7b10')
+
+depends=('python2-scipy')
+optdepends=('python2-matplotlib: for examples with plotting')
+
+prepare() {
+  cd "$srcdir/scikit-learn-$pkgver"
+
+  find . -name '*.py' -exec \
+  sed -e "s|#![ ]*/usr/bin/python$|#!/usr/bin/python2|" \
+      -e "s|#![ ]*/usr/bin/env python$|#!/usr/bin/env python2|" \
+      -e "s|#![ ]*/bin/env python$|#!/usr/bin/env python2|" \
+      -i {} +
+}
+
+build() {
+  msg "Building Python2"
+  cd "$srcdir"/scikit-learn-$pkgver
+  python2 setup.py build
+}
+
+package() {
+
+  cd "$srcdir"/scikit-learn-$pkgver
+
+  python2 setup.py install --root="$pkgdir"/ --optimize=1
+
+  install -D COPYING "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+
+  # See FS#49651
+  install -d "$pkgdir"/usr/share/doc/$pkgname
+  cp -r doc/tutorial "$pkgdir"/usr/share/doc/$pkgname/tutorial
+}
