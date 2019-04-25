@@ -11,5 +11,5 @@ post_upgrade() {
 }
 
 post_remove() {
-  userdel courier
+  getent passwd courier >/dev/null 2>&1 && userdel courier
 }
