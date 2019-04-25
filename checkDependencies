@@ -1,0 +1,224 @@
+#!/bin/bash
+
+mirror_base='/srv/arch-mirror/arch/arch/merged'
+
+if [ ! -f '/tmp/packages' ]; then
+  packages=$(
+    ssh -p 22222 makepkg@141.35.51.219 '
+      find -L "'"${mirror_base}"'" \
+        -path '"'"'*testing/os/x86_64'"'"' \
+        -prune \
+        , \
+        -name '"'"'*staging'"'"' \
+        -prune \
+        , \
+        -name '"'"'any'"'"' \
+        -prune \
+        , \
+        -name '"'"'*.db.tar.gz'"'"' \
+        -printf '"'"'%%DBNAME%%\n%p\n\n'"'"' \
+        -exec bsdtar -Oxf {} \; 2>/dev/null
+    ' \
+    | sed -n '
+      /^%\(DBNAME\|NAME\|VERSION\|DEPENDS\|PROVIDES\)%$/,/^$/p
+    ' \
+    | sed '
+      /^%NAME%$/ i %DUMP%
+      $ a %DUMP%
+    ' \
+    | while read -r line; do
+      if [ "${line}" = '%DBNAME%' ]; then
+        read -r dbname
+        read -r dummy
+        if [ -n "${dummy}" ]; then
+          >&2 printf 'Syntax error: %s\n' "${line}"
+          exit 1
+        fi
+        continue
+      fi
+      if [ "${line}" = '%NAME%' ]; then
+        read -r name
+        read -r dummy
+        if [ -n "${dummy}" ]; then
+          >&2 printf 'Syntax error: %s\n' "${line}"
+          exit 1
+        fi
+        continue
+      fi
+      if [ "${line}" = '%VERSION%' ]; then
+        read -r version
+        read -r dummy
+        if [ -n "${dummy}" ]; then
+          >&2 printf 'Syntax error: %s\n' "${line}"
+          exit 1
+        fi
+        continue
+      fi
+      if [ "${line}" = '%PROVIDES%' ]; then
+        while read -r provides; do
+          if [ -z "${provides}" ]; then
+            break
+          fi
+          printf 'provides %s %s %s %s\n' \
+            "${dbname}" \
+            "${name}" \
+            "${version}" \
+            "${provides}"
+        done
+        continue
+      fi
+      if [ "${line}" = '%DEPENDS%' ]; then
+        while read -r depends; do
+          if [ -z "${depends}" ]; then
+            break
+          fi
+          printf 'depends %s %s %s %s\n' \
+            "${dbname}" \
+            "${name}" \
+            "${version}" \
+            "${depends}"
+        done
+        continue
+      fi
+      if [ "${line}" = '%DUMP%' ]; then
+        if [ -n "${name}" ]; then
+          printf 'provides %s %s %s %s=%s\n' \
+            "${dbname}" \
+            "${name}" \
+            "${version}" \
+            "${name}" \
+            "${version}"
+        fi
+        continue
+      fi
+      >&2 printf 'Syntax error: %s\n' "${line}"
+      exit 1
+    done \
+    | sed '
+      s/\([<>=]\S\+\)-\S\+$/\1/
+    '
+  )
+  
+  printf '%s\n' "${packages}" > /tmp/packages
+fi
+
+packages=$(cat /tmp/packages)
+
+packages=$(
+  printf '%s\n' "${packages}" \
+  | sed '
+    s,^\(\S\+ \)\S\+/\([^/[:space:]]\+\)/\([^/[:space:]]\+\)\.db\.tar\.gz ,\1\2 \3 ,
+    s/\([<=>]\S\+\)\?$/ \1/
+  ' \
+  | sed '
+    s/ $/ X X/
+    t
+    s/\([<>]=\)\(\S\+\)$/\1 \2/
+    t
+    s/\([<>=]\)\(\S\+\)$/\1 \2/
+    t
+    w /dev/stderr
+  '
+)
+
+matched_dependencies=$(
+  join -1 1 -2 3 -o 1.1,2.1,2.2,2.5,1.3,2.4,1.2 <(
+    printf '%s\n' "${packages}" \
+    | sed -n '
+      s/^provides \(\S\+\) \(\S\+ \)\{3\}/\1:/
+      T
+      p
+    ' \
+    | sort -k1,1
+    # arch:install_target [=X] required_version
+  ) <(
+    printf '%s\n' "${packages}" \
+    | sed -n '
+      s/^depends \(\S\+\) archlinuxewe \(\S\+\) \(\S\+\) /\2 \3 \1:/
+      T
+      p
+    ' \
+    | sort -k3,3
+    # provider_name provider_version arch:install_target version_comparison provided_version
+  )
+)
+# arch:install_target depender_name depender_version required_version
+#   provided_version required_version_comparison provided_version_comparison
+
+version_comparisons=$(
+  printf '%s\n' "${matched_dependencies}" \
+  | grep -v ' X\( \S\+\)\?$' \
+  | cut -d' ' -f4,5 \
+  | sort -u
+)
+# required_version provided_version
+
+version_comparisons=$(
+  join -j 1 -o 1.2,2.2,2.3 \
+  <(
+    printf '%s\n' "${version_comparisons}" \
+    | tr ' ' '\n' \
+    | parallel -j100 -L2 vercmp \
+    | cat -n
+  ) <(
+    printf '%s\n' "${version_comparisons}" \
+    | cat -n
+  ) \
+  | sed '
+    s/ \(\S\+\) \(\S\+\)$/ \1<->\2/
+  ' \
+  | sed '
+    s/^-\S\+ /-1 /
+    t
+    /^0 /b
+    s/^\S\+ /1 /
+  '
+)
+# (-1|0|1) required_version<->provided_version
+
+version_comparisons=$(
+  {
+    join -1 4 -2 2 <(
+      printf '%s\n' "${matched_dependencies}" \
+      | sed '
+        s/ \(\S\+\) \(\S\+ \S\+ \S\+\)$/ \1<->\2/
+      ' \
+      | sort -k4,4
+    ) <(
+      printf '%s\n' "${version_comparisons}" \
+      | sort -k2,2
+    ) \
+    | grep ' >=\? \S\+ -1$\| [<>]\?= \S\+ 0$\| <=\? \S\+ 1$' \
+    | sed '
+      s/^\(\S\+\)<->\S\+ /\1 /
+    ' \
+    | awk '{print $2" "$3" "$4" "$1" "$5}'
+    printf '%s\n' "${matched_dependencies}" \
+    | grep ' X\( \S\+\)\?$' \
+    | awk '{print $1" "$2" "$3" "$4" "$6}'
+  }
+)
+# arch:install_target depender_name depender_version required_version required_version_comparison
+
+{
+  printf '%s\n' "${matched_dependencies}" \
+  | awk '{print $1" "$2" "$3" "$4" "$6}'
+  printf '%s\n' "${version_comparisons}" \
+  | sed p
+} \
+| sort \
+| uniq -u \
+| sed 's/^\(\S\+\):\(\S\+\) /\1 \2 /' \
+| while read -r arch install_target depender_name depender_version required_version required_version_comparison; do
+  printf '%s %s (%s) needs %s' \
+    "${depender_name}" \
+    "${depender_version}" \
+    "${arch}" \
+    "${install_target}"
+  if [ "${required_version_comparison}" != 'X' ]; then
+    printf '%s%s' \
+      "${required_version_comparison}" \
+      "${required_version}"
+  fi
+  printf '\n'
+done
