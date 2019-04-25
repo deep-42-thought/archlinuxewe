@@ -100,9 +100,9 @@ if [ ! -f '/tmp/packages' ]; then
   )
   
   printf '%s\n' "${packages}" > /tmp/packages
+else
+  packages=$(cat /tmp/packages)
 fi
-
-packages=$(cat /tmp/packages)
 
 packages=$(
   printf '%s\n' "${packages}" \
