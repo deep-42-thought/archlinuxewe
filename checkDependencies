@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mirror_base='/srv/arch-mirror/arch/arch/merged'
+cache_file='/tmp/packages'
 
 if [ ! -f '/tmp/packages' ]; then
   packages=$(
@@ -96,12 +97,11 @@ if [ ! -f '/tmp/packages' ]; then
     done \
     | sed '
       s/\([<>=]\S\+\)-\S\+$/\1/
-    '
+    ' \
+    | tee "${cache_file}"
   )
-  
-  printf '%s\n' "${packages}" > /tmp/packages
 else
-  packages=$(cat /tmp/packages)
+  packages=$(cat "${cache_file}")
 fi
 
 packages=$(
