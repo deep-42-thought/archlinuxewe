@@ -3,61 +3,12 @@
 # Generator  : CPANPLUS::Dist::Arch 1.27
 
 pkgname='perl-devel-cover'
-pkgver=1.31
-pkgrel='3'
+pkgver=1.32
+pkgrel=1
 pkgdesc='Code coverage metrics for Perl'
 arch=('i686' 'pentium4' 'x86_64')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-devel-cover-annotation-git=1.31'
-  'perl-devel-cover-annotation-random=1.31'
-  'perl-devel-cover-annotation-svk=1.31'
-  'perl-devel-cover-branch=1.31'
-  'perl-devel-cover-collection=1.31'
-  'perl-devel-cover-collection-template-provider=1.31'
-  'perl-devel-cover-condition=1.31'
-  'perl-devel-cover-condition_and_2=1.31'
-  'perl-devel-cover-condition_and_3=1.31'
-  'perl-devel-cover-condition_or_2=1.31'
-  'perl-devel-cover-condition_or_3=1.31'
-  'perl-devel-cover-condition_xor_4=1.31'
-  'perl-devel-cover-criterion=1.31'
-  'perl-devel-cover-db=1.31'
-  'perl-devel-cover-db-criterion=1.31'
-  'perl-devel-cover-db-digests=1.31'
-  'perl-devel-cover-db-file=1.31'
-  'perl-devel-cover-db-io=1.31'
-  'perl-devel-cover-db-io-base=1.31'
-  'perl-devel-cover-db-io-json=1.31'
-  'perl-devel-cover-db-io-sereal=1.31'
-  'perl-devel-cover-db-io-storable=1.31'
-  'perl-devel-cover-db-run=1.31'
-  'perl-devel-cover-db-structure=1.31'
-  'perl-devel-cover-html_common=1.31'
-  'perl-devel-cover-op=1.31'
-  'perl-devel-cover-pod=1.31'
-  'perl-devel-cover-report-compilation=1.31'
-  'perl-devel-cover-report-html=1.31'
-  'perl-devel-cover-report-html_basic=1.31'
-  'perl-devel-cover-report-html_basic-template-provider=1.31'
-  'perl-devel-cover-report-html_minimal=1.31'
-  'perl-devel-cover-report-html_subtle=1.31'
-  'perl-devel-cover-report-html_subtle-template-provider=1.31'
-  'perl-devel-cover-report-json=1.31'
-  'perl-devel-cover-report-sort=1.31'
-  'perl-devel-cover-report-text=1.31'
-  'perl-devel-cover-report-text2=1.31'
-  'perl-devel-cover-report-vim=1.31'
-  'perl-devel-cover-report-vim-template-provider=1.31'
-  'perl-devel-cover-statement=1.31'
-  'perl-devel-cover-subroutine=1.31'
-  'perl-devel-cover-test=1.31'
-  'perl-devel-cover-time=1.31'
-  'perl-devel-cover-truth_table=1.31'
-  'perl-devel-cover-truth_table-row=1.31'
-  'perl-devel-cover-util=1.31'
-  'perl-devel-cover-web=1.31')
 optdepends=(
   'perl'
   'perl-browser-open'
@@ -75,21 +26,70 @@ optdepends=(
   'perl-sereal-encoder'
   'perl-template-toolkit'
   'perl-test-differences')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-math-bigint'
+  'perl-test-simple>=0.88')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl>=5.6.1'
   'perl-b-debug'
   'perl-digest-md5'
   'perl-html-parser>=3.69'
   'perl-storable')
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-test-simple')
+provides=(
+  'perl-devel-cover-annotation-git=1.32'
+  'perl-devel-cover-annotation-random=1.32'
+  'perl-devel-cover-annotation-svk=1.32'
+  'perl-devel-cover-branch=1.32'
+  'perl-devel-cover-collection=1.32'
+  'perl-devel-cover-collection-template-provider=1.32'
+  'perl-devel-cover-condition=1.32'
+  'perl-devel-cover-condition_and_2=1.32'
+  'perl-devel-cover-condition_and_3=1.32'
+  'perl-devel-cover-condition_or_2=1.32'
+  'perl-devel-cover-condition_or_3=1.32'
+  'perl-devel-cover-condition_xor_4=1.32'
+  'perl-devel-cover-criterion=1.32'
+  'perl-devel-cover-db=1.32'
+  'perl-devel-cover-db-criterion=1.32'
+  'perl-devel-cover-db-digests=1.32'
+  'perl-devel-cover-db-file=1.32'
+  'perl-devel-cover-db-io=1.32'
+  'perl-devel-cover-db-io-base=1.32'
+  'perl-devel-cover-db-io-json=1.32'
+  'perl-devel-cover-db-io-sereal=1.32'
+  'perl-devel-cover-db-io-storable=1.32'
+  'perl-devel-cover-db-run=1.32'
+  'perl-devel-cover-db-structure=1.32'
+  'perl-devel-cover-html_common=1.32'
+  'perl-devel-cover-op=1.32'
+  'perl-devel-cover-pod=1.32'
+  'perl-devel-cover-report-compilation=1.32'
+  'perl-devel-cover-report-html=1.32'
+  'perl-devel-cover-report-html_basic=1.32'
+  'perl-devel-cover-report-html_basic-template-provider=1.32'
+  'perl-devel-cover-report-html_minimal=1.32'
+  'perl-devel-cover-report-html_subtle=1.32'
+  'perl-devel-cover-report-html_subtle-template-provider=1.32'
+  'perl-devel-cover-report-json=1.32'
+  'perl-devel-cover-report-sort=1.32'
+  'perl-devel-cover-report-text=1.32'
+  'perl-devel-cover-report-text2=1.32'
+  'perl-devel-cover-report-vim=1.32'
+  'perl-devel-cover-report-vim-template-provider=1.32'
+  'perl-devel-cover-statement=1.32'
+  'perl-devel-cover-subroutine=1.32'
+  'perl-devel-cover-test=1.32'
+  'perl-devel-cover-time=1.32'
+  'perl-devel-cover-truth_table=1.32'
+  'perl-devel-cover-truth_table-row=1.32'
+  'perl-devel-cover-util=1.32'
+  'perl-devel-cover-web=1.32')
 checkdepends=('perl-html-parser' 'perl-dbm-deep' 'perl-moo' 'perl-moose' 'perl-pod-coverage' 'perl-readonly')
 url='https://metacpan.org/pod/Devel::Cover'
 _perlName='Devel-Cover'
 source=("https://cpan.metacpan.org/authors/id/P/PJ/PJCJ/${_perlName}-${pkgver}.tar.gz")
-sha512sums=('e2e63c8296e90fa953bd5998ce47365e66c3aedeef27bbd2506fc4b15a50aa0dd4efc48ca22c47348a6986561b921aa97f3cdbfa94b7e3b22b79b28b4522b4e9')
+sha512sums=('1b3d726346168016e69263e671a90cbb88cf0948ed7ac0dfc19301b52eaa6a069a9362b7ee54e53f09b1cd2e432039267b577607de5bfdf375026b9498bacb21')
 _distdir="${_perlName}-${pkgver}"
 
 prepare() {
