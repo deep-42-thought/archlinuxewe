@@ -1,8 +1,8 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index 61fa2a91ba..5cc35d96c0 100644
+index 83a28d8cdc..fce2152428 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
-@@ -1547,6 +1547,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Allow buying sh
+@@ -1550,6 +1550,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Allow buying sh
  STR_CONFIG_SETTING_ALLOW_SHARES_HELPTEXT                        :When enabled, allow buying and selling of company shares. Shares will only be available for companies reaching a certain age
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE                         :Percentage of leg profit to pay in feeder systems: {STRING2}
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE_HELPTEXT                :Percentage of income given to the intermediate legs in feeder systems, giving more control over the income
@@ -11,7 +11,7 @@ index 61fa2a91ba..5cc35d96c0 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :When dragging, place signals every: {STRING2}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Set the distance at which signals will be built on a track up to the next obstacle (signal, junction), if signals are dragged
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} tile{P 0 "" s}
-@@ -2684,8 +2686,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -2687,8 +2689,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -23,10 +23,10 @@ index 61fa2a91ba..5cc35d96c0 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index 22476579be..02e4899594 100644
+index 926420e850..10a488f1af 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
-@@ -1699,6 +1699,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Разреши
+@@ -1702,6 +1702,8 @@ STR_CONFIG_SETTING_ALLOW_SHARES                                 :Разреши
  STR_CONFIG_SETTING_ALLOW_SHARES_HELPTEXT                        :Разрешает торговлю акциями транспортных компаний. Акции выпускаются компаниями через некоторое время после основания.
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE                         :Процент дохода, начисляемый при частичной перевозке: {STRING}
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE_HELPTEXT                :Процент прибыли, начисляемый транспорту за частичную перевозку груза.
@@ -35,7 +35,7 @@ index 22476579be..02e4899594 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :При перетаскивании ставить сигналы каждые: {STRING}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Настройка периодичности расстановки сигналов методом перетаскивания. Сигналы будут устанавливаться до первого встреченного препятствия (пересечения или другого сигнала).
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} клет{P ку ки ок}
-@@ -2864,8 +2866,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
+@@ -2867,8 +2869,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Железнодорожный туннель
@@ -69,10 +69,10 @@ index 999f7f94de..728e252f94 100644
  						return false;
  					}
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index d8327c4449..69dc63750c 100644
+index 0804a4d14a..9c44d4bdd0 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
-@@ -1049,9 +1049,12 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
+@@ -1048,9 +1048,12 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
  	if (sigtype > SIGTYPE_LAST) return CMD_ERROR;
  	if (cycle_start > cycle_stop || cycle_stop > SIGTYPE_LAST) return CMD_ERROR;
  
@@ -88,7 +88,7 @@ index d8327c4449..69dc63750c 100644
  		return_cmd_error(STR_ERROR_THERE_IS_NO_RAILROAD_TRACK);
  	}
  	/* Protect against invalid signal copying */
-@@ -1060,6 +1063,53 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
+@@ -1059,6 +1062,53 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
  	CommandCost ret = CheckTileOwnership(tile);
  	if (ret.Failed()) return ret;
  
@@ -142,7 +142,7 @@ index d8327c4449..69dc63750c 100644
  	/* See if this is a valid track combination for signals (no overlap) */
  	if (TracksOverlap(GetTrackBits(tile))) return_cmd_error(STR_ERROR_NO_SUITABLE_RAILROAD_TRACK);
  
-@@ -1069,7 +1119,6 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
+@@ -1068,7 +1118,6 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
  	/* you can not convert a signal if no signal is on track */
  	if (convert_signal && !HasSignalOnTrack(tile, track)) return_cmd_error(STR_ERROR_THERE_ARE_NO_SIGNALS);
  
@@ -150,7 +150,7 @@ index d8327c4449..69dc63750c 100644
  	if (!HasSignalOnTrack(tile, track)) {
  		/* build new signals */
  		cost = CommandCost(EXPENSES_CONSTRUCTION, _price[PR_BUILD_SIGNALS]);
-@@ -1227,6 +1276,7 @@ static bool CheckSignalAutoFill(TileIndex &tile, Trackdir &trackdir, int &signal
+@@ -1226,6 +1275,7 @@ static bool CheckSignalAutoFill(TileIndex &tile, Trackdir &trackdir, int &signal
  			return true;
  
  		case MP_TUNNELBRIDGE: {
@@ -158,7 +158,7 @@ index d8327c4449..69dc63750c 100644
  			TileIndex orig_tile = tile; // backup old value
  
  			if (GetTunnelBridgeTransportType(tile) != TRANSPORT_RAIL) return false;
-@@ -1338,7 +1388,8 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
+@@ -1337,7 +1387,8 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
  	bool had_success = false;
  	for (;;) {
  		/* only build/remove signals with the specified density */
@@ -168,7 +168,7 @@ index d8327c4449..69dc63750c 100644
  			uint32 p1 = GB(TrackdirToTrack(trackdir), 0, 3);
  			SB(p1, 3, 1, mode);
  			SB(p1, 4, 1, semaphores);
-@@ -1374,13 +1425,20 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
+@@ -1373,13 +1424,20 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
  
  			/* Collect cost. */
  			if (!test_only) {
@@ -195,7 +195,7 @@ index d8327c4449..69dc63750c 100644
  					/* The "No railway" error is the least important one. */
  					if (ret.GetErrorMessage() != STR_ERROR_THERE_IS_NO_RAILROAD_TRACK ||
  							last_error.GetErrorMessage() == INVALID_STRING_ID) {
-@@ -1451,22 +1509,48 @@ CommandCost CmdBuildSignalTrack(TileIndex tile, DoCommandFlag flags, uint32 p1,
+@@ -1450,22 +1508,48 @@ CommandCost CmdBuildSignalTrack(TileIndex tile, DoCommandFlag flags, uint32 p1,
  CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32 p2, const char *text)
  {
  	Track track = Extract<Track, 0, 3>(p1);
@@ -251,7 +251,7 @@ index d8327c4449..69dc63750c 100644
  		Train *v = nullptr;
  		if (HasReservedTracks(tile, TrackToTrackBits(track))) {
  			v = GetTrainForReservation(tile, track);
-@@ -1502,7 +1586,7 @@ CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1
+@@ -1501,7 +1585,7 @@ CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1
  		MarkTileDirtyByTile(tile);
  	}
  
@@ -261,10 +261,10 @@ index d8327c4449..69dc63750c 100644
  
  /**
 diff --git a/src/settings_gui.cpp b/src/settings_gui.cpp
-index 51b5340e39..5a62f40296 100644
+index a6993cbf6a..e64a2d0f15 100644
 --- a/src/settings_gui.cpp
 +++ b/src/settings_gui.cpp
-@@ -1554,6 +1554,7 @@ static SettingsContainer &GetSettingsTree()
+@@ -1553,6 +1553,7 @@ static SettingsContainer &GetSettingsTree()
  			SettingsPage *construction = interface->Add(new SettingsPage(STR_CONFIG_SETTING_INTERFACE_CONSTRUCTION));
  			{
  				construction->Add(new SettingEntry("gui.link_terraform_toolbar"));
@@ -273,7 +273,7 @@ index 51b5340e39..5a62f40296 100644
  				construction->Add(new SettingEntry("gui.persistent_buildingtools"));
  				construction->Add(new SettingEntry("gui.quick_goto"));
 diff --git a/src/settings_type.h b/src/settings_type.h
-index 2459058979..8a1d0408af 100644
+index f2fbd283cd..327514f5f1 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
 @@ -317,6 +317,7 @@ struct ConstructionSettings {
@@ -366,7 +366,7 @@ index 8952000a51..137e435fb3 100644
  
  			case MP_RAILWAY:
 diff --git a/src/table/settings.ini b/src/table/settings.ini
-index 1aacb76349..834a61d122 100644
+index 5e57e5216c..80ce1100a7 100644
 --- a/src/table/settings.ini
 +++ b/src/table/settings.ini
 @@ -541,6 +541,20 @@ str      = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH
@@ -502,7 +502,7 @@ index 71b34d6ba2..8ee34b5f00 100644
 +{
 +	Train *t = (Train *)v;
 +
-+	if (t->force_proceed != 0) return false;
++	if (t->force_proceed != TFP_NONE) return false;
 +
 +	if (HasVehicleOnPos(t->tile, v, &FindSpaceBetweenTrainsEnum)) {
 +		/* Revert train if not going with tunnel direction. */
@@ -530,7 +530,7 @@ index 71b34d6ba2..8ee34b5f00 100644
 +/** Simulate signals in tunnel - bridge. */
 +static bool CheckTrainStayInWormHole(Train *t, TileIndex tile)
 +{
-+	if (t->force_proceed != 0) return false;
++	if (t->force_proceed != TFP_NONE) return false;
 +
 +	/* When not exit reverse train. */
 +	if (!IsTunnelBridgeExit(tile)) {
@@ -579,7 +579,7 @@ index 71b34d6ba2..8ee34b5f00 100644
  
 +				if (HasWormholeSignals(gp.new_tile)) {
 +					/* If red signal stop. */
-+					if (v->IsFrontEngine() && v->force_proceed == 0) {
++					if (v->IsFrontEngine() && v->force_proceed == TFP_NONE) {
 +						if (IsTunnelBridgeWithSignRed(gp.new_tile)) {
 +							v->cur_speed = 0;
 +							return false;
@@ -605,7 +605,7 @@ index 71b34d6ba2..8ee34b5f00 100644
 +			TileIndex old_tile = TileVirtXY(v->x_pos, v->y_pos);
 +			if (old_tile != gp.new_tile && HasWormholeSignals(v->tile) && (v->IsFrontEngine() || v->Next() == NULL)){
 +				if (old_tile == v->tile) {
-+					if (v->IsFrontEngine() && v->force_proceed == 0 && IsTunnelBridgeExit(v->tile)) goto invalid_rail;
++					if (v->IsFrontEngine() && v->force_proceed == TFP_NONE && IsTunnelBridgeExit(v->tile)) goto invalid_rail;
 +					/* Entered wormhole set counters. */
 +					v->wait_counter = (TILE_SIZE * _settings_game.construction.simulated_wormhole_signals) - TILE_SIZE;
 +					v->load_unload_ticks = 0;
@@ -647,7 +647,7 @@ index 71b34d6ba2..8ee34b5f00 100644
 +				v->wait_counter -= TILE_SIZE;
 +
 +				if (leaving) { // Reset counters.
-+					v->force_proceed = 0;
++					v->force_proceed = TFP_NONE;
 +					v->wait_counter = 0;
 +					v->load_unload_ticks = 0;
 +					v->x_pos = gp.x;

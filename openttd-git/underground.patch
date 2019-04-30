@@ -53,10 +53,10 @@ index 0000000000..a5947189b9
 +*	Expansion of the underground station does not work (when adding cells, a new one is added)
 +-	GF. "jumps" (the non-editable part of the station changes randomly when the station is modified)
 diff --git a/source.list b/source.list
-index 5496edc55a..c8c16a28b8 100644
+index f5089d03de..8422117262 100644
 --- a/source.list
 +++ b/source.list
-@@ -1174,3 +1174,12 @@ sound/null_s.cpp
+@@ -1173,3 +1173,12 @@ sound/null_s.cpp
  
  # Threading
  thread.h
@@ -70,7 +70,7 @@ index 5496edc55a..c8c16a28b8 100644
 +underground_gui.h
 +widgets/underground_widget.h
 diff --git a/src/base_station_base.h b/src/base_station_base.h
-index d7a67bd657..b48057b583 100644
+index eaeb246ef1..c4e802d1c1 100644
 --- a/src/base_station_base.h
 +++ b/src/base_station_base.h
 @@ -28,6 +28,13 @@ struct StationSpecList {
@@ -148,7 +148,7 @@ index bfe5c66b3c..230fc9421a 100644
  }
  
 diff --git a/src/console_cmds.cpp b/src/console_cmds.cpp
-index 2b74f1d000..f25aa2802c 100644
+index 740bbdde88..0646d83731 100644
 --- a/src/console_cmds.cpp
 +++ b/src/console_cmds.cpp
 @@ -27,6 +27,7 @@
@@ -159,7 +159,7 @@ index 2b74f1d000..f25aa2802c 100644
  #include "viewport_func.h"
  #include "window_func.h"
  #include "date_func.h"
-@@ -1047,6 +1048,7 @@ DEF_CONSOLE_CMD(ConRestart)
+@@ -1046,6 +1047,7 @@ DEF_CONSOLE_CMD(ConRestart)
  	}
  
  	/* Don't copy the _newgame pointers to the real pointers, so call SwitchToMode directly */
@@ -332,7 +332,7 @@ index 550a193d79..011fe186f9 100644
  				/* Date. */
  				NWidget(NWID_HORIZONTAL),
 diff --git a/src/gfx_type.h b/src/gfx_type.h
-index 7eeddb4078..39c3ed5107 100644
+index cc884b06df..0c0c258644 100644
 --- a/src/gfx_type.h
 +++ b/src/gfx_type.h
 @@ -157,6 +157,7 @@ struct DrawPixelInfo {
@@ -366,7 +366,7 @@ index 4609dceeb9..86ee14cc56 100644
  	for (row = 0; (uint)row < height; row++) {
  		for (col = 0; (uint)col < width; col++) {
 diff --git a/src/industry_cmd.cpp b/src/industry_cmd.cpp
-index 9978145fac..fbee8dcc65 100644
+index 06c6cde567..eb65e6e8e7 100644
 --- a/src/industry_cmd.cpp
 +++ b/src/industry_cmd.cpp
 @@ -14,6 +14,7 @@
@@ -523,10 +523,10 @@ index 413e189dd9..7ac8a6b9af 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Classe d'estació: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipus d'estació: {LTBLUE}{STRING}
 diff --git a/src/lang/croatian.txt b/src/lang/croatian.txt
-index ba1ea05aa6..327f27fc52 100644
+index aa1a5bcb3a..0858bad856 100644
 --- a/src/lang/croatian.txt
 +++ b/src/lang/croatian.txt
-@@ -2700,7 +2700,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Vlasnik
+@@ -2703,7 +2703,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Vlasnik
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Vlasnik željeznice: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Područna nadležnost: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nijedan/Nitko/Ništa
@@ -562,10 +562,10 @@ index dbd2e43a3a..776afeb49a 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklasse: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstype: {LTBLUE}{STRING}
 diff --git a/src/lang/dutch.txt b/src/lang/dutch.txt
-index a4c5e772fd..23de27c181 100644
+index c28321141f..0cad5afc9a 100644
 --- a/src/lang/dutch.txt
 +++ b/src/lang/dutch.txt
-@@ -2604,7 +2604,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eigenaar
+@@ -2607,7 +2607,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eigenaar
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Eigenaar van spoorweg: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Gemeente: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Geen
@@ -575,10 +575,10 @@ index a4c5e772fd..23de27c181 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklasse: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstype: {LTBLUE}{STRING}
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index 61fa2a91ba..6c0838393f 100644
+index 83a28d8cdc..7464d04bd0 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
-@@ -459,6 +459,18 @@ STR_LANDSCAPING_MENU_PLANT_TREES                                :Plant trees
+@@ -462,6 +462,18 @@ STR_LANDSCAPING_MENU_PLANT_TREES                                :Plant trees
  STR_LANDSCAPING_MENU_PLACE_SIGN                                 :Place sign
  ############ range ends here
  
@@ -597,7 +597,7 @@ index 61fa2a91ba..6c0838393f 100644
  ############ range for music menu starts
  STR_TOOLBAR_SOUND_MUSIC                                         :Sound/music
  ############ range ends here
-@@ -2604,7 +2616,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
+@@ -2607,7 +2619,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Railway owner: {LTBLUE}{STRING1}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Local authority: {LTBLUE}{STRING1}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :None
@@ -606,7 +606,7 @@ index 61fa2a91ba..6c0838393f 100644
  STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Built: {LTBLUE}{DATE_LONG}
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Station class: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Station type: {LTBLUE}{STRING}
-@@ -5085,3 +5097,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
+@@ -5088,3 +5100,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
  STR_SHIP                                                        :{BLACK}{SHIP}
  
  STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
@@ -708,10 +708,10 @@ index 4073b2515b..65472b75d8 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Støð klassi: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Støð slag: {LTBLUE}{STRING}
 diff --git a/src/lang/finnish.txt b/src/lang/finnish.txt
-index 86ba45386a..b368469479 100644
+index d1bf5e0731..eca8873e7d 100644
 --- a/src/lang/finnish.txt
 +++ b/src/lang/finnish.txt
-@@ -2604,7 +2604,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Raitioti
+@@ -2607,7 +2607,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Raitioti
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Rautatien omistaja: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Kunta: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ei mitään
@@ -825,10 +825,10 @@ index 92a28d1bcd..16a33a1eea 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Tegund stöðvar: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tegund stöðvar: {LTBLUE}{STRING}
 diff --git a/src/lang/indonesian.txt b/src/lang/indonesian.txt
-index 2e063a29c5..5f50ddc139 100644
+index 3a66b6eb15..135b51c262 100644
 --- a/src/lang/indonesian.txt
 +++ b/src/lang/indonesian.txt
-@@ -2579,7 +2579,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Pemilik
+@@ -2588,7 +2588,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Pemilik
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Pemilik Rel Kereta: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Pemkot setempat: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Kosong
@@ -851,10 +851,10 @@ index 483657f303..f8be9d5cdc 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Aicme an stáisiúin: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Cineál stáisiúin: {LTBLUE}{STRING}
 diff --git a/src/lang/italian.txt b/src/lang/italian.txt
-index 4631a1934b..fb7f488760 100644
+index 696504b5a4..07d75e0827 100644
 --- a/src/lang/italian.txt
 +++ b/src/lang/italian.txt
-@@ -2634,7 +2634,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propriet
+@@ -2637,7 +2637,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propriet
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Proprietario ferrovia: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autorità locale: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nessuna
@@ -864,10 +864,10 @@ index 4631a1934b..fb7f488760 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Tipo stazione: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo stazione: {LTBLUE}{STRING}
 diff --git a/src/lang/korean.txt b/src/lang/korean.txt
-index 9e53f801da..b791c8c129 100644
+index 3aff4a4ae0..f3d0d42b10 100644
 --- a/src/lang/korean.txt
 +++ b/src/lang/korean.txt
-@@ -2605,7 +2605,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}전찻
+@@ -2608,7 +2608,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}전찻
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}철도 소유주: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}지역 당국: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :없음
@@ -916,7 +916,7 @@ index 68bc4f9657..6b7b54485f 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stotelės rūšis: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stotelės tipas: {LTBLUE}{STRING}
 diff --git a/src/lang/luxembourgish.txt b/src/lang/luxembourgish.txt
-index 30507953f4..e71eefd00e 100644
+index 2f7cd1d061..dbc8bd5a86 100644
 --- a/src/lang/luxembourgish.txt
 +++ b/src/lang/luxembourgish.txt
 @@ -2598,7 +2598,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramschi
@@ -1007,10 +1007,10 @@ index a4149798ad..05a7e29031 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clasa staţiei: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tip staţie: {LTBLUE}{STRING}
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index 22476579be..0742a33991 100644
+index 926420e850..46ed8c3c02 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
-@@ -585,6 +585,18 @@ STR_LANDSCAPING_MENU_PLANT_TREES                                :Высадка
+@@ -588,6 +588,18 @@ STR_LANDSCAPING_MENU_PLANT_TREES                                :Высадка
  STR_LANDSCAPING_MENU_PLACE_SIGN                                 :Поставить метку
  ############ range ends here
  
@@ -1029,7 +1029,7 @@ index 22476579be..0742a33991 100644
  ############ range for music menu starts
  STR_TOOLBAR_SOUND_MUSIC                                         :Звук/музыка
  ############ range ends here
-@@ -2784,7 +2796,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Влад
+@@ -2787,7 +2799,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Влад
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Владелец ж/д пути: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Администрация: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Нет
@@ -1038,7 +1038,7 @@ index 22476579be..0742a33991 100644
  STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Построено: {LTBLUE}{DATE_LONG}
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Класс станции: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Тип станции: {LTBLUE}{STRING}
-@@ -5312,3 +5324,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
+@@ -5315,3 +5327,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
  STR_SHIP                                                        :{BLACK}{SHIP}
  
  STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
@@ -1140,10 +1140,10 @@ index 82918400a8..1bebdb738e 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clase de estación: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estación: {LTBLUE}{STRING}
 diff --git a/src/lang/spanish_MX.txt b/src/lang/spanish_MX.txt
-index ca0b6f0785..3faba92366 100644
+index 335bbdba8c..c4c12abfae 100644
 --- a/src/lang/spanish_MX.txt
 +++ b/src/lang/spanish_MX.txt
-@@ -2603,7 +2603,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
+@@ -2606,7 +2606,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Propietario del ferrocarril: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Ayuntamiento: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ninguno
@@ -1571,7 +1571,7 @@ index 0000000000..53eafdde63
 +
 +#endif /* LAYER_TYPE_H */
 diff --git a/src/main_gui.cpp b/src/main_gui.cpp
-index d4559c216e..d7b29c278b 100644
+index b6cf616d17..31a769f5a3 100644
 --- a/src/main_gui.cpp
 +++ b/src/main_gui.cpp
 @@ -33,6 +33,9 @@
@@ -1613,10 +1613,10 @@ index d4559c216e..d7b29c278b 100644
 +	}
 +}
 +
- static const struct NWidgetPart _nested_main_window_widgets[] = {
- 	NWidget(NWID_VIEWPORT, INVALID_COLOUR, WID_M_VIEWPORT), SetResize(1, 1),
- };
-@@ -436,7 +455,11 @@ struct MainWindow : Window
+ void FixTitleGameZoom()
+ {
+ 	if (_game_mode != GM_MENU) return;
+@@ -446,7 +465,11 @@ struct MainWindow : Window
  	void OnMouseWheel(int wheel) override
  	{
  		if (_settings_client.gui.scrollwheel_scrolling != 2) {
@@ -1778,7 +1778,7 @@ index 3d09f26f26..251ea4990d 100644
  	_pause_mode = PM_UNPAUSED;
  	_fast_forward = 0;
 diff --git a/src/misc_gui.cpp b/src/misc_gui.cpp
-index 4c7557c36f..0e09284a9f 100644
+index 86c17cdccd..edb7be2522 100644
 --- a/src/misc_gui.cpp
 +++ b/src/misc_gui.cpp
 @@ -214,10 +214,11 @@ public:
@@ -1797,7 +1797,7 @@ index 4c7557c36f..0e09284a9f 100644
  		line_nr++;
  
 diff --git a/src/rail.h b/src/rail.h
-index 8bfc3f025b..bddf9ecdfb 100644
+index 8619bac6d9..c22b1d2cbc 100644
 --- a/src/rail.h
 +++ b/src/rail.h
 @@ -160,7 +160,7 @@ public:
@@ -1810,10 +1810,10 @@ index 8bfc3f025b..bddf9ecdfb 100644
  		CursorID rail_swne;  ///< Cursor for building rail in X direction
  		CursorID rail_ew;    ///< Cursor for building rail in E-W direction
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index d8327c4449..ccdb86a52c 100644
+index 0804a4d14a..4476fdde76 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
-@@ -535,7 +535,7 @@ CommandCost CmdBuildSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1, u
+@@ -534,7 +534,7 @@ CommandCost CmdBuildSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1, u
  					/* ...but tram is not required. */
  					uint num_new_tram_pieces = (tram != ROAD_NONE) ? 2 - CountBits(tram) : 0;
  
@@ -1822,7 +1822,7 @@ index d8327c4449..ccdb86a52c 100644
  
  					if (flags & DC_EXEC) {
  						MakeRoadCrossing(tile, road_owner, tram_owner, _current_company, (track == TRACK_X ? AXIS_Y : AXIS_X), railtype, roadtypes, GetTownIndex(tile));
-@@ -594,7 +594,7 @@ CommandCost CmdBuildSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1, u
+@@ -593,7 +593,7 @@ CommandCost CmdBuildSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1, u
  		YapfNotifyTrackLayoutChange(tile, track);
  	}
  
@@ -1831,7 +1831,7 @@ index d8327c4449..ccdb86a52c 100644
  	return cost;
  }
  
-@@ -638,7 +638,7 @@ CommandCost CmdRemoveSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1,
+@@ -637,7 +637,7 @@ CommandCost CmdRemoveSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1,
  				if (ret.Failed()) return ret;
  			}
  
@@ -1840,7 +1840,7 @@ index d8327c4449..ccdb86a52c 100644
  
  			if (flags & DC_EXEC) {
  				if (HasReservedTracks(tile, trackbit)) {
-@@ -671,7 +671,7 @@ CommandCost CmdRemoveSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1,
+@@ -670,7 +670,7 @@ CommandCost CmdRemoveSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1,
  			if ((present & trackbit) == 0) return_cmd_error(STR_ERROR_THERE_IS_NO_RAILROAD_TRACK);
  			if (present == (TRACK_BIT_X | TRACK_BIT_Y)) crossing = true;
  
@@ -1849,7 +1849,7 @@ index d8327c4449..ccdb86a52c 100644
  
  			/* Charge extra to remove signals on the track, if they are there */
  			if (HasSignalOnTrack(tile, track)) {
-@@ -984,7 +984,7 @@ CommandCost CmdBuildTrainDepot(TileIndex tile, DoCommandFlag flags, uint32 p1, u
+@@ -983,7 +983,7 @@ CommandCost CmdBuildTrainDepot(TileIndex tile, DoCommandFlag flags, uint32 p1, u
  		if (!_settings_game.construction.build_on_slopes || !CanBuildDepotByTileh(dir, tileh)) {
  			return_cmd_error(STR_ERROR_FLAT_LAND_REQUIRED);
  		}
@@ -1858,7 +1858,7 @@ index d8327c4449..ccdb86a52c 100644
  	}
  
  	cost.AddCost(DoCommand(tile, 0, 0, flags, CMD_LANDSCAPE_CLEAR));
-@@ -1009,8 +1009,8 @@ CommandCost CmdBuildTrainDepot(TileIndex tile, DoCommandFlag flags, uint32 p1, u
+@@ -1008,8 +1008,8 @@ CommandCost CmdBuildTrainDepot(TileIndex tile, DoCommandFlag flags, uint32 p1, u
  		YapfNotifyTrackLayoutChange(tile, DiagDirToDiagTrack(dir));
  	}
  
@@ -1869,7 +1869,7 @@ index d8327c4449..ccdb86a52c 100644
  	return cost;
  }
  
-@@ -1660,7 +1660,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
+@@ -1659,7 +1659,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
  							InvalidateWindowData(WC_VEHICLE_DEPOT, tile);
  							InvalidateWindowData(WC_BUILD_VEHICLE, tile);
  						}
@@ -1878,7 +1878,7 @@ index d8327c4449..ccdb86a52c 100644
  						break;
  
  					default: // RAIL_TILE_NORMAL, RAIL_TILE_SIGNALS
-@@ -1671,7 +1671,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
+@@ -1670,7 +1670,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
  								YapfNotifyTrackLayoutChange(tile, RemoveFirstTrack(&tracks));
  							}
  						}
@@ -1887,7 +1887,7 @@ index d8327c4449..ccdb86a52c 100644
  						break;
  				}
  				break;
-@@ -1733,7 +1733,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
+@@ -1732,7 +1732,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
  					}
  				}
  
@@ -1896,7 +1896,7 @@ index d8327c4449..ccdb86a52c 100644
  				break;
  			}
  
-@@ -1743,7 +1743,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
+@@ -1742,7 +1742,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
  					YapfNotifyTrackLayoutChange(tile, track);
  				}
  
@@ -1937,7 +1937,7 @@ index e9edbf2549..b3270e7004 100644
  }
  
 diff --git a/src/saveload/map_sl.cpp b/src/saveload/map_sl.cpp
-index 17a793a09f..f9d15cc137 100644
+index a857d5b15a..892eba93bf 100644
 --- a/src/saveload/map_sl.cpp
 +++ b/src/saveload/map_sl.cpp
 @@ -11,6 +11,7 @@
@@ -1947,8 +1947,8 @@ index 17a793a09f..f9d15cc137 100644
 +#include "../layer_func.h"
  #include "../core/bitmath_func.hpp"
  #include "../fios.h"
- 
-@@ -20,10 +21,12 @@
+ #include <array>
+@@ -21,10 +22,12 @@
  
  static uint32 _map_dim_x;
  static uint32 _map_dim_y;
@@ -1961,7 +1961,7 @@ index 17a793a09f..f9d15cc137 100644
  	    SLEG_END()
  };
  
-@@ -31,13 +34,14 @@ static void Save_MAPS()
+@@ -32,13 +35,14 @@ static void Save_MAPS()
  {
  	_map_dim_x = MapSizeX();
  	_map_dim_y = MapSizeY();
@@ -1978,7 +1978,7 @@ index 17a793a09f..f9d15cc137 100644
  
  static void Check_MAPS()
 diff --git a/src/script/api/script_window.hpp b/src/script/api/script_window.hpp
-index fa584693af..99ef125e4d 100644
+index 47c8488889..5b924025e1 100644
 --- a/src/script/api/script_window.hpp
 +++ b/src/script/api/script_window.hpp
 @@ -1324,6 +1324,7 @@ public:
@@ -1998,7 +1998,7 @@ index fa584693af..99ef125e4d 100644
  		WID_CS_START_DATE_TEXT                       = ::WID_CS_START_DATE_TEXT,                       ///< Clickable start date value.
  		WID_CS_START_DATE_UP                         = ::WID_CS_START_DATE_UP,                         ///< Increase start year (start later).
 diff --git a/src/settings.cpp b/src/settings.cpp
-index b111f87282..c9bbca01c5 100644
+index 5c0dc4a984..2743b0fcce 100644
 --- a/src/settings.cpp
 +++ b/src/settings.cpp
 @@ -32,6 +32,7 @@
@@ -2010,7 +2010,7 @@ index b111f87282..c9bbca01c5 100644
  #include "train.h"
  #include "news_func.h"
 diff --git a/src/settings_type.h b/src/settings_type.h
-index 2459058979..923861f8c6 100644
+index f2fbd283cd..359a0e1168 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
 @@ -148,6 +148,8 @@ struct GUISettings {
@@ -2031,7 +2031,7 @@ index 2459058979..923861f8c6 100644
  	byte   oil_refinery_limit;               ///< distance oil refineries allowed from map edge
  	byte   snow_line_height;                 ///< the configured snow line height
 diff --git a/src/station.cpp b/src/station.cpp
-index 85603a38c8..903528a767 100644
+index e8ae1bc208..194f0edb28 100644
 --- a/src/station.cpp
 +++ b/src/station.cpp
 @@ -13,6 +13,7 @@
@@ -2042,7 +2042,7 @@ index 85603a38c8..903528a767 100644
  #include "viewport_func.h"
  #include "viewport_kdtree.h"
  #include "date_func.h"
-@@ -501,7 +502,7 @@ void StationRect::MakeEmpty()
+@@ -503,7 +504,7 @@ void StationRect::MakeEmpty()
  /**
   * Determines whether a given point (x, y) is within a certain distance of
   * the station rectangle.
@@ -2051,7 +2051,7 @@ index 85603a38c8..903528a767 100644
   * @param x X coordinate
   * @param y Y coordinate
   * @param distance The maximum distance a point may have (L1 norm)
-@@ -520,8 +521,10 @@ bool StationRect::IsEmpty() const
+@@ -522,8 +523,10 @@ bool StationRect::IsEmpty() const
  
  CommandCost StationRect::BeforeAddTile(TileIndex tile, StationRectMode mode)
  {
@@ -2064,7 +2064,7 @@ index 85603a38c8..903528a767 100644
  	if (this->IsEmpty()) {
  		/* we are adding the first station tile */
  		if (mode != ADD_TEST) {
-@@ -574,28 +577,35 @@ CommandCost StationRect::BeforeAddRect(TileIndex tile, int w, int h, StationRect
+@@ -576,28 +579,35 @@ CommandCost StationRect::BeforeAddRect(TileIndex tile, int w, int h, StationRect
   */
  /* static */ bool StationRect::ScanForStationTiles(StationID st_id, int left_a, int top_a, int right_a, int bottom_a)
  {
@@ -2110,7 +2110,7 @@ index 85603a38c8..903528a767 100644
  
  		/* can we reduce the rect in either direction? */
  		bool reduce_x = ((left_edge || right_edge) && !ScanForStationTiles(st->index, x, this->top, x, this->bottom));
-@@ -634,8 +644,13 @@ bool StationRect::AfterRemoveTile(BaseStation *st, TileIndex tile)
+@@ -636,8 +646,13 @@ bool StationRect::AfterRemoveTile(BaseStation *st, TileIndex tile)
  
  bool StationRect::AfterRemoveRect(BaseStation *st, TileArea ta)
  {
@@ -2335,7 +2335,7 @@ index 4aa6401279..510bc30724 100644
  	AirportTileTableIterator iter(as->table[layout], tile);
  	CommandCost cost = CheckFlatLandAirport(iter, flags);
 diff --git a/src/station_gui.cpp b/src/station_gui.cpp
-index 4e6b94caf6..9d4046fa57 100644
+index 31da16238e..521e53381d 100644
 --- a/src/station_gui.cpp
 +++ b/src/station_gui.cpp
 @@ -21,6 +21,7 @@
@@ -2346,7 +2346,7 @@ index 4e6b94caf6..9d4046fa57 100644
  #include "viewport_func.h"
  #include "widgets/dropdown_func.h"
  #include "station_base.h"
-@@ -2177,8 +2178,15 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
+@@ -2239,8 +2240,15 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
  	_deleted_stations_nearby.clear();
  
  	/* Check the inside, to return, if we sit on another station */
@@ -2364,7 +2364,7 @@ index 4e6b94caf6..9d4046fa57 100644
  	}
  
  	/* Look for deleted stations */
-@@ -2186,12 +2194,12 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
+@@ -2248,12 +2256,12 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
  	FOR_ALL_BASE_STATIONS(st) {
  		if (T::IsExpected(st) && !st->IsInUse() && st->owner == _local_company) {
  			/* Include only within station spread (yes, it is strictly less than) */
@@ -2380,7 +2380,7 @@ index 4e6b94caf6..9d4046fa57 100644
  					AddNearbyStation<T>(st->xy, &ctx);
  				}
  			}
-@@ -2204,8 +2212,11 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
+@@ -2266,8 +2274,11 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
  	if (distant_join && min(ta.w, ta.h) >= _settings_game.station.station_spread) return nullptr;
  	uint max_dist = distant_join ? _settings_game.station.station_spread - min(ta.w, ta.h) : 1;
  
@@ -2395,7 +2395,7 @@ index 4e6b94caf6..9d4046fa57 100644
  	return nullptr;
  }
 diff --git a/src/table/settings.ini b/src/table/settings.ini
-index 1aacb76349..726036977a 100644
+index 5e57e5216c..3ee043f6bf 100644
 --- a/src/table/settings.ini
 +++ b/src/table/settings.ini
 @@ -1861,6 +1861,15 @@ min      = 500
@@ -2556,7 +2556,7 @@ index c599753498..869ff3e09a 100644
  
  	bool Contains(TileIndex tile) const;
 diff --git a/src/toolbar_gui.cpp b/src/toolbar_gui.cpp
-index bd7472ecdc..36fb30322b 100644
+index 8b5f79df21..99867aeffd 100644
 --- a/src/toolbar_gui.cpp
 +++ b/src/toolbar_gui.cpp
 @@ -13,7 +13,10 @@
@@ -2578,7 +2578,7 @@ index bd7472ecdc..36fb30322b 100644
  #include "strings_func.h"
  #include "company_func.h"
  #include "company_gui.h"
-@@ -990,6 +994,39 @@ static CallBackFunction MenuClickForest(int index)
+@@ -998,6 +1002,39 @@ static CallBackFunction MenuClickForest(int index)
  	return CBF_NONE;
  }
  
@@ -2618,7 +2618,7 @@ index bd7472ecdc..36fb30322b 100644
  /* --- Music button menu --- */
  
  static CallBackFunction ToolbarMusicClick(Window *w)
-@@ -1306,9 +1343,10 @@ static MenuClickedProc * const _menu_clicked_procs[] = {
+@@ -1314,9 +1351,10 @@ static MenuClickedProc * const _menu_clicked_procs[] = {
  	MenuClickBuildWater,  // 23
  	MenuClickBuildAir,    // 24
  	MenuClickForest,      // 25
@@ -2632,7 +2632,7 @@ index bd7472ecdc..36fb30322b 100644
  };
  
  /** Full blown container to make it behave exactly as we want :) */
-@@ -1473,7 +1511,7 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
+@@ -1481,7 +1519,7 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
  	const byte *GetButtonArrangement(uint &width, uint &arrangable_count, uint &button_count, uint &spacer_count) const override
  	{
  		static const uint SMALLEST_ARRANGEMENT = 14;
@@ -2641,7 +2641,7 @@ index bd7472ecdc..36fb30322b 100644
  
  		/* The number of buttons of each row of the toolbar should match the number of items which we want to be visible.
  		 * The total number of buttons should be equal to arrangable_count * 2.
-@@ -1740,6 +1778,67 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
+@@ -1748,6 +1786,67 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
  			WID_TN_ZOOM_OUT,
  			WID_TN_SWITCH_BAR,
  		};
@@ -2709,7 +2709,7 @@ index bd7472ecdc..36fb30322b 100644
  		static const byte arrange_all[] = {
  			WID_TN_PAUSE,
  			WID_TN_FAST_FORWARD,
-@@ -1767,6 +1866,7 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
+@@ -1775,6 +1874,7 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
  			WID_TN_WATER,
  			WID_TN_AIR,
  			WID_TN_LANDSCAPE,
@@ -2717,7 +2717,7 @@ index bd7472ecdc..36fb30322b 100644
  			WID_TN_MUSIC_SOUND,
  			WID_TN_MESSAGES,
  			WID_TN_HELP
-@@ -1781,7 +1881,7 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
+@@ -1789,7 +1889,7 @@ class NWidgetMainToolbarContainer : public NWidgetToolbarContainer {
  		}
  
  		/* Introduce the split toolbar */
@@ -2726,7 +2726,7 @@ index bd7472ecdc..36fb30322b 100644
  
  		button_count = arrangable_count = full_buttons;
  		spacer_count = this->spacers;
-@@ -1932,6 +2032,7 @@ static ToolbarButtonProc * const _toolbar_button_procs[] = {
+@@ -1940,6 +2040,7 @@ static ToolbarButtonProc * const _toolbar_button_procs[] = {
  	ToolbarBuildWaterClick,
  	ToolbarBuildAirClick,
  	ToolbarForestClick,
@@ -2734,7 +2734,7 @@ index bd7472ecdc..36fb30322b 100644
  	ToolbarMusicClick,
  	ToolbarNewspaperClick,
  	ToolbarHelpClick,
-@@ -2217,6 +2318,7 @@ static NWidgetBase *MakeMainToolbar(int *biggest_index)
+@@ -2225,6 +2326,7 @@ static NWidgetBase *MakeMainToolbar(int *biggest_index)
  		SPR_IMG_BUILDWATER,      // WID_TN_WATER
  		SPR_IMG_BUILDAIR,        // WID_TN_AIR
  		SPR_IMG_LANDSCAPING,     // WID_TN_LANDSCAPE
@@ -2743,7 +2743,7 @@ index bd7472ecdc..36fb30322b 100644
  		SPR_IMG_MESSAGES,        // WID_TN_MESSAGES
  		SPR_IMG_QUERY,           // WID_TN_HELP
 diff --git a/src/town_cmd.cpp b/src/town_cmd.cpp
-index 367eba45f9..fa2e6ab631 100644
+index f3acfb4a38..fa90f16c5c 100644
 --- a/src/town_cmd.cpp
 +++ b/src/town_cmd.cpp
 @@ -13,6 +13,7 @@
@@ -3195,7 +3195,7 @@ index 0000000000..81b119545e
 +
 +#endif /* UNDERGROUND_GUI_H */
 diff --git a/src/vehicle.cpp b/src/vehicle.cpp
-index e6df365b05..c27e1f681e 100644
+index 031b6f95e3..dde4eeffe4 100644
 --- a/src/vehicle.cpp
 +++ b/src/vehicle.cpp
 @@ -15,6 +15,7 @@
@@ -3215,7 +3215,7 @@ index e6df365b05..c27e1f681e 100644
  						l <= v->coord.right &&
  						t <= v->coord.bottom &&
 diff --git a/src/viewport.cpp b/src/viewport.cpp
-index 804aa1cc6f..0a49dcdc0d 100644
+index 8a1319072c..3943569beb 100644
 --- a/src/viewport.cpp
 +++ b/src/viewport.cpp
 @@ -64,6 +64,8 @@
@@ -3227,7 +3227,7 @@ index 804aa1cc6f..0a49dcdc0d 100644
  #include "viewport_func.h"
  #include "station_base.h"
  #include "waypoint_base.h"
-@@ -1146,24 +1148,27 @@ static void ViewportAddLandscape()
+@@ -1208,24 +1210,27 @@ static void ViewportAddLandscape()
  			int min_visible_height = viewport_y - (_vd.dpi.top + _vd.dpi.height);
  			bool tile_visible = min_visible_height <= 0;
  
@@ -3272,7 +3272,7 @@ index 804aa1cc6f..0a49dcdc0d 100644
  			}
  
  			if (tile_visible) {
-@@ -1575,6 +1580,9 @@ void ViewportDoDraw(const ViewPort *vp, int left, int top, int right, int bottom
+@@ -1637,6 +1642,9 @@ void ViewportDoDraw(const ViewPort *vp, int left, int top, int right, int bottom
  
  	_vd.dpi.dst_ptr = BlitterFactory::GetCurrentBlitter()->MoveTo(old_dpi->dst_ptr, x - old_dpi->left, y - old_dpi->top);
  
@@ -3283,7 +3283,7 @@ index 804aa1cc6f..0a49dcdc0d 100644
  	ViewportAddVehicles(&_vd.dpi);
  
 diff --git a/src/viewport_func.h b/src/viewport_func.h
-index 49ad4b2e83..4d5b75987a 100644
+index 8b23cc02a9..e4469ace38 100644
 --- a/src/viewport_func.h
 +++ b/src/viewport_func.h
 @@ -33,6 +33,7 @@ void MarkAllViewportsDirty(int left, int top, int right, int bottom);
@@ -3292,8 +3292,8 @@ index 49ad4b2e83..4d5b75987a 100644
  void ZoomInOrOutToCursorWindow(bool in, Window * w);
 +void LayerUpOrDownToCursorWindow(bool in, Window * w);
  Point GetTileZoomCenterWindow(bool in, Window * w);
+ void FixTitleGameZoom();
  void HandleZoomMessage(Window *w, const ViewPort *vp, byte widget_zoom_in, byte widget_zoom_out);
- 
 diff --git a/src/viewport_gui.cpp b/src/viewport_gui.cpp
 index 85b278b2a7..8e03178ffc 100644
 --- a/src/viewport_gui.cpp
@@ -3320,7 +3320,7 @@ index 85b278b2a7..8e03178ffc 100644
  	}
  
 diff --git a/src/water_cmd.cpp b/src/water_cmd.cpp
-index e3247ec665..e112612576 100644
+index b603d7411b..fe8106d732 100644
 --- a/src/water_cmd.cpp
 +++ b/src/water_cmd.cpp
 @@ -12,6 +12,7 @@
@@ -3352,7 +3352,7 @@ index e3247ec665..e112612576 100644
 +
  	bool flooded = false; // Will be set to true if something is changed.
  
- 	Backup<CompanyByte> cur_company(_current_company, OWNER_WATER, FILE_LINE);
+ 	Backup<CompanyID> cur_company(_current_company, OWNER_WATER, FILE_LINE);
 @@ -1199,7 +1208,7 @@ void ConvertGroundTilesIntoWaterTiles()
  
  	for (TileIndex tile = 0; tile < MapSize(); ++tile) {

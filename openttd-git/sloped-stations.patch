@@ -1,8 +1,8 @@
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index d8327c4449..af261cbf2e 100644
+index 0804a4d14a..68513cfc59 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
-@@ -190,14 +190,6 @@ RailType AllocateRailType(RailTypeLabel label)
+@@ -189,14 +189,6 @@ RailType AllocateRailType(RailTypeLabel label)
  	return INVALID_RAILTYPE;
  }
  
@@ -78,10 +78,10 @@ index 3cf588dcd6..2a0da61427 100644
 +
  #endif /* ROAD_CMD_H */
 diff --git a/src/road_type.h b/src/road_type.h
-index 5251a53923..ce9ac81518 100644
+index 7056f6d62c..c2693de90a 100644
 --- a/src/road_type.h
 +++ b/src/road_type.h
-@@ -73,4 +73,11 @@ enum RoadBits {
+@@ -72,4 +72,11 @@ enum RoadBits {
  DECLARE_ENUM_AS_BIT_SET(RoadBits)
  template <> struct EnumPropsT<RoadBits> : MakeEnumPropsT<RoadBits, byte, ROAD_NONE, ROAD_END, ROAD_NONE, 4> {};
  
@@ -94,7 +94,7 @@ index 5251a53923..ce9ac81518 100644
 +
  #endif /* ROAD_TYPE_H */
 diff --git a/src/roadveh_cmd.cpp b/src/roadveh_cmd.cpp
-index 7086d151d0..3252327972 100644
+index 9f98c3e885..a236dc3578 100644
 --- a/src/roadveh_cmd.cpp
 +++ b/src/roadveh_cmd.cpp
 @@ -1483,7 +1483,7 @@ again:
@@ -432,10 +432,10 @@ index b678297d90..2291ba6bd3 100644
  
  static const DrawTileSprites _station_display_datas_oilrig[] = {
 diff --git a/src/track_type.h b/src/track_type.h
-index 2982288bba..a89fd708cd 100644
+index 233376b006..2601804813 100644
 --- a/src/track_type.h
 +++ b/src/track_type.h
-@@ -126,4 +126,11 @@ typedef SimpleTinyEnumT<TrackdirBits, uint16> TrackdirBitsShort;
+@@ -122,4 +122,11 @@ DECLARE_ENUM_AS_BIT_SET(TrackdirBits)
  
  typedef uint32 TrackStatus;
  
