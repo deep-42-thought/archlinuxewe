@@ -1,0 +1,48 @@
+#!/bin/bash
+
+if [ $# -ne 0 ]; then
+  >&2 echo 'check-if-bareos-backup-is-running: too many arguments'
+  exit 2
+fi
+
+bareos_pid=$(
+  pgrep -xf '(.*/)?bareos-fd' \
+  | head -n1
+)
+
+if [ -z "${bareos_pid}" ]; then
+  >&2 echo 'check-if-bareos-backup-is-running: cannot find running bareos-fd'
+  exit 2
+fi
+
+if ! grep -qxF bareos-fd "/proc/${bareos_pid}/comm"; then
+  >&2 echo 'check-if-bareos-backup-is-running: cannot find running bareos-fd'
+  exit 2
+fi
+
+if [ $(whoami) != 'root' ]; then
+  >&2 echo 'check-if-bareos-backup-is-running: must be run as root'
+  exit 2
+fi
+
+time_out=$((
+  $(date +%s)+30
+))
+was=$(
+  sed '
+    s/^read_bytes: //
+    t
+    d
+  ' "/proc/${bareos_pid}/io"
+)
+while [ $(date +%s) -le ${time_out} ]; do
+  sleep 1
+  if sed '
+    s/^read_bytes: //
+    t
+    d
+  ' "/proc/${bareos_pid}/io" \
+  | grep -qvxF "${was}"; then
+    exit 1
+  fi
+done

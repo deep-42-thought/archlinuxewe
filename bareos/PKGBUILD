@@ -22,7 +22,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=18.2.6
-pkgrel=4
+pkgrel=5
 arch=(x86_64 i686 pentium4 armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -33,9 +33,11 @@ makedepends_x86_64=(ceph)
 makedepends_armv7h=(ceph)
 makedepends_aarch64=(ceph)
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/$pkgbase/$pkgbase/archive/Release/$pkgver.tar.gz"
-'nullify-os-specifics.patch')
+'nullify-os-specifics.patch'
+'check-if-bareos-backup-is-running')
 sha512sums=('b6618173a803db4cfc3fe7edfe8c9e4e4128195f44383cd7df5b9866da4290686ed7cb42499edec957a5d9ab8bbd92d26258ce58f13fba84fb569167956768c3'
-            '0d6683bb21e06e005b4d5f7dd31d24adac0001ab202ccd806d31af1fda48a1a78156a18e8cc8847b80a7de01c0b58fa6ab7a1ba7f8f056d0de414c472db11643')
+            '0d6683bb21e06e005b4d5f7dd31d24adac0001ab202ccd806d31af1fda48a1a78156a18e8cc8847b80a7de01c0b58fa6ab7a1ba7f8f056d0de414c472db11643'
+            '9d5a37de458d0e5adb8a29adb46c132dbce9d42d6736e7eee9eac0e7f5c153627859e1b84a2074882a58381af2ffc9c9e9629c1dd884acfd2888e2f8ce00c119')
 
 prepare() {
   cd "${srcdir}/${pkgbase}-Release-${pkgver}"
@@ -372,6 +374,8 @@ package_bareos-filedaemon() {
   ; do
     _cp $srcdir/install/$f $pkgdir/$f
   done
+
+  install -Dm 755 -t "$pkgdir/usr/bin/" "$srcdir/check-if-bareos-backup-is-running"
 
   # Currently upstream systemd file does not automatically create run directory
   sed -i '/\[Service\]/a RuntimeDirectory=bareos' $srcdir/bareos-Release-$pkgver/core/platforms/systemd/bareos-fd.service
