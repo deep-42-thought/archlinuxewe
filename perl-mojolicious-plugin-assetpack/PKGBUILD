@@ -2,27 +2,23 @@
 # Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
 
 pkgname='perl-mojolicious-plugin-assetpack'
-pkgver=2.06
-pkgrel='3'
+pkgver=2.07
+pkgrel=1
 pkgdesc='Compress and convert css, less, sass, javascript and coffeescript files'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.28'
-  'perl<5.29'
-  'perl-file-which>=1.21'
-  'perl-ipc-run3>=0.048'
-  'perl-mojolicious>=7.17'
-)
 makedepends=(
   'perl-extutils-makemaker'
-  'perl-test-simple>=0.88'
-)
+  'perl-test-simple>=0.88')
+depends=(
+  'perl-file-which>=1.21'
+  'perl-ipc-run3>=0.048'
+  'perl-mojolicious>=7.17')
 url='https://metacpan.org/release/Mojolicious-Plugin-AssetPack'
 _distdir="Mojolicious-Plugin-AssetPack-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/J/JH/JHTHORSEN/${_distdir}.tar.gz")
-sha512sums=('23a70af9b969b8d94a8d5c300cd03a449e892168782a6fa558533289caad07092a3e1fd92515cc06973d7321c0dd24f0909094b20606042d85f7c2e289518bf7')
+sha512sums=('2f755c4ff7beb773690423f524cf610affb1b4251d50a350c9e01367868904399c9aaea763e18c06c9965895f9d53a0a87059dc918a562ff83909e0e74958be3')
 
 build() {
   cd "${srcdir}/${_distdir}"
