@@ -1,0 +1,75 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Tommy Li <ttoo74@gmail.com>
+pkgbase=python-certipy
+pkgname=(python-certipy python2-certipy)
+_name=${pkgbase#python-}
+pkgver=0.1.2
+pkgrel=1
+pkgdesc="A simple python tool for creating certificate authorities and certificates on the fly"
+arch=(any)
+url="https://github.com/LLNL/certipy"
+license=('BSD')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
+_depends=(
+  'python-pyopenssl'
+)
+_makedepends=(
+  'python-pypandoc'
+)
+makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
+  "${_depends[@]}"
+  "${_depends[@]/python/python2}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]/ython/ython2}"
+)
+source=("https://files.pythonhosted.org/packages/source/${_name::1}/${_name}/${_name}-${pkgver}.tar.gz")
+sha256sums=('3461c5ff28eda977185132d4c6d4393989c7dd996ba8c780b07b9b4e679d455a')
+
+prepare() {
+	# fix permission error
+	chmod -R u+rwX,go+rX,go-w "$_name-$pkgver"
+  cp -a "$_name-$pkgver"{,-py2}
+}
+
+build() {
+  echo "Building python..."
+  (
+		cd "$_name-$pkgver"
+		python setup.py build
+  )
+  echo "Building python2..."
+  (
+		cd "$_name-$pkgver-py2"
+		python2 setup.py build
+  )
+}
+
+package_python-certipy() {
+  depends=(
+    "${_deppy[@]}"
+    "${_depends[@]}"
+  )
+	cd "$_name-$pkgver"
+	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+}
+
+package_python2-certipy() {
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]/python/python2}"
+  )
+	cd "$_name-$pkgver-py2"
+	python2 setup.py install --root="$pkgdir/" --optimize=1 --skip-build
+	find "$pkgdir/" -type f -exec sed -i '1 s,/python$,\02,' {} +
+	mv "$pkgdir/usr/bin/certipy" "$pkgdir/usr/bin/certipy2"
+}
+
