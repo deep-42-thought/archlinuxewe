@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-test-time'
-pkgver=0.07
+pkgver=0.08
 pkgrel=1
 pkgdesc='Overrides the time() and sleep() core functions for testing'
 arch=('any')
@@ -17,7 +17,7 @@ checkdepends=(
 url='https://metacpan.org/release/Test-Time'
 _distdir="Test-Time-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SA/SATOH/${_distdir}.tar.gz")
-sha512sums=('b5ad87ea43eaae6b474be4aa7d153fe89bb9cc86254257e68073ff214b901846096037634a8d73b1e0852d5bf51fbee58e32c742c0726702ddb06d79679a65f9')
+sha512sums=('77f77f0f3aab033e1dd02c92ebae734a496e8c2e070f908ee73a70197971839009118f10c2e0ff2562172f4da62262eb2d67a05796c9dc77a46efaa9113f99df')
 
 build() {
   cd "${srcdir}/${_distdir}"
