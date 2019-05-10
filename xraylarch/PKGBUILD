@@ -1,52 +1,51 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=xraylarch
 pkgver=0.9.44
-pkgrel=1
+pkgrel=2
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://xraypy.github.io/xraylarch/"
 license=('BSD')
 groups=()
 depends=(
-  'python2>=2.7'
-  'python2<2.8'
-  'python2-asteval>=0.9.12'
-  'python2-backports.functools_lru_cache'
-  'python2-h5py>=2.4'
-  'python2-lmfit>=0.9.11'
-  'python2-matplotlib>=2.0'
-  'python2-numpy>=1.10'
-  'python2-peakutils>=1.0.0'
-  'python2-pillow>=3.4'
-  'python2-psutil'
-  'python2-pyepics>=3.2.4'
-  'python2-pyfai>=0.12.0'
-  'python2-pyaml'
-  'python2-pyshortcuts'
-  'python2-requests>=2.1'
-  'python2-scikit-learn>=0.18'
-  'python2-scipy>=0.17'
-  'python2-silx'
-  'python2-six>=1.10'
-  'python2-sqlalchemy>=1.1.5'
-  'python2-termcolor'
-  'python2-uncertainties>=3.0'
-  'python2-wxpython3>=2.8.12'
-  'python2-wxutils'
-  'python2-wxmplot'
+  'python>=3.7'
+  'python<3.8'
+  'python-asteval>=0.9.12'
+  'python-h5py>=2.4'
+  'python-lmfit>=0.9.11'
+  'python-matplotlib>=2.0'
+  'python-numpy>=1.10'
+  'python-peakutils>=1.0.0'
+  'python-pillow>=3.4'
+  'python-psutil'
+  'python-pyepics>=3.2.4'
+  'python-pyfai>=0.12.0'
+  'python-pyaml'
+  'python-pyshortcuts'
+  'python-requests>=2.1'
+  'python-scikit-learn>=0.18'
+  'python-scipy>=0.17'
+  'python-silx'
+  'python-six>=1.10'
+  'python-sqlalchemy>=1.1.5'
+  'python-termcolor'
+  'python-uncertainties>=3.0'
+  'python-wxpython>=2.8.12'
+  'python-wxutils'
+  'python-wxmplot'
 )
 makedepends=()
 checkdepends=(
-  'python2-pytest'
+  'python-pytest'
 )
 optdepends=(
-  'python2-CifFile:        needed for xrd modules'
-  'python2-epics:          needed for using the EPICS control system'
-  'python2-fabio:          needed for xrd modules'
-  'python2-nose:           needed for testing tools'
-  'python2-pyFAI:          needed for xrd modules'
-  'python2-xrayutilities:  needed for xrd modules'
-  'python2-yaml:           needed for graphics and plotting'
+  'python-CifFile:        needed for xrd modules'
+  'python-epics:          needed for using the EPICS control system'
+  'python-fabio:          needed for xrd modules'
+  'python-nose:           needed for testing tools'
+  'python-pyFAI:          needed for xrd modules'
+  'python-xrayutilities:  needed for xrd modules'
+  'python-yaml:           needed for graphics and plotting'
 )
 provides=()
 conflicts=()
@@ -61,7 +60,6 @@ sha512sums=('f6d7370cb598667c5fac46ea9f62e6e80ee2e559c02688a3fc6e7e2fb97be2ccba5
 prepare() {
 
   sed -i '
-    /^\s*pyexe\s*=/ s/python/python2/
     s/^\s*setup(/_setup = \0/
     s/^\(\s*dest\s*=\s*\)\(\S.*\)$/\1_setup.get_command_obj('"'"'install'"'"').root + os.path.abspath(\2)/
     /subprocess\.check_call/ { N; d; }
@@ -85,21 +83,20 @@ build() {
 
   cd "${pkgname}-${pkgver}"
   sed "s|DEBUG = False|DEBUG = True|" -i setup.py
-  python2 setup.py build
+  python setup.py build
 
 }
 
 check() {
 
   cd "${pkgname}-${pkgver}"
-  python2 setup.py check
+  python setup.py check
 
 }
 
 package() {
 
   cd "${pkgname}-${pkgver}"
-  python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
-  sed 's| python$| python2|' -i "${pkgdir}/usr/bin/"*
+  python setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
 
 }
