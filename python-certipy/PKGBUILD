@@ -3,7 +3,7 @@
 pkgbase=python-certipy
 pkgname=(python-certipy python2-certipy)
 _name=${pkgbase#python-}
-pkgver=0.1.2
+pkgver=0.1.3
 pkgrel=1
 pkgdesc="A simple python tool for creating certificate authorities and certificates on the fly"
 arch=(any)
@@ -31,8 +31,8 @@ makedepends=(
   "${_makedepends[@]}"
   "${_makedepends[@]/ython/ython2}"
 )
-source=("https://files.pythonhosted.org/packages/04/1e/340c66cddafdbbc378ff4ddd8659c633a162471645059fc5976b3aadf58b/certipy-0.1.2.tar.gz")
-sha256sums=('3461c5ff28eda977185132d4c6d4393989c7dd996ba8c780b07b9b4e679d455a')
+source=("${pkgbase}-${pkgver}.tar.gz::https://pypi.python.org/packages/3a/b3/f9228354c1eac06cd3577a981571b9188392d73d583fcaa7a8f3fb374a56/$_name-$pkgver.tar.gz")
+sha512sums=('6168146b60900883e4901920b354e17e341a87cf7dbdf674f0fbcbbb12067aa324d1dc7bf0817b5539873f883ac130f6b199fbab61222d2e06bde70e02019e95')
 
 prepare() {
 	# fix permission error
