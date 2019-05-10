@@ -24,6 +24,7 @@ makedepends=('fontforge'
              'tex-gyre-fonts'
              'texlive-langcyrillic'
              'dblatex'
+             'xorg-server-xvfb'
 )
 optdepends=('extractpdfmark: for reducing the size of pdf output significantly'
             'tk: for the gui'
@@ -63,7 +64,7 @@ build() {
 	        
   # FIXME: the extra LDFLAG should not be needed;
   # this is a regression somewhere
-  make LDFLAGS+=" -pthread" all
+  xvfb-run -a -s "-screen 0 1280x1024x24" make LDFLAGS+=" -pthread" all
 }
 
 package() {
