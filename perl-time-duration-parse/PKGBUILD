@@ -2,25 +2,24 @@
 # Generator : neuesPerlPaket (2234e1f408ad7a30313e9b3c153aadde5d1eb68bc0adcb75ee52d2927ebb42e5676317181b669be39442d556f1e0c24b108d6d45021c1dbc41e2f79c705c7ca7)
 
 pkgname='perl-time-duration-parse'
-pkgver=0.14
-pkgrel='3'
+pkgver=0.15
+pkgrel=1
 pkgdesc='Parse string that represents time duration'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.28'
-  'perl<5.29'
-  'perl-carp'
-  'perl-exporter-lite')
 makedepends=(
   'perl-extutils-makemaker'
   'perl-test-simple>=0.88'
   'perl-time-duration')
+depends=(
+  'perl>=5.6.0'
+  'perl-carp'
+  'perl-exporter-lite')
 url='https://metacpan.org/release/Time-Duration-Parse'
 _distdir="Time-Duration-Parse-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/N/NE/NEILB/${_distdir}.tar.gz")
-sha512sums=('49dcb7d3979df7e84141ebf9262b2283dfe535502b71633d95424376146d81bbf5d6932035dde878a5b1bef265d84a029412ff0187927569cf48ad193ea2f8e3')
+sha512sums=('1cd4b303cedc58d8513165297369b3705c2fe07db9b626c922829a8a86586bbdf631cd06052924dfaa030a5179e121bbb9c0d8b7159d54e137cb9e70f3086e20')
 
 build() {
   cd "${srcdir}/${_distdir}"
