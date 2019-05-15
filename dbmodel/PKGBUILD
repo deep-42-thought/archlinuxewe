@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=dbmodel
-pkgver=0.3.r129.6045f9a
-pkgrel=2
+pkgver=0.3.r138.c78245d
+pkgrel=1
 _pkgver=${pkgver%.*.*}
 _commit=${pkgver##*.}
 pkgdesc='visualize a database'
@@ -9,7 +9,7 @@ arch=('i686' 'pentium4' 'x86_64')
 url='https://oxygene.sk/projects/dbmodel/'
 license=('GPL2')
 groups=()
-depends=('qt4')
+depends=('qt5-base' 'qt5-svg' 'qt5-tools')
 makedepends=('git')
 checkdepends=()
 optdepends=()
@@ -19,11 +19,9 @@ replaces=()
 backup=()
 options=()
 source=(
-    "${pkgname}::git+https://bitbucket.org/lalinsky/dbmodel.git#commit=${_commit}"
-    'pfeile-entwirren.patch'
+    "${pkgname}::git+https://git.eckner.net/Erich/dbmodel#commit=${_commit}"
 )
-sha512sums=('SKIP'
-            '3b618b9497b3d6213700e6c5f8996903b37acd1b0d7949e6fc59a35e4f838dece5e9edef666fe0cd6dc409e982d9dec9aea362d2fd8274ea37371c37bcf0b7f1')
+sha512sums=('SKIP')
 
 pkgver(){
   cd "${pkgname}"
@@ -48,20 +46,10 @@ pkgver(){
     )"
 }
 
-prepare() {
-
-    cd "${srcdir}/${pkgname}"
-    sed -i '
-      s|/usr/local|/usr|g
-    ' src/src.pro
-    patch -p1 -i "${srcdir}/pfeile-entwirren.patch"
-
-}
-
 build() {
 
     cd "${srcdir}/${pkgname}"
-    qmake-qt4
+    qmake PREFIX=/usr
     make
 
 }
