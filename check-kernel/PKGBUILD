@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=check-kernel
-pkgver=0.5
+pkgver=0.5.1
 pkgrel=1
 pkgdesc='check if the installed kernel is currently running'
 arch=('any')
@@ -14,12 +14,12 @@ optdepends=()
 provides=()
 conflicts=()
 replaces=()
-backup=()
+backup=('etc/check-kernel.conf')
 options=()
 source=(
     "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('be10232ceb1d3aa37159b4e506da916873110142a677d358df521612e297e7f51cd6fefe5ab387e7f80630a79e6e06eaaa43d5712ae3f5aa061c04f6a3d0eb2f')
+sha512sums=('e85be1fc1f4c62545b9e9d875c49c229c4227b26d1f120246d1c5ad291ae5aecb9fb4a8d41bac04ba3cc3c22062a77a3bb033b5761df55e83f71b42feb538dad')
 
 build() {
 
