@@ -4,7 +4,7 @@
 pkgbase=python-pyfai
 pkgname=(python2-pyfai python-pyfai)
 _pkgname=pyFAI
-pkgver=0.17.1
+pkgver=0.18.0
 pkgrel=1
 pkgdesc="Fast Azimuthal Integration in Python."
 arch=('i686' 'pentium4' 'x86_64')
@@ -19,12 +19,14 @@ _deppy=(
   'python<3.8'
 )
 _depends=(
+  'python-bash_kernel'
   'cython'
   'python-fabio'
   'python-h5py'
   'python-matplotlib'
   'python-numexpr'
   'python-numpy'
+  'python-pyfai'
   'python-scipy'
   'python-silx')
 _makedepends=(
@@ -32,7 +34,7 @@ _makedepends=(
   'python-setuptools')
 _optdepends=()
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${_pkgname}/archive/v${pkgver}.tar.gz")
-sha512sums=('b32a16d1f42f3a6a2a5fa1795d339cf3ab8ca26abe680e5c0fb035c8c45d09614c764afa4e9a5232ac5349238e5ac8ceb8d69f62a3171165c7558030bd28cb75')
+sha512sums=('046b7c7830b7e95b2a974133dfb17c442691255689ef250141c9435d3aa07970f9221d4f10425bde3a3eb79110da659c8e518b478855397c6df5ef4a9c877d8d')
 
 makedepends=(
   "${_deppy[@]}"
@@ -60,6 +62,7 @@ package_python2-pyfai() {
   depends=(
     "${_deppy2[@]}"
     "${_depends[@]//python/python2}"
+    'python2-ipympl'
   )
   optdepends=(
     "${_optdepends[@]//python/python2}"
@@ -79,6 +82,7 @@ package_python-pyfai() {
   depends=(
     "${_deppy[@]}"
     "${_depends[@]}"
+    'python-ipympl'
   )
   optdepends=(
     "${_optdepends[@]}"
