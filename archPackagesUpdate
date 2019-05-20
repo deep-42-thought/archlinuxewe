@@ -780,14 +780,14 @@ if ${aufRechenknecht}; then
 
                     entferneAltePakete "${teil}" "any"'
                 printf '
-                    ln -s "%s/any/${teil}-%s-%s.pkg.tar.xz" "${teil}-%s-%s.pkg.tar.xz"' \
-                  "${pkgDir}" "${vers}" "${arch}" "${vers}" "${arch}"
+                    ln -s "../any/${teil}-%s-%s.pkg.tar.xz" "${teil}-%s-%s.pkg.tar.xz"' \
+                  "${vers}" "${arch}" "${vers}" "${arch}"
                 printf '
                     if [ -e "%s/any/${teil}-%s-%s.pkg.tar.xz.sig" ]' \
                   "${pkgDir}" "${vers}" "${arch}"
                 printf '; then
-                      ln -s "%s/any/${teil}-%s-%s.pkg.tar.xz.sig" "${teil}-%s-%s.pkg.tar.xz.sig"' \
-                  "${pkgDir}" "${vers}" "${arch}" "${vers}" "${arch}"
+                      ln -s "../any/${teil}-%s-%s.pkg.tar.xz.sig" "${teil}-%s-%s.pkg.tar.xz.sig"' \
+                  "${vers}" "${arch}" "${vers}" "${arch}"
                 printf '
                     fi
                     addPaket "${teil}-%s-%s.pkg.tar.xz"' \
