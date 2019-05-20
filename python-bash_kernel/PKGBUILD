@@ -1,0 +1,80 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgbase=python-bash_kernel
+pkgname=(python2-bash_kernel python-bash_kernel)
+_pkgname=bash_kernel
+pkgver=0.7.1
+pkgrel=1
+pkgdesc='A Jupyter kernel for bash.'
+arch=('i686' 'pentium4' 'x86_64')
+url='https://github.com/takluyver/bash_kernel'
+license=('BSD')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
+_depends=(
+)
+_makedepends=()
+#  'cython'
+#  'python-setuptools')
+_optdepends=()
+source=("${_pkgname}-${pkgver}.tar.gz::https://files.pythonhosted.org/packages/ba/cf/4e551a9f919cdcee37bc7bfafa7bf09adbc94ebfde9d44cf11461cfbde57/${_pkgname}-${pkgver}.tar.gz")
+sha256sums=('29f895819e076e3f225e37034b70b5265a559e2964e020c942024f51ea6153e8')
+
+makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
+  "${_depends[@]}"
+  "${_depends[@]//python/python2}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]//ython/ython2}"
+)
+
+prepare() {
+  cp -r "${_pkgname}-${pkgver}" "py2-${_pkgname}-${pkgver}"
+  mv "${_pkgname}-${pkgver}" "py-${_pkgname}-${pkgver}"
+}
+
+build() {
+  cd "${srcdir}/py2-${_pkgname}-${pkgver}"
+  python2 setup.py build
+
+  cd "${srcdir}/py-${_pkgname}-${pkgver}"
+  python setup.py build
+}
+
+package_python2-bash_kernel() {
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]//python/python2}"
+  )
+  optdepends=(
+    "${_optdepends[@]//python/python2}"
+  )
+  cd "${srcdir}/py2-${_pkgname}-${pkgver}"
+  python2 setup.py install --root="${pkgdir}/" --optimize=1
+  install -D LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  find "${pkgdir}/usr/bin" -maxdepth 1 -type f -printf '%f\n' | \
+    while read -r f; do
+      mv "${pkgdir}/usr/bin/${f}" "${pkgdir}/usr/bin/python2-${f}"
+      sed -i '1 s/python/python2/' "${pkgdir}/usr/bin/python2-${f}"
+    done
+}
+
+package_python-bash_kernel() {
+  depends=(
+    "${_deppy[@]}"
+    "${_depends[@]}"
+  )
+  optdepends=(
+    "${_optdepends[@]}"
+  )
+  cd "${srcdir}/py-${_pkgname}-${pkgver}"
+  python setup.py install --root="${pkgdir}/" --optimize=1
+  install -D LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
