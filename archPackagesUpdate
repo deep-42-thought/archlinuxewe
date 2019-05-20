@@ -166,7 +166,7 @@ while true; do
     --only)
       shift
       echo '"only '"$1"'" erkannt'
-      onlyPackages[${#onlyPackages[@]}]="$1"
+      onlyPackages[${#onlyPackages[@]}]="${1%/}"
     ;;
     -p|--print-only)
       echo '"print-only" erkannt'
