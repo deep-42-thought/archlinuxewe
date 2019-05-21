@@ -9,13 +9,12 @@ _target_arch=$(printf '%s' x 8 6 _ 6 4 ' and ' i 6 8 6)
 
 pkgname=archiso-dual
 pkgver=42
-pkgrel=1
+pkgrel=2
 pkgdesc='Tools for creating Arch Linux live and install iso images - for '"${_target_arch}"
 arch=('any')
 license=('GPL')
 url='https://git.archlinux32.org/archlinux32/archiso32'
-depends=('make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx' 'pacman-mirrorlist32' 'archlinux32-keyring')
-conflicts=('archiso' 'archiso32')
+depends=('archiso' 'make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx' 'pacman-mirrorlist32' 'archlinux32-keyring')
 source=(
   "https://sources.archlinux32.org/sources/archiso32-dual-v${pkgver}.tar.gz"{,.sig}
 )
@@ -23,6 +22,38 @@ sha512sums=('76fa50cd1f0ed2a6c78d5c5ae5022c0d30f5df25464ab88e732ff0f5517624de6cc
             'SKIP')
 validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
 
+build() {
+  mkdir "${srcdir}/pkg"
+  make -C "${srcdir}/archiso32-dual-v${pkgver}" DESTDIR="${srcdir}/pkg" install
+}
+
 package() {
-    make -C "archiso32-dual-v${pkgver}" DESTDIR="${pkgdir}" install
+
+  mkdir -p "${pkgdir}/usr/share/archiso/configs"
+  mv "${srcdir}/pkg/usr/share/archiso/configs/releng" "${pkgdir}/usr/share/archiso/configs/releng-dual"
+
+  rm \
+    "${srcdir}/pkg/usr/share/doc/archiso/README.altbootmethods" \
+    "${srcdir}/pkg/usr/share/doc/archiso/README.transfer"
+
+  (
+    pacman -Qql archiso \
+    | grep -v '/$'
+    cd "${srcdir}/pkg"
+    find * -not -type d \
+    | sed 's,^,/,'
+  ) \
+  | sort \
+  | uniq -d \
+  | while read -r f; do
+    diff -u --color "${f}" "${srcdir}/pkg${f}" || return $?
+    rm "${srcdir}/pkg${f}"
+  done
+
+  if find "${srcdir}/pkg" -not -type d \
+    | grep -F ''; then
+    >&2 echo '^residual files found'
+    return 4
+  fi
+
 }
