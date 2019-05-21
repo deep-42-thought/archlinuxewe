@@ -1,0 +1,26 @@
+#!/bin/bash
+
+pkgDirBase="/srv/arch-mirror/arch/arch"
+pkgDir="${pkgDirBase}/archlinuxewe/os"
+pkgDir32="${pkgDirBase}/archlinux32/x86_64/releng"
+
+ssh -p 22222 makepkg@141.35.51.219 '
+  find "'"${pkgDir}"'" "'"${pkgDir32}"'" \
+    -name "any" \
+    -prune \
+    , \
+    -name "*.files.tar.gz" \
+    -printf '"'"'%p\n'"'"' \
+  | while read -r repo; do
+    short_repo="${repo%/*}"
+    short_repo="${short_repo##*/}"
+    tar -xf "${repo}" --wildcards "*/files" --to-command '"'"'sed "s,^,$TAR_FILENAME ,"'"'"' \; 2>/dev/null \
+    | sed "
+      / %FILES%\$/ d
+      /\/\$/ d
+      s,^\(\S\+\)/\S\+ ,\1 ${short_repo} ,
+    "
+  done
+' \
+| sort -k2,2 -k3,3 \
+| uniq -Df1
