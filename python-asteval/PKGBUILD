@@ -4,7 +4,7 @@
 pkgbase=python-asteval
 pkgname=('python-asteval' 'python2-asteval')
 _pkgname="${pkgbase#*-}"
-pkgver=0.9.13
+pkgver=0.9.14
 pkgrel=1
 pkgdesc='Minimal Python AST Evaluator'
 arch=('any')
@@ -18,9 +18,14 @@ _deppy=(
   'python>=3.7'
   'python<3.8'
 )
-_depends=('python' 'python-numpy>=1.6' 'python-six')
-_makedepends=('python-setuptools')
-_checkdepends=('python-nose' 'python-pytest')
+_depends=(
+  'python-numpy>=1.6'
+  'python-six')
+_makedepends=(
+  'python-setuptools')
+_checkdepends=(
+  'python-nose'
+  'python-pytest')
 makedepends=(
   "${_deppy[@]}"
   "${_deppy2[@]}"
@@ -31,7 +36,7 @@ checkdepends=(
   "${_checkdepends[@]}" "${_checkdepends[@]/python/python2}"
   )
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/newville/${_pkgname}/archive/${pkgver}.tar.gz")
-sha512sums=('f58d80ee67d35cc20a1627e320af696cc9045ee3fa1678d571b2ab304e8c98be30f7844574b6c1c2af0a2454909f58924af53f46ead76fd4d44008342eae4bde')
+sha512sums=('8033646da18511f44a4d7803b939c328225f8fe5fe52a23a3a7946c36c250117dc1440affaaebe81d814f6cd9e9d55a91d3a78426bc04fc7577a8e50ec7acf0c')
 
 prepare() {
   mv "${_pkgname}-${pkgver}" "${_pkgname}-py-${pkgver}"
