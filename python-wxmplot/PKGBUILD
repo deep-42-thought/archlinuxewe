@@ -1,6 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgbase=python-wxmplot
 pkgname=(python2-wxmplot python-wxmplot)
+_pkgname="${pkgbase#*-}"
 pkgver=0.9.34
 pkgrel=1
 pkgdesc='A library for plotting in wxPython using matplotlib'
@@ -32,23 +33,23 @@ makedepends=(
   "${_makedepends[@]/ython/ython2}"
 )
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://pypi.python.org/packages/99/6a/52f701942cc87fdf205f9720d9190cf119c5cf50dbf7e3031b74f1ce144a/${pkgname#*-}-${pkgver}.tar.gz"
+    "${pkgname}-${pkgver}.tar.gz::https://pypi.python.org/packages/99/6a/52f701942cc87fdf205f9720d9190cf119c5cf50dbf7e3031b74f1ce144a/${_pkgname}-${pkgver}.tar.gz"
 )
 sha512sums=('3b53cf427f6016e468206fb503707f6615114f81a8c741c2e425f91fcc6efa5497c608c16afef9a8602ff21fd0af25fdc7322702f931ef1286f9f3a7452ce0f0')
 
 prepare() {
-  cp -a ${pkgname#*-}-${pkgver}{,-py2}
+  cp -a ${_pkgname}-${pkgver}{,-py2}
 }
 
 build() {
   echo "Building python..."
   (
-    cd ${pkgname#*-}-${pkgver}
+    cd ${_pkgname}-${pkgver}
     python setup.py build
   )
   echo "Building python2..."
   (
-    cd ${pkgname#*-}-${pkgver}-py2
+    cd ${_pkgname}-${pkgver}-py2
     python2 setup.py build
   )
 }
@@ -58,7 +59,7 @@ package_python2-wxmplot() {
     "${_deppy2[@]}"
     "${_depends[@]/python/python2}"
   )
-  cd ${pkgname#*-}-${pkgver}-py2
+  cd ${_pkgname}-${pkgver}-py2
   python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
   find "${pkgdir}" -type f -exec sed -si '1 s#[/ ]python\s*$# python2#' {} +
 }
@@ -68,6 +69,6 @@ package_python-wxmplot() {
     "${_deppy[@]}"
     "${_depends[@]}"
   )
-  cd ${pkgname#*-}-${pkgver}
+  cd ${_pkgname}-${pkgver}
   python setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
 }

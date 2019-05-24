@@ -1,6 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgbase=python-pyepics
 pkgname=(python2-pyepics python-pyepics)
+_pkgname="${pkgbase#*-}"
 pkgver=3.3.3
 pkgrel=2
 pkgdesc='Python Interface to the Epics Channel Access protocol of the Epics control system'
@@ -26,23 +27,23 @@ makedepends=(
   "${_makedepends[@]/ython/ython2}"
 )
 source=(
-    "${pkgname}-${pkgver}.tar.gz::https://pypi.python.org/packages/e6/9a/68dbcdd21c857c396384343dddb7a2939cd7b61f3e851dda287e458e2e42/${pkgname#*-}-${pkgver}.tar.gz"
+    "${pkgname}-${pkgver}.tar.gz::https://pypi.python.org/packages/e6/9a/68dbcdd21c857c396384343dddb7a2939cd7b61f3e851dda287e458e2e42/${_pkgname}-${pkgver}.tar.gz"
 )
 sha512sums=('522b59f678b2491ab4ddfa3863feac170c027a5abc545b93a82f73e4006f5b79544656e1f0fcb7bd080288cc271837b9cdd719c0104672bb70024d497a3f9c33')
 
 prepare() {
-  cp -a ${pkgname#*-}-${pkgver}{,-py2}
+  cp -a ${_pkgname}-${pkgver}{,-py2}
 }
 
 build() {
   echo "Building python..."
   (
-    cd ${pkgname#*-}-${pkgver}
+    cd ${_pkgname}-${pkgver}
     python setup.py build
   )
   echo "Building python2..."
   (
-    cd ${pkgname#*-}-${pkgver}-py2
+    cd ${_pkgname}-${pkgver}-py2
     python2 setup.py build
   )
 }
@@ -51,7 +52,7 @@ package_python-pyepics() {
   depends=(
     "${_deppy[@]}"
   )
-  cd ${pkgname#*-}-${pkgver}
+  cd ${_pkgname}-${pkgver}
   python setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
 }
 
@@ -59,7 +60,7 @@ package_python2-pyepics() {
   depends=(
     "${_deppy2[@]}"
   )
-  cd ${pkgname#*-}-${pkgver}-py2
+  cd ${_pkgname}-${pkgver}-py2
   python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
   find "${pkgdir}" -type f -exec sed -si '1 s#[/ ]python\s*$# python2#' {} +
 }

@@ -2,7 +2,7 @@
 # Contributor: Tommy Li <ttoo74@gmail.com>
 pkgbase=python-certipy
 pkgname=(python-certipy python2-certipy)
-_name=${pkgbase#python-}
+_pkgname="${pkgbase#*-}"
 pkgver=0.1.3
 pkgrel=1
 pkgdesc="A simple python tool for creating certificate authorities and certificates on the fly"
@@ -31,24 +31,24 @@ makedepends=(
   "${_makedepends[@]}"
   "${_makedepends[@]/ython/ython2}"
 )
-source=("${pkgbase}-${pkgver}.tar.gz::https://pypi.python.org/packages/3a/b3/f9228354c1eac06cd3577a981571b9188392d73d583fcaa7a8f3fb374a56/$_name-$pkgver.tar.gz")
+source=("${pkgbase}-${pkgver}.tar.gz::https://pypi.python.org/packages/3a/b3/f9228354c1eac06cd3577a981571b9188392d73d583fcaa7a8f3fb374a56/${_pkgname}-$pkgver.tar.gz")
 sha512sums=('6168146b60900883e4901920b354e17e341a87cf7dbdf674f0fbcbbb12067aa324d1dc7bf0817b5539873f883ac130f6b199fbab61222d2e06bde70e02019e95')
 
 prepare() {
 	# fix permission error
-	chmod -R u+rwX,go+rX,go-w "$_name-$pkgver"
-  cp -a "$_name-$pkgver"{,-py2}
+	chmod -R u+rwX,go+rX,go-w "${_pkgname}-$pkgver"
+  cp -a "${_pkgname}-$pkgver"{,-py2}
 }
 
 build() {
   echo "Building python..."
   (
-		cd "$_name-$pkgver"
+		cd "${_pkgname}-$pkgver"
 		python setup.py build
   )
   echo "Building python2..."
   (
-		cd "$_name-$pkgver-py2"
+		cd "${_pkgname}-$pkgver-py2"
 		python2 setup.py build
   )
 }
@@ -58,7 +58,7 @@ package_python-certipy() {
     "${_deppy[@]}"
     "${_depends[@]}"
   )
-	cd "$_name-$pkgver"
+	cd "${_pkgname}-$pkgver"
 	python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 }
 
@@ -67,7 +67,7 @@ package_python2-certipy() {
     "${_deppy2[@]}"
     "${_depends[@]/python/python2}"
   )
-	cd "$_name-$pkgver-py2"
+	cd "${_pkgname}-$pkgver-py2"
 	python2 setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 	find "$pkgdir/" -type f -exec sed -i '1 s,/python$,\02,' {} +
 	mv "$pkgdir/usr/bin/certipy" "$pkgdir/usr/bin/certipy2"

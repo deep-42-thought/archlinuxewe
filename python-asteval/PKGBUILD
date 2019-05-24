@@ -3,6 +3,7 @@
 
 pkgbase=python-asteval
 pkgname=('python-asteval' 'python2-asteval')
+_pkgname="${pkgbase#*-}"
 pkgver=0.9.13
 pkgrel=1
 pkgdesc='Minimal Python AST Evaluator'
@@ -29,27 +30,27 @@ makedepends=(
 checkdepends=(
   "${_checkdepends[@]}" "${_checkdepends[@]/python/python2}"
   )
-source=("${pkgname}-${pkgver}.tar.gz::https://github.com/newville/asteval/archive/${pkgver}.tar.gz")
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/newville/${_pkgname}/archive/${pkgver}.tar.gz")
 sha512sums=('f58d80ee67d35cc20a1627e320af696cc9045ee3fa1678d571b2ab304e8c98be30f7844574b6c1c2af0a2454909f58924af53f46ead76fd4d44008342eae4bde')
 
 prepare() {
-  mv "asteval-${pkgver}" "asteval-py-${pkgver}"
-  cp -a "asteval-py-${pkgver}" "asteval-py2-${pkgver}"
+  mv "${_pkgname}-${pkgver}" "${_pkgname}-py-${pkgver}"
+  cp -a "${_pkgname}-py-${pkgver}" "${_pkgname}-py2-${pkgver}"
 }
 
 build() {
-  cd "$srcdir/asteval-py-$pkgver"
+  cd "$srcdir/${_pkgname}-py-$pkgver"
   python setup.py build
   
-  cd "$srcdir/asteval-py2-$pkgver"
+  cd "$srcdir/${_pkgname}-py2-$pkgver"
   python2 setup.py build
 }
 
 check() {
-  cd "$srcdir/asteval-py-$pkgver"
+  cd "$srcdir/${_pkgname}-py-$pkgver"
   nosetests3 tests
 
-  cd "$srcdir/asteval-py2-$pkgver"
+  cd "$srcdir/${_pkgname}-py2-$pkgver"
   nosetests2 tests
 }
 
@@ -58,7 +59,7 @@ package_python-asteval(){
     "${_deppy[@]}"
     "${_depends[@]}"
   )
-  cd "$srcdir/asteval-py-$pkgver"
+  cd "$srcdir/${_pkgname}-py-$pkgver"
   python setup.py install --root="$pkgdir/" --optimize=1
 }
 
@@ -67,7 +68,7 @@ package_python2-asteval(){
     "${_deppy2[@]}"
     "${_depends[@]/python/python2}"
   )
-  cd "$srcdir/asteval-py2-$pkgver"
+  cd "$srcdir/${_pkgname}-py2-$pkgver"
   python2 setup.py install --root="$pkgdir/" --optimize=1
 }
 

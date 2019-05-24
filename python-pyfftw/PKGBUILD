@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Contributor: Antony Lee <anntzer dot lee at gmail dot com>
 
-_pyname=pyFFTW
+_pkgname=pyFFTW
 pkgname=("python-pyfftw" "python2-pyfftw")
 pkgbase="python-pyfftw"
 pkgver=0.11.1
@@ -39,7 +39,7 @@ source=("https://pypi.python.org/packages/fa/7f/e65fe8b9f1b66aab22c8d76c2f031807
 sha512sums=('2dab5d6c2c28731a096122ca7013c56469b8cd0509cb37abb7571290efc96925034e8c30833014c9f4d9db62234b4cb0e92cdc3b41880ac02bfa790370ee3f94')
 
 build() {
-  cd $srcdir/$_pyname-$pkgver
+  cd $srcdir/$_pkgname-$pkgver
   python setup.py build_ext --inplace
   python setup.py test
 }
@@ -49,7 +49,7 @@ package_python-pyfftw() {
     "${_deppy[@]}"
     "${_depends[@]}"
   )
-  cd $srcdir/$_pyname-$pkgver
+  cd $srcdir/$_pkgname-$pkgver
   python setup.py install --root="$pkgdir" --optimize=1 
   install -D -m644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
@@ -59,7 +59,7 @@ package_python2-pyfftw() {
     "${_deppy2[@]}"
     "${_depends[@]/python-/python2-}"
   )
-  cd $srcdir/$_pyname-$pkgver
+  cd $srcdir/$_pkgname-$pkgver
   python2 setup.py install --root="$pkgdir" --optimize=1 
   install -D -m644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

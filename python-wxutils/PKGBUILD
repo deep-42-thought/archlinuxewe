@@ -1,6 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgbase=python-wxutils
 pkgname=(python2-wxutils python-wxutils)
+_pkgname="${pkgbase#*-}"
 pkgver=0.2.3
 pkgrel=1
 pkgdesc='A library of convenience functions for wxPython'
@@ -39,11 +40,11 @@ prepare() {
 build() {
 
     echo "Building python2..."
-    cd "${srcdir}/${pkgbase#*-}-${pkgver}-py2"
+    cd "${srcdir}/${_pkgname}-${pkgver}-py2"
     python2 setup.py build
 
     echo "Building python..."
-    cd "${srcdir}/${pkgbase#*-}-${pkgver}"
+    cd "${srcdir}/${_pkgname}-${pkgver}"
     python setup.py build
 
 }
@@ -53,7 +54,7 @@ package_python2-wxutils() {
     depends=(
       "${_deppy2[@]}"
     )
-    cd ${pkgname#*-}-${pkgver}-py2
+    cd ${_pkgname}-${pkgver}-py2
     python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
     find "${pkgdir}" -type f -exec sed -i '1 s@^\(#!/usr/bin\(/env\s\+\)\?python\)\s*$@\12@' {} \;
 
@@ -64,7 +65,7 @@ package_python-wxutils() {
     depends=(
       "${_deppy[@]}"
     )
-    cd ${pkgname#*-}-${pkgver}
+    cd ${_pkgname}-${pkgver}
     python setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
 
 }
