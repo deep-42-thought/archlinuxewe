@@ -30,7 +30,7 @@ makedepends=(
 checkdepends=(
   "${_checkdepends[@]}" "${_checkdepends[@]/python/python2}"
   )
-source=("${pkgname}-${pkgver}.tar.gz::https://github.com/newville/${_pkgname}/archive/${pkgver}.tar.gz")
+source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/newville/${_pkgname}/archive/${pkgver}.tar.gz")
 sha512sums=('f58d80ee67d35cc20a1627e320af696cc9045ee3fa1678d571b2ab304e8c98be30f7844574b6c1c2af0a2454909f58924af53f46ead76fd4d44008342eae4bde')
 
 prepare() {
