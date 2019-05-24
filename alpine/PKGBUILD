@@ -2,9 +2,9 @@
 # Contributor: Adrian C. <anrxc..sysphere.org>
 
 pkgname=alpine
-pkgver=2.21.9999.r51.74c603f
+pkgver=2.21.9999.r55.78b20aa
 _commit=${pkgver##*.}
-pkgrel=2
+pkgrel=1
 arch=("i686" "pentium4" "x86_64")
 pkgdesc="Apache licensed PINE mail user agent"
 url="http://alpine.freeiz.com"
@@ -21,16 +21,13 @@ options=("!makeflags")
 source=(
   "alpine::git://repo.or.cz/alpine.git#commit=${_commit}"
   'topal-patch.patch'
-  'backwards-search.patch' # thanks, Astyanax Foo - http://mailman13.u.washington.edu/pipermail/alpine-info/2009-February/001753.html
 )
 sha512sums=('SKIP'
-            'bc7a3143cb2f7d79438c49b89bfdc52db7473521a7870ad621ecba96fff2f1688f4f3d58def9b8d57f8beba4e1e9c8b193f9281571e0564538ca7c7db16f0027'
-            'c4ebb6ace5c2520e74ed28eea730d34d4dea68b7ae3ac67966e5cc4db0a5731de748f8f11137115cc2a5d4b7278e10fa450d0b4b04956e53402f1d92fae2d7d6')
+            'bdaf9f0ed2bb9d10eaf4b456e24684cd09eb9e97ae2cf6eb4a2bc2bb5e231e8254d79efa63da9918022302fd970180f2dcd90a69d8c8d817c729c6a18fd6d506')
 
 prepare() {
   cd "${srcdir}/${pkgname}"
   patch -p1 -i "${srcdir}/topal-patch.patch"
-  patch -p1 -i "${srcdir}/backwards-search.patch"
 }
 
 pkgver() {

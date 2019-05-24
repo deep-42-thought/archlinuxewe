@@ -83,10 +83,10 @@ index 6eb3313..ba55d1c 100644
  			    }
  
 diff --git a/imap/src/c-client/mail.c b/imap/src/c-client/mail.c
-index 8f0373e..8b0dc80 100644
+index 49444eb..4b2c67e 100644
 --- a/imap/src/c-client/mail.c
 +++ b/imap/src/c-client/mail.c
-@@ -2807,6 +2807,8 @@ BODY *mail_body_section (BODY *b, unsigned char *section)
+@@ -2815,6 +2815,8 @@ BODY *mail_body_section (BODY *b, unsigned char *section)
  BODY *mail_body (MAILSTREAM *stream,unsigned long msgno,unsigned char *section)
  {
    BODY *b = NIL;
@@ -96,10 +96,10 @@ index 8f0373e..8b0dc80 100644
    if (section && *section && mail_fetchstructure (stream,msgno,&b) && b)
      return mail_body_section(b, section);
 diff --git a/imap/src/c-client/mail.h b/imap/src/c-client/mail.h
-index 58d2979..70deb46 100644
+index b5cd65d..dbf607f 100644
 --- a/imap/src/c-client/mail.h
 +++ b/imap/src/c-client/mail.h
-@@ -828,6 +828,7 @@ BODY {
+@@ -831,6 +831,7 @@ BODY {
      unsigned long bytes;	/* size of text in octets */
    } size;
    char *md5;			/* MD5 checksum */
@@ -108,7 +108,7 @@ index 58d2979..70deb46 100644
  };
  
 diff --git a/pith/conf.c b/pith/conf.c
-index c7c24db..bb9daa7 100644
+index 3742e9a..bf31096 100644
 --- a/pith/conf.c
 +++ b/pith/conf.c
 @@ -2910,6 +2910,8 @@ feature_list(int index)
@@ -133,7 +133,7 @@ index bfb337c..21b630d 100644
  	F_COMPOSE_ALWAYS_DOWNGRADE,
  	F_SORT_DEFAULT_FCC_ALPHA,
 diff --git a/pith/mailcap.c b/pith/mailcap.c
-index 06a0b63..87a82e7 100644
+index 06f521f..04d1b7d 100644
 --- a/pith/mailcap.c
 +++ b/pith/mailcap.c
 @@ -583,8 +583,17 @@ mc_get_command(int type, char *subtype, BODY *body,
@@ -157,10 +157,10 @@ index 06a0b63..87a82e7 100644
  		strncpy(ext = tmp_ext, e2b.from.ext - 1, sizeof(tmp_ext)); /* remember it */
  		tmp_ext[sizeof(tmp_ext)-1] = '\0';
 diff --git a/pith/pine.hlp b/pith/pine.hlp
-index 9967019..d2e657d 100644
+index 8a1fff7..e334631 100644
 --- a/pith/pine.hlp
 +++ b/pith/pine.hlp
-@@ -4216,7 +4216,8 @@ There are also additional details on
+@@ -4368,7 +4368,8 @@ There are also additional details on
  <li><a href="h_config_always_spell_check">FEATURE: <!--#echo var="FEAT_spell-check-before-sending"--></a>
  <li><a href="h_config_winpos_in_config">FEATURE: <!--#echo var="FEAT_store-window-position-in-config"--></a>
  <li><a href="h_config_strip_sigdashes">FEATURE: <!--#echo var="FEAT_strip-from-sigdashes-on-reply"--></a>
@@ -170,7 +170,7 @@ index 9967019..d2e657d 100644
  <li><a href="h_config_quells_asterisks">FEATURE: <!--#echo var="FEAT_suppress-asterisks-in-password-prompt"--></a>
  <li><a href="h_config_quell_attach_ext_warn">FEATURE: <!--#echo var="FEAT_quell-attachment-extension-warn"--></a>
  <li><a href="h_config_quell_attach_extra_prompt">FEATURE: <!--#echo var="FEAT_quell-attachment-extra-prompt"--></a>
-@@ -29862,6 +29863,21 @@ is enabled. However, notice that the default is to include text if you edit the
+@@ -30014,6 +30015,21 @@ is enabled. However, notice that the default is to include text if you edit the
  reply indent string or if you explicitly set through this menu that you
  want headers included in the reply message.
  
@@ -193,7 +193,7 @@ index 9967019..d2e657d 100644
  &lt;End of help on this topic&gt;
  </BODY>
 diff --git a/pith/send.c b/pith/send.c
-index b724385..05c5982 100644
+index 32722a3..7c20b80 100644
 --- a/pith/send.c
 +++ b/pith/send.c
 @@ -108,7 +108,7 @@ long       post_rfc822_output(char *, ENVELOPE *, BODY *, soutr_t, TCPSTREAM *,
@@ -304,7 +304,7 @@ index b724385..05c5982 100644
  	part = body->nested.part;	/* first body part */
  					/* find cookie */
  	for (param = body->parameter; param && !cookie; param = param->next)
-@@ -4401,10 +4419,14 @@ pine_rfc822_output_body(struct mail_bodystruct *body, soutr_t f, void *s)
+@@ -4402,10 +4420,14 @@ pine_rfc822_output_body(struct mail_bodystruct *body, soutr_t f, void *s)
  	 * BEFORE applying any encoding (rfc1341: appendix G)...
  	 * NOTE: almost all filters expect CRLF newlines 
  	 */
@@ -322,7 +322,7 @@ index b724385..05c5982 100644
  	}
  
  	switch (body->encoding) {	/* all else needs filtering */
-@@ -4517,7 +4539,7 @@ pine_write_body_header(struct mail_bodystruct *body, soutr_t f, void *s)
+@@ -4518,7 +4540,7 @@ pine_write_body_header(struct mail_bodystruct *body, soutr_t f, void *s)
  	  return(pwbh_finish(0, so));
  	    
  	if(body->parameter){
@@ -331,7 +331,7 @@ index b724385..05c5982 100644
  	      return(pwbh_finish(0, so));
  	}
  	else if ((body->type != TYPEMESSAGE
-@@ -4599,7 +4621,7 @@ pine_write_body_header(struct mail_bodystruct *body, soutr_t f, void *s)
+@@ -4600,7 +4622,7 @@ pine_write_body_header(struct mail_bodystruct *body, soutr_t f, void *s)
  		 && so_puts(so, body->disposition.type)))
  	      return(pwbh_finish(0, so));
  
@@ -340,7 +340,7 @@ index b724385..05c5982 100644
  	      return(pwbh_finish(0, so));	      
  
  	    if(!so_puts(so, "\015\012"))
-@@ -4661,7 +4683,7 @@ pine_write_header_line(char *hdr, char *val, STORE_S *so)
+@@ -4662,7 +4684,7 @@ pine_write_header_line(char *hdr, char *val, STORE_S *so)
   * pine_write_param - convert, encode and write MIME header-field parameters
   */
  int
@@ -349,7 +349,7 @@ index b724385..05c5982 100644
  {	      
      for(; param; param = param->next){
  	int   rv;
-@@ -4670,9 +4692,17 @@ pine_write_params(PARAMETER *param, STORE_S *so)
+@@ -4671,9 +4693,17 @@ pine_write_params(PARAMETER *param, STORE_S *so)
  
  	cs = posting_characterset(param->value, NULL, HdrText);
  	cv = utf8_to_charset(param->value, cs, 0);
@@ -370,7 +370,7 @@ index b724385..05c5982 100644
  	if(cv && cv != param->value)
  	  fs_give((void **) &cv);
  
-@@ -4779,7 +4809,9 @@ send_body_size(struct mail_bodystruct *body)
+@@ -4780,7 +4810,9 @@ send_body_size(struct mail_bodystruct *body)
      long  l = 0L;
      PART *part;
  
