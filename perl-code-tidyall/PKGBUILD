@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (c76f19eeb8ac0e674222223e3f2f0b1a4250e725fbc76c117ed5a925d0a78bc530c4457ecc3b31370951fc9b8729fc0272fa9206231f2dcd7aab2565a892a173)
 
 pkgname='perl-code-tidyall'
-pkgver=0.73
+pkgver=0.74
 pkgrel=1
 pkgdesc='Engine for tidyall, your all-in-one code tidier and validator'
 arch=('any')
@@ -23,6 +23,7 @@ makedepends=(
   'perl-test-simple>=0.96'
   'perl-test-warnings')
 depends=(
+  'perl>=5.8.8'
   'perl-base'
   'perl-capture-tiny'
   'perl-config-ini'
@@ -45,56 +46,55 @@ depends=(
   'perl-scalar-list-utils'
   'perl-scope-guard'
   'perl-specio'
-  'perl-specio-library-path-tiny>=0.04'
   'perl-specio>=0.40'
+  'perl-specio-library-path-tiny>=0.04'
   'perl-test-simple'
   'perl-text-diff>=1.44'
   'perl-text-parsewords'
-  'perl-time-duration-parse'
   'perl-timedate'
-  'perl-try-tiny'
-  'perl>=5.8.8')
+  'perl-time-duration-parse'
+  'perl-try-tiny')
 provides=(
-  'perl-code-tidyall-cache=0.73'
-  'perl-code-tidyall-cachemodel-shared=0.73'
-  'perl-code-tidyall-cachemodel=0.73'
-  'perl-code-tidyall-config-ini-reader=0.73'
-  'perl-code-tidyall-git-precommit=0.73'
-  'perl-code-tidyall-git-prereceive=0.73'
-  'perl-code-tidyall-git-util=0.73'
-  'perl-code-tidyall-plugin-cssunminifier=0.73'
-  'perl-code-tidyall-plugin-generictransformer=0.73'
-  'perl-code-tidyall-plugin-genericvalidator=0.73'
-  'perl-code-tidyall-plugin-jsbeautify=0.73'
-  'perl-code-tidyall-plugin-jshint=0.73'
-  'perl-code-tidyall-plugin-jslint=0.73'
-  'perl-code-tidyall-plugin-json=0.73'
-  'perl-code-tidyall-plugin-masontidy=0.73'
-  'perl-code-tidyall-plugin-perlcritic=0.73'
-  'perl-code-tidyall-plugin-perltidy=0.73'
-  'perl-code-tidyall-plugin-perltidysweet=0.73'
-  'perl-code-tidyall-plugin-phpcodesniffer=0.73'
-  'perl-code-tidyall-plugin-podchecker=0.73'
-  'perl-code-tidyall-plugin-podspell=0.73'
-  'perl-code-tidyall-plugin-podtidy=0.73'
-  'perl-code-tidyall-plugin-sortlines=0.73'
-  'perl-code-tidyall-plugin=0.73'
-  'perl-code-tidyall-result=0.73'
-  'perl-code-tidyall-role-genericexecutable=0.73'
-  'perl-code-tidyall-role-hasignore=0.73'
-  'perl-code-tidyall-role-runscommand=0.73'
-  'perl-code-tidyall-role-tempdir=0.73'
-  'perl-code-tidyall-svn-precommit=0.73'
-  'perl-code-tidyall-svn-util=0.73'
-  'perl-code-tidyall-util-zglob=0.73'
-  'perl-code-tidyall-zglob=0.73'
-  'perl-test-code-tidyall=0.73')
+  'perl-code-tidyall-cache=0.74'
+  'perl-code-tidyall-cachemodel=0.74'
+  'perl-code-tidyall-cachemodel-shared=0.74'
+  'perl-code-tidyall-config-ini-reader=0.74'
+  'perl-code-tidyall-git-precommit=0.74'
+  'perl-code-tidyall-git-prereceive=0.74'
+  'perl-code-tidyall-git-util=0.74'
+  'perl-code-tidyall-plugin=0.74'
+  'perl-code-tidyall-plugin-cssunminifier=0.74'
+  'perl-code-tidyall-plugin-generictransformer=0.74'
+  'perl-code-tidyall-plugin-genericvalidator=0.74'
+  'perl-code-tidyall-plugin-jsbeautify=0.74'
+  'perl-code-tidyall-plugin-jshint=0.74'
+  'perl-code-tidyall-plugin-jslint=0.74'
+  'perl-code-tidyall-plugin-json=0.74'
+  'perl-code-tidyall-plugin-masontidy=0.74'
+  'perl-code-tidyall-plugin-perlcritic=0.74'
+  'perl-code-tidyall-plugin-perltidy=0.74'
+  'perl-code-tidyall-plugin-perltidysweet=0.74'
+  'perl-code-tidyall-plugin-phpcodesniffer=0.74'
+  'perl-code-tidyall-plugin-podchecker=0.74'
+  'perl-code-tidyall-plugin-podspell=0.74'
+  'perl-code-tidyall-plugin-podtidy=0.74'
+  'perl-code-tidyall-plugin-sortlines=0.74'
+  'perl-code-tidyall-result=0.74'
+  'perl-code-tidyall-role-genericexecutable=0.74'
+  'perl-code-tidyall-role-hasignore=0.74'
+  'perl-code-tidyall-role-runscommand=0.74'
+  'perl-code-tidyall-role-tempdir=0.74'
+  'perl-code-tidyall-svn-precommit=0.74'
+  'perl-code-tidyall-svn-util=0.74'
+  'perl-code-tidyall-util-zglob=0.74'
+  'perl-code-tidyall-zglob=0.74'
+  'perl-test-code-tidyall=0.74')
 checkdepends=(
   'perl-eval-closure')
 url='https://metacpan.org/release/Code-TidyAll'
 _distdir="Code-TidyAll-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
-sha512sums=('303635520a7463bf7d5e9c055d08ec50ed3218068f1b33e8113feeeb788b8a373fc4afdc2e2ec00c05be39f9cc76156271b765449c8b3c9bd1a1412e9deb92d8')
+sha512sums=('0b306814cfc87b27a3dc34ccb855b65f7cc072ace6f9862596a94c5a9cb89978d38645c74382bd8c41ba21c8134d830f552daa5cb1453593940458bba019f3b1')
 
 build() {
   cd "${srcdir}/${_distdir}"
