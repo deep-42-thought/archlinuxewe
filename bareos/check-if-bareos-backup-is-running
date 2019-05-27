@@ -43,6 +43,8 @@ while [ $(date +%s) -le ${time_out} ]; do
     d
   ' "/proc/${bareos_pid}/io" \
   | grep -qvxF "${was}"; then
+    >&2 echo 'bareos-fd is reading'
     exit 1
   fi
 done
+>&2 echo 'bareos-fd is not reading'
