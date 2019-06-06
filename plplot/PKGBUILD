@@ -4,7 +4,7 @@
 # Contributor: Gergely Imreh <imrehgATgmailDOTcom>
 # Contributor: Eric Belanger <eric@archlinux.org>
 pkgname=plplot
-pkgver=5.14.0
+pkgver=5.15.0
 pkgrel=1
 pkgdesc="A cross-platform software package for creating scientific plots"
 arch=('i686' 'pentium4' 'x86_64')
@@ -44,4 +44,4 @@ package() {
     make DESTDIR=${pkgdir} install
     install -D -m644 ../Copyright ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
 }
-sha512sums=('08baada17c2a0166b6fe134bb15d4896aa8a4f3d1b51b7e22fd774df16ea7f2972b1fb93eaeb6f401372a38576ef4490ad45656b3dffabed6f3ef0e7719919e9')
+sha512sums=('54533245569b724a7ef90392cc6e9ae65873e6cbab923df0f841c8b43def5e4307690894c7681802209bd3c8df97f54285310a706428f79b3340cce3207087c8')
