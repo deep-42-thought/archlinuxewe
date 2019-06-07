@@ -3,9 +3,9 @@
 # Contributor: Elis Hughes <elishughes@googlemail.com>
 
 pkgname=pssh-git
-pkgver=2.3.1+27+ga2f936b
+pkgver=2.3.1+31+gc3afd5c
 _commit="${pkgver##*+g}"
-pkgrel='2'
+pkgrel=1
 pkgdesc="Parallel versions of the openssh tools ssh, scp, rsync, nuke, slurp"
 arch=('any')
 url="http://code.google.com/p/parallel-ssh/"
@@ -19,7 +19,7 @@ makedepends=('git' 'python-setuptools')
 provides=('pssh')
 conflicts=('pssh')
 source=(git+https://github.com/lilydjwg/pssh.git#commit=${_commit})
-sha256sums=('SKIP')
+sha512sums=('SKIP')
 
 pkgver() {
   cd "${srcdir}/pssh"
