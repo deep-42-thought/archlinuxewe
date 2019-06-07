@@ -2,26 +2,25 @@
 # Generator : neuesPerlPaket (6bbcb8b40c8afe2a83fed1572257a4566073bfc1f6a7654a37cb3996433b0913c4b5e3c13962b4c68b79bd9630ea763de84424b2eed485e3e0afc421ef1cde7f)
 
 pkgname='perl-www-form-urlencoded'
-pkgver=0.25
-pkgrel='3'
+pkgver=0.26
+pkgrel=1
 pkgdesc='parser and builder for application/x-www-form-urlencoded'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-www-form-urlencoded-pp=0.25')
-depends=(
-  'perl>=5.28'
-  'perl<5.29'
-  'perl-exporter')
 makedepends=(
   'perl-json-pp>=2'
   'perl-module-build>=0.4005'
   'perl-test-simple>=0.98')
+depends=(
+  'perl>=5.8.1'
+  'perl-exporter')
+provides=(
+  'perl-www-form-urlencoded-pp=0.26')
 url='https://metacpan.org/release/WWW-Form-UrlEncoded'
 _distdir="WWW-Form-UrlEncoded-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/K/KA/KAZEBURO/${_distdir}.tar.gz")
-sha512sums=('3d962434e6a104110412956a1523e1ca30462855665ebbfccbcd136f80aa788e835adf1472b5f94c1e6f177758c10bb4b06ea693ffd8ff5f262e731930e5a727')
+sha512sums=('7980b42f53a7801fe02db30b87552ce4d5e7398413640a94d9abad2779085ebfc6208804ed66099161d8c3ba5e47ecb4bf8e8fa1f36f2e7297b864a25f3ac924')
 
 build() {
   cd "${srcdir}/${_distdir}"
