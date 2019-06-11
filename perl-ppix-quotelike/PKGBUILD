@@ -3,7 +3,7 @@
 
 pkgname='perl-ppix-quotelike'
 pkgver=0.007
-pkgrel=1
+pkgrel=2
 pkgdesc='Parse Perl string literals and string-literal-like things.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,7 +11,8 @@ options=('!emptydirs')
 makedepends=(
   'perl-test-simple>=0.88')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-base'
   'perl-carp'
   'perl-constant'

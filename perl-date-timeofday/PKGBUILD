@@ -3,13 +3,14 @@
 
 pkgname='perl-date-timeofday'
 pkgver=0.005
-pkgrel=1
+pkgrel=2
 pkgdesc='Represent time of day (hh:mm:ss)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-time-hires'
   'perl-time-local')
 makedepends=(

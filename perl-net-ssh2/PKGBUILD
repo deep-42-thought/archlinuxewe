@@ -3,7 +3,7 @@
 
 pkgname='perl-net-ssh2'
 pkgver=0.70
-pkgrel=4
+pkgrel=5
 pkgdesc='Support for the SSH 2 protocol via libssh2.'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -11,6 +11,8 @@ options=('!emptydirs')
 makedepends=(
   'perl-extutils-makemaker>=6.59')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'perl>=5.6.0')
 provides=(
   'perl-net-ssh2-channel=0.70'

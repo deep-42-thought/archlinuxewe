@@ -3,12 +3,14 @@
 
 pkgname='perl-test-www-mechanize'
 pkgver=1.52
-pkgrel=1
+pkgrel=2
 pkgdesc='Testing-specific WWW::Mechanize subclass'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'perl-carp'
   'perl-carp-assert-more'
   'perl-html-form'

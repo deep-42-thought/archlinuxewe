@@ -3,7 +3,7 @@
 
 pkgname='perl-perinci-sub-wrapper'
 pkgver=0.850
-pkgrel=1
+pkgrel=2
 pkgdesc='A multi-purpose subroutine wrapping framework'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,7 +17,8 @@ makedepends=(
   'perl-test-exception'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-data-dmp>=0.21'
   'perl-data-sah>=0.895'
   'perl-experimental'

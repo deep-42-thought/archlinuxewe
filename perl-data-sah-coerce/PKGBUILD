@@ -3,7 +3,7 @@
 
 pkgname='perl-data-sah-coerce'
 pkgver=0.033
-pkgrel=1
+pkgrel=2
 pkgdesc='Coercion rules for Data::Sah'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,6 +17,8 @@ makedepends=(
   'perl-test-needs'
   'perl-test-simple>=0.98')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'perl-exporter>=5.57'
   'perl-file-temp'
   'perl-ipc-system-options>=0.331'

@@ -3,7 +3,7 @@
 
 pkgname='perl-test-kwalitee'
 pkgver=1.28
-pkgrel=1
+pkgrel=2
 pkgdesc='Test the Kwalitee of a distribution before you release it'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -21,7 +21,8 @@ makedepends=(
   'perl-test-warnings>=0.009'
   'perl-version')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-exporter'
   'perl-module-cpants-analyse>=0.92'
   'perl-parent'

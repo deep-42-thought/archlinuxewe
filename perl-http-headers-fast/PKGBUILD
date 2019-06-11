@@ -3,7 +3,7 @@
 
 pkgname='perl-http-headers-fast'
 pkgver=0.22
-pkgrel=1
+pkgrel=2
 pkgdesc='faster implementation of HTTP::Headers'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,7 +13,8 @@ makedepends=(
   'perl-test-requires'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-http-date')
 checkdepends=(
   'perl-http-message'

@@ -3,14 +3,14 @@
 
 pkgname='perl-mojolicious-plugin-assetpack-backcompat'
 pkgver='1.24'
-pkgrel='5'
+pkgrel=6
 pkgdesc='Provides back compat functionality for 0.x series of AssetPack'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-css-minifier-xs>=0.09'
   'perl-javascript-minifier-xs>=0.11'
   'perl-mojolicious-plugin-assetpack>=0.20'

@@ -3,7 +3,7 @@
 
 pkgname='perl-mojolicious-plugin-assetpack'
 pkgver=2.08
-pkgrel=1
+pkgrel=2
 pkgdesc='Compress and convert css, less, sass, javascript and coffeescript files'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,8 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-test-simple>=0.88')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'perl-file-which>=1.21'
   'perl-ipc-run3>=0.048'
   'perl-mojolicious>=7.17')

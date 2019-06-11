@@ -3,9 +3,13 @@
 
 pkgname='perl-regexp-trie'
 pkgver='0.02'
-pkgrel='1'
+pkgrel=2
 pkgdesc='builds trie-ized regexp'
 arch=('any')
+depends=(
+  'perl>=5.30'
+  'perl<5.31'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 url='https://metacpan.org/release/Regexp-Trie'

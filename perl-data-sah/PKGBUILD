@@ -3,7 +3,7 @@
 
 pkgname='perl-data-sah'
 pkgver=0.895
-pkgrel=1
+pkgrel=2
 pkgdesc='Fast and featureful data structure validation'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -15,7 +15,8 @@ optdepends=(
   'perl-time-moment'
   'perl-time-piece')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-data-dmp>=0.21'
   'perl-data-dump'
   'perl-data-sah-coerce>=0.031'

@@ -3,13 +3,14 @@
 
 pkgname='perl-module-extractuse'
 pkgver=0.343
-pkgrel=1
+pkgrel=2
 pkgdesc='Find out what modules are used'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-carp'
   'perl-parse-recdescent>=1.967009'
   'perl-pod-strip')

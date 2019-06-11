@@ -2,12 +2,14 @@
 
 pkgname='perl-astro-fits-cfitsio'
 pkgver=1.12
-pkgrel=1
+pkgrel=2
 pkgdesc='Perl extension for using the cfitsio library'
 arch=('i686' 'pentium4' 'x86_64')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'cfitsio')
 makedepends=(
   'perl-extutils-makemaker')

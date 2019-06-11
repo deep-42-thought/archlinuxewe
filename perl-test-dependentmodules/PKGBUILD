@@ -3,7 +3,7 @@
 
 pkgname='perl-test-dependentmodules'
 pkgver=0.27
-pkgrel=1
+pkgrel=2
 pkgdesc='Test all modules which depend on your module'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -18,6 +18,8 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.96')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'perl'
   'perl-autodie'
   'perl-capture-tiny'

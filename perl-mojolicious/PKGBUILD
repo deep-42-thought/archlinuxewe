@@ -2,12 +2,14 @@
 
 pkgname='perl-mojolicious'
 pkgver=8.17
-pkgrel=1
+pkgrel=2
 pkgdesc='Web development toolkit'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'perl-io-socket-ip>=0.37'
   'perl-json-pp>=2.27103'
   'perl-scalar-list-utils>=1.41'

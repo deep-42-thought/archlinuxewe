@@ -3,7 +3,7 @@
 
 pkgname='perl-perinci-sub-complete'
 pkgver=0.933
-pkgrel=1
+pkgrel=2
 pkgdesc='Complete command-line argument using Rinci metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -21,6 +21,8 @@ makedepends=(
   'perl-test-exception'
   'perl-test-simple>=0.98')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'perl-complete-common>=0.22'
   'perl-complete-getopt-long>=0.43'
   'perl-complete-util>=0.57'

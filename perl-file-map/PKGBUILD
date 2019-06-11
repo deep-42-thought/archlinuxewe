@@ -2,7 +2,7 @@
 pkgname=perl-file-map
 _pkgname='File-Map'
 pkgver=0.66
-pkgrel=1
+pkgrel=2
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Memory mapping made simple and safe."
 arch=('x86_64' 'i686' 'pentium4')
@@ -11,7 +11,8 @@ license=('GPL' 'PerlArtistic')
 optdepends=(
   'perl')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-carp'
   'perl-perlio-layers'
   'perl-sub-exporter-progressive>=0.001005'

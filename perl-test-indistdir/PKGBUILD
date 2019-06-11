@@ -3,7 +3,7 @@
 
 pkgname='perl-test-indistdir'
 pkgver='1.112071'
-pkgrel='1'
+pkgrel=2
 pkgdesc='test environment setup for development with IDE'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -15,7 +15,8 @@ makedepends=(
   'perl-test-simple'
 )
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-pathtools'
 )
 url='https://metacpan.org/release/Test-InDistDir'

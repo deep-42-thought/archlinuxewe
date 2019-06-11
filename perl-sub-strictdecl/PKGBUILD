@@ -3,14 +3,14 @@
 
 pkgname='perl-sub-strictdecl'
 pkgver=0.005
-pkgrel='5'
+pkgrel=6
 pkgdesc='detect undeclared subroutines in compilation'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-lexical-sealrequirehints>=0.008'
   'perl-xsloader')
 makedepends=(

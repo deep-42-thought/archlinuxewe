@@ -3,13 +3,14 @@
 
 pkgname='perl-test-rinci'
 pkgver=0.152
-pkgrel=1
+pkgrel=2
 pkgdesc='Test Rinci metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-data-sah>=0.893'
   'perl-experimental'
   'perl-getopt-long'

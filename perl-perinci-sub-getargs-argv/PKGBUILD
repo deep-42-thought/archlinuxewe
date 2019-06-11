@@ -3,7 +3,7 @@
 
 pkgname='perl-perinci-sub-getargs-argv'
 pkgver=0.841
-pkgrel=1
+pkgrel=2
 pkgdesc='Get subroutine arguments from command line arguments (@ARGV)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -22,7 +22,8 @@ makedepends=(
   'perl-test-needs'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-data-sah-normalize'
   'perl-data-sah-resolve>=0.003'
   'perl-data-sah-util-type>=0.45'

@@ -3,9 +3,13 @@
 
 pkgname='perl-subroutines'
 pkgver='0.001'
-pkgrel='1'
+pkgrel=2
 pkgdesc='Use subroutines from another module'
 arch=('any')
+depends=(
+  'perl>=5.30'
+  'perl<5.31'
+)
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 makedepends=(

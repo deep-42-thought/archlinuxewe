@@ -3,10 +3,12 @@
 
 pkgname='perl-perl-tidy'
 pkgver=20190601
-pkgrel=1
+pkgrel=2
 pkgdesc='indent and reformat perl scripts'
 arch=('any')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'perl')
 makedepends=(
   'perl-extutils-makemaker')

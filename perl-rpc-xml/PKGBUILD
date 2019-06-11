@@ -3,7 +3,7 @@
 
 pkgname='perl-rpc-xml'
 pkgver='0.80'
-pkgrel='1'
+pkgrel=2
 pkgdesc='Data, client and server classes for XML-RPC'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -15,7 +15,8 @@ optdepends=(
   'perl-xml-libxml>=1.85'
 )
 depends=(
-  'perl>=5.8.8'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-constant>=1.03'
   'perl-libwww>=5.834'
   'perl-module-load>=0.24'

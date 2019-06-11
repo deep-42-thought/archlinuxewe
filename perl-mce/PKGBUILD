@@ -3,7 +3,7 @@
 
 pkgname='perl-mce'
 pkgver=1.838
-pkgrel=1
+pkgrel=2
 pkgdesc='Many-Core Engine for Perl providing parallel processing capabilities'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -16,7 +16,8 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-test-simple>=0.88')
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-base'
   'perl-carp'
   'perl-constant'

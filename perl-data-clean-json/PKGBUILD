@@ -3,13 +3,14 @@
 
 pkgname='perl-data-clean-json'
 pkgver=0.391
-pkgrel=1
+pkgrel=2
 pkgdesc='Clean data so it is safe to output to JSON'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-data-clean>=0.500'
   'perl-exporter>=5.57'
   'perl-parent')

@@ -2,7 +2,7 @@
 
 pkgname='perl-hash-util-fieldhash-compat'
 pkgver=0.11
-pkgrel='5'
+pkgrel=6
 pkgdesc='Use Hash::Util::FieldHash or ties, depending on availability'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -10,8 +10,8 @@ options=('!emptydirs')
 provides=(
   'perl-hash-util-fieldhash-compat-heavy=0.11')
 depends=(
-  'perl>=5.28'
-  'perl<5.29'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-constant'
   'perl-exporter'
   'perl-parent')

@@ -4,7 +4,7 @@
 
 pkgname='perl-lingua-en-inflect'
 pkgver=1.904
-pkgrel=1
+pkgrel=2
 pkgdesc="Convert singular to plural. Select \"a\" or \"an\"."
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,8 @@ options=('!emptydirs')
 makedepends=(
   'perl-extutils-makemaker')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'perl-test-simple'
   'perl-version')
 url='http://search.cpan.org/dist/Lingua-EN-Inflect'

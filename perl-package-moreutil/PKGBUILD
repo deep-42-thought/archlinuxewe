@@ -3,12 +3,14 @@
 
 pkgname='perl-package-moreutil'
 pkgver=0.591
-pkgrel=1
+pkgrel=2
 pkgdesc='Package-related utilities'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'perl-exporter>=5.57'
   'perl>=5.10.1')
 makedepends=(

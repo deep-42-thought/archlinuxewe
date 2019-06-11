@@ -3,7 +3,7 @@
 
 pkgname='perl-ppix-regexp'
 pkgver=0.065
-pkgrel=1
+pkgrel=2
 pkgdesc='Parse regular expressions'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,7 +12,8 @@ makedepends=(
   'perl-module-build>=0.42'
   'perl-test-simple>=0.88')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-base'
   'perl-carp'
   'perl-constant'

@@ -3,7 +3,7 @@
 
 pkgname='perl-test-synopsis'
 pkgver=0.16
-pkgrel=1
+pkgrel=2
 pkgdesc='Test your SYNOPSIS code'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -15,7 +15,8 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.34')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-extutils-manifest'
   'perl-parent'
   'perl-pod-simple>=3.09'

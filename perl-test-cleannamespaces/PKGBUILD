@@ -4,7 +4,7 @@
 
 pkgname='perl-test-cleannamespaces'
 pkgver=0.24
-pkgrel=1
+pkgrel=2
 pkgdesc="Check for uncleaned imports"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,8 @@ options=('!emptydirs')
 optdepends=(
   'perl-package-stash-xs')
 depends=(
+  'perl>=5.30'
+  'perl<5.31'
   'perl-exporter>=5.57'
   'perl-module-runtime'
   'perl-package-stash>=0.14'

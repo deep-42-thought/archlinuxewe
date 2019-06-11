@@ -3,7 +3,7 @@
 
 pkgname='perl-perl-critic'
 pkgver=1.134
-pkgrel=1
+pkgrel=2
 pkgdesc='Critique Perl source code for best-practices.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,7 +14,8 @@ makedepends=(
   'perl-test-deep'
   'perl-test-simple')
 depends=(
-  'perl>=5.6.1'
+  'perl>=5.30'
+  'perl<5.31'
   'perl-autodie'
   'perl-base'
   'perl-b-keywords>=1.05'
