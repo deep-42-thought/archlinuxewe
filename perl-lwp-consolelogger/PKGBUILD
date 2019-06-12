@@ -1,23 +1,44 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-lwp-consolelogger'
-pkgver=0.000039
-pkgrel=4
+pkgver=0.000040
+pkgrel=1
 pkgdesc='Easy LWP tracing and debugging'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 optdepends=(
   'perl-html-formattext-lynx')
+makedepends=(
+  'perl>=5.13.10'
+  'perl-capture-tiny'
+  'perl-extutils-makemaker'
+  'perl-html-formattext-withlinks'
+  'perl-http-cookiejar-lwp'
+  'perl-log-dispatch-array'
+  'perl-module-runtime'
+  'perl-path-tiny'
+  'perl-pathtools'
+  'perl-plack'
+  'perl-plack-handler-http-server-simple>=0.016'
+  'perl-plack-test-agent'
+  'perl-test-failwarnings'
+  'perl-test-fatal'
+  'perl-test-lwp-useragent'
+  'perl-test-most'
+  'perl-test-simple'
+  'perl-uri'
+  'perl-version'
+  'perl-www-mechanize')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
+  'perl>=5.13.10'
   'perl-class-method-modifiers'
   'perl-data-printer>=0.36'
   'perl-datetime'
   'perl-html-restrict'
   'perl-http-body'
   'perl-http-cookiemonster'
+  'perl-http-message'
   'perl-json-maybexs>=1.003005'
   'perl-libwww'
   'perl-list-allutils'
@@ -36,27 +57,6 @@ depends=(
   'perl-uri'
   'perl-uri-query'
   'perl-xml-simple')
-makedepends=(
-  'perl-capture-tiny'
-  'perl-extutils-makemaker'
-  'perl-html-formattext-withlinks'
-  'perl-http-cookiejar-lwp'
-  'perl-http-message'
-  'perl-log-dispatch-array'
-  'perl-path-tiny'
-  'perl-pathtools'
-  'perl-plack'
-  'perl-plack-handler-http-server-simple>=0.016'
-  'perl-plack-test-agent'
-  'perl-test-failwarnings'
-  'perl-test-fatal'
-  'perl-test-lwp-useragent'
-  'perl-test-most'
-  'perl-test-needs'
-  'perl-test-requiresinternet'
-  'perl-test-simple'
-  'perl-version'
-  'perl-www-mechanize')
 checkdepends=(
   'perl-datetime'
   'perl-html-formattext-withlinks'
@@ -69,11 +69,12 @@ checkdepends=(
   'perl-test-failwarnings'
   'perl-json-maybexs'
   'perl-cgi'
-  'perl-file-which')
+  'perl-file-which'
+  'perl-mojolicious')
 url='https://metacpan.org/release/LWP-ConsoleLogger'
 _distdir="LWP-ConsoleLogger-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
-sha512sums=('d3d160f26938d966ac1c3044e410c8c5e8016265cda121738a68ea3e66d6a0bd52cda1f00b2e5d2a59c486274333264853f9548c37f214061ffbdb244b241796')
+sha512sums=('74c4aa3e56d77cb834a300679e88ec3ed197aed42d763d47c023808532c715adb8e5ae39a3e1295f3349be02bf0298f1aad7a64cbf83f27bd451816ca148d77f')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
