@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
 
 pkgname='perl-test-strict'
-pkgver=0.48
-pkgrel=2
+pkgver=0.49
+pkgrel=1
 pkgdesc='Check syntax, presence of use strict; and test coverage'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,8 +14,7 @@ makedepends=(
   'perl-io-stringy'
   'perl-test-simple>=1.00')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
+  'perl>=5.6.0'
   'perl-file-temp>=0.01'
   'perl-pathtools>=0.01'
   'perl-test-simple>=0.01')
@@ -28,7 +27,7 @@ checkdepends=(
 )
 _distdir="Test-Strict-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MA/MANWAR/${_distdir}.tar.gz")
-sha512sums=('2ec62b3fc0b2c9dec045fb0e379c54d71df45324c4a2c07d34d1b262aa2b0c05617f3e8b931f1f265bc99e3558b7a7a7305949c8450a0c77f5f6622cec1dec46')
+sha512sums=('2e6d67af5954428b110e09df817b5466de7a3b019acc97bffe183601639c683800b4e654b95a1cc50b03195f4d825a91ffe2c767f9dd7c574b0cea8f6ecbd383')
 
 build() {
   cd "${srcdir}/${_distdir}"
