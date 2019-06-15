@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
 
 pkgname='perl-test-strict'
-pkgver=0.49
+pkgver=0.51
 pkgrel=1
 pkgdesc='Check syntax, presence of use strict; and test coverage'
 arch=('any')
@@ -27,7 +27,7 @@ checkdepends=(
 )
 _distdir="Test-Strict-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MA/MANWAR/${_distdir}.tar.gz")
-sha512sums=('2e6d67af5954428b110e09df817b5466de7a3b019acc97bffe183601639c683800b4e654b95a1cc50b03195f4d825a91ffe2c767f9dd7c574b0cea8f6ecbd383')
+sha512sums=('9f23d882fbea244fa5337625ec9f727f7b876c7d04576ff4700c72e40be737cbd5c58363b308c7d35ef78109463ec4665ce71f7fb6b24f96c02f0cfd5671220a')
 
 build() {
   cd "${srcdir}/${_distdir}"
