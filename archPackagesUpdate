@@ -360,6 +360,7 @@ if ${aufRechenknecht}; then
       unset tmpOnlyArchs
       for ((i=0; i<${#onlyPackages[@]}; i++)); do
         [[ "${paket}" == "${onlyPackages[${i}]%:*}" ]] || continue
+        [ -z "${onlyPackages[${i}]%%*:*}" ] || continue
         tmpOnlyArchs[${#tmpOnlyArchs[@]}]="${onlyPackages[${i}]##*:}"
       done
       if [ ${#tmpOnlyArchs[@]} -ne 0 ]; then
