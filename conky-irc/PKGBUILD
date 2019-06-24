@@ -23,7 +23,7 @@ source=("${pkgname%-irc}-${pkgver}.tar.gz::https://github.com/brndnmtthws/conky/
 sha512sums=('191ffe4a50a8876a658163c83a45f722f07ca6a0b86ea3ebad369d58f4c2bb798e8afaef6c0643bcca90de546a7f3de4acf9d2e4b4a2b6366bf42de0ccaade3d'
             '1ea39f88b5f2620fc0c4485cc16645dbad91f97be17b4b13a732205dde6265d621c7f2bc92be33b65f9db2815312beb42b516ddebbba90cfe947104e1a410a52')
 
-options=('!strip' 'debug')
+# options=('!strip' 'debug')
 
 prepare() {
 	cd "${srcdir}/${pkgname%-irc}-${pkgver}"
