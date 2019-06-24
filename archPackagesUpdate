@@ -289,7 +289,7 @@ if ${aufRechenknecht}; then
     [ -d "${paket}" ] || continue
     [ ${#onlyPackages[@]} -eq 0 ] && consider=true || consider=false
     for ((i=0; i<${#onlyPackages[@]}; i++)); do
-      [[ "${paket}" == "${onlyPackages[${i}]}" ]] && consider=true
+      [[ "${paket}" == "${onlyPackages[${i}]%:*}" ]] && consider=true
     done
     ${consider} || continue
 
@@ -355,6 +355,19 @@ if ${aufRechenknecht}; then
         printf '%s\n' "${missing_archs}" | \
           grep -xF "$(printf '%s\n' "${onlyArchs[@]}")"
       )
+    fi
+    if [ ${#onlyPackages[@]} -ne 0 ]; then
+      unset tmpOnlyArchs
+      for ((i=0; i<${#onlyPackages[@]}; i++)); do
+        [[ "${paket}" == "${onlyPackages[${i}]%:*}" ]] || continue
+        tmpOnlyArchs[${#tmpOnlyArchs[@]}]="${onlyPackages[${i}]##*:}"
+      done
+      if [ ${#tmpOnlyArchs[@]} -ne 0 ]; then
+        missing_archs=$(
+          printf '%s\n' "${missing_archs}" | \
+            grep -xF "$(printf '%s\n' "${tmpOnlyArchs[@]}")"
+        )
+      fi
     fi
 
     if [ -n "${missing_archs}" ]; then
