@@ -239,4 +239,10 @@ version_comparisons=$(
   fi
   printf '\n'
 done \
-| sort
+| sort \
+| if [ "$1" = '-m' ]; then
+  sed 's/^\(\S\+\) \S\+ (\(\S\+\)) .*$/--only \1:\2/' \
+  | sort -u
+else
+  cat
+fi
