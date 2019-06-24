@@ -12,15 +12,15 @@ url="http://qwtplot3d.sourceforge.net/"
 depends=('qt5-base')
 makedepends=('mesa' 'glu')
 source=("https://downloads.sourceforge.net/sourceforge/qwtplot3d/qwtplot3d-$pkgver.tgz"
-        qwtplot3d-gcc44.patch qwtplot3d-qt-4.8.0.patch)
+        qwtplot3d-gcc44.patch.gz qwtplot3d-qt-4.8.0.patch.gz)
 sha512sums=('88e6d270695931775f3c1c0e718118e31118dbfe9f5f582834de09ab515fdf9e8a0f90d424f276653fdf1cf0b39e2060282385701a4ab48843420fe55a1dcf0c'
-            '7524277d653dc723537ca71a335eb4109d94c18f5ee2447417e13aa639aafda0b85733fa86305759458f23f189b7a8476bc5db48abfd86607b1f69f9a74431b6'
-            'fccdb603f8c0075353a817eb47851aa6929f70d066f37a1d1e314253ed38a730bd821d748852a2df271c81c235003bdf7cc8c03edff8ac211a21fd1dbb41fbe0')
+            '76100928088662adc0cc9258844750cacac28b318262affae3f498183e4784fc94254c68bd25331addc90d537d3f6ee42938febae6b017acebdf7a7be7a3e81a'
+            '0f2f15acee7fe408e976fa61663e68be0dfd1a6521aaf22863c17a3b3c5c4cc2c5bf0c1177bf0d0e32e0e0c4386b22d1dac8c35dbc312a23f021e9204b03a1d2')
 
 prepare() {
     cd ${pkgname}
-    patch -p1 -i "${srcdir}"/qwtplot3d-gcc44.patch
-    patch -p1 -i "${srcdir}"/qwtplot3d-qt-4.8.0.patch
+    zcat "${srcdir}"/qwtplot3d-gcc44.patch.gz | patch -p1
+    zcat "${srcdir}"/qwtplot3d-qt-4.8.0.patch.gz | patch -p1
 }
 
 build() {
