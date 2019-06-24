@@ -13,9 +13,9 @@ depends=('qt5-base')
 makedepends=('mesa' 'glu')
 source=("https://downloads.sourceforge.net/sourceforge/qwtplot3d/qwtplot3d-$pkgver.tgz"
         qwtplot3d-gcc44.patch qwtplot3d-qt-4.8.0.patch)
-sha1sums=('4463fafb8420a91825e165da7a296aaabd70abea'
-          '52fa169b651a98550f8a8391ddf52e0eaeb2c215'
-          '8dcafdc9753b0f2eeea2f1e96efa6e8d3d956005')
+sha512sums=('88e6d270695931775f3c1c0e718118e31118dbfe9f5f582834de09ab515fdf9e8a0f90d424f276653fdf1cf0b39e2060282385701a4ab48843420fe55a1dcf0c'
+            '7524277d653dc723537ca71a335eb4109d94c18f5ee2447417e13aa639aafda0b85733fa86305759458f23f189b7a8476bc5db48abfd86607b1f69f9a74431b6'
+            'fccdb603f8c0075353a817eb47851aa6929f70d066f37a1d1e314253ed38a730bd821d748852a2df271c81c235003bdf7cc8c03edff8ac211a21fd1dbb41fbe0')
 
 prepare() {
     cd ${pkgname}
