@@ -2,23 +2,25 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-complete-bash'
-pkgver=0.320
-pkgrel=2
+pkgver=0.321
+pkgrel=1
 pkgdesc='Completion routines for bash shell'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-exporter>=5.57'
-  'perl-log-ger>=0.023')
+optdepends=(
+  'perl-term-size')
 makedepends=(
+  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
   'perl-test-exception'
   'perl-test-simple>=0.98')
+depends=(
+  'perl>=5.10.1'
+  'perl-exporter>=5.57'
+  'perl-log-ger>=0.027')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-perl-critic'
@@ -30,7 +32,7 @@ checkdepends=(
 url='https://metacpan.org/release/Complete-Bash'
 _distdir="Complete-Bash-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('633e683cedc4156e6abf1788e04d22761b712ca892a8f512a641511c7f992646e03a6d5b5ef3f1d02250d9a9bf793a24b9a80621933a05397182771ba35a54c0')
+sha512sums=('178d1eac1c5399818a9be9c18c8e72fd492ca51d6b2e83f95e84be3efc5ae62251cb54815585f357fa25194196c858d220a87291b40d1658ce1b414f64a523a4')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
