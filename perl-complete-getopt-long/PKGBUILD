@@ -2,37 +2,34 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-complete-getopt-long'
-pkgver='0.46'
-pkgrel=5
+pkgver=0.470
+pkgrel=1
 pkgdesc='Complete command-line argument using Getopt::Long specification'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 optdepends=(
-  'perl-unix-passwd-file'
-)
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-complete-env'
-  'perl-complete-file'
-  'perl-complete-util>=0.57'
-  'perl-exporter'
-  'perl-getopt-long-util>=0.88'
-  'perl-string-wildcard-bash'
-)
+  'perl-unix-passwd-file')
 makedepends=(
   'perl'
-  'perl-complete-bash>=0.27'
+  'perl-complete-bash>=0.321'
   'perl-extutils-makemaker'
   'perl-file-chdir'
   'perl-file-temp'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
+depends=(
+  'perl>=5.10.1'
+  'perl-complete-env'
+  'perl-complete-file'
+  'perl-complete-util>=0.601'
+  'perl-exporter>=5.57'
+  'perl-getopt-long-util>=0.890'
+  'perl-string-wildcard-bash')
 checkdepends=(
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
   'perl-test-rinci'
@@ -41,7 +38,11 @@ checkdepends=(
 url='https://metacpan.org/release/Complete-Getopt-Long'
 _distdir="Complete-Getopt-Long-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('cf21f5dbea4807603e8fc9ed2bf3b2c198f6ea9a73f652518d5059ef7b3dfa4fe823c117af91fa1efd5feeb6da3c25488b774c6fffd0a897e4157696d49fe2c6')
+sha512sums=('ee47314434212551b7806dbafca8293dd17726daec56590c924e48c5d7e06815c048d52c1f9d31ca819ca9ed7378fa6a476a0f5de546ffcac9e458fe814b1dc0')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
