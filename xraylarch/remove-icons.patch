@@ -1,0 +1,14 @@
+--- a/setup.py	2019-06-26 09:33:08.364860066 +0200
++++ b/setup.py	2019-06-26 09:35:48.971969563 +0200
+@@ -175,11 +175,6 @@
+                    'Topic :: Scientific/Engineering'],
+       )
+ 
+-# create desktop icons
+-if INSTALL or DEVELOP:
+-    subprocess.check_call((pjoin(sys.exec_prefix, pyexe),
+-                           pjoin(sys.exec_prefix, bindir, larchbin), '-m'))
+-
+ if len(missing) > 0:
+     dl = "#%s#" % ("="*75)
+     msg = """%s

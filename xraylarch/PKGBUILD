@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=xraylarch
-pkgver=0.9.44
-pkgrel=3
+pkgver=0.9.45
+pkgrel=1
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://xraypy.github.io/xraylarch/"
@@ -54,28 +54,17 @@ backup=()
 options=()
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/xraypy/${pkgname}/archive/${pkgver}.tar.gz"
+    'remove-icons.patch'
 )
-sha512sums=('f6d7370cb598667c5fac46ea9f62e6e80ee2e559c02688a3fc6e7e2fb97be2ccba589137d2a7c3c96e7cd267f719056208359c60061baaf197dbcf816727fc83')
+sha512sums=(
+    '227e0ccbf599cf9ef3ba69bb48005202e3166f97c5d24a99883ad2a94c5013ab60ac24494b87514a6008899209532c305829506c0d01dc5b3eaf60a74f2087ab'
+    '8a2cff40315c38cb17a6841731704d5a375d25a13949227ad914abfdd46aef55dcc24e375176119634df773ece63422a2dc64fc843b6bae40232ffa2a5bb80ab'
+)
 
 prepare() {
 
-  sed -i '
-    s/^\s*setup(/_setup = \0/
-    s/^\(\s*dest\s*=\s*\)\(\S.*\)$/\1_setup.get_command_obj('"'"'install'"'"').root + os.path.abspath(\2)/
-    /subprocess\.check_call/ { N; d; }
-  ' "${pkgname}-${pkgver}/setup.py"
-
-  if [ "${CARCH}" = 'i686' ] || [ "${CARCH}" = 'pentium4' ]; then
-    sed -i '
-      /^\s*compiled_exes\s*=\s*(/,/)/ {
-        s/(.*/(/
-        t
-        s/.*)/)/
-        t
-        d
-      }
-    ' "${pkgname}-${pkgver}/setup.py"
-  fi
+  cd "${pkgname}-${pkgver}"
+  patch -p1 -i "../remove-icons.patch"
 
 }
 
