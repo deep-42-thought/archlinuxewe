@@ -523,23 +523,6 @@ then
           tail -n1
       )"
     elif echo "${src}" | \
-      grep -q "//opensources\.eckner\.net/"
-    then
-      qu=${src#*::}
-      qu=${qu%-*}
-      quNam=${qu#*=}
-      remVer=$( \
-        curl_it "$(\
-          echo "${qu}" | \
-            sed "s|\?dl=|?ls=|" \
-          )" | \
-          tr "<>" "\n\n" | \
-          grep "^${quNam}-" | \
-          sed "s|^${quNam}-||" | \
-          sort -V | \
-          tail -n1 \
-      )
-    elif echo "${src}" | \
       grep -q "//git\.eckner\.net/"
     then
       quVer="${src%/*/*}"
