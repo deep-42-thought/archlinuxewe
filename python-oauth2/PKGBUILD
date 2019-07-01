@@ -2,8 +2,8 @@
 pkgbase=python-oauth2
 _pkgname=python-oauth2
 pkgname=(python-oauth2 python2-oauth2)
-pkgver=1.1.0
-pkgrel='2'
+pkgver=1.1.1
+pkgrel=1
 pkgdesc='framework that aims at making it easy to provide authentication via OAuth 2.0 within an application stack/'
 url='https://github.com/wndhydrnt/python-oauth2/'
 arch=('any')
@@ -40,7 +40,7 @@ makedepends=(
   "${_makedepends[@]/python/python2}"
 )
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/wndhydrnt/python-oauth2/archive/v${pkgver}.tar.gz")
-sha512sums=('376fa73711c64a787472b4be4b1e9407311886ed237dbe29399425fb5f92e2b72fab479d694e4acdbaa572aa0c43840e21cfb8fc4f128ee81240a59a3dcdc1b3')
+sha512sums=('1d4d41a26ca448528b8869fef6cdf217900da388f64f4ea34f466544fde071896210ee4439e20124081209902b93356230e4828ec127f48216d149aa47fd4e62')
 
 prepare() {
   cp -a python-oauth2-${pkgver}{,-py2}
