@@ -4,8 +4,8 @@
 pkgbase=python-silx
 pkgname=(python2-silx python-silx)
 _pkgname=silx
-pkgver=0.10.1
-pkgrel=5
+pkgver=0.11.0
+pkgrel=1
 pkgdesc="A collection of Python packages for data analysis at synchrotron radiation facilities."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.silx.org"
@@ -19,15 +19,15 @@ _deppy2=(
 _deppy=(
   'python>=3.7'
   'python<3.8'
+  'python-pyopencl'
 )
 _depends=(
   'python-fabio>=0.7'
   'python-h5py'
   'python-mako'
   'python-matplotlib>=1.2.0'
-  'python-numpy>=1.8'
+  'python-numpy>=1.12'
   'python-pillow'
-  'python-pyopencl'
   'python-pyqt5'
   'python-dateutil'
   'python-qtconsole'
@@ -43,7 +43,7 @@ _optdepends=('python-h5py: for HDF5 input/output'
             'python-pyopencl: for sift - OpenCL implementation'
             'opencl-driver: for sift - OpenCL implementation')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${_pkgname}/archive/v${pkgver}.tar.gz")
-sha512sums=('6cd42848c01ea90686183cd1358887b41aeedd1427855e3ea2322d6c593ae9d7a1de4b3f6e6a48e3503596126b0a26b306728d59e6f96cf09f9649eff42e6e33')
+sha512sums=('10705cb0d4d3844a8a00d879251c6fce12c23d363cba2f7426302b2421b6d1858bf08a610cbad69321277b03f4837763e14a9e42d62508ae5538070401e76944')
 
 makedepends=(
   "${_deppy[@]}"
