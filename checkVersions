@@ -199,7 +199,18 @@ then
     src_name="${src%%::*}"
     src="${src#*::}"
 
-    if [ "${pkgbase}" = 'bareos' ]; then
+    if [ "${pkgname}" = 'local-certificates' ]; then
+      remVer=$(
+        curl_it 'https://eckner.net/certs/sha512sums' \
+        | sed '
+          s/^\S\+  \([0-9]\{4\}\)-\([0-9]\{2\}\)-\([0-9]\{2\}\)T\([0-9]\{2\}\):\([0-9]\{2\}\):\([0-9]\{2\}\)\.\S\+$/\1.\2.\3.\4.\5.\6/
+          t
+          d
+        ' \
+        | sort \
+        | tail -n1
+      )
+    elif [ "${pkgbase}" = 'bareos' ]; then
       remVer=$(
         curl_it 'https://github.com/bareos/bareos/releases' \
           | sed '
