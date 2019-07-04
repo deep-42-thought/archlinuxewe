@@ -2,22 +2,27 @@
 
 pkgname='local-certificates'
 arch=('any')
-pkgver=0
+pkgver=2019.07.04.07.45.48
 pkgrel=1
 pkgdesc='Certificate for local version of https://arch.eckner.net'
 
 install='local-certificates.install'
 
 source=(
-  'https://eckner.net/certs/arch.eckner.net.cert.pem'
-  'https://eckner.net/certs/arch.eckner.net.cert.pem.new'
+  'https://eckner.net/certs/2019-07-04T07:35:35.arch.eckner.net.cert.pem'
+  'https://eckner.net/certs/2019-07-04T07:45:48.arch.eckner.net.cert.pem.new'
 )
-sha512sums=('88204e95fb4a87bbcb0a415afd87ccac6b2063dcba9fdde2b7c53430a654dda06d4c5a19394e4a8e0b1cd77bac0123ef62e476107f8475a7f370f696bb291323'
-            'f47a38879c346c487a9d53640e681e2600362d9e37d8463282e5f2ed3d02c0fbe60e5e48582335d18b0fb6e76b42544b7e8aa3cf40d796c9ae733ad44dd5bc42')
+sha512sums=(
+  '88204e95fb4a87bbcb0a415afd87ccac6b2063dcba9fdde2b7c53430a654dda06d4c5a19394e4a8e0b1cd77bac0123ef62e476107f8475a7f370f696bb291323'
+  'f47a38879c346c487a9d53640e681e2600362d9e37d8463282e5f2ed3d02c0fbe60e5e48582335d18b0fb6e76b42544b7e8aa3cf40d796c9ae733ad44dd5bc42'
+)
 
 package() {
-  install -D \
-    -t "${pkgdir}/usr/share/ca-certificates/trust-source/anchors" \
-    "${srcdir}/arch.eckner.net.cert.pem" \
-    "${srcdir}/arch.eckner.net.cert.pem.new"
+  cd "${srcdir}"
+  install -d "${pkgdir}/usr/share/ca-certificates/trust-source/anchors"
+  for s in *.cert.pem{,.new}; do
+    install \
+      "${s}" \
+      "${pkgdir}/usr/share/ca-certificates/trust-source/anchors/${s#????-??-??T??:??:??.}"
+  done
 }
