@@ -88,34 +88,71 @@ if [ -z "${remVer}" ]; then
   exit 0
 fi
 
+auto_summen=true
+
 cd "${paket}"
 
-sed 's|^\(\s*\)pkgver=.*$|\1pkgver='"${remVer}"'|;
+if [ "${paket}" = 'local-certificates' ]; then
+  sums=$(
+    curl -Ss 'https://eckner.net/certs/sha512sums'
+  )
+  sed_extra='
+    /^source=/ i source=(\
+'"$(
+      printf '%s\n' "${sums}" \
+      | sed '
+        s@^\S\+  @  '"'"'https://eckner.net/certs/@
+        s/$/'"'"'\\/
+      '
+    )"'
+)\
+sha512sums=(\
+'"$(
+      printf '%s\n' "${sums}" \
+      | sed '
+        s/  .*$/'"'"'\\/
+        s/^/  '"'"'/
+      '
+    )"'
+)
+    /^source=/,/)$/ d
+    /^sha512sums=/,/)$/ d
+  '
+  auto_summen=false
+fi
+
+sed -i 's|^\(\s*\)pkgver=.*$|\1pkgver='"${remVer}"'|;
   s|^\(\s*\)pkgrel=.*$|\1pkgrel=1|;
-  s@^\s*\(sha[[:digit:]]\+sums\|md5sums\)=@sha512sums=@;
-  /^\(sha[[:digit:]]\+\|md5\)sums_/d;
-'"${sedExtra}" -i PKGBUILD
+  '"${sed_extra}"'
+' PKGBUILD
 
-sed '
-  :begin;
-    $!N;
-    s@^sha512sums=\([^)]*\)\n\(.*\)$@sha512sums=\1 \2@;
-  tbegin;
-  P;
-  D
-' -i PKGBUILD
+if ${auto_summen}; then
+  sed -i '
+    s@^\s*\(sha[[:digit:]]\+sums\|md5sums\)=@sha512sums=@;
+    /^\(sha[[:digit:]]\+\|md5\)sums_/d;
+  ' PKGBUILD
 
-summen="$( \
-  makepkg -g | \
-    sed ':begin;
-        $!N;
-        s@^\(.*\)\n\(.*\)$@\1\\n\2@;
-      tbegin;
-      P;
-      D
-    ' \
-)"
-sed 's|sha512sums=.*$|'"${summen}"'|' -i PKGBUILD
+  sed '
+    :begin;
+      $!N;
+      s@^sha512sums=\([^)]*\)\n\(.*\)$@sha512sums=\1 \2@;
+    tbegin;
+    P;
+    D
+  ' -i PKGBUILD
+
+  summen="$( \
+    makepkg -g | \
+      sed ':begin;
+          $!N;
+          s@^\(.*\)\n\(.*\)$@\1\\n\2@;
+        tbegin;
+        P;
+        D
+      ' \
+  )"
+  sed 's|sha512sums=.*$|'"${summen}"'|' -i PKGBUILD
+fi
 
 (
   if ! yes '' | "${myDir}/testeAbhaengigkeiten" "${paket}"; then
