@@ -1,0 +1,115 @@
+#!/bin/bash
+
+if [ $# -eq 2 ]; then
+  cd "${1}"
+  if [ ! -f '.SRCINFO' ] ||
+    [ "$(stat -c%Y PKGBUILD)" -gt "$(stat -c%Y .SRCINFO)" ]; then
+    makepkg --printsrcinfo > .SRCINFO
+  fi
+  sed '
+    /^\S/ b
+    /^\s\+\(make\|check\|\)depends = \S/ {
+      s/[<>=]\S\+$//
+      b
+    }
+    /^$/ b
+    d
+  ' '.SRCINFO' \
+  > "${2}"
+  all=$(
+    sed -n '
+      /^pkgbase = /,/^$/ {
+        /^\s/ {
+          $! s/$/\\/
+          p
+        }
+      }
+    ' "${2}"
+  )
+  sed -i '
+    /^pkgbase = /,/^$/ d
+    /^pkgname = / a\
+'"${all}"'
+  ' "${2}"
+  sed -i '
+    /^\s*$/d
+  ' "${2}"
+  exit
+fi
+
+if [ $# -ne 0 ]; then
+  >&2 echo 'usage error'
+  >&2 printf '"%s" ' "$@"
+  >&2 printf '\n'
+  exit 1
+fi
+
+tmp_dir=$(mktemp -d)
+trap 'rm -rf --one-file-system "${tmp_dir}"' EXIT
+
+find "$(pwd)" -maxdepth 2 -mindepth 2 -name 'PKGBUILD' -type f \
+| sed -n '
+  s@/[^/]\+$@@
+  T
+  s@/[^/]\+$@\0\n'"${tmp_dir%/}"'\0.srcinfo@
+  T
+  p
+' \
+| parallel -j0 -L2 "$0"
+
+find "${tmp_dir}" -type f -name '*.srcinfo' \
+| while read -r f; do
+  while read -r a b c; do
+    if [ "x${b}" != 'x=' ]; then
+      >&2 printf 'Syntax error: "%s %s %s"\n' "${a}" "${b}" "${c}"
+      exit 1
+    fi
+    case "${a}" in
+      'pkgname')
+        pkgname="${c}"
+      ;;
+      'depends'|'makedepends'|'checkdepends')
+        printf '%s %s %s\n' \
+          "${a}" \
+          "${c}" \
+          "${pkgname}"
+      ;;
+      *)
+        >&2 printf 'Semantic error: "%s %s %s"\n' "${a}" "${b}" "${c}"
+        exit 1
+      ;;
+    esac
+  done \
+  < "${f}"
+done \
+| sort -u \
+| sed '
+  s/^depends /0 \0/
+  t
+  s/^/1 /
+' \
+| sort -k3,4 -k1n,1 -k2,2 \
+| uniq -f2 \
+| sort -k3,3 \
+> "${tmp_dir}/dependencies"
+
+awk '{print $4}' "${tmp_dir}/dependencies" \
+| sort -u \
+| join -1 1 -2 3 -o 2.2,2.3,2.4 - "${tmp_dir}/dependencies" \
+| sponge "${tmp_dir}/dependencies"
+
+{
+  printf 'digraph dependencies {\n'
+  sed '
+    s/^depends \(\S\+\) \(\S\+\)$/  "\1" -> "\2";/
+    t
+    s/^makedepends \(\S\+\) \(\S\+\)$/  "\1" -> "\2" [color="#0000ff"];/
+    t
+    s/^checkdepends \(\S\+\) \(\S\+\)$/  "\1" -> "\2" [color="#0000ff", style=dotted];/
+    t
+    w /dev/stderr
+    d
+  ' "${tmp_dir}/dependencies"
+  printf '}\n'
+} \
+| dot -Tpng -o"${0%/*}/dependency-graph.png"
