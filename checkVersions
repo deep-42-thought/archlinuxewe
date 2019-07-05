@@ -517,7 +517,7 @@ then
       )"
       ${maschinenlesbar} && \
         [ "${remHash}" != "${locHash}" ] && \
-        echo "sedExtra='s@${locHash}@${remHash}@g;'"
+        echo "sed_extra='s@${locHash}@${remHash}@g;'"
     elif echo "${src}" | \
       grep -q "//bundles\.openttdcoop\.org/"
     then
