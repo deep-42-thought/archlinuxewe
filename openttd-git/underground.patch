@@ -445,7 +445,7 @@ index 8340207dc36..30485b0ffd7 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stasie klas: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stasie tiepe: {LTBLUE}{STRING}
 diff --git a/src/lang/arabic_egypt.txt b/src/lang/arabic_egypt.txt
-index a2227de0ef2..70734aba754 100644
+index cb558aa3a4e..4e08bd22b50 100644
 --- a/src/lang/arabic_egypt.txt
 +++ b/src/lang/arabic_egypt.txt
 @@ -2205,7 +2205,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}مالك
@@ -864,7 +864,7 @@ index c3e23286c32..94677276faa 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Tipo stazione: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo stazione: {LTBLUE}{STRING}
 diff --git a/src/lang/korean.txt b/src/lang/korean.txt
-index 8e75e171c39..4306290ae4b 100644
+index c91b052cff5..e0d5fcc40d5 100644
 --- a/src/lang/korean.txt
 +++ b/src/lang/korean.txt
 @@ -2621,7 +2621,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}전찻
@@ -1810,7 +1810,7 @@ index 8619bac6d91..c22b1d2cbc8 100644
  		CursorID rail_swne;  ///< Cursor for building rail in X direction
  		CursorID rail_ew;    ///< Cursor for building rail in E-W direction
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index df862d4f215..6fddd976b29 100644
+index 1a4728c6c30..0181644b52a 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -535,12 +535,12 @@ CommandCost CmdBuildSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1, u
@@ -1875,44 +1875,44 @@ index df862d4f215..6fddd976b29 100644
  	return cost;
  }
  
-@@ -1673,7 +1673,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
- 							InvalidateWindowData(WC_VEHICLE_DEPOT, tile);
+@@ -1675,7 +1675,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
  							InvalidateWindowData(WC_BUILD_VEHICLE, tile);
  						}
+ 						found_convertible_track = true;
 -						cost.AddCost(RailConvertCost(type, totype));
 +						cost.AddCost(RailConvertCost(type, totype) * UNDERGROUND_COST_MULTIPLIER(tile));
  						break;
  
  					default: // RAIL_TILE_NORMAL, RAIL_TILE_SIGNALS
-@@ -1684,7 +1684,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
- 								YapfNotifyTrackLayoutChange(tile, RemoveFirstTrack(&tracks));
+@@ -1687,7 +1687,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
  							}
  						}
+ 						found_convertible_track = true;
 -						cost.AddCost(RailConvertCost(type, totype) * CountBits(GetTrackBits(tile)));
 +						cost.AddCost(RailConvertCost(type, totype) * CountBits(GetTrackBits(tile)) * UNDERGROUND_COST_MULTIPLIER(tile));
  						break;
  				}
  				break;
-@@ -1746,7 +1746,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
- 					}
+@@ -1750,7 +1750,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
  				}
  
+ 				found_convertible_track = true;
 -				cost.AddCost((GetTunnelBridgeLength(tile, endtile) + 2) * RailConvertCost(type, totype));
 +				cost.AddCost((GetTunnelBridgeLength(tile, endtile) + 2) * RailConvertCost(type, totype) * UNDERGROUND_COST_MULTIPLIER(tile));
  				break;
  			}
  
-@@ -1756,7 +1756,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
- 					YapfNotifyTrackLayoutChange(tile, track);
+@@ -1761,7 +1761,7 @@ CommandCost CmdConvertRail(TileIndex tile, DoCommandFlag flags, uint32 p1, uint3
  				}
  
+ 				found_convertible_track = true;
 -				cost.AddCost(RailConvertCost(type, totype));
 +				cost.AddCost(RailConvertCost(type, totype) * UNDERGROUND_COST_MULTIPLIER(tile));
  				break;
  		}
  
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index 87da8186ce2..19e677cab09 100644
+index 4f5519c31ec..b88f621375c 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -407,7 +407,7 @@ static CommandCost RemoveRoad(TileIndex tile, DoCommandFlag flags, RoadBits piec
