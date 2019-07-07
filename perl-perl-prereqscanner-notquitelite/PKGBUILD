@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (6d6eb887751f0274ce913321f40e306c692f5baa957799c6668772e8771f1b10c566613dde872a04de2cb279fd80591fac591849b34aeed27f7fa5f9120faf43)
 
 pkgname='perl-perl-prereqscanner-notquitelite'
-pkgver=0.9905
-pkgrel=2
+pkgver=0.9906
+pkgrel=1
 pkgdesc='a tool to scan your Perl code for its prerequisites'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,13 +13,10 @@ makedepends=(
   'perl-extutils-makemaker-cpanfile>=0.08'
   'perl-test-failwarnings'
   'perl-test-simple>=0.98'
-  'perl-test-useallmodules>=0.17'
-)
+  'perl-test-useallmodules>=0.17')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-cpan-meta>=2.150010'
   'perl-cpan-meta-requirements>=2.140'
+  'perl-cpan-meta>=2.150010'
   'perl-data-dump'
   'perl-exporter>=5.57'
   'perl-module-corelist>=3.11'
@@ -27,11 +24,11 @@ depends=(
   'perl-module-find'
   'perl-parent'
   'perl-regexp-trie'
-)
+  'perl>=5.8.1')
 url='https://metacpan.org/release/Perl-PrereqScanner-NotQuiteLite'
 _distdir="Perl-PrereqScanner-NotQuiteLite-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/${_distdir}.tar.gz")
-sha512sums=('80fc2242e56863b144380d8bac4748e7b4cd2bbc7eebb0fe7aa3bfac1a78969cb1ca3c8b3d82af771768b73a23512a71ee63d79b3c16843e136dd28ea1cbfdaa')
+sha512sums=('f86843b6d7c438c8e0d3f8b146aa0c427a1272a269c02b1a427bbd930f7949b25d170dbdcbafac16e5ef5f36f4a2286972b20212f31198bc425230dda98118ae')
 
 build() {
   cd "${srcdir}/${_distdir}"
