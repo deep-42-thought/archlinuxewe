@@ -1,0 +1,82 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgbase=python-pymca
+pkgname=(python2-pymca python-pymca)
+_pkgname="${pkgbase#*-}"
+pkgver=5.4.3
+pkgrel=1
+pkgdesc='Stand-alone application and Python tools for interactive and/or batch processing analysis of X-Ray Fluorescence Spectra'
+arch=('i686' 'pentium4' 'x86_64')
+url='http://pymca.sourceforge.net/index.html'
+license=('MIT License')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
+_depends=(
+  'python-numpy'
+  'python-fisx'
+  'python-h5py')
+_makedepends=(
+  'python-setuptools'
+  'python-pyqt5')
+_optdepends=(
+  'python-pyqt5: gui'
+  'python-matplotlib: gui')
+makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
+  "${_depends[@]}"
+  "${_depends[@]/python/python2}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]/ython/ython2}"
+)
+source=(
+    "${_pkgname}-v${pkgver}.tar.gz::https://github.com/vasole/${_pkgname}/archive/v${pkgver}.tar.gz"
+)
+sha512sums=('c93709bb6bcf7ae5f58604a08357eb9e252da4d2506e2a79e4c5bbc2031b6e7ff29ede258d0819ac69fd0377182da38d6cf23bd8e7721cfdb46a377c92eaf6c0')
+
+prepare() {
+  cp -a ${_pkgname}-${pkgver}{,-py2}
+}
+
+build() {
+  echo "Building python..."
+  (
+    cd ${_pkgname}-${pkgver}
+    python setup.py build
+  )
+  echo "Building python2..."
+  (
+    cd ${_pkgname}-${pkgver}-py2
+    python2 setup.py build
+  )
+}
+
+package_python2-pymca() {
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]/python/python2}"
+  )
+  optdepends=(
+    "${_optdepends[@]/python/python2}"
+  )
+  cd ${_pkgname}-${pkgver}-py2
+  python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+  find "${pkgdir}" -type f -exec sed -si '1 s#[/ ]python\s*$# python2#' {} +
+}
+
+package_python-pymca() {
+  depends=(
+    "${_deppy[@]}"
+    "${_depends[@]}"
+  )
+  optdepends=(
+    "${_optdepends[@]}"
+  )
+  cd ${_pkgname}-${pkgver}
+  python setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+}
