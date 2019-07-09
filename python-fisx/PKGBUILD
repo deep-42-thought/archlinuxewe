@@ -1,0 +1,71 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgbase=python-fisx
+pkgname=(python2-fisx python-fisx)
+_pkgname="${pkgbase#*-}"
+pkgver=1.1.7
+pkgrel=1
+pkgdesc='Enhanced C++ port of the Physics routines used by PyMca'
+arch=('i686' 'pentium4' 'x86_64')
+url='https://github.com/vasole/fisx'
+license=('MIT License')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
+_depends=(
+  'python-numpy')
+_makedepends=(
+  'python-setuptools'
+  'cython>=0.17')
+makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
+  "${_depends[@]}"
+  "${_depends[@]/python/python2}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]/ython/ython2}"
+)
+source=(
+    "${_pkgname}-v${pkgver}.tar.gz::https://github.com/vasole/${_pkgname}/archive/v${pkgver}.tar.gz"
+)
+sha512sums=('cc14604893e8c9a68095db6920c37419b2abf362e52b21e9c49b67af7a108449026d4f8fd0f2fcf7a8bc76bc3af1a78e0ecf89f4784d9d81d0db6852e0b5d1ad')
+
+prepare() {
+  cp -a ${_pkgname}-${pkgver}{,-py2}
+}
+
+build() {
+  echo "Building python..."
+  (
+    cd ${_pkgname}-${pkgver}
+    python setup.py build
+  )
+  echo "Building python2..."
+  (
+    cd ${_pkgname}-${pkgver}-py2
+    python2 setup.py build
+  )
+}
+
+package_python2-fisx() {
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]/python/python2}"
+  )
+  cd ${_pkgname}-${pkgver}-py2
+  python2 setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+  find "${pkgdir}" -type f -exec sed -si '1 s#[/ ]python\s*$# python2#' {} +
+}
+
+package_python-fisx() {
+  depends=(
+    "${_deppy[@]}"
+    "${_depends[@]}"
+  )
+  cd ${_pkgname}-${pkgver}
+  python setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
+}
