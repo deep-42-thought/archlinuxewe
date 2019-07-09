@@ -1,0 +1,34 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=ptlib
+pkgver=2.16.2
+pkgrel=1
+pkgdesc='library needed by opal'
+url='http://www.ekiga.org/'
+arch=('i686' 'pentium4' 'x86_64')
+depends=('openssl-1.0')
+#depends=(autotools-dev doxygen pkg-config bison flex libssl-dev libldap2-dev libsasl2-dev libkrb5-dev libexpat1-dev libsdl1.2-dev libdv4-dev libv4l-dev libasound2-dev)
+
+_vI=${pkgver%%.*}
+_vII=${pkgver#*.}
+_vII=${_vII%%.*}
+_vIII=${pkgver#*.*.}
+source=("https://sourceforge.net/projects/opalvoip/files/V$((_vI+1)).${_vII}%20Procyon/Stable%20${_vIII}/${pkgname}-${pkgver}.tar.bz2")
+sha512sums=('66b571f3f614f298c40b0828cfa5bcf624e129edaa697dcaf14c50d23baa89372f18a4b41386da4a1a8b208898abffb7b861297f16ed64869633ef56263f8320')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+
+  PKG_CONFIG_PATH=/usr/lib/openssl-1.0/pkgconfig \
+  CFLAGS+=" -I/usr/include/openssl-1.0" \
+  LDFLAGS+=" -L/usr/lib/openssl-1.0 -lssl" \
+  ./configure \
+    --prefix=/usr \
+    --mandir=/usr/share/man
+
+  make
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}
