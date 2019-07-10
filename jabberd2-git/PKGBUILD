@@ -6,8 +6,7 @@
 # Contributor: sxw <sxw@chronowerks.de>
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
-pkgbase=jabberd2
-pkgname=(jabberd2-git)
+pkgname=jabberd2-git
 pkgver=r1175.376e632
 _commit=${pkgver#*.}
 pkgrel=12
@@ -73,7 +72,7 @@ build() {
   make
 }
 
-package_jabberd2-git() {
+package() {
   cd "${srcdir}/${pkgbase}"
 
   make DESTDIR="${pkgdir}" install
