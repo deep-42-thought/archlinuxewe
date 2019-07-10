@@ -1,6 +1,6 @@
 # report installed packages at end of package() function - if the build process succeeded,
 # these packages should work
 
-if [ "${CARCH}" = "i686" ]; then
+if [ "${CARCH}" = "i486" ] || [ "${CARCH}" = "i686" ] || [ "${CARCH}" = "pentium4" ]; then
   sudo report-installed-packages archlinux-reports@eckner.net buildmaster@archlinux32.org
 fi
