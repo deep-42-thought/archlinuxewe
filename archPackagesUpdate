@@ -16,7 +16,7 @@ force=false
 upload=true
 updateMe=true
 abortOnMakepkgError=true
-cleanCache=false
+cleanChroot=''
 cleanUnsigned=false
 checkDbSig='-v'
 checkMakepkg='--check'
@@ -37,9 +37,9 @@ usage()
   >&2 echo '      only compile for $arch'
   >&2 echo '    -b|--branch [commitish]:'
   >&2 echo '      branch to check out - defaults to "HEAD"'
-  >&2 echo '    --cleanCache:'
-  >&2 echo '      clean up pacman cache in build environments'
-  >&2 echo '    -c|--cleanUnsigned:'
+  >&2 echo '    -c|--cleanChroot:'
+  >&2 echo '      clean chroot before building'
+  >&2 echo '    --cleanUnsigned:'
   >&2 echo '      remove unsigned Packages first'
   >&2 echo '    -f|--force:'
   >&2 echo '      rebuild packages even if they look up to date'
@@ -61,8 +61,6 @@ usage()
   >&2 echo '      only consider $package for build and update process'
   >&2 echo '    -p|--print-only:'
   >&2 echo '      only print what would be done'
-  >&2 echo '    -r|--removeAdditionalPackages:'
-  >&2 echo '      remove additional packages from build environments'
   >&2 echo ''
   exit 1
 }
@@ -90,7 +88,7 @@ eval set -- "$(
   getopt -o b:cfL:pr \
     --long arch: \
     --long branch: \
-    --long cleanCache \
+    --long cleanChroot \
     --long cleanUnsigned \
     --long force \
     --long ignore-wrong-db-signature \
@@ -121,11 +119,11 @@ while true; do
       branch="$1"
       echo '"branch '"${branch}"'" erkannt'
     ;;
-    --cleanCache)
-      echo '"cleanCache" erkannt'
-      cleanCache=true
+    -c|--cleanChroot)
+      echo '"cleanChroot" erkannt'
+      cleanChroot='-c'
     ;;
-    -c|--cleanUnsigned)
+    --cleanUnsigned)
       echo '"cleanUnsigned" erkannt'
       cleanUnsigned=true
     ;;
@@ -412,107 +410,6 @@ if ${aufRechenknecht}; then
     exit 0
   fi
 
-# check sanity of build-chroots
-  err=false
-  for chrootArch in i686 pentium4 x86_64; do
-    [ -d "/opt/arch-${chrootArch}" ] || continue
-    basePakete=$(
-      (
-        echo '
-          pacman -Qg base base-devel | \
-            cut -d " " -f 2 | \
-            sort -u
-          exit
-        ' | \
-          chrootUnpriv "${chrootArch}"
-        printf '%s\n' \
-          'update-all' 'ccache' 'git' 'mercurial' 'bzr' 'subversion'
-      ) | \
-        sort -u
-    )
-    explizitinstalliertePakete=$(
-      echo '
-        pacman -Qtt | \
-          cut -d " " -f 1
-        exit
-      ' | \
-        chrootUnpriv "${chrootArch}" | \
-        sed '
-          /^msmtp$/d
-          /^report-installed-packages$/d
-          /^sendmailadvanced$/d
-        '
-    )
-    alleinstalliertenPakete=$(
-      echo '
-        pacman -Q | \
-          cut -d " " -f 1
-        exit
-      ' | \
-        chrootUnpriv "${chrootArch}"
-    )
-    zuvielePakete=$(
-      (
-        (
-          (
-            echo "${explizitinstalliertePakete}"
-            echo "${basePakete}"
-          ) | \
-            sort | \
-            uniq -d
-          echo "${explizitinstalliertePakete}"
-        ) | \
-          sort | \
-          uniq -u
-        echo '
-          pacman -Qdt | \
-            cut -d " " -f 1
-          exit
-        ' | \
-          chrootUnpriv "${chrootArch}"
-      ) | \
-        sort -u
-    )
-    zuwenigePakete=$(
-      (
-        (
-          echo "${alleinstalliertenPakete}"
-          echo "${basePakete}"
-        ) | \
-          sort | \
-          uniq -d
-        echo "${basePakete}"
-      ) | \
-        sort | \
-        uniq -u
-    )
-
-    if [ -n "${zuvielePakete}" ]; then
-      >&2 echo 'zu viele Pakete in "'"/opt/arch-${chrootArch}"'" installiert:'
-      >&2 echo "${zuvielePakete}"
-      if ${rmAddPkgs}; then
-        echo '
-          echo "'"${zuvielePakete}"'" | \
-            xargs -n1 sudo pacman -Rs --noconfirm
-          exit
-        ' | \
-          chrootUnpriv "${chrootArch}"
-      else
-        err=true
-      fi
-    fi
-    if [ -n "${zuwenigePakete}" ]; then
-      >&2 echo 'zu wenige Pakete in "'"/opt/arch${chrootArch}"'" installiert:'
-      >&2 echo "${zuwenigePakete}"
-      err=true
-    fi
-  done
-
-  if ${err}; then
-    cleanUp
-    exit 1
-  fi
-
   maxErr=0
 
 # generate current makepkg.conf, makepkg-i686.conf and makepkg-pentium4.conf
@@ -523,21 +420,6 @@ if ${aufRechenknecht}; then
     exit 1
   fi
   sed 's|^\(BUILDENV=.*[^!]\)sign|\1!sign|' -i makepkg.conf
-  cp makepkg{,-i686}.conf
-  if ! patch -p0 -i makepkg-i686.patch; then
-    cleanUp
-    exit 1
-  fi
-  cp makepkg{,-armv6h}.conf
-  if ! patch -p0 -i makepkg-armv6h.patch; then
-    cleanUp
-    exit 1
-  fi
-  cp makepkg-{i686,pentium4}.conf
-  if ! patch -p0 -i makepkg-pentium4.patch; then
-    cleanUp
-    exit 1
-  fi
 
   eval "$(
     grep '^SRCDEST=' makepkg.conf
@@ -602,86 +484,76 @@ if ${aufRechenknecht}; then
         ' PKGBUILD
       done
 
-    if [ "${arch}" = 'i686' ]; then
-      # i686 is built in chroot /opt/arch-i686
-      (
-        ${cleanCache} && \
-          echo 'sudo pacman -Sc --noconfirm && \'
-        echo '\
-          sudo pacman -Sy && \
-          cd "'"${tmpDir}/${paket}"'" && \
-          _targetHost='"'"'--host=i686-pc-linux-gnu'"'"' makepkg '"${log} ${checkMakepkg}"' --holdver --config "'"${tmpDir}"'/makepkg-i686.conf" -fsr --noconfirm --asdeps
-          exit $?
-        '
-      ) | \
-        chrootUnpriv i686
-      err[${i}]=$?
-    elif [ "${arch}" = 'pentium4' ]; then
-      # pentium4 is built in chroot /opt/arch-pentium4
-      (
-        ${cleanCache} && \
-          echo 'sudo pacman -Sc --noconfirm && \'
-        echo '\
-          sudo pacman -Sy && \
-          cd "'"${tmpDir}/${paket}"'" && \
-          _targetHost='"'"'--host=i686-pc-linux-gnu'"'"' makepkg '"${log} ${checkMakepkg}"' --holdver --config "'"${tmpDir}"'/makepkg-pentium4.conf" -fsr --noconfirm --asdeps
-          exit $?
-        '
-      ) | \
-        chrootUnpriv pentium4
-      err[${i}]=$?
-    elif [ "${arch}" = 'x86_64' ] || [ "${arch}" = 'any' ]; then
-      # x86_64 and any is built in chroot /opt/arch-x86_64
-      (
-        ${cleanCache} && \
-          echo 'sudo pacman -Sc --noconfirm && \'
-        echo '\
-          sudo pacman -Sy && \
-          cd "'"${tmpDir}/${paket}"'" && \
-          makepkg '"${log} ${checkMakepkg}"' --holdver --config "'"${tmpDir}"'/makepkg.conf" -fsr --noconfirm --asdeps
-          exit $?
-        '
-      ) | \
-        chrootUnpriv x86_64
-      err[${i}]=$?
-    elif [ "${arch}" = 'armv6h' ]; then
-      # armv6h is built on the raspberry pi
-      makepkg -Sf
-      err[${i}]=$?
-      if [ ${err[${i}]} -eq 0 ]; then
-        (
-          zcat "${paket}-${vers}.src.tar.gz"
-          cd "${tmpDir}"
-          tar -cf - makepkg-armv6h.conf
-        ) \
-        | gzip -c - \
-        | ssh eckner.net -p 15912 "$(
-          printf 'set -e\n'
-          ${cleanCache} && \
-            printf 'sudo pacman -Sc --noconfirm >&2\n'
-          printf 'sudo pacman -Sy >&2\n'
-          printf 'rm -rf --one-file-system build\n'
-          printf 'mkdir build\n'
-          printf 'cd build\n'
-          printf 'tar -xzif -\n'
-          printf 'cd "%s"\n' "${paket}"
-          printf 'makepkg %s --holdver --config ~/build/makepkg-armv6h.conf -fsr --noconfirm --asdeps >&2\n' \
-            "${log} ${checkMakepkg}"
-          printf 'tar -czf - *.pkg.tar.xz'
-          [ -n "${log}" ] && \
-            printf ' *.pkg.tar.xz-*.log'
-          printf '\n'
-        )" \
-        > "paket.tar.gz"
+    case "${arch}" in
+      'i686'|'pentium4'|'x86_64')
+        archlinuxewe-${arch}-build ${cleanChroot} -- -- ${log} ${checkMakepkg} --holdver
+        err[${i}]=$?
+        if [ ${err[${i}]} -eq 0 ] && [ "${arch}" != 'x86_64' ]; then
+          {
+            printf '%s\n' \
+              "From: archlinux-reports@eckner.net" \
+              "To: buildmaster@archlinux32.org" \
+              "Subject: $(hostname) - report about installed ${arch} packages" \
+              ""
+            find . \
+              -mindepth 1 \
+              -maxdepth 1 \
+              -name '*.pkg.tar.xz' \
+              -exec bsdtar -Oxf {} .BUILDINFO \; \
+            | sed '
+              s@^installed = \(.*\)$@/var/cache/archbuild/\1.pkg.tar.xz@
+              t
+              d
+            ' \
+            | xargs -r sha512sum \
+            2>/dev/null \
+            | sed '
+              s@\s\+.*/@@
+            ' \
+            | xargs -r sha512sum \
+            | sed 's/^/stabilize: /'
+          } | \
+            sendmailadvanced -t
+        fi
+      ;;
+      'armv6h')
+        # armv6h is built on the raspberry pi
+        makepkg -Sf
         err[${i}]=$?
         if [ ${err[${i}]} -eq 0 ]; then
-          tar -xzf paket.tar.gz
+          (
+            zcat "${paket}-${vers}.src.tar.gz"
+            cd "${tmpDir}"
+            tar -cf - makepkg-armv6h.conf
+          ) \
+          | gzip -c - \
+          | ssh eckner.net -p 15912 "$(
+            printf 'set -e\n'
+            printf 'sudo pacman -Sy >&2\n'
+            printf 'rm -rf --one-file-system build\n'
+            printf 'mkdir build\n'
+            printf 'cd build\n'
+            printf 'tar -xzif -\n'
+            printf 'cd "%s"\n' "${paket}"
+            printf 'makepkg %s --holdver --config ~/build/makepkg-armv6h.conf -fsr --noconfirm --asdeps >&2\n' \
+              "${log} ${checkMakepkg}"
+            printf 'tar -czf - *.pkg.tar.xz'
+            [ -n "${log}" ] && \
+              printf ' *.pkg.tar.xz-*.log'
+            printf '\n'
+          )" \
+          > "paket.tar.gz"
+          err[${i}]=$?
+          if [ ${err[${i}]} -eq 0 ]; then
+            tar -xzf paket.tar.gz
+          fi
         fi
-      fi
-    else
-      printf 'unbekannte Architektur "%s"\n' "${arch}"
-      err[${i}]=128
-    fi
+      ;;
+      *)
+        printf 'unbekannte Architektur "%s"\n' "${arch}"
+        err[${i}]=128
+      ;;
+    esac
     for teil_und_arch in "${paket_teile_und_archs[@]}"; do
       if [ ${err[${i}]} -ne 0 ]; then
         break
