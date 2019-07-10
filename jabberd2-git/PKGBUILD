@@ -20,7 +20,7 @@ optdepends=('sqlite3' 'postgresql-libs')
 makedepends=('sqlite3' 'postgresql-libs' 'autoconf-archive')
 install=install
 source=(
-  "${pkgbase}::git+https://github.com/${pkgbase}/${pkgbase}.git#commit=${_commit}"
+  "${pkgname}::git+https://github.com/${pkgbase}/${pkgbase}.git#commit=${_commit}"
   'pam_jabberd'
 )
 sha512sums=('SKIP'
