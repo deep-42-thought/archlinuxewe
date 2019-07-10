@@ -188,10 +188,8 @@ while true; do
 done
 
 if [ ! $# -eq 0 ]; then
-  >&2 echo 'FEHLER: Zu viele ('$#') Argumente:'
-  for ((i=1; i<=$#; i++)); do
-    >&2 echo "'${!i}'"
-  done
+  >&2 printf 'FEHLER: Zu viele (%s) Argumente:\n' "$#"
+  >&2 printf '"%s"\n' "$@"
   >&2 echo 'Ich beende.'
   usage
 fi
