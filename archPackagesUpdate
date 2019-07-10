@@ -943,52 +943,6 @@ else
         err=true
       fi
 
-      unset epoch
-      . "${paket}/PKGBUILD"
-
-      if echo "${source}" | \
-        grep -q "://opensources\.eckner\.net/"; then
-
-# one of Erich's packages
-
-        if grep -q "sha512sums" "${paket}/PKGBUILD"; then
-          sumTyp="sha512sum"
-          pkgSum="${sha512sums[@]}"
-        elif grep -q "sha256sums" "${paket}/PKGBUILD"; then
-          sumTyp="sha256sum"
-          pkgSum="${sha256sums[@]}"
-        fi
-        remSum="$(curl "${source#*::}&post=${sumTyp}" 2> /dev/null)"
-        if [ ! "${remSum}" == "${pkgSum}" ]; then
-          >&2 echo "${sumTyp}s von ${pkgname} stimmt nicht: ${remSum} vs. ${pkgSum}."
-          err=true
-        fi
-
-      elif echo "${source}" | \
-        grep -q "://arch\.eckner\.net/"; then
-
-# a modified official package
-
-        offVer="$( \
-          {
-            printf '%s-%s%s-%s-%s.pkg.tar.xz\n' \
-              "${pkgname}" \
-              "${epoch:+${epoch}:}" \
-              "${pkgver}" \
-              "${pkgrel}" \
-              "${arch}"
-            ssh paule@jeti100 'find '"${pkgDirBase}"' \( -type d \( -name armv6h -o -name armv7h -o -name aarch64 -o -name arm -o -name archlinux32 \) -prune -false \) -o -type f -name "'"${paket}"'-*.pkg.tar.xz" -exec basename "{}" \; '
-          } | \
-            sort -V | \
-            tail -n1 \
-          )"
-        if [ ! "${offVer}" == "${pkgname}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${arch}.pkg.tar.xz" ]; then
-          >&2 echo "${pkgname} ist in den offiziellen Quellen aktueller: ${offVer}."
-          err=true
-        fi
-
-      fi
-
     done
     if ${err}; then
       exit 1
