@@ -90,7 +90,7 @@ prepare() {
 build() {
 
     cd "${srcdir}/${pkgname}"
-    ./configure ${_targetHost} \
+    ./configure \
         --prefix-dir=/usr \
         --binary-dir=bin \
         --data-dir=share/openttd \
