@@ -324,6 +324,7 @@ if ${aufRechenknecht}; then
           [ "${singleArch}" == "x86_64" ] || \
             [ "${singleArch}" == "pentium4" ] || \
             [ "${singleArch}" == "i686" ] || \
+            [ "${singleArch}" == "armv6h" ] || \
             [ "${singleArch}" == "any" ] || \
             continue
 
@@ -529,6 +530,11 @@ if ${aufRechenknecht}; then
     cleanUp
     exit 1
   fi
+  cp makepkg{,-armv6h}.conf
+  if ! patch -p0 -i makepkg-armv6h.patch; then
+    cleanUp
+    exit 1
+  fi
   cp makepkg-{i686,pentium4}.conf
   if ! patch -p0 -i makepkg-pentium4.patch; then
     cleanUp
@@ -640,6 +646,40 @@ if ${aufRechenknecht}; then
       ) | \
         chrootUnpriv x86_64
       err[${i}]=$?
+    elif [ "${arch}" = 'armv6h' ]; then
+      # armv6h is built on the raspberry pi
+      makepkg -Sf
+      err[${i}]=$?
+      if [ ${err[${i}]} -eq 0 ]; then
+        (
+          zcat "${paket}-${vers}.src.tar.gz"
+          cd "${tmpDir}"
+          tar -cf - makepkg-armv6h.conf
+        ) \
+        | gzip -c - \
+        | ssh eckner.net -p 15912 "$(
+          printf 'set -e\n'
+          ${cleanCache} && \
+            printf 'sudo pacman -Sc --noconfirm >&2\n'
+          printf 'sudo pacman -Sy >&2\n'
+          printf 'rm -rf --one-file-system build\n'
+          printf 'mkdir build\n'
+          printf 'cd build\n'
+          printf 'tar -xzif -\n'
+          printf 'cd "%s"\n' "${paket}"
+          printf 'makepkg %s --holdver --config ~/build/makepkg-armv6h.conf -fsr --noconfirm --asdeps >&2\n' \
+            "${log} ${checkMakepkg}"
+          printf 'tar -czf - *.pkg.tar.xz'
+          [ -n "${log}" ] && \
+            printf ' *.pkg.tar.xz-*.log'
+          printf '\n'
+        )" \
+        > "paket.tar.gz"
+        err[${i}]=$?
+        if [ ${err[${i}]} -eq 0 ]; then
+          tar -xzf paket.tar.gz
+        fi
+      fi
     else
       printf 'unbekannte Architektur "%s"\n' "${arch}"
       err[${i}]=128
