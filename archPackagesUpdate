@@ -523,7 +523,7 @@ if ${aufRechenknecht}; then
     cleanUp
     exit 1
   fi
-  sed 's|^\(BUILDENV=.*\)!sign|\1sign|' -i makepkg.conf
+  sed 's|^\(BUILDENV=.*[^!]\)sign|\1!sign|' -i makepkg.conf
   cp makepkg{,-i686}.conf
   if ! patch -p0 -i makepkg-i686.patch; then
     cleanUp
@@ -692,10 +692,7 @@ if ${aufRechenknecht}; then
     for teil_und_arch in "${paket_teile_und_archs[@]}"; do
       teil="${teil_und_arch#*:}"
       teil_arch="${teil_und_arch%%:*}"
-      if ! gpg --verify ${teil}-${vers}-${teil_arch}.pkg.tar.xz{.sig,} &> /dev/null; then
-        rm -f "${teil}-${vers}-${teil_arch}.pkg.tar.xz.sig"
-        gpg --detach-sign -u "${key}" --no-armor ${teil}-${vers}-${teil_arch}.pkg.tar.xz
-      fi
+      gpg --detach-sign -u "${key}" --no-armor ${teil}-${vers}-${teil_arch}.pkg.tar.xz
     done
 
     if ${upload} && [ ${err[${i}]} -eq 0 ]; then
