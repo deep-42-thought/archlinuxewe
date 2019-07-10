@@ -20,7 +20,7 @@ optdepends=('sqlite3' 'postgresql-libs')
 makedepends=('sqlite3' 'postgresql-libs' 'autoconf-archive')
 install=install
 source=(
-  "${pkgname}::git+https://github.com/${pkgbase}/${pkgbase}.git#commit=${_commit}"
+  "${pkgname}::git+https://github.com/${pkgname}/${pkgname}.git#commit=${_commit}"
   'pam_jabberd'
 )
 sha512sums=('SKIP'
@@ -40,14 +40,14 @@ backup=(
 
 pkgver() {
   printf "r%s.%s" "$(
-    git -C "${srcdir}/${pkgbase}" rev-list --count ${_commit}
+    git -C "${srcdir}/${pkgname}" rev-list --count ${_commit}
   )" "$(
-    git -C "${srcdir}/${pkgbase}" rev-parse --short ${_commit}
+    git -C "${srcdir}/${pkgname}" rev-parse --short ${_commit}
   )"
 }
 
 prepare() {
-  cd "${srcdir}/${pkgbase}"
+  cd "${srcdir}/${pkgname}"
   libtoolize --force
   aclocal
   autoheader
@@ -56,7 +56,7 @@ prepare() {
 }
 
 build() {
-  cd "${srcdir}/${pkgbase}"
+  cd "${srcdir}/${pkgname}"
 
   ./configure \
     --prefix=/usr \
@@ -73,7 +73,7 @@ build() {
 }
 
 package() {
-  cd "${srcdir}/${pkgbase}"
+  cd "${srcdir}/${pkgname}"
 
   make DESTDIR="${pkgdir}" install
 
