@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=report-installed-packages
 pkgver=0.3
-pkgrel=1
+pkgrel=2
 pkgdesc="report about installed (and therefore presumably working) packages from testing"
 arch=('any')
 url="https://git.eckner.net/Erich/${pkgname}"
@@ -10,7 +10,10 @@ groups=()
 depends=()
 makedepends=()
 checkdepends=()
-optdepends=('sendmailadvanced:  for sending email reports')
+optdepends=(
+  'sendmailadvanced:  for sending email reports'
+  'inetutils:  for sending email reports'
+)
 provides=()
 conflicts=()
 replaces=()
