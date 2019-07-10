@@ -1,0 +1,22 @@
+--- makepkg-armv6h.conf	2019-06-25 15:12:24.844496578 +0200
++++ makepkg-armv6h.conf	2019-07-10 11:36:24.033616088 +0200
+@@ -32,13 +32,15 @@
+ # ARCHITECTURE, COMPILE FLAGS
+ #########################################################################
+ #
+-CARCH="x86_64"
+-CHOST="x86_64-pc-linux-gnu"
++CARCH="armv6h"
++CHOST="armv6l-unknown-linux-gnueabihf"
+ 
+ #-- Compiler and Linker Flags
++# -march (or -mcpu) builds exclusively for an architecture
++# -mtune optimizes for an architecture, but builds for whole processor family
+ CPPFLAGS="-D_FORTIFY_SOURCE=2"
+-CFLAGS="-march=x86-64 -mtune=generic -O2 -pipe -fno-plt"
+-CXXFLAGS="-march=x86-64 -mtune=generic -O2 -pipe -fno-plt"
++CFLAGS="-march=armv6 -mfloat-abi=hard -mfpu=vfp -O2 -pipe -fstack-protector-strong -fno-plt"
++CXXFLAGS="-march=armv6 -mfloat-abi=hard -mfpu=vfp -O2 -pipe -fstack-protector-strong -fno-plt"
+ LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
+ #-- Make Flags: change this for DistCC/SMP systems
+ #MAKEFLAGS="-j2"
