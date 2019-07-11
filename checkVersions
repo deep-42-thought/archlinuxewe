@@ -683,15 +683,17 @@ then
             s,^projects\?/,,
           ' | \
           sed '
-            s,^\([^/]\+\)/[^/]\+$,\1/\1,
+            s,^\([^/]\+\)/[^/]\+$,\1/files/\1,
             t end
-            s,^\([^/]\+\)/\(files/\)\?\([^/]\+\)/[0-9.]\+/[^/]\+$,\1/\3,
+            s,^\([^/]\+\)/\(files/\)\?\([^/]\+\)/[0-9.]\+/[^/]\+$,\1/files/\3,
+            t end
+            s,^\([^/]\+\)/\(files/\)\?branch_[0-9.]\+/[^/]\+$,\1/files,
             t end
             w /dev/stderr
             d
             :end
             s,/scidavis$,/SciDAVis,
-            s,\([^/]\+\)/\([^/]\+\),https://sourceforge.net/projects/\1/files/\2/,
+            s,^.*$,https://sourceforge.net/projects/\0/,
           '
       )
       remVer=$( \
