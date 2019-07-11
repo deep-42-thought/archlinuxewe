@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (3051b3ea0463be8641255cdae84f793866cfb777ef495c087f7c899bc29502fd3d39a1198df402d1023ce1c2e0ce06ab788c25ff88083eb74179c8753575368b)
 
 pkgname='perl-test-compile'
-pkgver=2.2.1
+pkgver=2.2.2
 pkgrel=1
 pkgdesc='Check whether Perl files compile correctly.'
 arch=('any')
@@ -19,7 +19,7 @@ depends=(
   'perl-universal-require'
   'perl-version')
 provides=(
-  'perl-test-compile-internal=2.2.1')
+  'perl-test-compile-internal=2.2.2')
 checkdepends=(
   'perl-perl-critic'
   'perl-test-consistentversion'
@@ -35,7 +35,7 @@ checkdepends=(
 url='https://metacpan.org/release/Test-Compile'
 _distdir="Test-Compile-v${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/E/EG/EGILES/${_distdir}.tar.gz")
-sha512sums=('cc79446c750b8d3cf400cdf3d3912213ff3547650955040343ea899d5e0e4794ac2e3752df878329edf792999a1e738e5ffd8d2a41460816ff60f078cb9af8d1')
+sha512sums=('93e33597cae9c8e78143abc18ab30552e445961f6931a4ba7f58747f36f80fcf88f9be3556562da49d99eced431802d6e0f899808f255c3721c2b60f7af3d2d7')
 
 build() {
   cd "${srcdir}/${_distdir}"
