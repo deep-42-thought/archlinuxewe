@@ -518,11 +518,12 @@ if ${aufRechenknecht}; then
       ;;
       'armv6h')
         # armv6h is built on the raspberry pi
-        makepkg -Sf
+        SRCPKGDEST="${tmpDir}/paket.src.tar.gz" makepkg -Sf
         err[${i}]=$?
         if [ ${err[${i}]} -eq 0 ]; then
           (
-            zcat "${paket}-${vers}.src.tar.gz"
+            zcat "${tmpDir}/paket.src.tar.gz"
+            rm "${tmpDir}/paket.src.tar.gz"
             cd "${tmpDir}"
             tar -cf - makepkg-armv6h.conf
           ) \
