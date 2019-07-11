@@ -521,20 +521,13 @@ if ${aufRechenknecht}; then
         SRCPKGDEST="${tmpDir}" makepkg -Sf
         err[${i}]=$?
         if [ ${err[${i}]} -eq 0 ]; then
-          (
-            cd "${tmpDir}"
-            tar -cf - "${paket}-${vers}.src.tar.gz" makepkg-armv6h.conf
-          ) \
-          | gzip -c - \
-          | ssh eckner.net -p 15912 "$(
+          ssh eckner.net -p 15912 "$(
             printf 'set -e\n'
             printf 'sudo pacman -Sy >&2\n'
             printf 'rm -rf --one-file-system build\n'
             printf 'mkdir build\n'
             printf 'cd build\n'
             printf 'tar -xzf -\n'
-            printf 'tar -xzf "%s"\n' \
-              "${paket}-${vers}.src.tar.gz"
             printf 'cd "%s"\n' "${paket}"
             printf 'makepkg %s --holdver --config ~/build/makepkg-armv6h.conf -fsr --noconfirm --asdeps >&2\n' \
               "${log} ${checkMakepkg}"
@@ -543,6 +536,7 @@ if ${aufRechenknecht}; then
               printf ' *.pkg.tar.xz-*.log'
             printf '\n'
           )" \
+          < "${tmpDir}/${paket}-${vers}.src.tar.gz"
           > "paket.tar.gz"
           err[${i}]=$?
           if [ ${err[${i}]} -eq 0 ]; then
