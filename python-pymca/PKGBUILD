@@ -2,7 +2,7 @@
 pkgbase=python-pymca
 pkgname=(python2-pymca python-pymca)
 _pkgname="${pkgbase#*-}"
-pkgver=5.4.3
+pkgver=5.5.0
 pkgrel=1
 pkgdesc='Stand-alone application and Python tools for interactive and/or batch processing analysis of X-Ray Fluorescence Spectra'
 arch=('i686' 'pentium4' 'x86_64')
@@ -17,12 +17,16 @@ _deppy=(
   'python<3.8'
 )
 _depends=(
-  'python-numpy'
-  'python-fisx'
-  'python-h5py')
+  'python-fisx>=1.1.5'
+  'python-h5py'
+  'python-matplotlib>1.0'
+  'python-numpy>=1.8'
+#  'python-pyopengl'
+#  'python-pyqt4'
+  'python-pyqt5'
+  'python-qtconsole')
 _makedepends=(
-  'python-setuptools'
-  'python-pyqt5')
+  'python-setuptools')
 _optdepends=(
   'python-pyqt5: gui'
   'python-matplotlib: gui')
@@ -37,7 +41,7 @@ makedepends=(
 source=(
     "${_pkgname}-v${pkgver}.tar.gz::https://github.com/vasole/${_pkgname}/archive/v${pkgver}.tar.gz"
 )
-sha512sums=('c93709bb6bcf7ae5f58604a08357eb9e252da4d2506e2a79e4c5bbc2031b6e7ff29ede258d0819ac69fd0377182da38d6cf23bd8e7721cfdb46a377c92eaf6c0')
+sha512sums=('1cb75058990751be022073b01a31b66542178a01f42c7bfdfd1ffcb5015788f001799c0810ed32bc3ac5253efe98d9fe68798260c3539736bb9dc7cd2cb9b1f4')
 
 prepare() {
   cp -a ${_pkgname}-${pkgver}{,-py2}
