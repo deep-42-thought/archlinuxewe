@@ -32,8 +32,13 @@ ladePkgbuild() {
 }
 
 versteheRequirements() {
-  archiv="${_pkgname}-${pkgver}.tar.gz"
-  [ -r "${archiv}" ] || archiv="${_pkgname}-${pkgver}.tgz"
+  for version_prefix in '' 'v'; do
+    for suffix in 'tar.gz' 'tgz'; do
+      archiv="${_pkgname}-${version_prefix}${pkgver}.${suffix}"
+      [ -r "${archiv}" ] && break
+    done
+    [ -r "${archiv}" ] && break
+  done
 
   if [ ! -r "${archiv}" ]; then
     >&2 echo "Kann Quelldatei nicht finden!"
