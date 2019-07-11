@@ -485,10 +485,10 @@ if ${aufRechenknecht}; then
       done
 
     case "${arch}" in
-      'i686'|'pentium4'|'x86_64')
-        archlinuxewe-${arch}-build ${cleanChroot} -- -- ${log} ${checkMakepkg} --holdver
+      'any'|'i686'|'pentium4'|'x86_64')
+        archlinuxewe-${arch/any/x86_64}-build ${cleanChroot} -- -- ${log} ${checkMakepkg} --holdver
         err[${i}]=$?
-        if [ ${err[${i}]} -eq 0 ] && [ "${arch}" != 'x86_64' ]; then
+        if [ ${err[${i}]} -eq 0 ] && [ "${arch}" != 'x86_64' ] && [ "${arch}" != 'any' ]; then
           {
             printf '%s\n' \
               "From: archlinux-reports@eckner.net" \
