@@ -518,14 +518,12 @@ if ${aufRechenknecht}; then
       ;;
       'armv6h')
         # armv6h is built on the raspberry pi
-        SRCPKGDEST="${tmpDir}/paket.src.tar.gz" makepkg -Sf
+        SRCPKGDEST="${tmpDir}" makepkg -Sf
         err[${i}]=$?
         if [ ${err[${i}]} -eq 0 ]; then
           (
-            zcat "${tmpDir}/paket.src.tar.gz"
-            rm "${tmpDir}/paket.src.tar.gz"
             cd "${tmpDir}"
-            tar -cf - makepkg-armv6h.conf
+            tar -cf - "${paket}-${vers}.src.tar.gz" makepkg-armv6h.conf
           ) \
           | gzip -c - \
           | ssh eckner.net -p 15912 "$(
@@ -534,7 +532,9 @@ if ${aufRechenknecht}; then
             printf 'rm -rf --one-file-system build\n'
             printf 'mkdir build\n'
             printf 'cd build\n'
-            printf 'tar -xzif -\n'
+            printf 'tar -xzf -\n'
+            printf 'tar -xzf "%s"\n' \
+              "${paket}-${vers}.src.tar.gz"
             printf 'cd "%s"\n' "${paket}"
             printf 'makepkg %s --holdver --config ~/build/makepkg-armv6h.conf -fsr --noconfirm --asdeps >&2\n' \
               "${log} ${checkMakepkg}"
