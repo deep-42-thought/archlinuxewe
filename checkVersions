@@ -698,17 +698,22 @@ then
       )
       remVer=$( \
         curl_it "${quVer}" | \
-          tr "\"" "\n" | \
-          grep "^${quVer#*sourceforge.net}\(${pkgname}\(-\|%20\)\)\?[0-9.-]" | \
+          sed -n '
+            \@<a [^<>]* href="[^"<>]*/latest/download"@,\@</a>@ {
+              s@^.*<span class="sub-label">\(\('"${pkgname}"'\|'"${_pkgname}"'\)\([-.]\|%20\)\)\?\([0-9.]\+\)\(\.tar\.\([xg]z\|bz2\)\|\.zip\|-win-dist\.msi\)\( [^<>]*\)\?</span>.*$@\4@
+              T
+              p
+            }
+            s@^.*"'"${quVer#*sourceforge.net}"'\('"${pkgname}"'\([-.]\|%20\)\)\?\([0-9.-]\+[^"/%]*\)["/%].*$@\3@
+            T
+            p
+          ' | \
           sed '
-            '"s@/${pkgname}\(-\|%20\)@/@"'
-            s|\.tar.*$||
-            '"s|^${quVer#*sourceforge.net}\([0-9.-]\+\).*\$|\1|"'
-            s|-$||
-            s|\.$||
+            s/-$//
+            s/\.$//
           ' | \
           sort -V | \
-          tail -n1 \
+          tail -n1
       )
     elif echo "${src}" | \
       grep -q '//support\.hdfgroup\.org/'
