@@ -3,7 +3,7 @@
 pkgbase=python-pyshortcuts
 pkgname=('python-pyshortcuts' 'python2-pyshortcuts')
 _pkgname='pyshortcuts'
-pkgver=1.3
+pkgver=1.4
 pkgrel=1
 pkgdesc='create desktop shortcuts to python scripts on Windows, Mac, or Linux'
 arch=('any')
@@ -30,7 +30,7 @@ makedepends=(
   "${_makedepends[@]/python/python2}"
 )
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/newville/${_pkgname}/archive/${pkgver}.tar.gz")
-sha512sums=('98273aa874bc0eee987bebb08e072a84207cc0fde3e943c5c202c9e6085eed99c88228a491965dc120effc98f6c5c227b3401009f74f011b6f6145e80a2df067')
+sha512sums=('430fb023e9e87359050f1362acc04000d0062a5b57e6f556f6bdaee2439cf1692fb3a5cbc8a4d0de008fd9f839b7078673d6271630af13ce87b30d43b4c54d63')
 
 prepare() {
   cd "${srcdir}"
