@@ -4,21 +4,30 @@
 # Generator  : CPANPLUS::Dist::Arch 1.19
 
 pkgname='perl-moosex-role-parameterized'
-pkgver=1.10
-pkgrel=6
+pkgver=1.11
+pkgrel=1
 pkgdesc="roles with composition parameters"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-moosex-role-parameterised=1.10'
-  'perl-moosex-role-parameterized-meta-role-parameterized=1.10'
-  'perl-moosex-role-parameterized-meta-trait-parameterizable=1.10'
-  'perl-moosex-role-parameterized-meta-trait-parameterized=1.10'
-  'perl-moosex-role-parameterized-parameters=1.10')
+makedepends=(
+  'perl>=5.8.1'
+  'perl-cpan-meta-check>=0.011'
+  'perl-cpan-meta-requirements'
+  'perl-data-dumper'
+  'perl-extutils-makemaker'
+  'perl-lib'
+  'perl-module-build-tiny>=0.034'
+  'perl-module-metadata'
+  'perl-moose-util-typeconstraints'
+  'perl-pathtools'
+  'perl-storable'
+  'perl-test-fatal'
+  'perl-test-moose'
+  'perl-test-needs'
+  'perl-test-simple>=0.96')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
+  'perl>=5.8.1'
   'perl-carp'
   'perl-module-runtime'
   'perl-moose>=2.0300'
@@ -28,25 +37,16 @@ depends=(
   'perl-moose-util'
   'perl-namespace-autoclean'
   'perl-namespace-clean>=0.19')
-makedepends=(
-  'perl-cpan-meta-check>=0.011'
-  'perl-cpan-meta-requirements'
-  'perl-data-dumper'
-  'perl-lib'
-  'perl-module-build-tiny>=0.034'
-  'perl-module-metadata'
-  'perl-moose-util-typeconstraints'
-  'perl-moosex-role-withoverloading'
-  'perl-pathtools'
-  'perl-storable'
-  'perl-test-fatal'
-  'perl-test-moose'
-  'perl-test-requires'
-  'perl-test-simple>=0.96')
+provides=(
+  'perl-moosex-role-parameterised=1.11'
+  'perl-moosex-role-parameterized-meta-role-parameterized=1.11'
+  'perl-moosex-role-parameterized-meta-trait-parameterizable=1.11'
+  'perl-moosex-role-parameterized-meta-trait-parameterized=1.11'
+  'perl-moosex-role-parameterized-parameters=1.11')
 checkdepends=('perl-test-fatal' 'perl-test-requires' 'perl-moosex-role-withoverloading')
 url='http://search.cpan.org/dist/MooseX-Role-Parameterized'
 source=("http://search.cpan.org/CPAN/authors/id/E/ET/ETHER/MooseX-Role-Parameterized-${pkgver}.tar.gz")
-sha512sums=('10f6b51dd6e09c30e36496469c4a213e0ab6d12529e0b91161f680ae595b312e9dbff035d6c8a2d10dbff7fa55cf7ca6b53cd66b848f75f7e6ac43b6e6eb9e84')
+sha512sums=('7442a10f1593cecfcb01e93f314bcb6ebe95b4b9710262ef5dc7d8065ae118a96e0abbbc9f7b8986c33185a8b8aec60cf8639c0fd6eee4fb94f2e33d95eb7ed9')
 _distdir="MooseX-Role-Parameterized-${pkgver}"
 
 build() {
