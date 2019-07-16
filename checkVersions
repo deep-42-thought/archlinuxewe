@@ -32,19 +32,32 @@ curl_it() {
   fi
   tmp_file=$(mktemp)
   curl --compressed -o "${tmp_file}" --connect-timeout 10 -s -x socks5://127.0.0.1:9050 "$@" "${source}"
-  if grep -qiF 'access denied' "${tmp_file}"; then
+  if grep -qiF "$(
+    printf '%s\n' \
+      'access denied' \
+      'Repository seems to be empty'
+  )" "${tmp_file}"; then
     : >"${tmp_file}"
   fi
   if [ ! -s "${tmp_file}" ]; then
     curl --compressed -o "${tmp_file}" --connect-timeout 10 -s "$@" "${source}"
   fi
   cat "${tmp_file}"
-  local trials=5
-  while [ ${trials} -gt 0 ] && \
-    ! mv "${tmp_file}" "${cache_file}"; do
-    sleep 1
-    trials=$((trials-1))
-  done
+  local trials
+  if grep -qiF "$(
+    printf '%s\n' \
+      'access denied' \
+      'Repository seems to be empty'
+  )" "${tmp_file}"; then
+    trials=-1
+  else
+    trials=5
+    while [ ${trials} -gt 0 ] && \
+      ! mv "${tmp_file}" "${cache_file}"; do
+      sleep 1
+      trials=$((trials-1))
+    done
+  fi
   if [ ${trials} -le 0 ]; then
     rm -f "${tmp_file}"
   fi
