@@ -1,0 +1,30 @@
+# $Id$
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Pierre Schmitz <pierre@archlinux.de>
+
+pkgname=devtools-archlinuxewe
+pkgver=20190716
+pkgrel=1
+pkgdesc='Tools for Arch Linux package maintainers, also for 32 bit, armv6h and [archlinuxewe]'
+arch=('any')
+license=('GPL')
+url='https://git.eckner.net/Erich/devtools/'
+depends=('namcap' 'openssh' 'subversion' 'rsync' 'arch-install-scripts'
+	'pacman-mirrorlist32' 'archlinux32-keyring' 'git' 'mercurial' 'bzr')
+makedepends=('asciidoc')
+conflicts=('devtools' 'devtools32')
+source=(
+  "${pkgname}-${pkgver}.tar.xz::https://git.eckner.net/Erich/${pkgname%-*}/snapshot/${pkgname}-${pkgver}.tar.xz"
+)
+sha512sums=('cdbdf8ac149280f46335ba70904d43c6d15432756c494d7bcfd4afed2d2d83983fe6c89f318258fd529abb630d0559683da5e446d8cb9e86800992e479ffb20a')
+
+build() {
+	cd "${pkgname}-${pkgver}"
+	make PREFIX=/usr
+}
+
+package() {
+	cd "${pkgname}-${pkgver}"
+	make PREFIX=/usr DESTDIR=${pkgdir} install
+}
+
