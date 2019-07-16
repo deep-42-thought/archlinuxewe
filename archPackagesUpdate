@@ -534,7 +534,7 @@ if ${aufRechenknecht}; then
             printf 'cd build\n'
             printf 'tar -xzf -\n'
             printf 'cd "%s"\n' "${paket}"
-            printf 'makepkg %s --holdver --config ~/build/makepkg-armv6h.conf -fsr --noconfirm --asdeps >&2\n' \
+            printf 'archlinux-ewe-build -- -- -- %s >&2\n' \
               "${log} ${checkMakepkg}"
             printf 'tar -czf - *.pkg.tar.xz'
             [ -n "${log}" ] && \
