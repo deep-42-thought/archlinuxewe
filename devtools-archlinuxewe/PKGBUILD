@@ -3,20 +3,20 @@
 # Contributor: Pierre Schmitz <pierre@archlinux.de>
 
 pkgname=devtools-archlinuxewe
-pkgver=20190716.1
+pkgver=20190716.2
 pkgrel=1
 pkgdesc='Tools for Arch Linux package maintainers, also for 32 bit, armv6h and [archlinuxewe]'
 arch=('any')
 license=('GPL')
 url='https://git.eckner.net/Erich/devtools/'
 depends=('namcap' 'openssh' 'subversion' 'rsync' 'arch-install-scripts'
-	'pacman-mirrorlist32' 'archlinux32-keyring' 'git' 'mercurial' 'bzr')
+	'pacman-mirrorlist-ewe' 'archlinux32-keyring' 'git' 'mercurial' 'bzr')
 makedepends=('asciidoc')
 conflicts=('devtools' 'devtools32')
 source=(
   "${pkgname}-${pkgver}.tar.xz::https://git.eckner.net/Erich/${pkgname%-*}/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('f7251f1d42a78de5e7d2c7f297966880b2ea67bd32ca9e537958330560f7863684c424e7be7693fe6fcff91a5678dc40e5d90b28af97894aeedb400eac7ac88a')
+sha512sums=('c76b245e9df6bd2584ff46e062105625e270e6d652d5940d5d2b5ab77606ed20875a7ffc5200e2333111e8f4b6c9fefd5478b5075fc3f72c4681f549edeb8641')
 
 build() {
 	cd "${pkgname}-${pkgver}"
