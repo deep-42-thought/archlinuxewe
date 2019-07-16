@@ -328,9 +328,10 @@ if ${aufRechenknecht}; then
 
           if ${force}; then
             printf '%s\n' "${singleArch}"
-          elif [ "${repo}" == 'releng' ]; then
-            [ ! -e "${pkgDir32}/${pkgFile}" ] && printf '%s\n' "${singleArch}"
           else
+            if [ "${repo}" == 'releng' ]; then
+              [ ! -e "${pkgDir32}/${pkgFile}" ] && printf '%s\n' "${singleArch}"
+            fi
             [ "${singleArch}" == "any" ] && \
               for dir in ${pkgDir}/*; do
                 [ ! -d "${dir}" ] && continue
@@ -395,7 +396,11 @@ if ${aufRechenknecht}; then
         )
         archs[${#archs[@]}]="${singleArch}"
         verss[${#verss[@]}]="${epoch:+${epoch}:}${pkgver}-${pkgrel}"
-        repos[${#repos[@]}]="${repo}"
+        if [ "${repo}" != 'archlinuxewe' ]; then
+          repos[${#repos[@]}]="${repo} archlinuxewe"
+        else
+          repos[${#repos[@]}]="${repo}"
+        fi
       done
     fi
   done
@@ -664,59 +669,61 @@ if ${aufRechenknecht}; then
                 }' \
                 "${checkDbSig}"
 
-              if [ "${repo}" = 'releng' ]; then
+              for r in ${repo}; do
+                if [ "${r}" = 'releng' ]; then
+                  printf '
+                  cd "%s"' \
+                    "${pkgDir32}"
+                else
+                  printf '
+                  cd "%s/%s"' \
+                    "${pkgDir}" "${arch}"
+                fi
                 printf '
-                cd "%s"' \
-                  "${pkgDir32}"
-              else
+                  for teil in %s; do' \
+                  "${paket_teile[*]}"
                 printf '
-                cd "%s/%s"' \
-                  "${pkgDir}" "${arch}"
-              fi
-              printf '
-                for teil in %s; do' \
-                "${paket_teile[*]}"
-              printf '
-                  entferneAltePakete "${teil}" "%s"' \
-                "${arch}"
-              printf '
-                done'
-
-              printf '
-                tar -xf -
-                for teil in %s; do' \
-                "${paket_teile[*]}"
-
-              if [ "${arch}" == "any" ] && [ "${repo}" != 'releng' ]; then
-                printf '
-                  for lArch in $(ls ..); do
-                    [ ! -d "../${lArch}" ] && continue
-                    [ "${lArch}" == "any" ] && continue
-                    cd "../${lArch}"
-
-                    entferneAltePakete "${teil}" "any"'
-                printf '
-                    ln -s "../any/${teil}-%s-%s.pkg.tar.xz" "${teil}-%s-%s.pkg.tar.xz"' \
-                  "${vers}" "${arch}" "${vers}" "${arch}"
-                printf '
-                    if [ -e "%s/any/${teil}-%s-%s.pkg.tar.xz.sig" ]' \
-                  "${pkgDir}" "${vers}" "${arch}"
-                printf '; then
-                      ln -s "../any/${teil}-%s-%s.pkg.tar.xz.sig" "${teil}-%s-%s.pkg.tar.xz.sig"' \
-                  "${vers}" "${arch}" "${vers}" "${arch}"
-                printf '
-                    fi
-                    addPaket "${teil}-%s-%s.pkg.tar.xz"' \
-                  "${vers}" "${arch}"
+                    entferneAltePakete "${teil}" "%s"' \
+                  "${arch}"
                 printf '
                   done'
-              else
+  
                 printf '
-                  addPaket "${teil}-%s-%s.pkg.tar.xz"' \
-                  "${vers}" "${arch}"
-              fi
-              printf '
-                done'
+                  tar -xf -
+                  for teil in %s; do' \
+                  "${paket_teile[*]}"
+  
+                if [ "${arch}" == "any" ] && [ "${r}" != 'releng' ]; then
+                  printf '
+                    for lArch in $(ls ..); do
+                      [ ! -d "../${lArch}" ] && continue
+                      [ "${lArch}" == "any" ] && continue
+                      cd "../${lArch}"
+  
+                      entferneAltePakete "${teil}" "any"'
+                  printf '
+                      ln -s "../any/${teil}-%s-%s.pkg.tar.xz" "${teil}-%s-%s.pkg.tar.xz"' \
+                    "${vers}" "${arch}" "${vers}" "${arch}"
+                  printf '
+                      if [ -e "%s/any/${teil}-%s-%s.pkg.tar.xz.sig" ]' \
+                    "${pkgDir}" "${vers}" "${arch}"
+                  printf '; then
+                        ln -s "../any/${teil}-%s-%s.pkg.tar.xz.sig" "${teil}-%s-%s.pkg.tar.xz.sig"' \
+                    "${vers}" "${arch}" "${vers}" "${arch}"
+                  printf '
+                      fi
+                      addPaket "${teil}-%s-%s.pkg.tar.xz"' \
+                    "${vers}" "${arch}"
+                  printf '
+                    done'
+                else
+                  printf '
+                    addPaket "${teil}-%s-%s.pkg.tar.xz"' \
+                    "${vers}" "${arch}"
+                fi
+                printf '
+                  done'
+              done
             )"
         done
     fi
