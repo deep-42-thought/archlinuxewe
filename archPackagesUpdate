@@ -11,11 +11,9 @@ pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
   [ "${pkgSrcDir}" == "${HOME}" ] && \
     aufRechenknecht=true || \
     aufRechenknecht=false
-if ${aufRechenknecht}; then
-  export SRCDEST="${HOME}/packageSources"
-  export PACKAGER='Erich Eckner <arch at eckner dot net>'
-  key='5FDCA472AB93292BC678FD59255A76DB9A12601A'
-fi
+export SRCDEST="${HOME}/packageSources"
+export PACKAGER='Erich Eckner <arch at eckner dot net>'
+key='5FDCA472AB93292BC678FD59255A76DB9A12601A'
 branch="HEAD"
 force=false
 upload=true
