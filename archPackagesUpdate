@@ -536,7 +536,7 @@ if ${aufRechenknecht}; then
               printf ' *.pkg.tar.xz-*.log'
             printf '\n'
           )" \
-          < "${tmpDir}/${paket}-${vers}.src.tar.gz"
+          < "${tmpDir}/${paket}-${vers}.src.tar.gz" \
           > "paket.tar.gz"
           err[${i}]=$?
           if [ ${err[${i}]} -eq 0 ]; then
