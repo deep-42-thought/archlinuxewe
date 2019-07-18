@@ -11,6 +11,10 @@ pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
   [ "${pkgSrcDir}" == "${HOME}" ] && \
     aufRechenknecht=true || \
     aufRechenknecht=false
+if ${aufRechenknecht}; then
+  export SRCDEST="${HOME}/packageSources"
+  export PACKAGER='Erich Eckner <arch at eckner dot net>'
+fi
 branch="HEAD"
 force=false
 upload=true
@@ -415,32 +419,18 @@ if ${aufRechenknecht}; then
 
   maxErr=0
 
-# generate current makepkg.conf, makepkg-i686.conf and makepkg-pentium4.conf
-  cp /etc/makepkg.conf .
-  if ! patch -p0 -i makepkgSystem.patch; then
-    cleanUp
-    exit 1
-  fi
-  sed 's|^\(BUILDENV=.*[^!]\)sign|\1!sign|' -i makepkg.conf
-
-  eval "$(
-    grep '^SRCDEST=' makepkg.conf
-  )"
-
-  if [ -n "${SRCDEST}" ]; then
-    # update git sources
-    find "${SRCDEST}" -mindepth 2 -maxdepth 2 -name 'HEAD' | \
-      sed 's|/[^/]*$||' | \
-      while read -r repo; do
-        git -C "${repo}" fetch --all -p
-      done
-    # update svn sources
-    find "${SRCDEST}" -mindepth 2 -maxdepth 2 -name '.svn' | \
-      sed 's|/[^/]*$||' | \
-      while read -r repo; do
-        svn update "${repo}"
-      done
-  fi
+  # update git sources
+  find "${SRCDEST}" -mindepth 2 -maxdepth 2 -name 'HEAD' | \
+    sed 's|/[^/]*$||' | \
+    while read -r repo; do
+      git -C "${repo}" fetch --all -p
+    done
+  # update svn sources
+  find "${SRCDEST}" -mindepth 2 -maxdepth 2 -name '.svn' | \
+    sed 's|/[^/]*$||' | \
+    while read -r repo; do
+      svn update "${repo}"
+    done
 
 # build packages
   for ((i=0; i<${#pakete[@]}; i++)); do
