@@ -71,11 +71,11 @@ cleanUp () {
     [ "a${logFile}" == 'a-' ] && logFile="/tmp/$(date '+%F-%H-%M-%S')"
     [[ "${logFile}" == *".tar.gz" ]] || logFile="${logFile}.tar.gz"
     cd "${tmpDir}"
-    logFiles="$(
+    logFiles=$(
       for s in */*.log; do
         [ -r "${s}" ] && echo "${s}"
       done
-    )"
+    )
     if [ -n "${logFiles}" ]; then
       tar -czf "${logFile}" ${logFiles}
       echo 'Logfiles saved to "'"${logFile}"'".'
@@ -202,39 +202,17 @@ fi
 echo '... done'
 
 ${aufRechenknecht} && pkgSrcDir="${pkgSrcDir}/archPackages"
-cd "${pkgSrcDir}"
 
 # extract git ${branch}
-git archive --format tar "${branch}" | \
+git -C "${pkgSrcDir}" archive --format tar "${branch}" | \
   tar -x -C "${tmpDir}" -f -
 
 cd "${tmpDir}"
-if [ -f '.gitmodules' ]; then
-  sed -n '
-    /^\s*path = /{
-      N
-      s/^\s*path = //
-      s/\n\s*url = / /
-      s,ssh://aur@aur.archlinux.org/,https://aur.archlinux.org/,
-      p
-    }
-  ' '.gitmodules' | \
-    while read -r path url; do
-      if [ -n "$(ls -A "${path}")" ]; then
-        git submodule update -- "${path}"
-        continue
-      fi
-      mkdir -p "${path}"
-      git clone "${url}" "${path}"
-    done
-fi
 
 # update $0
 if ${updateMe} && ${aufRechenknecht} && [ -e "$(basename "$0")" ] && ! diff -q "$(basename "$0")" "$0" &> /dev/null; then
   cp "$(basename "$0")" "$0"
-  "$0" "${args[@]}"
-  err=$?
-  exit ${err}
+  exec "$0" "${args[@]}"
 fi
 
 # clean unsigned packages
@@ -274,6 +252,26 @@ unset pakete_teile_und_archs
 unset archs
 unset verss
 unset repos
+
+if [ -f '.gitmodules' ]; then
+  sed -n '
+    /^\s*path = /{
+      N
+      s/^\s*path = //
+      s/\n\s*url = / /
+      s,ssh://aur@aur.archlinux.org/,https://aur.archlinux.org/,
+      p
+    }
+  ' '.gitmodules' | \
+    while read -r path url; do
+      if [ -n "$(ls -A "${path}")" ]; then
+        git submodule update -- "${path}"
+        continue
+      fi
+      mkdir -p "${path}"
+      git clone "${url}" "${path}"
+    done
+fi
 
 if ${aufRechenknecht}; then
 
@@ -418,7 +416,6 @@ if ${aufRechenknecht}; then
   maxErr=0
 
 # generate current makepkg.conf, makepkg-i686.conf and makepkg-pentium4.conf
-  cd "${tmpDir}"
   cp /etc/makepkg.conf .
   if ! patch -p0 -i makepkgSystem.patch; then
     cleanUp
