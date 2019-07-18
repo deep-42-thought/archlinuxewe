@@ -14,6 +14,7 @@ pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
 if ${aufRechenknecht}; then
   export SRCDEST="${HOME}/packageSources"
   export PACKAGER='Erich Eckner <arch at eckner dot net>'
+  key='5FDCA472AB93292BC678FD59255A76DB9A12601A'
 fi
 branch="HEAD"
 force=false
@@ -578,13 +579,6 @@ if ${aufRechenknecht}; then
     fi
     [ ${err[${i}]} -gt ${maxErr} ] && maxErr=${err[${i}]}
 
-    eval "$(
-      sed -n '
-        s/^GPGKEY=/key=/
-        T
-        p
-      ' "${tmpDir}/makepkg.conf"
-    )"
     for teil_und_arch in "${paket_teile_und_archs[@]}"; do
       teil="${teil_und_arch#*:}"
       teil_arch="${teil_und_arch%%:*}"
