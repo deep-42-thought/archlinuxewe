@@ -521,6 +521,9 @@ if ${aufRechenknecht}; then
             printf 'cd build\n'
             printf 'tar -xzf -\n'
             printf 'cd "%s"\n' "${paket}"
+            printf 'export %s="%s"\n' \
+              'SRCDEST' '${HOME}/packageSources' \
+              'PACKAGER' "${PACKAGER}"
             printf 'archlinuxewe-armv6h-build -- -- -- %s >&2\n' \
               "${log} ${checkMakepkg}"
             printf 'tar -czf - *.pkg.tar.xz'
