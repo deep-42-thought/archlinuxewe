@@ -2,33 +2,35 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-sah'
-pkgver='0.9.45'
-pkgrel=4
+pkgver=0.9.46
+pkgrel=1
 pkgdesc='Schema for data structures (specification)'
 arch=('any')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-)
-license=('PerlArtistic' 'GPL')
-options=('!emptydirs')
 makedepends=(
   'perl'
   'perl-extutils-makemaker'
   'perl-file-sharedir-install>=0.06'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple'
-)
+  'perl-test-simple')
+depends=(
+  'perl')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
 checkdepends=(
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
 )
 url='https://metacpan.org/release/Sah'
 _distdir="Sah-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('18b5e585f07ebba054469a15c852c99e18b63fbfd62c6edd13e1992738f0c9132d54f9c7c6e07d96b54494d3981019954dc3bf10801a09495c810bddc836a6a0')
+sha512sums=('1159e54d695a3c40061c6a14f776ea639b4c043e496790503330958bd9bef6364187d9d3752d3338982df085a46a632dbfb50e929709f42c9e07ded0f677ce88')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
