@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-sub-complete'
-pkgver=0.936
+pkgver=0.937
 pkgrel=1
 pkgdesc='Complete command-line argument using Rinci metadata'
 arch=('any')
@@ -15,7 +15,7 @@ makedepends=(
   'perl-io'
   'perl-monkey-patch-action>=0.060'
   'perl-pathtools'
-  'perl-perinci-examples>=0.811'
+  'perl-perinci-examples>=0.814'
   'perl-perinci-sub-normalize>=0.19'
   'perl-sah-schemas-int'
   'perl-test-exception'
@@ -42,7 +42,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Sub-Complete'
 _distdir="Perinci-Sub-Complete-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('fe713d6ea7a9296aaf7faba29280d412b23dc457e7b85c82b0bd234dce099ae2e46ed9ae1e9378ee721f5f960e525d73deda892fa7b0702d37d3c3446e54297f')
+sha512sums=('ffea1ba3f91e4a0d07e1b9c11cb5201fe3316ce3d6ec6755469dea937b5a5eaffd8631c579544beb479f540dc6eeb9225557bd3297debb70243883f93be0fe80')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
