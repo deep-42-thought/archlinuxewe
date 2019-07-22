@@ -212,7 +212,35 @@ then
     src_name="${src%%::*}"
     src="${src#*::}"
 
-    if [ "${pkgname}" = 'local-certificates' ]; then
+    if echo "${src}" | \
+      grep '^https://archive-server\.archlinux32\.org/' | 
+      grep '[&?]t=git' | \
+      grep '[&?]r=' | \
+      grep -q '[&?]tag='; then
+      remDir=$(
+        printf '%s\n' "${src}" \
+        | sed 's,^.*[?&]r=\([^&]\+\)\(\&.*\)\?$,\1,' \
+        | sed 's/%3D/=/g'
+      )
+      remTag=$(
+        printf '%s\n' "${src}" \
+        | sed 's,^.*[?&]tag=\([^&]\+\)\(\&.*\)\?$,\1,' \
+        | sed 's/%3D/=/g'
+      )
+      remVer=$(
+        git -C "/usr/src/skripte/archive-server/work/repositories/git/${remDir}" tag \
+        | sed '
+          s/^[^0-9.*]*\('"$(
+            printf '%s\n' "$remTag" \
+            | sed 's/[0-9.]\+$/[0-9.]\\+/'
+          )"'\)$/\1/
+          t
+          d
+        ' \
+        | sort -V \
+        | tail -n1
+      )
+    elif [ "${pkgname}" = 'local-certificates' ]; then
       remVer=$(
         curl_it 'https://eckner.net/certs/sha512sums' \
         | sed '
