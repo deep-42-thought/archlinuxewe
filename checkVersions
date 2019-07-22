@@ -230,10 +230,10 @@ then
       remVer=$(
         git -C "/usr/src/skripte/archive-server/work/repositories/git/${remDir}" tag \
         | sed '
-          s/^[^0-9.*]*\('"$(
+          s/^[^0-9.*]*'"$(
             printf '%s\n' "$remTag" \
-            | sed 's/[0-9.]\+$/[0-9.]\\+/'
-          )"'\)$/\1/
+            | sed 's/[0-9.]\+$/\\([0-9.]\\+\\)/'
+          )"'$/\1/
           t
           d
         ' \
