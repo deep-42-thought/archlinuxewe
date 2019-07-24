@@ -740,6 +740,7 @@ then
       remVer=$( \
         curl_it "${quVer}" | \
           sed -n '
+            \@<a [^>]*-devel/@,\@</a>@ d
             \@<a [^<>]* href="[^"<>]*/latest/download"@,\@</a>@ {
               s@^.*<span class="sub-label">\(\('"${pkgname}"'\|'"${_pkgname}"'\)\([-.]\|%20\)\)\?\([0-9.]\+\)\(\.tar\.\([xg]z\|bz2\)\|\.zip\|-win-dist\.msi\)\( [^<>]*\)\?</span>.*$@\4@
               T
