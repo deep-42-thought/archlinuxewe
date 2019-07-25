@@ -2,32 +2,35 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perlancar-module-list'
-pkgver='0.003005'
-pkgrel=4
+pkgver=0.004002
+pkgrel=1
 pkgdesc='A fork of Module::List'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-)
 makedepends=(
   'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple'
-)
+  'perl-test-simple')
+depends=(
+  'perl'
+  'perl-string-wildcard-bash>=0.040')
 checkdepends=(
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
 )
 url='https://metacpan.org/release/PERLANCAR-Module-List'
 _distdir="PERLANCAR-Module-List-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('106bdba123cc83ec7a7123667bfe5a29c28e6c4495c3b12bdba3c7df0c43b0417389673441d04c99cead96cc1b3faf41d67e3eda09c6523bf792ecab9511dba8')
+sha512sums=('ecf6352ef9d939e20f9c534c54a83bcebe98106c53d041b07c81742fc41268c6025c1153e11a50a5853cb898bd1020713a2e997354f590bcd790886faa05fcc3')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
