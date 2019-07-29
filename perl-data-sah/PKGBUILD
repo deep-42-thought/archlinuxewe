@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-sah'
-pkgver=0.897
+pkgver=0.899
 pkgrel=1
 pkgdesc='Fast and featureful data structure validation'
 arch=('any')
@@ -27,7 +27,6 @@ makedepends=(
   'perl-test-warn'
   'perl-time-duration-parse-ashash')
 depends=(
-  'perl>=5.10.1'
   'perl-data-dmp>=0.21'
   'perl-data-dump'
   'perl-data-sah-coerce>=0.031'
@@ -40,6 +39,7 @@ depends=(
   'perl-file-sharedir-tarball'
   'perl-file-slurper'
   'perl-json'
+  'perl-language-expr>=0.29'
   'perl-lingua-en-numbers-ordinate>=1.02'
   'perl-log-ger>=0.027'
   'perl-mo'
@@ -52,7 +52,8 @@ depends=(
   'perl-test-simple>=0.98'
   'perl-text-sprintfn'
   'perl-tie-ixhash'
-  'perl-time-hires')
+  'perl-time-hires'
+  'perl>=5.10.1')
 checkdepends=(
   'perl-datetime'
   'perl-pod-coverage-trustpod'
@@ -64,7 +65,7 @@ checkdepends=(
 url='https://metacpan.org/release/Data-Sah'
 _distdir="Data-Sah-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('f310505e1cc3bba847c18b80467a54ad801d35ce6b4430afdcb31c0df18df1ef10e07e97f7844b55deb82537ca2cb4d5e2c9bf73fe192171df723700b8c558ef')
+sha512sums=('d7574219e750abb21935371a5dfeae52586bcebb9e1e46024d1b6f585e48ac61b297eeb3a8d2e828abd54ea59e3b4b35fc5304fc11981f67187347c0a9703f0e')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
