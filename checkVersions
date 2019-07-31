@@ -64,7 +64,19 @@ curl_it() {
 }
 
 latest_version() {
-  sort -V \
+  if [ "x$1" = 'xperl' ]; then
+    local versions
+    versions=$(cat)
+    printf '%s\n' "${versions}" \
+    | if printf '%s\n' "${versions}" \
+      | grep -q '\..*\.'; then
+      sort -V
+    else
+      sort -g
+    fi
+  else
+    sort -V
+  fi \
   | tail -n1
 }
 
@@ -597,30 +609,12 @@ then
           sed "s|^v\?[0-9.]*||" | \
           sed 's|\.|\\\.|'
       )
-      if [ "${pkgname}" = 'perl-chi' ] || \
-        [ "${pkgname}" = 'perl-perl-metrics-simple' ]
-      then
-        pre='s|\(\...\)$|\10|'
-        post='s|\(\...\)0$|\1|'
-      elif [ "${pkgname}" = 'perl-opengl' ] || \
-        [ "${pkgname}" = 'perl-array-diff' ] || \
-        [ "${pkgname}" = 'perl-module-cpants-analyse' ] || \
-        [ "${pkgname}" = 'perl-data-clean' ]
-      then
-        pre='s|\(\...\)\(.\)|\1.\2|'
-        post='s|\(\...\)\.\(.\)|\1\2|'
-      else
-        pre=''
-        post=''
-      fi
       remVer=$( \
         curl_it "${quVer}" | \
           tr '"<>' '\n' | \
           grep "^${quNam}-v\?[0-9.-]*\.${quEnd}\$" | \
           sed "s|^${quNam}-v\?\([0-9.-]*\)\.${quEnd}\$|\1|" | \
-          sed "${pre}" | \
-          latest_version | \
-          sed "${post}"
+          latest_version 'perl'
       )
     elif echo "${src}" | \
       grep -q "ftp://"
