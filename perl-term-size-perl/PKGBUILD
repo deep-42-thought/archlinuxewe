@@ -2,25 +2,25 @@
 # Generator : neuesPerlPaket (d004a3633c882df1d7fb921ddb8a08ccdbd8fcf488cb3ecaea07299ac8d285c0e7e482a1e5d5923dc1b34380f98caa27bc9cee8f2e1718aea9e36c454af84e08)
 
 pkgname='perl-term-size-perl'
-pkgver=0.0201
-pkgrel=9
+pkgver=0.031
+pkgrel=1
 pkgdesc='Perl extension for retrieving terminal size (Perl version)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-exporter'
+makedepends=(
   'perl-extutils-cbuilder'
+  'perl-extutils-makemaker'
   'perl-test-simple')
+depends=(
+  'perl-exporter')
 checkdepends=(
   'perl-test-pod'
   'perl-test-pod-coverage')
 url='https://metacpan.org/release/Term-Size-Perl'
 _distdir="Term-Size-Perl-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/${_distdir}.tar.gz")
-sha512sums=('ecb2529ad404c0d3b3874b1c5a63d2252622ce6f05e0a1c1461e8456b05f1bf51dd4af52391e999e629d0f8ce920489ddd46a0367005cae4b479bd243c1818d0')
+sha512sums=('7babfb7637e795f1826a964a64cdca48bc7d92dc2cdff0fbdf62f2462fcd2be81475703f577baa18ce3df24f6ae8c103ca19ea53aa3b78733391ed456fcb66bc')
 
 build(){
   cd "${srcdir}/${_distdir}"
