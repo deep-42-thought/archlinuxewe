@@ -63,6 +63,11 @@ curl_it() {
   fi
 }
 
+latest_version() {
+  sort -V \
+  | tail -n1
+}
+
 me="$(readlink -f $0)"
 cd $(dirname "${me}")
 versionenDatei="/var/cache/$(basename "$(dirname "${me}")")/lastVersions"
@@ -202,8 +207,7 @@ then
             s/-[^-]\+-[^-]\+$//
             s/^.*-//
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )
       srcKnown=true
       continue
@@ -237,8 +241,7 @@ then
           t
           d
         ' \
-        | sort -V \
-        | tail -n1
+        | latest_version
       )
     elif [ "${pkgname}" = 'local-certificates' ]; then
       remVer=$(
@@ -248,8 +251,7 @@ then
           t
           d
         ' \
-        | sort \
-        | tail -n1
+        | latest_version
       )
     elif [ "${pkgbase}" = 'bareos' ]; then
       remVer=$(
@@ -272,8 +274,7 @@ then
             d
           ' \
           | tr '-' '.' \
-          | sort -V \
-          | tail -n1
+          | latest_version
       )
     elif [ "${pkgname}" = 'pacman-static' ]
     then
@@ -295,8 +296,7 @@ then
             t
             d
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )
       remVer=$(
         curl_it "${src%/*/*/*/*}/${centosVer}/x86_64/current/" | \
@@ -306,8 +306,7 @@ then
             t
             d
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )
     elif [ "${pkgname}" = 'adduser' ]
     then
@@ -326,8 +325,7 @@ then
             t
             d
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )
     elif [ "${pkgname}" = 'tightvnc' ]
     then
@@ -346,8 +344,7 @@ then
         curl_it "ftp://ftp.astro.caltech.edu/pub/pgplot/" | \
           grep "\spgplot[0-9.]\+\.tar\.gz -> \S\+\$" | \
           sed "s|^.*\spgplot\([0-9.]\+\)\.tar\.gz -> \S\+\$|\1|" | \
-          sort -V | \
-          tail -n1
+          latest_version
       )
     elif [ "${pkgname}" == "wurzel-old" ]
     then
@@ -361,8 +358,7 @@ then
           tr '<>' '\n' | \
           grep "^${pkgname#netkit-}-[0-9.-]\+\.tar\.gz\$" | \
           sed "s|^${pkgname#netkit-}-\([0-9.-]\+\)\.tar\.gz\$|\1|" | \
-          sort -V | \
-          tail -n1
+          latest_version
       )"
     elif [ "${pkgname}" == "archiso32" ] || [ "${pkgname}" == 'archiso-dual' ]
     then
@@ -378,8 +374,7 @@ then
             T
             p
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )"
     elif [ "${pkgname}" == 'devtools32' ]
     then
@@ -397,8 +392,7 @@ then
               /^[0-9.]\+$/p
             '
         ) | \
-          sort -V | \
-          tail -n1
+          latest_version
       )"
     elif [ "${pkgname}" == 'pacman-mirrorlist32' ]
     then
@@ -410,8 +404,7 @@ then
             grep -m1 '^pkgver=[0-9.]\+$' | \
             cut -d= -f2
         } | \
-          sort -V | \
-          tail -n1
+          latest_version
       )
     elif echo "${src}" | \
       grep -q '//www\.abisource\.com/'
@@ -428,8 +421,7 @@ then
             T
             p
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )"
     elif echo "${src}" | \
       grep -q '//download\.virtualbox\.org/'
@@ -445,8 +437,7 @@ then
             T
             p
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )"
     elif echo "${src}" | \
       grep -q "//www\.mpich\.org/"
@@ -472,8 +463,7 @@ then
       fi
       remVer="$(
         echo "${aVers}" | \
-          sort -V | \
-          tail -n1
+          latest_version
       )"
     elif echo "${src}" | \
       grep -q '^git://anonscm\.debian\.org/\|^git\(+https\?\)\?://git\(hub\.com\|\.archlinux32\.org\)/.*#tag='
@@ -496,8 +486,7 @@ then
             t
             d
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )
     elif echo "${src}" | \
       grep -q '^git\(+[^:]\+\)\?://[^#]\+\(#commit=[^#]\+\)\?$'
@@ -542,8 +531,7 @@ then
           tr '"' '\n' | \
           grep "^/project/\(python-\)\?${_pkgname}/[0-9.-]\+/\$" | \
           sed "s|^/project/\(python-\)\?${_pkgname}/\([0-9.-]\+\)/\$|\2|" | \
-          sort -V | \
-          tail -n1
+          latest_version
       )"
       remHash="$(
         curl_it "${qu}${remVer}/" | \
@@ -571,8 +559,7 @@ then
           tr "\"" "\n" | \
           grep '^[0-9.]\+/$' | \
           sed 's|/$||' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )"
     elif echo "${src}" | \
       grep -q "//git\.eckner\.net/"
@@ -593,8 +580,7 @@ then
             T
             p
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )
     elif echo "${src}" | \
       grep -q "//\(search\.m\?\)\?cpan\.org/\|//cpan\.metacpan\.org/authors/\|cpan\.org/modules/by-module/"
@@ -633,8 +619,7 @@ then
           grep "^${quNam}-v\?[0-9.-]*\.${quEnd}\$" | \
           sed "s|^${quNam}-v\?\([0-9.-]*\)\.${quEnd}\$|\1|" | \
           sed "${pre}" | \
-          sort -V | \
-          tail -n1 | \
+          latest_version | \
           sed "${post}"
       )
     elif echo "${src}" | \
@@ -655,8 +640,7 @@ then
           awk '{print $9}' | \
           grep "^${quNam}v\?[0-9.]*${quEnd}\$" | \
           sed "s|^${quNam}v\?\([0-9.]*\)${quEnd}\$|\1|" | \
-          sort -V | \
-          tail -n1 \
+          latest_version
       )
       [ "${pkgname}" == "pgplot" ] \
         && [ -n "${tmpVer}" ] \
@@ -678,8 +662,7 @@ then
           tr "\"" "\n" | \
           grep "^${quNam}\(-[^-]*\)\{3\}\.${quEnd}\$" | \
           sed "s|^${quNam}-\([^-]*\)\(-[^-]*\)\{2\}\.${quEnd}\$|\1|" | \
-          sort -V | \
-          tail -n1 \
+          latest_version
       )
     elif echo "${src}" | \
       grep -q '^https\?://github\.com/'
@@ -710,8 +693,7 @@ then
               cat
             fi
           ) | \
-          sort -V | \
-          tail -n1 \
+          latest_version
       )
     elif echo "${src}" | \
       grep -q "//\(\(pr\)\?downloads\.\)\?sourceforge\.net/"
@@ -754,8 +736,7 @@ then
             s/-$//
             s/\.$//
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )
     elif echo "${src}" | \
       grep -q '//support\.hdfgroup\.org/'
@@ -769,8 +750,7 @@ then
           tr '"' '\n' | \
           grep "^${quNam}\.[.0-9]\+/\$" | \
           sed "s|^${quNam}\.\(.*\)/\$|\1|" | \
-          sort -V | \
-          tail -n1 \
+          latest_version
       )
     elif echo "${src}" | \
       grep -q 'https://bitbucket\.org/.*/get/[^/]\+$'
@@ -790,8 +770,7 @@ then
           grep "${srcEndg}\$" | \
           sed "s|^.*/${srcPreNam}\(.*\)${srcEndg}\$|\1|" | \
           tr '_' '.' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )"
     elif echo "${src}" | \
       grep -q '^https\?://lilypond\.org/'
@@ -803,8 +782,7 @@ then
           grep "^lilypond-[0-9.]\+\(-[0-9]\+\.documentation\)\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
           sed "s@^lilypond-\([0-9.]\+\)\(-[0-9]\+\.documentation\)\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\1@" | \
           tr '_' '.' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )"
     elif echo "${src}" | \
       grep -qF '//www.cybernoia.de/'; then
@@ -857,8 +835,7 @@ then
           grep "^${pkgname#python2-}\(-src\)\?-\?v\?[0-9._]\+[a-z]\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
           sed "s@^${pkgname#python2-}\(-src\)\?-\?v\?\([0-9._]\+[a-z]\?\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
           tr '_' '.' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )"
     elif echo "${src}" | \
       grep -q '^https\?://\(www\.\)\?paraview\.org/files/'
@@ -881,8 +858,7 @@ then
             tr ' >' '\n' | \
             grep '^href="ParaView-v[0-9.]\+\.tar\.gz"$' | \
             sed 's|^href="ParaView-v\([0-9.]\+\)\.tar\.gz"$|\1|' | \
-            sort -V | \
-            tail -n1
+            latest_version
         )"
         [ -n "${remVer}" ] && break
       done
@@ -906,8 +882,7 @@ then
             tr '"' '\n' | \
             grep '^oxygen-fonts-[0-9.]\+\.tar\.xz$' | \
             sed 's|^oxygen-fonts-\([0-9.]\+\)\.tar\.xz$|\1|' | \
-            sort -V | \
-            tail -n1
+            latest_version
         )
         [ -n "${remVer}" ] && break
       done
@@ -931,8 +906,7 @@ then
             tr '"' '\n' | \
             grep "^${pkgname#apache-}-[0-9.]\+\.t\(ar\.\)\?\(gz\|bz2\|xz\)\$" | \
             sed "s@^${pkgname#apache-}-\([0-9.]\+\)\.t\(ar\.\)\?\(gz\|bz2\|xz\)\$@\1@" | \
-            sort -V | \
-            tail -n1
+            latest_version
         )"
         [ -n "${remVer}" ] && break
       done
@@ -948,8 +922,7 @@ then
           grep '"text: current()\.version"' | \
           tr '<>' '\n' |
           grep '^[0-9]\+$' | \
-          sort -n | \
-          tail -n1
+          latest_version
       )"
     elif echo "${src}" | \
       grep -q '://semiletov\.org/[^/]*/dloads/'
@@ -985,8 +958,7 @@ then
             t
             d
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )
     elif echo "${src}" | \
       grep -q '//zircon\.org\.uk/topal/'
@@ -998,8 +970,7 @@ then
             t
             d
           ' | \
-          sort -V | \
-          tail -n1
+          latest_version
       )
     else
       continue
