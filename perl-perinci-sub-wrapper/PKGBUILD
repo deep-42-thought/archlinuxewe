@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-sub-wrapper'
-pkgver=0.850
-pkgrel=2
+pkgver=0.851
+pkgrel=1
 pkgdesc='A multi-purpose subroutine wrapping framework'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,8 +17,7 @@ makedepends=(
   'perl-test-exception'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
+  'perl>=5.10.1'
   'perl-data-dmp>=0.21'
   'perl-data-sah>=0.895'
   'perl-experimental'
@@ -42,7 +41,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Sub-Wrapper'
 _distdir="Perinci-Sub-Wrapper-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('65ab9ea14248069c35d83e5a5195a90b95d353433d88cd9d7d9da13d53fb472c175c843ff07ed8f5fc0328d29680eea9e6adb57ccd0a042058f7ca59436c63d0')
+sha512sums=('4d720a7347b329ab078def00d2a0dcac33757d9fd92d2bddf6c7a4af3031ec59d7e07e81e3db3f0c565e0af35b49a0b3b3ea0b303eeba84e87780ad54c8638ba')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
