@@ -2,26 +2,37 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-access-perl'
-pkgver=0.890
-pkgrel=2
+pkgver=0.891
+pkgrel=1
 pkgdesc='Access Perl module, functions, variables through Riap'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+makedepends=(
+  'perl'
+  'perl-extutils-makemaker'
+  'perl-file-slurper'
+  'perl-file-temp'
+  'perl-io'
+  'perl-lib'
+  'perl-monkey-patch-action>=0.060'
+  'perl-pathtools'
+  'perl-perinci-examples>=0.818'
+  'perl-test-exception'
+  'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
+  'perl>=5.10.1'
   'perl-class-inspector'
   'perl-experimental'
-  'perl-log-ger>=0.023'
+  'perl-log-ger>=0.027'
   'perl-module-list'
   'perl-module-path-more>=0.32'
   'perl-package-util-lite'
   'perl-parent'
   'perl-perinci-access-base>=0.31'
   'perl-perinci-object>=0.310'
-  'perl-perinci-sub-complete>=0.89'
-  'perl-perinci-sub-getargs-argv>=0.83'
+  'perl-perinci-sub-complete>=0.935'
+  'perl-perinci-sub-getargs-argv>=0.842'
   'perl-perinci-sub-normalize>=0.19'
   'perl-perinci-sub-util>=0.46'
   'perl-perinci-sub-wrapper>=0.83'
@@ -30,17 +41,6 @@ depends=(
   'perl-tie-cache'
   'perl-uri'
   'perl-uuid-random')
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-file-slurper'
-  'perl-file-temp'
-  'perl-io'
-  'perl-lib'
-  'perl-monkey-patch-action>=0.060'
-  'perl-pathtools'
-  'perl-perinci-examples>=0.811'
-  'perl-test-exception'
-  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-perl-critic'
@@ -50,7 +50,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Access-Perl'
 _distdir="Perinci-Access-Perl-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('19888e03b1319132393611a56085be2c07752f0c4ec8dc28f81a45db6d452f0b06a71945bbd7c547142ca97577b875df1c7d50b1a050f7a10fe3849abb8fc6ce')
+sha512sums=('68c765cee2afffdb285a536adae0a12e6d403fea5bf3f5f1490880cd3e10936c1d3cc4c5a257aa977145c4eb9b694914046a275e135e58f4951184c095e366b9')
 
 prepare() {
   cd "${srcdir}/${_distdir}"
