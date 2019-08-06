@@ -482,6 +482,7 @@ then
     then
       src="${src#git+}"
       src="${src%#*}"
+      src="${src%?signed}"
       remVer=$(
         {
           git ls-remote --tags "${src}" 2>/dev/null || \
