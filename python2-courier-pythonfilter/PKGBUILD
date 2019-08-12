@@ -2,7 +2,7 @@
 
 pkgname=python2-courier-pythonfilter
 _pkgname='courier-pythonfilter'
-pkgver=3.0
+pkgver=3.0.1
 pkgrel=1
 pkgdesc='collection of useful filters for the Courier MTA, and a framework for developing new filters in Python'
 arch=('any')
@@ -15,7 +15,7 @@ depends=(
 makedepends=(
   'python2-setuptools')
 source=("https://bitbucket.org/gordonmessmer/${_pkgname}/get/release-${pkgver//./-}.tar.gz")
-sha512sums=('fbfa641045237c9a5e6460e83f9d6670f560a0a697fa35ab24aadafb59926a3ecd320252910e15491857ff7d7e13da018253fa4e1b71c93b86942ac6bb457265')
+sha512sums=('05635f0dc738de1ad4738cd67400fe4177e16f43269d22b54664d7feea166ec01a7b255e92a303dd2f3c8ff1a67997b91b955c32d367cd01916167a566667aa7')
 backup=('etc/pythonfilter-modules.conf' 'etc/pythonfilter.conf')
 optdepends=(
   'python2-pyclamav:  Virus Scan'
