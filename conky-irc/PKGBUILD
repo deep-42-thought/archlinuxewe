@@ -6,10 +6,10 @@
 # Contributor: Partha Chowdhury <kira.laucas@gmail.com>
 
 pkgname=conky-irc
-pkgver=1.11.4
+pkgver=1.11.5
 provides=("conky=${pkgver}")
 conflicts=('conky')
-pkgrel=4
+pkgrel=1
 pkgdesc='Lightweight system monitor for X - with irc-client enabled'
 url='https://github.com/brndnmtthws/conky'
 license=('BSD' 'GPL')
@@ -20,7 +20,7 @@ depends=('glib2' 'lua' 'wireless_tools' 'libxdamage' 'libxinerama' 'libxft'
 optdepends=('mounted')
 source=("${pkgname%-irc}-${pkgver}.tar.gz::https://github.com/brndnmtthws/conky/archive/v${pkgver}.tar.gz"
         'MAX_SP.patch')
-sha512sums=('191ffe4a50a8876a658163c83a45f722f07ca6a0b86ea3ebad369d58f4c2bb798e8afaef6c0643bcca90de546a7f3de4acf9d2e4b4a2b6366bf42de0ccaade3d'
+sha512sums=('71ba02acc879dad3c240ed9a38635cb2d30e3c9ac849012ff3db53f8143c28d6cc9e502816834b0a073f7486bded7cea002b58c3bb8e189e542afb1070bb84be'
             '1ea39f88b5f2620fc0c4485cc16645dbad91f97be17b4b13a732205dde6265d621c7f2bc92be33b65f9db2815312beb42b516ddebbba90cfe947104e1a410a52')
 
 # options=('!strip' 'debug')
