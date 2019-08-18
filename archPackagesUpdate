@@ -622,6 +622,10 @@ if ${aufRechenknecht}; then
           ) | \
             ssh paule@127.0.0.1 "$(
 
+              printf 'tmp_archive=$(mktemp)\n'
+              printf 'cat > "${tmp_archive}"\n'
+              printf 'trap "rm ${tmp_archive}" EXIT\n'
+
               printf '
                 entferneAltePakete() {
                   altePakete=$(
@@ -677,7 +681,7 @@ if ${aufRechenknecht}; then
                   done'
   
                 printf '
-                  tar -xf -
+                  tar -xf "${tmp_archive}"
                   for teil in %s; do' \
                   "${paket_teile[*]}"
   
