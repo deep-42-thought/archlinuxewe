@@ -3,7 +3,7 @@
 # Contributor: Pierre Schmitz <pierre@archlinux.de>
 
 pkgname=devtools-archlinuxewe
-pkgver=20190820
+pkgver=20190820.1
 pkgrel=1
 pkgdesc='Tools for Arch Linux package maintainers, also for 32 bit, armv6h, armv7h and [archlinuxewe]'
 arch=('any')
@@ -16,7 +16,7 @@ conflicts=('devtools' 'devtools32')
 source=(
   "${pkgname}-${pkgver}.tar.xz::https://git.eckner.net/Erich/${pkgname%-*}/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('87350bbd44570e4064da937716cf8d1f9fa5015bea5995b88c783d9c86b43a3c584e194856d5a962cdc6ad252accbf6f0ec7bc79e7c597c876b48efd4cf2c0a9')
+sha512sums=('eb0d41ff34a04d502bb9ee792ba0c341a9453a2a3be0f11a04326006b71bba5fbcf91258cceb75bcbc52b328960c131abaf4dc365f1e39a553818d647877e9f4')
 
 build() {
 	cd "${pkgname}-${pkgver}"
