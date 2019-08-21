@@ -2,25 +2,28 @@
 # Generator : neuesPerlPaket (c76f19eeb8ac0e674222223e3f2f0b1a4250e725fbc76c117ed5a925d0a78bc530c4457ecc3b31370951fc9b8729fc0272fa9206231f2dcd7aab2565a892a173)
 
 pkgname='perl-test-rinci'
-pkgver=0.152
-pkgrel=2
+pkgver=0.153
+pkgrel=1
 pkgdesc='Test Rinci metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+makedepends=(
+  'perl'
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-data-sah>=0.893'
+  'perl>=5.10.1'
+  'perl-data-dmp>=0.21'
+  'perl-data-sah>=0.898'
   'perl-experimental'
-  'perl-getopt-long'
+  'perl-getopt-long>=2.5'
   'perl-pathtools'
   'perl-perinci-access-perl>=0.87'
-  'perl-perinci-sub-getargs-argv>=0.83'
+  'perl-perinci-sub-getargs-argv>=0.842'
   'perl-test-simple>=0.98')
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-io')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -29,7 +32,7 @@ checkdepends=(
 url='https://metacpan.org/release/Test-Rinci'
 _distdir="Test-Rinci-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('b3760a5eb532c908e499a69c0919db8dbe6719f19b7dab2374304c59d42831a89a40f1fdad55b0d89adbba50c7351a2373bd636f63282e3269dfb1035f0344d4')
+sha512sums=('d7d802680cf656a07a6932f34c4a0773d5c4ffc58c29af0fbade47ec898e872d0b4049ac88187db1faa8b796371e77db28b81c251d25a2db574fb7cac64370c2')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
