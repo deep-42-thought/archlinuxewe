@@ -541,8 +541,7 @@ if ${aufRechenknecht}; then
             )*1000
           )) "$(
             printf 'set -e\n'
-            printf 'rm -rf --one-file-system build\n'
-            printf 'mkdir build\n'
+            printf 'rm -rf --one-file-system build/*\n'
             printf 'cd build\n'
             printf 'tar -xzf -\n'
             printf 'cd "%s"\n' "${paket}"
