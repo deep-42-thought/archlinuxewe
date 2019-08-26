@@ -4,7 +4,7 @@
 pkgbase=python-asteval
 pkgname=('python-asteval' 'python2-asteval')
 _pkgname="${pkgbase#*-}"
-pkgver=0.9.14
+pkgver=0.9.15
 pkgrel=1
 pkgdesc='Minimal Python AST Evaluator'
 arch=('any')
@@ -18,9 +18,7 @@ _deppy=(
   'python>=3.7'
   'python<3.8'
 )
-_depends=(
-  'python-numpy>=1.6'
-  'python-six')
+_depends=()
 _makedepends=(
   'python-setuptools')
 _checkdepends=(
@@ -36,7 +34,7 @@ checkdepends=(
   "${_checkdepends[@]}" "${_checkdepends[@]/python/python2}"
   )
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/newville/${_pkgname}/archive/${pkgver}.tar.gz")
-sha512sums=('8033646da18511f44a4d7803b939c328225f8fe5fe52a23a3a7946c36c250117dc1440affaaebe81d814f6cd9e9d55a91d3a78426bc04fc7577a8e50ec7acf0c')
+sha512sums=('d7f9796e9c3208a6b2d9753165d19fecf92a1f059a34c195c5fb15d377c7a9a5bd2ab073615ac820f60ad71a5946fc3a1a899451d59f5cde65351d9d68d832ae')
 
 prepare() {
   mv "${_pkgname}-${pkgver}" "${_pkgname}-py-${pkgver}"
