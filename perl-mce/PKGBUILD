@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (ef0b8d9e9ed5e7aec93f3e72d031ac7ee7fb4246e042c09b06bbdcecfbc0e3c879d26484951ecde4eb4b299510817c6aead5d93f6a73544b768ed6467f4108fc)
 
 pkgname='perl-mce'
-pkgver=1.844
+pkgver=1.845
 pkgrel=1
 pkgdesc='Many-Core Engine for Perl providing parallel processing capabilities'
 arch=('any')
@@ -12,10 +12,11 @@ optdepends=(
   'perl-sereal-decoder'
   'perl-sereal-encoder')
 makedepends=(
+  'perl>=5.8.0'
   'perl-extutils-makemaker'
-  'perl-test-simple>=0.88'
-  'perl>=5.8.0')
+  'perl-test-simple>=0.88')
 depends=(
+  'perl>=5.8.0'
   'perl-base'
   'perl-carp'
   'perl-constant'
@@ -25,42 +26,41 @@ depends=(
   'perl-scalar-list-utils'
   'perl-socket'
   'perl-storable>=2.04'
-  'perl-time-hires'
-  'perl>=5.8.0')
+  'perl-time-hires')
 provides=(
-  'perl-mce-candy=1.844'
-  'perl-mce-channel-mutex=1.844'
-  'perl-mce-channel-simple=1.844'
-  'perl-mce-channel-threads=1.844'
-  'perl-mce-channel=1.844'
-  'perl-mce-child=1.844'
-  'perl-mce-core-input-generator=1.844'
-  'perl-mce-core-input-handle=1.844'
-  'perl-mce-core-input-iterator=1.844'
-  'perl-mce-core-input-request=1.844'
-  'perl-mce-core-input-sequence=1.844'
-  'perl-mce-core-manager=1.844'
-  'perl-mce-core-validation=1.844'
-  'perl-mce-core-worker=1.844'
-  'perl-mce-flow=1.844'
-  'perl-mce-grep=1.844'
-  'perl-mce-loop=1.844'
-  'perl-mce-map=1.844'
-  'perl-mce-mutex-channel2=1.844'
-  'perl-mce-mutex-channel=1.844'
-  'perl-mce-mutex-flock=1.844'
-  'perl-mce-mutex=1.844'
-  'perl-mce-queue=1.844'
-  'perl-mce-relay=1.844'
-  'perl-mce-signal=1.844'
-  'perl-mce-step=1.844'
-  'perl-mce-stream=1.844'
-  'perl-mce-subs=1.844'
-  'perl-mce-util=1.844')
+  'perl-mce-candy=1.845'
+  'perl-mce-channel=1.845'
+  'perl-mce-channel-mutex=1.845'
+  'perl-mce-channel-simple=1.845'
+  'perl-mce-channel-threads=1.845'
+  'perl-mce-child=1.845'
+  'perl-mce-core-input-generator=1.845'
+  'perl-mce-core-input-handle=1.845'
+  'perl-mce-core-input-iterator=1.845'
+  'perl-mce-core-input-request=1.845'
+  'perl-mce-core-input-sequence=1.845'
+  'perl-mce-core-manager=1.845'
+  'perl-mce-core-validation=1.845'
+  'perl-mce-core-worker=1.845'
+  'perl-mce-flow=1.845'
+  'perl-mce-grep=1.845'
+  'perl-mce-loop=1.845'
+  'perl-mce-map=1.845'
+  'perl-mce-mutex=1.845'
+  'perl-mce-mutex-channel=1.845'
+  'perl-mce-mutex-channel2=1.845'
+  'perl-mce-mutex-flock=1.845'
+  'perl-mce-queue=1.845'
+  'perl-mce-relay=1.845'
+  'perl-mce-signal=1.845'
+  'perl-mce-step=1.845'
+  'perl-mce-stream=1.845'
+  'perl-mce-subs=1.845'
+  'perl-mce-util=1.845')
 url='https://metacpan.org/release/MCE'
 _distdir="MCE-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MA/MARIOROY/${_distdir}.tar.gz")
-sha512sums=('91e130a1f33bdde5ec333b880275d155266fa1c7583ca3c0b491f79273d4475fec4cf4c94c4a4460a6d64ee64f7416c2ff2f076206349ec554f91a0877e56d9f')
+sha512sums=('0ec363748737d7494cbd67b572caa90f17a350a9d99cbe66e9e94ccafb615b32fac98950b12a862c5a302206c2037359e30651ce836e4218e32123acea286446')
 
 build() {
   cd "${srcdir}/${_distdir}"
