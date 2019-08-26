@@ -2,7 +2,7 @@
 
 pkgname='local-certificates'
 arch=('any')
-pkgver=2019.08.18.16.29.39
+pkgver=2019.08.26.13.06.58
 pkgrel=1
 pkgdesc='Certificate for local version of https://arch.eckner.net'
 license=('GPL')
@@ -14,16 +14,32 @@ source=(
   'https://eckner.net/certs/2019-07-27T08:34:32.backup-lo.ddns.eckner.net.cert.pem.new'
   'https://eckner.net/certs/2019-07-30T09:29:05.fileserver-lo.ddns.eckner.net.cert.pem'
   'https://eckner.net/certs/2019-07-30T09:32:07.fileserver-lo.ddns.eckner.net.cert.pem.new'
-  'https://eckner.net/certs/2019-07-04T09:49:15.arch.eckner.net.cert.pem'
-  'https://eckner.net/certs/2019-08-18T16:29:39.arch.eckner.net.cert.pem.new'
+  'https://eckner.net/certs/2019-08-26T13:01:36.arch.eckner.net.cert.pem'
+  'https://eckner.net/certs/2019-08-26T13:01:56.arch.home.eckner.net.cert.pem'
+  'https://eckner.net/certs/2019-08-26T13:02:26.git2.eckner.net.cert.pem'
+  'https://eckner.net/certs/2019-08-26T13:02:33.home.eckner.net.cert.pem'
+  'https://eckner.net/certs/2019-08-26T13:03:14.mirror.home.eckner.net.cert.pem'
+  'https://eckner.net/certs/2019-08-26T13:05:44.arch.eckner.net.cert.pem.new'
+  'https://eckner.net/certs/2019-08-26T13:06:33.arch.home.eckner.net.cert.pem.new'
+  'https://eckner.net/certs/2019-08-26T13:06:37.git2.eckner.net.cert.pem.new'
+  'https://eckner.net/certs/2019-08-26T13:06:40.home.eckner.net.cert.pem.new'
+  'https://eckner.net/certs/2019-08-26T13:06:58.mirror.home.eckner.net.cert.pem.new'
 )
 sha512sums=(
   'e69b4fb3caa45c4d214d4083bc235ad31f4125a6bf6ded4041160c371d20889c5067550f4acdd066a1dc68b2fc859084e9197bdedcae1aa29c74aedbe933ac5a'
   'c99bcf732b5110c1137d2d1bf938e50f332b49b63c36f957dd2a6b51e224a7dfba6a5c096d0e9a67149318094405deb773677cfa2bccfa806d72c6c17e8aaa63'
   'cf8617da05d72e20c766d8a68cae3ef7f4ee47f9660912f61557c54df414b7b7a495c5b852afc14775698ea11cbc57ec19a78c6a2948547fe2aff0df271802be'
   '87cf81fe24916c0899b0adc49cea5129447a538310d06e425daa3e58d56acb5aac185804f7e53fff28ecb4e6cd6d599f64d00e831f35578a673dddc77eb17fb3'
-  'd8de0d8d71f132d4a9c9afd0e226092e7381f42b5e915c192d64017bbf8c2124143e05760de1c56a09ed35ca59da2985fa0cb92c7f500d79dd6fe7c1f1256a11'
-  '010617d73fc883de9405cd63aaeca7944bf4b607f234a6f2ff84d569ea92b816ef813d4c1599d042e5c5f07b80933ac157a9be030adf5f25f70848899db8eade'
+  '88eab6f48c3009c0548c47194c2eea6256046de3ae976465d6c4c889ccbbdbbb49ebb36e77f01994184ce02c32ea2875eaa1df4081656e54244daf57a26a33b9'
+  '0db9313f00c5ce0b6822ad22148e2bcbbc7ff59afae1f6a2e388e0b685fab333a4093b3f7adc9c3cdb15ad8340d145038b204bb8042fc1fff3d07b5ef86867ae'
+  '7ebe97c71b321cf65b69c368a57fd8d1808fc85989c28fb850b3786353a523a51872eb0a4c1c4f29e06829033ed06355c69216d32d5c0a3ce98889d4af32dfc9'
+  '7ad3486144bee179383c1e7611a51023ee03595d2ad678f0656d9197810ed90c98e29ec847abd3b25323e1088f76108740547ea676653bfcb5076f33b4ba27ee'
+  '1fc55651ed1cca85ad7905fd8a00a192bd3d34a16309b10bb4a3ed36aeddca8c1d32ab90b54aba5b261d5370973617cea56e96d0c9078dc89e8a6585ba4048fb'
+  '333220459c11239a20511b9d2e60b404b506c140ac5ad5628536598428d99117953415a7da4d48d645e82748bf0c8809f22f6ca29d41192fb810bc19d90a71c5'
+  '51bb167ef935ba1bd362eca5625d5991947ae9a7107f5de4f04ff2338f4ed91cdc48e9138171f57dbd73e9fa74b1eceaf1c02015985bb7f74e3c0d4302179567'
+  '269a348b20074687db1749ac10b3be9ceffae95683b0b7a8515c52aaea24712d6e221f3d6777e72e32f862dab5bd6750757985f505b06ea39fa68aedc6b49f5c'
+  '5ab09d6e19204bc839472b3f794dc15dfefd4035d708978aa453a564cf520bcc9a2ca30906b4c6c64a00e15d253437b835e18a3616e2676741779d5be73daaa9'
+  '456a110174b61bc8b9dc55a124b81745a9721e60370045fe87bbaa4bfecc7897d9b4a945940719ab610fbf0dca19ef48632318aca74bb1f3a83dcbcdfe2c6660'
 )
 
 package() {
