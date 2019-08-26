@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-file-find-object-rule'
-pkgver=0.0310
-pkgrel=2
+pkgver=0.0311
+pkgrel=1
 pkgdesc="Alternative interface to File::Find::Object"
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,8 +17,7 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.88')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
+  'perl>=5.8.0'
   'perl-carp'
   'perl-class-xsaccessor'
   'perl-file-find-object'
@@ -32,7 +31,7 @@ checkdepends=(
 url='http://search.cpan.org/~shlomif/File-Find-Object-Rule-0.0305/'
 _distdir="File-Find-Object-Rule-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
-sha512sums=('d77f600a43a45fddf84fd9689666fb90d3dc87fb444e575a111bcebec482d570201e591764513f345941983935f1761bf4e2704d1a70babd6b3ba12ba3d8a74d')
+sha512sums=('ac187c22e05b736245ba8acecd4845d036580ba12be478254a9e74d3c397f1b3e97c1041eb8da256bb147dffd3943d9286a8955f94594a3e426a6ec8f9acc3be')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
