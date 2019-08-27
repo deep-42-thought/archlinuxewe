@@ -2,7 +2,7 @@
 
 pkgname='local-certificates'
 arch=('any')
-pkgver=2019.08.26.13.06.58
+pkgver=2019.08.27.07.16.18
 pkgrel=1
 pkgdesc='Certificate for local version of https://arch.eckner.net'
 license=('GPL')
@@ -12,8 +12,6 @@ url='https://eckner.net/certs'
 source=(
   'https://eckner.net/certs/2019-07-27T08:33:41.backup-lo.ddns.eckner.net.cert.pem'
   'https://eckner.net/certs/2019-07-27T08:34:32.backup-lo.ddns.eckner.net.cert.pem.new'
-  'https://eckner.net/certs/2019-07-30T09:29:05.fileserver-lo.ddns.eckner.net.cert.pem'
-  'https://eckner.net/certs/2019-07-30T09:32:07.fileserver-lo.ddns.eckner.net.cert.pem.new'
   'https://eckner.net/certs/2019-08-26T13:01:36.arch.eckner.net.cert.pem'
   'https://eckner.net/certs/2019-08-26T13:01:56.arch.home.eckner.net.cert.pem'
   'https://eckner.net/certs/2019-08-26T13:02:26.git2.eckner.net.cert.pem'
@@ -24,12 +22,12 @@ source=(
   'https://eckner.net/certs/2019-08-26T13:06:37.git2.eckner.net.cert.pem.new'
   'https://eckner.net/certs/2019-08-26T13:06:40.home.eckner.net.cert.pem.new'
   'https://eckner.net/certs/2019-08-26T13:06:58.mirror.home.eckner.net.cert.pem.new'
+  'https://eckner.net/certs/2019-08-27T07:10:41.fileserver-lo.ddns.eckner.net.cert.pem'
+  'https://eckner.net/certs/2019-08-27T07:16:18.fileserver-lo.ddns.eckner.net.cert.pem.new'
 )
 sha512sums=(
   'e69b4fb3caa45c4d214d4083bc235ad31f4125a6bf6ded4041160c371d20889c5067550f4acdd066a1dc68b2fc859084e9197bdedcae1aa29c74aedbe933ac5a'
   'c99bcf732b5110c1137d2d1bf938e50f332b49b63c36f957dd2a6b51e224a7dfba6a5c096d0e9a67149318094405deb773677cfa2bccfa806d72c6c17e8aaa63'
-  'cf8617da05d72e20c766d8a68cae3ef7f4ee47f9660912f61557c54df414b7b7a495c5b852afc14775698ea11cbc57ec19a78c6a2948547fe2aff0df271802be'
-  '87cf81fe24916c0899b0adc49cea5129447a538310d06e425daa3e58d56acb5aac185804f7e53fff28ecb4e6cd6d599f64d00e831f35578a673dddc77eb17fb3'
   '88eab6f48c3009c0548c47194c2eea6256046de3ae976465d6c4c889ccbbdbbb49ebb36e77f01994184ce02c32ea2875eaa1df4081656e54244daf57a26a33b9'
   '0db9313f00c5ce0b6822ad22148e2bcbbc7ff59afae1f6a2e388e0b685fab333a4093b3f7adc9c3cdb15ad8340d145038b204bb8042fc1fff3d07b5ef86867ae'
   '7ebe97c71b321cf65b69c368a57fd8d1808fc85989c28fb850b3786353a523a51872eb0a4c1c4f29e06829033ed06355c69216d32d5c0a3ce98889d4af32dfc9'
@@ -40,6 +38,8 @@ sha512sums=(
   '269a348b20074687db1749ac10b3be9ceffae95683b0b7a8515c52aaea24712d6e221f3d6777e72e32f862dab5bd6750757985f505b06ea39fa68aedc6b49f5c'
   '5ab09d6e19204bc839472b3f794dc15dfefd4035d708978aa453a564cf520bcc9a2ca30906b4c6c64a00e15d253437b835e18a3616e2676741779d5be73daaa9'
   '456a110174b61bc8b9dc55a124b81745a9721e60370045fe87bbaa4bfecc7897d9b4a945940719ab610fbf0dca19ef48632318aca74bb1f3a83dcbcdfe2c6660'
+  'c019c3ceae7b86bd74d37f0ed477d269413b14b32ca80b39983ccac82a07d46e73b7e3b81a18381691a2e0d05fdca111e7d49b85e8e0295396f1cae31eeb6f2a'
+  'db6a8034f235053c60a40a30169a278777580a8c1d30b70c5f099ecb2ed3a350066981043378283b5c2c8e12adb00df908598af1b95085acd7f8d1ff61a14244'
 )
 
 package() {
