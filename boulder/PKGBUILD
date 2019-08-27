@@ -1,0 +1,62 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=boulder
+pkgver='2019_08_26'
+_pkgver="${pkgver//_/-}"
+pkgrel=1
+pkgdesc='ACME-compatible X.509 Certificate Authority'
+arch=('x86_64' 'i686' 'pentium4')
+url='https://github.com/letsencrypt/boulder'
+license=('MPL2')
+groups=()
+depends=(
+  'libtool'
+)
+makedepends=(
+  'go'
+)
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+source=(
+  "${pkgname}-${_pkgver}.tar.gz::https://github.com/letsencrypt/${pkgname}/archive/release-${_pkgver}.tar.gz"
+)
+sha512sums=(
+  'd047e0398d616535aee98401d663ce1ec7f098e20ccda4b6b045166284488d3762526446623dda6a83634f936ffb1bf4be2915dd7d9ce84099298a3360533a50'
+)
+
+prepare() {
+
+  cd "${pkgname}-release-${_pkgver}"
+  sed -i '
+    / go install / s/ \$(GO_BUILD_FLAGS) / -buildmode=pie /
+  ' 'Makefile'
+
+}
+
+build() {
+
+  cd "${pkgname}-release-${_pkgver}"
+  make
+
+}
+
+package() {
+
+  cd "${pkgname}-release-${_pkgver}"
+
+  install -d -m755 "${pkgdir}/usr/bin"
+
+  find cmd -maxdepth 1 -mindepth 1 -type d -printf 'bin/%f\n' \
+  | grep -vxF 'bin/testdata' \
+  | xargs -r install -m755 -t "${pkgdir}/usr/bin/"
+
+  install -D -m755 -t "${pkgdir}/usr/lib/boulder/config" 'test/config/'*
+  install -D -m755 -t "${pkgdir}/usr/lib/boulder/data" 'data/'*
+  install -d -m755 "${pkgdir}/var/lib/boulder"
+  mv sa/_db "${pkgdir}/var/lib/boulder"
+
+}
