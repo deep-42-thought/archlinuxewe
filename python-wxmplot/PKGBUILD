@@ -2,7 +2,7 @@
 pkgbase=python-wxmplot
 pkgname=(python2-wxmplot python-wxmplot)
 _pkgname="${pkgbase#*-}"
-pkgver=0.9.37
+pkgver=0.9.38
 pkgrel=1
 pkgdesc='A library for plotting in wxPython using matplotlib'
 arch=('any')
@@ -31,9 +31,9 @@ makedepends=(
   "${_makedepends[@]/ython/ython2}"
 )
 source=(
-    "https://pypi.python.org/packages/80/8a/51676250fa18b59264010fbbec5057b73ada6cfde6fae3cd0a69e8921ab1/${_pkgname}-${pkgver}.tar.gz"
+    "https://pypi.python.org/packages/49/73/52cafb2bace498217576b059a3da012cbfca72ba2a0d3cbfd3b95c8eeae1/${_pkgname}-${pkgver}.tar.gz"
 )
-sha512sums=('cf38e5a122314021868a79cf48adb34ed6ddb14c419c7c8ca8aa841c0ed90d971c05666b2906554b53d6f3bdb67af1357ba008ecb116022b88f7a0dc3e47c717')
+sha512sums=('f7590bbb6a573ed24db137fd66fd401515597df2028bca8396dd584179bd6635cda4a5ae228db6716d7601b1a86a153c46f217eef31db2b5d845946b4f864281')
 
 prepare() {
   cp -a ${_pkgname}-${pkgver}{,-py2}
