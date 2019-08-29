@@ -1,0 +1,42 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgbase=simple-pki
+pkgname=(simple-pki-ca simple-pki-cb)
+pkgver=0.0
+pkgrel=1
+arch=('any')
+url="https://git.eckner.net/Erich/${pkgname}"
+license=('GPL')
+makedepends=()
+source=(
+    "https://git.eckner.net/Erich/${pkgbase}/snapshot/${pkgbase}-${pkgver}.tar.xz"
+)
+sha512sums=('1bc7caab46eb7b3214cd10fdab280e0c32c878094b22efbcd1e5db6a747a9e3cc9cefb79edd98061930822001c3e1e395aa1b1308ab0a2dd55d3a25564696e5e')
+
+build() {
+
+  cd ${pkgbase}-${pkgver}
+  make
+
+}
+
+package_simple-pki-ca() {
+
+  backup=("etc/${pkgbase}/ca.conf")
+  pkgdesc="Scripts to manage a simple pki ca - including automatic renewal"
+  depends=('openssl' 'rsync')
+
+  cd ${pkgbase}-${pkgver}
+  make DESTDIR=${pkgdir} install-ca
+
+}
+
+package_simple-pki-cb() {
+
+  backup=("etc/${pkgbase}/cb.conf")
+  pkgdesc="Scripts to manage simple pki clients - including automatic renewal"
+  depends=('openssl' 'nginx')
+
+  cd ${pkgbase}-${pkgver}
+  make DESTDIR=${pkgdir} install-cb
+
+}
