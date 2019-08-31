@@ -2,13 +2,13 @@
 _pkgname='hardlinkedBackups'
 pkgname=hardlinked-backups
 pkgver=1.4.8
-pkgrel=1
+pkgrel=2
 pkgdesc='Generate hardlinked incremental backups via rsync (and possibly through a SOCKS-tunnel via ssh)'
 arch=('any')
 url="https://git.eckner.net/Erich/${_pkgname}"
 license=('GPL')
 groups=()
-depends=('rsync')
+depends=('rsync' 'bc')
 makedepends=('help2man')
 checkdepends=()
 optdepends=()
