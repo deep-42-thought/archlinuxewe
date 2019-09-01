@@ -2,9 +2,9 @@
 # Contributor: Adrian C. <anrxc..sysphere.org>
 
 pkgname=alpine
-pkgver=2.21.99999.r13.418e8bc
+pkgver=2.21.99999.r14.6076d5d
 _commit=${pkgver##*.}
-pkgrel=2
+pkgrel=1
 arch=("i686" "pentium4" "x86_64")
 pkgdesc="Apache licensed PINE mail user agent"
 url="http://alpine.freeiz.com"
@@ -20,14 +20,17 @@ replaces=("pine")
 options=("!makeflags")
 source=(
   "alpine::git://repo.or.cz/alpine.git#commit=${_commit}"
+  'rules.patch'
   'topal-patch.patch'
 )
 sha512sums=('SKIP'
+            'b6719c245e5539af07d18b14e4e30e47c8ac1fcd91b431de40e8c0968c09707c1476adb1d322567e0683f28923022aed07291781de055298b49e39d897dbec23'
             'bdaf9f0ed2bb9d10eaf4b456e24684cd09eb9e97ae2cf6eb4a2bc2bb5e231e8254d79efa63da9918022302fd970180f2dcd90a69d8c8d817c729c6a18fd6d506')
 
 prepare() {
   cd "${srcdir}/${pkgname}"
   patch -p1 -i "${srcdir}/topal-patch.patch"
+  patch -p1 -i "${srcdir}/rules.patch"
 }
 
 pkgver() {
