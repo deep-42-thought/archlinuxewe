@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-string-wildcard-bash'
-pkgver=0.040
+pkgver=0.043
 pkgrel=1
 pkgdesc='Bash wildcard string routines'
 arch=('any')
@@ -13,6 +13,7 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
+  'perl-test-exception'
   'perl-test-simple>=0.98')
 depends=(
   'perl>=5.10.1'
@@ -25,7 +26,7 @@ checkdepends=(
 url='https://metacpan.org/release/String-Wildcard-Bash'
 _distdir="String-Wildcard-Bash-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('3af225c2efd4b54424c19b7efd90d2180f7fc03f855c0fadacc5254a4683f325b8208b77a3df516d6743a9699cbce74602fe099dec029fb11e848fda3af2f83a')
+sha512sums=('7a846a30ac2844879be7a56c15364c77f65ccad7726e615b5a024f869fcd0c9f897bb23a1e1b534ab9a898d06e5cdf3a3ca68fd244389d39b1902158bd6478db')
 
 build() {
   cd "${srcdir}/${_distdir}"
