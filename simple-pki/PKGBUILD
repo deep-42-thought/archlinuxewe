@@ -21,7 +21,15 @@ build() {
 
 package_simple-pki-ca() {
 
-  backup=("etc/${pkgbase}/ca.conf")
+  backup=(
+    "etc/${pkgbase}/ca.conf"
+    "etc/${pkgbase}/ca-ssl.conf"
+  )
+  for suffix in '.crl.srl' '.crt.srl' '.db' '.db.attr'; do
+    backup+=(
+      "etc/${pkgbase}/ca/root-ca/db/root-ca${suffix}"
+      "etc/${pkgbase}/ca/signing-ca/db/signing-ca${suffix}"
+    )
   pkgdesc="Scripts to manage a simple pki ca - including automatic renewal"
   depends=('openssl' 'rsync')
 
@@ -32,7 +40,10 @@ package_simple-pki-ca() {
 
 package_simple-pki-cb() {
 
-  backup=("etc/${pkgbase}/cb.conf")
+  backup=(
+    "etc/${pkgbase}/cb.conf"
+    "etc/${pkgbase}/server-ssl.conf"
+  )
   pkgdesc="Scripts to manage simple pki clients - including automatic renewal"
   depends=('openssl' 'nginx')
 
