@@ -30,6 +30,7 @@ package_simple-pki-ca() {
       "etc/${pkgbase}/ca/root-ca/db/root-ca${suffix}"
       "etc/${pkgbase}/ca/signing-ca/db/signing-ca${suffix}"
     )
+  done
   pkgdesc="Scripts to manage a simple pki ca - including automatic renewal"
   depends=('openssl' 'rsync')
 
