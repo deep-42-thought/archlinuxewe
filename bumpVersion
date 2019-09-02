@@ -170,7 +170,7 @@ if [ "${paket}" != 'qgis-git' ]; then
   rm -rf "src" "pkg"
   sudo pacman -Sy
   makepkg -fcsr --noconfirm --asdeps || exit 1
-  namcap ${paket}-${remVer}-1-*.pkg.tar.xz || exit 1
+  namcap "$(makepkg --packagelist)" || exit 1
 fi
 git commit PKGBUILD -m "${paket} ${pkgver}-${pkgrel} -> ${remVer}-1"
 
