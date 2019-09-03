@@ -674,20 +674,27 @@ then
         echo "/${quVer#*.com/}/tag/" | \
           tr '[[:upper:]]' '[[:lower:]]'
       )
+      if [ "${pkgname}" == 'boulder' ]; then
+        extra_chars='-'
+      else
+        extra_chars=''
+      fi
       remVer=$( \
         curl_it "${quVer}" | \
           tr "\"" "\n" | \
           tr '[[:upper:]]' '[[:lower:]]' | \
-          grep "^${quNam}\(v\|release%2f\|\)[0-9.]\+\$" | \
-          sed "s@^${quNam}\(v\|release%2f\|\)@@" | \
-          (
-            if [ "${pkgname}" == "conky-irc" ]
-            then
-              grep -v '\.999$'
-            else
-              cat
-            fi
-          ) | \
+          grep "^${quNam}\(v\|release\(%2f\|-\)\|\)[${extra_chars}0-9.]\+\$" | \
+          sed "s@^${quNam}\(v\|release\(%2f\|-\)\|\)@@" | \
+          if [ -n "${extra_chars}" ]; then
+            tr "${extra_chars}" '_'
+          else
+            cat
+          fi | \
+          if [ "${pkgname}" == "conky-irc" ]; then
+            grep -v '\.999$'
+          else
+            cat
+          fi | \
           latest_version
       )
     elif echo "${src}" | \
