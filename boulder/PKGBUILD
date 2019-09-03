@@ -19,7 +19,29 @@ optdepends=()
 provides=()
 conflicts=()
 replaces=()
-backup=()
+backup=(
+  'etc/boulder/config/admin-revoker.json'
+  'etc/boulder/config/akamai-purger.json'
+  'etc/boulder/config/ca-a.json'
+  'etc/boulder/config/ca-b.json'
+  'etc/boulder/config/cert-checker.json'
+  'etc/boulder/config/contact-exporter.json'
+  'etc/boulder/config/expiration-mailer.json'
+  'etc/boulder/config/nonce.json'
+  'etc/boulder/config/notify-mailer.json'
+  'etc/boulder/config/ocsp-responder.json'
+  'etc/boulder/config/ocsp-updater.json'
+  'etc/boulder/config/orphan-finder.json'
+  'etc/boulder/config/publisher.json'
+  'etc/boulder/config/ra.json'
+  'etc/boulder/config/sa.json'
+  'etc/boulder/config/va.json'
+  'etc/boulder/config/wfe.json'
+  'etc/boulder/config/wfe2.json'
+  'etc/boulder/data/'
+  'etc/boulder/data/production-email.template'
+  'etc/boulder/data/staging-email.template'
+)
 options=()
 source=(
   "${pkgname}-${_pkgver}.tar.gz::https://github.com/letsencrypt/${pkgname}/archive/release-${_pkgver}.tar.gz"
@@ -42,6 +64,11 @@ build() {
   cd "${pkgname}-release-${_pkgver}"
   make
 
+  find 'test/config' -type f \
+    -exec sed -i '
+      s@"test/@
+    ' {} +
+
 }
 
 package() {
@@ -54,9 +81,9 @@ package() {
   | grep -vxF 'bin/testdata' \
   | xargs -r install -m755 -t "${pkgdir}/usr/bin/"
 
-  install -D -m755 -t "${pkgdir}/usr/lib/boulder/config" 'test/config/'*
-  install -D -m755 -t "${pkgdir}/usr/lib/boulder/data" 'data/'*
-  install -d -m755 "${pkgdir}/var/lib/boulder"
-  mv sa/_db "${pkgdir}/var/lib/boulder"
+  install -D -m755 -t "${pkgdir}/etc/boulder/config" 'test/config/'*
+  install -D -m755 -t "${pkgdir}/etc/boulder/data" 'data/'*
+  install -d -m755 "${pkgdir}/var/lib/boulder/sa"
+  mv sa/_db "${pkgdir}/var/lib/boulder/sa"
 
 }
