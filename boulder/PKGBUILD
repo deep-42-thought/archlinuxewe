@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=boulder
-pkgver='2019_08_26'
+pkgver=2019_09_03
 _pkgver="${pkgver//_/-}"
 pkgrel=1
 pkgdesc='ACME-compatible X.509 Certificate Authority'
@@ -46,9 +46,7 @@ options=()
 source=(
   "${pkgname}-${_pkgver}.tar.gz::https://github.com/letsencrypt/${pkgname}/archive/release-${_pkgver}.tar.gz"
 )
-sha512sums=(
-  'd047e0398d616535aee98401d663ce1ec7f098e20ccda4b6b045166284488d3762526446623dda6a83634f936ffb1bf4be2915dd7d9ce84099298a3360533a50'
-)
+sha512sums=('13e9a869ee64025555a2a394e52310d9f6d51f79bc887bb61fc963b7398feeae5f6a0ac93d9eece13a2f1bfb418dd460906661051b8d0446427f5b5c43b16a53')
 
 prepare() {
 
@@ -66,7 +64,7 @@ build() {
 
   find 'test/config' -type f \
     -exec sed -i '
-      s@"test/@
+      s@"test/@"@
     ' {} +
 
 }
