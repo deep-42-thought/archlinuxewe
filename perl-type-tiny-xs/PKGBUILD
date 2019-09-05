@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (b6b38950d6596a6b9c7daebff086e87ac7c52d7c67341448ddbf27cfc93ad0836e7e1ff0466576da6e0329a31218720cd80cb90d767a4433e8394147ba1195b2)
 
 pkgname='perl-type-tiny-xs'
-pkgver=0.015
+pkgver=0.016
 pkgrel=1
 pkgdesc='provides an XS boost for some of Type::Tiny'"'"'s built-in type constraints'
 arch=('x86_64' 'i686' 'pentium4')
@@ -14,11 +14,11 @@ makedepends=(
 depends=(
   'perl>=5.10.1')
 provides=(
-  'perl-type-tiny-xs-util=0.015')
+  'perl-type-tiny-xs-util=0.016')
 url='https://metacpan.org/release/Type-Tiny-XS'
 _distdir="Type-Tiny-XS-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/${_distdir}.tar.gz")
-sha512sums=('85cfe1ab5658d2b60d8e9e4dac367e418cfdd3dd133896243eceb05114664aa6a891dc345845de5e20302d077a6072a8ade2c368de81cb9eebf598dec2acc29b')
+sha512sums=('a21e2d9f08f734d27c14dfa7385c2a6c7309436b650be7d2607e400d039b77a5e4db9197f829dd9d848966dcdd8f2f0de93fc51ed2207d09dd53fe03d7b28697')
 
 build(){
   cd "${srcdir}/${_distdir}"
