@@ -2,33 +2,33 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-ipc-system-options'
-pkgver=0.331
-pkgrel=2
+pkgver=0.332
+pkgrel=1
 pkgdesc='Perl'"'"'s system() and readpipe/qx replacement, with options'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 optdepends=(
   'perl-log-ger')
+makedepends=(
+  'perl'
+  'perl-extutils-makemaker'
+  'perl-file-temp'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-exception'
+  'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
   'perl'
   'perl-capture-tiny'
   'perl-ipc-run'
   'perl-pathtools'
   'perl-proc-childerror'
   'perl-string-shellquote')
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-file-temp'
-  'perl-io'
-  'perl-test-exception'
-  'perl-test-simple>=0.98')
 url='https://metacpan.org/release/IPC-System-Options'
 _distdir="IPC-System-Options-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('5cb129ea95fd45640a9364a5c1ff930d726e40a02b7d423bba7f4cab810d13f193ee46f2adafe3c339e2039e63e55566bd744bcd3ba577bb2a16684a39bc16aa')
+sha512sums=('48ee96c6b60d40b8e70ec09a8913ac9ee9ca14fc13238973b062df9629dda53cf2501c38c0f4b5cbbc46fa309b985fcdd6544c9b3234a338414e8724967045cd')
 
 build() {
   cd "${srcdir}/${_distdir}"
