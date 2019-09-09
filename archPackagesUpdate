@@ -505,7 +505,7 @@ if ${aufRechenknecht}; then
         if [ ${err[${i}]} -eq 0 ] && [ "${arch}" != 'x86_64' ] && [ "${arch}" != 'any' ]; then
           {
             printf '%s\n' \
-              "From: archlinux-reports@eckner.net" \
+              "From: plasmapaule@gmail.com" \
               "To: buildmaster@archlinux32.org" \
               "Subject: $(hostname) - report about installed ${arch} packages" \
               ""
@@ -515,17 +515,16 @@ if ${aufRechenknecht}; then
               -name '*.pkg.tar.xz' \
               -exec bsdtar -Oxf {} .BUILDINFO \; \
             | sed '
-              s@^installed = \(.*\)$@/var/cache/archbuild/\1.pkg.tar.xz@
+              s@^installed = \(.*\)$@/var/cache/archbuild32/\1.pkg.tar.xz@
               t
               d
             ' \
             | xargs -r sha512sum \
             2>/dev/null \
             | sed '
-              s@\s\+.*/@@
-            ' \
-            | xargs -r sha512sum \
-            | sed 's/^/stabilize: /'
+              s@\s\+.*/@ @
+              s/^/stabilize: /
+            '
           } | \
             sendmailadvanced -t
         fi
