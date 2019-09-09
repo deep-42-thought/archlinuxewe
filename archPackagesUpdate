@@ -550,8 +550,9 @@ if ${aufRechenknecht}; then
             printf 'export %s="%s"\n' \
               'SRCDEST' '${HOME}/packageSources' \
               'PACKAGER' "${PACKAGER}"
-            printf 'archlinuxewe-%s-build -- -- -- %s >&2\n' \
+            printf 'archlinuxewe-%s-build %s -- -- -- %s >&2\n' \
               "${arch}" \
+              "${cleanChroot}" \
               "${log} ${checkMakepkg}"
             printf 'tar -czf - *.pkg.tar.xz'
             [ -n "${log}" ] && \
