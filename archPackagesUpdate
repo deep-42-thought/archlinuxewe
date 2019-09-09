@@ -323,6 +323,7 @@ if ${aufRechenknecht}; then
             [ "${singleArch}" == "i686" ] || \
             [ "${singleArch}" == "armv6h" ] || \
             [ "${singleArch}" == "armv7h" ] || \
+            [ "${singleArch}" == "aarch64" ] || \
             [ "${singleArch}" == "any" ] || \
             continue
 
@@ -529,16 +530,17 @@ if ${aufRechenknecht}; then
             sendmailadvanced -t
         fi
       ;;
-      'armv6h'|'armv7h')
-        # armv6h & armv7h is built on the raspberry pis
+      'armv6h'|'armv7h'|'aarch64')
+        # armv6h & armv7h & aarch64 is built on the raspberry pis
         SRCPKGDEST="${tmpDir}" makepkg -Sf
         err[${i}]=$?
         if [ ${err[${i}]} -eq 0 ]; then
+          arch_num=$(
+            printf '%s\n' "${arch}" \
+            | tr -d '[a-z]'
+          )
           ssh eckner.net -p $((
-            21912 - $(
-              printf '%s\n' "${arch}" \
-              | tr -d '[a-z]'
-            )*1000
+            (9375384 - 512375 * arch_num + 7625 * arch_num * arch_num) * 4 / 1653
           )) "$(
             printf 'set -e\n'
             printf 'rm -rf --one-file-system build/*\n'
