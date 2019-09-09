@@ -320,6 +320,7 @@ if ${aufRechenknecht}; then
 
           [ "${singleArch}" == "x86_64" ] || \
             [ "${singleArch}" == "pentium4" ] || \
+            [ "${singleArch}" == "i486" ] || \
             [ "${singleArch}" == "i686" ] || \
             [ "${singleArch}" == "armv6h" ] || \
             [ "${singleArch}" == "armv7h" ] || \
@@ -478,7 +479,7 @@ if ${aufRechenknecht}; then
       done
 
     case "${arch}" in
-      'any'|'i686'|'pentium4'|'x86_64')
+      'any'|'i486'|'i686'|'pentium4'|'x86_64')
         if [ -n "${cleanChroot}" ]; then
           build_mode='archbuild'
         elif sed -n '
