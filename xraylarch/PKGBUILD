@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=xraylarch
-pkgver=0.9.45
-pkgrel=2
+pkgver=0.9.46
+pkgrel=1
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://xraypy.github.io/xraylarch/"
@@ -56,10 +56,8 @@ source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/xraypy/${pkgname}/archive/${pkgver}.tar.gz"
     'remove-icons.patch'
 )
-sha512sums=(
-    '227e0ccbf599cf9ef3ba69bb48005202e3166f97c5d24a99883ad2a94c5013ab60ac24494b87514a6008899209532c305829506c0d01dc5b3eaf60a74f2087ab'
-    '8a2cff40315c38cb17a6841731704d5a375d25a13949227ad914abfdd46aef55dcc24e375176119634df773ece63422a2dc64fc843b6bae40232ffa2a5bb80ab'
-)
+sha512sums=('bc9fb61aaeae979d644518b0fd951c62bda9614dfc0514383eb974f6dcbd695a5b13ff8f6c7e23c4b38d9323ce482dd8ba42fb1680915778759aa4520896dcb3'
+            '393a8ceee595b91a0fabb14e4054c701d02c42cca4359ed4b1ccb14a6364c60bf422928b1b9d71cbd1b65264218e6a29a5ca8ccbca5cd358438d4d3a2db87821')
 
 prepare() {
 
