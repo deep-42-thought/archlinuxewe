@@ -2,19 +2,14 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-clean-json'
-pkgver=0.391
-pkgrel=2
+pkgver=0.392
+pkgrel=1
 pkgdesc='Clean data so it is safe to output to JSON'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-data-clean>=0.500'
-  'perl-exporter>=5.57'
-  'perl-parent')
 makedepends=(
+  'perl'
   'perl-datetime'
   'perl-extutils-makemaker'
   'perl-io'
@@ -24,6 +19,11 @@ makedepends=(
   'perl-test-exception'
   'perl-test-needs'
   'perl-test-simple>=0.98')
+depends=(
+  'perl>=5.10.1'
+  'perl-data-clean>=0.505'
+  'perl-exporter>=5.57'
+  'perl-parent')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-perl-critic'
@@ -33,7 +33,7 @@ checkdepends=(
 url='https://metacpan.org/release/Data-Clean-JSON'
 _distdir="Data-Clean-JSON-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('844b9736b689261c2755e4cc542b98b3ecd9449d551d2f669474ba55750bfb958c97ac13dc344ac2277932f25014d662629ae5717f3755159141bbfe7b73be0e')
+sha512sums=('5196ec188a3bdfab2095254e35d0041287867e4b22da2f43ee972b33224836600309a51ba129382dbe656b5e68921d5633c3d43ef1d08efb68caed4466652023')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
