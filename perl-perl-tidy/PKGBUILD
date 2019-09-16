@@ -2,22 +2,20 @@
 # Generator : neuesPerlPaket (81044437a0458748ba63ce98e280fb950cfc5fd9f6a8e92edb2cd237a9a993a3dd847afaa0873f9e70622698c95b48c06c84512f1e0c154825fe84c9c758d8fa)
 
 pkgname='perl-perl-tidy'
-pkgver=20190601
-pkgrel=2
+pkgver=20190915
+pkgrel=1
 pkgdesc='indent and reformat perl scripts'
 arch=('any')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl')
 makedepends=(
   'perl-extutils-makemaker')
+depends=(
+  'perl')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 url='https://metacpan.org/release/Perl-Tidy'
 _distdir="Perl-Tidy-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SH/SHANCOCK/${_distdir}.tar.gz")
-sha512sums=('bde2432a0092618297723e4f1513f57a0745b560edd064675515fbb31b7d14d9e48d607824ec7fa3f7502328f7423987460db059249475e13f481aa6f4adfeea')
+sha512sums=('553d84bcba8cbe10c0a1e77ef9e31dfdc5957c758efa2bd556ff47a0a354f16eec922842a36c4ccdaed691ffecb6a5dad63dfee2b038f4d2c5882a7e07bad51f')
 
 build() {
   cd "${srcdir}/${_distdir}"
