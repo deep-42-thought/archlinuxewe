@@ -535,6 +535,7 @@ if ${aufRechenknecht}; then
         SRCPKGDEST="${tmpDir}" makepkg -Sf
         err[${i}]=$?
         if [ ${err[${i}]} -eq 0 ]; then
+          eval "$(grep -F 'alias knock-knock' ~/.bashrc)"
           knock-knock
           arch_num=$(
             printf '%s\n' "${arch}" \
