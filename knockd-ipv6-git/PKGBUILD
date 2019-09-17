@@ -1,0 +1,69 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Markus Schanz <coksnuss@googlemail.com>
+# Contributor: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor: Mike Sampson <mike at sambodata dot com>
+# Contributor: Steven <steven at stebalien dot com>
+# Contributor: Aaron Griffin <aaron@archlinux.org>
+# Contributor: judd <jvinet@zeroflux.org>
+pkgname=knockd-ipv6-git
+pkgver=0.7.8.r19.ac5b0dc
+pkgrel=1
+pkgdesc="Latest upstream version of knockd with added IPv6 support. Based on community/knockd."
+arch=('armv6h' 'armv7h' 'aarch64' 'i486' 'i686' 'pentium4' 'x86_64')
+url="http://www.zeroflux.org/projects/knock"
+license=('GPL2')
+makedepends=('git')
+provides=("knockd")
+conflicts=("knockd")
+backup=('etc/knockd.conf')
+source=('git+https://github.com/Coksnuss/knock.git#tag='"${pkgver##*.}"
+        'knockd.logrotate'
+        'knockd.service')
+sha512sums=('SKIP'
+            '9ffad661a13b24c7723ff73bcf82a71fe3d3f705f773467fa731702f9c465c32424e07c7dd7da3b498f32ac605f0c297913b077e2e3a32e9476c381b9ecc9abb'
+            '6e5fec91e07fb74169798f320607bd413258af0af48bd2a9c006a02bc97ce4ea9a5293eb9e166b9870c086bf147fca1462b98b3d914d7a28708e9fa2cc9c85cb')
+
+pkgver() {
+  cd "${srcdir}/knock"
+  _rev=$(
+    git rev-parse --short master
+  )
+  _pkgver=$(
+    git archive "${_rev}" -- src/knockd.c \
+    | tar -Ox \
+    | sed -n '
+      s/^static char version\[] = "\([^"]\+\)";$/\1/
+      T
+      =
+      p
+    ' \
+    | sed '
+      N
+      s/\n/ /
+    '
+  )
+  _line="${_pkgver% *}"
+  _pkgver="${_pkgver#* }"
+  _rev_count=$(
+    git rev-list "${_rev}" ^$(git blame -L${_line},${_line} "${_rev}" -- src/knockd.c | cut -d' ' -f1) --count
+  )
+  printf '%s.r%s.%s' \
+    "${_pkgver}" \
+    "${_rev_count}" \
+    "${_rev}"
+}
+
+build() {
+  cd "$srcdir/knock"
+  autoreconf -fi
+  ./configure --prefix=/usr --sbin=/usr/bin --sysconfdir=/etc
+  make
+}
+
+package() {
+  cd "$srcdir/knock"
+  make DESTDIR="$pkgdir/" install
+  install -Dm 644 "${srcdir}/knockd.service" "${pkgdir}/usr/lib/systemd/system/knockd.service"
+  install -Dm 644 "${srcdir}/knockd.logrotate" "${pkgdir}/etc/logrotate.d/knockd"
+  install -Dm 644 "README.md" "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+}
