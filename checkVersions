@@ -938,12 +938,12 @@ then
           '
       )
     elif echo "${src}" | \
-      grep -q '//www.roguetemple.com/'
+      grep -qF '//www.roguetemple.com/'
     then
       remVer=$(
         curl_it "${src%/*}/download.php" | \
           sed '
-            s,^.*<a href="hyperrogue\([0-9]\+\)\([0-9][a-z]\)-src.tgz">[^<>]\+ source code</a>.*$,\1.\2,
+            s,^.*<a href="hyperrogue\([0-9]\+\)\([0-9][a-z]\?\)-src.tgz">[^<>]\+ source code</a>.*$,\1.\2,
             t
             d
           '
