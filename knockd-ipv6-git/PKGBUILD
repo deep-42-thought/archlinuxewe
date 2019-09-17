@@ -16,7 +16,7 @@ makedepends=('git')
 provides=("knockd")
 conflicts=("knockd")
 backup=('etc/knockd.conf')
-source=('git+https://github.com/Coksnuss/knock.git#tag='"${pkgver##*.}"
+source=('git+https://github.com/Coksnuss/knock.git#commit='"${pkgver##*.}"
         'knockd.logrotate'
         'knockd.service')
 sha512sums=('SKIP'
