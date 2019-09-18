@@ -1,0 +1,61 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (33c6c9203b72ee2a5768da57d0c22ba9d52c0789c4c1dda7940cff8502db67f4c28301a52801986a96627bbd701cbdf46511851817c2e3fdf1e2fb79afc1be53)
+
+pkgname='perl-sys-meminfo'
+pkgver='0.99'
+pkgrel='1'
+pkgdesc='query the total free and used physical memory'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+url='https://metacpan.org/release/Sys-MemInfo'
+_distdir="Sys-MemInfo-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/S/SC/SCRESTO/${_distdir}.tar.gz")
+sha512sums=('ad0f8a12db7f7c643d0eb2d68fb1dcbff43928b786d390243e89d88537bd99360f88af177678ce5141e3870224da80ea5a432c465e8c7ec384abd21014c0e1c0')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
