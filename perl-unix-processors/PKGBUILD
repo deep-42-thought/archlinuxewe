@@ -1,0 +1,65 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (28b2f74dba87d5b9704e48582062ab93f41cf91629ca4c2bf134bbcd713a9110c07bc8f2e76567c6a6ba6b63044d37bbacca314917992dc3c00b0f8a2ecd6016)
+
+pkgname='perl-unix-processors'
+pkgver='2.046'
+pkgrel='1'
+pkgdesc='Interface to processor (CPU) information'
+arch=('x86_64' 'i686')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl>=1'
+  'perl-test>=1'
+)
+url='https://metacpan.org/release/Unix-Processors'
+_distdir="Unix-Processors-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/W/WS/WSNYDER/${_distdir}.tar.gz")
+sha512sums=('2288927c1b0daffae312968e2c2ad6ba1604fc5657d2090ed6b25c81311818cb0d058770694fc56e2d95ecf93f22c25cd29aa311f113c75d967df6a2aa2600fb')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
