@@ -1,0 +1,77 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (33c6c9203b72ee2a5768da57d0c22ba9d52c0789c4c1dda7940cff8502db67f4c28301a52801986a96627bbd701cbdf46511851817c2e3fdf1e2fb79afc1be53)
+
+pkgname='perl-text-template-simple'
+pkgver='0.91'
+pkgrel='1'
+pkgdesc='Simple text template engine'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+optdepends=(
+  'perl-devel-size>=0.77'
+  'perl-perl-tidy'
+  'perl-text-table>=1.107'
+)
+makedepends=(
+  'perl'
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-simple'
+)
+depends=(
+  'perl>=5.10.0'
+  'perl-digest-md5>=1'
+)
+url='https://metacpan.org/release/Text-Template-Simple'
+_distdir="Text-Template-Simple-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/B/BU/BURAK/${_distdir}.tar.gz")
+sha512sums=('6a76f16cc8bc13d7bb347029057ed113fea792b8c2983616e32efff6b5adc3b5b680aaa9e0a0253573dd75e0863991415a8455f4e9ab6c836ce1f9e040b2d20e')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
