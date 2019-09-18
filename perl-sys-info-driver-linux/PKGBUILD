@@ -1,0 +1,75 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (28b2f74dba87d5b9704e48582062ab93f41cf91629ca4c2bf134bbcd713a9110c07bc8f2e76567c6a6ba6b63044d37bbacca314917992dc3c00b0f8a2ecd6016)
+
+pkgname='perl-sys-info-driver-linux'
+pkgver='0.7905'
+pkgrel='1'
+pkgdesc='Linux driver for Sys::Info'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+makedepends=(
+  'perl'
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-simple'
+  'perl-test-sys-info>=0.20'
+)
+depends=(
+  'perl>=5.10.0'
+  'perl-config-general'
+  'perl-sys-info-base>=0.7801'
+  'perl-unix-processors'
+)
+url='https://metacpan.org/release/Sys-Info-Driver-Linux'
+_distdir="Sys-Info-Driver-Linux-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/B/BU/BURAK/${_distdir}.tar.gz")
+sha512sums=('dee01f825bba46a35c239e81f7cf988174c295fd4813469cfe5ba68a7f93daf497f4a7c9b26380fb5ad5dc7354a61d1a2dfca8788f0113c1c632285a16015bb0')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
