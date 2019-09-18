@@ -714,6 +714,8 @@ then
             t end
             s,^\([^/]\+\)/\(files/\)\?branch_[0-9.]\+/[^/]\+$,\1/files,
             t end
+            s,^\([^/]\+\)/\(\1-[0-9.]\+\)/\2\.tar\.gz$,\1/files,
+            t end
             w /dev/stderr
             d
             :end
