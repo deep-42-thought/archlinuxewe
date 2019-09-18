@@ -218,7 +218,7 @@ while ${needs_build}; do
         "${me}" -n "${aw}"
       done
       if [ "$(git -C "$(dirname "${me}")" symbolic-ref HEAD 2> /dev/null)" = 'refs/heads/master' ]; then
-        "$(dirname "${me}")/archPackagesUpdate" $(printf ' --only perl-%s' ${antwort#* })
+        "$(dirname "${me}")/archPackagesUpdate" $(printf ' --only perl-%s' ${antwort#* } | sed 's|::|-|g' | tr '[:upper:]' '[:lower:]')
         sudo pacman -Sy
       fi
       needs_build=true
