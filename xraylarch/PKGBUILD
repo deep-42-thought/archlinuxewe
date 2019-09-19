@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=xraylarch
 pkgver=0.9.46
-pkgrel=1
+pkgrel=2
 pkgdesc="Data Analysis Tools for X-ray Spectroscopy"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://xraypy.github.io/xraylarch/"
@@ -14,15 +14,19 @@ depends=(
   'python-h5py>=2.4'
   'python-lmfit>=0.9.11'
   'python-matplotlib>=2.0'
+  'python-nose'
   'python-numpy>=1.10'
   'python-peakutils>=1.0.0'
   'python-pillow>=3.4'
+  'python-pip'
   'python-psutil'
   'python-pyepics>=3.2.4'
   'python-pyfai>=0.12.0'
   'python-pyaml'
   'python-pyshortcuts'
+  'python-pytest'
   'python-requests>=2.1'
+  'python-scikit-image'
   'python-scikit-learn>=0.18'
   'python-scipy>=0.17'
   'python-silx'
@@ -35,9 +39,7 @@ depends=(
   'python-wxmplot'
 )
 makedepends=()
-checkdepends=(
-  'python-pytest'
-)
+checkdepends=()
 optdepends=(
   'python-CifFile:        needed for xrd modules'
   'python-epics:          needed for using the EPICS control system'
