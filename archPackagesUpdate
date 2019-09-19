@@ -598,7 +598,8 @@ if ${aufRechenknecht}; then
         {
           printf '%s\\|' \
             "E: ELF file (.*) found in an ['\"]any['\"] package"
-          if ! grep -qF " ${teil} ist absichtlich nicht any ohne ELF Dateien" PKGBUILD; then
+          if ! grep -qF " ${teil} ist absichtlich nicht any ohne ELF Dateien" PKGBUILD \
+          && ! grep -qF " ist alles absichtlich nicht any ohne ELF Dateien" PKGBUILD; then
             printf '%s\\|' \
               "W: No ELF files and not an ['\"]any['\"] package"
           fi
