@@ -621,14 +621,14 @@ then
       grep -q "ftp://"
     then
       quVer="${src%/*}/"
-      quNam=${src##*/}
+      quNam="${src##*/}"
       quEnd=$( \
         echo "${quNam}" |
-          sed "s|^.*v\?[0-9.]*[0-9]||" \
+          sed "s|^.*v\?[0-9.]*[0-9]\(.\)|\1|"
       )
       quNam=$( \
         echo ${quNam} | \
-          sed "s|v\?[0-9.]\+.*\$||" \
+          sed "s|v\?[0-9.]\+.*\$||"
       )
       tmpVer=$( \
         curl_it "${quVer}" | \
