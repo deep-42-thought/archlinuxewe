@@ -172,6 +172,14 @@ if [ "${paket}" != 'qgis-git' ]; then
   makepkg -fcsr --noconfirm --asdeps || exit 1
   namcap "$(makepkg --packagelist)" || exit 1
 fi
-git commit PKGBUILD -m "${paket} ${pkgver}-${pkgrel} -> ${remVer}-1"
+if [ -d '.git' ] || [ -f '.git' ]; then
+  makepkg --printsrcinfo > .SRCINFO
+  git commit 'PKGBUILD' '.SRCINFO' -m "${paket} ${pkgver}-${pkgrel} -> ${remVer}-1"
+  git push || exit 1
+  cd ..
+  git commit "${paket}" -m "${paket} ${pkgver}-${pkgrel} -> ${remVer}-1"
+else
+  git commit 'PKGBUILD' -m "${paket} ${pkgver}-${pkgrel} -> ${remVer}-1"
+fi
 
 >&2 echo '... done'

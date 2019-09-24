@@ -17,14 +17,23 @@ if [ $# -eq 1 ]; then
   cd "$(dirname "$0")"
 
   pkg="${1%/}"
+  cd "${pkg}"
   eval "$(
-    grep '^pkgrel=' "${pkg}/PKGBUILD"
+    grep '^pkgrel=' 'PKGBUILD'
   )"
   sed -i '
     s@^\(pkgrel=\)\('"'"'\?\)[0-9]\+\2$@\1'"$((pkgrel+1))"'@
-  ' "${pkg}/PKGBUILD"
+  ' 'PKGBUILD'
   if ${commit}; then
-    git commit "${pkg}/PKGBUILD" -m "${pkg}: rebuild"
+    if [ -d '.git' ] || [ -f '.git' ]; then
+      makepkg --printsrcinfo > .SRCINFO
+      git commit 'PKGBUILD' '.SRCINFO' -m "${pkg}: rebuild"
+      git push || exit 1
+      cd ..
+      git commit "${paket}" -m "${pkg}: rebuild"
+    else
+      git commit 'PKGBUILD' -m "${pkg}: rebuild"
+    fi
   fi
 
 else
