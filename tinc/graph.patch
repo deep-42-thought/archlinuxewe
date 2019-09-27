@@ -1,8 +1,8 @@
 diff --git a/src/graph.c b/src/graph.c
-index c63fdf9c..ecabb1bf 100644
+index c63fdf9c..91f5c990 100644
 --- a/src/graph.c
 +++ b/src/graph.c
-@@ -366,7 +366,12 @@ void dump_graph(void) {
+@@ -366,7 +366,13 @@ void dump_graph(void) {
  	/* now dump all edges */
  	for(node = edge_weight_tree->head; node; node = node->next) {
  		e = node->data;
@@ -11,8 +11,9 @@ index c63fdf9c..ecabb1bf 100644
 +			if (e->reverse > e)
 +				fprintf(file, "	\"%s\" -> \"%s\" [dir=both];\n", e->from->name, e->to->name);
 +		}
-+		else
++		else {
 +			fprintf(file, "	\"%s\" -> \"%s\";\n", e->from->name, e->to->name);
++		}
  	}
  
  	fprintf(file, "}\n");
