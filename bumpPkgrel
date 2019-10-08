@@ -30,7 +30,7 @@ if [ $# -eq 1 ]; then
       git commit 'PKGBUILD' '.SRCINFO' -m "${pkg}: rebuild"
       git push || exit 1
       cd ..
-      git commit "${paket}" -m "${pkg}: rebuild"
+      git commit "${pkg}" -m "${pkg}: rebuild"
     else
       git commit 'PKGBUILD' -m "${pkg}: rebuild"
     fi
