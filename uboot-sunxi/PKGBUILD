@@ -30,7 +30,7 @@ _boards=(
   'uboot-pcduino3-nano Linksprite_pcDuino3_Nano'
 )
 pkgname=("${_boards[@]%% *}")
-pkgver=2019.07
+pkgver=2019.10
 pkgrel=1
 arch=('armv7h')
 url="http://git.denx.de/u-boot.git/"
@@ -40,7 +40,7 @@ backup=(boot/boot.txt boot/boot.scr)
 source=("ftp://ftp.denx.de/pub/u-boot/u-boot-${pkgver}.tar.bz2"
         'boot.txt'
         'mkscr')
-sha512sums=('879abf0c8773bfcdcbe7f28fc68e2b4369bcb74e276d95d510a9b2d1707e63eb01d82e304ba5a6a570552bc18bc593f27ba9b518bafa1d8f8e5bc83cf107c023'
+sha512sums=('d8e98fca4b6af8d49d20ec09beab16b77863fcee88cda3605cc14435de21030bf3ca5e7cf7d06e42d4c0f75279c7295ecd628d2b77666eff7b7fd50374e051fd'
             'f2978ea8acc39fccd0269eb74248e622d1e5daf0b30a2c48ac1d618deda3b4733e949d21bff5dbd2e5b6c39f0df60480c55e3ee1bf8e64df2c8157a51f2fbb49'
             '7046ab4d88efbba636be049be2f660e18c05e48d161d39437c1580b12795ba4d9197ad57ac4572398f80a38d4777507b57228abf4cc41f0081d196ece27ea9d0')
 
