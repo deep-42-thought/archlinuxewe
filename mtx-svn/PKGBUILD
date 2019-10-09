@@ -2,8 +2,8 @@
 # Contributor: Dylan Whichard <dylan at whichard dot com>
 
 pkgname=mtx-svn
-_pkgname=mtx
 pkgver=r200
+_distdir="mtx-code-${pkgver}-trunk-mtx"
 pkgrel=2
 pkgdesc="Tools used to view information about, and to control, Media Changer devices such as Tape and DVD/CD libraries."
 arch=('armv6h' 'armv7h' 'aarch64' 'i686' 'pentium4' 'x86_64')
@@ -12,23 +12,17 @@ license=('GPL2')
 provides=('mtx')
 conflicts=('mtx')
 makedepends=('subversion')
-source=("mtx-svn::svn+http://svn.code.sf.net/p/mtx/code/trunk#revision=${pkgver#r}")
-md5sums=('SKIP')
-
-pkgver() {
-  cd "${pkgname}"
-  local ver="$(svnversion)"
-  printf "r%s" "${ver//[[:alpha:]]}"
-}
+source=("https://sourceforge.net/code-snapshots/svn/m/mt/mtx/code/${_distdir}.zip")
+sha512sums=('cd7e1f1f003acf95e1bb55936180ba6da47d146ce6bd5f87c2ba5ca02779a4e187d1a1e903c36bc6725e6d29e14574cf427933127621d3f441c95fdeb29f9f2f')
 
 build() {
-  cd "${srcdir}/${pkgname}/mtx"
+  cd "${srcdir}/${_distdir}"
   ./configure --prefix=/usr
   make
 }
 
 package() {
-  cd "${srcdir}/${pkgname}/mtx"
+  cd "${srcdir}/${_distdir}"
   make prefix="$pkgdir/usr" sbindir="$pkgdir/usr/bin" mandir="$pkgdir/usr/share/man" install
 }
 
