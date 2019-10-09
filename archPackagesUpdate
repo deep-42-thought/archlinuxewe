@@ -272,7 +272,9 @@ if [ -f '.gitmodules' ]; then
         continue
       fi
       mkdir -p "${path}"
-      git clone "${url}" "${path}"
+      >&2 printf 'cloning %s into %s ...' "${url}" "${path}"
+      git clone -q "${url}" "${path}"
+      >&2 printf ' done.\n'
     done
 fi
 
