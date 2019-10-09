@@ -15,6 +15,12 @@ makedepends=('subversion')
 source=("https://sourceforge.net/code-snapshots/svn/m/mt/mtx/code/${_distdir}.zip")
 sha512sums=('cd7e1f1f003acf95e1bb55936180ba6da47d146ce6bd5f87c2ba5ca02779a4e187d1a1e903c36bc6725e6d29e14574cf427933127621d3f441c95fdeb29f9f2f')
 
+prepare() {
+  sed -i '
+    s@ | armv\*-\*@ | aarch64-*\0@
+  ' "${srcdir}/${_distdir}/config.sub"
+}
+
 build() {
   cd "${srcdir}/${_distdir}"
   ./configure --prefix=/usr
