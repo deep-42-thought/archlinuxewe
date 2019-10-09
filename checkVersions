@@ -698,6 +698,25 @@ then
           latest_version
       )
     elif echo "${src}" | \
+      grep -q "//\(\(pr\)\?downloads\.\)\?sourceforge\.net/code-snapshots/svn/"
+    then
+      quVer=$(
+        echo "${src}" \
+        | sed '
+          s@^\([^/]\+//[^/]\+/\)code-snapshots/svn/\([^/]\)/\(\2[^/]\)\(/\3[^/]\+/[^/]\+\)/[^/]\+$@\1p\4/HEAD/@
+        '
+      )
+      remVer=$(
+        curl_it "${quVer}" \
+        | sed '
+          s@^.*>Commit <a href="[^"]\+">\[\([^][]\+\)]</a>.*$@\1@
+          t
+          d
+        ' \
+        | sort -V \
+        | tail -n1
+      )
+    elif echo "${src}" | \
       grep -q "//\(\(pr\)\?downloads\.\)\?sourceforge\.net/"
     then
       quVer=$( \
