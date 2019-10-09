@@ -494,7 +494,20 @@ if ${aufRechenknecht}; then
             p
           }
         ' PKGBUILD \
-        | grep -qwF "$(pacman -Qqg base base-devel)"; then
+        | grep -qwF "$(
+          pacman -Qqg base-devel
+          pacman -Qi base \
+          | sed -n '
+            /^Depends On\s*:/,/^\S/ {
+              s/^Depends On\s*:/ /
+              /^\S/d
+              p
+            }
+          ' \
+          | tr ' ' '\n' \
+          | sort -u \
+          | grep -vxF ''
+        )"; then
           build_mode='makechrootpkg'
         else
           build_mode='archbuild'
