@@ -8,13 +8,17 @@ verwendung() {
   >&2 echo "$(basename "$0")"': aktualisiere Version von Paketen in archlinuxewe'
   >&2 echo ''
   >&2 echo 'mögliche Optionen:'
+  >&2 echo '  -f|--force:            übergehe Cache'
   >&2 echo '  -h|--help:             zeige diese Hilfe'
   >&2 echo '  -n|--nicht $paket:     ignoriere Paket $paket'
   [ -z "$1" ] && exit 1 || exit $1
 }
 
+check_version_cache_option=''
+
 eval set -- "$(
-  getopt -o hn: \
+  getopt -o fhn: \
+    --long force \
     --long help \
     --long nicht: \
     -n "$(basename "$0")" -- "$@" || \
@@ -27,6 +31,9 @@ while true; do
   case "$1" in
     -h|--help)
       verwendung 0
+    ;;
+    -f|--force)
+      check_version_cache_option='--no-cache'
     ;;
     -n|--nicht)
       shift
@@ -75,7 +82,7 @@ paket="${1%/}"
 
 cd "${myDir}"
 [ -r "${paket}/PKGBUILD" ] || exit 1
-vers="$(./checkVersions -m "${paket}")"
+vers="$(./checkVersions -m "${paket}" ${check_version_cache_option})"
 [ -n "${remVer}" ] && vers="$(echo "${vers}" | grep -v 'remVer')"
 eval ${vers}
 if [ "${remVer}" == "${pkgver}" ]; then

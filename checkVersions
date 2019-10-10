@@ -2,7 +2,7 @@
 
 usage() {
   >&2 echo 'Verwendung: '
-  >&2 echo "  $0"' [--32] [-f|--force] [-j|--jobs=${jobs}]'
+  >&2 echo "  $0"' [--32] [-f|--force] [-n|--no-cache] [-j|--jobs=${jobs}]'
   >&2 echo '    --32:                   Versionen in archlinux32 statt archlinuxewe prüfen'
   >&2 echo '    -f|--force|--noUpdate:  prüfe Versionen unhabhängig von Zeit der letzten Prüfung'
   >&2 echo '    -j|--jobs:              Anzahl parallel auszufuehrender Anfragen'
@@ -24,7 +24,8 @@ curl_it() {
   )
   shift
   cache_file="${curl_cache}/${cache_file}"
-  if [ -s "${cache_file}" ] && \
+  if ${use_cache} && \
+    [ -s "${cache_file}" ] && \
     [ $(stat -c%Y "${cache_file}") -gt $(($(date +%s)-300)) ] &&
     ! grep -qiF 'access denied' "${cache_file}"; then
     cat "${cache_file}"
@@ -92,11 +93,12 @@ archlinuxewe=true
 
 eval set -- "$(
   getopt \
-    -o fj:m \
+    -o fj:mn \
     --long 32 \
     --long force \
     --long jobs: \
     --long noUpdate \
+    --long no-cache \
     -n "$(basename "$0")" \
     -- \
     "$@" \
@@ -104,6 +106,8 @@ eval set -- "$(
 )"
 args=("$@")
 optArgs=()
+
+use_cache=true
 
 while true
 do
@@ -130,6 +134,9 @@ do
     -m)
       optArgs[${#optArgs[@]}]="-m"
       maschinenlesbar=true
+    ;;
+    -n|--no-cache)
+      use_cache=false
     ;;
     --)
       shift
