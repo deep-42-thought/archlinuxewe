@@ -2,7 +2,7 @@
 pkgbase=simple-pki
 pkgname=(simple-pki-ca simple-pki-cb)
 pkgver=0.1
-pkgrel=1
+pkgrel=2
 arch=('any')
 url="https://git.eckner.net/Erich/${pkgname}"
 license=('GPL')
@@ -46,7 +46,7 @@ package_simple-pki-cb() {
     "etc/${pkgbase}/server-ssl.conf"
   )
   pkgdesc="Scripts to manage simple pki clients - including automatic renewal"
-  depends=('openssl' 'nginx')
+  depends=('openssl')
 
   cd ${pkgbase}-${pkgver}
   make DESTDIR=${pkgdir} install-cb
