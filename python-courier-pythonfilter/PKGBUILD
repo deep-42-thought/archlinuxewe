@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
-pkgname=python2-courier-pythonfilter
-_pkgname='courier-pythonfilter'
+pkgname=python-courier-pythonfilter
+_pkgname="${pkgname#*-}"
 pkgver=3.0.1
 pkgrel=1
 pkgdesc='collection of useful filters for the Courier MTA, and a framework for developing new filters in Python'
@@ -9,31 +9,30 @@ arch=('any')
 url='https://bitbucket.org/gordonmessmer/courier-pythonfilter'
 license=('GPL')
 depends=(
-  'python2>=2.7'
-  'python2<2.8'
+  'python>=3.7'
+  'python<3.8'
 )
 makedepends=(
-  'python2-setuptools')
+  'python-setuptools')
 source=("https://bitbucket.org/gordonmessmer/${_pkgname}/get/release-${pkgver//./-}.tar.gz")
 sha512sums=('05635f0dc738de1ad4738cd67400fe4177e16f43269d22b54664d7feea166ec01a7b255e92a303dd2f3c8ff1a67997b91b955c32d367cd01916167a566667aa7')
 backup=('etc/pythonfilter-modules.conf' 'etc/pythonfilter.conf')
 optdepends=(
-  'python2-pyclamav:  Virus Scan'
-  'python2-pydns:     dialback'
-  'python2-spf:       spfcheck and whitelist_spf'
-  'spamassassin:      Spam Detection'
+  'python-pyclamav:  Virus Scan'
+  'python-pydns:     dialback'
+  'python-spf:       spfcheck and whitelist_spf'
+  'spamassassin:     Spam Detection'
 )
 
 build() {
   cd "${srcdir}/gordonmessmer-${_pkgname}-"*
-  python2 setup.py build
+  python setup.py build
 }
 
 package() {
   depends+=('courier-mta')
   cd "${srcdir}/gordonmessmer-${_pkgname}-"*
-  python2 setup.py install --prefix=/usr --root="${pkgdir}" --optimize=1
-  find "${pkgdir}" -type f -exec sed -i ' 1 s,^#!/usr/bin/python$,\02,' {} \;
-  rm "${pkgdir}/usr/lib/python2"*"/site-packages/${_pkgname//-/_}-${pkgver}-py2"*".egg-info"
+  python setup.py install --prefix=/usr --root="${pkgdir}" --optimize=1
+  rm "${pkgdir}/usr/lib/python3"*"/site-packages/${_pkgname//-/_}-${pkgver}-py3"*".egg-info"
 }
 
