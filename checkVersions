@@ -956,18 +956,6 @@ then
           latest_version
       )"
     elif echo "${src}" | \
-      grep -q '://semiletov\.org/[^/]*/dloads/'
-    then
-      remVer=$(
-        curl_it "${source%%/dloads/*}/" | \
-          tr '"' '\n' | \
-          sed -n '
-            s,^\(http://.*/\|dloads/\|\)'"${pkgname}"'-\([0-9.]\+\)\.tar\.bz2$,\2,
-            T
-            p
-          '
-      )
-    elif echo "${src}" | \
       grep -qF '//www.roguetemple.com/'
     then
       remVer=$(

@@ -1,0 +1,32 @@
+# $Id: PKGBUILD 266875 2017-11-15 14:29:11Z foutrelis $
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Roman Kyrylych <roman@archlinux.org>
+# Contributor: Michal Kaliszka <desmont@gmail.com>
+# Contributor: Zsolt Varadi <sysop_xxl@fibermail.hu>
+# Contributor: Holger Rauch < holger dot rauch at posteo dot de >
+
+pkgname=tea-qt
+pkgver=48.0.0
+pkgrel=1
+pkgdesc="A Qt-based text editor for Linux and *BSD with an ultimate small size, providing hundreds of functions"
+arch=('i686' 'pentium4' 'x86_64')
+url="http://semiletov.org/tea/"
+license=('GPL')
+depends=('qt5-base' 'qt5-declarative' 'gcc-libs' 'aspell' 'hunspell' 'poppler-qt5' 'djvulibre' 'desktop-file-utils')
+makedepends=('cmake')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/psemiletov/tea-qt/archive/${pkgver}.tar.gz")
+sha512sums=('a52b46ae591bb9c74e62dee8941259728d4b74483c6f7141869dc9653006e69aedb47bc0782b0a84175166814190633d919f55ce1fe4d8adb8a0f19a372539c5')
+
+build() {
+  mkdir -p "${srcdir}/${pkgname}-${pkgver}/b"
+  cd "${srcdir}/${pkgname}-${pkgver}/b"
+  cmake .. -DCMAKE_INSTALL_PREFIX=/usr
+  make
+}
+
+package(){
+  cd "${srcdir}/${pkgname}-${pkgver}/b"
+  make DESTDIR="${pkgdir}" install
+}
