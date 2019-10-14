@@ -4,8 +4,8 @@
 
 pkgname='python-scikit-image'
 _pkgname="${pkgname#*-}"
-pkgver=0.15.0
-pkgrel=7
+pkgver=0.16.1
+pkgrel=1
 pkgdesc="Image processing routines for SciPy"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://scikit-image.org/"
@@ -26,16 +26,16 @@ optdepends=(
   'python-pyamg: fast cg_mg mode of random walker segmentation'
 )
 options=('!emptydirs')
-source=("https://pypi.python.org/packages/e0/46/ca035f5d7d3414124a3a5ef22cd2e75c0c5149042a668375f1d44eb69f8f/${_pkgname}-${pkgver}.tar.gz")
-sha512sums=('9d0be54ddd564c0f28eae979b6f348011f7b38c8811f70ad460330905e706fe145dd6a30b502d15126450148fdbb3f54a271227d46e2d078030054ad00f35bc3')
+source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/${_pkgname}/${_pkgname}/archive/v${pkgver}.tar.gz")
+sha512sums=('2b07f036da215516e90c6cf24d71fa6dc590aaf64a5a083d2a02e91dd91ef86aa205a2603d4a49adb8f8bd47f19da003b1be5afdfc081a8251a3e2595615dd55')
 
 build() {
-  cd "${srcdir}"/scikit-image-$pkgver
+  cd "${srcdir}/${_pkgname}-${pkgver}"
   python setup.py build
 }
 
 package() {
-  cd "${srcdir}"/scikit-image-$pkgver
+  cd "${srcdir}/${_pkgname}-${pkgver}"
 
   python setup.py install --root="${pkgdir}"/ --optimize=1
   install -D LICENSE.txt "${pkgdir}"/usr/share/licenses/$pkgname/LICENSE
