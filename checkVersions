@@ -13,6 +13,7 @@ usage() {
 curl_it() {
   local source="$1"
   local cache_file
+  local i
   cache_file=$(
     {
       printf '%s\n' "$1"
@@ -32,14 +33,19 @@ curl_it() {
     return
   fi
   tmp_file=$(mktemp)
-  curl --compressed -o "${tmp_file}" --connect-timeout 10 -s -x socks5://127.0.0.1:9050 "$@" "${source}"
-  if grep -qiF "$(
-    printf '%s\n' \
-      'access denied' \
-      'Repository seems to be empty'
-  )" "${tmp_file}"; then
-    : >"${tmp_file}"
-  fi
+  for i in {1..5}; do
+    curl --compressed -o "${tmp_file}" --connect-timeout 10 -s -x socks5://127.0.0.1:9050 "$@" "${source}"
+    if grep -qiF "$(
+      printf '%s\n' \
+        'access denied' \
+        'Repository seems to be empty'
+    )" "${tmp_file}"; then
+      : >"${tmp_file}"
+    fi
+    if [ -s "${tmp_file}" ]; then
+      break
+    fi
+  done
   if [ ! -s "${tmp_file}" ]; then
     curl --compressed -o "${tmp_file}" --connect-timeout 10 -s "$@" "${source}"
   fi
