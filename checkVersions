@@ -787,19 +787,24 @@ then
     then
       srcPreNam="$(
         echo "${src}" | \
-          sed 's|^.*/\([^/0-9]\+_\)[0-9][^/]\+$|\1|'
+          sed 's|^.*/\([^/0-9]\+[-_]\)[0-9][^/]\+$|\1|'
       )"
       srcEndg="$(
         echo "${src}" | \
-          sed 's|^.*\(\.tar[^/]*\)$|\1|' | \
-          sed 's|\.|\\.|g'
+          sed '
+            s|^.*\(\.tar[^/]*\)$|\1|
+            s|\.|\\.|g
+          '
       )"
       remVer="$(
         curl_it "${src%/get/*}/downloads/?tab=tags" | \
           tr '"' '\n' | \
-          grep "${srcEndg}\$" | \
-          sed "s|^.*/${srcPreNam}\(.*\)${srcEndg}\$|\1|" | \
-          tr '_' '.' | \
+          sed '
+            s|^.*/'"${srcPreNam}"'\(.*\)'"${srcEndg}"'$|\1|
+            t
+            d
+          ' | \
+          tr -- '-_' '.' | \
           latest_version
       )"
     elif echo "${src}" | \
