@@ -1,16 +1,26 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-cpanel-json-xs'
-pkgver=4.13
+pkgver=4.14
 pkgrel=1
 pkgdesc='cPanel fork of JSON::XS, fast and correct serializing'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 makedepends=(
-  'perl-extutils-makemaker')
+  'perl'
+  'perl-data-dumper'
+  'perl-extutils-makemaker'
+  'perl-lib'
+  'perl-test'
+  'perl-test-simple')
 depends=(
-  'perl-podlators>=2.08')
+  'perl'
+  'perl-carp'
+  'perl-encode>=1.9801'
+  'perl-exporter'
+  'perl-podlators>=2.08'
+  'perl-xsloader')
 checkdepends=(
   'perl-class-xsaccessor'
   'perl-json'
@@ -28,7 +38,7 @@ checkdepends=(
 url='https://metacpan.org/release/Cpanel-JSON-XS'
 _distdir="Cpanel-JSON-XS-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RU/RURBAN/${_distdir}.tar.gz")
-sha512sums=('02aeda7488fd4fc4309502a2df14f515c2f02be4e1de62c0a67af81c486d8a820a81d4f23f1d6060a3b0265556ea96ba4d43ba47c2c8dc99ca68d511123b7196')
+sha512sums=('5a6d564589673392215d1b2a8077f78f587f18ad10ce3e2f7fab39646969bf864cc7b7de4c0adf48110f4bf98f370d3fa75629e8056dde085cc38780f4e8f6e1')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
