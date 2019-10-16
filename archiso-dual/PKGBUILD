@@ -8,8 +8,8 @@
 _target_arch=$(printf '%s' x 8 6 _ 6 4 ' and ' i 6 8 6)
 
 pkgname=archiso-dual
-pkgver=42
-pkgrel=2
+pkgver=43
+pkgrel=1
 pkgdesc='Tools for creating Arch Linux live and install iso images - for '"${_target_arch}"
 arch=('any')
 license=('GPL')
@@ -18,7 +18,7 @@ depends=('archiso' 'make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' '
 source=(
   "https://sources.archlinux32.org/sources/archiso32-dual-v${pkgver}.tar.gz"{,.sig}
 )
-sha512sums=('76fa50cd1f0ed2a6c78d5c5ae5022c0d30f5df25464ab88e732ff0f5517624de6cca8381a297981b78e8f4c7d8b3699f58b5d74eef491d284910d9e3c6ec5259'
+sha512sums=('9d6020d9e78f915827405c3d15db04336ea863bad9bcb88ee48f1af4c79ec69cddc14a803d5d01ed70ce24ba06188664942d3f75f484e1e6c925ac96e8944117'
             'SKIP')
 validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
 
