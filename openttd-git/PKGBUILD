@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-git
-pkgver=29104.f159d9157
+pkgver=29107.841e8b000
 _commit=${pkgver#*.}
 pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
@@ -82,9 +82,8 @@ prepare() {
       >&2 echo "... ok"
     done
     sed -i '
-      s/readme\.txt/README.md/g
+      s/multiplayer\.txt/multiplayer.md/g
     ' Makefile.bundle.in
-
 }
 
 build() {
