@@ -2,8 +2,8 @@
 pkgbase=python-fisx
 pkgname=(python2-fisx python-fisx)
 _pkgname="${pkgbase#*-}"
-pkgver=1.1.7
-pkgrel=4
+pkgver=1.1.8
+pkgrel=1
 pkgdesc='Enhanced C++ port of the Physics routines used by PyMca'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://github.com/vasole/fisx'
@@ -32,7 +32,7 @@ makedepends=(
 source=(
     "${_pkgname}-v${pkgver}.tar.gz::https://github.com/vasole/${_pkgname}/archive/v${pkgver}.tar.gz"
 )
-sha512sums=('cc14604893e8c9a68095db6920c37419b2abf362e52b21e9c49b67af7a108449026d4f8fd0f2fcf7a8bc76bc3af1a78e0ecf89f4784d9d81d0db6852e0b5d1ad')
+sha512sums=('c7facc5416b6ef7bdcad9f500c2d933a33fe72c078c5ee98a60c6875ef25c6ef6925804bc040ccdcd4ae41b9ec74218c4a673c332f4c98aa4d6f54b14047dfe0')
 
 prepare() {
   cp -a ${_pkgname}-${pkgver}{,-py2}
