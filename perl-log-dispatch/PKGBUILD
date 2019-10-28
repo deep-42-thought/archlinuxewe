@@ -1,33 +1,28 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-log-dispatch'
-pkgver=2.68
-pkgrel=4
+pkgver=2.69
+pkgrel=1
 pkgdesc='Dispatches messages to one or more outputs'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-log-dispatch-apachelog=2.68'
-  'perl-log-dispatch-base=2.68'
-  'perl-log-dispatch-code=2.68'
-  'perl-log-dispatch-email=2.68'
-  'perl-log-dispatch-email-mailsend=2.68'
-  'perl-log-dispatch-email-mailsender=2.68'
-  'perl-log-dispatch-email-mailsendmail=2.68'
-  'perl-log-dispatch-email-mimelite=2.68'
-  'perl-log-dispatch-file=2.68'
-  'perl-log-dispatch-file-locked=2.68'
-  'perl-log-dispatch-handle=2.68'
-  'perl-log-dispatch-null=2.68'
-  'perl-log-dispatch-output=2.68'
-  'perl-log-dispatch-screen=2.68'
-  'perl-log-dispatch-syslog=2.68'
-  'perl-log-dispatch-types=2.68'
-  'perl-log-dispatch-vars=2.68')
+makedepends=(
+  'perl'
+  'perl-data-dumper'
+  'perl-dist-checkconflicts>=0.02'
+  'perl-extutils-makemaker'
+  'perl-file-temp'
+  'perl-getopt-long'
+  'perl-io'
+  'perl-ipc-run3'
+  'perl-lib'
+  'perl-pathtools'
+  'perl-test-fatal'
+  'perl-test-needs'
+  'perl-test-simple>=0.96')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
+  'perl>=5.6.0'
   'perl-base'
   'perl-carp'
   'perl-devel-globaldestruction'
@@ -43,17 +38,24 @@ depends=(
   'perl-specio>=0.32'
   'perl-sys-syslog>=0.28'
   'perl-try-tiny')
-makedepends=(
-  'perl-data-dumper'
-  'perl-extutils-makemaker'
-  'perl-file-temp'
-  'perl-getopt-long'
-  'perl-ipc-run3'
-  'perl-lib'
-  'perl-pathtools'
-  'perl-test-fatal'
-  'perl-test-needs'
-  'perl-test-simple>=0.96')
+provides=(
+  'perl-log-dispatch-apachelog=2.69'
+  'perl-log-dispatch-base=2.69'
+  'perl-log-dispatch-code=2.69'
+  'perl-log-dispatch-email=2.69'
+  'perl-log-dispatch-email-mailsend=2.69'
+  'perl-log-dispatch-email-mailsender=2.69'
+  'perl-log-dispatch-email-mailsendmail=2.69'
+  'perl-log-dispatch-email-mimelite=2.69'
+  'perl-log-dispatch-file=2.69'
+  'perl-log-dispatch-file-locked=2.69'
+  'perl-log-dispatch-handle=2.69'
+  'perl-log-dispatch-null=2.69'
+  'perl-log-dispatch-output=2.69'
+  'perl-log-dispatch-screen=2.69'
+  'perl-log-dispatch-syslog=2.69'
+  'perl-log-dispatch-types=2.69'
+  'perl-log-dispatch-vars=2.69')
 checkdepends=(
   'perl-test-requires'
   'perl-ipc-run3'
@@ -62,7 +64,7 @@ checkdepends=(
 url='https://metacpan.org/release/Log-Dispatch'
 _distdir="Log-Dispatch-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/D/DR/DROLSKY/${_distdir}.tar.gz")
-sha512sums=('7efc68b7519a3f5cf354cd94d6e4edc6f6955fbae8e7f23da99136c90a29b05e933460157cb5a5d08b10f0ec2b2643a4fe8e10b6aed155b02c4885e77c0d7e92')
+sha512sums=('641d050c054843739fd43f97e88e17303d2e3e87ead0a756c88a8bd28fc27a56dd4cf4b228a5c23f240fca94f1a7894eb892070120b1a10ed293504826e6ace8')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
