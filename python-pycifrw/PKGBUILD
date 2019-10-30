@@ -1,0 +1,72 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgbase=python-pycifrw
+pkgname=(python2-pycifrw python-pycifrw)
+_pkgname='PyCifRW'
+pkgver=4.4.1
+pkgrel=1
+pkgdesc='Python library for interacting with Crystallographic Information Framework (CIF) files.'
+arch=('i686' 'pentium4' 'x86_64')
+url='https://bitbucket.org/jamesrhester/pycifrw/src/development/'
+license=('custom')
+_deppy2=(
+  'python2>=2.7'
+  'python2<2.8'
+)
+_deppy=(
+  'python>=3.7'
+  'python<3.8'
+)
+_depends=(
+  'python')
+_makedepends=(
+  'python-setuptools')
+
+source=("https://files.pythonhosted.org/packages/b3/09/7578e066d81ba978b6eefe2330cc80940939ed4be423e1c8ef49181540ca/PyCifRW-${pkgver}.tar.gz")
+sha512sums=('41cc26a7d6026bb927d531b27e1228d89fe713f7ab9360b8e06b563449ee7b53afc9260d09bb199f4390b12a9d31573f8fa6bae14804239d4075b5d8dce01f54')
+
+makedepends=(
+  "${_deppy[@]}"
+  "${_deppy2[@]}"
+  "${_depends[@]}"
+  "${_depends[@]//python/python2}"
+  "${_makedepends[@]}"
+  "${_makedepends[@]//ython/ython2}"
+)
+
+prepare() {
+  cp -r ${_pkgname}-${pkgver}{,-py2}
+}
+
+build() {
+  (
+    echo "building python2"
+    cd ${_pkgname}-${pkgver}-py2
+    python2 setup.py build
+  )
+  (
+    echo "building python"
+    cd ${_pkgname}-${pkgver}
+    python setup.py build
+  )
+}
+
+package_python2-pycifrw() {
+  depends=(
+    "${_deppy2[@]}"
+    "${_depends[@]//python/python2}"
+  )
+  cd "${srcdir}/${_pkgname}-${pkgver}-py2"
+  python2 setup.py install --root="${pkgdir}/" --optimize=1 --skip-build
+  install -D 'LICENSE' "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
+package_python-pycifrw() {
+  depends=(
+    "${_deppy[@]}"
+    "${_depends[@]}"
+  )
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  python setup.py install --root="${pkgdir}/" --optimize=1 --skip-build
+  install -D 'LICENSE' "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
