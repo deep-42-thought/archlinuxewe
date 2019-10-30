@@ -4,7 +4,7 @@ pkgbase=python-pyshortcuts
 pkgname=('python-pyshortcuts' 'python2-pyshortcuts')
 _pkgname='pyshortcuts'
 pkgver=1.7
-pkgrel=1
+pkgrel=2
 pkgdesc='create desktop shortcuts to python scripts on Windows, Mac, or Linux'
 arch=('any')
 url='https://github.com/newville/pyshortcuts'
@@ -65,7 +65,7 @@ package_python-pyshortcuts() {
     printf '%s\n' "${errors}"
     return 1
   fi
-  rm -rf --one-file-system "${pkgdir}/usr/lib"/python*/site-packages/pyshortcuts-*.egg-info "${pkgdir}/usr/bin"
+  rm -rf --one-file-system "${pkgdir}/usr/bin"
 }
 
 package_python2-pyshortcuts() {
@@ -86,6 +86,6 @@ package_python2-pyshortcuts() {
     printf '%s\n' "${errors}"
     return 1
   fi
-  rm -rf --one-file-system "${pkgdir}/usr/lib"/python*/site-packages/pyshortcuts-*.egg-info "${pkgdir}/usr/bin"
+  rm -rf --one-file-system "${pkgdir}/usr/bin"
 }
 
