@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perlancar-module-list'
-pkgver=0.004004
+pkgver=0.004005
 pkgrel=1
 pkgdesc='A fork of Module::List'
 arch=('any')
@@ -29,7 +29,7 @@ checkdepends=(
 url='https://metacpan.org/release/PERLANCAR-Module-List'
 _distdir="PERLANCAR-Module-List-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('4f18e4875d3847e48daea012c50893c48fa0e16d9885e29f96462600162b4b6081eebfa0dcb777a4b4d53d87d517104a01c654afe35f0917439c9a351e905c5d')
+sha512sums=('365b9cd9681ef612dd1684dc3c9ced7cdfb1b9ce78dc77252e4128a38ee331255f1ac4cf1b7dabf31993cd933ca7b56d49cd4d3898776d06dedc179f92d3e7e4')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
