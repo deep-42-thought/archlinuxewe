@@ -43,7 +43,7 @@ build() {
 package_python2-breathe() {
   cd "breathe"
   python2 setup.py install --root="${pkgdir}" --skip-build --optimize=1
-  mv "${pkgdir}/usr/bin/python2-breathe-apidoc"{,2}
+  mv "${pkgdir}/usr/bin/breathe-apidoc"{,2}
 
   install -D -m644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
 }
