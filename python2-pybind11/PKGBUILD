@@ -1,0 +1,50 @@
+# Maintainer:  Erich Eckner <arch at eckner dot net>
+# Contributor: Daniel Bermond <dbermond@archlinux.org>
+# Contributor: Santiago Torres-Arias <santiago@archlinux.org>
+# Contributor: Matthew Ellison <matt+aur@arroyonetworks.com>
+
+pkgname=python2-pybind11
+_pkgname=${pkgname#*-}
+pkgver=2.4.3
+pkgrel=1
+pkgdesc='A lightweight header-only library that exposes C++ types in Python2'
+arch=('any')
+url='https://pybind11.readthedocs.org/'
+license=('BSD')
+optdepends=('python2: for python bindings'
+'pybind11: for the c++ counterpart')
+makedepends=('cmake' 'boost' 'eigen' 'python2' 'python2-setuptools' 'python2-pytest'
+             'python2-sphinx' 'python2-sphinx_rtd_theme' 'python2-breathe')
+checkdepends=('python2-py' 'python2-pluggy' 'python2-hypothesis' 'python2-numpy' 'python2-scipy')
+source=("${pkgname}-${pkgver}.tar.gz"::"https://github.com/pybind/pybind11/archive/v${pkgver}.tar.gz")
+sha512sums=('993b9a00fb9a4280d5500f8bae2b1238c026c1635862307c7b06ac0d26c3a9743d9c69658190decd126d0de45353a51c4b354bcc023345a05fce0bdc52b56fe0')
+
+prepare() {
+    find "${_pkgname}-${pkgver}" -type f -name '*.py' -exec sed -i '
+      1 s/python3\?$/python2/
+    ' {} +
+}
+
+build () {
+    # python modules
+    cd "${_pkgname}-${pkgver}"
+
+    python2 setup.py build
+
+    # manpage
+    make -C "${srcdir}/${_pkgname}-${pkgver}/docs" man SPHINXBUILD=sphinx-build2
+}
+
+package() {
+    cd "${_pkgname}-${pkgver}"
+    
+    # python modules
+    python2 setup.py install --root="$pkgdir" --install-headers='/usr/include/pybind11' --skip-build --optimize='1'
+    
+    # man page
+    install -D -m644 "docs/.build/man/${_pkgname}.1" "${pkgdir}/usr/share/man/man7/${pkgname}.7"
+    sed -i '/^\.TH/s/"1"/"7"/' "${pkgdir}/usr/share/man/man7/${pkgname}.7"
+    
+    # license
+    install -D -m644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+}
