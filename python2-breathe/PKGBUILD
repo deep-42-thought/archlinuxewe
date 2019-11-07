@@ -5,7 +5,7 @@
 
 pkgname=python2-breathe
 pkgver=4.13.1
-pkgrel=1
+pkgrel=2
 pkgdesc="An extension to reStructuredText and Sphinx to be able to read and render Doxygen xml output."
 arch=('any')
 url="https://breathe.readthedocs.org/en/latest/"
@@ -43,7 +43,7 @@ build() {
 package_python2-breathe() {
   cd "breathe"
   python2 setup.py install --root="${pkgdir}" --skip-build --optimize=1
-  mv "${pkgdir}/usr/bin/breathe-apidoc" "${pkgdir}/usr/bin/python2-breathe-apidoc"
+  mv "${pkgdir}/usr/bin/python2-breathe-apidoc"{,2}
 
   install -D -m644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
 }
