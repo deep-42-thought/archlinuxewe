@@ -58,6 +58,12 @@ if [ $# -ne 0 ]; then
   exit 1
 fi
 
+if ! mountpoint -q /mnt/archlinuxewe \
+&& ! ls /mnt/archlinuxewe | grep -qF ''; then
+  >&2 printf '/mnt/archlinuxewe is empty\n'
+  exit 1
+fi
+
 tmp_dir=$(mktemp -d)
 trap 'rm -rf --one-file-system "${tmp_dir}"' EXIT
 
