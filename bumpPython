@@ -53,7 +53,16 @@ for pkgbuild in "${pkgbuilds[@]}"; do
     s@'"'python>=${pymajor}\.[0-9]\+'@'python>=${pyver}'"'@
     s@'"'python<${pymajor}\.[0-9]\+'@'python<${pyverupper}'"'@
   ' "${pkgbuild}"
-  git add "${pkgbuild}"
+  if [ -d "${pkgbuild%/*}"'/.git' ] || [ -f "${pkgbuild%/*}"'/.git' ]; then
+    cd "${pkgbuild%/*}"
+    makepkg --printsrcinfo > .SRCINFO
+    git commit 'PKGBUILD' '.SRCINFO' -m "${pkgbuild%/*}: rebuild against new python ${pyver}"
+    git push || exit 1
+    cd ..
+    git add "${pkgbuild%/*}"
+  else
+    git add "${pkgbuild}"
+  fi
 
 done
 
