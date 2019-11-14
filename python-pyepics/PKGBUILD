@@ -3,7 +3,7 @@ pkgbase=python-pyepics
 pkgname=(python2-pyepics python-pyepics)
 _pkgname="${pkgbase#*-}"
 pkgver=3.4.0
-pkgrel=4
+pkgrel=5
 pkgdesc='Python Interface to the Epics Channel Access protocol of the Epics control system'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://pypi.python.org/pypi/pyepics'
@@ -14,8 +14,8 @@ _deppy2=(
   'python2<2.8'
 )
 _deppy=(
-  'python>=3.7'
-  'python<3.8'
+  'python>=3.8'
+  'python<3.9'
 )
 _makedepends=(
   'python-setuptools'

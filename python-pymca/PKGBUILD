@@ -3,7 +3,7 @@ pkgbase=python-pymca
 pkgname=(python2-pymca python-pymca)
 _pkgname="${pkgbase#*-}"
 pkgver=5.5.3
-pkgrel=1
+pkgrel=2
 pkgdesc='Stand-alone application and Python tools for interactive and/or batch processing analysis of X-Ray Fluorescence Spectra'
 arch=('i686' 'pentium4' 'x86_64')
 url='http://pymca.sourceforge.net/index.html'
@@ -13,8 +13,8 @@ _deppy2=(
   'python2<2.8'
 )
 _deppy=(
-  'python>=3.7'
-  'python<3.8'
+  'python>=3.8'
+  'python<3.9'
 )
 _depends=(
   'python-fisx>=1.1.5'
