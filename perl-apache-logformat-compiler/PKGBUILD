@@ -2,17 +2,12 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-apache-logformat-compiler'
-pkgver=0.35
-pkgrel=7
+pkgver=0.36
+pkgrel=1
 pkgdesc='Compile a log format string to perl-code'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-posix-strftime-compiler>=0.30'
-  'perl-time-local')
 makedepends=(
   'perl-http-message'
   'perl-module-build-tiny>=0.035'
@@ -21,10 +16,14 @@ makedepends=(
   'perl-test-simple>=0.98'
   'perl-try-tiny>=0.12'
   'perl-uri-escape>=1.60')
+depends=(
+  'perl>=5.8.1'
+  'perl-posix-strftime-compiler>=0.30'
+  'perl-time-local')
 url='https://metacpan.org/release/Apache-LogFormat-Compiler'
 _distdir="Apache-LogFormat-Compiler-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/K/KA/KAZEBURO/${_distdir}.tar.gz")
-sha512sums=('9a4447e0be864e6ba3a6170daa6f219b0ddd6b765ab6fbe6125a808da76803fb4bf6eed131df793a8cf900378b5c72f11489d5429106b97931f6fbef08f9f349')
+sha512sums=('a6f7f0f9f98401a70e4bb6bd4862e9e520e8b968c5e0f25853da57b12bf6d67357ddc8d2fe985668520758e5745b5d7783f6c656c35efd823f4325f267fdbfee')
 
 build() {
   cd "${srcdir}/${_distdir}"
