@@ -2,7 +2,7 @@
 # Contributor: Adrian C. <anrxc..sysphere.org>
 
 pkgname=alpine
-pkgver=2.21.99999.r25.be556aa
+pkgver=2.21.99999.r26.46e208f
 _commit=${pkgver##*.}
 pkgrel=1
 arch=("i686" "pentium4" "x86_64")
@@ -73,8 +73,7 @@ build() {
   --with-passfile=.pine-passfile \
   --without-tcl \
   --with-system-pinerc=/etc/${pkgname}.d/pine.conf \
-  --with-system-fixed-pinerc=/etc/${pkgname}.d/pine.conf.fixed \
-  --with-bundled-tools
+  --with-system-fixed-pinerc=/etc/${pkgname}.d/pine.conf.fixed
 
 # Build Alpine
   make
