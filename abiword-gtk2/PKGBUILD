@@ -4,19 +4,19 @@
 # Contributor: Richard Jackson <rj@iinet.net.au>
 pkgname=abiword-gtk2
 _pkgname=abiword
-pkgver=3.0.2
-pkgrel=6
+pkgver=3.0.3
+pkgrel=1
 pkgdesc='Fully-featured word processor, GTk2, No plugins, Lite version'
 arch=('i686' 'pentium4' 'x86_64')
 license=('GPL')
 depends=('fribidi' 'wv' 'librsvg' 'enchant' 'desktop-file-utils' 'gtk2' 'libxslt')
-makedepends=('pkgconfig' 'boost')
+makedepends=('pkgconfig' 'boost' 'autoconf-archive')
 conflicts=('abiword' 'abiword-plugins')
 url='http://www.abisource.com'
 source=("$_pkgname-$pkgver.tar.gz::https://www.abisource.com/downloads/$_pkgname/$pkgver/source/$_pkgname-$pkgver.tar.gz"
         enchant-2.1.patch)
-sha256sums=('afbfd458fd02989d8b0c6362ba8a4c14686d89666f54cfdb5501bd2090cf3522'
-            '444dc2aadea3c80310a509b690097541573f6d2652c573d04da66a0f385fcfb2')
+sha512sums=('cabe5cfea02b0656bc8b14b0daf3ea5bf6e1487c1eb5a8fa21b93723163d9798768d8aae3c9ece9a1d0e939592649783eb9c78d44ce7e03724eb57a824a080f9'
+            '323d4695b2b63ecb62ac16399853bdcacc96f67deb4e58408eab727e113ed593d2d3c5b90951c7653c2ddac6a14950162e314a461b592e2c95df0294459cbe96')
 
 prepare() {
   cd $_pkgname-$pkgver
@@ -27,7 +27,13 @@ prepare() {
 
 build() {
   cd $_pkgname-$pkgver
-
+#  libtoolize --force
+#  aclocal
+#  autoheader
+#  automake --add-missing --force-missing
+#  autoconf || autoconf
+#  autoreconf -fi || autoreconf -i || autoreconf -i 
+  autoreconf -fi
   ./configure --prefix=/usr \
     --enable-shared \
     --disable-static \
