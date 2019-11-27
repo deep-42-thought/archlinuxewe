@@ -4,8 +4,8 @@
 # Contributor: Simon Boulay <simon.boulay@alkeona.net>
 
 pkgname=python2-breathe
-pkgver=4.13.1
-pkgrel=2
+pkgver=4.14.0
+pkgrel=1
 pkgdesc="An extension to reStructuredText and Sphinx to be able to read and render Doxygen xml output."
 arch=('any')
 url="https://breathe.readthedocs.org/en/latest/"
@@ -20,7 +20,7 @@ depends=(
 makedepends=('git')
 checkdepends=('python2-nose' 'python2-sphinx')
 source=("git+https://github.com/michaeljones/breathe#tag=v${pkgver}?signed")
-sha256sums=('SKIP')
+sha512sums=('SKIP')
 validpgpkeys=('79DC0FAF18C31807E82E1A6B9EF1DC92B5F301BD') # Melvin Vermeeren <mail@mel.vin>
 
 prepare() {
