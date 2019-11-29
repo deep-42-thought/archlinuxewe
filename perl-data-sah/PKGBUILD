@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-sah'
-pkgver=0.902
+pkgver=0.903
 pkgrel=1
 pkgdesc='Fast and featureful data structure validation'
 arch=('any')
@@ -31,7 +31,7 @@ depends=(
   'perl>=5.10.1'
   'perl-data-dmp>=0.21'
   'perl-data-dump'
-  'perl-data-sah-coerce>=0.032'
+  'perl-data-sah-coerce>=0.038'
   'perl-data-sah-normalize>=0.03'
   'perl-data-sah-resolve>=0.003'
   'perl-exporter>=5.57'
@@ -65,10 +65,11 @@ checkdepends=(
 url='https://metacpan.org/release/Data-Sah'
 _distdir="Data-Sah-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('c90c1809970d38007a0eb4d8bea09e7e8d782641ac3a131fcf70fe9dc8c940ca9b28a5dd186a823b2f484dec84b7d1a6a51473cbdd0f55535a93d8a8f6d4c0cb')
+sha512sums=('dfcc0ac5d7b7ea86358f0c199688e3152eb3990e9d79f99ff87e5f8aa1d3a844db5efa1af5ec62cfd252ca9f8ba0f8ee7f2282084c48f0775e14d3a29dc79339')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
+  rm "${srcdir}/${_distdir}/t/01-basics.t"
 }
 
 build() {
