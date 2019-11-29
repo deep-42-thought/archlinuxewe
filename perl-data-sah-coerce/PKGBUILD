@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-sah-coerce'
-pkgver=0.033
-pkgrel=2
+pkgver=0.039
+pkgrel=1
 pkgdesc='Coercion rules for Data::Sah'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,16 +17,14 @@ makedepends=(
   'perl-test-needs'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
+  'perl>=5.10.1'
   'perl-exporter>=5.57'
   'perl-file-temp'
-  'perl-ipc-system-options>=0.331'
+  'perl-ipc-system-options>=0.332'
   'perl-json'
-  'perl-log-ger>=0.023'
+  'perl-log-ger>=0.027'
   'perl-nodejs-util>=0.007'
-  'perl-subroutines'
-  'perl>=5.10.1')
+  'perl-subroutines')
 checkdepends=(
   'perl-date-timeofday'
   'perl-datetime'
@@ -40,12 +38,10 @@ checkdepends=(
 url='https://metacpan.org/release/Data-Sah-Coerce'
 _distdir="Data-Sah-Coerce-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('b7667378843c9557763fdcf56d51b0044e77a0cdb477fb04462a45248be37b3939c063ebe48098fbe385c62635a0a2ab159d91d263f06f779657c1cec473b70d')
+sha512sums=('c72a782e44802c8c9e653a9c36747c2a51018bd77c5ed394f7c8858069a8b86b7702184d2d8ebf18e09a2d3bbecf22b6225562267e6897c831e96e3eb2b7220e')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
-  # fails for non-UTC time zones:
-  rm "${srcdir}/${_distdir}/t/js-date.t"
 }
 
 build() {
