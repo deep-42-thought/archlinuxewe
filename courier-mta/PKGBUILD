@@ -13,7 +13,7 @@
 pkgname=courier-mta
 _pkgname=courier
 pkgver=1.0.9
-pkgrel=5
+pkgrel=6
 pkgdesc="IMAP(s)/POP3(s) and SMTP Server with ML-manager, webmail and webconfig"
 arch=(i686 pentium4 x86_64)
 license=('GPL2')
@@ -24,8 +24,6 @@ makedepends=('pam' 'expect' 'gnupg' 'libldap' 'gamin' 'procps-ng' 'wget')
 provides=('smtp-server' 'smtp-forwarder' 'imap-server' 'pop3-server' 'courier-imap' 'courier-maildrop')
 conflicts=('courier-imap' 'smtp-forwarder' 'smtp-server' 'imap-server' 'courier-maildrop' 'ucspi-tcp')
 options=(!libtool !staticlibs)
-# Specify some package files to backup that aren't managed by sysconftool during an upgrade
-backup=('etc/courier/aliases/system' 'etc/courier/smtpaccess/default' 'etc/courier/webadmin/password' 'etc/courier/imapd.cnf' 'etc/courier/esmtpd.cnf' 'etc/courier/pop3d.cnf' 'etc/courier/esmtpauthclient')
 install=courier-mta.install
 source=(https://downloads.sourceforge.net/project/courier/courier/${pkgver}/courier-${pkgver}.tar.bz2
 	courier-imapd.service
@@ -131,4 +129,11 @@ package() {
   # hence the binary gets overwritten by the link because Arch bin and sbin are same location
   install -m 755 "${srcdir}/courier-${pkgver}/courier/imapd" "${pkgdir}/usr/lib/courier/courierimapd"
   sed -i 's/\/usr\/bin\/imapd/\/usr\/lib\/courier\/courierimapd/' "${pkgdir}/usr/share/imapd" "${pkgdir}/usr/share/imapd-ssl"
+
+  backup=(
+    $(
+      cd "$pkgdir"
+      find etc -type f
+    )
+  )
 }
