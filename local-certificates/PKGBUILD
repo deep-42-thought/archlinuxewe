@@ -2,20 +2,20 @@
 
 pkgname='local-certificates'
 arch=('any')
-pkgver=2019.09.02.14.00.51
-pkgrel=2
+pkgver=2019.12.01.14.04.18
+pkgrel=1
 pkgdesc='Certificate for local version of https://arch.eckner.net'
 license=('GPL')
 install='local-certificates.install'
 url='https://eckner.net/certs'
 
 source=(
-  'https://eckner.net/certs/2019-09-02T13:57:39.root-ca.crt.old'
-  'https://eckner.net/certs/2019-09-02T14:00:51.root-ca.crt'
+  'https://eckner.net/certs/2019-09-02T14:00:51.root-ca.crt.old'
+  'https://eckner.net/certs/2019-12-01T14:04:18.root-ca.crt'
 )
 sha512sums=(
-  'b11d002ce41abd456fe6cfd839eb11f1ee2eb45196fa716e4883e57a7d4a43f5a58b0305df3def2f6663f85be6d8450679d2c79e0cbc633c543341e6d4558088'
   '3e4e99ab15fb47180c665cad3c794a3e304ef20ab31e6846cd6272a6e1fcd5a86176f24ce95f60d7502c639e7f6efcef5e35bb5e37e5a77632ac1a62a06d11a5'
+  'f0e11498462a4d0179f17d4fcd6d7b9cc181c6ea11f7fd7b23ed31349b7189dcc0e4bcce070cfcc1ac53d905c054086cb60f52d7c9f9e159f50ea0cedc61831f'
 )
 
 package() {
