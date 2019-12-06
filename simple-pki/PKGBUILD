@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgbase=simple-pki
 pkgname=(simple-pki-ca simple-pki-cb)
-pkgver=0.1
-pkgrel=3
+pkgver=0.2
+pkgrel=1
 arch=('any')
 url="https://git.eckner.net/Erich/${pkgname}"
 license=('GPL')
@@ -10,7 +10,7 @@ makedepends=()
 source=(
     "https://git.eckner.net/Erich/${pkgbase}/snapshot/${pkgbase}-${pkgver}.tar.xz"
 )
-sha512sums=('de39775f50f5ff0bacd18ae3acfcccae5408efe6f384a9a8c7413ed8cf4c1682fd3111dc459a281ad5ba162cee76e6f97293f1d388e37119f20f76ce3d53d947')
+sha512sums=('354df5bd74dd0ead44b3e979182ff8d5807b63093f946473b54fa55dd0c5f5216e354075417a057d99503602a578372c5c416bebb7f96f5b8ef68d68c75389a1')
 
 build() {
 
@@ -25,12 +25,6 @@ package_simple-pki-ca() {
     "etc/${pkgbase}/ca.conf"
     "etc/${pkgbase}/ca-ssl.conf"
   )
-  for suffix in '.crl.srl' '.crt.srl' '.db' '.db.attr'; do
-    backup+=(
-      "etc/${pkgbase}/ca/root-ca/db/root-ca${suffix}"
-      "etc/${pkgbase}/ca/signing-ca/db/signing-ca${suffix}"
-    )
-  done
   pkgdesc="Scripts to manage a simple pki ca - including automatic renewal"
   depends=('openssl' 'rsync')
 
