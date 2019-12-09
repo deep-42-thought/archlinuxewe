@@ -2,7 +2,7 @@
 
 pkgname='local-certificates'
 arch=('any')
-pkgver=2019.12.09.09.05.26
+pkgver=2019.12.09.10.30.07
 pkgrel=1
 pkgdesc='Certificate for local version of https://arch.eckner.net'
 license=('GPL')
@@ -10,18 +10,18 @@ install='local-certificates.install'
 url='https://eckner.net/certs'
 
 source=(
-  'https://eckner.net/certs/2019-12-06T15:22:27.root-ca.crt.old'
-  'https://eckner.net/certs/2019-12-09T09:05:26.root-ca.crt'
+  'https://eckner.net/certs/2019-12-09T10:25:02.root-ca.old.crt'
+  'https://eckner.net/certs/2019-12-09T10:30:07.root-ca.crt'
 )
 sha512sums=(
-  'f50404fc7351b5f376ca5f085b99f60cdf8caba7ad10b150ef2690064446ed0f7718ab228642fdaabb270a94ad234320a73b3731a77c4fc886e2ed4a7f3bd743'
-  '8566b02cb83a665f75f275ddfb66269050c7fe3daded941b94b7d12c288594991f869f8ae9340a3988f9e3547604667d5b9abe36e5f23ccbb328b00715a6acdd'
+  '2cb8961553e664faa1015182b466b24814645b25138e50f1e7362dfee756066f472f1f699764015e79e56e46ab93807dc2ce01374e639962574fd072b468a9a6'
+  '8391b8219c111b0f2128f6620161bcd76fe5ddd5a609bb8371646dc40ada8c1c0084fc692472cf9b3e2fde36d48404104596ff3ebef50ab6c2eec267a1faf054'
 )
 
 package() {
   cd "${srcdir}"
   install -d "${pkgdir}/usr/share/ca-certificates/trust-source/anchors"
-  for s in *.cert.pem{,.new} *.crt{,.new}; do
+  for s in *{,.old}.cert.pem *{,.old}.crt; do
     [ -f "$s" ] || continue
     install \
       "${s}" \
