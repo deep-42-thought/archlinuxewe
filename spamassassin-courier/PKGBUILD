@@ -3,8 +3,8 @@
 # Contributor: Dale Blount <dale@archlinux.org>
 # Contributor: Manolis Tzanidakis
 pkgname=spamassassin-courier
-pkgver=3.4.2
-pkgrel=9
+pkgver=3.4.3
+pkgrel=1
 pkgdesc="A mail filter to identify spam - patched for courier-mta."
 arch=('i686' 'pentium4' 'x86_64')
 license=('APACHE' 'GPL2')
@@ -23,20 +23,22 @@ backup=('etc/mail/spamassassin/local.cf'
         'etc/mail/spamassassin/v320.pre'
         'etc/mail/spamassassin/v330.pre')
 install="${pkgname}.install"
-source=("https://www.us.apache.org/dist/${pkgname%-*}/source/Mail-SpamAssassin-${pkgver}.tar.gz"{,.asc}
+source=("https://ftp.fau.de/apache/${pkgname%-courier}/source/Mail-SpamAssassin-${pkgver}.tar.gz"
+        "https://www.apache.org/dist/${pkgname%-courier}/source/Mail-SpamAssassin-${pkgver}.tar.gz.asc"
         'spamassassin.service'
         'spamassassin-update.service'
         'spamassassin-update.timer'
         'AuthCourier.pm' # http://da.andaka.org/dl/AuthCourier.pm
         'spamd.patch')
 validpgpkeys=(D8099BC79E17D7E49BC21E31FDE52F40F7D39814)
-sha512sums=('85e3d78bb885ad1d0bf2066d1bc919d6ad5e9f86795069397e7c28cc1ba02870566ec014c08c81f68e7ed03b7f60d2de0b9730b3415b35d848abde2c8920a28f'
+sha512sums=('d2fd657d3c20273b0c06cb1da083d757d3f2a7f60c7ed6e6ad8f98e6df33c9c5f3824f0531abf5dbc32b0dde22979d7d671231fa2ef0d8b073ea6804c5de0c3a'
             'SKIP'
             '7e44370e9433134816db51681de388618f8b00f27e9229b673ca7da5821b6bfc27dfc9f6f7387ef18d1d310ea03a4569f46cae3089bba91dd71692b9eee8c8e4'
             'bd5a00a7b6aefa97c31b60de38afe6d2d8de11b6535e41c01a47d3e6269e043f048a281af80144de1528abe20a6becc4b3e673cabe4edd8f5921d5942d653227'
             'a99c5ba2aca337798c1d0f4f895a7ef4b83658e11b274df2c2b402679c12bf7a8a9ee3d04cd71f77b2f97f2bda0e89410f4555e9cdcc1c2e9507d0efb28364b6'
             'd0918776bb595b6386672e62e752a8b24f88c57f351cedf73e6dc4dcdee29b449fa773b6ec08c68ed9d56c7a5784273ac0d56c1b6ab30fc8bd2080f3371c2149'
-	    'c0333a744dc2e6e34e341dea4242c2a9337c015fe0e918ede1c24051f7f6992f260bb1329b86ae7d884d9287497c25eab13602a024be45e901d14d1faad74b3d')
+            'c0333a744dc2e6e34e341dea4242c2a9337c015fe0e918ede1c24051f7f6992f260bb1329b86ae7d884d9287497c25eab13602a024be45e901d14d1faad74b3d')
+
 provides=("spamassassin=${pkgver}")
 conflicts=('spamassassin')
 
@@ -58,22 +60,22 @@ build() {
   find . -name 'spamd' -type f -execdir patch -p1 -i "${srcdir}/spamd.patch" \;
 }
 
-check() {
-  cd "${srcdir}/Mail-SpamAssassin-${pkgver}"
-
-  # parallel tests cause lots of failures; disable for now
-  #export HARNESS_OPTIONS="j$(echo $MAKEFLAGS | sed 's/.*-j\([0-9][0-9]*\).*/\1/')"
-
-  make test
-}
+#check() {
+#  cd "${srcdir}/Mail-SpamAssassin-${pkgver}"
+#
+#  # parallel tests cause lots of failures; disable for now
+#  export HARNESS_OPTIONS="j$(echo $MAKEFLAGS | sed 's/.*-j\([0-9][0-9]*\).*/\1/')"
+#
+#  make test
+#}
 
 package() {
   cd "${srcdir}/Mail-SpamAssassin-${pkgver}"
-  make DESTDIR="${pkgdir}" install
+  make DESTDIR="${pkgdir}" INSTALL_BASE='/usr' install
 
   install -D -m644 -t "${pkgdir}/usr/lib/systemd/system/" "${srcdir}/spamassassin.service" "${srcdir}/spamassassin-update.service" "${srcdir}/spamassassin-update.timer"
   install -d -o 182 -g 182 -m 755 "$pkgdir/var/lib/spamassassin"
-  install -m444 -t "${pkgdir}/usr/share/perl5/vendor_perl/Mail/SpamAssassin/" "${srcdir}/AuthCourier.pm"
+  install -m444 -t "${pkgdir}/usr/lib/perl5/Mail/SpamAssassin/" "${srcdir}/AuthCourier.pm"
 
   echo 'u spamd 182 - /var/lib/spamassassin' |
 	  install -Dm644 /dev/stdin "$pkgdir/usr/lib/sysusers.d/${pkgname%-*}.conf"
