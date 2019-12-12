@@ -772,6 +772,11 @@ then
             s/-$//
             s/\.$//
           ' | \
+          if [ "${pkgname}" = 'qwt5' ]; then
+            grep '^5\.'
+          else
+            cat
+          fi | \
           latest_version
       )
     elif echo "${src}" | \
