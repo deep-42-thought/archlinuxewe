@@ -1008,6 +1008,33 @@ then
           ' | \
           latest_version
       )
+    elif echo "${src}" \
+    | grep -q 'https://download\.qt\.io/archive/qt/'; then
+      for major in $(
+        curl_it 'https://download.qt.io/archive/qt/' \
+        | sed -n '
+          s@^.*<a href="\([0-9.]\+/\)">\1</a>.*$@\1@
+          T
+          s@/$@@
+          /^'"${pkgname#qt}"'/ p
+        ' \
+        | sort -rV
+      ); do
+        remVer=$(
+          curl_it 'https://download.qt.io/archive/qt/'"${major}"'/' \
+          | sed -n '
+            s@^.*<a href="\([0-9.]\+/\)">\1</a>.*$@\1@
+            T
+            s@/$@@
+            p
+          ' \
+          | sort -V \
+          | tail -n1
+        )
+        if [ -n "${remVer}" ]; then
+          break;
+        fi
+      done
     else
       continue
     fi
