@@ -3,7 +3,7 @@
 
 pkgname='python2-qtpy'
 _pkgname="${pkgname#*-}"
-pkgver=1.8.0
+pkgver=1.9.0
 pkgrel=1
 pkgdesc='Provides an uniform layer to support PyQt5, PyQt4 and PySide with a single codebase'
 makedepends=('python2' 'python2-setuptools')
@@ -11,7 +11,7 @@ arch=('any')
 url="https://github.com/spyder-ide/${_pkgbase}/"
 license=('MIT')
 source=("${pkgname}-${pkgver}.tar.gz"::"https://github.com/spyder-ide/${_pkgname}/archive/v${pkgver}.tar.gz")
-sha256sums=('f4d5bdeeac2a859ecaf72b52ed6502f00946e255d635911866efa8cbab95238d')
+sha512sums=('aa94c55b6e3f12528377d3d77bba0803cab01d47cf18fb5a82afced6bdcd45144b97380be52c71fda7a96ea4eaa7eda27f4a072048065fb3834be81939c6b41c')
 
 prepare() {
   # Fix Python 2.x shebang
