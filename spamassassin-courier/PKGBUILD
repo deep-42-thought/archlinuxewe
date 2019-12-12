@@ -56,6 +56,10 @@ build() {
   export PERL_USE_UNSAFE_INC=1
   PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor \
       CONTACT_ADDRESS=root@localhost ENABLE_SSL=yes PERL_TAINT=no
+  sed -i '
+    /^INSTALL\S*MAN[0-9]\+DIR = / s#\$(INSTALL_BASE)#\0/usr/share#
+    /^INSTALL\S*\(BIN\|SCRIPT\|ARCH\|LIB\) = / s#\$(INSTALL_BASE)#\0/usr#
+  ' Makefile
   make
   find . -name 'spamd' -type f -execdir patch -p1 -i "${srcdir}/spamd.patch" \;
 }
@@ -71,7 +75,7 @@ build() {
 
 package() {
   cd "${srcdir}/Mail-SpamAssassin-${pkgver}"
-  make DESTDIR="${pkgdir}" INSTALL_BASE='/usr' install
+  make DESTDIR="${pkgdir}" INSTALL_BASE='' install
 
   install -D -m644 -t "${pkgdir}/usr/lib/systemd/system/" "${srcdir}/spamassassin.service" "${srcdir}/spamassassin-update.service" "${srcdir}/spamassassin-update.timer"
   install -d -o 182 -g 182 -m 755 "$pkgdir/var/lib/spamassassin"
