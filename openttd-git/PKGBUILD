@@ -2,7 +2,7 @@
 pkgname=openttd-git
 pkgver=29183.e54184d18
 _commit=${pkgver#*.}
-pkgrel=1
+pkgrel=2
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686' 'pentium4')
 url="http://www.openttd.org"
@@ -76,7 +76,8 @@ prepare() {
       s,"\$ROOT_DIR/\.git","/dev/does/not/exist",
     ' findversion.sh
 
-    for _p in "${srcdir}/"{signaltunnel,sloped-stations,underground}.patch; do
+#    for _p in "${srcdir}/"{signaltunnel,sloped-stations,underground}.patch; do
+    for _p in "${srcdir}/"signaltunnel.patch; do
       >&2 echo "patching ${_p##*/} ..."
       patch -p1 -i "${_p}"
       >&2 echo "... ok"
