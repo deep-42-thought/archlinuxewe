@@ -2,22 +2,21 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-package-moreutil'
-pkgver=0.591
-pkgrel=2
+pkgver=0.592
+pkgrel=1
 pkgdesc='Package-related utilities'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-exporter>=5.57'
-  'perl>=5.10.1')
 makedepends=(
+  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98')
+  'perl-test-simple')
+depends=(
+  'perl>=5.10.1'
+  'perl-exporter>=5.57')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -28,7 +27,7 @@ checkdepends=(
 url='https://metacpan.org/release/Package-MoreUtil'
 _distdir="Package-MoreUtil-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('07e3c0e9ab8d1919f8dabb8bc31b6fd543b9fb243b4b9120b67bcbc1a57645749be5f04688d2f845fef6c41e645bd83fcb46eae48490b458921115446aefb9ef')
+sha512sums=('4197e5bbd94b1e3218bbc049f814aeb5760eaec127111d976c36ef79209028f6aefbf3cbcb6950a871e489d562e70bf27fa7755e700026251921a39d82b660ba')
 
 build() {
   cd "${srcdir}/${_distdir}"
