@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-git
-pkgver=29183.e54184d18
+pkgver=29230.18f03a300
 _commit=${pkgver#*.}
-pkgrel=2
+pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686' 'pentium4')
 url="http://www.openttd.org"
@@ -39,9 +39,9 @@ source=(
     "underground.patch"
 )
 sha512sums=('SKIP'
-            '347edcf329e082b82d80504a2e08040706a72d74dbaede87be719e121c46ff3a02d20b8c59bfa99d3925cc1f10a76d51e29d83f5fe4b1d18421d72d5b80ece96'
-            '2f6a2fbd6931330f84611c5256ebdbf003484e83c85aeaea13a298b75159ef0256072b4094a2c8c92a8f5a912e695a738ed3b9ca9b05da2bf9396b19970a55cd'
-            '9aefde1091be171c5d4747a331a9cb56e0b9a9dcc16c5a78545249755a8e1d3b3af2b47fcc4981d96101c8450ed09f0cc775c9079918042cd0afcfd3dfe731ec')
+            '3b9af0ae5e91a639dca3f2cea255f5e174df2ef6dcbb39baffb241624414d93710155fab966fbe345b076e7a885ec0539478258380306a612ad0d4466436f1f5'
+            'ebb36911d64b3cf9dd315a47753f3621f32d2b1ae864ee70a3b01cbfc9946079d3c57d5605b4af143e1ddef76569b9812535cb99468a993596a464a448dc311e'
+            '6567eaef386e74170ab80fa314066b389bcb04ba6b5260bc3b3958d0f3aee069d49653deceba7fef5b51a5bdf19c8ca46405df37efba11813640bd3ee3dc8089')
 
 pkgver() {
   printf '%s.%s\n' \
