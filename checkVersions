@@ -783,15 +783,31 @@ then
       grep -q '//support\.hdfgroup\.org/'
     then
       quVer="${src%/*/*/*}/"
-      quNam="${src#${quVer}}"
-      quNam="${quNam%%.*}"
-      quNam="$(echo "${quNam}" | tr '[:lower:]' '[:upper:]')"
-      remVer=$( \
-        curl_it "${quVer}" | \
-          tr '"' '\n' | \
-          grep "^${quNam}\.[.0-9]\+/\$" | \
-          sed "s|^${quNam}\.\(.*\)/\$|\1|" | \
-          latest_version
+      quNam="${src##*/}"
+      quNam="${quNam%-*}"
+      quNAM="${src#${quVer}}"
+      quNAM="${quNAM%%.*}"
+      quNAM="$(echo "${quNAM}" | tr '[:lower:]' '[:upper:]')"
+      remVer=$(
+        curl_it "${quVer}" \
+        | tr '"' '\n' \
+        | sed "
+          s|^${quNAM}\.\(.*\)/\$|\1|
+          t
+          d
+        " \
+        | sort -Vr \
+        | while read -r verKandidat; do
+          curl_it "${quVer}${quNAM}.${verKandidat}/src/" \
+          | sed '
+            s@^.*<a href="'"${quNam}"'-'"${pkgname#${quNam}}"'\.\([0-9.]\+\)\.tar\.gz">.*$@\1@
+            t
+            d
+          ' \
+          | sort -Vr \
+          | grep -Fm1 '' \
+          && break
+        done
       )
     elif echo "${src}" | \
       grep -q 'https://bitbucket\.org/.*/get/[^/]\+$'
