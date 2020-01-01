@@ -225,9 +225,9 @@ if ${cleanUnsigned} && ${aufRechenknecht}; then
       rmPaket() {
         if [ "$(basename "$(pwd)")" != "any" ]; then
           if [ "$(basename "$(pwd)")" == "releng" ]; then
-            repo-remove releng.db.tar.gz "${1%%-*-*-*.pkg.tar.xz}"
+            repo-remove releng.db.tar.gz "${1%-*-*-*.pkg.tar.*}"
           else
-            repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "${1%%-*-*-*.pkg.tar.xz}"' \
+            repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.*}"' \
       "${checkDbSig}"
     printf '
           fi
@@ -242,7 +242,8 @@ if ${cleanUnsigned} && ${aufRechenknecht}; then
     printf '
         [ -d "${arch}" ] || continue
         cd "${arch}"
-        for paket in *.pkg.tar.xz; do
+        for paket in *.pkg.tar.xz *.pkg.tar.zst; do
+          [ ! -e "${paket}" ] && continue
           [ -e "${paket}.sig" ] && continue
           rmPaket "${paket}"
         done
@@ -330,7 +331,7 @@ if ${aufRechenknecht}; then
             [ "${singleArch}" == "any" ] || \
             continue
 
-          pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.xz"
+          pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.zst"
 
           if ${force}; then
             printf '%s\n' "${singleArch}"
@@ -528,10 +529,10 @@ if ${aufRechenknecht}; then
             find . \
               -mindepth 1 \
               -maxdepth 1 \
-              -name '*.pkg.tar.xz' \
+              -name '*.pkg.tar.zst' \
               -exec bsdtar -Oxf {} .BUILDINFO \; \
             | sed '
-              s@^installed = \(.*\)$@/var/cache/archbuild32/\1.pkg.tar.xz@
+              s@^installed = \(.*\)$@/var/cache/archbuild32/\1.pkg.tar.zst@
               t
               d
             ' \
@@ -569,9 +570,9 @@ if ${aufRechenknecht}; then
               "${arch}" \
               "${cleanChroot}" \
               "${log} ${checkMakepkg}"
-            printf 'tar -czf - *.pkg.tar.xz'
+            printf 'tar -czf - *.pkg.tar.zst'
             [ -n "${log}" ] && \
-              printf ' *.pkg.tar.xz-*.log'
+              printf ' *.pkg.tar.zst-*.log'
             printf '\n'
           )" \
           < "${tmpDir}/${paket}-${vers}.src.tar.gz" \
@@ -593,7 +594,7 @@ if ${aufRechenknecht}; then
       fi
       teil="${teil_und_arch#*:}"
       teil_arch="${teil_und_arch%%:*}"
-      namcap "${tmpDir}/${paket}/${teil}-${vers}-${teil_arch}.pkg.tar.xz" > \
+      namcap "${tmpDir}/${paket}/${teil}-${vers}-${teil_arch}.pkg.tar.zst" > \
         "${tmpDir}/namcap"
       err[${i}]=$?
       if [ -n "${log}" ]; then
@@ -629,7 +630,7 @@ if ${aufRechenknecht}; then
     for teil_und_arch in "${paket_teile_und_archs[@]}"; do
       teil="${teil_und_arch#*:}"
       teil_arch="${teil_und_arch%%:*}"
-      gpg --detach-sign -u "${key}" --no-armor ${teil}-${vers}-${teil_arch}.pkg.tar.xz
+      gpg --detach-sign -u "${key}" --no-armor ${teil}-${vers}-${teil_arch}.pkg.tar.zst
     done
 
     if ${upload} && [ ${err[${i}]} -eq 0 ]; then
@@ -656,8 +657,8 @@ if ${aufRechenknecht}; then
             )
           )
           tar -cf - $(
-            printf " %s-${vers}-${arch}.pkg.tar.xz"     "${paket_teile[@]}"
-            printf " %s-${vers}-${arch}.pkg.tar.xz.sig" "${paket_teile[@]}"
+            printf " %s-${vers}-${arch}.pkg.tar.zst"     "${paket_teile[@]}"
+            printf " %s-${vers}-${arch}.pkg.tar.zst.sig" "${paket_teile[@]}"
           ) | \
             ssh paule@127.0.0.1 "$(
 
@@ -669,7 +670,7 @@ if ${aufRechenknecht}; then
                 entferneAltePakete() {
                   altePakete=$(
                     ls -1 | \
-                      grep "^$1-[^-]\+-[^-]\+-$2\.pkg\.tar\.xz\$"
+                      grep "^$1-[^-]\+-[^-]\+-$2\.pkg\.tar\.\(xz\|zst\)\$"
                   )
                   if [ -n "${altePakete}" ]; then
                     if [ "$(basename "$(pwd)")" != "any" ]; then
@@ -733,23 +734,23 @@ if ${aufRechenknecht}; then
   
                       entferneAltePakete "${teil}" "any"'
                   printf '
-                      ln -s "../any/${teil}-%s-%s.pkg.tar.xz" "${teil}-%s-%s.pkg.tar.xz"' \
+                      ln -s "../any/${teil}-%s-%s.pkg.tar.zst" "${teil}-%s-%s.pkg.tar.zst"' \
                     "${vers}" "${arch}" "${vers}" "${arch}"
                   printf '
-                      if [ -e "%s/any/${teil}-%s-%s.pkg.tar.xz.sig" ]' \
+                      if [ -e "%s/any/${teil}-%s-%s.pkg.tar.zst.sig" ]' \
                     "${pkgDir}" "${vers}" "${arch}"
                   printf '; then
-                        ln -s "../any/${teil}-%s-%s.pkg.tar.xz.sig" "${teil}-%s-%s.pkg.tar.xz.sig"' \
+                        ln -s "../any/${teil}-%s-%s.pkg.tar.zst.sig" "${teil}-%s-%s.pkg.tar.zst.sig"' \
                     "${vers}" "${arch}" "${vers}" "${arch}"
                   printf '
                       fi
-                      addPaket "${teil}-%s-%s.pkg.tar.xz"' \
+                      addPaket "${teil}-%s-%s.pkg.tar.zst"' \
                     "${vers}" "${arch}"
                   printf '
                     done'
                 else
                   printf '
-                    addPaket "${teil}-%s-%s.pkg.tar.xz"' \
+                    addPaket "${teil}-%s-%s.pkg.tar.zst"' \
                     "${vers}" "${arch}"
                 fi
                 printf '
@@ -783,7 +784,7 @@ if ${aufRechenknecht}; then
                 grep -v "^%%FILENAME%%\$" | \
                 grep -v -- "^--\$"
               ls "${arch}" | \
-                grep "^.*\.pkg\.tar\.xz\$"
+                grep "^.*\.pkg\.tar\.\(xz\|zst\)\$"
             ) | \
               sort | \
               uniq -u
@@ -800,7 +801,7 @@ if ${aufRechenknecht}; then
 
           for signaturWarnungen in $( \
             ls "${arch}" | \
-              grep "^.*\.pkg\.tar\.xz\(\.sig\)\?\$" | \
+              grep "^.*\.pkg\.tar\.\(xz\|zst\)\(\.sig\)\?\$" | \
               sed "s|\.sig\$||" | \
               sort | \
               uniq -u
