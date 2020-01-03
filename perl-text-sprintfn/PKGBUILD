@@ -2,23 +2,21 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-text-sprintfn'
-pkgver='0.08'
-pkgrel=4
+pkgver=0.090
+pkgrel=1
 pkgdesc='Drop-in replacement for sprintf(), with named parameter support'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-)
 makedepends=(
   'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
+depends=(
+  'perl>=5.10.1'
+  'perl-exporter>=5.57')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -27,7 +25,7 @@ checkdepends=(
 url='https://metacpan.org/release/Text-sprintfn'
 _distdir="Text-sprintfn-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('b0a1a9833f354683bc250dd32629f75ce7acdb8fcbcb9f187f0ec1d48f0b5c6e16f49123acbdc98c52fa474d04c149d51949392ee319000e38c6aa837af9381e')
+sha512sums=('ce23ce1b8bc7d4db1f7dba5127108a2c3bd7f351c5daf98d690e65d825c5b39e5793c5cda2e4255ee85db9560db4d17de649c4624231733b685c92ee6196700a')
 
 build() {
   cd "${srcdir}/${_distdir}"
