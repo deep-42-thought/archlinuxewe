@@ -337,17 +337,21 @@ if ${aufRechenknecht}; then
             printf '%s\n' "${singleArch}"
           else
             if [ "${repo}" == 'releng' ]; then
-              [ ! -e "${pkgDir32}/${pkgFile}" ] && printf '%s\n' "${singleArch}"
+              [ ! -e "${pkgDir32}/${pkgFile}" ] \
+              && [ ! -e "${pkgDir32}/${pkgFile%.zst}.xz" ] \
+              && printf '%s\n' "${singleArch}"
             fi
             [ "${singleArch}" == "any" ] && \
               for dir in ${pkgDir}/*; do
                 [ ! -d "${dir}" ] && continue
-                [ ! -e "${dir}/${pkgFile}" ] && printf '%s\n' "${singleArch}"
+                [ ! -e "${dir}/${pkgFile}" ] \
+                && [ ! -e "${dir}/${pkgFile%.zst}.xz" ] \
+                && printf '%s\n' "${singleArch}"
               done
     
-            if [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ]; then
-              printf '%s\n' "${singleArch}"
-            fi
+            [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ] \
+            && [ ! -e "${pkgDir}/${singleArch}/${pkgFile%.zst}.xz" ] \
+            && printf '%s\n' "${singleArch}"
           fi
 
         done
