@@ -548,7 +548,7 @@ if ${aufRechenknecht}; then
       ;;
       'armv6h'|'armv7h'|'aarch64')
         # armv6h & armv7h & aarch64 is built on the raspberry pis
-        SRCPKGDEST="${tmpDir}" makepkg -Sf
+        PKGEXT=".pkg.tar.zst" SRCPKGDEST="${tmpDir}" makepkg -Sf
         err[${i}]=$?
         if [ ${err[${i}]} -eq 0 ]; then
           arch_num=$(
