@@ -35,7 +35,7 @@ pkgrel=1
 arch=('armv7h')
 url="http://git.denx.de/u-boot.git/"
 license=('GPL')
-makedepends=('git' 'swig' 'bc' 'dtc' 'python2')
+makedepends=('git' 'swig' 'bc' 'dtc' 'python2' 'python')
 backup=(boot/boot.txt boot/boot.scr)
 source=("ftp://ftp.denx.de/pub/u-boot/u-boot-${pkgver}.tar.bz2"
         'boot.txt'
@@ -47,7 +47,10 @@ sha512sums=('073d4e0234095c1bda1ffa7a648972aa4530d106ee1a73035e0501b1aba29516535
 prepare() {
   cd u-boot-${pkgver}
 
-  sed -i 's/env python$/&2/' tools/binman/binman{,.py}
+  sed -i '
+    1 s/env python$/&2/
+    1 s/\(env python\)3$/\1/
+  ' tools/binman/binman{,.py}
 }
 
 build() {
