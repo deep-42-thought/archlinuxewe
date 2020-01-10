@@ -268,6 +268,15 @@ then
         ' \
         | latest_version
       )
+    elif [ "${pkgname}" = 'python2-sip' ]; then
+      remVer=$(
+        pacman -Ss '^python-sip$' \
+        | sed '
+          s@^\S\+/python-sip \([0-9.]\+\)-[0-9]\+$@\1@
+          t
+          d
+        '
+      )
     elif [ "${pkgname}" = 'local-certificates' ]; then
       remVer=$(
         curl_it 'https://eckner.net/certs/sha512sums' \
