@@ -2,8 +2,8 @@
 pkgbase=python-pyepics
 pkgname=(python2-pyepics python-pyepics)
 _pkgname="${pkgbase#*-}"
-pkgver=3.4.0
-pkgrel=5
+pkgver=3.4.1
+pkgrel=1
 pkgdesc='Python Interface to the Epics Channel Access protocol of the Epics control system'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://pypi.python.org/pypi/pyepics'
@@ -27,9 +27,9 @@ makedepends=(
   "${_makedepends[@]/ython/ython2}"
 )
 source=(
-    "https://pypi.python.org/packages/99/99/398cd2dbdabf889072546e997da635c3f6ddb3e00439653f2f41cf936875/${_pkgname}-${pkgver}.tar.gz"
+    "https://pypi.python.org/packages/cb/64/f849f7aef93b7d3d713aa1d5e79ee4b67c84fa3fa1db3e2882e91c000ff6/${_pkgname}-${pkgver}.tar.gz"
 )
-sha512sums=('b7b2bbece6b180d21f45b3fced273b9ee98604a82543bf4579c5fc37cffc04fa3f7843dea2b38518748cae7120f41f69a41483afcf49374b8fde1e7b0b7f329b')
+sha512sums=('bd06fd077676bf95f3c4a66f0d0a119b94e8e6661f6c7f30532f7801ddda8b66c3ccc41f14132c605a77224a81c7669cd20dddd89aaeb7a7c8a0c0a214d3063a')
 
 prepare() {
   cp -a ${_pkgname}-${pkgver}{,-py2}
