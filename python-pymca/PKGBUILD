@@ -2,8 +2,8 @@
 pkgbase=python-pymca
 pkgname=(python2-pymca python-pymca)
 _pkgname="${pkgbase#*-}"
-pkgver=5.5.3
-pkgrel=2
+pkgver=5.5.4
+pkgrel=1
 pkgdesc='Stand-alone application and Python tools for interactive and/or batch processing analysis of X-Ray Fluorescence Spectra'
 arch=('i686' 'pentium4' 'x86_64')
 url='http://pymca.sourceforge.net/index.html'
@@ -42,7 +42,7 @@ makedepends=(
 source=(
     "${_pkgname}-v${pkgver}.tar.gz::https://github.com/vasole/${_pkgname}/archive/v${pkgver}.tar.gz"
 )
-sha512sums=('27982ac15677289be3f381086615501e00f36656bcdeedfb9471187af06b527b8d04b8433a1dfd1de89dbff41d46604f93ddcb51c6015a4ec6ec887abaa73c00')
+sha512sums=('f9623bab9e44c1a38bc597f70fbea70fc0d493be7f2a83737e6b284c89bbb1e5dcdf2fb6d29b0cfbf87c8bad5fc55ced990917ce7306218b411247885c78fea4')
 
 prepare() {
   cp -a ${_pkgname}-${pkgver}{,-py2}
