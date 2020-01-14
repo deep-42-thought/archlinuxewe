@@ -429,7 +429,10 @@ if ${aufRechenknecht}; then
   maxErr=0
 
   # update git sources
-  find "${SRCDEST}" -mindepth 2 -maxdepth 2 -name 'HEAD' | \
+  find "${SRCDEST}" -mindepth 2 -maxdepth 2 \( \
+    -name 'HEAD' \
+    -o -name '.git' \
+  \) | \
     sed 's|/[^/]*$||' | \
     while read -r repo; do
       git -C "${repo}" fetch --all -p
