@@ -180,7 +180,7 @@ then
         mount /mnt/archlinux32
       fi
       /usr/src/archlinux32/devops/watch-versions | sed 's/$/ (arch32)/' | tee -a "${tmpFile}"
-      ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||" | grep '32$') | tee -a "${tmpFile}"
+      ${me} "${args[@]}" $(echo *32/PKGBUILD | tr ' ' '\n' | sed 's|/PKGBUILD||') | tee -a "${tmpFile}"
       err=$?
     fi
     set +o pipefail
