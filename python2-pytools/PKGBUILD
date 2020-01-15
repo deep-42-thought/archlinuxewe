@@ -3,8 +3,8 @@
 # Contributor: Stéphane Gaudreault <stephane@archlinux.org>
 
 pkgname=python2-pytools
-pkgver=2019.1.1
-pkgrel=3
+pkgver=2020.1
+pkgrel=1
 pkgdesc="A collection of tools for Python"
 arch=('any')
 url="https://mathema.tician.de/software/pytools"
@@ -12,8 +12,8 @@ license=('MIT')
 makedepends=('python2-setuptools')
 depends=('python2-six' 'python2-decorator' 'python2-appdirs' 'python2-numpy')
 checkdepends=('python2-pytest-runner')
-source=("https://pypi.python.org/packages/00/96/00416762a3eda8876a17d007df4a946f46b2e4ee1057e0b9714926472ef8/pytools-2019.1.1.tar.gz")
-sha512sums=('757ce5e291f49763afb17210659cadfa2610aa1c9b0912d46107ac50b0d28b7b607198fa4e806e66a7f061d761057a58b00f04a4190009ec7087cffed5f9d5f9')
+source=("https://pypi.python.org/packages/66/c7/88a4f8b6f0f78d0115ec3320861a0cc1f6daa3b67e97c3c2842c33f9c089/pytools-${pkgver}.tar.gz")
+sha512sums=('b8b6513677f84fe97dfee9b96449ce6f2bad5d1dbd51a4f36b080136efd3b1d97850f02ec52e8e70c317104f99ad383dd9d2b260f0c151eb11851b03efcefe58')
 
 build() {
   cd "$srcdir"/pytools-$pkgver
