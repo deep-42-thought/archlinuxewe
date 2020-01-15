@@ -234,6 +234,7 @@ if ${cleanUnsigned} && ${aufRechenknecht}; then
         fi
         rm "$1"
         [ -e "$1.sig" ] && rm "$1.sig"
+        [ -h "$1.sig" ] && rm "$1.sig"
       }'
 
     printf '
@@ -243,8 +244,9 @@ if ${cleanUnsigned} && ${aufRechenknecht}; then
         [ -d "${arch}" ] || continue
         cd "${arch}"
         for paket in *.pkg.tar.xz *.pkg.tar.zst; do
-          [ ! -e "${paket}" ] && continue
+          [ ! -e "${paket}" ] && [ ! -h "${paket}" ] && continue
           [ -e "${paket}.sig" ] && continue
+          [ -h "${paket}.sig" ] && continue
           rmPaket "${paket}"
         done
       done'
