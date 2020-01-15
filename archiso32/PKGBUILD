@@ -8,7 +8,7 @@
 _target_arch=$(printf '%s' i 6 8 6)
 
 pkgname=archiso32
-pkgver=43.2
+pkgver=43.3
 pkgrel=1
 pkgdesc='Tools for creating Arch Linux live and install iso images - for '"${_target_arch}"
 arch=('any')
@@ -18,7 +18,7 @@ depends=('archiso' 'make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' '
 source=(
   "https://sources.archlinux32.org/sources/${pkgname}-${_target_arch}-v${pkgver}.tar.gz"{,.sig}
 )
-sha512sums=('cc94c3f49666e276b8745d333507b5c29e2231d9efc624d8969594c7370127bc8c198fc5fa35ae7fc3fa139429a4d6c4b1313842d8794408814ae258a009e2a6'
+sha512sums=('f7e9180fc37b12c5af88814fbdbed10f0c656dd3bbd4e6d35f796e9641ea48b4446ec37bb93c1a9dc5af536da8e2608e558ad0085500c70dad6c8f8dbb6b6be2'
             'SKIP')
 validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
 
