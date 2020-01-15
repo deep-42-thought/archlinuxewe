@@ -8,17 +8,17 @@
 _target_arch=$(printf '%s' x 8 6 _ 6 4 ' and ' i 6 8 6)
 
 pkgname=archiso-dual
-pkgver=43.3
+pkgver=44.4
 pkgrel=1
 pkgdesc='Tools for creating Arch Linux live and install iso images - for '"${_target_arch}"
 arch=('any')
 license=('GPL')
 url='https://git.archlinux32.org/archlinux32/archiso32'
-depends=('archiso' 'make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx' 'pacman-mirrorlist32' 'archlinux32-keyring')
+depends=('archiso-cross' 'make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx' 'pacman-mirrorlist32' 'archlinux32-keyring')
 source=(
   "https://sources.archlinux32.org/sources/archiso32-dual-v${pkgver}.tar.gz"{,.sig}
 )
-sha512sums=('85302a6aad0ea1a1b42cfcc4e209fed7ec3c61e1a9483f70381eb036c118ab144171710f4e71bdcd76d22db150c8ffebefc073633836f3952b691c660c16bd34'
+sha512sums=('818d3b34b8cca053f0b62e3c500dfb5c6c1b612e032bb59f0c959d8a1107109c7de4d4f936d83b28c0a5f5f066b517ef250b0c365b44a4d0ae9ea4382b9a7669'
             'SKIP')
 validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
 
@@ -37,7 +37,7 @@ package() {
     "${srcdir}/pkg/usr/share/doc/archiso/README.transfer"
 
   (
-    pacman -Qql archiso \
+    pacman -Qql archiso-cross \
     | grep -v '/$'
     cd "${srcdir}/pkg"
     find * -not -type d \
