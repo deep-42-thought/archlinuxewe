@@ -590,9 +590,9 @@ if ${aufRechenknecht}; then
           if [ ${err[${i}]} -eq 0 ]; then
             tar -xzvf paket.tar.gz \
             | sed '
-              s/\.pkg\.tar$/\0.zst/
+              s/^.*\.pkg\.tar$/\0 \0.zst/
               t
-              s/\(\.pkg\.tar\)\(-.*\.log\)$/\1.zst\2/
+              s/^\(.*\.pkg\.tar\)\(-.*\.log\)$/\0 \1.zst\2/
               t
               s/^.*$/unknown file "\0" in packages tar cannot be compressed/
               w /dev/stderr
