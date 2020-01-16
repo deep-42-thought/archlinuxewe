@@ -579,16 +579,29 @@ if ${aufRechenknecht}; then
               "${arch}" \
               "${cleanChroot}" \
               "${log} ${checkMakepkg}"
-            printf 'tar -czf - *.pkg.tar.zst'
+            printf 'tar -czf - *.pkg.tar'
             [ -n "${log}" ] && \
-              printf ' *.pkg.tar.zst-*.log'
+              printf ' *.pkg.tar-*.log'
             printf '\n'
           )" \
           < "${tmpDir}/${paket}-${vers}.src.tar.gz" \
           > "paket.tar.gz"
           err[${i}]=$?
           if [ ${err[${i}]} -eq 0 ]; then
-            tar -xzf paket.tar.gz
+            tar -xzvf paket.tar.gz \
+            | sed '
+              s/\.pkg\.tar$/\0.zst/
+              t
+              s/\(\.pkg\.tar\)\(-.*\.log\)$/\1.zst\2/
+              t
+              s/^.*$/unknown file "\0" in packages tar cannot be compressed/
+              w /dev/stderr
+              d
+            ' \
+            | while read -r file cfile; do
+              zstd "${file}" -o "${cfile}"
+              rm "${file}"
+            done
           fi
         fi
       ;;
