@@ -3,7 +3,7 @@
 # Contributor: Allan McRae <allan@archlinux.org>
 
 pkgname=isl
-pkgver=0.22
+pkgver=0.22.1
 pkgrel=1
 pkgdesc="Library for manipulating sets and relations of integer points bounded by linear constraints"
 arch=('i686' 'pentium4' 'x86_64')
@@ -11,7 +11,7 @@ url="http://isl.gforge.inria.fr/"
 depends=('gmp')
 license=('MIT')
 source=("http://isl.gforge.inria.fr/$pkgname-${pkgver}.tar.xz")
-sha512sums=('7c3c9502ea07e4d47a823841837c3aa0b9d7ba0fe58deaf180734e44c18e53735ec783645da0bdc56b617c9e639b226cc03b40a947f852e1e787166a64f59424')
+sha512sums=('8dc7b0c14e5bfdca8f2161be51d3c9afcd18bc217bb19b7de01dbba0c6f3fdc2b725fb999f8562c77bf2918d3005c9247f7a58474a6da7697390067944d4d4aa')
 
 build() {
   cd $pkgname-$pkgver
