@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-mojolicious'
-pkgver=8.31
+pkgver=8.32
 pkgrel=1
 pkgdesc='Web development toolkit'
 arch=('any')
@@ -25,7 +25,7 @@ checkdepends=(
 url='https://metacpan.org/release/Mojolicious'
 _distdir="Mojolicious-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SR/SRI/${_distdir}.tar.gz")
-sha512sums=('d3946ba60d3bebb6efaa0d249804347808e82c43e03ad22e9a802dff84507a7ea8574c42e17586d9f0b0e65115d560b842f2cf62a5f8c8c831f8d462f6bd3484')
+sha512sums=('1669c35e12b36c02a058d5a97d9fd2d848db4abcc7eaafc7bda31093c364e59473395b803897b7f35e141eb690d6d4ee3c859162a6d4799249a226ac1027e5bc')
 
 prepare() {
   cd "$srcdir/$_distdir"
