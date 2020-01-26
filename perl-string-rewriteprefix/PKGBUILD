@@ -2,26 +2,24 @@
 # Generator : neuesPerlPaket (2234e1f408ad7a30313e9b3c153aadde5d1eb68bc0adcb75ee52d2927ebb42e5676317181b669be39442d556f1e0c24b108d6d45021c1dbc41e2f79c705c7ca7)
 
 pkgname='perl-string-rewriteprefix'
-pkgver='0.007'
-pkgrel=7
+pkgver=0.008
+pkgrel=1
 pkgdesc='rewrite strings based on a set of known prefixes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-carp'
-  'perl-sub-exporter>=0.972')
 makedepends=(
-  'perl-extutils-makemaker>=6.30'
-  'perl-io'
+  'perl-extutils-makemaker'
   'perl-pathtools'
   'perl-test-simple>=0.96')
+depends=(
+  'perl'
+  'perl-carp'
+  'perl-sub-exporter>=0.972')
 url='https://metacpan.org/release/String-RewritePrefix'
 _distdir="String-RewritePrefix-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
-sha512sums=('c5f2eb6c7661809b4783378a4a33445dfd91fea22cd0a11c9e8d42683879fd6f95c465f7902db2573d5939dc18b250c1fd787d63e3c8a2e15febfd2c8fbd5a10')
+sha512sums=('9aa814c28863453f3e684f96914462bf09d72d909aa41452b08748e6a47a9c1c2aad5b6e56091dae546c62b0d3d9db0b087f8af12c085e86c69ac8e08c610611')
 
 build() {
   cd "${srcdir}/${_distdir}"
