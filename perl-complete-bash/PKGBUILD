@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-complete-bash'
-pkgver=0.333
+pkgver=0.334
 pkgrel=1
 pkgdesc='Completion routines for bash shell'
 arch=('any')
@@ -34,7 +34,7 @@ checkdepends=(
 url='https://metacpan.org/release/Complete-Bash'
 _distdir="Complete-Bash-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('79e1d565fcc30a0df607c9da044d849559176aa1f6fc4abec7c74b586d1552de013187596fab8d101d29383fb6b35cfab8687169622c74199a3fb4796bf61bfc')
+sha512sums=('4e2089e8ed8f712d099de922515b7b40f75761996003ce0c4f24d15d175246e9ea0135469ac947acf6f866307411bc18b5e44ebb2b6827e7f4428d5563e8a0ba')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
