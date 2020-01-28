@@ -910,77 +910,39 @@ then
           latest_version
       )"
     elif echo "${src}" | \
-      grep -q '^https\?://\(www\.\)\?paraview\.org/files/'
-    then
-      remVerz="$(
-        echo "${src}" | \
-          sed 's|/v[0-9.]\+/ParaView-v[0-9.]\+\.tar\.gz$|/|' | \
-          sed 's|^\(http://\)|\1www.|'
-      )"
-      for mainVer in $(
-          curl_it "${remVerz}" | \
-            tr ' >' '\n' | \
-            grep '^href="v[0-9.]\+/"$' | \
-            sed 's|href="v\([0-9.]\+\)/"$|\1|' | \
-            sort -Vr
-        )
-      do
-        remVer="$(
-          curl_it "${remVerz}v${mainVer}/" | \
-            tr ' >' '\n' | \
-            grep '^href="ParaView-v[0-9.]\+\.tar\.gz"$' | \
-            sed 's|^href="ParaView-v\([0-9.]\+\)\.tar\.gz"$|\1|' | \
-            latest_version
-        )"
-        [ -n "${remVer}" ] && break
-      done
-    elif echo "${src}" | \
-      grep -q '^https://download\.kde\.org/stable/plasma/'
-    then
-      remVerz=$(
-        echo "${src}" | \
-          sed 's|\(/[^/]\+\)\{2\}$|/|'
+      grep -qF "$(
+        printf '%s\n' \
+          'https://www.kernel.org/pub/linux/utils/cryptsetup' \
+          'https://archive.apache.org/'
+        )"; then
+      fileName=$(
+        printf '%s\n' "${src}" \
+        | sed '
+          s@^.*/@@
+          s@-[0-9.]\+[^0-9]\+$@@
+        '
       )
       for mainVer in $(
-          curl_it "${remVerz}" | \
-            tr '"' '\n' | \
-            grep '^[0-9.]\+/$' | \
-            sed 's|/$||' | \
-            sort -Vr
-        )
-      do
+        curl_it -L "${src%/*/*}/" \
+        | sed '
+          s@^.*<a href="\(\(v\|'"${fileName}"'-\)[0-9.]\+\)/">\1/</a>.*$@\1@
+          t
+          d
+        ' \
+        | sort -Vr
+      ); do
         remVer=$(
-          curl_it "${remVerz}${mainVer}/" | \
-            tr '"' '\n' | \
-            grep '^oxygen-fonts-[0-9.]\+\.tar\.xz$' | \
-            sed 's|^oxygen-fonts-\([0-9.]\+\)\.tar\.xz$|\1|' | \
-            latest_version
+          curl_it -L "${src%/*/*}/${mainVer}/" \
+          | sed '
+            s@^.*<a href="\('"${fileName}"'-\([0-9.]\+\)\.t\(ar\.\)\?\(gz\|bz2\|xz\)\)">\1</a>.*$@\2@
+            t
+            d
+          ' \
+          | latest_version
         )
-        [ -n "${remVer}" ] && break
-      done
-    elif echo "${src}" | \
-      grep -q '^https://archive\.apache\.org/'
-    then
-      remVerz="$(
-        echo "${src}" | \
-          sed 's|[^/]\+/[^/]\+$||'
-      )"
-      for mainVer in $(
-          curl_it "${remVerz}" | \
-            tr '"' '\n' | \
-            grep "^${pkgname#apache-}-[0-9.]\+/\$" | \
-            sed "s|^${pkgname#apache-}-\([0-9.]\+\)/\$|\1|" | \
-            sort -Vr
-        )
-      do
-        remVer="$(
-          curl_it "${remVerz}${pkgname#apache-}-${mainVer}/" | \
-            tr '"' '\n' | \
-            grep "^${pkgname#apache-}-[0-9.]\+\.t\(ar\.\)\?\(gz\|bz2\|xz\)\$" | \
-            sed "s@^${pkgname#apache-}-\([0-9.]\+\)\.t\(ar\.\)\?\(gz\|bz2\|xz\)\$@\1@" | \
-            latest_version
-        )"
-        [ -n "${remVer}" ] && break
+        if [ -n "${remVer}" ]; then
+          break
+        fi
       done
     elif echo "${src}" | \
       grep -q "http://www\.mkgmap\.org\.uk/download"
