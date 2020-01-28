@@ -1,0 +1,26 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=save-time
+pkgver=0.0
+pkgrel=1
+pkgdesc="Simple script for saving system time across reboots"
+arch=('any')
+url="https://git.eckner.net/Erich/${pkgname}"
+license=('GPL')
+source=(
+    "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
+)
+sha512sums=('315cefb42edf180b91d315c037205996df447671386e7db939d7d182b41ab2c1956ff39525f9e9ce78ea0858ef2a9ac3798faa51c86af9aa988c0485cb8a5890')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
