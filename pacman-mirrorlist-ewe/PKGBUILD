@@ -12,7 +12,7 @@ arch=('any')
 url="https://www.archlinux.org/mirrorlist/"
 license=('GPL')
 backup=(etc/pacman.d/mirrorlist)
-source=("https://arch.eckner.net/merged/core/os/$(uname -m)/${pkgname%-ewe}-${pkgver}-${pkgrel%%.*}-any.pkg.tar.xz")
+source=("https://arch.eckner.net/merged/core/os/x86_64/${pkgname%-ewe}-${pkgver}-${pkgrel%%.*}-any.pkg.tar.xz")
 sha512sums=('1eb888da0e00c5be650dbd682719d2bc2cf7c666edf0000301028498c2702e5a3f7c8e3bafbe596ec2c0eb659a6b692b23eaddd33efbd60b3b60a3694a6b5ae8')
 
 build() {
