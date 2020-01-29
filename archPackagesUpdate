@@ -438,6 +438,7 @@ if ${aufRechenknecht}; then
     sed 's|/[^/]*$||' | \
     while read -r repo; do
       git -C "${repo}" fetch --all -p
+      git -C "${repo}" fetch origin master:master
     done
   # update svn sources
   find "${SRCDEST}" -mindepth 2 -maxdepth 2 -name '.svn' | \
