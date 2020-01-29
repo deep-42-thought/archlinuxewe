@@ -30,7 +30,7 @@ makedepends=(
   "${_depends[@]}"
   "${_depends[@]/python/python2}"
 )
-source=("https://github.com/ipython/ipyparallel/archive/${pkgver}.tar.gz")
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ipython/ipyparallel/archive/${pkgver}.tar.gz")
 sha512sums=('d21eb4fe647455d3819fb8be895490dea9d1da59f85b59c3b028a5211193efaf73fa05f8e8d99f4acfb2e3630ef37ae9906da812c39c5c9f004172db17c16e50')
 
 _common_files=(
