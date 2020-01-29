@@ -204,7 +204,10 @@ fi
 
 echo '... done'
 
-${aufRechenknecht} && pkgSrcDir="${pkgSrcDir}/archPackages"
+if ${aufRechenknecht}; then
+  submoduleDir="${pkgSrcDir}/submodules"
+  pkgSrcDir="${pkgSrcDir}/archPackages"
+fi
 
 # extract git ${branch}
 git -C "${pkgSrcDir}" archive --format tar "${branch}" | \
@@ -275,8 +278,24 @@ if [ -f '.gitmodules' ]; then
         continue
       fi
       mkdir -p "${path}"
-      >&2 printf 'cloning %s into %s ...' "${url}" "${path}"
-      git clone -q "${url}" "${path}"
+      >&2 printf 'submodule %s: ' "${path}"
+      if [ -n "${submoduleDir}" ]; then
+        upstream="${submoduleDir}/${path}"
+        >&2 printf ' cached'
+        if [ ! -d "${upstream}" ]; then
+          >&2 printf ', cloning ...'
+          git clone -q "${url}" "${upstream}"
+          >&2 printf ' done'
+        fi
+      else
+        upstream="${pkgSrcDir}/${path}"
+        >&2 printf ' true submodule'
+      fi
+      >&2 printf ', pulling ...'
+      git -C "${upstream}" pull -q --ff-only
+      >&2 printf ' done'
+      >&2 printf ', cloning ...'
+      git clone -q "${upstream}" "${path}"
       >&2 printf ' done.\n'
     done
 fi
