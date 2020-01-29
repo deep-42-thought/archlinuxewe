@@ -1,12 +1,13 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgbase=simple-pki
+pkgdesc='Scripts to manage a simple pki'
 pkgname=(simple-pki-ca simple-pki-cb)
 pkgver=0.3.1
 pkgrel=1
 arch=('any')
 url="https://git.eckner.net/Erich/${pkgname}"
 license=('GPL')
-makedepends=()
+makedepends=('nginx' 'openssl' 'rsync')
 source=(
     "https://git.eckner.net/Erich/${pkgbase}/snapshot/${pkgbase}-${pkgver}.tar.xz"
 )
