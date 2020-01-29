@@ -1,0 +1,29 @@
+# $Id$
+# Contributor: Dan McGee <dan@archlinux.org>
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname=pacman-mirrorlist32-ewe
+pkgver=20200128
+provides=("pacman-mirrorlist32=${pkgver}")
+conflicts=('pacman-mirrorlist32')
+pkgrel=1
+pkgdesc="Arch Linux 32 mirror list for use by pacman - ewe's favourites"
+arch=('any')
+url="https://www.archlinux.org/mirrorlist/"
+license=('GPL')
+backup=(etc/pacman.d/mirrorlist)
+source=("https://arch.eckner.net/merged/releng/os/x86_64/${pkgname%-ewe}-${pkgver}-${pkgrel%%.*}-any.pkg.tar.zst")
+sha512sums=('90cb43720451dc9bd020713f29d3273028ca12bfec68e965a538addcd0e416c446f3e062ec4c1ff1263a238cbbedeb849b9d48dcee346b35ee61b721e77bee4a')
+
+build() {
+  sed -i '
+    0,/^$/ {
+      /^$/ i Server = https://arch.eckner.net/merged/$repo/os/$arch
+    }
+  ' 'etc/pacman.d/mirrorlist32'
+}
+
+package() {
+  mkdir -p "$pkgdir/etc/pacman.d"
+  install -m644 'etc/pacman.d/mirrorlist32' "$pkgdir/etc/pacman.d/"
+}
