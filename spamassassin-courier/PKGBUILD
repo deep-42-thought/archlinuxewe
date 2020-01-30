@@ -52,6 +52,14 @@ prepare() {
 build() {
   cd "${srcdir}/Mail-SpamAssassin-${pkgver}"
 
+  for s in $(
+    env \
+    | grep PERL \
+    | cut -d= -f1
+  ); do
+    unset "${s}"
+  done
+
   # install module in vendor directories.
   export PERL_USE_UNSAFE_INC=1
   PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor \
