@@ -2,12 +2,44 @@
 # Generator : neuesPerlPaket (200622b8ed8a0a6a22eb14f088df6dc74c80677dc763caa0d96fd7c958ef45e2bb730584c916d8d940419fafbb27975ac4c7caf1cf3efa677c6e51def3f9c3ac)
 
 pkgname='perl-data-serializer'
-pkgver='0.60'
-pkgrel=9
+pkgver=0.62
+pkgrel=1
 pkgdesc='Modules that serialize data structures'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+optdepends=(
+  'perl-bencode'
+  'perl-compress-ppmd'
+  'perl-config-general'
+  'perl-convert-bencode'
+  'perl-convert-bencode_xs'
+  'perl-crypt-blowfish'
+  'perl-crypt-cbc'
+  'perl-data-denter'
+  'perl-data-taxi'
+  'perl-freezethaw'
+  'perl-io-compress'
+  'perl-json'
+  'perl-json-xs'
+  'perl-mime-base64'
+  'perl-php-serialization'
+  'perl-storable'
+  'perl-xml-dumper'
+  'perl-xml-simple'
+  'perl-yaml'
+  'perl-yaml-syck')
+makedepends=(
+  'perl-io'
+  'perl-module-build>=0.35'
+  'perl-pathtools'
+  'perl-test-simple')
+depends=(
+  'perl-autoloader'
+  'perl-data-dumper>=2.08'
+  'perl-digest-sha'
+  'perl-exporter'
+  'perl-io')
 provides=(
   'perl-data-serializer-bencode=0.03'
   'perl-data-serializer-config-general=0.02'
@@ -26,45 +58,8 @@ provides=(
   'perl-data-serializer-storable=0.03'
   'perl-data-serializer-xml-dumper=0.02'
   'perl-data-serializer-xml-simple=0.03'
-  'perl-data-serializer-yaml=0.02'
-  'perl-data-serializer-yaml-syck=0.02')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-autoloader'
-  'perl-data-dumper>=2.08'
-  'perl-digest-sha'
-  'perl-exporter'
-  'perl-io')
-makedepends=(
-  'perl-crypt-blowfish'
-  'perl-crypt-cbc'
-  'perl-json-xs'
-  'perl-module-build>=0.35'
-  'perl-pathtools'
-  'perl-test-simple')
-optdepends=(
-  'perl-bencode'
-  'perl-compress-ppmd'
-  'perl-config-general'
-  'perl-convert-bencode'
-  'perl-convert-bencode_xs'
-  'perl-crypt-blowfish'
-  'perl-crypt-cbc'
-  'perl-data-denter'
-  'perl-data-taxi'
-  'perl-extutils-tbone'
-  'perl-freezethaw'
-  'perl-io-compress'
-  'perl-json'
-  'perl-json-xs'
-  'perl-mime-base64'
-  'perl-php-serialization'
-  'perl-storable'
-  'perl-xml-dumper'
-  'perl-xml-simple'
-  'perl-yaml'
-  'perl-yaml-syck')
+  'perl-data-serializer-yaml=0.03'
+  'perl-data-serializer-yaml-syck=0.03')
 checkdepends=(
   'perl-bencode'
   'perl-config-general'
@@ -84,7 +79,7 @@ checkdepends=(
 url='https://metacpan.org/release/Data-Serializer'
 _distdir="Data-Serializer-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/N/NE/NEELY/${_distdir}.tar.gz")
-sha512sums=('85211d2ca5db19219f89da5300b93835866baa5e12237efa61ea82d2b841f6b5a05bca889d98878151d1f7517b2af5d9a1535e7bbcd64245936b270a82be21bb')
+sha512sums=('d14cad20fd0486861d572d46d51956c74e8cb3715ec7987c620c315f090679e11fe9dbff0606541dc08b82eb13e6df39cc928adb119974eefaccb557849c3673')
 
 build(){
   cd "${srcdir}/${_distdir}"
