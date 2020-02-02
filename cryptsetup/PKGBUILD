@@ -3,7 +3,7 @@
 # Contributor: Thomas Bächler <thomas@archlinux.org>
 
 pkgname=cryptsetup
-pkgver=2.2.2
+pkgver=2.3.0
 pkgrel=1
 pkgdesc='Userspace setup tool for transparent encryption of block devices using dm-crypt'
 arch=(x86_64)
@@ -18,12 +18,12 @@ source=("https://www.kernel.org/pub/linux/utils/cryptsetup/v${pkgver%.*}/${pkgna
         'install-encrypt'
         'install-sd-encrypt'
         'test.patch')
-sha256sums=('2af0ec9551ab9c870074cae9d3f68d82cab004f4095fa89db0e4413713424a46'
+sha512sums=('d4af8edb7a50603028c6c6999ae7a1851d2232ee11d4a501270afb424f0a7dc82893a6a5d30d3a3188634aa80ec1a79f22a91b539910df10d07f8d9ae532cb08'
             'SKIP'
-            '416aa179ce3c6a7a5eee0861f1f0a4fafac91b69e84a2aae82b6e5a6140e31e2'
-            'd325dc239ecc9a5324407b0782da6df2573e8491251836d6c4e65fa61339ce57'
-            '31d816b3650a57512a5f9b52c1995fa65a161faa8b37975d07c9a1b8e1a119db'
-            'SKIP')
+            'dab61d2559e16f4b74eb366ee5f41e82799d1bf6312fcb3b20f2750ad91c2ba9f3db43242aed00bb8ca9e34c18e48be2045e64ba68289d5720d78a03303b8161'
+            'd1839c3b352fc6469185ba01a9af47bc820a61ef4c5d54714d6848b1eec8e2eb071c1ff5855eeee797abbb9afa4883658673ee232591d99ed4ea7ca25ec7d312'
+            'aa7b621d9f3afe660c7c5c603c14fa61d026452e521039abc2f00aa771f7dfe4565a3f5697ac57e6acdfb8c8ab34fe9c4424f0c43fd4d3673e9d5a76caae74b3'
+            'a1754a37bae46d7f2e4afcd5ac562505f602e0e62dafa38c8be81b98e9cf38b99a8c27367fb063d1919787df96f012ce3b9837502294a22a4df1bce519a52232')
 
 prepare() {
   cd "${srcdir}"/$pkgname-${pkgver}
