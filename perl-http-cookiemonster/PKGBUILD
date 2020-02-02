@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
 
 pkgname='perl-http-cookiemonster'
-pkgver=0.10
+pkgver=0.11
 pkgrel=1
 pkgdesc='Easy read/write access to your jar of HTTP::Cookies'
 arch=('any')
@@ -12,10 +12,8 @@ makedepends=(
   'perl>=5.6.0'
   'perl-extutils-makemaker'
   'perl-pathtools'
-  'perl-storable'
   'perl-test-fatal'
-  'perl-test-simple'
-  'perl-www-mechanize')
+  'perl-test-simple')
 depends=(
   'perl>=5.6.0'
   'perl-carp'
@@ -32,7 +30,7 @@ checkdepends=(
 url='https://metacpan.org/release/HTTP-CookieMonster'
 _distdir="HTTP-CookieMonster-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
-sha512sums=('7de24b0a571ade7a626a6678aefeda81fd40e819d08aaf70748ad10edc62449969a7096c9f956af9e6806013c261d26718d2ad6ddeb1b1935aaaa8a078c97589')
+sha512sums=('d6cbd96e9847f2bb3fe7351e5673b2d5bc24814fd1c2e46ddafd0f7e63082bdf08bf90ca243b32b92b22643da5e9f4ef1c1f51ebe6638f0b581b3bbade212fb7')
 
 build(){
   cd "${srcdir}/${_distdir}"
