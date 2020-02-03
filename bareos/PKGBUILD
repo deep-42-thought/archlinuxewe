@@ -21,7 +21,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-filedaemon-python-plugin"
          "${pkgbase}-storage-python-plugin")
 
-pkgver=18.2.7
+pkgver=19.2.4
 pkgrel=1
 arch=(x86_64 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
@@ -34,8 +34,8 @@ makedepends_aarch64=(ceph)
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/$pkgbase/$pkgbase/archive/Release/$pkgver.tar.gz"
 'nullify-os-specifics.patch'
 'check-if-bareos-backup-is-running')
-sha512sums=('cddd0a6105d603bc9d2a89a4d74062ec827d4a3915d874ac7234e21b07223bcdac8eb68691601e4300839555759b9999c28912664c851472d67bf0b8fa0bf871'
-            '0d6683bb21e06e005b4d5f7dd31d24adac0001ab202ccd806d31af1fda48a1a78156a18e8cc8847b80a7de01c0b58fa6ab7a1ba7f8f056d0de414c472db11643'
+sha512sums=('97f34535cf22d1cc10b261e5ad1c22490ee907acb859cd920d1a9ff4d6578de5382022def71247737dc2b8de03c15d634bd748c84976093ebf586507efc484d4'
+            '724ca4e04ff4dfb3e56890a06ffb777cac8e1aeafb6142a347fa542aedcdf6604b280f2d55da3c3d7bbcf996cdd0f6184ca324e9195f3f4db090b17337f1df3a'
             'f3ad1a3bde98b6bd89626938a6ee23f2e8f888fabde78718a84a91b930a4d466ebf25b02d0cd1480293a41a15170523eab1d692401eb4531bcb345fda07a2bc9')
 
 prepare() {
