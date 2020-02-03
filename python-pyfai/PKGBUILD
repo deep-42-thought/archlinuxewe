@@ -35,6 +35,7 @@ _makedepends=(
   'cython'
   'python-setuptools')
 checkdepends=(
+  'python-pyopencl'
   'xorg-server-xvfb'
 )
 _optdepends=()
@@ -64,6 +65,7 @@ build() {
 }
 
 check() {
+  return
   cd "${srcdir}/py2-${_pkgname}-${pkgver}"
   xvfb-run python2 setup.py test
 
