@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-function-fallback-coreorpp'
-pkgver='0.08'
-pkgrel=4
+pkgver=0.090
+pkgrel=1
 pkgdesc='Functions that use non-core XS module but provide pure-Perl/core fallback'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,30 +11,31 @@ options=('!emptydirs')
 optdepends=(
   'perl-acme-damn'
   'perl-data-clone'
-  'perl-list-moreutils'
-)
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-clone-pp'
-  'perl-exporter'
-)
+  'perl-list-moreutils')
 makedepends=(
   'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
+depends=(
+  'perl>=5.10.1'
+  'perl-clone-pp'
+  'perl-exporter>=5.57')
 checkdepends=(
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
 )
 url='https://metacpan.org/release/Function-Fallback-CoreOrPP'
 _distdir="Function-Fallback-CoreOrPP-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('00774abe390ed13d8b65b999d02522b8d31a9a26daa63d5d0c156b76832e7013bf78b8d4224c2f8526610f3678810bc3df06cbb822b7e08ce79ed56ae908beb1')
+sha512sums=('e514a5533f237b737ef6769205db3ac34b3abe60979136f93832d79533d6ce4e015b3b7f6a933834ab6e0803ac7598344cafd07fe3142910519d96f82364e037')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
