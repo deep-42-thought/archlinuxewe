@@ -4,8 +4,8 @@
 _pkgname=pyFFTW
 pkgname=("python-pyfftw" "python2-pyfftw")
 pkgbase="python-pyfftw"
-pkgver=0.11.1
-pkgrel=2
+pkgver=0.12.0
+pkgrel=1
 pkgdesc='A pythonic wrapper around FFTW.'
 url='http://hgomersall.github.io/pyFFTW/'
 _deppy2=(
@@ -17,14 +17,12 @@ _deppy=(
   'python<3.9'
 )
 _depends=(
-  'python-numpy'
-  'python-scipy'
-  'fftw'
-)
+  'cython>=0.29'
+  'python-numpy>=1.10'
+  'python-scipy>=0.16.0')
 _makedepends=(
   'cython'
-  'python-setuptools'
-)
+  'python-setuptools')
 makedepends=(
   "${_deppy[@]}"
   "${_deppy2[@]}"
@@ -35,8 +33,8 @@ makedepends=(
 )
 license=('BSD')
 arch=('i686' 'pentium4' 'x86_64')
-source=("https://pypi.python.org/packages/fa/7f/e65fe8b9f1b66aab22c8d76c2f03180714a558fcef4a723263fa8f3754f8/${_pkgname}-${pkgver}.tar.gz")
-sha512sums=('2dab5d6c2c28731a096122ca7013c56469b8cd0509cb37abb7571290efc96925034e8c30833014c9f4d9db62234b4cb0e92cdc3b41880ac02bfa790370ee3f94')
+source=("https://pypi.python.org/packages/4b/38/6f9539d274d02fbc3262e2f9a0c9dbac9b53393b3ed935612993f8df54bf/${_pkgname}-${pkgver}.tar.gz")
+sha512sums=('0b4199d0e23f72942b9cedc2d6f7cf990db2f610407fd05c0576146fea63df9d1a36bb88dcf834a9801646bddb45162e942bfbd72e3c25351432b915a5bc8bb4')
 
 build() {
   cd $srcdir/$_pkgname-$pkgver
