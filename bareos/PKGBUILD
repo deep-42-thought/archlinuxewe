@@ -22,7 +22,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.5
-pkgrel=1
+pkgrel=2
 arch=(x86_64 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -123,6 +123,7 @@ package_bareos-common() {
     usr/lib/bareos/libbareosfind.so \
     usr/lib/bareos/libbareoslmdb.so \
     usr/lib/bareos/libbareossd.so \
+    usr/lib/bareos/libbareosfastlz.so \
   ; do
     _cp_all $srcdir/install/$f $pkgdir/$f
   done
