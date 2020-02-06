@@ -2,8 +2,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=avogadroapp
-pkgver=1.91.0
-pkgrel=2
+pkgver=1.93.0
+pkgrel=1
 pkgdesc="An advanced molecular editor designed for cross-platform use in computational chemistry, molecular modeling, bioinformatics, materials science, and related areas."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.openchemistry.org/projects/avogadro2/"
@@ -12,7 +12,7 @@ depends=('avogadrolibs' 'hdf5')
 optdepends=('openbabel: Open Babel plugin actions')
 makedepends=('cmake' 'eigen')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/OpenChemistry/$pkgname/archive/$pkgver.tar.gz")
-sha512sums=('f603a3aa81cb2b6347b4d8e3ac12c0ee54f7eafab9dd9fd106a34cf799340f3e56ea12e7731c9718e13dbb4547a67a882982b3109faf7bb3f3104af49351e204')
+sha512sums=('8e4e15b6c2d1935f8c585c83761b28a6397bc1dc22cd5f66464d59dd25327b1cffec809af492586be4b56793448f94f9375c16e8a4c4969f7b8f2591049cc5fc')
 
 prepare() {
   mkdir -p build
