@@ -1,0 +1,307 @@
+From c44801dac977e143bce76401776a74f9789ff81c Mon Sep 17 00:00:00 2001
+From: Erich Eckner <git@eckner.net>
+Date: Thu, 6 Feb 2020 11:29:01 +0100
+Subject: [PATCH] make subject setable by role
+
+This makes sense for mailing lists which add "[this-list]" prefixes to
+the subject if this does not already appear in the subject. If the
+subject is not being modified (because it does not need to) by the
+mailing list software, dkim signatures will less probably be broken.
+---
+ alpine/roleconf.c | 51 +++++++++++++++++++++++++++++++++++++++++------
+ alpine/send.c     |  4 ++++
+ pith/pattern.c    | 23 +++++++++++++++++++++
+ pith/pattern.h    |  1 +
+ pith/pine.hlp     | 20 +++++++++++++++++++
+ 5 files changed, 93 insertions(+), 6 deletions(-)
+
+diff --git a/alpine/roleconf.c b/alpine/roleconf.c
+index 0281c4f..3e8ccdb 100644
+--- a/alpine/roleconf.c
++++ b/alpine/roleconf.c
+@@ -2711,12 +2711,13 @@ bitmap_t inabook_type_list;
+ #define INICK_FROM_CONF     1
+ #define INICK_REPLYTO_CONF  2
+ #define INICK_FCC_CONF      3
+-#define INICK_LITSIG_CONF   4	/* this needs to come before SIG_CONF */
+-#define INICK_SIG_CONF      5
+-#define INICK_TEMPL_CONF    6
+-#define INICK_CSTM_CONF     7
+-#define INICK_SMTP_CONF     8
+-#define INICK_NNTP_CONF     9
++#define INICK_SUBJECT_CONF  4
++#define INICK_LITSIG_CONF   5	/* this needs to come before SIG_CONF */
++#define INICK_SIG_CONF      6
++#define INICK_TEMPL_CONF    7
++#define INICK_CSTM_CONF     8
++#define INICK_SMTP_CONF     9
++#define INICK_NNTP_CONF    10
+ CONF_S *inick_confs[INICK_NNTP_CONF+1];
+ 
+ 
+@@ -2752,6 +2753,7 @@ role_config_edit_screen(struct pine *ps, PAT_S *def, char *title, long int rflag
+ 		     stat_bom_var, stat_boy_var,
+ 		     cat_cmd_var, cati_var, cat_lim_var,
+ 		     from_act_var, replyto_act_var, fcc_act_var,
++		     subject_act_var,
+ 		     sig_act_var, litsig_act_var, templ_act_var,
+                      cstm_act_var, smtp_act_var, nntp_act_var,
+ 		     sort_act_var, iform_act_var, startup_var,
+@@ -2771,6 +2773,7 @@ role_config_edit_screen(struct pine *ps, PAT_S *def, char *title, long int rflag
+ 		    *filt_new = NULL, *filt_del = NULL, *filt_imp = NULL,
+ 		    *filt_ans = NULL, *cati = NULL, *cat_lim = NULL,
+ 		    *from_act = NULL, *replyto_act = NULL, *fcc_act = NULL,
++		    *subject_act = NULL,
+ 		    *sig_act = NULL, *litsig_act = NULL, *sort_act = NULL,
+ 		    *templ_act = NULL, *repl_type = NULL, *forw_type = NULL,
+ 		    *comp_type = NULL, *rc_fg = NULL, *rc_bg = NULL,
+@@ -2873,6 +2876,7 @@ role_config_edit_screen(struct pine *ps, PAT_S *def, char *title, long int rflag
+     varlist[++j] = &from_act_var;
+     varlist[++j] = &replyto_act_var;
+     varlist[++j] = &fcc_act_var;
++    varlist[++j] = &subject_act_var;
+     varlist[++j] = &sig_act_var;
+     varlist[++j] = &litsig_act_var;
+     varlist[++j] = &sort_act_var;
+@@ -3248,6 +3252,13 @@ role_config_edit_screen(struct pine *ps, PAT_S *def, char *title, long int rflag
+     *apval = (def && def->action && def->action->fcc)
+ 	       ? cpystr(def->action->fcc) : NULL;
+ 
++    subject_act_var.name       = cpystr(_("Set Subject"));
++    subject_act_var.is_used    = 1;
++    subject_act_var.is_user    = 1;
++    apval = APVAL(&subject_act_var, ew);
++    *apval = (def && def->action && def->action->subject)
++              ? cpystr(def->action->subject) : NULL;
++
+     sort_act_var.name       = cpystr(_("Set Sort Order"));
+     sort_act_var.is_used    = 1;
+     sort_act_var.is_user    = 1;
+@@ -4117,6 +4128,20 @@ role_config_edit_screen(struct pine *ps, PAT_S *def, char *title, long int rflag
+ 	ctmp->varname   = cpystr(tmp);
+ 	ctmp->varnamep  = ctmp;
+ 
++	/* Subject Action */
++	new_confline(&ctmp);
++	inick_confs[INICK_SUBJECT_CONF] = ctmp;
++	ctmp->help_title= _("HELP FOR SET SUBJECT ACTION");
++	ctmp->var       = &subject_act_var;
++	ctmp->valoffset = roindent;
++	ctmp->keymenu   = &config_text_wshuf_keymenu;
++	ctmp->help      = h_config_role_setsubject;
++	ctmp->tool      = role_text_tool;
++	utf8_snprintf(tmp, sizeof(tmp), "%-*.*w =", roindent-3, roindent-3, subject_act_var.name);
++	tmp[sizeof(tmp)-1] = '\0';
++	ctmp->varname   = cpystr(tmp);
++	ctmp->varnamep  = ctmp;
++
+ 	/* LitSig Action */
+ 	new_confline(&ctmp);
+ 	inick_confs[INICK_LITSIG_CONF] = ctmp;
+@@ -5082,6 +5107,11 @@ role_config_edit_screen(struct pine *ps, PAT_S *def, char *title, long int rflag
+ 	*apval = NULL;
+ 	removing_leading_and_trailing_white_space(fcc_act);
+ 
++	apval = APVAL(&subject_act_var, ew);
++	subject_act = *apval;
++	*apval = NULL;
++	removing_leading_and_trailing_white_space(subject_act);
++
+ 	apval = APVAL(&litsig_act_var, ew);
+ 	litsig_act = *apval;
+ 	*apval = NULL;
+@@ -5544,6 +5574,8 @@ role_config_edit_screen(struct pine *ps, PAT_S *def, char *title, long int rflag
+ 	inick = NULL;
+ 	(*result)->action->fcc = fcc_act;
+ 	fcc_act = NULL;
++	(*result)->action->subject = subject_act;
++	subject_act = NULL;
+ 	(*result)->action->litsig = litsig_act;
+ 	litsig_act = NULL;
+ 	(*result)->action->sig = sig_act;
+@@ -5859,6 +5891,8 @@ role_config_edit_screen(struct pine *ps, PAT_S *def, char *title, long int rflag
+       fs_give((void **)&replyto_act);
+     if(fcc_act)
+       fs_give((void **)&fcc_act);
++    if(subject_act)
++      fs_give((void **)&subject_act);
+     if(litsig_act)
+       fs_give((void **)&litsig_act);
+     if(sort_act)
+@@ -6140,6 +6174,10 @@ calculate_inick_stuff(struct pine *ps)
+ 	v = ctmp ? ctmp->var : NULL;
+ 	v->global_val.p = (irole && irole->fcc) ? cpystr(irole->fcc) : NULL;
+ 	
++	ctmp = inick_confs[INICK_SUBJECT_CONF];
++	v = ctmp ? ctmp->var : NULL;
++	v->global_val.p = (irole && irole->subject) ? cpystr(irole->subject) : NULL;
++
+ 	ctmp = inick_confs[INICK_LITSIG_CONF];
+ 	v = ctmp ? ctmp->var : NULL;
+ 	v->global_val.p = (irole && irole->litsig) ? cpystr(irole->litsig)
+@@ -6255,6 +6293,7 @@ calculate_inick_stuff(struct pine *ps)
+ 		break;
+ 
+ 	      case INICK_INICK_CONF:
++	      case INICK_SUBJECT_CONF:
+ 	      case INICK_REPLYTO_CONF:
+ 	      case INICK_TEMPL_CONF:
+ 	      case INICK_CSTM_CONF:
+diff --git a/alpine/send.c b/alpine/send.c
+index e21d800..d4158e6 100644
+--- a/alpine/send.c
++++ b/alpine/send.c
+@@ -2730,6 +2730,10 @@ pine_send(ENVELOPE *outgoing, struct mail_bodystruct **body,
+ 	      case UseAsDef:
+ 	      case NoMatch:
+ 		/* if no value, use default */
++		if(role && role->subject){
++		    pf->scratch = cpystr(role->subject);
++		    break;
++		}
+ 		if(outgoing->subject){
+ 		    pf->scratch = cpystr(outgoing->subject);
+ 		}
+diff --git a/pith/pattern.c b/pith/pattern.c
+index 1b10dd1..5d87c26 100644
+--- a/pith/pattern.c
++++ b/pith/pattern.c
+@@ -1247,6 +1247,8 @@ parse_pat(char *str)
+ 		  mail_free_address(&pat->action->replyto);
+ 		if(pat->action->fcc)
+ 		  fs_give((void **)&pat->action->fcc);
++		if(pat->action->subject)
++		  fs_give((void **)&pat->action->subject);
+ 		if(pat->action->litsig)
+ 		  fs_give((void **)&pat->action->litsig);
+ 		if(pat->action->sig)
+@@ -1676,6 +1678,8 @@ parse_action_slash(char *str, ACTION_S *action)
+     }
+     else if(!strncmp(str, "/FCC=", 5))
+       action->fcc = remove_pat_escapes(str+5);
++    else if(!strncmp(str, "/SUBJECT=", 9))
++      action->subject = remove_pat_escapes(str+9);
+     else if(!strncmp(str, "/LSIG=", 6))
+       action->litsig = remove_pat_escapes(str+6);
+     else if(!strncmp(str, "/SIG=", 5))
+@@ -3543,6 +3547,7 @@ data_for_patline(PAT_S *pat)
+ 		  *stat_ans_val = NULL, *stat_8bit_val = NULL,
+ 		  *stat_bom_val = NULL, *stat_boy_val = NULL,
+ 		  *from_act = NULL, *replyto_act = NULL, *fcc_act = NULL,
++		  *subject_act = NULL,
+ 		  *sig_act = NULL, *nick = NULL, *templ_act = NULL,
+ 		  *litsig_act = NULL, *cstm_act = NULL, *smtp_act = NULL,
+                   *nntp_act = NULL, *comment = NULL,
+@@ -3842,6 +3847,8 @@ data_for_patline(PAT_S *pat)
+ 	      inherit_nick = add_pat_escapes(action->inherit_nick);
+ 	    if(action->fcc)
+ 	      fcc_act = add_pat_escapes(action->fcc);
++	    if(action->subject)
++	      subject_act = add_pat_escapes(action->subject);
+ 	    if(action->litsig)
+ 	      litsig_act = add_pat_escapes(action->litsig);
+ 	    if(action->sig)
+@@ -4099,6 +4106,7 @@ data_for_patline(PAT_S *pat)
+ 	strlen(from_act ? from_act : "") +
+ 	strlen(replyto_act ? replyto_act : "") +
+ 	strlen(fcc_act ? fcc_act : "") +
++	strlen(subject_act ? subject_act : "") +
+ 	strlen(litsig_act ? litsig_act : "") +
+ 	strlen(cstm_act ? cstm_act : "") +
+ 	strlen(smtp_act ? smtp_act : "") +
+@@ -4471,6 +4479,12 @@ data_for_patline(PAT_S *pat)
+ 	fs_give((void **)&fcc_act);
+     }
+ 
++    if(subject_act){
++	sstrncpy(&q, "/SUBJECT=", l-(q-p));
++	sstrncpy(&q, subject_act, l-(q-p));
++	fs_give((void **)&subject_act);
++    }
++
+     if(litsig_act){
+ 	sstrncpy(&q, "/LSIG=", l-(q-p));
+ 	sstrncpy(&q, litsig_act, l-(q-p));
+@@ -6383,6 +6397,8 @@ free_action(ACTION_S **action)
+ 	  mail_free_address(&(*action)->replyto);
+ 	if((*action)->fcc)
+ 	  fs_give((void **)&(*action)->fcc);
++	if((*action)->subject)
++	  fs_give((void **)&(*action)->subject);
+ 	if((*action)->litsig)
+ 	  fs_give((void **)&(*action)->litsig);
+ 	if((*action)->sig)
+@@ -6758,6 +6774,8 @@ copy_action(ACTION_S *action)
+ 	  newaction->nntp = copy_list_array(action->nntp);
+ 	if(action->fcc)
+ 	  newaction->fcc = cpystr(action->fcc);
++	if(action->subject)
++	  newaction->subject = cpystr(action->subject);
+ 	if(action->litsig)
+ 	  newaction->litsig = cpystr(action->litsig);
+ 	if(action->sig)
+@@ -6904,6 +6922,11 @@ combine_inherited_role_guts(ACTION_S *role)
+ 	else if(inherit_role && inherit_role->fcc)
+ 	  newrole->fcc = cpystr(inherit_role->fcc);
+ 
++	if(role->subject)
++	  newrole->subject = cpystr(role->subject);
++	else if(inherit_role && inherit_role->subject)
++	  newrole->subject = cpystr(inherit_role->subject);
++
+ 	if(role->litsig)
+ 	  newrole->litsig = cpystr(role->litsig);
+ 	else if(inherit_role && inherit_role->litsig)
+diff --git a/pith/pattern.h b/pith/pattern.h
+index 71c1cfd..67c5ced 100644
+--- a/pith/pattern.h
++++ b/pith/pattern.h
+@@ -181,6 +181,7 @@ typedef struct action_s {
+     char       **smtp;		/* custom SMTP server for this role	*/
+     char       **nntp;		/* custom NNTP server for this role	*/
+     char	*fcc;		/* value to set for Fcc			*/
++    char	*subject;	/* value to set for Subject		*/
+     char	*litsig;	/* value to set Literal Signature	*/
+     char	*sig;		/* value to set for Sig File		*/
+     char	*template;	/* value to set for Template		*/
+diff --git a/pith/pine.hlp b/pith/pine.hlp
+index 4f0eb38..1c5ff50 100644
+--- a/pith/pine.hlp
++++ b/pith/pine.hlp
+@@ -4741,6 +4741,7 @@ There are also additional details on
+ <li><a href="h_config_other_startup">PATTERNS OTHER ACTION: Set Startup Rule</a>
+ <li><a href="h_config_role_inick">PATTERNS ROLE ACTION: Initialize Values From Role</a>
+ <li><a href="h_config_role_setfcc">PATTERNS ROLE ACTION: Set Fcc</a>
++<li><a href="h_config_role_setsubject">PATTERNS ROLE ACTION: Set Subject</a>
+ <li><a href="h_config_role_setfrom">PATTERNS ROLE ACTION: Set From</a>
+ <li><a href="h_config_role_setlitsig">PATTERNS ROLE ACTION: Set Literal Signature</a>
+ <li><a href="h_config_role_setotherhdr">PATTERNS ROLE ACTION: Set Other Headers</a>
+@@ -18672,6 +18673,25 @@ to see the available Editing and Navigation commands.
+ &lt;End of help on this topic&gt;
+ </BODY>
+ </HTML>
++======= h_config_role_setsubject =======
++<HTML>
++<HEAD>
++<TITLE>Set Subject Explained</TITLE>
++</HEAD>
++<BODY>
++<H1>Set Subject Explained</H1>
++
++This describes part of the action to be taken if the Pattern for this
++role is a match.
++This field consists of a single line that will be used as the Subject
++of the message you are sending.
++<P>
++Look <A HREF="h_edit_nav_cmds">here</A>
++to see the available Editing and Navigation commands.
++<P>
++&lt;End of help on this topic&gt;
++</BODY>
++</HTML>
+ ======= h_config_role_usesmtp =======
+ <HTML>
+ <HEAD>
+-- 
+2.25.0
+
