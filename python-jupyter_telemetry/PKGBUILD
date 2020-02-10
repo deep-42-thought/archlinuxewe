@@ -2,7 +2,7 @@
 # Contributor: Blair Bonnett <blair dot bonnett at gmail dot com>
 
 pkgname=python-jupyter_telemetry
-pkgver=0.0.4
+pkgver=0.0.5
 pkgrel=1
 pkgdesc="Configurable event-logging for Jupyter applications and extensions"
 url="https://github.com/jupyter/telemetry"
@@ -14,7 +14,7 @@ checkdepends=('python-pytest')
 source=(
   "telemetry-${pkgver}.tar.gz::https://github.com/jupyter/telemetry/archive/v${pkgver}.tar.gz"
 )
-sha512sums=('992171a97c5c6cba2fea7eb8fc02070b920a1c8208ae12cf197e7eebb592eaaba4443b8d2bfbcd42dfea887e17adc9ecaf9de4faca7c3cf87427d5291f7d4928')
+sha512sums=('34dcdb7a0ac039b7386c50aef56dc499d4a9fec803892cbe2bb8f15e1b253f3e9fa24acfbad3371c11548ed7f4f0e142463b3307b455dd81beb40f5a24211111')
 
 build() {
     cd "telemetry-${pkgver}"
