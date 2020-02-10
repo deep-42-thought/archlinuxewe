@@ -2,23 +2,21 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perl-osnames'
-pkgver='0.11'
-pkgrel=5
+pkgver=0.121
+pkgrel=1
 pkgdesc='List possible $^O ($OSNAME) values, with description'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-)
 makedepends=(
   'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
+depends=(
+  'perl'
+  'perl-exporter>=5.57')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -29,7 +27,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perl-osnames'
 _distdir="Perl-osnames-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('f4f43c0e4c035cb74b42c64259d4075daf1d5f81146f0caa4b29632fd9ce1578d10169177b852438e47e044145c9b1f6c77cd5213eb520d53efae5ed9e17c8a1')
+sha512sums=('1d49e292107edc3d201daa3d67db6cbcc3c37c9985bf42e8b35708028480aa924a8f75264e5a2a6779a3167f4e35e8cf73aee2732c0f810660f67cbac4d69b51')
 
 build() {
   cd "${srcdir}/${_distdir}"
