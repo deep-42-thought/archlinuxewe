@@ -1,0 +1,25 @@
+#!/bin/bash
+
+url="$1"
+pkgSrcDir="${url%% *}"
+url="${url#${path} }"
+submoduleDir="${url%% *}"
+url="${url#${path} }"
+path="${url%% *}"
+url="${url#${path} }"
+
+if [ -n "$(ls -A "${path}")" ]; then
+  git -C "${pkgSrcDir}" submodule update 2>/dev/null || true
+  exit
+fi
+mkdir -p "${path}"
+if [ -n "${submoduleDir}" ]; then
+  upstream="${submoduleDir}/${path}"
+  if [ ! -d "${upstream}" ]; then
+    git clone -q "${url}" "${upstream}"
+  fi
+else
+  upstream="${pkgSrcDir}/${path}"
+fi
+git -C "${upstream}" pull -q --ff-only
+git clone -q "${upstream}" "${path}"

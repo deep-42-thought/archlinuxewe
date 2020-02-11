@@ -263,6 +263,7 @@ unset verss
 unset repos
 
 if [ -f '.gitmodules' ]; then
+  >&2 printf 'updating submodules ...'
   sed -n '
     /^\s*path = /{
       N
@@ -271,34 +272,12 @@ if [ -f '.gitmodules' ]; then
       s,ssh://aur@aur.archlinux.org/,https://aur.archlinux.org/,
       p
     }
-  ' '.gitmodules' | \
-    while read -r path url; do
-      if [ -n "$(ls -A "${path}")" ]; then
-        git submodule update -- "${path}"
-        continue
-      fi
-      mkdir -p "${path}"
-      >&2 printf 'submodule %s: ' "${path}"
-      if [ -n "${submoduleDir}" ]; then
-        upstream="${submoduleDir}/${path}"
-        >&2 printf ' cached'
-        if [ ! -d "${upstream}" ]; then
-          >&2 printf ', cloning ...'
-          git clone -q "${url}" "${upstream}"
-          >&2 printf ' done'
-        fi
-      else
-        upstream="${pkgSrcDir}/${path}"
-        >&2 printf ' true submodule'
-      fi
-      >&2 printf ', pulling ...'
-      git -C "${upstream}" pull -q --ff-only
-      >&2 printf ' done'
-      >&2 printf ', cloning ...'
-      git clone -q "${upstream}" "${path}"
-      >&2 printf ' done.\n'
-    done
+  ' '.gitmodules' \
+  | parallel -j0 "${pkgSrcDir}/update-submodule" "${pkgSrcDir}" "${submoduleDir}"
+  >&2 printf ' done.\n'
 fi
+
+exit 42
 
 if ${aufRechenknecht}; then
 
