@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-sah'
-pkgver=0.9.46
+pkgver=0.9.48
 pkgrel=1
 pkgdesc='Schema for data structures (specification)'
 arch=('any')
@@ -26,11 +26,7 @@ checkdepends=(
 url='https://metacpan.org/release/Sah'
 _distdir="Sah-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('1159e54d695a3c40061c6a14f776ea639b4c043e496790503330958bd9bef6364187d9d3752d3338982df085a46a632dbfb50e929709f42c9e07ded0f677ce88')
-
-prepare() {
-  rm "${srcdir}/${_distdir}/t/author-critic.t"
-}
+sha512sums=('47a695e0e48abedeb42e0c2271681d965b594f52436cac2c19f49b37e2c04a292466b95e40dc9180ad4bf663b33efadf62099f28c3a6ff2367f606bbbfda9eff')
 
 build() {
   cd "${srcdir}/${_distdir}"
