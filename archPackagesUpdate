@@ -273,7 +273,7 @@ if [ -f '.gitmodules' ]; then
       p
     }
   ' '.gitmodules' \
-  | parallel -j0 "${pkgSrcDir}/update-submodule" "${pkgSrcDir}" "${submoduleDir}"
+  | parallel -j0 "./update-submodule" "${pkgSrcDir}" "${submoduleDir}"
   >&2 printf ' done.\n'
 fi
 
