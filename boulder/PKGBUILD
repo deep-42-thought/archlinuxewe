@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=boulder
-pkgver=2020_02_03
+pkgver=2020_02_10
 _pkgver="${pkgver//_/-}"
 pkgrel=1
 pkgdesc='ACME-compatible X.509 Certificate Authority'
@@ -46,7 +46,7 @@ options=()
 source=(
   "${pkgname}-${_pkgver}.tar.gz::https://github.com/letsencrypt/${pkgname}/archive/release-${_pkgver}.tar.gz"
 )
-sha512sums=('076997bf128477c3a3bf963bf029996670f4fb93b4a6dd17d422e2d1675d2c0bd31c3cf227aff3d76f9035761bc4ac6226106450c292a52063dfcc1d7ac415e2')
+sha512sums=('b9711f486a261a5448bef94f38bfd61cf81568c5091890c5a4e90892b360fcc7613ac10a638e873cfcfded8a05388bb94956e5dd881821befca2f67157fc3546')
 
 prepare() {
 
