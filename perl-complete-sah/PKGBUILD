@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (28b2f74dba87d5b9704e48582062ab93f41cf91629ca4c2bf134bbcd713a9110c07bc8f2e76567c6a6ba6b63044d37bbacca314917992dc3c00b0f8a2ecd6016)
 
 pkgname='perl-complete-sah'
-pkgver='0.001'
-pkgrel='1'
+pkgver=0.003
+pkgrel=1
 pkgdesc='Sah-related completion routines'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,21 +14,19 @@ makedepends=(
   'perl-io'
   'perl-pathtools'
   'perl-test-exception'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 depends=(
   'perl>=5.10.1'
   'perl-complete-common>=0.22'
-  'perl-complete-util>=0.603'
+  'perl-complete-util>=0.608'
   'perl-data-sah-normalize'
   'perl-exporter>=5.57'
   'perl-log-ger>=0.027'
-  'perl-module-installed-tiny'
-)
+  'perl-module-installed-tiny>=0.004')
 url='https://metacpan.org/release/Complete-Sah'
 _distdir="Complete-Sah-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('c1bd0ee6022de9b210fd4cf02d50312c4690ed3653e916a356cc0ccbf15a3d2083e34d32f79102f1710dc5ec8909cf94e7c2d3ed9bcd9fbec0aaf881c5dfd927')
+sha512sums=('5694b7fbe109d36bf3a16c9690eb3543a6c99f506b8fa81e8abdfcb73657d723221358ab84775fb248f1d5e2ba78098c2099ec786efcbeddb5a6a3e4957a253e')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/complete_from_schema.t"
