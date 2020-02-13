@@ -2,8 +2,8 @@
 pkgbase=python-wxmplot
 pkgname=(python2-wxmplot python-wxmplot)
 _pkgname="${pkgbase#*-}"
-pkgver=0.9.38
-pkgrel=2
+pkgver=0.9.39
+pkgrel=1
 pkgdesc='A library for plotting in wxPython using matplotlib'
 arch=('any')
 url='https://pypi.python.org/pypi/wxmplot/0.9.18'
@@ -16,10 +16,12 @@ _deppy2=(
 _deppy=(
   'python>=3.8'
   'python<3.9'
-  'python-wxpython'
+  'python-wxpython>=4.0.3'
 )
 _depends=(
-  'python')
+  'python-matplotlib>=2.0'
+  'python-numpy>=1.12'
+  'python-six>=1.10')
 _makedepends=(
   'python-setuptools')
 makedepends=(
@@ -31,9 +33,9 @@ makedepends=(
   "${_makedepends[@]/ython/ython2}"
 )
 source=(
-    "https://pypi.python.org/packages/49/73/52cafb2bace498217576b059a3da012cbfca72ba2a0d3cbfd3b95c8eeae1/${_pkgname}-${pkgver}.tar.gz"
+    "https://pypi.python.org/packages/02/42/a75906a70693de6b885908d360e53fb44c8aaca668d3b3b0bc9cb6d0f759/${_pkgname}-${pkgver}.tar.gz"
 )
-sha512sums=('f7590bbb6a573ed24db137fd66fd401515597df2028bca8396dd584179bd6635cda4a5ae228db6716d7601b1a86a153c46f217eef31db2b5d845946b4f864281')
+sha512sums=('110b55c42c115cf19a95cc76d3d4eb96e4cae3dbc57a2bc48af71ee351d2b1ad2a31103b22ef8443f90f65f08a35d6094a98b695a9ac787d77356f2273ab29b1')
 
 prepare() {
   cp -a ${_pkgname}-${pkgver}{,-py2}
