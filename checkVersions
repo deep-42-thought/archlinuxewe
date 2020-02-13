@@ -213,7 +213,19 @@ then
     eval "$(
       grep '^pkg\(base\|name\|ver\)=' $1/PKGBUILD
     )"
-    source=(dummy)
+    remVer=$(
+      find '/mnt/archlinux32' -regextype sed \
+        -type f \
+        -regex '.*/'"${1%32}"'-[^-]\+-[^-]\+-any\.pkg\.tar\.\(xz\|zst\)' \
+        -printf '%f\n' | \
+        sed '
+          s/-[^-]\+-[^-]\+$//
+          s/^.*-//
+        ' | \
+        latest_version
+    )
+    srcKnown=true
+    source=()
   fi
   if [ -n "${pkgbase}" ]; then
     pkgname="${pkgbase}"
@@ -221,23 +233,6 @@ then
 
   for src in "${source[@]}" "${source_i686[@]}" "${source_x86_64[@]}"
   do
-
-    if ! ${archlinuxewe}; then
-      remVer=$(
-        find '/mnt/archlinux32' -regextype sed \
-          -type f \
-          -regex '.*/'"${1%32}"'-[^-]\+-[^-]\+-any\.pkg\.tar\.\(xz\|zst\)' \
-          -printf '%f\n' | \
-          sed '
-            s/-[^-]\+-[^-]\+$//
-            s/^.*-//
-          ' | \
-          latest_version
-      )
-      srcKnown=true
-      continue
-    fi
-
     src_name="${src%%::*}"
     src="${src#*::}"
 
