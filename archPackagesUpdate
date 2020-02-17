@@ -29,6 +29,11 @@ log=''
 logFile='-'
 printOnly=false
 
+if ${aufRechenknecht}; then
+  submoduleDir="${pkgSrcDir}/submodules"
+  pkgSrcDir="${pkgSrcDir}/archPackages"
+fi
+
 # print help screen
 usage()
 {
@@ -203,11 +208,6 @@ if ! ${checkSanity}; then
 fi
 
 echo '... done'
-
-if ${aufRechenknecht}; then
-  submoduleDir="${pkgSrcDir}/submodules"
-  pkgSrcDir="${pkgSrcDir}/archPackages"
-fi
 
 # extract git ${branch}
 git -C "${pkgSrcDir}" archive --format tar "${branch}" | \
