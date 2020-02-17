@@ -32,6 +32,8 @@ printOnly=false
 if ${aufRechenknecht}; then
   submoduleDir="${pkgSrcDir}/submodules"
   pkgSrcDir="${pkgSrcDir}/archPackages"
+else
+  submoduleDir='/dev/null'
 fi
 
 # print help screen
