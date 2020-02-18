@@ -1,10 +1,8 @@
 #!/bin/bash
 
-url="$1"
-pkgSrcDir="${url%% *}"
-url="${url#${path} }"
-submoduleDir="${url%% *}"
-url="${url#${path} }"
+pkgSrcDir="$1"
+submoduleDir="$2"
+url="$3"
 path="${url%% *}"
 url="${url#${path} }"
 
