@@ -1,26 +1,23 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=perl-perlio-layers
 _pkgname='PerlIO-Layers'
-pkgver=0.011
-pkgrel=8
+pkgver=0.012
+pkgrel=1
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Querying your filehandle's capabilities"
 arch=('x86_64' 'i686' 'pentium4')
 url="https://github.com/Leont/perlio-layers"
 license=('GPL' 'PerlArtistic')
+makedepends=(
+  'perl-data-dumper'
+  'perl-module-build>=0.28'
+  'perl-test-simple>=0.82')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
+  'perl>=5.8.1'
   'perl-carp'
   'perl-exporter>=5.57'
   'perl-scalar-list-utils'
   'perl-xsloader')
-makedepends=(
-  'perl-data-dumper'
-  'perl-io'
-  'perl-module-build>=0.3601'
-  'perl-pathtools'
-  'perl-test-simple>=0.82')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -28,7 +25,7 @@ checkdepends=(
   'perl-test-simple'
 )
 source=("http://search.cpan.org/CPAN/authors/id/L/LE/LEONT/${_distdir}.tar.gz")
-sha256sums=('1d77e164aa5d5d24699a5479a423abdc1b07973fbe5a22d304fef2c560254b42')
+sha512sums=('3b8c0103faa49227b68cc6bb835e34c7b3f9731f83421a9b58ad68e469c55795ab977e6983ece8fe6db5b9f0ff4d615affbbea00716cd87a1af28571707dcf6e')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
