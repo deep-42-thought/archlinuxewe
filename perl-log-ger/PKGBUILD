@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-log-ger'
-pkgver=0.028
-pkgrel=2
+pkgver=0.029
+pkgrel=1
 pkgdesc='A lightweight, flexible logging framework'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,20 +12,19 @@ optdepends=(
   'perl-data-dmp'
   'perl-sub-name')
 makedepends=(
+  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
   'perl'
   'perl-data-dumper'
   'perl-parent')
 url='https://metacpan.org/release/Log-ger'
 _distdir="Log-ger-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('6b77340145f2c36efd2f7f3fbe1b487e12781e0ebda57ad715b8fe7e4cf987df9af8e3a8f308cbd29127ecf2bf0d7c73378bbf3ca029a3bb7cc89a4ad72e6817')
+sha512sums=('4d9549c942697f6cad53bd6df44ae8ef044014c7bfb6e731164fb41cedd6aa0133953643c51f26dafc8bc902f6c004ba07903868b15cb12dfef16c154b65cfae')
 
 build() {
   cd "${srcdir}/${_distdir}"
