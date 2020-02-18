@@ -11,7 +11,7 @@ if [ -n "$(ls -A "${path}")" ]; then
   exit
 fi
 mkdir -p "${path}"
-if [ -n "${submoduleDir}" ]; then
+if [ -d "${submoduleDir}" ]; then
   upstream="${submoduleDir}/${path}"
   if [ ! -d "${upstream}" ]; then
     git clone -q "${url}" "${upstream}"
