@@ -267,7 +267,7 @@ then
       remVer=$(
         pacman -Ss '^python-sip$' \
         | sed '
-          s@^\S\+/python-sip \([0-9.]\+\)-[0-9]\+$@\1@
+          s@^\S\+/python-sip \([0-9.]\+\)-[0-9]\+\( .*\)\?$@\1@
           t
           d
         '
