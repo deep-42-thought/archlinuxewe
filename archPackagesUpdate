@@ -882,7 +882,7 @@ else
          grep "^# Maintainer\s*:" "${paket}/PKGBUILD" | \
            grep -vq "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$"; then
         >&2 echo "${paket}/PKGBUILD hat falsche(n) Maintainer"
-        if [ -d "${paket}/.git" ]; then
+        if grep -qxF '[submodule "'"${paket}"'"]' '.gitmodules'; then
           continue
         fi
         err=true
