@@ -487,27 +487,29 @@ if ${aufRechenknecht}; then
     else
       printf 'package\n'
     fi \
-      | sponge \
-      | while read -r function; do
-        sed -i '
-          /^'"${function}"'() {$/,/^}$/ {
-            /^}$/ {'"$(
-                ls -1 "${tmpDir}/"*".PKGBUILDpatch" | \
-                  grep -vxF "$(
-                    sed '
-                      s,^# skip \(\S\+\)\(\s\|$\).*$,'"${tmpDir}"'/\1.PKGBUILDpatch,
-                      t
-                      d
-                    ' PKGBUILD
-                  )" | \
-                  sed 's/^/r /'
-              )"'
-              a }
-              d
-            }
-          }
+    | sponge \
+    | while read -r function; do
+      sed -i '
+        /^'"${function}"'() {$/,/^}$/ {
+          /^}$/ i _patch_PKGBUILD
+        }
+      ' PKGBUILD
+    done
+    {
+      echo '_patch_PKGBUILD() {'
+      ls -1 "${tmpDir}/"*".PKGBUILDpatch" \
+      | grep -vxF "$(
+        sed '
+          s,^# skip \(\S\+\)\(\s\|$\).*$,'"${tmpDir}"'/\1.PKGBUILDpatch,
+          t
+          d
         ' PKGBUILD
-      done
+      )" \
+      | xargs -r cat
+      echo ':'
+      echo '}'
+    } \
+    >> PKGBUILD
 
     case "${arch}" in
       'any'|'i486'|'i686'|'pentium4'|'x86_64')
