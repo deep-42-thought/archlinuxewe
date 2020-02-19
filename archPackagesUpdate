@@ -214,6 +214,26 @@ echo '... done'
 # extract git ${branch}
 git -C "${pkgSrcDir}" archive --format tar "${branch}" | \
   tar -x -C "${tmpDir}" -f -
+git -C "${pkgSrcDir}" diff '6dc373759d940181bcb2a742f1f37548a7c1cacc' "${branch}" -- $(
+  sed '
+    s/^\[submodule "\([^"[:space:]]\+\)"\]$/\1/
+    t
+    d
+  ' "${tmpDir}/.gitmodules"
+) \
+| sed '
+  /^+++ b/ {
+    N
+    N
+    s#^+++ b/\(\S\+\)\n@@ -0,0 +1 @@\n+Subproject commit \([0-9a-f]\{40\}\)$#\1 \2#
+    t
+  }
+  d
+' \
+| while read -r module commit; do
+  rmdir "${tmpDir}/${module}"
+  echo "${commit}" >"${tmpDir}/${module}"
+done
 
 cd "${tmpDir}"
 

@@ -6,10 +6,18 @@ url="$3"
 path="${url%% *}"
 url="${url#${path} }"
 
-if [ -n "$(ls -A "${path}")" ]; then
+if [ -d "${path}" ] && [ -n "$(ls -A "${path}")" ]; then
   git -C "${pkgSrcDir}" submodule update 2>/dev/null || true
   exit
 fi
+
+if [ ! -f "${path}" ]; then
+  >&2 echo 'update-submodule needs a commit'
+  exit 1
+fi
+
+commit=$(cat "${path}")
+rm "${path}"
 mkdir -p "${path}"
 if [ -d "${submoduleDir}" ]; then
   upstream="${submoduleDir}/${path}"
@@ -20,4 +28,5 @@ else
   upstream="${pkgSrcDir}/${path}"
 fi
 git -C "${upstream}" pull -q --ff-only
-git clone -q "${upstream}" "${path}"
+git -C "${upstream}" archive "${commit}" \
+| tar -C "${path}" -x
