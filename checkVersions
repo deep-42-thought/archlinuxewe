@@ -759,7 +759,6 @@ then
             s,^.*$,https://sourceforge.net/projects/\0/,
           '
       )
-    echo "'$quVer'" >&2
       remVer=$( \
         curl_it "${quVer}" | \
           sed -n '
