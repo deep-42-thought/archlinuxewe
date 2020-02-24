@@ -1,59 +1,29 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
-pkgbase=python-pyshortcuts
-pkgname=('python-pyshortcuts' 'python2-pyshortcuts')
+pkgname='python-pyshortcuts'
 _pkgname='pyshortcuts'
 pkgver=1.7.1
-pkgrel=1
+pkgrel=2
 pkgdesc='create desktop shortcuts to python scripts on Windows, Mac, or Linux'
 arch=('any')
 url='https://github.com/newville/pyshortcuts'
 license=('MIT')
-_deppy2=(
-  'python2>=2.7'
-  'python2<2.8'
-)
-_deppy=(
+depends=(
   'python>=3.8'
   'python<3.9'
-)
-_depends=(
   'python-six')
-_makedepends=(
-  'python-setuptools')
 makedepends=(
-  "${_deppy[@]}"
-  "${_deppy2[@]}"
-  "${_depends[@]}"
-  "${_depends[@]/python/python2}"
-  "${_makedepends[@]}"
-  "${_makedepends[@]/python/python2}"
-)
+  'python-setuptools')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/newville/${_pkgname}/archive/${pkgver}.tar.gz")
 sha512sums=('14ab47a173f0af7c08cbd0596058717affcbc3a719df969f8c6010858194e0d0d2ebf0ba60a21a503903bdf94d7d095088a7b29a93fc7ff85192b810899aa0cf')
 
-prepare() {
-  cd "${srcdir}"
-
-  cp -a "${_pkgname}-${pkgver}" "${pkgname[0]}"
-  mv "${_pkgname}-${pkgver}" "${pkgname[1]}"
-}
-
 build() {
-  cd "${srcdir}/${pkgname[0]}"
+  cd "${srcdir}/${_pkgname}-${pkgver}"
   python setup.py build
-
-  cd "${srcdir}/${pkgname[1]}"
-  python2 setup.py build
 }
 
-package_python-pyshortcuts() {
-  depends=(
-    "${_deppy[@]}"
-    "${_depends[@]}"
-  )
-
-  cd "${srcdir}/${pkgname[0]}"
+package() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
   python setup.py install --prefix=/usr --root="${pkgdir}" --optimize=1
   errors=$(
     find "${pkgdir}/usr/lib"/python*/site-packages/pyshortcuts-*.egg-info -name 'requires.txt' -execdir cat {} \; \
@@ -67,25 +37,3 @@ package_python-pyshortcuts() {
   fi
   rm -rf --one-file-system "${pkgdir}/usr/bin"
 }
-
-package_python2-pyshortcuts() {
-  depends=(
-    "${_deppy2[@]}"
-    "${_depends[@]/python/python2}"
-  )
-
-  cd "${srcdir}/${pkgname[1]}"
-  python2 setup.py install --prefix=/usr --root="${pkgdir}" --optimize=1
-  errors=$(
-    find "${pkgdir}/usr/lib"/python*/site-packages/pyshortcuts-*.egg-info -name 'requires.txt' -execdir cat {} \; \
-      | sed 's/^/python2-/' \
-      | grep -vxF "$(printf '%s\n' "${depends[@]}")"
-  ) || true
-  if [ -n "${errors}" ]; then
-    echo 'missing dependencies:'
-    printf '%s\n' "${errors}"
-    return 1
-  fi
-  rm -rf --one-file-system "${pkgdir}/usr/bin"
-}
-
