@@ -9,6 +9,13 @@ license=('public domain')
 pkgdesc='X-ray Reference Data in SQLite library, including a Python interface'
 source=("$pkgname-$pkgver.tar.gz::https://github.com/xraypy/XrayDB/archive/$pkgver.tar.gz")
 sha512sums=('cccd53716deaddefbf5fac8064f780246d732b2234954ac464417fa27ac3c9ac9aed707b6cdb66feba0e5c6bf903842ff8b4f203757631b23287b8541ff53a76')
+depends=(
+  'python>=3.8'
+  'python<3.9'
+)
+makedepends=(
+  'python-setuptools'
+)
 
 build() {
   cd "XrayDB-$pkgver/python"
