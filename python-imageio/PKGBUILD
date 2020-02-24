@@ -1,0 +1,29 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname='python-imageio'
+_pkgname="${pkgname#*-}"
+pkgver=2.8.0
+pkgrel=1
+arch=('i686' 'pentium4' 'x86_64')
+url='https://github.com/xraypy/XrayDB'
+license=('BSD')
+pkgdesc='Python library that provides an easy interface to read and write a wide range of image data'
+source=("$pkgname-$pkgver.tar.gz::https://github.com/imageio/imageio/archive/v$pkgver.tar.gz")
+sha512sums=('679cad2be0e4e360e0c42f9cd330d9d6660ccb86202846b15170f52b684560f3b4fa72f477ad8fd9be7acb4aa532d880b1f1174066eebc453fb9e9858de92700')
+depends=(
+  'python>=3.8'
+  'python<3.9'
+)
+makedepends=(
+  'python-setuptools'
+)
+
+build() {
+  cd "$_pkgname-$pkgver"
+  python setup.py build
+}
+
+package() {
+  cd "$_pkgname-$pkgver"
+  python setup.py install --root="$pkgdir"
+}
