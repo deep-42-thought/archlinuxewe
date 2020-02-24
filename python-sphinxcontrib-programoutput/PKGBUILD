@@ -1,26 +1,18 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Contributor: Hyacinthe Cartiaux <hyacinthe.cartiaux@free.fr>
 # Contributor: Josh VanderLinden <arch@cloudlery.com>
-pkgbase=python-sphinxcontrib-programoutput
-pkgname=(python2-sphinxcontrib-programoutput python-sphinxcontrib-programoutput)
+pkgname=python-sphinxcontrib-programoutput
 _pkgname=sphinxcontrib-programoutput
 pkgver=0.15
-pkgrel=2
+pkgrel=3
 pkgdesc="Sphinx extension to include program output"
 arch=('any')
 url="https://bitbucket.org/birkenfeld/sphinx-contrib"
 license=('BSD')
-_deppy2=(
-  'python2>=2.7'
-  'python2<2.8'
-)
-_deppy=(
+depends=(
   'python>=3.8'
-  'python<3.9'
-)
-_depends=(
-  'python')
-_makedepends=(
+  'python<3.9')
+makedepends=(
   'python-setuptools')
 provides=('sphinxcontrib-programoutput')
 options=(!emptydirs)
@@ -29,48 +21,14 @@ source=(
 )
 source=(https://pypi.python.org/packages/fd/f5/88a33c39e4e6409a32c6e5211e5397618df7d95dcc354b4a24f7930455a1/${_pkgname}-${pkgver}.tar.gz)
 sha512sums=('08444118daf09e05c1318ee87a22fcccb7822b99d58d18cf46748aa32338f35519017839c233cd5176a5426cb5f55047039ee28a26f6f4ebd99a35b199c0ff19')
-makedepends=(
-  "${_deppy[@]}"
-  "${_deppy2[@]}"
-  "${_makedepends[@]}"
-  "${_makedepends[@]/python/python2}"
-  "${_depends[@]}"
-  "${_depends[@]/python/python2}"
-)
-
-prepare() {
-  cp -r "${srcdir}/${_pkgname}-${pkgver}" "${srcdir}/py2-${_pkgname}-${pkgver}"
-  mv "${srcdir}/${_pkgname}-${pkgver}" "${srcdir}/py-${_pkgname}-${pkgver}"
-}
 
 build() {
-  cd "${srcdir}/py2-${_pkgname}-${pkgver}"
-  python2 setup.py build
-
-  cd "${srcdir}/py-${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_pkgname}-${pkgver}"
   python setup.py build
 }
 
-package_python2-sphinxcontrib-programoutput() {
-  depends=(
-    "${_deppy2[@]}"
-    "${_depends[@]/python/python2}"
-  )
-  cd "${srcdir}/py2-${_pkgname}-${pkgver}"
-
-  python2 setup.py install --root="${pkgdir}/" --optimize=1
-
-  install -Dm644 LICENSE ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
-}
-
-package_python-sphinxcontrib-programoutput() {
-  depends=(
-    "${_deppy2[@]}"
-    "${_depends[@]}"
-  )
-  cd "${srcdir}/py-${_pkgname}-${pkgver}"
-
+package() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
   python setup.py install --root="${pkgdir}/" --optimize=1
-
   install -Dm644 LICENSE ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
 }
