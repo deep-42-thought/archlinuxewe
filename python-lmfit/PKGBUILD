@@ -1,83 +1,39 @@
 # Contributor: Francois Boulogne <fboulogne at april dot org>
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
-pkgbase=python-lmfit
+pkgname='python-lmfit'
 _pkgname=lmfit-py
-pkgname=('python-lmfit' 'python2-lmfit')
 pkgver=1.0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Least-Squares Minimization with Constraints for Python"
 arch=('any')
 url="http://lmfit.github.io/lmfit-py/"
 license=('BSD')
-_deppy2=(
-  'python2>=2.7'
-  'python2<2.8'
-)
-_deppy=(
+depends=(
   'python>=3.8'
   'python<3.9'
-)
-_depends=(
   'python-asteval>=0.9.16'
   'python-numpy>=1.16'
   'python-scipy>=1.2'
   'python-uncertainties>=3.0.1')
-_makedepends=(
-  'python-setuptools')
-_checkdepends=(
-  'python-nose')
 makedepends=(
-  "${_deppy[@]}"
-  "${_deppy2[@]}"
-  "${_depends[@]}"
-  "${_depends[@]/python/python2}"
-  "${_makedepends[@]}"
-  "${_makedepends[@]/python/python2}"
-)
+  'python-setuptools')
 checkdepends=(
-  "${_checkdepends[@]}"
-  "${_checkdepends[@]/python/python2}"
-)
+  'python-nose')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/lmfit/lmfit-py/archive/${pkgver}.tar.gz")
 sha512sums=('48c8785c23b8f398e8d01876d917ee3fefe9a429fc6f5238caa7fd0ccea5f0bf35f685572695e53f31389926fb4e44df2701d3423f4f867c6351177c8ce327a0')
-
-prepare() {
-  cp -a "lmfit-py-${pkgver}" "lmfit-py2-${pkgver}"
-}
 
 build() {
   cd "$srcdir/lmfit-py-$pkgver"
   python setup.py build
-  
-  cd "$srcdir/lmfit-py2-$pkgver"
-  python2 setup.py build
 }
 
 check() {
   cd "$srcdir/lmfit-py-$pkgver"
   nosetests3 tests || echo 'WARNING: python3 tests failed'
-
-  cd "$srcdir/lmfit-py2-$pkgver"
-  nosetests2 tests || echo 'WARNING: python2 tests failed'
 }
 
-package_python-lmfit(){
-  depends=(
-    "${_deppy[@]}"
-    "${_depends[@]}"
-  )
+package(){
   cd "$srcdir/lmfit-py-$pkgver"
   python setup.py install --root="$pkgdir/" --optimize=1
 }
-
-package_python2-lmfit(){
-  depends=(
-    "${_deppy2[@]}"
-    "${_depends[@]/python/python2}"
-  )
-  cd "$srcdir/lmfit-py2-$pkgver"
-  python2 setup.py install --root="$pkgdir/" --optimize=1
-}
-
-# vim:ts=2:sw=2:et:
