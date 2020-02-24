@@ -1,80 +1,27 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
-pkgbase=python-bash_kernel
-pkgname=(python2-bash_kernel python-bash_kernel)
+pkgname=python-bash_kernel
 _pkgname=bash_kernel
 pkgver=0.7.2
-pkgrel=2
+pkgrel=3
 pkgdesc='A Jupyter kernel for bash.'
 arch=('any')
 url='https://github.com/takluyver/bash_kernel'
 license=('BSD')
-_deppy2=(
-  'python2>=2.7'
-  'python2<2.8'
-)
-_deppy=(
+depends=(
   'python>=3.8'
   'python<3.9'
 )
-_depends=(
-)
-_makedepends=()
-#  'cython'
-#  'python-setuptools')
-_optdepends=()
 source=("${_pkgname}-${pkgver}.tar.gz::https://pypi.python.org/packages/96/8f/869587d23c29bf74dc52a9bd5c80170762adfc78ecb5108ae8b32bb48f82/${_pkgname}-${pkgver}.tar.gz")
 sha512sums=('94231b4c014888241a0c06b69e5d59b0baa6000bf922cfc6ca2d558a96387e109bcb0dcb15061b94bfde6c30296dce4a3b8cd8f2a7c53014b48870321bb40685')
 
-makedepends=(
-  "${_deppy[@]}"
-  "${_deppy2[@]}"
-  "${_depends[@]}"
-  "${_depends[@]//python/python2}"
-  "${_makedepends[@]}"
-  "${_makedepends[@]//ython/ython2}"
-)
-
-prepare() {
-  cp -r "${_pkgname}-${pkgver}" "py2-${_pkgname}-${pkgver}"
-  mv "${_pkgname}-${pkgver}" "py-${_pkgname}-${pkgver}"
-}
-
 build() {
-  cd "${srcdir}/py2-${_pkgname}-${pkgver}"
-  python2 setup.py build
-
-  cd "${srcdir}/py-${_pkgname}-${pkgver}"
+  cd "${srcdir}/${_pkgname}-${pkgver}"
   python setup.py build
 }
 
-package_python2-bash_kernel() {
-  depends=(
-    "${_deppy2[@]}"
-    "${_depends[@]//python/python2}"
-  )
-  optdepends=(
-    "${_optdepends[@]//python/python2}"
-  )
-  cd "${srcdir}/py2-${_pkgname}-${pkgver}"
-  python2 setup.py install --root="${pkgdir}/" --optimize=1
-  install -D LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-  find "${pkgdir}/usr/bin" -maxdepth 1 -type f -printf '%f\n' | \
-    while read -r f; do
-      mv "${pkgdir}/usr/bin/${f}" "${pkgdir}/usr/bin/python2-${f}"
-      sed -i '1 s/python/python2/' "${pkgdir}/usr/bin/python2-${f}"
-    done
-}
-
-package_python-bash_kernel() {
-  depends=(
-    "${_deppy[@]}"
-    "${_depends[@]}"
-  )
-  optdepends=(
-    "${_optdepends[@]}"
-  )
-  cd "${srcdir}/py-${_pkgname}-${pkgver}"
+package() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
   python setup.py install --root="${pkgdir}/" --optimize=1
   install -D LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
