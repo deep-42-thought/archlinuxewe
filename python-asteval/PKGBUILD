@@ -1,85 +1,37 @@
 # Contributor: Francois Boulogne <fboulogne at april dot org>
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
-pkgbase=python-asteval
-pkgname=('python-asteval' 'python2-asteval')
-_pkgname="${pkgbase#*-}"
+pkgname='python-asteval'
+_pkgname="${pkgname#*-}"
 pkgver=0.9.18
-pkgrel=1
+pkgrel=2
 pkgdesc='Minimal Python AST Evaluator'
 arch=('any')
 url='https://newville.github.io/asteval/'
 license=('MIT')
-_deppy2=(
-  'python2>=2.7'
-  'python2<2.8'
-)
-_deppy=(
+depends=(
   'python>=3.8'
-  'python<3.9'
-)
-_depends=()
-_makedepends=(
+  'python<3.9')
+makedepends=(
   'python-setuptools')
-_checkdepends=(
+checkdepends=(
   'python-nose'
   'python-pytest')
-makedepends=(
-  "${_deppy[@]}"
-  "${_deppy2[@]}"
-  "${_depends[@]}" "${_depends[@]/python/python2}"
-  "${_makedepends[@]}" "${_makedepends[@]/python/python2}"
-  )
-checkdepends=(
-  "${_checkdepends[@]}" "${_checkdepends[@]/python/python2}"
-  )
 source=(
   "${_pkgname}-${pkgver}.tar.gz::https://github.com/newville/${_pkgname}/archive/${pkgver}.tar.gz")
 sha512sums=('f2b5b8235fe8e1ca9b071d4f0fd84e5e3f843c819d13211a3111a58724195ecf44e05270da94127239e51ecde28d851dc3e0eaa9005a63a576cfc531250f82b7')
 
-prepare() {
-  mv "${_pkgname}-${pkgver}" "${_pkgname}-py-${pkgver}"
-  cp -a "${_pkgname}-py-${pkgver}" "${_pkgname}-py2-${pkgver}"
-  sed -i '
-    7 ifrom __future__ import division,print_function
-  ' "${_pkgname}-py2-${pkgver}/asteval/astutils.py"
-  sed -i '
-    39 ifrom __future__ import division,print_function
-  ' "${_pkgname}-py2-${pkgver}/asteval/asteval.py"
-}
-
 build() {
-  cd "$srcdir/${_pkgname}-py-$pkgver"
+  cd "$srcdir/${_pkgname}-$pkgver"
   python setup.py build
-  
-  cd "$srcdir/${_pkgname}-py2-$pkgver"
-  python2 setup.py build
 }
 
 check() {
-  cd "$srcdir/${_pkgname}-py-$pkgver"
+  cd "$srcdir/${_pkgname}-$pkgver"
   nosetests3 tests
-
-#  cd "$srcdir/${_pkgname}-py2-$pkgver"
-#  nosetests2 tests
 }
 
-package_python-asteval(){
-  depends=(
-    "${_deppy[@]}"
-    "${_depends[@]}"
-  )
-  cd "$srcdir/${_pkgname}-py-$pkgver"
+package(){
+  cd "$srcdir/${_pkgname}-$pkgver"
   python setup.py install --root="$pkgdir/" --optimize=1
 }
-
-package_python2-asteval(){
-  depends=(
-    "${_deppy2[@]}"
-    "${_depends[@]/python/python2}"
-  )
-  cd "$srcdir/${_pkgname}-py2-$pkgver"
-  python2 setup.py install --root="$pkgdir/" --optimize=1
-}
-
-# vim:ts=2:sw=2:et:
