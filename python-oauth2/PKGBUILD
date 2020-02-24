@@ -1,22 +1,14 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
-pkgbase=python-oauth2
-_pkgname=python-oauth2
-pkgname=(python-oauth2 python2-oauth2)
+pkgname=python-oauth2
 pkgver=1.1.1
 pkgrel=2
 pkgdesc='framework that aims at making it easy to provide authentication via OAuth 2.0 within an application stack/'
 url='https://github.com/wndhydrnt/python-oauth2/'
 arch=('any')
 license=('MIT')
-_deppy2=(
-  'python2>=2.7'
-  'python2<2.8'
-)
-_deppy=(
+depends=(
   'python>=3.8'
   'python<3.9'
-)
-_depends=(
   'python-mock'
   'python-mysql-connector'
   'python-nose'
@@ -24,77 +16,28 @@ _depends=(
   'python-memcached'
   'python-redis'
   'python-tornado')
-_makedepends=(
+makedepends=(
   'python-setuptools')
-_optdepends=(
+optdepends=(
   'python-memcached'
   'python-pymongo'
   'python-redis'
 )
-makedepends=(
-  "${_deppy[@]}"
-  "${_deppy2[@]}"
-  "${_depends[@]}"
-  "${_depends[@]/python/python2}"
-  "${_makedepends[@]}"
-  "${_makedepends[@]/python/python2}"
-)
-source=("$pkgbase-$pkgver.tar.gz::https://github.com/wndhydrnt/python-oauth2/archive/v${pkgver}.tar.gz")
+source=("$pkgname-$pkgver.tar.gz::https://github.com/wndhydrnt/python-oauth2/archive/v${pkgver}.tar.gz")
 sha512sums=('1d4d41a26ca448528b8869fef6cdf217900da388f64f4ea34f466544fde071896210ee4439e20124081209902b93356230e4828ec127f48216d149aa47fd4e62')
 
-prepare() {
-  cp -a python-oauth2-${pkgver}{,-py2}
-}
-
 build() {
-  echo "Building python..."
-  (
-    cd python-oauth2-${pkgver}
-    python setup.py build
-  )
-  echo "Building python2..."
-  (
-    cd python-oauth2-${pkgver}-py2
-    python2 setup.py build
-  )
+  cd "${pkgname}-${pkgver}"
+  python setup.py build
 }
 
 check() {
-  if [ "$(hostname)" = 'rechenknecht' ]; then
-    return 0
-  fi
-  echo "Checking python..."
-  (
-    cd python-oauth2-${pkgver}
-    python setup.py test
-  )
-  echo "Checking python2..."
-  (
-    cd python-oauth2-${pkgver}-py2
-    python2 setup.py test
-  )
+  cd "${pkgname}-${pkgver}"
+  python setup.py test
 }
 
-package_python-oauth2() {
-  depends=(
-    "${_deppy[@]}"
-    "${_depends[@]}"
-  )
-  optdepends=("${_optdepends[@]}")
-
-  cd python-oauth2-${pkgver}
+package() {
+  cd "${pkgname}-${pkgver}"
   python setup.py install --prefix=/usr --root="${pkgdir}" --skip-build
-  install -Dm 644 LICENSE -t "${pkgdir}"/usr/share/licenses/${pkgname}
-}
-
-package_python2-oauth2() {
-  depends=(
-    "${_deppy2[@]}"
-    "${_depends[@]/python/python2}"
-  )
-  optdepends=("${_optdepends[@]/python/python2}")
-
-  cd python-oauth2-${pkgver}-py2
-  python2 setup.py install --prefix=/usr --root="${pkgdir}" --skip-build
   install -Dm 644 LICENSE -t "${pkgdir}"/usr/share/licenses/${pkgname}
 }
