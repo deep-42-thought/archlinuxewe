@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (445682a1bd8a70c152ebe76ddf08deb3d21406c80f819873940cb0909a895cfcde52cc62469cd6f4e4d632f24b3df31e0eec78843cb778079f24dc33b18472ea)
 
 pkgname='perl-www-mechanize-cached'
-pkgver=1.52
+pkgver=1.53
 pkgrel=1
 pkgdesc='Cache response to be polite'
 arch=('any')
@@ -11,18 +11,21 @@ options=('!emptydirs')
 optdepends=(
   'perl-chi')
 makedepends=(
+  'perl>=5.8.0'
+  'perl-cache-cache'
   'perl-chi'
   'perl-constant'
   'perl-extutils-makemaker'
-  'perl-find-lib'
   'perl-http-message'
   'perl-lib'
-  'perl-path-class'
+  'perl-path-tiny'
   'perl-pathtools'
   'perl-test-fatal'
   'perl-test-requires'
   'perl-test-requiresinternet'
-  'perl-test-simple')
+  'perl-test-simple'
+  'perl-test-warnings'
+  'perl-uri')
 depends=(
   'perl>=5.8.0'
   'perl-cache-cache'
@@ -45,7 +48,7 @@ checkdepends=(
 url='https://metacpan.org/release/WWW-Mechanize-Cached'
 _distdir="WWW-Mechanize-Cached-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
-sha512sums=('ae71d8718aeaa0b674c823d68c886925b9bfdde8edf4a21df40b142a58c03c55ea929eaac4aed3bba05b6d64d2720f888cc69c893aa3d7db3e19ae4ec3866356')
+sha512sums=('f96f23131a609fcf1fd0f30ef97dea4d62b04413edbd9bd27663faeff63a675ac0a1dd2a8e54b984aa7cd30dca369a0cbfdee7d54640d7aadab435dd6e44edf4')
 
 build() {
   cd "${srcdir}/${_distdir}"
