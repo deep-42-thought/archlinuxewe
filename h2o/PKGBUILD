@@ -14,7 +14,7 @@ depends=('libuv' 'libyaml' 'wslay' 'zlib')
 makedepends=('cmake' 'libtool' 'make' 'pkg-config' 'ruby')
 url="https://github.com/h2o/h2o"
 license=('MIT')
-source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/h2o/$pkgname/tar.gz/v$pkgver
+source=("$pkgname-$pkgver.tar.gz::https://github.com/h2o/$pkgname/archive/v$pkgver.tar.gz"
         h2o.service)
 sha256sums=('eafb40aa2d93b3de1af472bb046c17b2335c3e5a894462310e1822e126c97d24'
             '8a85462b6798deaaab343b5dae73437e251c5018d70d260a4a4440b9bbb053e6')
