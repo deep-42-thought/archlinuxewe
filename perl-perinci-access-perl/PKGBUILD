@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-access-perl'
-pkgver=0.891
+pkgver=0.892
 pkgrel=1
 pkgdesc='Access Perl module, functions, variables through Riap'
 arch=('any')
@@ -17,7 +17,7 @@ makedepends=(
   'perl-lib'
   'perl-monkey-patch-action>=0.060'
   'perl-pathtools'
-  'perl-perinci-examples>=0.818'
+  'perl-perinci-examples>=0.819'
   'perl-test-exception'
   'perl-test-simple>=0.98')
 depends=(
@@ -50,7 +50,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Access-Perl'
 _distdir="Perinci-Access-Perl-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('68c765cee2afffdb285a536adae0a12e6d403fea5bf3f5f1490880cd3e10936c1d3cc4c5a257aa977145c4eb9b694914046a275e135e58f4951184c095e366b9')
+sha512sums=('ef527fa7f469a6645d66e68f8076385b387f341b70b8ea7031370f29127f3234a649edeb7c9db4e94d0e2d68b4ef5b3a4d4379c7d728d3898c1f9a855167b6a1')
 
 prepare() {
   cd "${srcdir}/${_distdir}"
