@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (28b2f74dba87d5b9704e48582062ab93f41cf91629ca4c2bf134bbcd713a9110c07bc8f2e76567c6a6ba6b63044d37bbacca314917992dc3c00b0f8a2ecd6016)
 
 pkgname='perl-complete-sah'
-pkgver=0.004
+pkgver=0.005
 pkgrel=1
 pkgdesc='Sah-related completion routines'
 arch=('any')
@@ -27,7 +27,7 @@ depends=(
 url='https://metacpan.org/release/Complete-Sah'
 _distdir="Complete-Sah-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('a67383618fefbae19a5e9f1b259f7b94c68b01fff7523a7d94a0cf199650102040c27c6ed3686ea1f5148c70b8392f0dae30d4248242a8d4707c3696358520ca')
+sha512sums=('6c04f0092c9cf0cb39175b707255693165dcb0d43d2959e7bc1a41a4b15d40dc7c83b29ea6a2413ba21bc5f5d2473d567c625294d2d3731439a4889f0485b9af')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/complete_from_schema.t"
