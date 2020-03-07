@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Contributor: Kyle Keen <keenerd@gmail.com>
 pkgname=hyperrogue
-pkgver=11.2.x
+pkgver=11.3
 _pkgver=${pkgver//./}
 pkgrel=1
 pkgdesc="You are a lone outsider in a strange, non-Euclidean hyperbolic world.  Optional music."
@@ -15,7 +15,7 @@ makedepends=('glu')
 _music=""
 
 source=("http://www.roguetemple.com/z/hyper/hyperrogue${_pkgver}-src.tgz")
-sha512sums=('24eec109c0ae52eb6f0f1dbd893238acde44ab994eeb71010d4a9e126e73e1538a2d2fbf2b1fdaf31d7ddae6cd3876769b0c47b07025c90c7326e7e7ff486b2b')
+sha512sums=('912241726480baefd701301f2f71050b93e7633ce5892fa1e47520a216ac6052cc35ddfc54aa0beeca7b119b5a3a0ee993843557a45a4965602d20b13d9d7e6e')
 #echo http://www.roguetemple.com/z/hyper/hyperrogue${_pkgver}-{lq,win}.zip
 if [[ "$_music" == "low" ]]; then
     source+=("http://www.roguetemple.com/z/hyper/hyperrogue${_pkgver}-lq.zip")
