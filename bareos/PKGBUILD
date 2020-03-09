@@ -10,7 +10,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-database-postgresql"
          "${pkgbase}-database-sqlite3"
          "${pkgbase}-database-tools"
-         "${pkgbase}-devel"
+#         "${pkgbase}-devel"
          "${pkgbase}-director"
          "${pkgbase}-storage-fifo"
          "${pkgbase}-tools"
@@ -22,7 +22,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.6
-pkgrel=4
+pkgrel=5
 arch=(x86_64 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -270,12 +270,12 @@ package_bareos-database-tools() {
   done
 }
 
-package_bareos-devel() {
-  pkgdesc="${pkgdesc} - Devel headers"
-  arch=(any)
-  # TODO
-  install -d $pkgdir/usr/include/bareos
-}
+#package_bareos-devel() {
+#  pkgdesc="${pkgdesc} - Devel headers"
+#  arch=(any)
+#  # TODO
+#  install -d $pkgdir/usr/include/bareos
+#}
 
 package_bareos-director() {
   pkgdesc="${pkgdesc} - Director daemon"
