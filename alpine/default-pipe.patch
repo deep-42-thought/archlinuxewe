@@ -1,0 +1,14 @@
+diff --git a/alpine/mailpart.c b/alpine/mailpart.c
+index df1de5d..73f08d1 100644
+--- a/alpine/mailpart.c
++++ b/alpine/mailpart.c
+@@ -3882,6 +3882,9 @@ pipe_attachment(long int msgno, ATTACH_S *a)
+ 	    raw     = (flagsforhist & 0x2) ? 1 : 0;
+ 	    capture = (flagsforhist & 0x1) ? 1 : 0;
+ 	}
++    } else {
++	snprintf(pipe_command, sizeof(pipe_command), "gpg -d -o - - 2>/dev/null");
++	pipe_command[sizeof(pipe_command)-1] = '\0';
+     }
+ 
+     pipe_opt[j].ch    = 0;
