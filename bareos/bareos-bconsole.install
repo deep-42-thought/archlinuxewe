@@ -4,7 +4,6 @@ post_install() {
 	/usr/lib/bareos/scripts/bareos-config initialize_passwords
 
 	chown root:bareos /usr/share/bareos/config/bconsole.conf
-	chmod 640 /usr/share/bareos/config/bconsole.conf
 }
 
 post_upgrade() {

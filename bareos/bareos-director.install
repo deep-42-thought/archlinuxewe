@@ -4,7 +4,6 @@ post_install() {
 	/usr/lib/bareos/scripts/bareos-config initialize_passwords
 
 	chown -R bareos:bareos /usr/share/bareos/config/bareos-dir.d
-	chmod -R 750 /usr/share/bareos/config/bareos-dir.d
 
 	chown bareos:bareos /usr/bin/bareos-dir
 
