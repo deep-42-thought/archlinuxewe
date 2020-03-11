@@ -295,7 +295,7 @@ package_bareos-database-tools() {
 
 package_bareos-director() {
   pkgdesc="${pkgdesc} - Director daemon"
-  depends=("bareos-common=$pkgver" 'openssl' 'bash' 'jansson')
+  depends=("bareos-common=$pkgver" "bareos-database=$pkgver" 'openssl' 'bash' 'jansson')
   install=bareos-director.install
 
   install -Dm755 \
