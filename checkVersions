@@ -34,7 +34,7 @@ curl_it() {
   fi
   tmp_file=$(mktemp)
   for i in {1..5}; do
-    curl --compressed -o "${tmp_file}" --connect-timeout 10 -s -x socks5://127.0.0.1:9050 "$@" "${source}"
+    curl --compressed -o "${tmp_file}" --connect-timeout 10 -s -x socks5h://127.0.0.1:9050 "$@" "${source}"
     if grep -qiF "$(
       printf '%s\n' \
         'access denied' \
