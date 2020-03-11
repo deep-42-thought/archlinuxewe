@@ -2,32 +2,32 @@
 # Generator : neuesPerlPaket (e520087d22896debe22f9376d2e46ee8f7a57ce44debdfc7a7d1c414a9fd5b5f75c8ce9350f4e793cd6356e6207c8cca7930b0b973dbd8a9dc2068472324bb72)
 
 pkgname='perl-moox-strictconstructor'
-pkgver=0.010
-pkgrel=4
+pkgver=0.011
+pkgrel=1
 pkgdesc='Make your Moo-based object constructors blow up on unknown attributes.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-provides=(
-  'perl-method-generate-constructor-role-strictconstructor=0.010')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-class-method-modifiers'
-  'perl-constant'
-  'perl-moo>=1.001000'
-  'perl-strictures>=1')
 makedepends=(
-  'perl-extutils-makemaker'
+  'perl>=5.6.0'
+  'perl-extutils-makemaker>=6.17'
   'perl-file-temp'
   'perl-io'
   'perl-pathtools'
   'perl-test-fatal'
   'perl-test-simple>=0.88')
+depends=(
+  'perl>=5.6.0'
+  'perl-class-method-modifiers'
+  'perl-constant'
+  'perl-moo>=1.001000'
+  'perl-strictures>=1')
+provides=(
+  'perl-method-generate-constructor-role-strictconstructor=0.011')
 url='https://metacpan.org/release/MooX-StrictConstructor'
 _distdir="MooX-StrictConstructor-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/H/HA/HARTZELL/${_distdir}.tar.gz")
-sha512sums=('17748ee05c1679d3cbade89b40a6f884bafc45244298f1dfcc5441dc81ab807394e6aafce483e302da8441ccb954aa1c7438b4449fcc373ecdcf81ad9e7cd864')
+sha512sums=('9f977795ae3c746b8dd65573b8cc8ea69c8fcb13a8cc6725069bcf2479b96ea2954d5531a7c92189c5523218a9e66e431f510956472248c5f0795d952ee58eb1')
 
 build(){
   cd "${srcdir}/${_distdir}"
