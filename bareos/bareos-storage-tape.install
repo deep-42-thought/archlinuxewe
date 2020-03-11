@@ -1,8 +1,6 @@
 ## arg 1:  the new package version
 post_install() {
-	chown -R bareos:bareos /etc/bareos/bareos-dir.d
-	chown -R bareos:bareos /etc/bareos/bareos-sd.d
-	chown bareos:bareos /etc/bareos/mtx-changer.conf
+	chown -R bareos:bareos /etc/bareos
 }
 
 post_upgrade() {

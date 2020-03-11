@@ -3,9 +3,7 @@ post_install() {
 	/usr/lib/bareos/scripts/bareos-config initialize_local_hostname
 	/usr/lib/bareos/scripts/bareos-config initialize_passwords
 
-	chown -R bareos:bareos /etc/bareos/bareos-dir.d
-
-	chown bareos:bareos /usr/bin/bareos-dir
+	chown -R bareos:bareos /etc/bareos
 
 	/usr/lib/bareos/scripts/bareos-config initialize_database_driver
 	/usr/lib/bareos/scripts/bareos-config apply_dbconfig_settings

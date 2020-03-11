@@ -3,10 +3,7 @@ post_install() {
 	/usr/lib/bareos/scripts/bareos-config initialize_local_hostname
 	/usr/lib/bareos/scripts/bareos-config initialize_passwords
 
-	chown -R bareos:bareos /etc/bareos/bareos-sd.d
-
-	chown bareos:bareos /usr/bin/bareos-sd
-
+	chown -R bareos:bareos /etc/bareos
 	chown bareos:bareos /var/lib/bareos/storage/
 
 	/usr/lib/bareos/scripts/bareos-config setup_sd_user
