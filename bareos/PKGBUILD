@@ -22,7 +22,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.6
-pkgrel=6
+pkgrel=7
 arch=(x86_64 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -396,6 +396,7 @@ package_bareos-director() {
 package_bareos-storage-fifo() {
   pkgdesc="${pkgdesc} - FIFO support for storage daemon"
   depends=("bareos-storage=$pkgver" 'zlib' 'libcap' 'openssl' 'jansson' 'lzo')
+  install=bareos-storage-fifo.install
   install -Dm755 \
     "$srcdir/install/usr/lib/bareos/backends/libbareossd-fifo.so" \
     -t "$pkgdir/usr/lib/bareos/backends"
@@ -522,6 +523,7 @@ package_bareos-storage() {
 package_bareos-storage-tape() {
   pkgdesc="${pkgdesc} - Tape support for storage daemon"
   depends=("bareos-storage=$pkgver" 'zlib' 'libcap' 'bash' 'openssl' 'jansson' 'lzo' "mtx")
+  install=bareos-storage-tape.install
   backup=(
     'etc/bareos/mtx-changer.conf'
     'etc/bareos/bareos-dir.d/storage/Tape.conf.example'
