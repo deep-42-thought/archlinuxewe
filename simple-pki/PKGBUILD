@@ -2,7 +2,7 @@
 pkgbase=simple-pki
 pkgdesc='Scripts to manage a simple pki'
 pkgname=(simple-pki-ca simple-pki-cb)
-pkgver=0.3.2
+pkgver=0.3.3
 pkgrel=1
 arch=('any')
 url="https://git.eckner.net/Erich/${pkgname}"
@@ -11,7 +11,7 @@ makedepends=('nginx' 'openssl' 'rsync')
 source=(
     "https://git.eckner.net/Erich/${pkgbase}/snapshot/${pkgbase}-${pkgver}.tar.xz"
 )
-sha512sums=('6e5565e81df4f290274739b4205a5924870f12c2f20d9b36a86d053872658051591c7522aed1d484e562a3b958fdfce88503a7558daf14db9a02cbed11758559')
+sha512sums=('f733cf0f3a81acb262554eab639348a1247cdc90e7d6a618a9f638f4ea88bf42518a52eb06928ca2d194ad54e6c7eb81479db8fed827919858feb074f6bd1ec3')
 
 build() {
 
