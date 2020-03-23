@@ -28,9 +28,13 @@ groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
 url="http://www.bareos.org"
 license=('AGPL3')
-makedepends=(acl bash cmake gcc-libs glibc jansson libcap libmariadbclient lsb-release lzo mtx openssl postgresql-libs python python2 readline sqlite3 zlib)
-makedepends_x86_64=(ceph)
-makedepends_aarch64=(ceph)
+makedepends=(acl bash cmake gcc-libs glibc jansson libcap lsb-release lzo mtx openssl postgresql-libs python python2 readline sqlite3 zlib)
+makedepends_x86_64=(ceph libmariadbclient)
+makedepends_i686=(libmariadbclient)
+makedepends_pentium4=(libmariadbclient)
+makedepends_armv6h=(libmariadbclient)
+makedepends_armv7h=(libmariadbclient)
+makedepends_aarch64=(ceph libmariadbclient)
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/$pkgbase/$pkgbase/archive/Release/$pkgver.tar.gz"
 'nullify-os-specifics.patch'
 'check-if-bareos-backup-is-running')
@@ -48,6 +52,8 @@ build() {
   mkdir build
   cd build
 
+  [ "${CARCH}" = 'i486' ] && mysql=no || mysql=yes
+
   cmake .. \
     -Dprefix=/usr \
     -Dsbindir=/usr/bin \
@@ -62,7 +68,7 @@ build() {
     -Ddynamic-storage-backends=yes \
     -Dpython=yes \
     -Dopenssl=yes \
-    -Dmysql=yes \
+    -Dmysql=${mysql} \
     -Ddisable-rpath=yes \
     -Dpostgresql=yes \
     -Dsqlite3=yes \
@@ -198,7 +204,14 @@ package_bareos-database-common() {
 package_bareos-database-mysql() {
   pkgdesc="${pkgdesc} - Libs and tools for mysql catalog"
   provides=("bareos-database=$pkgver")
-  depends=("bareos-database-common=$pkgver" 'libmariadbclient')
+  depends=("bareos-database-common=$pkgver")
+  depends_x86_64=('libmariadbclient')
+  depends_i686=('libmariadbclient')
+  depends_pentium4=('libmariadbclient')
+  depends_armv6h=('libmariadbclient')
+  depends_armv7h=('libmariadbclient')
+  depends_aarch64=('libmariadbclient')
+  [ "${CARCH}" != 'i486' ] || return 0
   install=bareos-database-mysql.install
 
   install -Dm755 \
