@@ -28,7 +28,11 @@ if [ $# -eq 1 ]; then
     if [ -d '.git' ] || [ -f '.git' ]; then
       makepkg --printsrcinfo > .SRCINFO
       git commit 'PKGBUILD' '.SRCINFO' -m "${pkg}: rebuild"
-      git push || exit 1
+      for remote in $(
+        git remote
+      ); do
+        git push "${remote}" || exit 1
+      done
       cd ..
       git commit "${pkg}" -m "${pkg}: rebuild"
     else
