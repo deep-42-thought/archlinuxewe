@@ -3,8 +3,8 @@
 # Contributor: Josh VanderLinden <arch@cloudlery.com>
 pkgname=python-sphinxcontrib-programoutput
 _pkgname=sphinxcontrib-programoutput
-pkgver=0.15
-pkgrel=3
+pkgver=0.16
+pkgrel=1
 pkgdesc="Sphinx extension to include program output"
 arch=('any')
 url="https://bitbucket.org/birkenfeld/sphinx-contrib"
@@ -19,8 +19,8 @@ options=(!emptydirs)
 source=(
   "https://pypi.python.org/packages/source/s/${_pkgname}/${_pkgname}-${pkgver}.tar.gz"
 )
-source=(https://pypi.python.org/packages/fd/f5/88a33c39e4e6409a32c6e5211e5397618df7d95dcc354b4a24f7930455a1/${_pkgname}-${pkgver}.tar.gz)
-sha512sums=('08444118daf09e05c1318ee87a22fcccb7822b99d58d18cf46748aa32338f35519017839c233cd5176a5426cb5f55047039ee28a26f6f4ebd99a35b199c0ff19')
+source=(https://pypi.python.org/packages/3a/70/9d31f5ecaeaddfc7857de38b3dcec099690829122c084c2cdfee8f90a967/${_pkgname}-${pkgver}.tar.gz)
+sha512sums=('6003b8ce43ed468b01f6bda02c6f58c0518b38c43a75f1ed0869dd8df2ee215310246b7feeba90f213547644c1bdb0164cf1f44f44879ac054dcbd6d6f48a69e')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
