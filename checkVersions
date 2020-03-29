@@ -1040,6 +1040,18 @@ then
           break;
         fi
       done
+    elif echo "${src}" \
+    | grep -q 'https://www\.quinapalus\.com/'; then
+      remVer=$(
+        curl_it 'https://www.quinapalus.com/qxwdownload.html' \
+        | sed '
+          s@^<h2>Release \([0-9]\+\)</h2>$@\1@
+          t
+          d
+        ' \
+        | sort -V \
+        | tail -n1
+      )
     else
       continue
     fi
