@@ -24,7 +24,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.6
-pkgrel=10
+pkgrel=11
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -42,7 +42,7 @@ source=("$pkgbase-$pkgver.tar.gz::https://github.com/$pkgbase/$pkgbase/archive/R
 'check-if-bareos-backup-is-running')
 sha512sums=('e91f9470b206a9f8e707fb8cb72497e240b85cdb94b5ef1d6262db7b71ba05ba8a4909aeb66df8cf86f6d0c70d35207ed7e865a202e7552cae7d410d04259137'
             '724ca4e04ff4dfb3e56890a06ffb777cac8e1aeafb6142a347fa542aedcdf6604b280f2d55da3c3d7bbcf996cdd0f6184ca324e9195f3f4db090b17337f1df3a'
-            'f3ad1a3bde98b6bd89626938a6ee23f2e8f888fabde78718a84a91b930a4d466ebf25b02d0cd1480293a41a15170523eab1d692401eb4531bcb345fda07a2bc9')
+            '995e642c8cade256c3c1df0df029c7033dda3d7f716349ee825558841159e7afb52a7897f9ba0fa1ca62f1f3e759735cba5c823026581ad50c220d187a2f9b66')
 
 prepare() {
   cd "${srcdir}/${pkgbase}-Release-${pkgver}"
