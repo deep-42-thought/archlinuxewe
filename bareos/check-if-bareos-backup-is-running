@@ -5,11 +5,12 @@ if [ $# -ne 0 ]; then
   exit 2
 fi
 
-if awk '{print $3}' /proc/net/tcp \
+if cat /proc/net/tcp* \
+| awk '{print $3}' \
 | cut -d: -f2 \
 | grep -qxiF '238F'; then
-  >&2 echo 'bareos-fd is not connected to bareos-sd'
-else
   >&2 echo 'bareos-fd is connected to bareos-sd'
   exit 1
+else
+  >&2 echo 'bareos-fd is not connected to bareos-sd'
 fi
