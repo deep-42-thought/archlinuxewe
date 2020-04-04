@@ -2,29 +2,27 @@
 # Generator : neuesPerlPaket (6ad65ecb8364066119f0cd6d4e42a23021971e9b24b4c9285c79aee0a0bdbadfd318a572ec05c3c1eae64d3e3e949ce87e8491f0a42afe2c2e372717c6a9e5cf)
 
 pkgname='perl-test-most'
-pkgver=0.35
-pkgrel=7
+pkgver=0.36
+pkgrel=1
 pkgdesc='Most commonly needed test functions and features.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+makedepends=(
+  'perl-extutils-makemaker')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
   'perl-exception-class>=1.14'
   'perl-test-deep>=0.119'
   'perl-test-differences>=0.64'
   'perl-test-exception>=0.43'
   'perl-test-harness>=3.35'
-  'perl-test-simple>=1.302.047'
+  'perl-test-simple>=1.302047'
   'perl-test-warn>=0.30')
-makedepends=(
-  'perl-extutils-makemaker')
 checkdepends=('perl-data-dumper-names')
 url='https://metacpan.org/release/Test-Most'
 _distdir="Test-Most-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OV/OVID/${_distdir}.tar.gz")
-sha512sums=('1b2d201811e59d7afce47ff5f7da67c170d4685ffbec23360757b5cacc9fe72fc82609bc46cc9d8e351fdb75715696457c201dd94fadaeca70a6f31690236291')
+sha512sums=('86aeba1865f0788c5314518a21b301f29195f849f226601f32b9534900db7766e5ff2737c908de3287000742743d025783ab7a0b59dd8dce3ffc31f1f0538f46')
 
 build(){
   cd "${srcdir}/${_distdir}"
