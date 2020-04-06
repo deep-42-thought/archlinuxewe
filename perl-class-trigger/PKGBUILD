@@ -2,27 +2,22 @@
 # Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
 
 pkgname='perl-class-trigger'
-pkgver='0.14'
-pkgrel=4
+pkgver=0.15
+pkgrel=1
 pkgdesc='Mixin to add / call inheritable triggers'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-filter-util-call'
-)
 makedepends=(
-  'perl-extutils-makemaker>=6.42'
+  'perl-extutils-makemaker>=6.59'
   'perl-io-stringy'
-  'perl-module-install'
-  'perl-test-simple>=0.32'
-)
+  'perl-test-simple>=0.32')
+depends=(
+  'perl>=5.8.1')
 url='https://metacpan.org/release/Class-Trigger'
 _distdir="Class-Trigger-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MI/MIYAGAWA/${_distdir}.tar.gz")
-sha512sums=('f0908469a4853ef386158f2ee66bb52a1bb4cfcdb385ecd9fd3375af87943910ba75f99066a00eab5dd367f68404369c8ad4ae2afbcb76d18e9f1327f95eb2ca')
+sha512sums=('16e66c17cc44e3656573af7221b67c46e1cc83fdc047f6378a89ec7b8e8688f2020223018231b670c46972815e755a0b1f631f5cadd0b8f891d755c2e07526d8')
 
 build() {
   cd "${srcdir}/${_distdir}"
