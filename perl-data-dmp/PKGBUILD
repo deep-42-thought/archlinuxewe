@@ -2,35 +2,33 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-dmp'
-pkgver='0.23'
-pkgrel=4
+pkgver=0.240
+pkgrel=1
 pkgdesc='Dump Perl data structures as Perl code'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-exporter'
-  'perl-regexp-stringify'
-  'perl-scalar-list-utils'
-)
 makedepends=(
   'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
+depends=(
+  'perl>=5.10.1'
+  'perl-exporter>=5.57'
+  'perl-regexp-stringify'
+  'perl-scalar-list-utils')
 checkdepends=(
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
 )
 url='https://metacpan.org/release/Data-Dmp'
 _distdir="Data-Dmp-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('79e992433f09488ef348a9aff75063c0aab713696f284b7343db4a338d9030d11bb66fca0c772bed9ff36f442b1981dd3d4c7bb0f904de7ffa71f95b135849a6')
+sha512sums=('b68a7e0188cc06f590aa4fa8d3b4011b44564d45dad91c0d2196bb9b855408c6233886f7776fa3bcb7fe0ef3a3d3ca96e59a37279971d7e2be3af38d76269dcb')
 
 build() {
   cd "${srcdir}/${_distdir}"
