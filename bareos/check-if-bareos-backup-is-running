@@ -6,7 +6,10 @@ if [ $# -ne 0 ]; then
 fi
 
 if cat /proc/net/tcp* \
-| awk '{print $3}' \
+| awk '{print $2 " " $3}' \
+| grep -vw '\(000000000000000000000000\)\?00000000:0000' \
+| tr ' ' '\n' \
+| grep -F : \
 | cut -d: -f2 \
 | grep -qxiF '238F'; then
   >&2 echo 'bareos-fd is connected to bareos-sd'
