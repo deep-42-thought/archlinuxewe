@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=python-pymca
 _pkgname="${pkgname#*-}"
-pkgver=5.5.4
-pkgrel=2
+pkgver=5.5.5
+pkgrel=1
 pkgdesc='Stand-alone application and Python tools for interactive and/or batch processing analysis of X-Ray Fluorescence Spectra'
 arch=('i686' 'pentium4' 'x86_64')
 url='http://pymca.sourceforge.net/index.html'
@@ -27,7 +27,7 @@ optdepends=(
 source=(
     "${_pkgname}-v${pkgver}.tar.gz::https://github.com/vasole/${_pkgname}/archive/v${pkgver}.tar.gz"
 )
-sha512sums=('f9623bab9e44c1a38bc597f70fbea70fc0d493be7f2a83737e6b284c89bbb1e5dcdf2fb6d29b0cfbf87c8bad5fc55ced990917ce7306218b411247885c78fea4')
+sha512sums=('97cdad7d354ba349c6aa5976670c37b31fb6b0f3e14caf1e58900349b5859f8170b65340ecc7cd8e09a3ceeeea71d8cf185877f752555e2d0cc754ba4b680cba')
 
 build() {
   cd ${_pkgname}-${pkgver}
