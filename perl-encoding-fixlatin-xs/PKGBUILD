@@ -1,19 +1,18 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-encoding-fixlatin-xs'
-pkgver='1.01'
-pkgrel=8
+pkgver=1.02
+pkgrel=1
 pkgdesc='XS implementation layer for Encoding::FixLatin'
 arch=('i686' 'pentium4' 'x86_64')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-encoding-fixlatin>=1.03')
 makedepends=(
-  'perl-extutils-makemaker>=6.30'
+  'perl-encoding-fixlatin>=1.03'
+  'perl-extutils-makemaker'
   'perl-test-simple>=0.90')
+depends=(
+  'perl>=5.14.0')
 url='http://github.com/grantm/encoding-fixlatin-xs'
 checkdepends=(
   'perl-test-pod'
@@ -21,7 +20,7 @@ checkdepends=(
 )
 _distdir="Encoding-FixLatin-XS-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/${_distdir}.tar.gz")
-sha512sums=('d9aafa94c884b11f64b29eda89389c823a8849db99b25e58e890fc2e1b9fdb5ed2fc025491e4d9cb9b4d4f17f8a70ab069de4b56c0c8935387652a1293fca4e4')
+sha512sums=('4a786f6d881a1067ede88893db23a55eb55512a05ca2948543a52a6d655a07b6f56dac11599e3e94999461a521683b04e91ab19cd2dfcb8b9e86092d86fc471f')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
