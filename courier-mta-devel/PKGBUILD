@@ -1,0 +1,140 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Neil Romig <neilromig@gmail.com>
+# Contributor: Bernd Prünster <aur@berndpruenster.org>
+# Contributor: tobias <tobias@archlinux.org>
+# Contributor: Tobias Kieslich <tobias@justdreams.de>
+
+# -----------  NOTE TO ALL USERS ------------
+
+# Go read http://www.courier-mta.org/install.html b4 running or building courier
+
+# If upgrading, you must read the guidance at http://www.courier-mta.org/maildirmake.html on "Converting pre-unicode format maildirs"
+
+pkgname=courier-mta-devel
+_pkgname=courier
+pkgver=1.0.9.20191210
+pkgrel=14
+pkgdesc="IMAP(s)/POP3(s) and SMTP Server with ML-manager, webmail and webconfig"
+arch=(i686 pentium4 x86_64)
+license=('GPL2')
+url="https://courier-mta.org"
+depends=('courier-authlib>=0.68' 'courier-unicode>=2.1' 'gamin' 'gcc-libs' 'gdbm' 'pcre' 'mime-types' 'ca-certificates' 'libidn')
+optdepends=('libldap')
+makedepends=('pam' 'expect' 'gnupg' 'libldap' 'procps-ng' 'wget')
+provides=('smtp-server' 'smtp-forwarder' 'imap-server' 'pop3-server' 'courier-imap' 'courier-maildrop')
+conflicts=('courier-imap' 'smtp-forwarder' 'smtp-server' 'imap-server' 'courier-maildrop' 'ucspi-tcp')
+options=(!libtool !staticlibs)
+install=courier-mta.install
+source=(https://downloads.sourceforge.net/project/courier/courier-devel/${pkgver##*.}/courier-${pkgver}.tar.bz2
+	courier-imapd.service
+	courier-imapd-ssl.service
+	courier-pop3d.service
+	courier-pop3d-ssl.service
+	courier-esmtpd.service
+	courier-esmtpd-ssl.service
+	courier-esmtpd-msa.service
+	courier.service
+	courier-mkdhparams.service
+	courier-mkdhparams.timer
+	webmaild.service
+	courier-courierfilter.service
+	courier-mta.conf)
+sha512sums=('aeebf17426187d49e08f498db934c18930b13d5ee40b956c3511b011663b21d924eecceb2d4edd7c45cc9c0bd4643746115fc16bfcd7e1b5ed0f72af801b65f5'
+            '27962faa6059c553b4046643e90755cabf552df25bd4704f3b21ddcfc45780b7a76d2eea013581d30f04b5b89ef635be923d67700d183e76ff9fc5e54b3e13b6'
+            'b9262d5a91438b5cb5d87cc24ece6c894dd688e1643e0c165c6ffc2923f48dc38b9c564e522603302fb2ca353d651cb26926f796a84de93523d0fd41cfe07394'
+            'ce92d1dd08a225c2f1ceae762877e6b1d603236b2fa8bcc3a1be0b9d5f772ca3c3727b8e01fb1a68769a54adeeed6978ff9d9f5172e4e4c3a61dd964220537cb'
+            'febcad82cfc6a8477c7ccf1b7813205ac8eabca91561b42b29ee951291b7f0d910d84f1b8c04e8b85297dcdac0f65e6f7eeb7d58c26bd6fe2808b851355867b3'
+            'b210fc4af33a9af4aa5e67a175dde003777348e6ddc0d8d198aa288605df0294e6acc50a66304c8e02e5ee3ce9f28e6745d480993ff2a7b0be575f0ed5723668'
+            '246d7b5c8f7fa410d54c349d01916e565416b06245e895a54c167d97ce96163ab22c0df611b00a13b40086cd8b2e27666b1c49a8ebaee70ccd3d44432a5d47ca'
+            '534eb3b33868d6098296a5a35e1b0aae6ddb354c83f95e883641cf0c793982b22eb6c74162abaed4ecb12fbd1282a1c5eeb6247e823139879ba411cc199d7df5'
+            'a462f735804c29180c5db383afe264515e1280065bc32b3016764bfbc1a27ff0dc0c13634cf18ee25c0c6e611ba983e03309a7fc9e35f6a7231fdc8845ab8189'
+            'cb2857b8fd4ed4f88b5302a68b54403be74b4fdd6b4e510108ddfac2ba3d71b4db79a53c7e8b9e10d7eaea1338dbf1a0a83b1e24c6d51e83233bf34ebfb60117'
+            '47f21ff89fb8b7e84776583de13fde55f4b27070329aeb1c4ac5ec0f53c8feb15172064227cf01a1d7cc817128ccac8e1d394d30029d5139f2abad017471b49a'
+            'fd32732c7a049d9bafb90e7073e93fd186beb3cad8de503c0fa270b25ff96621261fdf71aa280568aab1412b9e53fcb2e60e2dfaab2dc4247e6c2b53e2c83bfe'
+            'ad4c1b0491527b35fc7a3ad9b20d188dac44b73880bf9d2970c2d0115d44f34d0c01b4fcb87b052db84d4ae450c77067a86aa0770237f748844c7ff7513d8723'
+            '14cad7dee6c0aa257fba98248b08b0c96c360f135c72bac54d3faa263191ef30997483df73961d1f6d10cd4991fd6ce080481f72a050470778175da6c3f38c23')
+
+build() {
+  cd "${srcdir}/courier-${pkgver}"
+
+  LDFLAGS+=",-L /usr/lib/courier-authlib -lcourierauth"
+
+  ./configure --prefix=/usr \
+    --sbindir=/usr/bin \
+    --sysconfdir=/etc/courier \
+    --libdir=/usr/lib \
+    --libexecdir=/usr/lib \
+    --localstatedir=/var/spool/courier \
+    --enable-unicode \
+    --enable-workarounds-for-imap-client-bugs \
+    --enable-mimetypes=/etc/mime.types \
+    --with-piddir=/run/courier \
+    --with-trashquota \
+    --with-db=gdbm \
+    --with-random=/dev/urandom \
+    --without-ispell \
+    --with-mailuser=courier \
+    --with-mailgroup=courier \
+    --with-certdb=/etc/ssl/certs/ \
+    --with-notice=unicode \
+    --with-gnutls
+  make
+}
+
+package() {
+  cd "${srcdir}/courier-${pkgver}"
+
+  make DESTDIR="${pkgdir}" install
+
+  # install the perftest-script for testings
+  install -Dm 755 courier/perftest1 "${pkgdir}/usr/lib/courier/perftest1"
+
+  # install sysconftool to perform the install-configure step after installation
+  install -Dm 755 sysconftool "${pkgdir}/usr/lib/courier/sysconftool"
+
+  # install pam files according to the layout used in Arch linux
+  for _pamfile in "${pkgdir}"/etc/courier/*.authpam; do
+    sed -i 's|/lib/security/pam_pwdb\.so|pam_unix.so|' "${_pamfile}"
+    install -Dm 644 "${_pamfile}" "${pkgdir}"/etc/pam.d/$(basename "${_pamfile}" .authpam | sed "s/d$//")
+    rm -f "${_pamfile}"
+  done
+
+  # Install systemd service files
+
+  install -Dm 644 "${srcdir}/courier-imapd.service"		"${pkgdir}/usr/lib/systemd/system/courier-imapd.service"
+  install -Dm 644 "${srcdir}/courier-imapd-ssl.service"		"${pkgdir}/usr/lib/systemd/system/courier-imapd-ssl.service"
+  install -Dm 644 "${srcdir}/courier-pop3d.service"		"${pkgdir}/usr/lib/systemd/system/courier-pop3d.service"
+  install -Dm 644 "${srcdir}/courier-pop3d-ssl.service"		"${pkgdir}/usr/lib/systemd/system/courier-pop3d-ssl.service"
+  install -Dm 644 "${srcdir}/courier-esmtpd.service"		"${pkgdir}/usr/lib/systemd/system/courier-esmtpd.service"
+  install -Dm 644 "${srcdir}/courier-esmtpd-ssl.service"	"${pkgdir}/usr/lib/systemd/system/courier-esmtpd-ssl.service"
+  install -Dm 644 "${srcdir}/courier-esmtpd-msa.service"	"${pkgdir}/usr/lib/systemd/system/courier-esmtpd-msa.service"
+  install -Dm 644 "${srcdir}/courier.service"			"${pkgdir}/usr/lib/systemd/system/courier.service"
+  install -Dm 644 "${srcdir}/courier-courierfilter.service"	"${pkgdir}/usr/lib/systemd/system/courier-courierfilter.service"
+  install -Dm 644 "${srcdir}/webmaild.service"			"${pkgdir}/usr/lib/systemd/system/webmaild.service"
+  install -Dm 644 "${srcdir}/courier-mkdhparams.service"	"${pkgdir}/usr/lib/systemd/system/courier-mkdhparams.service"
+  install -Dm 644 "${srcdir}/courier-mkdhparams.timer"		"${pkgdir}/usr/lib/systemd/system/courier-mkdhparams.timer"
+
+  # Install systemd configuration file which will set up empty /run/courier directory (and clean up after uninstall)
+
+  install -Dm 644 "$srcdir/courier-mta.conf" "$pkgdir/usr/lib/tmpfiles.d/courier-mta.conf"
+
+  # create password file for webadmin -> standard archwebadmin
+
+  echo archwebadmin \
+    | install -o 72 -g 72 -Dm400 /dev/stdin "${pkgdir}/etc/courier/webadmin/password"
+
+  install -m 644 "/dev/null" "${pkgdir}/etc/courier/shared/index"
+
+  # install the imapd binary as /usr/lib/courier/courierimapd and modify usr/share scripts.
+  # courier-mta by default installs usr/bin/imapd as the binary, usr/share/imapd as script file and usr/sbin/imapd as link to /usr/share/imapd
+  # hence the binary gets overwritten by the link because Arch bin and sbin are same location
+  install -m 755 "${srcdir}/courier-${pkgver}/courier/imapd" "${pkgdir}/usr/lib/courier/courierimapd"
+  sed -i 's/\/usr\/bin\/imapd/\/usr\/lib\/courier\/courierimapd/' "${pkgdir}/usr/share/imapd" "${pkgdir}/usr/share/imapd-ssl"
+
+  backup=(
+    $(
+      cd "$pkgdir"
+      find etc -type f
+    )
+  )
+}
