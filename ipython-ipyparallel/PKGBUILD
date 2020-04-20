@@ -2,8 +2,8 @@
 
 pkgbase=ipython-ipyparallel
 pkgname=('ipython-ipyparallel' 'ipython2-ipyparallel' 'ipython-ipyparallel-common')
-pkgver=6.2.4
-pkgrel=2
+pkgver=6.2.5
+pkgrel=1
 pkgdesc="Interactive Parallel Computing in Python"
 url="https://github.com/ipython/ipyparallel"
 arch=(any)
@@ -31,7 +31,7 @@ makedepends=(
   "${_depends[@]/python/python2}"
 )
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ipython/ipyparallel/archive/${pkgver}.tar.gz")
-sha512sums=('d21eb4fe647455d3819fb8be895490dea9d1da59f85b59c3b028a5211193efaf73fa05f8e8d99f4acfb2e3630ef37ae9906da812c39c5c9f004172db17c16e50')
+sha512sums=('124f55419cf76ffec44424fa7fae8c28036b30efa0c92317bb22dae676adf179ef52171af660eb312c7bd4b7bcd3fe044ca695373138079b274b58f0b7dca43b')
 
 _common_files=(
   'etc/'
