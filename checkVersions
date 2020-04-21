@@ -87,6 +87,26 @@ latest_version() {
   | tail -n1
 }
 
+extract_sourceforge_file_list() {
+  local verzeichnis
+  verzeichnis="$1"
+  curl_it "${verzeichnis}" \
+  | sed -n '
+    /^\s*<table id="files_list">\s*$/,/^\s*<\/table>\s*$/p
+  ' \
+  | sed -n '
+    /^\s*<tbody>\s*$/,/^\s*<\/tbody>\s*$/p
+  ' \
+  | sed -n '
+    /^\s*<th /,/^\s*<\/th>/ p
+  ' \
+  | sed '
+    s@^.*<a href="\('"${verzeichnis%/${verzeichnis#*//*/}}"'\)\?/'"${verzeichnis#*//*/}"'\([^"]\+\)".*$@\2@
+    t
+    d
+  '
+}
+
 me="$(readlink -f $0)"
 cd $(dirname "${me}")
 versionenDatei="/var/cache/$(basename "$(dirname "${me}")")/lastVersions"
@@ -748,10 +768,13 @@ then
             t end
             s,^\([^/]\+\)/\(files/\)\?\([^/]\+\)/[0-9.]\+/[^/]\+$,\1/files/\3,
             t end
+            s,^\([^/]\+\)/files/\1/\1-[0-9.]\+/[^/]\+$,\1/files/\1,
+            t end
             s,^\([^/]\+\)/\(files/\)\?branch_[0-9.]\+/[^/]\+$,\1/files,
             t end
             s,^\([^/]\+\)/\(\1-[0-9.]\+\)/\2\.tar\.gz$,\1/files,
             t end
+            s,^,unmatched sourceforge url: ,
             w /dev/stderr
             d
             :end
@@ -759,48 +782,45 @@ then
             s,^.*$,https://sourceforge.net/projects/\0/,
           '
       )
-      remVer=$( \
-        curl_it "${quVer}" | \
-          if [ -z "${pkgname##*-devel}" ]; then
-            cat
-          else
-            sed '
-              \@<a [^>]*-devel/@,\@</a>@ d
-            '
-          fi | \
-          sed -n '
-            \@<a [^<>]* href="[^"<>]*/latest/download"@,\@</a>@ {
-              s@^.*<span class="sub-label">\(\('"${pkgname}"'\|'"${_pkgname}"'\)\([-.]\|%20\)\)\?\([0-9.]\+\)\(\.tar\.\([xgl]z\|bz2\)\|\.zip\|-win-dist\.msi\)\( [^<>]*\)\?</span>.*$@0 \4@
-              T
-              p
-            }
-            s@^.*"'"${quVer#*sourceforge.net}"'\('"${pkgname}"'\([-.]\|%20\)\)\?\([0-9.-]\+[^"/%]*\)["/%].*$@2 \3@
-            T
-            p
-          ' | \
-          sed '
-            s/-$//
-            s/\.$//
-          ' | \
-          if [ "${pkgname}" = 'qwt5' ]; then
-            grep '^\S\+ 5\.'
-          else
-            cat
-          fi | \
-          sort -k1n,1 | \
-          sed '
-            /^0/ a 1 cut
-          ' | \
-          sort -k1n,1 | \
-          sed '
-            /^1 cut$/ q
-          ' | \
-          sed '
-            /^1 cut$/ d
-            s/^\S\+ //
-          ' | \
-          latest_version
-      )
+      for ver in $(
+        extract_sourceforge_file_list "${quVer}" \
+        | sed '
+          s@/$@@
+          t
+          d
+        ' \
+        | sed '
+          s@^\(\('"${pkgname}"'\|'"${_pkgname}"'\)\([-.]\|%20\)\)\(.*\)@\0 \4@
+          t
+          s@^.*$@\0 \0@
+        ' \
+        | sort -k2Vr,2 \
+        | if [ "${pkgname}" = 'qwt5' ]; then
+          grep ' 5'
+        else
+          cat
+        fi \
+        | cut -d' ' -f1
+      ); do \
+        remVer=$( \
+          extract_sourceforge_file_list "${quVer}${ver}/" \
+          | sed '
+            s@/download$@@
+            t
+            d
+          ' \
+          | sed '
+            s@^\(\('"${pkgname}"'\|'"${_pkgname}"'\)\([-.]\|%20\|\)\)\?\([0-9.][-0-9.]*\)\(\.tar\.\([xgl]z\|bz2\)\|\.tgz\|\.zip\|-win-dist\.msi\)$@\4@
+            t
+            d
+          ' \
+          | tr '-' '.' \
+          | latest_version
+        )
+        if [ -n "${remVer}" ]; then
+          break
+        fi
+      done
     elif echo "${src}" | \
       grep -q '//support\.hdfgroup\.org/'
     then
