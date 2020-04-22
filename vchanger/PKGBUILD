@@ -1,0 +1,30 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname=vchanger
+pkgver=1.0.2
+pkgrel=1
+pkgdesc='disk-based virtual autochanger device for use with Bacula(TM) and bareos'
+arch=('i486' 'i686' 'pentium4' 'x86_64')
+url='https://sourceforge.net/projects/vchanger/'
+license=('GPL')
+source=("${pkgname}-${pkgver}.tar.gz::https://sourceforge.net/projects/$pkgname/files/$pkgname/$pkgver/$pkgname-$pkgver.tar.gz")
+sha512sums=('10b44e83451359b0e6f064e73c00220af69290f6a4ec56a0e43c91112c098d93454fcf25b8ff45d468b2c7cc4f377ca1d503f5d7ed3709513a10755393c1c351')
+
+build() {
+  cd "$srcdir/$pkgname"
+  ./configure \
+    --prefix=/usr \
+    --libexecdir=/usr/bin
+
+  find "$srcdir/$pkgname" -name Makefile \
+    -exec sed -i '
+      s#\(= \$(libexecdir)\)/vchanger$#\1#
+    ' {} \;
+
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+  make install DESTDIR="$pkgdir"
+}
