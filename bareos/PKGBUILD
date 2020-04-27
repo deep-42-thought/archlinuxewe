@@ -24,7 +24,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.7
-pkgrel=1
+pkgrel=2
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -119,6 +119,8 @@ build() {
     "$srcdir/install/usr/share/bareos/config/bareos-sd.d/storage/bareos-sd.conf"
   sed -i '1 a  PID Directory = /run/bareos/fd' \
     "$srcdir/install/usr/share/bareos/config/bareos-fd.d/client/myself.conf"
+  find "$srcdir/install/usr/share/bareos/config" -type f \
+    -exec sed -i 's@/usr/local/bin/@/usr/bin/@g' {} \;
 }
 
 package_bareos-common() {
