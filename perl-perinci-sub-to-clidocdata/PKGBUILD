@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (6d6eb887751f0274ce913321f40e306c692f5baa957799c6668772e8771f1b10c566613dde872a04de2cb279fd80591fac591849b34aeed27f7fa5f9120faf43)
 
 pkgname='perl-perinci-sub-to-clidocdata'
-pkgver=0.291
+pkgver=0.294
 pkgrel=1
 pkgdesc='From Rinci function metadata, generate structure convenient for producing CLI documentation (help/usage/POD)'
 arch=('any')
@@ -18,6 +18,7 @@ depends=(
   'perl>=5.10.1'
   'perl-exporter>=5.57'
   'perl-getopt-long-negate-en>=0.060'
+  'perl-getopt-long-util>=0.891'
   'perl-perinci-object>=0.310'
   'perl-perinci-sub-convertargs-argv'
   'perl-perinci-sub-getargs-argv>=0.842'
@@ -27,7 +28,7 @@ depends=(
 url='https://metacpan.org/release/Perinci-Sub-To-CLIDocData'
 _distdir="Perinci-Sub-To-CLIDocData-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('ab1f58412ea7ab5289b7cb83aef6fb3342ecd442abdcf2e8d4d2f4299038b2873544e8d121dc766e711f98f7ccdf8e77fe6bfcaf0b0604b91b9443b18c88e93f')
+sha512sums=('71808ae3c0cab5e1564162e412de7920cd407a00c1b35400a7f7fbdf58666c642728010419003371ef9ac08b7b59d8f02c83b0760948f3f8ee564aa0df59596e')
 
 build() {
   cd "${srcdir}/${_distdir}"
