@@ -1,26 +1,22 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-json-maybexs'
-pkgver=1.003009
-pkgrel=7
+pkgver=1.004001
+pkgrel=1
 pkgdesc='Use Cpanel::JSON::XS with a fallback to JSON::XS and JSON::PP'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+optdepends=(
+  'perl-cpanel-json-xs')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-test-simple>=0.88')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
+  'perl>=5.6.0'
   'perl-carp'
   'perl-json-pp>=2.27300'
   'perl-scalar-list-utils')
-makedepends=(
-  'perl-extutils-cbuilder>=0.27'
-  'perl-extutils-makemaker'
-  'perl-file-temp'
-  'perl-pathtools'
-  'perl-test-simple>=0.88')
-optdepends=(
-  'perl-cpanel-json-xs>=2.3310')
 checkdepends=(
   'perl-cpanel-json-xs'
   'perl-json-xs'
@@ -29,7 +25,7 @@ checkdepends=(
 url='https://metacpan.org/release/JSON-MaybeXS'
 _distdir="JSON-MaybeXS-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/E/ET/ETHER/${_distdir}.tar.gz")
-sha512sums=('a8606ccaac749650004d70bd5d6219fb18f66c4c86f720bbec3daf21a15bacd17d308c2a394fb1c9f6584be4d7c519cbc8653bdf5c7c7fa4129b75261645d8e3')
+sha512sums=('d19f5029d02b615ce4545fb95584309c7609bc76239c0f86c55cb89bcb88fb6e4c7c69d8f180bdae15e3148b854ca219b5290e21b45c6ccbc3fb06fc48358dd8')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
