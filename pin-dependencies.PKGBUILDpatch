@@ -3,13 +3,23 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
     $(
       {
         printf '%s\n' "${depends[@]}"
-        find "${pkgdir}" -type f -exec objdump -x {} \; 2>/dev/null \
-          | sed '
-            s/^\s*NEEDED\s\+\(\S\+\)\s*$/\1/
-            t
-            d
-          ' \
-          | sort -u \
+        {
+          find "${pkgdir}" -type f -exec objdump -x {} \; 2>/dev/null \
+            | sed '
+              s/^\s*NEEDED\s\+\(\S\+\)\s*$/\1/
+              t
+              d
+            ' \
+            | sort -u
+          printf '%s\n' "${depends[@]}" \
+            | sed '
+              s/[<>=].*$//
+              /\.so$/ !d
+              p
+            '
+        } \
+          | sort \
+          | uniq -u \
           | while read -r _lib; do
             pacman -Qqo "/usr/lib/${_lib}" 2>/dev/null || true
           done \
