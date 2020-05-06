@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=update-all
 pkgver=0.6.12
-pkgrel=1
+pkgrel=2
 pkgdesc="Simple script for installing updated packages"
 arch=('any')
 url="https://git.eckner.net/Erich/${pkgname}"
@@ -16,6 +16,7 @@ makedepends=()
 checkdepends=()
 optdepends=(
   'check-kernel:   check if reboot is necessary after update'
+  'shutdownasap:   allow for less-interuptive reboot'
 )
 provides=()
 conflicts=()
