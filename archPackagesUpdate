@@ -476,40 +476,43 @@ if ${aufRechenknecht}; then
     cd "${tmpDir}/${paket}"
     rm -rf --one-file-system src pkg
 
-    # add PKGBUILD-patches to the PKGBUILD
-    if grep -q '^\s*pkgbase=' PKGBUILD; then
-      (
-        eval "$(
-          sed -n '/^\s*pkgname=(/,/)/ p' PKGBUILD
-        )"
-        printf 'package_%s\n' "${pkgname[@]}"
-      )
-    else
-      printf 'package\n'
-    fi \
-    | sponge \
-    | while read -r function; do
-      sed -i '
-        /^'"${function}"'() {$/,/^}$/ {
-          /^}$/ i _patch_PKGBUILD
-        }
-      ' PKGBUILD
-    done
-    {
-      echo '_patch_PKGBUILD() {'
-      ls -1 "${tmpDir}/"*".PKGBUILDpatch" \
-      | grep -vxF "$(
-        sed '
-          s,^# skip \(\S\+\)\(\s\|$\).*$,'"${tmpDir}"'/\1.PKGBUILDpatch,
-          t
-          d
+    if ! grep -qwF _patch_PKGBUILD PKGBUILD; then
+
+      # add PKGBUILD-patches to the PKGBUILD
+      if grep -q '^\s*pkgbase=' PKGBUILD; then
+        (
+          eval "$(
+            sed -n '/^\s*pkgname=(/,/)/ p' PKGBUILD
+          )"
+          printf 'package_%s\n' "${pkgname[@]}"
+        )
+      else
+        printf 'package\n'
+      fi \
+      | sponge \
+      | while read -r function; do
+        sed -i '
+          /^'"${function}"'() {$/,/^}$/ {
+            /^}$/ i _patch_PKGBUILD
+          }
         ' PKGBUILD
-      )" \
-      | xargs -r cat
-      echo ':'
-      echo '}'
-    } \
-    >> PKGBUILD
+      done
+      {
+        echo '_patch_PKGBUILD() {'
+        ls -1 "${tmpDir}/"*".PKGBUILDpatch" \
+        | grep -vxF "$(
+          sed '
+            s,^# skip \(\S\+\)\(\s\|$\).*$,'"${tmpDir}"'/\1.PKGBUILDpatch,
+            t
+            d
+          ' PKGBUILD
+        )" \
+        | xargs -r cat
+        echo ':'
+        echo '}'
+      } \
+      >> PKGBUILD
+    fi
 
     case "${arch}" in
       'any'|'i486'|'i686'|'pentium4'|'x86_64')
