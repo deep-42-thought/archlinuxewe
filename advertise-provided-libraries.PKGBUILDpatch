@@ -1,7 +1,9 @@
 if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
-  provides+=(
-    $(
-      find "${pkgdir}/usr/lib" -name '*.so' -printf '%f\n'
+  if [ -d "${pkgdir}/usr/lib" ]; then
+    provides+=(
+      $(
+        find "${pkgdir}/usr/lib" -name '*.so' -printf '%f\n'
+      )
     )
-  )
+  fi
 fi
