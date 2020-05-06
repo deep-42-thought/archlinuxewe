@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=check-kernel
 pkgver=0.5.9
-pkgrel=1
+pkgrel=2
 pkgdesc='check if the installed kernel is currently running'
 arch=('any')
 url="https://git.eckner.net/Erich/${pkgname}"
@@ -10,7 +10,9 @@ groups=()
 depends=()
 makedepends=('help2man')
 checkdepends=()
-optdepends=()
+optdepends=(
+  'shutdownasap:  less interuptive reboot'
+)
 provides=()
 conflicts=()
 replaces=()
