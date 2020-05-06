@@ -5,43 +5,64 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
         printf '%s\n' "${depends[@]}"
         {
           find "${pkgdir}" -type f -exec objdump -x {} \; 2>/dev/null \
-            | sed '
-              s/^\s*NEEDED\s\+\(\S\+\)\s*$/\1/
-              t
-              d
-            ' \
-            | sort -u
-          printf '%s\n' "${depends[@]}" \
-            | sed '
-              s/[<>=].*$//
-              /\.so$/ !d
-              p
-            '
-        } \
-          | sort \
-          | uniq -u \
-          | while read -r _lib; do
-            pacman -Qqo "/usr/lib/${_lib}" 2>/dev/null || true
-          done \
-          | sort -u \
-          | xargs -r pacman -Q \
           | sed '
-            s/ \([^-]\+\)-[^-]\+$/=\1/
+            s/^\s*NEEDED\s\+\(\S\+\)\s*$/\1/
             t
-            w /dev/stderr
             d
           ' \
-          | sed '
-            s/^glibc=/glibc>=/
-          '
+          | sort -u
+        } \
+        | sort \
+        | uniq -u \
+        | while read -r _lib; do
+          _pkg=$(
+            pacman -Qqo "/usr/lib/${_lib}" 2>/dev/null
+          ) || continue
+          if pacman -Qi "${_pkg}" \
+            | sed '
+              :a
+                $! N
+                s/\n\s\+/  /
+                ta
+              P
+              D
+            ' \
+            | sed -n '
+              s/^Provides\s*:\s*//
+              T
+              y/ /\n/
+              p
+            ' \
+            | sed -n '
+              /^$/d
+              s/=.*$//
+              T
+              /\.so$/p
+            ' \
+            | grep -qxF "${_lib}"; then
+            printf '%s\n' "${_lib}"
+          else
+            pacman -Q "${_pkg}" \
+            | sed '
+              s/ \([^-]\+\)-[^-]\+$/=\1/
+              t
+              w /dev/stderr
+              d
+            ' \
+            | sed '
+              s/^glibc=/glibc>=/
+            '
+          fi
+        done \
+        | sort -u
       } \
-        | sed '
-          s/^\([^<>=[:space:]]\+\)\([<>]\?=\(\S\+\)\)\?$/\0 \1 \3/
-        ' \
-        | sort -k2,2 -k3Vr,3 \
-        | cut -d' ' -f1,2 \
-        | uniq -f1 \
-        | cut -d' ' -f1
+      | sed '
+        s/^\([^<>=[:space:]]\+\)\([<>]\?=\(\S\+\)\)\?$/\0 \1 \3/
+      ' \
+      | sort -k2,2 -k3Vr,3 \
+      | cut -d' ' -f1,2 \
+      | uniq -f1 \
+      | cut -d' ' -f1
     )
   )
 fi
