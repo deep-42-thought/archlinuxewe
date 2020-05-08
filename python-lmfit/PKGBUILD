@@ -3,8 +3,8 @@
 
 pkgname='python-lmfit'
 _pkgname=lmfit-py
-pkgver=1.0.0
-pkgrel=2
+pkgver=1.0.1
+pkgrel=1
 pkgdesc="Least-Squares Minimization with Constraints for Python"
 arch=('any')
 url="http://lmfit.github.io/lmfit-py/"
@@ -21,7 +21,7 @@ makedepends=(
 checkdepends=(
   'python-nose')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/lmfit/lmfit-py/archive/${pkgver}.tar.gz")
-sha512sums=('48c8785c23b8f398e8d01876d917ee3fefe9a429fc6f5238caa7fd0ccea5f0bf35f685572695e53f31389926fb4e44df2701d3423f4f867c6351177c8ce327a0')
+sha512sums=('80ae4464c3c27cb559d1227c9e71f94d33463559adf777c3121ee47d2f5e6fd8f6f5c7c665e632253902f271f5ca967e232bbb1a3973fadb5452a6959cc87aec')
 
 build() {
   cd "$srcdir/lmfit-py-$pkgver"
