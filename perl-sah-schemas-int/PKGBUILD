@@ -2,20 +2,24 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-sah-schemas-int'
-pkgver=0.071
-pkgrel=4
+pkgver=0.074
+pkgrel=1
 pkgdesc='Sah schemas for various integers'
 arch=('any')
+makedepends=(
+  'perl'
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-simple')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
-)
+  'perl')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 url='https://metacpan.org/release/Sah-Schemas-Int'
 _distdir="Sah-Schemas-Int-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('9285170533d4080dd8d6c5e4c52375417a0b54e3336297387f0cfdc1251bf7c8222a14a56430f24358511f340b9018b5938b244933164041d4b5ff8abda2e287')
+sha512sums=('e78106c55c4bafc4f2e91f3339b557efab3026688d04337a66e20d62a36e891b0d1381623f96781989b5b89b9f4cb4f419deb825ad4e6b7bc9db919839b62103')
 
 build() {
   cd "${srcdir}/${_distdir}"
