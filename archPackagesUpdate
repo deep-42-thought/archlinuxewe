@@ -274,7 +274,9 @@ if ${cleanUnsigned} && ${aufRechenknecht}; then
           [ -h "${paket}.sig" ] && continue
           rmPaket "${paket}"
         done
-      done'
+      done
+      date +%s > %s/lastupdate' \
+      "${pkgDir}"
   )"
 fi
 
@@ -802,6 +804,9 @@ if ${aufRechenknecht}; then
                 printf '
                   done'
               done
+              printf '
+                date +%s > "%s/lastupdate"' \
+                "${pkgDir}"
             )"
         done
     fi
