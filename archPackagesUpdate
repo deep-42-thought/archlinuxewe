@@ -275,7 +275,7 @@ if ${cleanUnsigned} && ${aufRechenknecht}; then
           rmPaket "${paket}"
         done
       done
-      date +%%s > %s/lastupdate' \
+      date +%%s > %s/../lastupdate' \
       "${pkgDir}"
   )"
 fi
@@ -805,7 +805,7 @@ if ${aufRechenknecht}; then
                   done'
               done
               printf '
-                date +%%s > "%s/lastupdate"' \
+                date +%%s > "%s/../lastupdate"' \
                 "${pkgDir}"
             )"
         done
