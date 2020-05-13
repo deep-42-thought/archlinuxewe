@@ -97,7 +97,7 @@ index 0467866e50..d69bf21c88 100644
  	CommandCost BeforeAddTile(TileIndex tile, StationRectMode mode);
  	CommandCost BeforeAddRect(TileIndex tile, int w, int h, StationRectMode mode);
 diff --git a/src/clear_cmd.cpp b/src/clear_cmd.cpp
-index 06953884e1..7759134704 100644
+index 06953884e1..eeaba3f87b 100644
 --- a/src/clear_cmd.cpp
 +++ b/src/clear_cmd.cpp
 @@ -12,6 +12,7 @@
@@ -147,6 +147,24 @@ index 06953884e1..7759134704 100644
  	DrawBridgeMiddle(ti);
  }
  
+@@ -321,7 +345,7 @@ void GenerateClearTile()
+ 	SetGeneratingWorldProgress(GWP_ROUGH_ROCKY, gi + i);
+ 	do {
+ 		IncreaseGeneratingWorldProgress(GWP_ROUGH_ROCKY);
+-		tile = RandomTile();
++		tile = TopTile(RandomTile());
+ 		if (IsTileType(tile, MP_CLEAR) && !IsClearGround(tile, CLEAR_DESERT)) SetClearGroundDensity(tile, CLEAR_ROUGH, 3);
+ 	} while (--i);
+ 
+@@ -329,7 +353,7 @@ void GenerateClearTile()
+ 	i = gi;
+ 	do {
+ 		uint32 r = Random();
+-		tile = RandomTileSeed(r);
++		tile = TopTile(RandomTileSeed(r));
+ 
+ 		IncreaseGeneratingWorldProgress(GWP_ROUGH_ROCKY);
+ 		if (IsTileType(tile, MP_CLEAR) && !IsClearGround(tile, CLEAR_DESERT)) {
 diff --git a/src/console_cmds.cpp b/src/console_cmds.cpp
 index 4706bfd914..bcffd6373c 100644
 --- a/src/console_cmds.cpp
@@ -167,6 +185,43 @@ index 4706bfd914..bcffd6373c 100644
  	_settings_game.game_creation.map_x = MapLogX();
  	_settings_game.game_creation.map_y = FindFirstBit(MapSizeY());
  	_switch_mode = SM_RESTARTGAME;
+diff --git a/src/disaster_vehicle.cpp b/src/disaster_vehicle.cpp
+index 1244f99aba..6d5defaace 100644
+--- a/src/disaster_vehicle.cpp
++++ b/src/disaster_vehicle.cpp
+@@ -325,7 +325,7 @@ static bool DisasterTick_Ufo(DisasterVehicle *v)
+ 			return true;
+ 		}
+ 		if (++v->age < 6) {
+-			v->dest_tile = RandomTile();
++			v->dest_tile = TopTile(RandomTile());
+ 			return true;
+ 		}
+ 		v->current_order.SetDestination(1);
+@@ -572,12 +572,12 @@ static bool DisasterTick_Big_Ufo(DisasterVehicle *v)
+ 		}
+ 
+ 		if (++v->age < 6) {
+-			v->dest_tile = RandomTile();
++			v->dest_tile = TopTile(RandomTile());
+ 			return true;
+ 		}
+ 		v->current_order.SetDestination(1);
+ 
+-		TileIndex tile_org = RandomTile();
++		TileIndex tile_org = TopTile(RandomTile());
+ 		TileIndex tile = tile_org;
+ 		do {
+ 			if (IsPlainRailTile(tile) &&
+@@ -958,7 +958,7 @@ void ReleaseDisastersTargetingVehicle(VehicleID vehicle)
+ 			if (v->current_order.GetDestination() != 0 && v->dest_tile == vehicle) {
+ 				/* Revert to target-searching */
+ 				v->current_order.SetDestination(0);
+-				v->dest_tile = RandomTile();
++				v->dest_tile = TopTile(RandomTile());
+ 				GetAircraftFlightLevelBounds(v, &v->z_pos, nullptr);
+ 				v->age = 0;
+ 			}
 diff --git a/src/genworld_gui.cpp b/src/genworld_gui.cpp
 index 154097e722..62fa1966eb 100644
 --- a/src/genworld_gui.cpp
@@ -366,7 +421,7 @@ index fab93c9802..f345f5ee6d 100644
  	for (row = 0; (uint)row < height; row++) {
  		for (col = 0; (uint)col < width; col++) {
 diff --git a/src/industry_cmd.cpp b/src/industry_cmd.cpp
-index 35def46098..c5a5ac03d1 100644
+index 35def46098..ad35d12b8f 100644
 --- a/src/industry_cmd.cpp
 +++ b/src/industry_cmd.cpp
 @@ -12,6 +12,7 @@
@@ -386,8 +441,26 @@ index 35def46098..c5a5ac03d1 100644
  			return_cmd_error(STR_ERROR_SITE_UNSUITABLE);
  		}
  
+@@ -2013,7 +2014,7 @@ CommandCost CmdBuildIndustry(TileIndex tile, DoCommandFlag flags, uint32 p1, uin
+ 					/* We should not have more than one Random() in a function call
+ 					 * because parameter evaluation order is not guaranteed in the c++ standard
+ 					 */
+-					tile = RandomTile();
++					tile = TopTile(RandomTile());
+ 					/* Start with a random layout */
+ 					size_t layout = RandomRange((uint32)num_layouts);
+ 					/* Check now each layout, starting with the random one */
+@@ -2154,7 +2155,7 @@ static Industry *PlaceIndustry(IndustryType type, IndustryAvailabilityCallType c
+ {
+ 	uint tries = try_hard ? 10000u : 2000u;
+ 	for (; tries > 0; tries--) {
+-		Industry *ind = CreateNewIndustry(RandomTile(), type, creation_type);
++		Industry *ind = CreateNewIndustry(TopTile(RandomTile()), type, creation_type);
+ 		if (ind != nullptr) return ind;
+ 	}
+ 	return nullptr;
 diff --git a/src/landscape.cpp b/src/landscape.cpp
-index e97d9cff03..4ad3b9b6cf 100644
+index e97d9cff03..4d23033406 100644
 --- a/src/landscape.cpp
 +++ b/src/landscape.cpp
 @@ -33,6 +33,7 @@
@@ -431,6 +504,15 @@ index e97d9cff03..4ad3b9b6cf 100644
  }
  
  static const byte _genterrain_tbl_1[5] = { 10, 22, 33, 37, 4  };
+@@ -1277,7 +1284,7 @@ static void CreateRivers()
+ 	for (; wells != 0; wells--) {
+ 		IncreaseGeneratingWorldProgress(GWP_RIVER);
+ 		for (int tries = 0; tries < 128; tries++) {
+-			TileIndex t = RandomTile();
++			TileIndex t = TopTile(RandomTile());
+ 			if (!CircularTileSearch(&t, 8, FindSpring, nullptr)) continue;
+ 			if (FlowRiver(t, t)) break;
+ 		}
 diff --git a/src/lang/afrikaans.txt b/src/lang/afrikaans.txt
 index 4fbca76b54..a6313c2a44 100644
 --- a/src/lang/afrikaans.txt
@@ -1796,6 +1878,28 @@ index ff2fc3a23c..74b59d294b 100644
  		GetString(this->landinfo_data[line_nr], STR_LAND_AREA_INFORMATION_LANDINFO_COORDS, lastof(this->landinfo_data[line_nr]));
  		line_nr++;
  
+diff --git a/src/object_cmd.cpp b/src/object_cmd.cpp
+index 3fb61d647e..3b08cc637d 100644
+--- a/src/object_cmd.cpp
++++ b/src/object_cmd.cpp
+@@ -695,7 +695,7 @@ static bool TryBuildLightHouse()
+  */
+ static bool TryBuildTransmitter()
+ {
+-	TileIndex tile = RandomTile();
++	TileIndex tile = TopTile(RandomTile());
+ 	int h;
+ 	if (IsTileType(tile, MP_CLEAR) && IsTileFlat(tile, &h) && h >= 4 && !IsBridgeAbove(tile)) {
+ 		TileIndex t = tile;
+@@ -759,7 +759,7 @@ void GenerateObjects()
+ 
+ 				default:
+ 					uint8 view = RandomRange(spec->views);
+-					if (CmdBuildObject(RandomTile(), DC_EXEC | DC_AUTO | DC_NO_TEST_TOWN_RATING | DC_NO_MODIFY_TOWN_RATING, i, view, nullptr).Succeeded()) amount--;
++					if (CmdBuildObject(TopTile(RandomTile()), DC_EXEC | DC_AUTO | DC_NO_TEST_TOWN_RATING | DC_NO_MODIFY_TOWN_RATING, i, view, nullptr).Succeeded()) amount--;
+ 					break;
+ 			}
+ 		}
 diff --git a/src/rail.h b/src/rail.h
 index d9121d545a..ee27f6e179 100644
 --- a/src/rail.h
@@ -2748,7 +2852,7 @@ index 303e4c7293..2f0a37a55c 100644
  		SPR_IMG_MESSAGES,        // WID_TN_MESSAGES
  		SPR_IMG_QUERY,           // WID_TN_HELP
 diff --git a/src/town_cmd.cpp b/src/town_cmd.cpp
-index 507cccd565..b1a722635f 100644
+index 507cccd565..1918651405 100644
 --- a/src/town_cmd.cpp
 +++ b/src/town_cmd.cpp
 @@ -12,6 +12,7 @@
@@ -2759,6 +2863,15 @@ index 507cccd565..b1a722635f 100644
  #include "viewport_func.h"
  #include "viewport_kdtree.h"
  #include "cmd_helper.h"
+@@ -2095,7 +2096,7 @@ static Town *CreateRandomTown(uint attempts, uint32 townnameparts, TownSize size
+ 
+ 	do {
+ 		/* Generate a tile index not too close from the edge */
+-		TileIndex tile = AlignTileToGrid(RandomTile(), layout);
++		TileIndex tile = AlignTileToGrid(TopTile(RandomTile()), layout);
+ 
+ 		/* if we tried to place the town on water, slide it over onto
+ 		 * the nearest likely-looking spot */
 @@ -2271,6 +2272,9 @@ static inline bool CanBuildHouseHere(TileIndex tile, bool noslope)
  	Slope slope = GetTileSlope(tile);
  	if ((noslope && slope != SLOPE_FLAT) || IsSteepSlope(slope)) return false;
@@ -2779,7 +2892,7 @@ index 507cccd565..b1a722635f 100644
  	}
  	return CommandCost();
 diff --git a/src/tree_cmd.cpp b/src/tree_cmd.cpp
-index 012904fdce..8036ebcf2e 100644
+index 012904fdce..d8f4f2bd78 100644
 --- a/src/tree_cmd.cpp
 +++ b/src/tree_cmd.cpp
 @@ -11,6 +11,7 @@
@@ -2800,6 +2913,33 @@ index 012904fdce..8036ebcf2e 100644
  
  		default: return false;
  	}
+@@ -184,7 +186,7 @@ static void PlaceTree(TileIndex tile, uint32 r)
+ static void PlaceTreeGroups(uint num_groups)
+ {
+ 	do {
+-		TileIndex center_tile = RandomTile();
++		TileIndex center_tile = TopTile(RandomTile());
+ 
+ 		for (uint i = 0; i < DEFAULT_TREE_STEPS; i++) {
+ 			uint32 r = Random();
+@@ -249,7 +251,7 @@ void PlaceTreesRandomly()
+ 	if (_game_mode == GM_EDITOR) i /= EDITOR_TREE_DIV;
+ 	do {
+ 		uint32 r = Random();
+-		TileIndex tile = RandomTileSeed(r);
++		TileIndex tile = TopTile(RandomTileSeed(r));
+ 
+ 		IncreaseGeneratingWorldProgress(GWP_TREE);
+ 
+@@ -278,7 +280,7 @@ void PlaceTreesRandomly()
+ 
+ 		do {
+ 			uint32 r = Random();
+-			TileIndex tile = RandomTileSeed(r);
++			TileIndex tile = TopTile(RandomTileSeed(r));
+ 
+ 			IncreaseGeneratingWorldProgress(GWP_TREE);
+ 
 @@ -337,6 +339,10 @@ CommandCost CmdPlantTree(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32
  	const byte tree_to_plant = GB(p1, 0, 8); // We cannot use Extract as min and max are climate specific.
  
@@ -2811,6 +2951,24 @@ index 012904fdce..8036ebcf2e 100644
  	/* Check the tree type within the current climate */
  	if (tree_to_plant != TREE_INVALID && !IsInsideBS(tree_to_plant, _tree_base_by_landscape[_settings_game.game_creation.landscape], _tree_count_by_landscape[_settings_game.game_creation.landscape])) return CMD_ERROR;
  
+@@ -759,7 +765,7 @@ void OnTick_Trees()
+ 
+ 	/* place a tree at a random rainforest spot */
+ 	if (_settings_game.game_creation.landscape == LT_TROPIC &&
+-			(r = Random(), tile = RandomTileSeed(r), GetTropicZone(tile) == TROPICZONE_RAINFOREST) &&
++			(r = Random(), tile = TopTile(RandomTileSeed(r)), GetTropicZone(tile) == TROPICZONE_RAINFOREST) &&
+ 			CanPlantTreesOnTile(tile, false) &&
+ 			(tree = GetRandomTreeType(tile, GB(r, 24, 8))) != TREE_INVALID) {
+ 		PlantTreesOnTile(tile, tree, 0, 0);
+@@ -770,7 +776,7 @@ void OnTick_Trees()
+ 
+ 	/* place a tree at a random spot */
+ 	r = Random();
+-	tile = RandomTileSeed(r);
++	tile = TopTile(RandomTileSeed(r));
+ 	if (CanPlantTreesOnTile(tile, false) && (tree = GetRandomTreeType(tile, GB(r, 24, 8))) != TREE_INVALID) {
+ 		PlantTreesOnTile(tile, tree, 0, 0);
+ 	}
 diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
 index c5e2f8d9bb..16e6536e76 100644
 --- a/src/tunnelbridge_cmd.cpp
