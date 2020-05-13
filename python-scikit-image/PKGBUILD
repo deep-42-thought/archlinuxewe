@@ -4,7 +4,7 @@
 
 pkgname='python-scikit-image'
 _pkgname="${pkgname#*-}"
-pkgver=0.17.1
+pkgver=0.17.2
 pkgrel=1
 pkgdesc="Image processing routines for SciPy"
 arch=('i686' 'pentium4' 'x86_64')
@@ -27,7 +27,7 @@ optdepends=(
 )
 options=('!emptydirs')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/${_pkgname}/${_pkgname}/archive/v${pkgver}.tar.gz")
-sha512sums=('b4fdf0adec3f896880280cdf2f560d0f36f44404ec31fa0d160a277980d615ecef739c0fcc180faba361cb9be6a48c278c5bca4ddffe88075dbdbc732af91e3e')
+sha512sums=('3e57d8bea2fd41270eb17e8489c477f58ed98e56cef0192b0b2d455f27f7a2d705161afd61c7bfd556ec938a9a2bf5663ec1aa7b79609a8e5946806356364e82')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
