@@ -2,7 +2,7 @@
 pkgname=openttd-git
 pkgver=29423.d15c7dbde
 _commit=${pkgver#*.}
-pkgrel=1
+pkgrel=2
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686' 'pentium4')
 url="http://www.openttd.org"
@@ -39,9 +39,9 @@ source=(
     "underground.patch"
 )
 sha512sums=('SKIP'
-            '3b9af0ae5e91a639dca3f2cea255f5e174df2ef6dcbb39baffb241624414d93710155fab966fbe345b076e7a885ec0539478258380306a612ad0d4466436f1f5'
-            'ebb36911d64b3cf9dd315a47753f3621f32d2b1ae864ee70a3b01cbfc9946079d3c57d5605b4af143e1ddef76569b9812535cb99468a993596a464a448dc311e'
-            '6567eaef386e74170ab80fa314066b389bcb04ba6b5260bc3b3958d0f3aee069d49653deceba7fef5b51a5bdf19c8ca46405df37efba11813640bd3ee3dc8089')
+            'd1fdbf90c512530df1f01ccc68b3e0444c27124138b4acdc25717806f786ad1ab9218b5ddd6dd2e2b1f3b39c7fdb0dfe2673b7fb34ec8e4959b75c5a7c0af5a0'
+            'e6379448a49c0db8b07bb090ed14fe019611667b79506b4441219ee172893b726bdc431943c15a9f8fcc5a7b53de8e557929f10c27af32896a54463e2719e0a6'
+            '12c3f01534274cddb3d9d7fd5bf1cb70cc403a38e5e3186a4b3dcb70122564907fbc4ad7ee51e823cc130adf1f43d9bc23cb65c081a308c9548b220f9539195a')
 
 pkgver() {
   printf '%s.%s\n' \
@@ -77,7 +77,7 @@ prepare() {
     ' findversion.sh
 
 #    for _p in "${srcdir}/"{signaltunnel,sloped-stations,underground}.patch; do
-    for _p in "${srcdir}/"signaltunnel.patch; do
+    for _p in "${srcdir}/"{signaltunnel,underground}.patch; do
       >&2 echo "patching ${_p##*/} ..."
       patch -p1 -i "${_p}"
       >&2 echo "... ok"

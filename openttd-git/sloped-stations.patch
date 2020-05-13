@@ -1,8 +1,8 @@
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 1a4728c6c3..67475164b4 100644
+index 162fe97799..f3f65308dc 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
-@@ -189,14 +189,6 @@ RailType AllocateRailType(RailTypeLabel label)
+@@ -187,14 +187,6 @@ RailType AllocateRailType(RailTypeLabel label)
  	return INVALID_RAILTYPE;
  }
  
@@ -18,10 +18,10 @@ index 1a4728c6c3..67475164b4 100644
   *     ---------
   *    |\       /|
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index 4f5519c31e..42fcd067c3 100644
+index 5a9efb8567..c2409eea88 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
-@@ -39,6 +39,7 @@
+@@ -37,6 +37,7 @@
  #include "genworld.h"
  #include "company_gui.h"
  #include "road_func.h"
@@ -29,7 +29,7 @@ index 4f5519c31e..42fcd067c3 100644
  
  #include "table/strings.h"
  #include "table/roadtypes.h"
-@@ -256,8 +257,6 @@ static const RoadBits _invalid_tileh_slopes_road[2][15] = {
+@@ -251,8 +252,6 @@ static const RoadBits _invalid_tileh_slopes_road[2][15] = {
  	}
  };
  
@@ -38,7 +38,7 @@ index 4f5519c31e..42fcd067c3 100644
  /**
   * Is it allowed to remove the given road bits from the given tile?
   * @param tile      the tile to remove the road from
-@@ -1301,7 +1300,7 @@ struct DrawRoadTileStruct {
+@@ -1295,7 +1294,7 @@ struct DrawRoadTileStruct {
   * @param bits The RoadBits part
   * @return The resulting Foundation
   */
@@ -47,7 +47,7 @@ index 4f5519c31e..42fcd067c3 100644
  {
  	/* Flat land and land without a road doesn't require a foundation */
  	if (tileh == SLOPE_FLAT || bits == ROAD_NONE) return FOUNDATION_NONE;
-@@ -1323,13 +1322,6 @@ static Foundation GetRoadFoundation(Slope tileh, RoadBits bits)
+@@ -1317,13 +1316,6 @@ static Foundation GetRoadFoundation(Slope tileh, RoadBits bits)
  	return (bits == ROAD_X ? FOUNDATION_INCLINED_X : FOUNDATION_INCLINED_Y);
  }
  
@@ -62,10 +62,10 @@ index 4f5519c31e..42fcd067c3 100644
   * Get the sprite offset within a spritegroup.
   * @param slope Slope
 diff --git a/src/road_cmd.h b/src/road_cmd.h
-index 3cf588dcd6..2a0da61427 100644
+index 753ebd21d4..87dee9722f 100644
 --- a/src/road_cmd.h
 +++ b/src/road_cmd.h
-@@ -14,8 +14,11 @@
+@@ -12,8 +12,11 @@
  
  #include "direction_type.h"
  #include "road_type.h"
@@ -78,10 +78,10 @@ index 3cf588dcd6..2a0da61427 100644
 +
  #endif /* ROAD_CMD_H */
 diff --git a/src/road_type.h b/src/road_type.h
-index f01d1d0353..a575491163 100644
+index 969b141ba2..1af4275eb9 100644
 --- a/src/road_type.h
 +++ b/src/road_type.h
-@@ -73,4 +73,11 @@ enum RoadBits {
+@@ -68,4 +68,11 @@ enum RoadBits {
  DECLARE_ENUM_AS_BIT_SET(RoadBits)
  template <> struct EnumPropsT<RoadBits> : MakeEnumPropsT<RoadBits, byte, ROAD_NONE, ROAD_END, ROAD_NONE, 4> {};
  
@@ -94,10 +94,10 @@ index f01d1d0353..a575491163 100644
 +
  #endif /* ROAD_TYPE_H */
 diff --git a/src/roadveh_cmd.cpp b/src/roadveh_cmd.cpp
-index d323bc1ecb..033792ff3e 100644
+index 261af7042b..cde4a50a29 100644
 --- a/src/roadveh_cmd.cpp
 +++ b/src/roadveh_cmd.cpp
-@@ -1502,7 +1502,7 @@ again:
+@@ -1500,7 +1500,7 @@ again:
  					v->x_pos = x;
  					v->y_pos = y;
  					v->UpdatePosition();
@@ -107,10 +107,10 @@ index d323bc1ecb..033792ff3e 100644
  				}
  			}
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index 546aecc269..672dbed6f3 100644
+index 6cfd94bb2f..8eb8866401 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
-@@ -57,6 +57,7 @@
+@@ -56,6 +56,7 @@
  #include "linkgraph/refresh.h"
  #include "widgets/station_widget.h"
  #include "tunnelbridge_map.h"
@@ -118,7 +118,7 @@ index 546aecc269..672dbed6f3 100644
  
  #include "table/strings.h"
  
-@@ -766,7 +767,7 @@ CommandCost ClearTile_Station(TileIndex tile, DoCommandFlag flags);
+@@ -776,7 +777,7 @@ CommandCost ClearTile_Station(TileIndex tile, DoCommandFlag flags);
   * Checks if the given tile is buildable, flat and has a certain height.
   * @param tile TileIndex to check.
   * @param invalid_dirs Prohibited directions for slopes (set of #DiagDirection).
@@ -127,7 +127,7 @@ index 546aecc269..672dbed6f3 100644
   * @param allow_steep Whether steep slopes are allowed.
   * @param check_bridge Check for the existence of a bridge.
   * @return The cost in case of success, or an error code if it failed.
-@@ -805,10 +806,10 @@ CommandCost CheckBuildableTile(TileIndex tile, uint invalid_dirs, int &allowed_z
+@@ -815,10 +816,10 @@ CommandCost CheckBuildableTile(TileIndex tile, uint invalid_dirs, int &allowed_z
  	}
  
  	/* The level of this tile must be equal to allowed_z. */
@@ -140,7 +140,7 @@ index 546aecc269..672dbed6f3 100644
  		return_cmd_error(STR_ERROR_FLAT_LAND_REQUIRED);
  	}
  
-@@ -856,14 +857,14 @@ static CommandCost CheckFlatLandAirport(AirportTileTableIterator tile_iter, DoCo
+@@ -866,14 +867,14 @@ static CommandCost CheckFlatLandAirport(AirportTileTableIterator tile_iter, DoCo
  static CommandCost CheckFlatLandRailStation(TileArea tile_area, DoCommandFlag flags, Axis axis, StationID *station, RailType rt, std::vector<Train *> &affected_vehicles, StationClassID spec_class, byte spec_index, byte plat_len, byte numtracks)
  {
  	CommandCost cost(EXPENSES_CONSTRUCTION);
@@ -157,7 +157,7 @@ index 546aecc269..672dbed6f3 100644
  		if (ret.Failed()) return ret;
  		cost.AddCost(ret);
  
-@@ -942,10 +943,10 @@ static CommandCost CheckFlatLandRailStation(TileArea tile_area, DoCommandFlag fl
+@@ -952,10 +953,10 @@ static CommandCost CheckFlatLandRailStation(TileArea tile_area, DoCommandFlag fl
  static CommandCost CheckFlatLandRoadStop(TileArea tile_area, DoCommandFlag flags, uint invalid_dirs, bool is_drive_through, bool is_truck_stop, Axis axis, StationID *station, RoadType rt)
  {
  	CommandCost cost(EXPENSES_CONSTRUCTION);
@@ -170,7 +170,7 @@ index 546aecc269..672dbed6f3 100644
  		if (ret.Failed()) return ret;
  		cost.AddCost(ret);
  
-@@ -1868,7 +1869,7 @@ CommandCost CmdBuildRoadStop(TileIndex tile, DoCommandFlag flags, uint32 p1, uin
+@@ -1878,7 +1879,7 @@ CommandCost CmdBuildRoadStop(TileIndex tile, DoCommandFlag flags, uint32 p1, uin
  	/* Total road stop cost. */
  	CommandCost cost(EXPENSES_CONSTRUCTION, roadstop_area.w * roadstop_area.h * _price[type ? PR_BUILD_STATION_TRUCK : PR_BUILD_STATION_BUS]);
  	StationID est = INVALID_STATION;
@@ -311,10 +311,10 @@ index 546aecc269..672dbed6f3 100644
  }
  
 diff --git a/src/table/sprites.h b/src/table/sprites.h
-index 5f5aa47057..6a2c20cf46 100644
+index 5df55b8ae4..ce58194950 100644
 --- a/src/table/sprites.h
 +++ b/src/table/sprites.h
-@@ -260,7 +260,26 @@ static const SpriteID SPR_TRUCK_STOP_DT_Y_W = SPR_ROADSTOP_BASE + 4;
+@@ -258,7 +258,26 @@ static const SpriteID SPR_TRUCK_STOP_DT_Y_W = SPR_ROADSTOP_BASE + 4;
  static const SpriteID SPR_TRUCK_STOP_DT_Y_E = SPR_ROADSTOP_BASE + 5;
  static const SpriteID SPR_TRUCK_STOP_DT_X_W = SPR_ROADSTOP_BASE + 6;
  static const SpriteID SPR_TRUCK_STOP_DT_X_E = SPR_ROADSTOP_BASE + 7;
@@ -343,10 +343,10 @@ index 5f5aa47057..6a2c20cf46 100644
  /** Tramway sprites */
  static const SpriteID SPR_TRAMWAY_BASE                 = SPR_ROADSTOP_BASE + ROADSTOP_SPRITE_COUNT;
 diff --git a/src/table/station_land.h b/src/table/station_land.h
-index b678297d90..2291ba6bd3 100644
+index 6b4b2267ac..760da43e69 100644
 --- a/src/table/station_land.h
 +++ b/src/table/station_land.h
-@@ -777,6 +777,62 @@ static const DrawTileSeqStruct _station_display_datas_waypoint_Y[] = {
+@@ -775,6 +775,62 @@ static const DrawTileSeqStruct _station_display_datas_waypoint_Y[] = {
  	TILE_SEQ_END()
  };
  
@@ -409,7 +409,7 @@ index b678297d90..2291ba6bd3 100644
  #undef TILE_SEQ_END
  #undef TILE_SEQ_LINE
  #undef TILE_SEQ_LINE_PAL
-@@ -946,6 +1002,10 @@ static const DrawTileSprites _station_display_datas_truck[] = {
+@@ -944,6 +1000,10 @@ static const DrawTileSprites _station_display_datas_truck[] = {
  	TILE_SPRITE_LINE(SPR_TRUCK_STOP_NW_GROUND | (1U << PALETTE_MODIFIER_COLOUR), _station_display_datas_70)
  	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_X,      _station_display_datas_0168)
  	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_Y,      _station_display_datas_0169)
@@ -420,7 +420,7 @@ index b678297d90..2291ba6bd3 100644
  };
  
  static const DrawTileSprites _station_display_datas_bus[] = {
-@@ -955,6 +1015,10 @@ static const DrawTileSprites _station_display_datas_bus[] = {
+@@ -953,6 +1013,10 @@ static const DrawTileSprites _station_display_datas_bus[] = {
  	TILE_SPRITE_LINE(SPR_BUS_STOP_NW_GROUND   | (1U << PALETTE_MODIFIER_COLOUR), _station_display_datas_74)
  	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_X,      _station_display_datas_0170)
  	TILE_SPRITE_LINE(SPR_ROAD_PAVED_STRAIGHT_Y,      _station_display_datas_0171)
@@ -432,10 +432,10 @@ index b678297d90..2291ba6bd3 100644
  
  static const DrawTileSprites _station_display_datas_oilrig[] = {
 diff --git a/src/track_type.h b/src/track_type.h
-index 233376b006..2601804813 100644
+index 70278c58d9..0c64b99780 100644
 --- a/src/track_type.h
 +++ b/src/track_type.h
-@@ -122,4 +122,11 @@ DECLARE_ENUM_AS_BIT_SET(TrackdirBits)
+@@ -120,4 +120,11 @@ DECLARE_ENUM_AS_BIT_SET(TrackdirBits)
  
  typedef uint32 TrackStatus;
  
