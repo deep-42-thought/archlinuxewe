@@ -123,7 +123,7 @@ packages=$(
     | awk '{print $3" "$2":"$4}' \
     | sort -u \
     | sed '
-      s/^testing/0 \0/
+      s/^\S\+testing/0 \0/
       t
       s/^/1 /
     ' \
