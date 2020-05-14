@@ -2,7 +2,19 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
   if [ -d "${pkgdir}/usr/lib" ]; then
     provides+=(
       $(
-        find "${pkgdir}/usr/lib" -name '*.so' -printf '%f\n'
+        find "${pkgdir}/usr/lib" \
+          -name '*.so' -printf '%p\n' \
+        | while read -r lib; do
+          if ! LC_ALL=C readelf -h "$fn" 2>/dev/null | grep -q '.*Type:.*DYN (Shared object file).*'; then
+            # no shared object
+            continue
+          fi
+          if ! LC_ALL=C readelf -d "$fn" 2>/dev/null | grep -q '.*Library soname: \[.*\].*'; then
+            # not versioned
+            continue
+          fi
+          printf '%s\n' "${lib##*/}"
+        done
       )
     )
   fi
