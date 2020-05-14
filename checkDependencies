@@ -3,7 +3,7 @@
 mirror_base='/srv/arch-mirror/arch/arch/merged'
 cache_file='/tmp/packages'
 
-if [ ! -f '/tmp/packages' ]; then
+if [ ! -f "${cache_file}" ]; then
   packages=$(
     ssh -p 22222 makepkg@141.35.51.219 '
       find -L "'"${mirror_base}"'" \
