@@ -1,15 +1,17 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Contributor: Remi Gacogne <rgacogne at archlinux dot org>
 pkgname=dnsdist
-pkgver=1.4.0
-pkgrel=16
+pkgver=1.4.9999_1.5.0_rc2
+_pkgver=${pkgver#*_}
+_pkgver=${_pkgver//_/-}
+pkgrel=1
 pkgdesc='Highly DNS-, DoS- and abuse-aware loadbalancer'
 arch=('x86_64')
 url='https://dnsdist.org/'
 license=('GPL2')
-source=(https://downloads.powerdns.com/releases/${pkgname}-${pkgver}.tar.bz2{,.asc}
+source=(https://downloads.powerdns.com/releases/${pkgname}-${_pkgver}.tar.bz2{,.asc}
         sysusers.conf)
-sha512sums=('c9450e97325d8ad8c8c3a395412c46ea8053cbe1ebe73329a1618212ba29bdf2f8da908ae2b90c314b5aab613387f42363e3a5322b1a36f60190fb48e1c425c5'
+sha512sums=('a98234866beccb6aefa5b5a437f96e316b1f0b9b18a6888e27683020d157b7bf9c671b9a2b91dc1fcca4483db7be1e781f2ae5f52ef36f1d93da18a57f9417fe'
             'SKIP'
             'd55ccd612cbe08b353815027d30a3b0f0ec7bf6b0d74a0a634939be53ce6e6b41d23e54c2328946f00738c03e9f306ce4f2dabe5e4b11d9fb28d0abf49917893')
 validpgpkeys=('D6300CABCBF469BBE392E503A208ED4F8AF58446') # Remi Gacogne <remi.gacogne@powerdns.com>
@@ -17,7 +19,7 @@ makedepends=('boost' 'systemd')
 depends=('fstrm' 'gnutls' 'h2o' 'libcap' 'libedit' 'libsodium' 'libsystemd' 'lmdb' 'luajit' 'net-snmp' 'openssl' 'protobuf' 're2' 'tinycdb')
 
 build() {
-  cd "${pkgname}-${pkgver}"
+  cd "${pkgname}-${_pkgver}"
   ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
@@ -38,7 +40,7 @@ build() {
 }
 
 package() {
-  cd "${pkgname}-${pkgver}"
+  cd "${pkgname}-${_pkgver}"
   make DESTDIR="${pkgdir}" install
 
   cd "${srcdir}"
