@@ -2,7 +2,7 @@
 pkgname=openttd-git
 pkgver=29435.93d1d8773
 _commit=${pkgver#*.}
-pkgrel=1
+pkgrel=2
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686' 'pentium4')
 url="http://www.openttd.org"
@@ -39,9 +39,9 @@ source=(
     "underground.patch"
 )
 sha512sums=('SKIP'
-            'd1fdbf90c512530df1f01ccc68b3e0444c27124138b4acdc25717806f786ad1ab9218b5ddd6dd2e2b1f3b39c7fdb0dfe2673b7fb34ec8e4959b75c5a7c0af5a0'
-            'e6379448a49c0db8b07bb090ed14fe019611667b79506b4441219ee172893b726bdc431943c15a9f8fcc5a7b53de8e557929f10c27af32896a54463e2719e0a6'
-            'a67796e9ee0ac285887b723784a75f12e588ff7c63f7c4af974d5c39e09bb5f324e51d2c1623e8c375f3c0ad30123f94b2bd3c2e036e7ab3e05d83a2edf34b87')
+            '37dfab1746fc595a947da87bc591a7c9e9747d8bbb6d6a4ca934d13f60ac55c137bb2bed8789f775c4213dd3c9d6f7da9c3675177916c79e35389f48f0aa2fea'
+            'cd208f7f58c9eb6814f201ea642139d353de5cdc39612e0fd8133c2357e12fbcc9af61e4ff093c939db336207c10206ee8c31c7dbce198787c20a18fd301c7f6'
+            '029d4fa307ec1b4d5bcdbd1d0d66ff101851d9267e0a33f69864949af941751ab13113a71502d27a43c67e9eb75a58a489002ea335b69a495a139e4f99e072a7')
 
 pkgver() {
   printf '%s.%s\n' \
