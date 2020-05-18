@@ -24,7 +24,12 @@ if [ "${paket#perl-}" != "${paket}" ]; then
 
 elif [ "${paket#python-}" != "${paket}" ]; then
 
-  . pythonFunktionen
+  if ( . "$1/PKGBUILD"; printf '%s\n' "${pkgname[@]}"; ) \
+    | grep -qF 'python2-'; then
+    . pythonFunktionen python2
+  else
+    . pythonFunktionen python
+  fi
 
   ladePkgbuild "${paket}" || exit $[$?-1]
 

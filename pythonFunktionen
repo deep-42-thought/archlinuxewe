@@ -122,27 +122,33 @@ versteheRequirements() {
         sort -u
     )
     if [ -z "${pkgBuild["${wasAusgeben}"]}" ] && \
-      [ "${wasAusgeben}" == "_depends" ]; then
+      [ "${wasAusgeben}" == "${pythonPrefix}depends" ]; then
       pkgBuild["${wasAusgeben}"]="python"
     fi
 
     metaYml["${wasAusgeben}"]="${metaInfos["${wasAusgeben}"]}"
 
-    if [ -z "${metaYml["${wasAusgeben}"]}" ] && \
-      [ "${wasAusgeben}" == "_depends" ]; then
-      metaYml["${wasAusgeben}"]="python"
+    if [ "${wasAusgeben}" == "${pythonPrefix}depends" ]; then
+      metaYml["${wasAusgeben}"]=$(
+        {
+          printf '%s\n' "${metaYml["${wasAusgeben}"]}"
+          printf 'python>=%s\n' "${pyver}"
+          printf 'python<%s.%s\n' "${pyver%%.*}" "$((${pyver#*.}+1))"
+        } \
+        | sort -u
+      )
     fi
-    if [ "${wasAusgeben}" == "_makedepends" ]; then
+    if [ "${wasAusgeben}" == "${pythonPrefix}makedepends" ]; then
       metaYml["${wasAusgeben}"]=$(
         {
           {
             {
               {
                 echo "${metaYml["${wasAusgeben}"]}"
-                echo "${metaYml["_depends"]}"
+                echo "${metaYml["${pythonPrefix}depends"]}"
               } | \
                 versionsUniq
-              echo "${metaYml["_depends"]}"
+              echo "${metaYml["${pythonPrefix}depends"]}"
             } | \
               sort | \
               uniq -d | \
@@ -156,7 +162,7 @@ versteheRequirements() {
           versionsUniq
       )
     fi
-    if [ "${wasAusgeben}" == "_checkdepends" ]; then
+    if [ "${wasAusgeben}" == "${pythonPrefix}checkdepends" ]; then
       metaYml["${wasAusgeben}"]=$(
         {
           {
@@ -191,9 +197,21 @@ declare -A metaSubst
 declare -A metaYml
 declare -A pkgBuild
 
-metaRegexe["_depends"]="install_requires"
-metaSubst["_depends"]=true
-metaRegexe["_makedepends"]="setup_requires"
-metaSubst["_makedepends"]=true
-metaRegexe["_checkdepends"]="test_requires"
-metaSubst["_checkdepends"]=true
+if [ "$1" = 'python2' ]; then
+  pythonPrefix='_'
+  pyver=$(python2 --version)
+else
+  pythonPrefix=''
+  pyver=$(python --version)
+fi
+pyver=$(
+  printf '%s\n' "${pyver}" | \
+    cut -d' ' -f2 | \
+    cut -d. -f1,2
+)
+metaRegexe["${pythonPrefix}depends"]="install_requires"
+metaSubst["${pythonPrefix}depends"]=true
+metaRegexe["${pythonPrefix}makedepends"]="setup_requires"
+metaSubst["${pythonPrefix}makedepends"]=true
+metaRegexe["${pythonPrefix}checkdepends"]="test_requires"
+metaSubst["${pythonPrefix}checkdepends"]=true
