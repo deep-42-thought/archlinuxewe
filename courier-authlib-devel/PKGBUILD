@@ -1,0 +1,90 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Runnytu < runnytu at gmail dot com >
+# Old Maintainer: Sven-Hendrik Haase <sh@lutzhaase.com>
+# Old Maintainer: Jonas Heinrich <onny@project-insanity.org>
+# Contributor: tobias <tobias@archlinux.org>
+# Contributor: Tobias Kieslich <tobias@justdreams.de>
+# Contributor: Neil Romig <neilromig@gmail.com>
+
+pkgname=courier-authlib-devel
+_pkgname=${pkgname%-*}
+pkgver=0.70.0.20200518
+pkgrel=4
+pkgdesc="Authentication library for the Courier mailserver(s)"
+arch=(i686 pentium4 x86_64)
+license=('GPL2')
+url="https://courier-mta.org/authlib/"
+backup=('etc/authlib/authdaemonrc' 'etc/authlib/authldaprc' \
+        'etc/authlib/authmysqlrc' 'etc/authlib/authpgsqlrc')
+depends=('openssl' 'gdbm' 'perl' 'libtool' 'expect' 'courier-unicode>=2.1')
+makedepends=('pam' 'libldap' 'libmariadbclient' 'postgresql-libs>=8.3.0')
+optdepends=('sqlite: With support for the authsqlite authentication module'
+	    'libmariadbclient: With support for the authmysql authentication module'
+	    'libldap: With support for the authldap authentication module'
+	    'postgresql-libs: With support for the authpgsql authentication module'
+	    'pam: With support for the authpam authentication module')
+options=(!libtool !staticlibs emptydirs)
+install=${_pkgname}.install
+source=(https://downloads.sourceforge.net/project/courier/authlib-devel/${pkgver##*.}/${_pkgname}-${pkgver}.tar.bz2
+	authdaemond.service
+	courier-sysusers.conf)
+sha512sums=('a8c2881baa311827198259499ed284ff09b278fd24da28153e0c20932b8cd3baea0de415f1b7e19e7efdce906eb84b763830e2ca67267028435f6d5530d3c77f'
+            '7855fadbef9e6845868d720f9637cc6fe97814b9d994641a351e48536e1985323f095c708f30abe0f3a0c1cb8e25a746da1bb5b2baf9f63d0498d01df39f843b'
+            'c8c7dfd245ca7c6bf9174bb170bb45ff548eaa4c0b4049e3def12cf15f83d98347a0d3e0174dd7aae86c412117eee98f51428e8d3c8df61ccdcb5e929ab939a3')
+
+build() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+  ./configure --prefix=/usr \
+    --sbindir=/usr/bin \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --libdir=/usr/lib \
+    --libexecdir=/usr/lib \
+    --with-db=gdbm \
+    --with-mailuser=courier \
+    --with-mailgroup=courier \
+    --with-authpam \
+    --with-authpwd \
+    --with-authshadow \
+    --with-authldap \
+    --with-authmysql \
+    --with-authpgsql \
+    --with-authuserdb \
+    --with-authcram \
+    --with-authdaemon \
+    --with-authdaemonvar=/run/authdaemon
+    #--with-authsqlite --with-sqlite-libs
+  make
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}-${pkgver}"
+
+  make DESTDIR="${pkgdir}" install
+
+  for _distfile in "${pkgdir}/etc/authlib/"*.dist; do
+    # change ownership - this is usually done by the Makefile where it is assumed the user & group already exist
+    chown 72:72 "${_distfile}"
+    # remove the .dist suffix - mimics the install-configure step of a standard Courier installation
+    mv "${_distfile}" "${pkgdir}/etc/authlib/"`basename "${_distfile}" .dist`
+  done
+
+  # copy the .schema; mostly refered to as courier.schema -> rename it
+  install -Dm 444 authldap.schema  "${pkgdir}/etc/openldap/schema/courier.schema"
+
+  chown 72:72 "${pkgdir}/usr/lib/courier-authlib"
+
+  # Install systemd sysuser file
+  install -Dm 644 "$srcdir/courier-sysusers.conf" "${pkgdir}/usr/lib/sysusers.d/courier.conf"
+
+  # Install service file
+  install -Dm 644 "${srcdir}/authdaemond.service" "${pkgdir}/usr/lib/systemd/system/authdaemond.service"
+
+  mkdir -p "$pkgdir/var/spool/courier"
+
+  echo '/usr/lib/courier-authlib' \
+    | install -Dm 644 '/dev/stdin' "${pkgdir}/etc/ld.so.conf.d/courier-authlib.conf"
+
+  rmdir "${pkgdir}/run/authdaemon"
+
+}

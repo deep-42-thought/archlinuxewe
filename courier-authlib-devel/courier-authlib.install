@@ -1,0 +1,15 @@
+# arg 1:  the new package version
+post_install() {
+  # make sure the system can see authlib libraries
+  ldconfig
+}
+
+# arg 1:  the new package version
+# arg 2:  the old package version
+post_upgrade() {
+  post_install $1
+}
+
+post_remove() {
+  getent passwd courier >/dev/null 2>&1 && userdel courier
+}
