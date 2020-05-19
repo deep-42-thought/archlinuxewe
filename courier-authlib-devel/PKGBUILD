@@ -9,7 +9,7 @@
 pkgname=courier-authlib-devel
 _pkgname=${pkgname%-*}
 pkgver=0.70.0.20200518
-pkgrel=4
+pkgrel=1
 pkgdesc="Authentication library for the Courier mailserver(s)"
 arch=(i686 pentium4 x86_64)
 license=('GPL2')
@@ -23,6 +23,8 @@ optdepends=('sqlite: With support for the authsqlite authentication module'
 	    'libldap: With support for the authldap authentication module'
 	    'postgresql-libs: With support for the authpgsql authentication module'
 	    'pam: With support for the authpam authentication module')
+provides=("courier-authlib=${pkgver}")
+conflicts=('courier-authlib')
 options=(!libtool !staticlibs emptydirs)
 install=${_pkgname}.install
 source=(https://downloads.sourceforge.net/project/courier/authlib-devel/${pkgver##*.}/${_pkgname}-${pkgver}.tar.bz2
