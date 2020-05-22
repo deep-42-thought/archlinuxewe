@@ -13,7 +13,7 @@ sha512sums=('8d53a042052b9b3b4b6fa4edf23ee07315a0c509111fc789c89cbae6ccae292b0f7
 
 build() {
     cd certificates-$pkgver
-    make all
+    make -j 1
 }
 
 package() {
