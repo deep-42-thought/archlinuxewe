@@ -34,16 +34,6 @@ build() {
   go build -o "$pkgname" -ldflags="${_flags[*]}" ./cmd/"$pkgname"
 }
 
-check() {
-  cd "${pkgname}-${pkgver}"
-  # some tests build the binary and overwrite our build
-  chmod 555 "$pkgname" # canary
-  # CGO_CFLAGS break tests when run inside ~/.cache (yay).
-  # TODO investigate
-  unset CGO_CFLAGS
-  GL_TEST_RUN=1 GOLANGCI_LINT_INSTALLED=true go test ./...
-}
-
 package() {
   cd "${pkgname}-${pkgver}"
   install -Dm755 "$pkgname" -t "$pkgdir"/usr/bin
