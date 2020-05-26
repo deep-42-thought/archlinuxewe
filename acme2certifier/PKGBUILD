@@ -3,7 +3,7 @@
 pkgname=acme2certifier
 pkgver=0.8.r76.g032de30
 _commit="${pkgver##*.g}"
-pkgrel=2
+pkgrel=3
 pkgdesc='experimental acme server written in python'
 arch=('any')
 url='https://github.com/grindsa/acme2certifier'
@@ -66,6 +66,13 @@ prepare() {
 package() {
   cd "${srcdir}/${pkgname}"
 #  python setup.py install --root="${pkgdir}"
+  install -Dm644 \
+    examples/nginx/uwsgi.service \
+    "${pkgdir}/usr/lib/systemd/system/acme2certifier.service"
+  backup+=('etc/uwsgi/acme2certifier.ini')
+  install -Dm644 \
+    examples/nginx/acme2certifier.ini \
+    "${pkgdir}/etc/uwsgi/acme2certifier.ini"
   install -dm755 -o http -g http "${pkgdir}/var/lib/${pkgname}"
   mv acme examples tools "${pkgdir}/var/lib/${pkgname}/"
   chown -R http:http "${pkgdir}/var/lib/${pkgname}"
