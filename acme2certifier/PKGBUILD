@@ -16,9 +16,10 @@ depends=(
   'python-dateutil'
   'python-requests'
 )
-#makedepends=(
+makedepends=(
+  'git'
 #  'python-setuptools'
-#)
+)
 source=("${pkgname}::git+https://github.com/grindsa/${pkgname}.git#commit=${_commit}")
 sha512sums=('SKIP')
 
