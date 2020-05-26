@@ -3,7 +3,7 @@
 pkgname=acme2certifier
 pkgver=0.8.r76.g032de30
 _commit="${pkgver##*.g}"
-pkgrel=1
+pkgrel=2
 pkgdesc='experimental acme server written in python'
 arch=('any')
 url='https://github.com/grindsa/acme2certifier'
@@ -20,8 +20,12 @@ makedepends=(
   'git'
 #  'python-setuptools'
 )
-source=("${pkgname}::git+https://github.com/grindsa/${pkgname}.git#commit=${_commit}")
-sha512sums=('SKIP')
+source=(
+  "${pkgname}::git+https://github.com/grindsa/${pkgname}.git#commit=${_commit}"
+  'systemd.patch'
+)
+sha512sums=('SKIP'
+            '34a402525cd0ca469cb67af25c2611f7f17a4901e4a40cbd66fe0b35e481a9681ab499c72b2805fd6b53219de62ef8418226aeb539b553efb064ab543a530f3f')
 
 pkgver() {
   _commit=$(
@@ -53,6 +57,11 @@ pkgver() {
 #  cd "${srcdir}/${pkgname}"
 #  python setup.py build
 #}
+
+prepare() {
+  cd "${srcdir}/${pkgname}"
+  patch -p1 -i "${srcdir}/systemd.patch"
+}
 
 package() {
   cd "${srcdir}/${pkgname}"
