@@ -1,0 +1,63 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+
+pkgname=acme2certifier
+pkgver=0.8.r76.g032de30
+_commit="${pkgver##*.g}"
+pkgrel=1
+pkgdesc='experimental acme server written in python'
+arch=('any')
+url='https://github.com/grindsa/acme2certifier'
+license=('GPL3')
+depends=(
+  'python-jwcrypto'
+  'python-pyopenssl'
+  'python-dnspython'
+  'python-pytz'
+  'python-dateutil'
+  'python-requests'
+)
+#makedepends=(
+#  'python-setuptools'
+#)
+source=("${pkgname}::git+https://github.com/grindsa/${pkgname}.git#commit=${_commit}")
+sha512sums=('SKIP')
+
+pkgver() {
+  _commit=$(
+    git -C "${pkgname}" rev-parse master
+  )
+  _version_line=$(
+    git -C "${pkgname}" archive ${_commit} -- acme/version.py \
+    | tar -Ox \
+    | grep -n '^__version__\s*='
+  )
+  _line="${_version_line%%:*}"
+  _line_revision=$(
+    git -C "${pkgname}" blame -L"${_line},${_line}" -- acme/version.py \
+    | awk '{print $1}'
+  )
+  _version="${_version_line%\'*}"
+  _version="${_version##*\'}"
+  printf '%s.r%s.g%s' \
+    "${_version}" \
+    "$(
+      git -C "${pkgname}" rev-list --first-parent --count "${_commit}" ^"${_line_revision}"
+    )" \
+    "$(
+      git -C "${pkgname}" rev-parse --short "${_commit}"
+    )"
+}
+
+#build() {
+#  cd "${srcdir}/${pkgname}"
+#  python setup.py build
+#}
+
+package() {
+  cd "${srcdir}/${pkgname}"
+#  python setup.py install --root="${pkgdir}"
+  install -dm755 -o http -g http "${pkgdir}/var/lib/${pkgname}"
+  mv acme examples tools "${pkgdir}/var/lib/${pkgname}/"
+  chown -R http:http "${pkgdir}/var/lib/${pkgname}"
+  install -Dm644 -t "${pkgdir}/usr/share/doc/${pkgname}" docs/*
+}
