@@ -23,9 +23,11 @@ makedepends=(
 source=(
   "${pkgname}::git+https://github.com/grindsa/${pkgname}.git#commit=${_commit}"
   'systemd.patch'
+  'ssl.conf'
 )
 sha512sums=('SKIP'
-            '34a402525cd0ca469cb67af25c2611f7f17a4901e4a40cbd66fe0b35e481a9681ab499c72b2805fd6b53219de62ef8418226aeb539b553efb064ab543a530f3f')
+            '6700736f127297293067930e92b711c579d800c684b587ca2c5cbc2430dee241500932b57398d87a4dbf4111483bf0942814a06587bbe2a77958c9da18a18e63'
+            '3ed87346bf0776f50e452b1928c8f24db5498a5af1010042e9680ca136242f49e78d30ebca5e4328f485d1c051ab51f859a1ae2f936e0c6eb5b1cde700b3b201')
 
 pkgver() {
   _commit=$(
@@ -75,6 +77,8 @@ package() {
     "${pkgdir}/etc/uwsgi/acme2certifier.ini"
   install -dm755 -o http -g http "${pkgdir}/var/lib/${pkgname}"
   mv acme examples tools "${pkgdir}/var/lib/${pkgname}/"
+  install -dm755 -o http -g http "${pkgdir}/var/lib/${pkgname}/acme/ca"
+  install -Dm644 -t "${pkgdir}/var/lib/${pkgname}/examples/" "${srcdir}/ssl.conf"
   chown -R http:http "${pkgdir}/var/lib/${pkgname}"
   install -Dm644 -t "${pkgdir}/usr/share/doc/${pkgname}" docs/*
 }
