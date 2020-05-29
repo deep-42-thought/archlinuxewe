@@ -1,0 +1,59 @@
+# Maintainer:  Erich Eckner <arch at eckner dot net>
+# Contributor: George Eleftheriou <eleftg>
+# Contributor: XavierCLL <xavier dot corredor dot llano at gmail dot com>
+# Contributor: Jingbei Li <petronny>
+# Contributor: David Scholl <djscholl at gmail dot com>
+pkgname=hdf4
+pkgver=2.15
+pkgrel=1
+pkgdesc="General purpose library and file format for storing scientific data."
+arch=('i686' 'pentium4' 'x86_64')
+url="http://www.hdfgroup.org/hdf4.html"
+license=('custom')
+depends=('libaec' 'zlib' 'libjpeg-turbo' 'libtirpc' 'java-environment')
+makedepends=('gcc-libs' 'gcc-fortran' 'flex' 'bison')
+conflicts=('netcdf')
+source=("https://support.hdfgroup.org/ftp/HDF/releases/HDF4.${pkgver}/src/hdf-4.${pkgver}.tar.bz2")
+sha512sums=('7d4037800ef8950ed74f225355ef5458444bed26fc189fbbd2ce7d36009998013ac1f6ba5d4e60834acf8f6f73550357238745acc35e162679919400a48191e9')
+
+conflicts=('hdf4-java')
+provides=('hdf4-java')
+replaces=('hdf4-java')
+
+prepare() {
+    mkdir -p build
+    cd "hdf-4.${pkgver}"
+    autoreconf -i
+}
+
+build() {
+    cd build
+
+    "../hdf-4.${pkgver}"/configure \
+        CFLAGS="${CFLAGS} -fPIC" \
+        CPPFLAGS="${CPPFLAGS} -I/usr/include/tirpc/" \
+        LDFLAGS="${LDFLAGS} -ltirpc" \
+        FFLAGS="${FFLAGS} -fPIC -ffixed-line-length-none" \
+        LIBS="${LIBS} -ljpeg -laec -lsz" \
+        JAVADOC='javadoc -Xdoclint:none' \
+        --enable-shared \
+        --disable-static \
+        --disable-fortran \
+        --disable-netcdf \
+        --enable-java \
+        --enable-production \
+        --with-zlib \
+        --with-szlib=/usr \
+        --prefix=/opt/hdf4
+    make
+}
+
+package() {
+    cd build
+    make -j1 DESTDIR="${pkgdir}" install
+    install -dm 755 "${pkgdir}/usr/share/licenses/${pkgname}"
+    install -Dm 644 "../hdf-4.${pkgver}/COPYING" "${pkgdir}/usr/share/licenses/${pkgname}"
+    install -dm 755 "${pkgdir}/etc/ld.so.conf.d"
+    echo "/opt/${pkgname}/lib" > "${pkgdir}"/etc/ld.so.conf.d/${pkgname}.conf
+}
+
