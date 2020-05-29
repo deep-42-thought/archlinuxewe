@@ -1,9 +1,9 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=acme2certifier
-pkgver=0.8.r76.g032de30
+pkgver=0.8.r101.g4006505
 _commit="${pkgver##*.g}"
-pkgrel=3
+pkgrel=1
 pkgdesc='experimental acme server written in python'
 arch=('any')
 url='https://github.com/grindsa/acme2certifier'
@@ -31,7 +31,7 @@ sha512sums=('SKIP'
 
 pkgver() {
   _commit=$(
-    git -C "${pkgname}" rev-parse master
+    git -C "${pkgname}" rev-parse origin/devel
   )
   _version_line=$(
     git -C "${pkgname}" archive ${_commit} -- acme/version.py \
