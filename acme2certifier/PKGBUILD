@@ -30,9 +30,11 @@ sha512sums=('SKIP'
             '3ed87346bf0776f50e452b1928c8f24db5498a5af1010042e9680ca136242f49e78d30ebca5e4328f485d1c051ab51f859a1ae2f936e0c6eb5b1cde700b3b201')
 
 pkgver() {
-  _commit=$(
-    git -C "${pkgname}" rev-parse origin/devel
-  )
+  for _trial in 'origin/devel' 'devel'; do
+    _commit=$(
+      git -C "${pkgname}" rev-parse "${_trial}" 2>/dev/null
+    ) && break
+  done
   _version_line=$(
     git -C "${pkgname}" archive ${_commit} -- acme/version.py \
     | tar -Ox \
