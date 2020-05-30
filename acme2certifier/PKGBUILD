@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=acme2certifier
-pkgver=0.8.r102.g7bdee77
+pkgver=0.9.r3.g866ac35
 _commit="${pkgver##*.g}"
 pkgrel=1
 pkgdesc='experimental acme server written in python'
@@ -47,6 +47,7 @@ pkgver() {
   )
   _version="${_version_line%\'*}"
   _version="${_version##*\'}"
+  _version="${_version%-*}"
   printf '%s.r%s.g%s' \
     "${_version}" \
     "$(
