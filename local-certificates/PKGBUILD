@@ -2,7 +2,7 @@
 
 pkgname='local-certificates'
 arch=('any')
-pkgver=2020.05.26.14.30.26
+pkgver=2020.05.31.20.11.09
 pkgrel=1
 pkgdesc='Certificate for local version of https://arch.eckner.net'
 license=('GPL')
@@ -10,14 +10,14 @@ install='local-certificates.install'
 url='https://eckner.net/certs'
 
 source=(
-  'https://eckner.net/certs/2020-01-13T14:36:50.root-ca.old.crt'
-  'https://eckner.net/certs/2020-01-14T09:40:53.root-ca.crt'
   'https://eckner.net/certs/2020-05-26T14:30:26.opennic_root_ca.crt'
+  'https://eckner.net/certs/2020-01-14T09:40:53.root-ca.old.crt'
+  'https://eckner.net/certs/2020-05-31T20:11:09.root-ca.crt'
 )
 sha512sums=(
-  'cc33ad5a3520d41f05e84eefc23f7e8283c14d812a726132ac77c469e3f3e7e5ee9435221a1937a4653efc6c9adf3a0a97ecfc2c620f2fce8fb7dcf1f7379e34'
-  'ba8266c9f7eb54d27a18b599e3ce2e01053e9b161343916fb6bf6a27c42c522e4ba93bb02ccbea4da2a614495927acc75796d5bb1141af8eeaaab605b7abc085'
   '52b9725e7e5efe5b0354bf28ba5069d37bf1ad6d71ffbb1e4de48d31409f6f7e0033b60797d3c2e5972ca91f14513f3b81f429e0f6147a962534868131f763b9'
+  'ba8266c9f7eb54d27a18b599e3ce2e01053e9b161343916fb6bf6a27c42c522e4ba93bb02ccbea4da2a614495927acc75796d5bb1141af8eeaaab605b7abc085'
+  '520a9b2912af8afd41e94420385765a09e692a448994059e32ce74c8ff4e4c0041b71f2f3d98f0bd7e4c64f8d156af3d903795cdcf7da763b8866ea9aceb350c'
 )
 
 package() {
