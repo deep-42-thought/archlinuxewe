@@ -2,32 +2,32 @@
 # Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
 
 pkgname='perl-sql-abstract'
-pkgver=1.86
-pkgrel=4
+pkgver=1.87
+pkgrel=1
 pkgdesc='Generate SQL from Perl data structures'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-storable'
+  'perl-test-exception>=0.31'
+  'perl-test-simple>=0.88'
+  'perl-test-warn')
 depends=(
-  'perl>=5.30'
-  'perl<5.31'
+  'perl>=5.6.0'
   'perl-exporter>=5.57'
   'perl-hash-merge>=0.12'
   'perl-moo>=2.000001'
   'perl-mro-compat>=0.12'
   'perl-scalar-list-utils'
-  'perl-text-balanced>=2.00')
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-storable'
   'perl-test-deep>=0.101'
-  'perl-test-exception>=0.31'
-  'perl-test-simple>=0.88'
-  'perl-test-warn')
+  'perl-test-simple>=0.84'
+  'perl-text-balanced>=2.00')
 url='https://metacpan.org/release/SQL-Abstract'
 _distdir="SQL-Abstract-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/I/IL/ILMARI/${_distdir}.tar.gz")
-sha512sums=('248652656bebf9e3f3e2582880f78f4f8c6dd2a8e2546a750b33e9d95cd6da6d8a197d0be69b5e44a24e04c8e1262d4bf3085fa95405fa28eefc3b822a93fa42')
+sha512sums=('be1d9b7b5c0354008fa9444648b73f9901002dbd199b2981978c5467f8218438b8305cdd857aed3e19637e50402cae58e342cdf5c54d031aac3e66cf14c2e1b5')
 
 build() {
   cd "${srcdir}/${_distdir}"
