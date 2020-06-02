@@ -42,7 +42,7 @@ pkgver() {
   )
   _line="${_version_line%%:*}"
   _line_revision=$(
-    git -C "${pkgname}" blame -L"${_line},${_line}" -- acme/version.py \
+    git -C "${pkgname}" blame -L"${_line},${_line}" "${_commit}" -- acme/version.py \
     | awk '{print $1}'
   )
   _version="${_version_line%\'*}"
