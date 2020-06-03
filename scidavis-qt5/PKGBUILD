@@ -1,0 +1,70 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Mirko Scholz
+# Contributor: Evgeniy Alekseev <arcanis at archlinux dot org>
+# Contributor: Knut Franke <Knut.Franke ad gmx dot de>
+# Contributor: Olaf Leidinger <leidola at newcon dot de>
+# Contributor: Robal <nigrantis.tigris at gmail dot com>
+# Contributor: Alexander <chronischzuspaet at gmail dot com> Kempen
+
+# see https://svnweb.freebsd.org/ports/head/science/scidavis/Makefile?view=markup
+
+_pkgname=scidavis
+pkgname=scidavis-qt5
+pkgver=2.2.0
+_commit=${pkgver}
+pkgrel=1
+pkgdesc="Application for Scientific Data Analysis and Visualization, fork of QtiPlot. Qt5 port"
+arch=('x86_64')
+url="http://scidavis.sourceforge.net/"
+license=('GPL')
+makedepends=('boost' 'cmake' 'qt5-tools'
+'sip' 'python-sip'
+'qwt5-qt5>=5.2.3.1-2'
+'qwtplot3d-qt5>=0.2.7-3'
+)
+depends=('gsl' 'glu' 'mesa' 'muparser' 'shared-mime-info'
+'desktop-file-utils' 'hicolor-icon-theme'
+'python-pyqt5'
+'python-pyqt5-sip'
+'qt5-svg'
+'python' 'python-scipy')
+conflicts=('scidavis')
+source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/highperformancecoder/scidavis/archive/${_commit}.tar.gz"
+'linking.patch'
+)
+sha512sums=('0440ee5c6570e3c6494ed51cefa9063e4314cfb237abebfaf5389cbab0e99c767975443e0fa3be463f4dc215dec8059dc0adb25bc7125dd760e731ad89f04410'
+            '69f04800343935141ad224510a915a8cbdbd0e07401a61530a52e18ea5d02b85f7e579f70b6bb32b37e085c07f61a8ce3f9c83f7b7b9cfe0553624b8ff9ff5db')
+
+prepare() {
+  cd "${_pkgname}-${_commit}"
+  patch --forward --strip=1 --input="${srcdir}/linking.patch"
+}
+
+build() {
+  cd "${_pkgname}-${_commit}"
+  qmake-qt5 \
+	CONFIG+="liborigin python" \
+	INCLUDEPATH+="/usr/include/qt/qwt5-qt5" \
+	INCLUDEPATH+="/usr/include/qt/qwtplot3d-qt5" \
+	LIBS+="-lqwt5-qt5 -lqwtplot3d-qt5" \
+	QMAKE_CXXFLAGS="-Wno-deprecated-copy -Wno-deprecated-declarations -fpermissive"
+  make qmake
+  make
+}
+
+package() {
+  cd "${_pkgname}-${_commit}"
+  make INSTALL_ROOT="${pkgdir}" DESTDIR="${pkgdir}" install
+
+  python -m py_compile "${pkgdir}/etc/scidavisrc.py"
+  mv ${pkgdir}/etc/__pycache__/scidavisrc*.pyc "${pkgdir}/etc/scidavisrc.pyc"
+  rm -rf ${pkgdir}/etc/__pycache__
+
+  # remove liborigin files since it uses static library
+  rm -rf "${pkgdir}/usr/local"
+
+  # install translations (it looks like it does not provide target to do it)
+  install -dm755 "${pkgdir}/usr/share/scidavis/translations/"
+  find "scidavis/translations/" -name '*.qm' -type f -exec \
+      install -Dm644 {} "${pkgdir}/usr/share/scidavis/translations/" \;
+}
