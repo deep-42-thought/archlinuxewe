@@ -19,10 +19,59 @@ if [ $# -eq 1 ]; then
   pkg="${1%/}"
   cd "${pkg}"
   eval "$(
-    grep '^pkgrel=' 'PKGBUILD'
+    sed -n '
+      /^pkgrel=/p
+      /^_pinned_dependencies=(.*)/p
+      /^_pinned_dependencies=([^)]*$/,/)/p
+    ' 'PKGBUILD'
   )"
+  mapfile -t _pinned_dependencies < <(
+    printf '%s\n' "${_pinned_dependencies[@]}" \
+    | sed -n '
+      s/=.*$//
+      /^[^<=>]\+$/ p
+    ' \
+    | sort -u \
+    | join -1 1 -2 2 -o 1.1,2.1 - <(
+      find /var/lib/pacman/sync/ -name '*.db' \
+        -not -exec tar -Oxzf {} --wildcards '*/desc' \; \
+        -not -exec tar -OxJf {} --wildcards '*/desc' \; \
+        -not -exec tar -Oxjf {} --wildcards '*/desc' \; \
+        -not -exec tar -Oxf {} --wildcards '*/desc' \; \
+      2>/dev/null \
+      | sed -n '
+        /^%\(NAME\|VERSION\)%$/ {
+          N
+          s/\n/ /
+          p
+        }
+      ' \
+      | sed -n '
+        /^%NAME%/ {
+          N
+          s/^%NAME% \(\S\+\)\n%VERSION% \(\S\+\)-\S\+$/\2 \1/
+          T
+          p
+        }
+      ' \
+      | sort -k2,2 -k1Vr,1 \
+      | uniq -f1
+    ) \
+    | awk '{print $1 "=" $2}'
+  )
   sed -i '
     s@^\(pkgrel=\)\('"'"'\?\)[0-9]\+\2$@\1'"$((pkgrel+1))"'@
+    /^_pinned_dependencies=(/ {
+      :a
+        /)/ {
+          s@.*@_pinned_dependencies=(\n'"$(printf '  '"'"'%s'"'"'\\n' "${_pinned_dependencies[@]}")"')@
+          b
+        }
+        $! {
+          N
+          ba
+        }
+    }
   ' 'PKGBUILD'
   if ${commit}; then
     if [ -d '.git' ] || [ -f '.git' ]; then
