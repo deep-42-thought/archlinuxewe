@@ -45,24 +45,8 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
       | sed 's/[<>]\?=.*$//' \
       | sort -u
     ) <(
-      {
-        eval 'printf '"'"'%s\n'"'"' "${depends[@]}" "${depends_'"${CARCH}"'[@]}"' \
-        | sed 's/=.*$//' \
-        | sort -u
-        sed -n '
-          /^\s*# _pinned_dependencies$/,/^\s*# _pinned_dependencies\.end$/ p
-        ' "${OLDPWD}/PKGBUILD" \
-        | sed '
-          /^\s*#/d
-          s/^\s\+//
-          s/\s\+$//
-          s/^\(["'"'"']\)\(\S\+\)\1$/\2/
-          s/[<>]\?=.*$//
-        ' \
-        | sort -u
-      } \
-      | sort \
-      | uniq -d
+      eval 'printf '"'"'%s\n'"'"' "${_pinned_dependencies[@]}" "${_pinned_dependencies_'"${CARCH}"'[@]}"' \
+      | sort -u
     )
   ); then
     printf 'There are discrepancies between the _pinned_dependencies and the linked libraries in %s'"'"'s %s:\n' \
