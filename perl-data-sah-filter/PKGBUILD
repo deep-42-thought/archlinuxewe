@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (28b2f74dba87d5b9704e48582062ab93f41cf91629ca4c2bf134bbcd713a9110c07bc8f2e76567c6a6ba6b63044d37bbacca314917992dc3c00b0f8a2ecd6016)
 
 pkgname='perl-data-sah-filter'
-pkgver=0.006
+pkgver=0.008
 pkgrel=1
 pkgdesc='Filtering for Data::Sah'
 arch=('any')
@@ -20,7 +20,7 @@ depends=(
   'perl>=5.10.1'
   'perl-data-dmp>=0.240'
   'perl-exporter>=5.57'
-  'perl-file-temp'
+  'perl-file-temp>=0.2307'
   'perl-ipc-system-options>=0.335'
   'perl-json'
   'perl-log-ger>=0.037'
@@ -28,7 +28,7 @@ depends=(
 url='https://metacpan.org/release/Data-Sah-Filter'
 _distdir="Data-Sah-Filter-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('f533ce4488765888c31d2102d4beed93f65f027e3d36304ff065acaf0e1a26040124ba1028fbd557eed400fb6998f9576f4868b6922d4a52f81152664eb298c2')
+sha512sums=('25221621808049a5b80fb6913a90c160f9f9b0b5c18c9da30a13967467d718413e28a029908cc8e916a3e0249c4be1a129edecded41c1a41d305085a807b71e3')
 
 build() {
   cd "${srcdir}/${_distdir}"
