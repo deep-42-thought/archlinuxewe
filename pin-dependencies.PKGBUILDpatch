@@ -20,7 +20,7 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
         if ! _pkg=$(
           pacman -Qqo "/usr/lib/${_lib}" 2>/dev/null
         ); then
-          printf '%s\n' "${_lib}"
+          >&2 printf 'WARNING: noone owns "%s"\n' "${_lib}"
           continue
         fi
         if pacman -Qi "${_pkg}" \
