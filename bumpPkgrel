@@ -16,7 +16,7 @@ fi
 
 if [ "x$1" = 'x-p' ]; then
   shift
-  provided="$2"
+  provided="$1"
   shift
 else
   provided=$("${0%/*}/liste-verfuegbare-Versionen")
