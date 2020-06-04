@@ -4,7 +4,7 @@
 
 pkgname=hashcash
 pkgver=1.22
-pkgrel=10
+pkgrel=11
 pkgdesc="a denial-of-service counter measure tool for email/spam."
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 url="http://www.hashcash.org"
@@ -12,6 +12,11 @@ license=('GPL')
 depends=( 'glibc' )
 source=(http://www.hashcash.org/source/${pkgname}-${pkgver}.tgz)
 sha512sums=('b803c27df2acdce70c587d15d4158ca8841328fd89d90213a00be35f7c9f1905db728a785ee70fa43a4262dabe20c3f0a9fff381e3db0d44c3175ca22da5d5c2')
+
+_pinned_dependencies=(
+  'glibc=2.31'
+  'openssl=1.1.1.g'
+)
 
 build() {
   cd "$srcdir"/${pkgname}-${pkgver}
