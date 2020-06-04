@@ -52,7 +52,7 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
   ); then
     printf 'There are discrepancies between the _pinned_dependencies and the linked libraries in %s'"'"'s %s:\n' \
       "${pkgbase:-${pkgname}}" \
-      "${FUNCNAME[0]}"
+      "${FUNCNAME[1]}"
     printf '%s\n' "${_errors}" \
     | sed '
       s/^</actual  /
