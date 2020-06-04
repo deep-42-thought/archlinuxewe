@@ -65,6 +65,7 @@ if [ $# -eq 1 ]; then
         printf '%s\n' ${line%%)*}
       } \
       | sed '
+        /^$/d
         s/^\(["'"'"']\)\(\S\+\)\1$/\2/
       ' \
       | pin_dependency "${space}  "
