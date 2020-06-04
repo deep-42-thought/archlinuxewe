@@ -12,67 +12,90 @@ else
   commit=true
 fi
 
+pin_dependency() {
+  sed '
+    s/=.*$//
+    /^$/d
+  ' \
+  | sort -k1,1 \
+  | join -1 1 -2 2 - "${provided}" \
+  | sed '
+    s/^\(\S\+\) \(\S\+\)$/'"${1}'"'\1=\2'"'"'/
+    t
+    d
+  '
+}
+
 if [ $# -eq 1 ]; then
+
+  provided=$(mktemp)
+  trap 'rm -f "${provided}"' EXIT
+
+  find /var/lib/pacman/sync/ -name '*.db' \
+    -not -exec tar -Oxzf {} --wildcards '*/desc' \; \
+    -not -exec tar -OxJf {} --wildcards '*/desc' \; \
+    -not -exec tar -Oxjf {} --wildcards '*/desc' \; \
+    -not -exec tar -Oxf {} --wildcards '*/desc' \; \
+  2>/dev/null \
+  | sed -n '
+    /^%\(NAME\|VERSION\)%$/ {
+      N
+      s/\n/ /
+      p
+    }
+    /^%PROVIDES%$/,/^$/ {
+      /^[^%]/ p
+    }
+  ' \
+  | sed -n '
+    s/=/ /
+    T no_provides
+    p
+    d
+    :no_provides
+    /^%NAME%/ {
+      N
+      s/^%NAME% \(\S\+\)\n%VERSION% \(\S\+\)-\S\+$/\2 \1/
+      T
+      p
+    }
+  ' \
+  | sort -k2,2 -k1Vr,1 \
+  | uniq -f1 \
+  >"${provided}"
 
   cd "$(dirname "$0")"
 
   pkg="${1%/}"
   cd "${pkg}"
-  eval "$(
-    sed -n '
-      /^pkgrel=/p
-      /^_pinned_dependencies=(.*)/p
-      /^_pinned_dependencies=([^)]*$/,/)/p
-    ' 'PKGBUILD'
-  )"
-  mapfile -t _pinned_dependencies < <(
-    printf '%s\n' "${_pinned_dependencies[@]}" \
-    | sed -n '
-      s/=.*$//
-      /^[^<=>]\+$/ p
-    ' \
-    | sort -u \
-    | join -1 1 -2 2 -o 1.1,2.1 - <(
-      find /var/lib/pacman/sync/ -name '*.db' \
-        -not -exec tar -Oxzf {} --wildcards '*/desc' \; \
-        -not -exec tar -OxJf {} --wildcards '*/desc' \; \
-        -not -exec tar -Oxjf {} --wildcards '*/desc' \; \
-        -not -exec tar -Oxf {} --wildcards '*/desc' \; \
-      2>/dev/null \
-      | sed -n '
-        /^%\(NAME\|VERSION\)%$/ {
-          N
-          s/\n/ /
-          p
-        }
-      ' \
-      | sed -n '
-        /^%NAME%/ {
-          N
-          s/^%NAME% \(\S\+\)\n%VERSION% \(\S\+\)-\S\+$/\2 \1/
-          T
-          p
-        }
-      ' \
-      | sort -k2,2 -k1Vr,1 \
-      | uniq -f1
-    ) \
-    | awk '{print $1 "=" $2}'
-  )
-  sed -i '
-    s@^\(pkgrel=\)\('"'"'\?\)[0-9]\+\2$@\1'"$((pkgrel+1))"'@
-    /^_pinned_dependencies=(/ {
-      :a
-        /)/ {
-          s@.*@_pinned_dependencies=(\n'"$(printf '  '"'"'%s'"'"'\\n' "${_pinned_dependencies[@]}")"')@
-          b
-        }
-        $! {
-          N
-          ba
-        }
-    }
-  ' 'PKGBUILD'
+  while IFS=$(printf '\n') read -r line; do
+    if printf '%s\n' "${line}" \
+    | grep -q '^\s*pkgrel='; then
+      eval "${line}"
+      printf '%s=%s\n' "${line%%=*}" "$((pkgrel+1))"
+      continue
+    fi
+    if printf '%s\n' "${line}" \
+    | grep -q '^\s*_pinned_dependencies=('; then
+      space="${line%%_pinned_dependencies=(}"
+      printf '%s_pinned_dependencies=(\n' "${space}"
+      line="${line#*_pinned_dependencies=(}"
+      {
+        while ! printf '%s\n' "${line}" \
+        | grep -qF ')'; do
+          printf '%s\n' ${line%%#*}
+          IFS=$(printf '\n') read -r line
+        done
+        printf '%s\n' ${line%%)*}
+      } \
+      | pin_dependency "${space}  "
+      printf '%s)%s\n' "${space}" "${line#*)}"
+      continue
+    fi
+    printf '%s\n' "${line}"
+  done \
+  < 'PKGBUILD' \
+  | sponge 'PKGBUILD'
   if ${commit}; then
     if [ -d '.git' ] || [ -f '.git' ]; then
       makepkg --printsrcinfo > .SRCINFO
