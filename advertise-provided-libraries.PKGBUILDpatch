@@ -4,7 +4,7 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
       $(
         find "${pkgdir}/usr/lib" \
           -name '*.so' -printf '%p\n' \
-        | while read -r lib; do
+        | while read -r fn; do
           if ! LC_ALL=C readelf -h "$fn" 2>/dev/null | grep -q '.*Type:.*DYN (Shared object file).*'; then
             # no shared object
             continue
@@ -13,7 +13,7 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
             # not versioned
             continue
           fi
-          printf '%s\n' "${lib##*/}"
+          printf '%s\n' "${fn##*/}"
         done
       )
     )
