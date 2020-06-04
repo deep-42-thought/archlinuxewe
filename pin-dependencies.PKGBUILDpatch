@@ -1,13 +1,21 @@
 if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
   if ! _errors=$(
     diff <(
-      find "${pkgdir}" -type f -exec objdump -x {} \; 2>/dev/null \
-      | sed '
-        s/^\s*NEEDED\s\+\(\S\+\)\s*$/\1/
-        t
-        d
-      ' \
-      | sort -u \
+      {
+        find "${pkgdir}" -type f -exec objdump -x {} \; 2>/dev/null \
+        | sed '
+          s/^\s*NEEDED\s\+\(\S\+\)\s*$/\1/
+          t
+          d
+        ' \
+        | sort -u
+        for _libdir in "${pkgdir}/usr"/lib*; do
+          [ -d "${_libdir}" ] || continue
+          find "${_libdir}" -type f -printf '%f\n%f\n'
+        done
+      } \
+      | sort \
+      | uniq -u \
       | while read -r _lib; do
         if ! _pkg=$(
           pacman -Qqo "/usr/lib/${_lib}" 2>/dev/null
@@ -50,7 +58,7 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
       | sort -u
     )
   ); then
-    printf 'There are discrepancies between the _pinned_dependencies and the linked libraries in %s'"'"'s %s:\n' \
+    printf 'There are discrepancies between the _pinned_dependencies and the linked libraries in %s'"'"'s %s():\n' \
       "${pkgbase:-${pkgname}}" \
       "${FUNCNAME[1]}"
     printf '%s\n' "${_errors}" \
