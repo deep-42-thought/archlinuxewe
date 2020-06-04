@@ -25,7 +25,7 @@ fi
 
 pin_dependency() {
   sed '
-    s/=.*$//
+    s/>\?=.*$//
     /^$/d
   ' \
   | sort -k1,1 \
