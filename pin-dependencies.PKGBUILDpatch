@@ -46,6 +46,7 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
       | sort -u
     ) <(
       eval 'printf '"'"'%s\n'"'"' "${_pinned_dependencies[@]}" "${_pinned_dependencies_'"${CARCH}"'[@]}"' \
+      | sed 's/[<>]\?=.*$//' \
       | sort -u
     )
   ); then
