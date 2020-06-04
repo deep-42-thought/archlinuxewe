@@ -66,16 +66,11 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
   fi
   depends+=(
     $(
+      [ "${CARCH}" = 'x86_64' ] && _suffix='-64' || _suffix='-32'
       printf '%s\n' "${_pinned_dependencies[@]}" \
-      | if [ "${CARCH}" != 'x86_64' ]; then
-        sed '
-          /\.so=/ {
-            s/-64$/-32/
-          }
-        '
-      else
-        cat
-      fi
+      | sed '
+        /\.so=/ s/$/'"${_suffix}"'/
+      '
     )
   )
 fi
