@@ -11,13 +11,14 @@ verwendung() {
   >&2 echo '  -f|--force:            übergehe Cache'
   >&2 echo '  -h|--help:             zeige diese Hilfe'
   >&2 echo '  -n|--nicht $paket:     ignoriere Paket $paket'
+  >&2 echo '  -p $tmpfile:           temporäre "provided"-Datei'
   [ -z "$1" ] && exit 1 || exit $1
 }
 
 check_version_cache_option=''
 
 eval set -- "$(
-  getopt -o fhn: \
+  getopt -o fhn:p: \
     --long force \
     --long help \
     --long nicht: \
@@ -26,6 +27,7 @@ eval set -- "$(
 )"
 
 unset nichtPakete
+unset provided
 
 while true; do
   case "$1" in
@@ -38,6 +40,10 @@ while true; do
     -n|--nicht)
       shift
       nichtPakete="$(printf '%s\n%s' "${nichtPakete}" "$1" | grep -v '^$')"
+    ;;
+    -p)
+      shift
+      provided="$1"
     ;;
     --)
       shift
@@ -63,19 +69,32 @@ if [ $# -eq 0 ]; then
       uniq -u
   )"
   [ -z "${pkgs}" ] && exit 0
-  "${me}" ${pkgs}
+  if [ -z "${provided}" ]; then
+    provided=$("${myDir}/liste-verfuegbare-Versionen")
+    trap 'rm -f "${provided}"' EXIT
+  fi
+  "${me}" -p "${provided}" ${pkgs}
   exit $?
 elif [ $# -gt 1 ]; then
   [ -n "${nichtPakete}" ] && verwendung
+  if [ -z "${provided}" ]; then
+    provided=$("${myDir}/liste-verfuegbare-Versionen")
+    trap 'rm -f "${provided}"' EXIT
+  fi
   err=0
-  for pkg in "$@";   do
-    "${me}" "${pkg}"
+  for pkg in "$@"; do
+    "${me}" -p "${provided}" "${pkg}"
     cErr=$?
     [ ${cErr} -gt ${err} ] && err=${cErr}
   done
   exit ${err}
 fi
 [ -n "${nichtPakete}" ] && verwendung
+
+if [ -z "${provided}" ]; then
+  provided=$("${myDir}/liste-verfuegbare-Versionen")
+  trap 'rm -f "${provided}"' EXIT
+fi
 
 paket="${1%/}"
 >&2 echo "bumping '${paket}' ..."
@@ -94,6 +113,10 @@ if [ -z "${remVer}" ]; then
   >&2 echo '... remote Version not determined.'
   exit 0
 fi
+
+# Wir misbrauchen bumpPkgrel um _pinned_dependencies zu aktualisieren.
+# $pkgrel wird nachher ohnehin wieder auf 1 gesetzt.
+"${myDir}/bumpPkgrel" -n -p "${provided}" "${paket}"
 
 auto_summen=true
 
