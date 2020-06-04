@@ -7,11 +7,16 @@
 pkgname=qwt5
 _pkgname=qwt
 pkgver=5.2.3
-pkgrel=9
+pkgrel=10
 pkgdesc="Qt Widgets for Technical Applications (version 5.X)"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://qwt.sourceforge.net/"
-depends=('qt4')
+_pinned_dependencies=(
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'qt4=4.8.7'
+)
+depends=("${_pinned_dependencies[@]}")
 license=("custom")
 source=("https://sourceforge.net/projects/${_pkgname}/files/${_pkgname}/${pkgver}/${_pkgname}-${pkgver}.tar.bz2" \
         "qwtconfig-archlinux.pri")
