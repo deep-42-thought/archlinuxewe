@@ -7,9 +7,11 @@ fi
 
 if [ "x$1" = 'x-n' ]; then
   commit=false
+  commit_flag='-n'
   shift
 else
   commit=true
+  commit_flag=''
 fi
 
 pin_dependency() {
@@ -115,6 +117,6 @@ if [ $# -eq 1 ]; then
 else
 
   printf '%s\n' "$@" \
-    | xargs -rn1 "$0"
+    | xargs -rn1 "$0" ${commit_flag}
 
 fi
