@@ -4,12 +4,18 @@
 
 pkgname=ldm
 pkgver=0.7
-pkgrel=23
+pkgrel=24
 pkgdesc="A lightweight device mounter"
 arch=('i686' 'pentium4' 'x86_64')
 url="https://github.com/LemonBoy/ldm"
 license=('MIT')
-depends=('udev' 'util-linux' 'glib2')
+_pinned_dependencies=(
+  'glib2=2.64.3'
+  'glibc>=2.31'
+  'libutil-linux=2.35.2'
+  'systemd-libs=245.6'
+)   glib2
+depends=('udev' "${_pinned_dependencies[@]}")
 provides=('ldm')
 conflicts=('ldm-git')
 install=$pkgname.install
