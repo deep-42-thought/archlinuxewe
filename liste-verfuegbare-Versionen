@@ -19,7 +19,7 @@ find /var/lib/pacman/sync/ -name '*.db' \
   }
 ' \
 | sed -n '
-  s/=/ /
+  s/^\(\S\+\)=\(\S\+\)-\(64\|32\)$/\2 \1/
   T no_provides
   p
   d
