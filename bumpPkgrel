@@ -52,10 +52,10 @@ if [ $# -eq 1 ]; then
       continue
     fi
     if printf '%s\n' "${line}" \
-    | grep -q '^\s*_pinned_dependencies=('; then
-      space="${line%%_pinned_dependencies=(}"
-      printf '%s_pinned_dependencies=(\n' "${space}"
-      line="${line#*_pinned_dependencies=(}"
+    | grep -q '^\s*_pinned_dependencies\([^=[:space:]]*\)=('; then
+      space="${line%%_pinned_dependencies*=(*}"
+      printf '%s=(\n' "${line%%=(*}"
+      line="${line#*_pinned_dependencies*=(}"
       {
         while ! printf '%s\n' "${line}" \
         | grep -qF ')'; do
