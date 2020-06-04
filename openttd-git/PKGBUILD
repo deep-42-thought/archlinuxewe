@@ -1,14 +1,25 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-git
-pkgver=29470.cdd2892c4
+pkgver=29469.1507902d0
 _commit=${pkgver#*.}
-pkgrel=1
+pkgrel=2
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686' 'pentium4')
 url="http://www.openttd.org"
 license=('GPL2')
 groups=()
 _pinned_dependencies=(
+  'fluidsynth=2.1.3'
+  'fontconfig=2:2.13.91+24+g75eadca'
+  'freetype2=2.10.2'
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'icu=67.1'
+  'libpng=1.6.37'
+  'lzo=2.10'
+  'sdl2=2.0.12'
+  'xz=5.2.5'
+  'zlib=1:1.2.11'
 )
 depends=(
   'fluidsynth'
