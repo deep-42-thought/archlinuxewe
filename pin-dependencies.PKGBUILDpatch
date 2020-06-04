@@ -4,14 +4,14 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
       {
         find "${pkgdir}" -type f -exec objdump -x {} \; 2>/dev/null \
         | sed '
-          s/^\s*NEEDED\s\+\(\S\+\)\s*$/\1/
+          s/^\s*NEEDED\s\+\(\S\+\.so\)\(\.\S\+\)\?\s*$/\1/
           t
           d
         ' \
         | sort -u
         for _libdir in "${pkgdir}/usr"/lib*; do
           [ -d "${_libdir}" ] || continue
-          find "${_libdir}" -not -type d -name '*.so*' -printf '%f\n%f\n'
+          find "${_libdir}" -not -type d -name '*.so' -printf '%f\n%f\n'
         done
       } \
       | sort \
