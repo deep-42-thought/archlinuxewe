@@ -2,12 +2,18 @@
 # Contributor: Mirko Scholz <srtlg>
 pkgname=tk-togl
 pkgver=2.0
-pkgrel=1
+pkgrel=2
 pkgdesc="A Tcl/Tk widget for OpenGL rendering."
 arch=('i686' 'pentium4' 'x86_64')
 url="https://sourceforge.net/projects/togl/"
 license=('BSD')
-depends=(tk tcl libglvnd libxmu)
+_pinned_dependencies=(
+  'glibc>=2.31'
+  'libglvnd=1.3.1'
+  'libx11=1.6.9'
+  'libxmu=1.1.3'
+)
+depends=(tk tcl "${_pinned_dependencies[@]}")
 _pkgname=Togl
 source=("${_pkgname}${pkgver}.tar.gz::https://sourceforge.net/projects/togl/files/Togl/2.0/${_pkgname}${pkgver}-src.tar.gz"
         "fix-configure.patch")
