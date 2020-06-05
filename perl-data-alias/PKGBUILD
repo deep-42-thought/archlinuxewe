@@ -6,13 +6,17 @@ _author=Z/ZE/ZEFRAM
 _perlmod=Data-Alias
 pkgname=perl-data-alias
 pkgver=1.21
-pkgrel=4
+pkgrel=5
 pkgdesc='Data::Alias - Comprehensive set of aliasing operations'
 arch=('i686' 'pentium4' 'x86_64')
 url="http://search.cpan.org/dist/Data-Alias/"
 license=('GPL' 'PerlArtistic')
 groups=()
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.30'
   'perl<5.31'
   'perl>=5.8.1')
