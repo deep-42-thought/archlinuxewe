@@ -3,12 +3,16 @@
 
 pkgname='perl-devel-callparser'
 pkgver='0.002'
-pkgrel=9
+pkgrel=10
 pkgdesc='custom parsing attached to subroutines'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.30'
   'perl<5.31'
   'perl-devel-callchecker>=0.002'
