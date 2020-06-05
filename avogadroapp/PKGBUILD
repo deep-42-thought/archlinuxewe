@@ -9,11 +9,13 @@ arch=('i686' 'pentium4' 'x86_64')
 url="http://www.openchemistry.org/projects/avogadro2/"
 license=('GPL2')
 _pinned_dependencies=(
+  'avogadrolibs=1.93.0'
   'gcc-libs=10.1.0'
   'glibc>=2.31'
+  'molequeue=0.9.0'
   'qt5-base=5.15.0'
 )
-depends=('avogadrolibs' 'hdf5' 'vtk' 'qt5-x11extras' "${_pinned_dependencies[@]}")
+depends=('hdf5' 'vtk' 'qt5-x11extras' "${_pinned_dependencies[@]}")
 optdepends=('openbabel: Open Babel plugin actions')
 makedepends=('cmake' 'eigen')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/OpenChemistry/$pkgname/archive/$pkgver.tar.gz")
