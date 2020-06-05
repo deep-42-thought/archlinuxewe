@@ -3,14 +3,18 @@
 
 pkgname='perl-cache-fastmmap'
 pkgver=1.49
-pkgrel=1
+pkgrel=2
 pkgdesc='Uses an mmap'"'"'ed file to act as a shared memory interprocess cache'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 makedepends=(
   'perl-extutils-makemaker')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl-storable')
 url='https://metacpan.org/release/Cache-FastMmap'
 _distdir="Cache-FastMmap-${pkgver}"
