@@ -4,7 +4,7 @@
 
 pkgname='perl-devel-cover'
 pkgver=1.36
-pkgrel=1
+pkgrel=2
 pkgdesc='Code coverage metrics for Perl'
 arch=('i686' 'pentium4' 'x86_64')
 license=('PerlArtistic' 'GPL')
@@ -29,7 +29,11 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-math-bigint'
   'perl-test-simple>=0.88')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.10.0'
   'perl-b-debug'
   'perl-digest-md5'
