@@ -3,7 +3,7 @@
 
 pkgname='perl-devel-declare'
 pkgver=0.006022
-pkgrel=1
+pkgrel=2
 pkgdesc='Adding keywords to perl, in perl'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -13,7 +13,11 @@ makedepends=(
   'perl-extutils-depends>=0.302'
   'perl-test-requires'
   'perl-test-simple>=0.88')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.8.1'
   'perl-b-hooks-endofscope>=0.05'
   'perl-b-hooks-op-check>=0.19'
