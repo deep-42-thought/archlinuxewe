@@ -4,12 +4,17 @@
 
 pkgname=ucommon
 pkgver=7.0.0
-pkgrel=6
+pkgrel=7
 pkgdesc="A light-weight C++ library to facilitate using C++ design patterns"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.gnutelephony.org/index.php/GNU_uCommon_C++"
 license=('LGPL3')
-depends=('gnutls')
+_pinned_dependencies=(
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'gnutls=3.6.14'
+)
+depends=("${_pinned_dependencies[@]}")
 source=("ftp://ftp.gnu.org/pub/gnu/commoncpp/$pkgname-$pkgver.tar.gz"{,.sig})
 sha512sums=('d32f8603d920eb98b5d4bc75224a7a8bb8bf2001a8dd3152626a8438ea4c39503a7446dec3aa90cf464b7abb68a6e42bac488ef9705517bd333b64bce219915b'
             'SKIP')
