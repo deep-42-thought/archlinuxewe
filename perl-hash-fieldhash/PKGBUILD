@@ -3,12 +3,16 @@
 
 pkgname='perl-hash-fieldhash'
 pkgver=0.15
-pkgrel=6
+pkgrel=7
 pkgdesc='Lightweight field hash for inside-out objects'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.30'
   'perl<5.31'
   'perl-parent>=0.221'
