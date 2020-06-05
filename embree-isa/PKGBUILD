@@ -4,12 +4,17 @@
 
 pkgname=embree-isa
 pkgver=3.10.0
-pkgrel=2
+pkgrel=3
 pkgdesc="A collection of high-performance ray tracing kernels (with build-time ISA detection)"
 arch=('x86_64')
 url="https://embree.github.io/"
 license=('Apache')
-depends=('intel-tbb')
+_pinned_dependencies=(
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'intel-tbb=2020.2'
+)
+depends=("${_pinned_dependencies[@]}")
 provides=('embree')
 conflicts=('embree')
 makedepends=('cmake' 'ispc' 'freeglut' 'libxmu' 'openexr')
