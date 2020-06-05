@@ -3,12 +3,16 @@
 
 pkgname='perl-digest-jhash'
 pkgver=0.10
-pkgrel=6
+pkgrel=7
 pkgdesc='Perl extension for 32 bit Jenkins Hashing Algorithm'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.30'
   'perl<5.31'
   'perl-exporter')
