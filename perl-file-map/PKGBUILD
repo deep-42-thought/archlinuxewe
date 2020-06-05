@@ -2,7 +2,7 @@
 pkgname=perl-file-map
 _pkgname='File-Map'
 pkgver=0.66
-pkgrel=2
+pkgrel=3
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Memory mapping made simple and safe."
 arch=('x86_64' 'i686' 'pentium4')
@@ -10,7 +10,11 @@ url="https://github.com/Leont/file-map"
 license=('GPL' 'PerlArtistic')
 optdepends=(
   'perl')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.30'
   'perl<5.31'
   'perl-carp'
