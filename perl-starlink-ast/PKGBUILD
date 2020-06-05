@@ -2,10 +2,14 @@
 
 pkgname='perl-starlink-ast'
 pkgver='1.05'
-pkgrel=7
+pkgrel=8
 pkgdesc='Interface to the Starlink AST library'
 arch=('i686' 'pentium4' 'x86_64')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.30'
   'perl<5.31'
 )
