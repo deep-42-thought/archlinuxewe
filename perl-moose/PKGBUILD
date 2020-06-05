@@ -4,7 +4,7 @@
 
 pkgname='perl-moose'
 pkgver=2.2012
-pkgrel=1
+pkgrel=2
 pkgdesc="A postmodern object system for Perl 5"
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -21,7 +21,11 @@ makedepends=(
   'perl-test-fatal>=0.001'
   'perl-test-requires>=0.05'
   'perl-test-simple>=0.96')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.8.3'
   'perl-carp>=1.22'
   'perl-class-load>=0.09'
