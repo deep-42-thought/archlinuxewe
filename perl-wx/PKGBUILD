@@ -5,13 +5,20 @@ pkgname=perl-wx
 pkgver=0.9932
 _author=M/MD/MDOOTSON
 _perlmod=Wx
-pkgrel=6
+pkgrel=7
 _distdir="${_perlmod}-${pkgver}"
 pkgdesc="Wx - interface to the wxWidgets GUI toolkit"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://search.cpan.org/dist/Wx"
 license=('GPL' 'PerlArtistic')
+_pinned_dependencies=(
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'wxgtk2=3.0.5.1'
+  'wxgtk-common=3.0.5.1'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.30'
   'perl<5.31'
   'perl-alien-wxwidgets>=0.25'
