@@ -4,17 +4,26 @@
 
 pkgname=lilypond-devel
 pkgver=2.21.1
-pkgrel=4
+pkgrel=5
 pkgdesc="An automated music engraving system (development version)"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://lilypond.org/"
 license=('GPL')
+_pinned_dependencies=(
+  'fontconfig=2:2.13.91+24+g75eadca'
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'guile1.8=1.8.8'
+  'libfreetype.so=6'
+  'libglib-2.0.so=0'
+  'libgobject-2.0.so=0'
+  'libpango-1.0.so=0'
+  'libpangoft2-1.0.so=0'
+  'libtool=2.4.6+42+gb88cebd5'
+)
 depends=('fontconfig'
-         'freetype2'
-         'guile1.8'
-         'pango'
-         'glib2'
          'python2'
+         "${_pinned_dependencies[@]}"
 )
 makedepends=('fontforge'
              'gsfonts'
