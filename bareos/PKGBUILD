@@ -182,8 +182,7 @@ package_bareos-bconsole() {
     'gcc-libs=10.1.0'
     'glibc>=2.31'
     'jansson=2.13.1'
-    'libbareos.so=19'
-    'readline=8.0.004'
+    'libreadline.so=8'
   )
   depends=("bareos-common=$pkgver" "${_pinned_dependencies[@]}")
   groups+=('bareos-client')
