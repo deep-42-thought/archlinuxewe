@@ -4,12 +4,15 @@
 
 pkgname=netkit-bsd-finger
 pkgver=0.17
-pkgrel=9
+pkgrel=10
 pkgdesc="BSD-finger ported to Linux"
 arch=('i686' 'pentium4' 'x86_64')
 url='http://ftp.linux.org.uk/pub/linux/Networking/netkit'
 license=('BSD')
-depends=('glibc')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
+depends=("${_pinned_dependencies[@]}")
 
 source=("http://ftp.linux.org.uk/pub/linux/Networking/netkit/bsd-finger-${pkgver}.tar.gz"
         'LICENSE'
