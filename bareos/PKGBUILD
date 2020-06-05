@@ -127,11 +127,11 @@ package_bareos-common() {
   # Matches bareos-common.install.in
   pkgdesc="${pkgdesc} - Common files"
   _pinned_dependencies=(
-    'acl=2.2.53'
     'gcc-libs=10.1.0'
     'glibc>=2.31'
     'jansson=2.13.1'
-    'libcap=2.34'
+    'libacl.so=1'
+    'libcap.so=2'
     'lzo=2.10'
     'openssl=1.1.1.g'
     'zlib=1:1.2.11'
