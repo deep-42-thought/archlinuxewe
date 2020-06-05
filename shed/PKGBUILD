@@ -6,12 +6,16 @@
 
 pkgname=shed
 pkgver=1.15
-pkgrel=2
+pkgrel=3
 pkgdesc="A simple hex editor with an ncurses, pico-style interface"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://shed.sourceforge.net/"
 license=('GPL')
-depends=('ncurses')
+_pinned_dependencies=(
+  'glibc>=2.31'
+  'libncursesw.so=6'
+)
+depends=("${_pinned_dependencies[@]}")
 source=(http://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz)
 sha512sums=('fe401303e686fb11975b71de0f84d0cdb84dc5a48e1094356d012f95d8c956ed05bd6b39bf65af924212e83c1db45bbfe556342489150bb0e10fb4c832fb6c78')
 
