@@ -5,12 +5,19 @@
 # Contributor: Eric Belanger <eric@archlinux.org>
 pkgname=plplot
 pkgver=5.15.0
-pkgrel=4
+pkgrel=5
 pkgdesc="A cross-platform software package for creating scientific plots"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://plplot.sourceforge.net/"
 license=("LGPL" "custom")
-depends=('libtool' 'tk')
+_pinned_dependencies=(
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'libtool=2.4.6+42+gb88cebd5'
+  'libx11=1.6.9'
+  'tcl=8.6.10'
+)
+depends=('tk' "${_pinned_dependencies[@]}")
 makedepends=('cmake')
 optdepends=('qhull: calculating convex hulls'
             'agg: high quality rendering engine in C++'
