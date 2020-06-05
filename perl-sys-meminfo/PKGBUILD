@@ -3,7 +3,7 @@
 
 pkgname='perl-sys-meminfo'
 pkgver='0.99'
-pkgrel=2
+pkgrel=3
 pkgdesc='query the total free and used physical memory'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,10 @@ url='https://metacpan.org/release/Sys-MemInfo'
 _distdir="Sys-MemInfo-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SC/SCRESTO/${_distdir}.tar.gz")
 sha512sums=('ad0f8a12db7f7c643d0eb2d68fb1dcbff43928b786d390243e89d88537bd99360f88af177678ce5141e3870224da80ea5a432c465e8c7ec384abd21014c0e1c0')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
+depends=("${_pinned_dependencies[@]}")
 
 build() {
   cd "${srcdir}/${_distdir}"
