@@ -3,11 +3,16 @@
 
 pkgname=archivemount
 pkgver=0.9.1
-pkgrel=2
+pkgrel=3
 pkgdesc="FUSE filesystem using libarchive"
 url="https://www.cybernoia.de/software/archivemount/"
 license=("GPL2")
-depends=("fuse" "libarchive")
+_pinned_dependencies=(
+  'fuse2=2.9.9'
+  'glibc>=2.31'
+  'libarchive.so=13'
+)
+depends=("${_pinned_dependencies[@]}")
 makedepends=("automake" "autoconf")
 conflicts=("archivemount-git")
 source=("https://www.cybernoia.de/software/${pkgname}/${pkgname}-${pkgver}.tar.gz")
