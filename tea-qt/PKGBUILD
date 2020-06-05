@@ -9,12 +9,22 @@
 
 pkgname=tea-qt
 pkgver=50.0.4
-pkgrel=1
+pkgrel=2
 pkgdesc="A Qt-based text editor for Linux and *BSD with an ultimate small size, providing hundreds of functions"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://semiletov.org/tea/"
 license=('GPL')
-depends=('qt5-base' 'qt5-declarative' 'gcc-libs' 'aspell' 'hunspell' 'poppler-qt5' 'djvulibre' 'desktop-file-utils')
+_pinned_dependencies=(
+  'aspell=0.60.8'
+  'djvulibre=3.5.27'
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'hunspell=1.7.0'
+  'libpoppler-qt5.so=1'
+  'qt5-base=5.15.0'
+  'zlib=1:1.2.11'
+)
+depends=('qt5-declarative' 'desktop-file-utils' "${_pinned_dependencies[@]}")
 makedepends=('cmake')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/psemiletov/tea-qt/archive/${pkgver}.tar.gz")
 sha512sums=('0c45b6ae9005f625a494430a7510008bd52f351c2df2bbf160c004f05fd99dec3a9e6c989a7c8f1df8e9c9ede21036a2833835af910e8da9277bc10f47a28250')
