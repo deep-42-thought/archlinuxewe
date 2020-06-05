@@ -2,25 +2,32 @@
 # Contributor: aksr <aksr at t-com dot me>
 pkgname=qxw
 pkgver=20190909
-pkgrel=2
+pkgrel=3
 epoch=
 pkgdesc="A program to help you create and publish crosswords."
 arch=('i686' 'pentium4' 'x86_64')
 url="https://www.quinapalus.com/qxw.html"
 license=('GPL')
-categories=()
-groups=()
-depends=('gtk2')
-makedepends=()
-optdepends=()
-checkdepends=()
-provides=()
-conflicts=()
-replaces=()
-backup=()
-options=()
-install=
-changelog=
+_pinned_dependencies=(
+  'cairo=1.17.2+25+gaee96d175'
+  'fontconfig=2:2.13.91+24+g75eadca'
+  'gdk-pixbuf2=2.40.0'
+  'glibc>=2.31'
+  'libatk-1.0.so=0'
+  'libfreetype.so=6'
+  'libgdk-x11-2.0.so=0'
+  'libgio-2.0.so=0'
+  'libglib-2.0.so=0'
+  'libgobject-2.0.so=0'
+  'libgthread-2.0.so=0'
+  'libgtk-x11-2.0.so=0'
+  'libharfbuzz.so=0'
+  'libpango-1.0.so=0'
+  'libpangocairo-1.0.so=0'
+  'libpangoft2-1.0.so=0'
+  'pcre=8.44'
+)
+depends=('gtk2' "${_pinned_dependencies[@]}")
 source=(https://www.quinapalus.com/$pkgname-$pkgver.tar.gz
         https://www.quinapalus.com/$pkgname-guide-$pkgver.pdf)
 noextract=()
