@@ -3,12 +3,16 @@
 
 pkgname=bindfs
 pkgver=1.14.7
-pkgrel=1
+pkgrel=2
 pkgdesc="A FUSE filesystem for mirroring a directory to another directory, similar to 'mount --bind', with permission settings."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://bindfs.org/"
 license=('GPL')
-depends=('fuse')
+_pinned_dependencies=(
+  'fuse2=2.9.9'
+  'glibc>=2.31'
+)
+depends=("${_pinned_dependencies[@]}")
 source=("https://bindfs.org/downloads/${pkgname}-${pkgver}.tar.gz")
 sha512sums=('03b0bce29b87219e7e159077942e66e7e0e783b8c41234231696f96aa83e66271431fd3b4e7c1d98ba74705ec7255bd7da9d9484981ddb86c4d1c1b35dcaa0cc')
 
