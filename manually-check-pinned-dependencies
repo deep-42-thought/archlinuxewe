@@ -1,0 +1,59 @@
+#!/bin/bash
+
+set -e
+
+if [ $# -ne 1 ]; then
+  >&2 printf 'usage: %s $package\n' "${0##*/}"
+  exit 1
+fi
+
+my_dir=$(dirname $(readlink -e "$0"))
+
+cd "$1"
+. PKGBUILD
+
+tmp_dir=$(mktemp -d)
+trap 'rm -rf --one-file-system "${tmp_dir}"' EXIT
+
+err=0
+check_it() {
+  eval "$(
+    {
+      declare -f "package_${name}" || declare -f package
+    } \
+    | sed -n '
+      /^\s*_pinned_dependencies/p
+    '
+  )"
+  pkgdir="${tmp_dir}/pkg"
+  eval "$(
+    sed '
+      s/\${FUNCNAME\[1]}/package_'"${name}"'/
+    ' "${my_dir}/pin-dependencies.PKGBUILDpatch"
+  )"
+}
+
+for name in "${pkgname[@]}"; do
+  for prel in ${pkgrel} $((pkgrel-1)); do
+    for r in \
+      "/mnt/archlinuxewe/os/x86_64" \
+      "/mnt/archlinux32/releng/x86_64"; do
+      for a in x86_64 any; do
+        pkgfile="${r}/${name}-${epoch:+${epoch}:}${pkgver}-${prel}-${a}.pkg.tar.zst"
+        [ -e "${pkgfile}" ] && break
+      done
+      [ -e "${pkgfile}" ] && break
+    done
+    [ -e "${pkgfile}" ] && break
+  done
+  if [ ! -e "${pkgfile}" ]; then
+    >&2 printf 'cannot find package %s\n' "${name}-${epoch:+${epoch}:}${pkgver}-${pkgrel}"
+    exit 1
+  fi
+  mkdir "${tmp_dir}/pkg"
+  bsdtar -C "${tmp_dir}/pkg" -xf "${pkgfile}"
+  check_it || err=$?
+  rm -rf --one-file-system "${tmp_dir}/pkg"
+done
+
+exit ${err}
