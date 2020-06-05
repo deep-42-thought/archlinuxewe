@@ -59,11 +59,17 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
           printf '%s\n' "${_pkg}"
         fi
       done \
-      | sed 's/[<>]\?=.*$//' \
+      | sed '
+        s/[<>]\?=.*$//
+        /^$/d
+      ' \
       | sort -u
     ) <(
       eval 'printf '"'"'%s\n'"'"' "${_pinned_dependencies[@]}" "${_pinned_dependencies_'"${CARCH}"'[@]}"' \
-      | sed 's/[<>]\?=.*$//' \
+      | sed '
+        s/[<>]\?=.*$//
+        /^$/d
+      ' \
       | sort -u
     )
   ); then
