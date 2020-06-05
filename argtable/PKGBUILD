@@ -5,7 +5,7 @@
 pkgbase=argtable
 pkgname=('argtable' 'argtable-docs')
 pkgver=2.13
-pkgrel=1
+pkgrel=2
 pkgdesc="An ANSI C command line parser"
 arch=('i686' 'pentium4' 'x86_64')
 # argtable-docs ist absichtlich nicht any ohne ELF Dateien
@@ -27,7 +27,10 @@ check_argtable() {
 }
 
 package_argtable() {
-  depends=('glibc')
+  _pinned_dependencies=(
+    'glibc>=2.31'
+  )
+  depends=("${_pinned_dependencies[@]}")
   options=('!libtool')
 
   cd "$srcdir/${pkgname%-*}${pkgver/./-}"
@@ -37,6 +40,7 @@ package_argtable() {
 
 package_argtable-docs() {
   pkgdesc="Documentation and examples for argtable"
+  unset _pinned_dependencies
 
   cd "$srcdir/${pkgname%-*}${pkgver/./-}"
   make -C doc DESTDIR="$pkgdir/" install
