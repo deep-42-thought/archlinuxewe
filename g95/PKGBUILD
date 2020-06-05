@@ -4,12 +4,15 @@
 
 pkgname=g95
 pkgver=0.94
-pkgrel=4
+pkgrel=5
 pkgdesc="A stable, production Fortran 95 compiler available for multiple cpu architectures and operating systems"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://g95.sourceforge.net"
 license=("GPL")
-depends=('blas' 'lapack' 'gcc-libs' )
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
+depends=('blas' 'lapack' 'gcc-libs' "${_pinned_dependencies[@]}")
 provides=('g95')
 
 source=(g95.install)
