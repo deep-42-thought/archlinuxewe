@@ -3,10 +3,14 @@
 
 pkgname=dieharder
 pkgver=3.31.1
-pkgrel=4
+pkgrel=5
 pkgdesc="A Random Number Test Suite"
 arch=('i686' 'pentium4' 'x86_64')
-depends=('gsl')
+_pinned_dependencies=(
+  'glibc>=2.31'
+  'gsl=2.6'
+)
+depends=("${_pinned_dependencies[@]}")
 url="http://www.phy.duke.edu/~rgb/General/dieharder.php"
 license=('GPL')
 source=("http://webhome.phy.duke.edu/~rgb/General/dieharder/${pkgname}-${pkgver}.tgz"
