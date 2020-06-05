@@ -4,7 +4,7 @@
 pkgname=python-fabio
 _pkgname=fabio
 pkgver=0.10.2
-pkgrel=2
+pkgrel=3
 pkgdesc="I/O library for images produced by 2D X-ray detectors."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.silx.org"
@@ -12,7 +12,11 @@ license=('MIT' 'LGPL' 'Apache')
 makedepends=(
   'cython'
   'python-setuptools')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'python>=3.8'
   'python<3.9'
   'python-numpy')
