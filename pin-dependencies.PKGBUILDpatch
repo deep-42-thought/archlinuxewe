@@ -8,6 +8,14 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
           t
           d
         ' \
+        | sort -u \
+        | while read -r _lib; do
+          for _libdir in {${pkgdir},}/usr/lib*; do
+            [ -d "${_libdir}" ] || continue
+            [ -e "${_libdir}/${_lib}" ] \
+            && printf '%s\n' "${_lib}"
+          done
+        done \
         | sort -u
         for _libdir in "${pkgdir}/usr"/lib*; do
           [ -d "${_libdir}" ] || continue
@@ -21,6 +29,7 @@ if printf '%s\n' "${arch[@]}" | grep -qvxF any; then
           pacman -Qqo "/usr/lib/${_lib}" 2>/dev/null
         ); then
           >&2 printf 'WARNING: noone owns "%s"\n' "${_lib}"
+          printf '%s\n' "${_lib}"
           continue
         fi
         if pacman -Qi "${_pkg}" \
