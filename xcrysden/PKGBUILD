@@ -4,13 +4,25 @@
 
 pkgname=xcrysden
 pkgver=1.6.2
-pkgrel=2
+pkgrel=3
 epoch=
 pkgdesc="crystalline and molecular structure visualisation program"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.xcrysden.org/"
 license=('GPL2')
-depends=('tk' 'tcl' 'tk-togl' 'gl2ps' 'fftw' 'bwidget' 'imagemagick' 'gcc-fortran' 'glu' 'libxmu')
+_pinned_dependencies=(
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'glu=9.0.1'
+  'libfftw3.so=3'
+  'libgfortran.so=5'
+  'libglvnd=1.3.1'
+  'libx11=1.6.9'
+  'libxmu=1.1.3'
+  'tcl=8.6.10'
+  'tk=8.6.10'
+)
+depends=('tk-togl' 'gl2ps' 'bwidget' 'imagemagick' 'gcc-fortran' "${_pinned_dependencies[@]}")
 replaces=('xcrysden-bin')
 source=("http://www.xcrysden.org/download/xcrysden-${pkgver}.tar.gz"
         "fix-xcrysden-install.patch"
