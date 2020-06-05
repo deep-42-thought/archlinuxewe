@@ -204,7 +204,6 @@ package_bareos-database-common() {
   _pinned_dependencies=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'libbareos.so=19'
   )
   depends=("bareos-common=$pkgver" 'libcap' 'lzo' 'zlib' 'openssl' 'bash' 'jansson' "${_pinned_dependencies[@]}")
 
@@ -233,15 +232,13 @@ package_bareos-database-mysql() {
   _pinned_dependencies_ibig=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'libbareos.so=19'
-    'libbareossql.so=19'
     'mariadb-libs=10.4.13'
   )
   for _a in x86_64 pentium4 i686 armv6h armv7h aarch64; do
     eval '_pinned_dependencies_'"${_a}"'=("${_pinned_dependencies_ibig[@]}")'
     eval 'depends_'"${_a}"'=("${_pinned_dependencies_'"${_a}"'[@]}")'
   done
-  depends=("bareos-database-common=$pkgver")
+  depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver")
   [ "${CARCH}" != 'i486' ] || return 0
   install=bareos-database-mysql.install
 
@@ -276,11 +273,9 @@ package_bareos-database-postgresql() {
   _pinned_dependencies=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'libbareos.so=19'
-    'libbareossql.so=19'
     'postgresql-libs=12.3'
   )
-  depends=("bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
+  depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
   install='bareos-database-postgresql.install'
 
   install -Dm755 \
@@ -316,11 +311,9 @@ package_bareos-database-sqlite3() {
   _pinned_dependencies=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'libbareos.so=19'
-    'libbareossql.so=19'
     'sqlite=3.32.1'
   )
-  depends=("bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
+  depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
 
   install -Dm755 \
     "$srcdir/install/usr/lib/bareos/backends/libbareoscats-sqlite3.so" \
@@ -346,14 +339,9 @@ package_bareos-database-tools() {
     'gcc-libs=10.1.0'
     'glibc>=2.31'
     'jansson=2.13.1'
-    'libbareoscats.so=19'
-    'libbareosfind.so=19'
-    'libbareossd.so=libbareossd.so'
-    'libbareos.so=19'
-    'libbareossql.so=19'
     'openssl=1.1.1.g'
   )
-  depends=("bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
+  depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
 
   install -Dm755 \
     "$srcdir/install/usr/bin/bareos-dbcheck" \
@@ -378,14 +366,10 @@ package_bareos-director() {
     'gcc-libs=10.1.0'
     'glibc>=2.31'
     'jansson=2.13.1'
-    'libbareoscats.so=19'
-    'libbareosfind.so=19'
-    'libbareos.so=19'
-    'libbareossql.so=19'
     'openssl=1.1.1.g'
     'pam=1.3.1'
   )
-  depends=("bareos-common=$pkgver" "bareos-database=$pkgver" 'bash' "${_pinned_dependencies[@]}")
+  depends=("bareos-common=$pkgver" "bareos-database=$pkgver" "bareos-database-common=$pkgver" 'bash' "${_pinned_dependencies[@]}")
   install=bareos-director.install
 
   install -Dm755 \
@@ -511,9 +495,6 @@ package_bareos-tools() {
   _pinned_dependencies=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'libbareosfind.so=19'
-    'libbareossd.so=libbareossd.so'
-    'libbareos.so=19'
   )
   depends=("bareos-common=$pkgver" "${_pinned_dependencies[@]}")
 
@@ -543,10 +524,6 @@ package_bareos-filedaemon() {
     'gcc-libs=10.1.0'
     'glibc>=2.31'
     'jansson=2.13.1'
-    'libbareosfastlz.so=19'
-    'libbareosfind.so=19'
-    'libbareoslmdb.so=19'
-    'libbareos.so=19'
     'zlib=1:1.2.11'
   )
   depends=("bareos-common=$pkgver" "${_pinned_dependencies[@]}")
@@ -591,9 +568,6 @@ package_bareos-storage() {
   _pinned_dependencies=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'libbareosfastlz.so=19'
-    'libbareossd.so=libbareossd.so'
-    'libbareos.so=19'
     'zlib=1:1.2.11'
   )
   depends=("bareos-common=$pkgver" 'zlib' 'lzo' 'jansson' 'openssl' 'libcap' "${_pinned_dependencies[@]}")
@@ -643,10 +617,8 @@ package_bareos-storage-tape() {
   _pinned_dependencies=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'libbareossd.so=libbareossd.so'
-    'libbareos.so=19'
   )
-  depends=("bareos-storage=$pkgver" 'zlib' 'libcap' 'bash' 'openssl' 'jansson' 'lzo' 'mtx' "${_pinned_dependencies[@]}")
+  depends=("bareos-common=$pkgver" "bareos-storage=$pkgver" 'zlib' 'libcap' 'bash' 'openssl' 'jansson' 'lzo' 'mtx' "${_pinned_dependencies[@]}")
   install=bareos-storage-tape.install
   backup=(
     'etc/bareos/mtx-changer.conf'
@@ -689,10 +661,9 @@ package_bareos-director-python-plugin() {
   _pinned_dependencies=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'libbareos.so=19'
     'python2=2.7.18'
   )
-  depends=("bareos-director=$pkgver" 'libcap' 'jansson' 'lzo' 'python' "${_pinned_dependencies[@]}")
+  depends=("bareos-common=$pkgver" "bareos-director=$pkgver" 'libcap' 'jansson' 'lzo' 'python' "${_pinned_dependencies[@]}")
 
   install -Dm755 \
     "$srcdir/install/usr/lib/bareos/plugins/python-dir.so" \
@@ -709,10 +680,9 @@ package_bareos-filedaemon-python-plugin() {
   _pinned_dependencies=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'libbareos.so=19'
     'python2=2.7.18'
   )
-  depends=("bareos-filedaemon=$pkgver" 'python' "${_pinned_dependencies[@]}" 'libcap' 'lzo' 'jansson')
+  depends=("bareos-common=$pkgver" "bareos-filedaemon=$pkgver" 'python' "${_pinned_dependencies[@]}" 'libcap' 'lzo' 'jansson')
 
   install -Dm755 \
     "$srcdir/install/usr/lib/bareos/plugins/python-fd.so" \
@@ -731,10 +701,9 @@ package_bareos-storage-python-plugin() {
   _pinned_dependencies=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'libbareos.so=19'
     'python2=2.7.18'
   )
-  depends=("bareos-storage=$pkgver" 'lzo' 'python' 'libcap' 'jansson' "${_pinned_dependencies[@]}")
+  depends=("bareos-common=$pkgver" "bareos-storage=$pkgver" 'lzo' 'python' 'libcap' 'jansson' "${_pinned_dependencies[@]}")
 
   install -Dm755 \
     "$srcdir/install/usr/lib/bareos/plugins/python-sd.so" \
