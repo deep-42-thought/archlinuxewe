@@ -4,9 +4,15 @@
 
 pkgname=wslay
 pkgver=1.1.0
-pkgrel=5
+pkgrel=6
 pkgdesc="The WebSocket library in C"
 arch=('i686' 'pentium4' 'x86_64')
+_pinned_dependencies=(
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'libnettle.so=8'
+)
+depends=("${_pinned_dependencies[@]}")
 makedepends=('autoconf' 'automake' 'git' 'libtool' 'make' 'pkg-config' 'python-sphinx')
 checkdepends=('cunit' 'nettle')
 url="https://github.com/tatsuhiro-t/wslay"
