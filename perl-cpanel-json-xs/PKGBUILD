@@ -2,7 +2,7 @@
 
 pkgname='perl-cpanel-json-xs'
 pkgver=4.19
-pkgrel=1
+pkgrel=2
 pkgdesc='cPanel fork of JSON::XS, fast and correct serializing'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -17,7 +17,11 @@ makedepends=(
   'perl-test'
   'perl-test-simple'
   'perl-time-piece')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl'
   'perl-carp'
   'perl-encode>=1.9801'
