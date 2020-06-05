@@ -39,7 +39,10 @@ for name in "${pkgname[@]}"; do
       "/mnt/archlinuxewe/os/x86_64" \
       "/mnt/archlinux32/releng/x86_64"; do
       for a in x86_64 any; do
-        pkgfile="${r}/${name}-${epoch:+${epoch}:}${pkgver}-${prel}-${a}.pkg.tar.zst"
+        for s in zst xz; do
+          pkgfile="${r}/${name}-${epoch:+${epoch}:}${pkgver}-${prel}-${a}.pkg.tar.${s}"
+          [ -e "${pkgfile}" ] && break
+        done
         [ -e "${pkgfile}" ] && break
       done
       [ -e "${pkgfile}" ] && break
