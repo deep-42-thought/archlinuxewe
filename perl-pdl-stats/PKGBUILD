@@ -2,13 +2,17 @@
 pkgname=perl-pdl-stats
 _pkgname='PDL-Stats'
 pkgver=0.74
-pkgrel=7
+pkgrel=8
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="a collection of statistics modules in Perl Data Language, with a quick-start guide for non-PDL people."
 arch=('x86_64' 'i686' 'pentium4')
 url="http://search.cpan.org/dist/OLE-Storage_Lite/"
 license=('GPL' 'PerlArtistic')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.30'
   'perl<5.31'
   'perl-pdl-core>=2.008')
