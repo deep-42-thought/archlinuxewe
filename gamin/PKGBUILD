@@ -4,12 +4,16 @@
 
 pkgname=gamin
 pkgver=0.1.10
-pkgrel=32
+pkgrel=33
 pkgdesc='File and directory monitoring system defined to be a subset of the FAM (File Alteration Monitor)'
 url='https://people.gnome.org/~veillard/gamin'
 license=('GPL')
 arch=('x86_64' 'i686' 'pentium4')
-depends=('glib2')
+_pinned_dependencies=(
+  'glibc>=2.31'
+  'libglib-2.0.so=0'
+)
+depends=("${_pinned_dependencies[@]}")
 makedepends=('python2')
 optdepends=('python2: for the python module')
 provides=('fam')
