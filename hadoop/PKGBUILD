@@ -8,12 +8,19 @@
 
 pkgname='hadoop'
 pkgver=3.2.1
-pkgrel=5
+pkgrel=6
 pkgdesc='MapReduce implementation and distributed filesystem'
 arch=('i686' 'pentium4' 'x86_64')
 url='http://hadoop.apache.org'
 license=('apache')
-depends=('java-environment>=7' 'openssh' 'apache-ant' 'polkit')
+_pinned_dependencies=(
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'openssl=1.1.1.g'
+  'snappy=1.1.8'
+  'zlib=1:1.2.11'
+)
+depends=('java-environment>=7' 'openssh' 'apache-ant' 'polkit' "${_pinned_dependencies[@]}")
 backup=(
   "etc/conf.d/${pkgname}"
   "etc/profile.d/${pkgname}.sh"
