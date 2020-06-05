@@ -4,12 +4,20 @@
 
 pkgname=qwtplot3d
 pkgver=0.2.7
-pkgrel=17
+pkgrel=18
 pkgdesc="Qt/OpenGL-based C++ programming library containing 3d-widgets"
 arch=('i686' 'pentium4' 'x86_64')
 license=('custom:zlib')
 url="http://qwtplot3d.sourceforge.net/"
-depends=('qt5-base')
+_pinned_dependencies=(
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'libglvnd=1.3.1'
+  'qt5-base=5.15.0'
+  'qt5-base=5.15.0'
+  'zlib=1:1.2.11'
+)
+depends=("${_pinned_dependencies[@]}")
 makedepends=('mesa' 'glu')
 source=("https://downloads.sourceforge.net/sourceforge/qwtplot3d/qwtplot3d-$pkgver.tgz"
         qwtplot3d-gcc44.patch.gz qwtplot3d-qt-4.8.0.patch.gz)
