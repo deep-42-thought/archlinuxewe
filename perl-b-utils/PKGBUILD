@@ -3,12 +3,16 @@
 
 pkgname='perl-b-utils'
 pkgver='0.27'
-pkgrel=7
+pkgrel=8
 pkgdesc='Helper functions for op tree manipulation'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.30'
   'perl<5.31'
   'perl-exporter'
