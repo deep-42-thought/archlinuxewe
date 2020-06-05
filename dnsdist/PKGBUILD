@@ -4,7 +4,7 @@ pkgname=dnsdist
 pkgver=1.4.9999_1.5.0_rc2
 _pkgver=${pkgver#*_}
 _pkgver=${_pkgver//_/-}
-pkgrel=4
+pkgrel=5
 pkgdesc='Highly DNS-, DoS- and abuse-aware loadbalancer'
 arch=('x86_64')
 url='https://dnsdist.org/'
@@ -16,7 +16,20 @@ sha512sums=('a98234866beccb6aefa5b5a437f96e316b1f0b9b18a6888e27683020d157b7bf9c6
             'd55ccd612cbe08b353815027d30a3b0f0ec7bf6b0d74a0a634939be53ce6e6b41d23e54c2328946f00738c03e9f306ce4f2dabe5e4b11d9fb28d0abf49917893')
 validpgpkeys=('D6300CABCBF469BBE392E503A208ED4F8AF58446') # Remi Gacogne <remi.gacogne@powerdns.com>
 makedepends=('boost' 'systemd')
-depends=('fstrm' 'gnutls' 'h2o' 'libcap' 'libedit' 'libsodium' 'libsystemd' 'lmdb' 'luajit' 'net-snmp' 'openssl' 'protobuf' 're2' 'tinycdb')
+_pinned_dependencies=(
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'gnutls=3.6.14'
+  'libcap.so=2'
+  'libedit=20191231_3.1'
+  'libprotobuf.so=23'
+  'libsystemd.so=0'
+  'lmdb=0.9.25'
+  'luajit=2.0.5'
+  'net-snmp=5.8'
+  'openssl=1.1.1.g'
+)
+depends=('fstrm' 'h2o' 'libsodium' 're2' 'tinycdb' "${_pinned_dependencies[@]}")
 
 build() {
   cd "${pkgname}-${_pkgver}"
