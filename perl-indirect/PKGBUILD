@@ -3,7 +3,7 @@
 
 pkgname='perl-indirect'
 pkgver=0.39
-pkgrel=1
+pkgrel=2
 pkgdesc='Lexically warn about using the indirect method call syntax.'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -17,7 +17,11 @@ makedepends=(
   'perl-socket'
   'perl-test-simple'
 )
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
 depends=(
+  "${_pinned_dependencies[@]}"
   'perl>=5.8.1'
   'perl-carp'
   'perl-xsloader')
