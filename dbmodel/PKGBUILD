@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=dbmodel
 pkgver=0.3.r138.c78245d
-pkgrel=15
+pkgrel=16
 _pkgver=${pkgver%.*.*}
 _commit=${pkgver##*.}
 pkgdesc='visualize a database'
@@ -9,7 +9,13 @@ arch=('i686' 'pentium4' 'x86_64')
 url='https://oxygene.sk/projects/dbmodel/'
 license=('GPL2')
 groups=()
-depends=('qt5-base' 'qt5-svg' 'qt5-tools')
+_pinned_dependencies=(
+  'gcc-libs=10.1.0'
+  'glibc>=2.31'
+  'qt5-base=5.15.0'
+  'qt5-svg=5.15.0'
+)
+depends=("${_pinned_dependencies[@]}")
 makedepends=('git')
 checkdepends=()
 optdepends=()
