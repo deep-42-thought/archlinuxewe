@@ -4,12 +4,15 @@
 
 pkgname=ddate
 pkgver=0.2.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Perpetual date converter from gregorian to poee calendar"
 arch=('x86_64' 'i686' 'pentium4')
 url="https://github.com/bo0ts/ddate"
 license=('GPL')
-depends=('glibc')
+_pinned_dependencies=(
+  'glibc>=2.31'
+)
+depends=("${_pinned_dependencies[@]}")
 makedepends=('cmake')
 source=($pkgname-$pkgver.tar.gz::https://github.com/bo0ts/ddate/archive/v${pkgver}.tar.gz)
 
