@@ -24,7 +24,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.7
-pkgrel=8
+pkgrel=9
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -232,14 +232,28 @@ package_bareos-database-mysql() {
   pkgdesc="${pkgdesc} - Libs and tools for mysql catalog"
   provides=("bareos-database=$pkgver")
   local _pinned_dependencies_ibig
+  local _pinned_dependencies_soprov
+  local _pinned_dependencies_nsoprov
   _pinned_dependencies_ibig=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
+  )
+  _pinned_dependencies_soprov=(
+  )
+  _pinned_dependencies_nsoprov=(
     'mariadb-libs=10.4.13'
   )
   for _a in x86_64 pentium4 i686 armv6h armv7h aarch64; do
     eval 'local _pinned_dependencies_'"${_a}"
     eval '_pinned_dependencies_'"${_a}"'=("${_pinned_dependencies_ibig[@]}")'
+  done
+  for _a in x86_64 pentium4 i686; do
+    eval '_pinned_dependencies_'"${_a}"'+=("${_pinned_dependencies_nsoprov[@]}")'
+  done
+  for _a in armv6h armv7h aarch64; do
+    eval '_pinned_dependencies_'"${_a}"'+=("${_pinned_dependencies_soprov[@]}")'
+  done
+  for _a in x86_64 pentium4 i686 armv6h armv7h aarch64; do
     eval 'depends_'"${_a}"'=("${_pinned_dependencies_'"${_a}"'[@]}")'
   done
   depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver")
@@ -317,7 +331,7 @@ package_bareos-database-sqlite3() {
   _pinned_dependencies=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'sqlite=3.32.1'
+    'sqlite=3.32.2'
   )
   depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
 
