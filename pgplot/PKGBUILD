@@ -5,14 +5,20 @@
 
 pkgname=pgplot
 pkgver=5.2.2
-pkgrel=10
+pkgrel=11
 pkgdesc="Fortran- or C-callable, device-independent graphics package for making simple scientific graphs."
 url="http://www.astro.caltech.edu/~tjp/pgplot/"
 license=('custom')
 options=(!makeflags)
 arch=('i686' 'pentium4' 'x86_64')
 makedepends=('gcc-fortran')
-depends=('libpng' 'libx11')
+_pinned_dependencies=(
+  'glibc>=2.31'
+  'libpng=1.6.37'
+  'libx11=1.6.9'
+  'zlib=1:1.2.11'
+)
+depends=("${_pinned_dependencies[@]}")
 changelog=ChangeLog
 source=(ftp://ftp.astro.caltech.edu/pub/pgplot/${pkgname}${pkgver//./}.tar.gz pndriv.c.patch)
 md5sums=('e8a6e8d0d5ef9d1709dfb567724525ae' '25535f059b2e39ea44f93c24a41abacd')
