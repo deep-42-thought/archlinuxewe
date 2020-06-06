@@ -33,7 +33,7 @@ _pinned_dependencies=(
   're2=1:20200601'
   'tinycdb=0.78'
 )
-depends=('h2o' "${pinned_dependencies[@]}")
+depends=('h2o' "${_pinned_dependencies[@]}")
 
 build() {
   cd "${pkgname}-${_pkgver}"
