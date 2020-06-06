@@ -27,6 +27,7 @@ check_argtable() {
 }
 
 package_argtable() {
+  local _pinned_dependencies
   _pinned_dependencies=(
     'glibc>=2.31'
   )
@@ -40,7 +41,6 @@ package_argtable() {
 
 package_argtable-docs() {
   pkgdesc="Documentation and examples for argtable"
-  unset _pinned_dependencies
 
   cd "$srcdir/${pkgname%-*}${pkgver/./-}"
   make -C doc DESTDIR="$pkgdir/" install
