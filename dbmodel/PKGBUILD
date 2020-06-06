@@ -15,7 +15,7 @@ _pinned_dependencies=(
   'qt5-base=5.15.0'
   'qt5-svg=5.15.0'
 )
-depends=("${_pinned_dependencies[@]}")
+depends=('qt5-tools' "${_pinned_dependencies[@]}")
 makedepends=('git')
 checkdepends=()
 optdepends=()
