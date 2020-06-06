@@ -745,3 +745,18 @@ package_bareos-storage-python-plugin() {
     "$srcdir/install/usr/lib/bareos/plugins/bareos-sd-class-plugin.py" \
     -t "$pkgdir/usr/lib/bareos/plugins"
 }
+
+makedepends+=(
+  $(
+    for _pn in "${pkgname[@]}"; do
+      eval 'declare -f package_'"${_pn}" \
+      | sed -n '
+        s/^\s*_pinned_dependencies=(//
+        T
+        s/);\?$//
+        T
+        p
+      '
+    done
+  )
+)
