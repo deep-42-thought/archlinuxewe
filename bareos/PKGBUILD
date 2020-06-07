@@ -756,7 +756,10 @@ makedepends+=(
         s/);\?$//
         T
         p
-      '
-    done
+      ' \
+      | tr ' ' '\n' \
+      | tr -d '"'"'"
+    done \
+    | sort -u
   )
 )
