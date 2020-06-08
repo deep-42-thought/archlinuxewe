@@ -7,14 +7,17 @@
 pkgname=qwt5
 _pkgname=qwt
 pkgver=5.2.3
-pkgrel=10
+pkgrel=11
 pkgdesc="Qt Widgets for Technical Applications (version 5.X)"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://qwt.sourceforge.net/"
 _pinned_dependencies=(
   'gcc-libs=10.1.0'
   'glibc>=2.31'
-  'qt4=4.8.7'
+  'libQtCore.so=4'
+  'libQtDesigner.so=4'
+  'libQtGui.so=4'
+  'libQtSvg.so=4'
 )
 depends=("${_pinned_dependencies[@]}")
 license=("custom")
