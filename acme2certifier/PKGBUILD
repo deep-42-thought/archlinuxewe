@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=acme2certifier
-pkgver=0.9.r12.ga0e993f
+pkgver=0.9.r20.gbb53952
 _commit="${pkgver##*.g}"
 pkgrel=1
 pkgdesc='experimental acme server written in python'
@@ -51,7 +51,7 @@ pkgver() {
   printf '%s.r%s.g%s' \
     "${_version}" \
     "$(
-      git -C "${pkgname}" rev-list --first-parent --count "${_commit}" ^"${_line_revision}"
+      git -C "${pkgname}" rev-list --count "${_commit}" ^"${_line_revision}"
     )" \
     "$(
       git -C "${pkgname}" rev-parse --short "${_commit}"
