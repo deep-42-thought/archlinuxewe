@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-git
-pkgver=29472.012fea301
+pkgver=29487.90e849198
 _commit=${pkgver#*.}
 pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
@@ -23,12 +23,10 @@ _pinned_dependencies=(
   'zlib=1:1.2.11'
 )
 depends=(
-  'fluidsynth'
-  'fontconfig'
   'hicolor-icon-theme'
   "${_pinned_dependencies[@]}"
 )
-makedepends=('git')
+makedepends=('git' 'cmake')
 checkdepends=(
     'openttd-opengfx'
 )
@@ -50,9 +48,9 @@ source=(
     'opntitle.dat'
 )
 sha512sums=('SKIP'
-            'd1fdbf90c512530df1f01ccc68b3e0444c27124138b4acdc25717806f786ad1ab9218b5ddd6dd2e2b1f3b39c7fdb0dfe2673b7fb34ec8e4959b75c5a7c0af5a0'
+            '55f751de3846d62a6eb1088bfea356914ab368d9fabeb5cdd3fee72f3131e45226ab30e8c6cf1746d01bc58879e5244507fa4c6d5b6c9e685e56d1819b2884cb'
             'e6379448a49c0db8b07bb090ed14fe019611667b79506b4441219ee172893b726bdc431943c15a9f8fcc5a7b53de8e557929f10c27af32896a54463e2719e0a6'
-            '1d79053e7d427db3d4089b1503fdc08dacad511814a84ec6a2a9cbb4d8ec43c7bb91b67a636ddf786d4d3abb693d3447eae2a5b34578e535678fa2d50d191e31'
+            '8a54b6990f507879a57aedcdebc5dedddcf7d94cf1cf699ac0f4222ed657971c5414715dc6a246fcd86efb2d4e8cc3a785058773054642523788ec179eb08671'
             'a3fd5b230b7cdd67a1b6607887433c0cb85ba1dfd30cedfddf573a58b23ccce7c470a22cf7f65a29c173bba12976c5889482cef24f49c8c0a829883a71bcd87d')
 
 pkgver() {
@@ -68,7 +66,7 @@ pkgver() {
 prepare() {
 
     cd "${srcdir}/${pkgname}"
-    cp "${srcdir}/opntitle.dat" bin/baseset/
+    cp "${srcdir}/opntitle.dat" media/baseset/
 
     ISODATE=$(
       date -d@$(
@@ -77,17 +75,18 @@ prepare() {
     )
     HASH=$(find {src,bin} -type f -exec sha512sum {} \; | sort | sha512sum - | cut -d' ' -f1)
     SHORTHASH=$(echo ${HASH} | cut -c1-8)
-    printf '%s\t%s\t%s\t%s\t%s\t%s\n' \
+    printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
       "${ISODATE}-ewe-g${SHORTHASH}" \
       "${ISODATE}" \
       "0" \
       "${HASH}" \
       "0" \
       "0" \
+      "${ISODATE:0:4}" \
       > .ottdrev
     sed -i '
-      s,"\$ROOT_DIR/\.git","/dev/does/not/exist",
-    ' findversion.sh
+      s,"\${CMAKE_SOURCE_DIR}/\.git","/dev/does/not/exist",
+    ' cmake/scripts/FindVersion.cmake
 
 #    for _p in "${srcdir}/"{signaltunnel,sloped-stations,underground}.patch; do
     for _p in "${srcdir}/"{signaltunnel,underground}.patch; do
@@ -95,35 +94,41 @@ prepare() {
       patch -p1 -i "${_p}"
       >&2 echo "... ok"
     done
-    sed -i '
-      s/multiplayer\.txt/multiplayer.md/g
-    ' Makefile.bundle.in
 }
 
 build() {
 
     cd "${srcdir}/${pkgname}"
-    ./configure \
-        --prefix-dir=/usr \
-        --binary-dir=bin \
-        --data-dir=share/openttd \
-        --icon-dir=share/openttd \
-        --man-dir=share/man \
-        --personal-dir=.openttd \
-        --install-dir=$pkgdir
+    mkdir build
+    cd build
+    cmake \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DPERSONAL_DIR=.openttd \
+      ..
     make
+
+#      -DBINARY_DIR=bin \
+#      -DDATA_DIR=share/openttd \
+#      -DICON_DIR=share/openttd \
+#      -DMAN_DIR=share/man \
 
 }
 
 check() {
-    cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}/build"
     make test || true
 }
 
 package() {
 
-    cd "${srcdir}/${pkgname}"
+    cd "${srcdir}/${pkgname}/build"
     make DESTDIR=$pkgdir install
+
+    mv "$pkgdir/usr/share/man/openttd"/* "$pkgdir/usr/share/man/"
+    rmdir "$pkgdir/usr/share/man/openttd"
+
+    mv "$pkgdir/usr/share/games/openttd" "$pkgdir/usr/share/"
+    rmdir "$pkgdir/usr/share/games"
 
     # Remove unnecessary languages
     cp $pkgdir/usr/share/openttd/lang/{english,german}.lng $srcdir
