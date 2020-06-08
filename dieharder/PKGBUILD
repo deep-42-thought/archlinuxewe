@@ -23,6 +23,7 @@ provides=('dieharder')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
+  CFLAGS+=' -fcommon'
   patch -uN autogen.sh ../autogen.patch || return 1
   patch -uN include/dieharder/libdieharder.h ../stdint.patch || return 1
   ./autogen.sh
