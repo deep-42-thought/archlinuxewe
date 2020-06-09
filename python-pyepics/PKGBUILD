@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=python-pyepics
 _pkgname="${pkgname#*-}"
-pkgver=3.4.1
-pkgrel=8
+pkgver=3.4.2
+pkgrel=1
 pkgdesc='Python Interface to the Epics Channel Access protocol of the Epics control system'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://pypi.python.org/pypi/pyepics'
@@ -12,18 +12,16 @@ _pinned_dependencies=(
   'gcc-libs=10.1.0'
   'glibc>=2.31'
 )
-depends=(
-  "${_pinned_dependencies[@]}"
-  'python>=3.8'
-  'python<3.9'
-)
 makedepends=(
-  'python-setuptools'
-)
+  'python-setuptools')
+depends=(
+
+  'python>=3.8'
+  'python<3.9')
 source=(
-    "https://pypi.python.org/packages/cb/64/f849f7aef93b7d3d713aa1d5e79ee4b67c84fa3fa1db3e2882e91c000ff6/${_pkgname}-${pkgver}.tar.gz"
+    "https://pypi.python.org/packages/d7/9e/c3e74b3f9b81d2a9beab467dad1fd156e0ab978a49cf787f36f398caeef4/${_pkgname}-${pkgver}.tar.gz"
 )
-sha512sums=('bd06fd077676bf95f3c4a66f0d0a119b94e8e6661f6c7f30532f7801ddda8b66c3ccc41f14132c605a77224a81c7669cd20dddd89aaeb7a7c8a0c0a214d3063a')
+sha512sums=('7e1d27f893273155d43fa2c95040836ee75e2ac42f51495fba17bcc86045212a4946a302b11c187d0c011ee6f4088597c8125f5b8fd6902695527e22422ae603')
 
 build() {
   cd ${_pkgname}-${pkgver}
