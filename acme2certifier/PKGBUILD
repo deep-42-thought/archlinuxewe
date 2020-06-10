@@ -35,16 +35,26 @@ pkgver() {
       git -C "${pkgname}" rev-parse "${_trial}" 2>/dev/null
     ) && break
   done
-  _version_line=$(
-    git -C "${pkgname}" archive ${_commit} -- acme/version.py \
+
+  _line_revision="${_commit}"
+  while true; do
+    _version_line=$(
+      git -C "${pkgname}" archive "${_line_revision}" -- acme/version.py \
+      | tar -Ox \
+      | grep -n '^__version__\s*='
+    )
+    _line="${_version_line%%:*}"
+    _line_revision=$(
+      git -C "${pkgname}" blame -L"${_line},${_line}" "${_line_revision}" -- acme/version.py \
+      | awk '{print $1}'
+    )
+    if ! git -C "${pkgname}" archive "${_line_revision}^" -- acme/version.py \
     | tar -Ox \
-    | grep -n '^__version__\s*='
-  )
-  _line="${_version_line%%:*}"
-  _line_revision=$(
-    git -C "${pkgname}" blame -L"${_line},${_line}" "${_commit}" -- acme/version.py \
-    | awk '{print $1}'
-  )
+    | grep -qxF "${_version_line#*:}"; then
+      break
+    fi
+    _line_revision="${_line_revision}^"
+  done
   _version="${_version_line%\'*}"
   _version="${_version##*\'}"
   _version="${_version%-*}"
