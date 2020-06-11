@@ -957,14 +957,28 @@ then
         fi
       done
       quVer="${src%/*}/"
-      remVer="$( \
+      if printf '%s\n' "${pkgver}" \
+      | grep -qx '[0-9.]\+_[0-9.]\+_rc[0-9]\+'; then
+        ist_rc=true
+        ver_match='[0-9._]\+[a-z]\?\(-rc[0-9]\+\)\?'
+      else
+        ist_rc=false
+        ver_match='[0-9._]\+[a-z]\?'
+      fi
+      remVer=$( \
         curl_it "${quVer}" | \
           tr '"<>' '\n\n\n' | \
-          grep "^${pkgname#python2-}\(-src\)\?-\?v\?[0-9._]\+[a-z]\?\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$" | \
-          sed "s@^${pkgname#python2-}\(-src\)\?-\?v\?\([0-9._]\+[a-z]\?\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\$@\2@" | \
+          sed '
+            s@^'"${pkgname#python2-}"'\(-src\)\?-\?v\?\('"${ver_match}"'\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)$@\2@
+            t
+            d
+          ' | \
           tr '_' '.' | \
+          sed '
+            s/^\(\S\+\)-\(rc[0-9]\+\)$/'"${pkgver%%_*}"'_\1_\2/
+          ' | \
           latest_version
-      )"
+      )
     elif echo "${src}" | \
       grep -qF "$(
         printf '%s\n' \
