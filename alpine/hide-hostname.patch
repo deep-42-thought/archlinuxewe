@@ -1,0 +1,24 @@
+diff --git a/pith/reply.c b/pith/reply.c
+index ab4e97c..d7bdc91 100644
+--- a/pith/reply.c
++++ b/pith/reply.c
+@@ -3369,13 +3369,17 @@ generate_message_id(void)
+ 
+     get_alpine_revision_number(revisionbuf, sizeof(revisionbuf));
+     if(F_ON(F_ROT13_MESSAGE_ID, ps_global)){
+-       hostpart       = rot13(ps_global->hostname);
++       hostpart       = rot13(ps_global->userdomain
++			       ? ps_global->userdomain
++			       : ps_global->hostname);
+        alpine_name    = rot13("alpine");
+        alpine_version = rot5n(ALPINE_VERSION);
+        system_os      = rot13(SYSTYPE);
+        revision	      = rot5n(revisionbuf);
+     } else {
+-       hostpart	      = cpystr(ps_global->hostname);
++       hostpart       = cpystr(ps_global->userdomain
++			        ? ps_global->userdomain
++			        : ps_global->hostname);
+        alpine_name    = cpystr("alpine");
+        alpine_version = cpystr(ALPINE_VERSION);
+        system_os      = cpystr(SYSTYPE);
