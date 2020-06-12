@@ -10,9 +10,9 @@
 
 _pkgname=scidavis
 pkgname=scidavis-qt5
-pkgver=2.2.0
+pkgver=2.3.0
 _commit=${pkgver}
-pkgrel=2
+pkgrel=1
 pkgdesc="Application for Scientific Data Analysis and Visualization, fork of QtiPlot. Qt5 port"
 arch=('x86_64')
 url="http://scidavis.sourceforge.net/"
@@ -39,7 +39,7 @@ conflicts=('scidavis')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/highperformancecoder/scidavis/archive/${_commit}.tar.gz"
 'linking.patch'
 )
-sha512sums=('0440ee5c6570e3c6494ed51cefa9063e4314cfb237abebfaf5389cbab0e99c767975443e0fa3be463f4dc215dec8059dc0adb25bc7125dd760e731ad89f04410'
+sha512sums=('2ede70bcf5b910fc61e5a23ba36129bde11fd10b14470d4e8c9509eecb245c73242a3a1eec174b4f9a22abd21880e6ecbd9f0d1e492af87ff781163ad05e20cf'
             '69f04800343935141ad224510a915a8cbdbd0e07401a61530a52e18ea5d02b85f7e579f70b6bb32b37e085c07f61a8ce3f9c83f7b7b9cfe0553624b8ff9ff5db')
 
 prepare() {
