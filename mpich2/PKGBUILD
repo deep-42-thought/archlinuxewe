@@ -51,7 +51,10 @@ build() {
     --enable-timer-type=clock_gettime \
     --with-pm=hydra:gforker:mpd --with-python=python2 \
     --disable-rpath \
-    --enable-fc  --enable-f77 --enable-cxx
+    --enable-fc  --enable-f77 --enable-cxx \
+    CC=gcc CXX=g++ FC=gfortran \
+    FFLAGS=-fallow-argument-mismatch \
+    FCFLAGS=-fallow-argument-mismatch
   make
 }
 
