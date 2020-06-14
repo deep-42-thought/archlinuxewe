@@ -7,7 +7,7 @@
 
 pkgname=scidavis
 pkgver=1.26
-pkgrel=6
+pkgrel=7
 pkgdesc="Application for Scientific Data Analysis and Visualization, fork of QtiPlot"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://scidavis.sourceforge.net/"
@@ -25,7 +25,7 @@ _pinned_dependencies=(
   'libQtSvg.so=4'
   'libqwt5.so=1'
   'libqwtplot3d.so=0'
-  'muparser=2.2.6'
+  'muparser=2.3.0'
   'zlib=1:1.2.11'
 )
 depends=('mesa' 'python-qtpy' 'shared-mime-info' "${_pinned_dependencies[@]}")
