@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-sub-getargs-argv'
-pkgver=0.843
+pkgver=0.844
 pkgrel=1
 pkgdesc='Get subroutine arguments from command line arguments (@ARGV)'
 arch=('any')
@@ -13,12 +13,13 @@ optdepends=(
 makedepends=(
   'perl'
   'perl-data-clean-json>=0.390'
-  'perl-data-dmp>=0.21'
+  'perl-data-dmp>=0.240'
   'perl-data-sah'
   'perl-extutils-makemaker'
   'perl-function-fallback-coreorpp'
   'perl-io'
   'perl-pathtools'
+  'perl-test-deep'
   'perl-test-needs'
   'perl-test-simple>=0.98')
 depends=(
@@ -30,7 +31,7 @@ depends=(
   'perl-exporter>=5.57'
   'perl-getopt-long>=2.5'
   'perl-getopt-long-negate-en>=0.060'
-  'perl-getopt-long-util>=0.890'
+  'perl-getopt-long-util>=0.891'
   'perl-json-pp'
   'perl-lingua-en-pluraltosingular'
   'perl-mime-base64'
@@ -40,6 +41,7 @@ depends=(
   'perl-scalar-list-utils>=1.45'
   'perl-yaml-old')
 checkdepends=(
+  'perl-data-sah-coercebundle-to_array-from_str-comma_sep'
   'perl-data-sah-coercerule-array-str_comma_sep'
   'perl-sah-schemas-collection'
   'perl-sah-schemas-int'
@@ -49,7 +51,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Sub-GetArgs-Argv'
 _distdir="Perinci-Sub-GetArgs-Argv-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('e0bde5005c30aecbd31eac201ed30606d5f95384884e2604eac1d9a1e05b092f4f03231195418c60fe0db1c02703d38903aa51f0cad210c6b47cb2ee0a0defcf')
+sha512sums=('ffa0f4227af968cdaf668147e28dc2c95e875da38f65563c325c8aa4d8d958ef1cca01d2190d3f4880f89fd86644ee2fadb73a6f5794e864b31eeae96f7467fb')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/get_args_from_argv.t"
