@@ -3,7 +3,7 @@
 
 pkgname=openttd-openmsx
 pkgver=0.3.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Free music set for openttd"
 arch=('any')
 url="http://www.openttd.org"
@@ -13,15 +13,15 @@ sha512sums=('d17856fc70796eadb798b133af8a987ff9887c7f0d736e48bd27e9451eb12293527
 depends=('timidity++' 'timidity-freepats')
 
 build() {
-	cd ${srcdir}/openmsx-${pkgver}
+    cd ${srcdir}/openmsx-${pkgver}
 
-	chmod 0644 * || return 1
+    chmod 0644 *
 }
 
 package() {
-	cd ${srcdir}/openmsx-${pkgver}
+    cd ${srcdir}/openmsx-${pkgver}
 
-	mkdir -pm0755 ${pkgdir}/usr/share/openttd/gm   
-	cp openmsx.* ${pkgdir}/usr/share/openttd/gm/ || return 1
-	cp *.mid ${pkgdir}/usr/share/openttd/gm/ || return 1
+    mkdir -pm0755 ${pkgdir}/usr/share/games/openttd/gm
+    cp openmsx.* ${pkgdir}/usr/share/games/openttd/gm/
+    cp *.mid ${pkgdir}/usr/share/games/openttd/gm/
 }
