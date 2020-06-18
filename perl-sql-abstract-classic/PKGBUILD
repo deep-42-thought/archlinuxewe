@@ -1,0 +1,77 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (d3b8f856efc23c99656b994aa72658ac963819754afaf13b4ff51112b3b57c06d21420dc7b9785686dc52d8001593e3bd56268af1bc970e123ce908790bf7852)
+
+pkgname='perl-sql-abstract-classic'
+pkgver='1.91'
+pkgrel='1'
+pkgdesc='Generate SQL from Perl data structures'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+makedepends=(
+  'perl-extutils-makemaker>=6.59'
+  'perl-storable'
+  'perl-test-deep>=0.101'
+  'perl-test-exception>=0.31'
+  'perl-test-simple>=0.88'
+  'perl-test-warn'
+)
+depends=(
+  'perl>=5.6.0'
+  'perl-exporter>=5.57'
+  'perl-mro-compat>=0.12'
+  'perl-scalar-list-utils'
+  'perl-sql-abstract>=1.79'
+  'perl-text-balanced>=2.00'
+)
+url='https://metacpan.org/release/SQL-Abstract-Classic'
+_distdir="SQL-Abstract-Classic-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/R/RI/RIBASUSHI/${_distdir}.tar.gz")
+sha512sums=('a2389c04889ea09fc6512f955f8a383d1f51839f584a0be16aab33dec72b67214d0f22d55c666fa0ddeaa32e5c6fc91e1e50541d52e71beeb3b3d85af21a9643')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
