@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-git
-pkgver=29498.208614343
+pkgver=29505.b0f192abc
 _commit=${pkgver#*.}
 pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
@@ -125,19 +125,13 @@ package() {
     cd "${srcdir}/${pkgname}/build"
     make DESTDIR=$pkgdir install
 
-    mv "$pkgdir/usr/share/man/openttd"/* "$pkgdir/usr/share/man/"
-    rmdir "$pkgdir/usr/share/man/openttd"
-
-    mv "$pkgdir/usr/share/games/openttd" "$pkgdir/usr/share/"
-    rmdir "$pkgdir/usr/share/games"
-
     # Remove unnecessary languages
-    cp $pkgdir/usr/share/openttd/lang/{english,german}.lng $srcdir
-    rm $pkgdir/usr/share/openttd/lang/*
-    install -m 644 $srcdir/{english,german}.lng $pkgdir/usr/share/openttd/lang
+    cp $pkgdir/usr/share/games/openttd/lang/{english,german}.lng $srcdir
+    rm $pkgdir/usr/share/games/openttd/lang/*
+    install -m 644 $srcdir/{english,german}.lng $pkgdir/usr/share/games/openttd/lang
 
     # Remove junk
-    rm -rf $pkgdir/usr/share/doc
-    rm -rf $pkgdir/usr/share/openttd/scripts
+    rm -rf $pkgdir/usr/share/games/doc
+    rm -rf $pkgdir/usr/share/games/openttd/scripts
 
 }
