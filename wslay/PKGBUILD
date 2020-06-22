@@ -3,8 +3,8 @@
 # Contributor: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=wslay
-pkgver=1.1.0
-pkgrel=6
+pkgver=1.1.1
+pkgrel=1
 pkgdesc="The WebSocket library in C"
 arch=('i686' 'pentium4' 'x86_64')
 _pinned_dependencies=(
@@ -18,7 +18,7 @@ checkdepends=('cunit' 'nettle')
 url="https://github.com/tatsuhiro-t/wslay"
 license=('MIT')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/tatsuhiro-t/$pkgname/archive/release-$pkgver.tar.gz")
-sha256sums=('df5dca9f03614073cd8bdd22aa3c9b116f841ed3120b2d4463d2382cc44fc594')
+sha512sums=('b42c66c738a3f33bc7de30e8975f4fb2dc60a8baef44be8d254110c8915e14cdaa4cbdd6b29184a66061fe387ec0948e896cb174a1dd8c85a97b5feedfde162e')
 
 build() {
   cd "$srcdir/$pkgname-release-$pkgver"
