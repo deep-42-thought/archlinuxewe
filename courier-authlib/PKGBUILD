@@ -8,7 +8,7 @@
 
 pkgname=courier-authlib
 pkgver=0.71.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Authentication library for the Courier mailserver(s)"
 arch=(i686 pentium4 x86_64)
 license=('GPL2')
@@ -23,7 +23,7 @@ _pinned_dependencies=(
   'mariadb-libs=10.4.13'
   'pam=1.3.1'
   'postgresql-libs=12.3'
-  'sqlite=3.32.2'
+  'sqlite=3.32.3'
 )
 depends=('openssl' 'perl' 'expect' 'courier-unicode>=2.1' "${_pinned_dependencies[@]}")
 makedepends=('pam' 'libldap' 'libmariadbclient' 'postgresql-libs>=8.3.0')
