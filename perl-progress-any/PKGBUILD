@@ -2,23 +2,23 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-progress-any'
-pkgver=0.214
-pkgrel=4
+pkgver=0.215
+pkgrel=1
 pkgdesc='Record progress to any output'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.30'
-  'perl<5.31'
-  'perl-time-duration'
-  'perl-time-hires')
 makedepends=(
+  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
   'perl-test-exception'
   'perl-test-simple>=0.98')
+depends=(
+  'perl>=5.10.1'
+  'perl-time-duration'
+  'perl-time-hires')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod-coverage'
@@ -26,7 +26,7 @@ checkdepends=(
 url='https://metacpan.org/release/Progress-Any'
 _distdir="Progress-Any-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('64d0dcfd506e0e82f8768a63ecc1137f17fcaacfbbc757b73a2398626e461c835546ced4426d62a26db41835e2bea1993ac5e34331e65a29f4e918bdee03be8e')
+sha512sums=('46dffa29957faa9061d659f582ab4d9e3a5024d1758225535d681d230cd5029241d77503461aa5a7dcf8f79b840f3ac370765a2dbb599cb61bbe0db41e9e7e36')
 
 build() {
   cd "${srcdir}/${_distdir}"
