@@ -24,7 +24,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.7
-pkgrel=11
+pkgrel=12
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -332,7 +332,7 @@ package_bareos-database-sqlite3() {
   _pinned_dependencies=(
     'gcc-libs=10.1.0'
     'glibc>=2.31'
-    'sqlite=3.32.2'
+    'sqlite=3.32.3'
   )
   depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
 
