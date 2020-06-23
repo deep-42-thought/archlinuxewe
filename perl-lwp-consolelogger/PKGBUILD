@@ -2,7 +2,7 @@
 
 pkgname='perl-lwp-consolelogger'
 pkgver=0.000042
-pkgrel=1
+pkgrel=2
 pkgdesc='Easy LWP tracing and debugging'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -28,7 +28,8 @@ makedepends=(
   'perl-version'
   'perl-www-mechanize')
 depends=(
-  'perl>=5.13.10'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-class-method-modifiers'
   'perl-data-printer>=0.36'
   'perl-datetime'

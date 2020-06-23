@@ -3,7 +3,7 @@
 
 pkgname='perl-perinci-access-perl'
 pkgver=0.893
-pkgrel=1
+pkgrel=2
 pkgdesc='Access Perl module, functions, variables through Riap'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -21,7 +21,8 @@ makedepends=(
   'perl-test-exception'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-class-inspector'
   'perl-experimental'
   'perl-log-ger>=0.037'

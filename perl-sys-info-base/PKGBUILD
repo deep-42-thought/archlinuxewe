@@ -3,7 +3,7 @@
 
 pkgname='perl-sys-info-base'
 pkgver='0.7807'
-pkgrel='1'
+pkgrel=2
 pkgdesc='Base class for Sys::Info'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,7 +14,8 @@ makedepends=(
   'perl-test-simple'
 )
 depends=(
-  'perl>=5.10.0'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-text-template-simple'
 )
 url='https://metacpan.org/release/Sys-Info-Base'

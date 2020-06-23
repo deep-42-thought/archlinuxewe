@@ -3,7 +3,7 @@
 
 pkgname='perl-data-dmp'
 pkgver=0.240
-pkgrel=1
+pkgrel=2
 pkgdesc='Dump Perl data structures as Perl code'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -15,7 +15,8 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-exporter>=5.57'
   'perl-regexp-stringify'
   'perl-scalar-list-utils')

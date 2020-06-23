@@ -3,7 +3,7 @@
 
 pkgname='perl-sys-info-driver-linux'
 pkgver='0.7905'
-pkgrel='1'
+pkgrel=2
 pkgdesc='Linux driver for Sys::Info'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,7 +17,8 @@ makedepends=(
   'perl-test-sys-info>=0.20'
 )
 depends=(
-  'perl>=5.10.0'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-config-general'
   'perl-sys-info-base>=0.7801'
   'perl-unix-processors'

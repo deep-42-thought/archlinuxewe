@@ -3,7 +3,7 @@
 
 pkgname='perl-scalar-util-numeric'
 pkgver='0.40'
-pkgrel=2
+pkgrel=3
 pkgdesc='numeric tests for perl scalars'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -15,8 +15,9 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   "${_pinned_dependencies[@]}"
-  'perl>=5.8.0'
 )
 url='https://metacpan.org/release/Scalar-Util-Numeric'
 _distdir="Scalar-Util-Numeric-${pkgver}"

@@ -3,7 +3,7 @@
 
 pkgname='perl-javascript-minifier-xs'
 pkgver='0.11'
-pkgrel=6
+pkgrel=7
 pkgdesc='XS based JavaScript minifier'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -12,9 +12,9 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   "${_pinned_dependencies[@]}"
-  'perl>=5.30'
-  'perl<5.31'
 )
 makedepends=(
   'perl-extutils-cbuilder'

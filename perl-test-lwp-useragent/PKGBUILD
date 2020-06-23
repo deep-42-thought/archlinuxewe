@@ -3,7 +3,7 @@
 
 pkgname='perl-test-lwp-useragent'
 pkgver=0.034
-pkgrel=1
+pkgrel=2
 pkgdesc='A LWP::UserAgent suitable for simulating and testing network calls'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -25,7 +25,8 @@ makedepends=(
   'perl-test-simple>=0.88'
   'perl-test-warnings>=0.009')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-carp'
   'perl-http-date'
   'perl-http-message'

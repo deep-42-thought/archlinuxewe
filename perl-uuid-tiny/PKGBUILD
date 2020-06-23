@@ -3,7 +3,7 @@
 
 pkgname='perl-uuid-tiny'
 pkgver='1.04'
-pkgrel='1'
+pkgrel=2
 pkgdesc='Pure Perl UUID Support With Functional Interface'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,6 +12,8 @@ makedepends=(
   'perl-extutils-makemaker'
 )
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   'perl'
   'perl-carp'
   'perl-digest-md5'

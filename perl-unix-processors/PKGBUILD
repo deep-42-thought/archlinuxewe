@@ -3,7 +3,7 @@
 
 pkgname='perl-unix-processors'
 pkgver='2.046'
-pkgrel=2
+pkgrel=3
 pkgdesc='Interface to processor (CPU) information'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -12,8 +12,9 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   "${_pinned_dependencies[@]}"
-  'perl>=1'
   'perl-test>=1'
 )
 url='https://metacpan.org/release/Unix-Processors'

@@ -3,7 +3,7 @@
 
 pkgname='perl-text-template-simple'
 pkgver='0.91'
-pkgrel='1'
+pkgrel=2
 pkgdesc='Simple text template engine'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -21,7 +21,8 @@ makedepends=(
   'perl-test-simple'
 )
 depends=(
-  'perl>=5.10.0'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-digest-md5>=1'
 )
 url='https://metacpan.org/release/Text-Template-Simple'

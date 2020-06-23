@@ -2,7 +2,7 @@
 pkgname=perl-pdl-stats
 _pkgname='PDL-Stats'
 pkgver=0.74
-pkgrel=8
+pkgrel=9
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="a collection of statistics modules in Perl Data Language, with a quick-start guide for non-PDL people."
 arch=('x86_64' 'i686' 'pentium4')
@@ -12,9 +12,9 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   "${_pinned_dependencies[@]}"
-  'perl>=5.30'
-  'perl<5.31'
   'perl-pdl-core>=2.008')
 makedepends=(
   'perl-test-simple')

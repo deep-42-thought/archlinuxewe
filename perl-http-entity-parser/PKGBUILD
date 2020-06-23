@@ -3,7 +3,7 @@
 
 pkgname='perl-http-entity-parser'
 pkgver=0.22
-pkgrel=1
+pkgrel=2
 pkgdesc='PSGI compliant HTTP Entity Parser'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,7 +14,8 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-encode'
   'perl-file-temp'
   'perl-hash-multivalue'

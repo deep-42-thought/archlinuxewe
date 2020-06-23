@@ -2,7 +2,7 @@
 
 pkgname='perl-log-dispatch'
 pkgver=2.69
-pkgrel=1
+pkgrel=2
 pkgdesc='Dispatches messages to one or more outputs'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -20,7 +20,8 @@ makedepends=(
   'perl-test-needs'
   'perl-test-simple>=0.96')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-base'
   'perl-carp'
   'perl-devel-globaldestruction'

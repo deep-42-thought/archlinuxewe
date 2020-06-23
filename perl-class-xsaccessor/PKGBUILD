@@ -4,7 +4,7 @@
 
 pkgname='perl-class-xsaccessor'
 pkgver='1.19'
-pkgrel=8
+pkgrel=9
 pkgdesc="Generate fast XS accessors without runtime compilation"
 arch=('i686' 'pentium4' 'x86_64')
 license=('PerlArtistic' 'GPL')
@@ -13,9 +13,9 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   "${_pinned_dependencies[@]}"
-  'perl>=5.30'
-  'perl<5.31'
   'perl-time-hires'
   'perl-xsloader')
 makedepends=(

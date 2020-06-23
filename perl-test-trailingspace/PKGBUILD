@@ -2,7 +2,7 @@
 
 pkgname='perl-test-trailingspace'
 pkgver=0.0600
-pkgrel=1
+pkgrel=2
 pkgdesc="test for trailing space in source files."
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,7 +17,8 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.88')
 depends=(
-  'perl>=5.14.0'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-autodie'
   'perl-file-find-object-rule>=0.0301'
   'perl-test-simple>=0.88')

@@ -3,7 +3,7 @@
 
 pkgname='perl-perinci-sub-convertargs-argv'
 pkgver='0.110'
-pkgrel='1'
+pkgrel=2
 pkgdesc='Convert hash arguments to command-line options (and arguments)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -17,7 +17,8 @@ makedepends=(
   'perl-test-simple>=0.98'
 )
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-data-sah-util-type>=0.45'
   'perl-exporter>=5.57'
   'perl-json'

@@ -3,7 +3,7 @@
 
 pkgname='perl-type-tiny-xs'
 pkgver=0.017
-pkgrel=2
+pkgrel=3
 pkgdesc='provides an XS boost for some of Type::Tiny'"'"'s built-in type constraints'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -15,6 +15,8 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   "${_pinned_dependencies[@]}"
   'perl>=5.10.1')
 provides=(

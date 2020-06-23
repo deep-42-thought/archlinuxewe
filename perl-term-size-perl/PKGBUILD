@@ -3,7 +3,7 @@
 
 pkgname='perl-term-size-perl'
 pkgver=0.031
-pkgrel=1
+pkgrel=2
 pkgdesc='Perl extension for retrieving terminal size (Perl version)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,6 +13,8 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-test-simple')
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   'perl-exporter')
 checkdepends=(
   'perl-test-pod'

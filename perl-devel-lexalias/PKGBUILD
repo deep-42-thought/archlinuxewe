@@ -4,7 +4,7 @@
 
 pkgname='perl-devel-lexalias'
 pkgver='0.05'
-pkgrel=8
+pkgrel=9
 pkgdesc="alias lexical variables"
 arch=('i686' 'pentium4' 'x86_64')
 license=('PerlArtistic' 'GPL')
@@ -13,9 +13,9 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   "${_pinned_dependencies[@]}"
-  'perl>=5.30'
-  'perl<5.31'
   'perl-devel-caller>=0.03'
   'perl-test-simple')
 makedepends=(

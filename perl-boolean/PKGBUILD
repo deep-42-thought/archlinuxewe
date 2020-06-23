@@ -3,7 +3,7 @@
 
 pkgname='perl-boolean'
 pkgver='0.46'
-pkgrel='1'
+pkgrel=2
 pkgdesc='Boolean support for Perl'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -15,7 +15,8 @@ makedepends=(
   'perl-extutils-makemaker'
 )
 depends=(
-  'perl>=5.8.1'
+  'perl>=5.32'
+  'perl<5.33'
 )
 url='https://metacpan.org/release/boolean'
 _distdir="boolean-${pkgver}"

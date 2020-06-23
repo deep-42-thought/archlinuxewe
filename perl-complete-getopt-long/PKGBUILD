@@ -3,7 +3,7 @@
 
 pkgname='perl-complete-getopt-long'
 pkgver=0.478
-pkgrel=1
+pkgrel=2
 pkgdesc='Complete command-line argument using Getopt::Long specification'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -20,7 +20,8 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-complete-env'
   'perl-complete-file>=0.440'
   'perl-complete-util>=0.608'

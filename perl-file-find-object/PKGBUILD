@@ -3,7 +3,7 @@
 
 pkgname=perl-file-find-object
 pkgver=0.3.5
-pkgrel=1
+pkgrel=2
 _author="S/SH/SHLOMIF"
 _distdir="File-Find-Object-${pkgver}"
 pkgdesc="File::Find::Object - An object oriented File::Find replacement"
@@ -19,7 +19,8 @@ makedepends=(
   'perl-module-build>=0.28'
   'perl-test-simple>=0.88')
 depends=(
-  'perl>=5.8.0'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-carp'
   'perl-class-xsaccessor'
   'perl-parent'

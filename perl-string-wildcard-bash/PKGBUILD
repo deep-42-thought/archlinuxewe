@@ -3,7 +3,7 @@
 
 pkgname='perl-string-wildcard-bash'
 pkgver=0.043
-pkgrel=1
+pkgrel=2
 pkgdesc='Bash wildcard string routines'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -16,7 +16,8 @@ makedepends=(
   'perl-test-exception'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-exporter>=5.57')
 checkdepends=(
   'perl-pod-coverage-trustpod'

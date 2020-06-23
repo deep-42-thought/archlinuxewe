@@ -3,7 +3,7 @@
 
 pkgname='perl-sah-schemas-collection'
 pkgver=0.008
-pkgrel=1
+pkgrel=2
 pkgdesc='Various Sah collection (array/hash) schemas'
 arch=('any')
 makedepends=(
@@ -13,6 +13,8 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple')
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   'perl')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')

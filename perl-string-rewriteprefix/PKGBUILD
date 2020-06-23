@@ -3,7 +3,7 @@
 
 pkgname='perl-string-rewriteprefix'
 pkgver=0.008
-pkgrel=1
+pkgrel=2
 pkgdesc='rewrite strings based on a set of known prefixes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,6 +13,8 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.96')
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   'perl'
   'perl-carp'
   'perl-sub-exporter>=0.972')

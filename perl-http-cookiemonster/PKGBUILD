@@ -3,7 +3,7 @@
 
 pkgname='perl-http-cookiemonster'
 pkgver=0.11
-pkgrel=1
+pkgrel=2
 pkgdesc='Easy read/write access to your jar of HTTP::Cookies'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,7 +14,8 @@ makedepends=(
   'perl-test-fatal'
   'perl-test-simple')
 depends=(
-  'perl>=5.6.0'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-carp'
   'perl-http-cookies'
   'perl-moo>=1.000003'

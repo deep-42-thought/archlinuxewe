@@ -3,7 +3,7 @@
 
 pkgname='perl-rinci'
 pkgver=1.1.93
-pkgrel=1
+pkgrel=2
 pkgdesc='Language-neutral metadata for your code'
 arch=('any')
 makedepends=(
@@ -12,6 +12,8 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple')
 depends=(
+  'perl>=5.32'
+  'perl<5.33'
   'perl')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')

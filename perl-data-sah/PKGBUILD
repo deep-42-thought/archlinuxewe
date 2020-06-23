@@ -3,7 +3,7 @@
 
 pkgname='perl-data-sah'
 pkgver=0.908
-pkgrel=1
+pkgrel=2
 pkgdesc='Fast and featureful data structure validation'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -28,7 +28,8 @@ makedepends=(
   'perl-test-warn'
   'perl-time-duration-parse-ashash')
 depends=(
-  'perl>=5.10.1'
+  'perl>=5.32'
+  'perl<5.33'
   'perl-data-dmp>=0.240'
   'perl-data-dump'
   'perl-data-sah-coerce>=0.048'
