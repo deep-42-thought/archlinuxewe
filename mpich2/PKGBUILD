@@ -40,13 +40,14 @@ build() {
   # CFLAGS etc are normally written into the wrapper compilers.  This
   # gives surprising results, e.g. when the user wants to compile their
   # program without optimization.
-  export MPICH2LIB_CFLAGS="$CFLAGS";      unset CFLAGS
-  export MPICH2LIB_CXXFLAGS="$CXXFLAGS";  unset CXXFLAGS
-  export MPICH2LIB_FFLAGS="$FFLAGS";      unset FFLAGS
-  export MPICH2LIB_F90FLAGS="$F90FLAGS";  unset F90FLAGS
-  export MPICH2LIB_LDFLAGS="$LDFLAGS";    unset LDFLAGS
+  export MPICHLIB_CFLAGS="${CFLAGS}";      unset CFLAGS
+  export MPICHLIB_CXXFLAGS="${CXXFLAGS}";  unset CXXFLAGS
+  export MPICHLIB_CPPFLAGS="${CPPFLAGS}";  unset CPPFLAGS
+  export MPICHLIB_FFLAGS="${FFLAGS}";      unset FFLAGS
+  export MPICHLIB_FCFLAGS="${FCFLAGS}";    unset FCFLAGS
+  export MPICHLIB_LDFLAGS="${LDFLAGS}";    unset LDFLAGS
 
-  ./configure --prefix=/opt/$pkgname --enable-shared --enable-sharedlibs=gcc \
+  ./configure --prefix=/usr --enable-shared --enable-sharedlibs=gcc \
     --enable-error-checking=runtime --enable-error-messages=all \
     --enable-timer-type=clock_gettime \
     --with-pm=hydra:gforker:mpd --with-python=python2 \
