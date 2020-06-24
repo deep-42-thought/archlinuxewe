@@ -50,6 +50,11 @@ prepare() {
 build() {
   cd vnc_unixsrc
 
+  export CFLAGS+=' -fcommon'
+  export CPPFLAGS+=' -fcommon'
+  export CXXFLAGS+=' -fcommon'
+  export LDFLAGS+=' -fcommon'
+
   xmkmf
   make World
 
