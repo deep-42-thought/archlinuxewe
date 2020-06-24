@@ -3,8 +3,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=ldm
-pkgver=0.7
-pkgrel=25
+pkgver=0.8
+pkgrel=1
 pkgdesc="A lightweight device mounter"
 arch=('i686' 'pentium4' 'x86_64')
 url="https://github.com/LemonBoy/ldm"
@@ -20,7 +20,7 @@ provides=('ldm')
 conflicts=('ldm-git')
 install=$pkgname.install
 source=("$pkgname-$pkgver.tar.gz"::"http://github.com/lemonboy/$pkgname/archive/v$pkgver.tar.gz")
-sha256sums=('fb464bffec5b7d0680009b43a95881e8c02ec07e84d6f7fb05206d666dc44bdb')
+sha512sums=('27f74d1cfe3292a5a0393c2db0f113d02870e6623b8db3f4bd0d6003d2bea4fc8977c910e7eef465022e5fca8986b66d6975ff63683744105e4561830d1708bc')
 
 build() {
     cd "$srcdir/$pkgname-$pkgver"
