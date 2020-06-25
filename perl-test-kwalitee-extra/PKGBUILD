@@ -35,6 +35,10 @@ _distdir="Test-Kwalitee-Extra-v${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/Y/YA/YAKEX/${_distdir}.tar.gz")
 sha512sums=('48956aac851b8dcb7403cf70707e6f792c46e28c1d8d0e4466f11ba4994eda9c50b70c6ccab31af92023a0965223385f298e2427986d7d1176f5f8cd2fe46ba7')
 
+prepare() {
+  rm  "${srcdir}/${_distdir}/t/"{05,06}-*.t
+}
+
 build() {
   cd "${srcdir}/${_distdir}"
 
