@@ -3,12 +3,17 @@
 
 pkgname='perl-pod-eventual'
 pkgver='0.094001'
-pkgrel=8
+pkgrel=9
 pkgdesc='read a POD document as a series of trivial events'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-carp' 'perl-mixin-linewise>=0.102')
+depends=(
+  'perl>=5.32'
+  'perl<5.33'
+  'perl-carp'
+  'perl-mixin-linewise>=0.102'
+)
 makedepends=('perl-test-deep' 'perl-test-simple>=0.96' 'perl-extutils-makemaker>=6.30')
 url='https://metacpan.org/release/Pod-Eventual'
 _distdir="Pod-Eventual-${pkgver}"
