@@ -119,6 +119,10 @@ versteheMetaYml() {
           erg="perl-%skip"
         fi
       fi
+      if echo "${erg}" \
+      | grep -q '^perl\([<>=].*\)\?$'; then
+        erg='perl-%skip'
+      fi
       if [[ "${erg}" != "perl-%skip"* ]]; then
         metaInfos["${sucheWonach}"]="${metaInfos["${sucheWonach}"]} ${erg}"
       fi
