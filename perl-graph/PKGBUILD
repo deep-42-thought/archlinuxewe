@@ -4,12 +4,15 @@
 
 pkgname='perl-graph'
 pkgver='0.9704'
-pkgrel=9
+pkgrel=10
 pkgdesc="graph data structures and algorithms"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
+depends=(
+  'perl>=5.32'
+  'perl<5.33'
+)
 makedepends=()
 checkdepends=('perl-test-pod-coverage>=1.00' 'perl-test-pod>=1.00')
 url='https://metacpan.org/release/Graph'
