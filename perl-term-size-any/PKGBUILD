@@ -3,12 +3,19 @@
 
 pkgname='perl-term-size-any'
 pkgver='0.002'
-pkgrel=9
+pkgrel=10
 pkgdesc='Retrieve terminal size'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-devel-hide' 'perl-module-load-conditional' 'perl-term-size-perl' 'perl-test-simple')
+depends=(
+  'perl>=5.32'
+  'perl<5.33'
+  'perl-devel-hide'
+  'perl-module-load-conditional'
+  'perl-term-size-perl'
+  'perl-test-simple'
+)
 url='https://metacpan.org/release/Term-Size-Any'
 checkdepends=(
   'perl-module-load-conditional'
