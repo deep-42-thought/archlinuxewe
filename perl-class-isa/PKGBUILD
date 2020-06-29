@@ -3,12 +3,16 @@
 
 pkgname='perl-class-isa'
 pkgver='0.36'
-pkgrel=8
+pkgrel=9
 pkgdesc='report the search path for a class'"'"'s ISA tree'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl-if')
+depends=(
+  'perl>=5.32'
+  'perl<5.33'
+  'perl-if'
+)
 url='https://metacpan.org/release/Class-ISA'
 _distdir="Class-ISA-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/S/SM/SMUELLER/${_distdir}.tar.gz")
