@@ -2,12 +2,15 @@
 pkgname=perl-convert-uu
 _pkgname='Convert-UU'
 pkgver=0.5201
-pkgrel=8
+pkgrel=9
 pkgdesc="Perl module for uuencode and uudecode"
 arch=('any')
 url="http://search.cpan.org/~andk/Convert-UU-0.5201/"
 license=('GPL' 'PerlArtistic')
-depends=('perl')
+depends=(
+  'perl>=5.32'
+  'perl<5.33'
+)
 makedepends=()
 checkdepends=('perl-test-pod>=1.00' 'perl-test-pod-coverage')
 options=('!emptydirs')
