@@ -3,12 +3,16 @@
 
 pkgname='perl-data-taxi'
 pkgver='0.96'
-pkgrel=8
+pkgrel=9
 pkgdesc='Taint-aware, XML-ish data serialization'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
+depends=(
+  'perl>=5.32'
+  'perl<5.33'
+  'perl'
+)
 makedepends=('perl-debug-showstuff')
 url='https://metacpan.org/release/Data-Taxi'
 _distdir="Data-Taxi-${pkgver}"
