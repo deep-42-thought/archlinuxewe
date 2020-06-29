@@ -1,12 +1,15 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname='perl-math-combinatorics'
 pkgver='0.09'
-pkgrel=7
+pkgrel=8
 pkgdesc="Perform combinations and permutations on lists"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl')
+depends=(
+  'perl>=5.32'
+  'perl<5.33'
+)
 makedepends=()
 url='http://search.mcpan.org/dist/Math-Combinatorics'
 source=("https://cpan.metacpan.org/authors/id/A/AL/ALLENDAY/Math-Combinatorics-${pkgver}.tar.gz")
