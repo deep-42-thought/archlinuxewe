@@ -3,7 +3,7 @@
 
 pkgname='perl-sys-meminfo'
 pkgver='0.99'
-pkgrel=4
+pkgrel=5
 pkgdesc='query the total free and used physical memory'
 arch=('x86_64' 'i686')
 license=('PerlArtistic' 'GPL')
@@ -15,7 +15,11 @@ sha512sums=('ad0f8a12db7f7c643d0eb2d68fb1dcbff43928b786d390243e89d88537bd99360f8
 _pinned_dependencies=(
   'glibc>=2.31'
 )
-depends=("${_pinned_dependencies[@]}")
+depends=(
+  'perl>=5.32'
+  'perl<5.33'
+  "${_pinned_dependencies[@]}"
+)
 
 build() {
   cd "${srcdir}/${_distdir}"
