@@ -39,13 +39,13 @@ while true; do
   shift
 done
 
+if [ $# -eq 0 ]; then
+  usage
+fi
+
 if [ -z "${provided}" ]; then
   provided=$("${0%/*}/liste-verfuegbare-Versionen")
   trap 'rm -f "${provided}"' EXIT
-fi
-
-if [ $# -eq 0 ]; then
-  usage
 fi
 
 pin_dependency() {
