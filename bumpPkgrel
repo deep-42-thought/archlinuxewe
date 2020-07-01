@@ -69,7 +69,12 @@ pin_dependency() {
   '
 }
 
-if [ $# -eq 1 ]; then
+if [ $# -ne 1 ]; then
+
+  printf '%s\n' "$@" \
+    | xargs -rn1 "$0" ${commit_flag} -p "${provided}"
+
+else
 
   cd "$(dirname "$0")"
 
@@ -122,10 +127,5 @@ if [ $# -eq 1 ]; then
       git commit 'PKGBUILD' -m "${pkg}: rebuild"
     fi
   fi
-
-else
-
-  printf '%s\n' "$@" \
-    | xargs -rn1 "$0" ${commit_flag} -p "${provided}"
 
 fi
