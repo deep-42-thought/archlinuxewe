@@ -2,37 +2,46 @@
 
 provided=$(mktemp)
 
-find /var/lib/pacman/sync/ -name '*.db' \
-  -not -exec tar -Oxzf {} --wildcards '*/desc' \; \
-  -not -exec tar -OxJf {} --wildcards '*/desc' \; \
-  -not -exec tar -Oxjf {} --wildcards '*/desc' \; \
-  -not -exec tar -Oxf {} --wildcards '*/desc' \; \
-2>/dev/null \
-| sed -n '
-  /^%\(NAME\|VERSION\)%$/ {
-    N
-    s/\n/ /
+sources=(
+  /var/lib/pacman/sync
+  /mnt/archlinux/archlinux
+  /mnt/archlinux
+)
+
+for i in "${!sources[@]}"; do
+  find "${sources["${i}"]}" -name '*.db' \
+    -exec bsdtar -Oxzf {} \; \
+  2>/dev/null \
+  | sed -n '
+    /^%\(NAME\|VERSION\)%$/ {
+      N
+      s/\n/ /
+      p
+    }
+    /^%PROVIDES%$/,/^$/ {
+      /^[^%]/ p
+    }
+  ' \
+  | sed -n '
+    s/^\(\S\+\)=\(\S\+\)-\(64\|32\)$/\2 \1/
+    T no_provides
     p
-  }
-  /^%PROVIDES%$/,/^$/ {
-    /^[^%]/ p
-  }
-' \
-| sed -n '
-  s/^\(\S\+\)=\(\S\+\)-\(64\|32\)$/\2 \1/
-  T no_provides
-  p
-  d
-  :no_provides
-  /^%NAME%/ {
-    N
-    s/^%NAME% \(\S\+\)\n%VERSION% \(\S\+\)-\S\+$/\2 \1/
-    T
-    p
-  }
-' \
-| sort -k2,2 -k1Vr,1 \
-| uniq -f1 \
+    d
+    :no_provides
+    /^%NAME%/ {
+      N
+      s/^%NAME% \(\S\+\)\n%VERSION% \(\S\+\)-\S\+$/\2 \1/
+      T
+      p
+    }
+  ' \
+  | sed '
+    s/^/'"${i}"' /
+  '
+done \
+| sort -k3,3 -k1n,1 -k2Vr,2 \
+| uniq -f2 \
+| cut -d' ' -f2,3 \
 >"${provided}"
 
 printf '%s\n' "${provided}"
