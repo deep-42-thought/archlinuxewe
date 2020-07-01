@@ -1,0 +1,49 @@
+#!/bin/bash
+
+join -1 1 -2 2 -v 2 <(
+  find /var/lib/pacman/sync \
+    -name '*.db' \
+    -exec bsdtar -Oxf {} \; \
+  | sed -n '
+    /^%FILENAME%/ {
+      N
+      s/^%FILENAME%\n\(\S\+\)-\([^-]\+-[^-]\+\)-[^-]\+$/\1=\2/
+      p
+      s/-[^-]\+$//
+      p
+      d
+    }
+    /^%PROVIDES%$/,/^$/ {
+      s/-64$//
+      /^[^%]/p
+    }
+  ' \
+  | sort -u
+) <(
+  for pkgbuild in */PKGBUILD; do
+    sed -n '
+      /^\s*_pinned_dependencies[^[:space:]=]*=([^)]*$/,/)/p
+      /^\s*_pinned_dependencies[^[:space:]=]*=([^)]*)/p
+    ' "${pkgbuild}" \
+    | sed '
+      s/^\s*_pinned_dependencies[^[:space:]=]*=(//
+      s/).*$//
+    ' \
+    | tr '[:space:]' '\n' \
+    | sort -u \
+    | grep -vxF '' \
+    | sed '
+      s@^\(['"'"'"]\)\(\S\+\)\1$@\2@
+      /^glibc>=/d
+      s@^@'"${pkgbuild%/*}"' @
+    '
+  done \
+  | sort -k2,2
+) \
+| if [ "x$1" = 'x-m' ]; then
+  cut -d' ' -f2
+else
+  while read -r dep pkg; do
+    printf '%s: %s\n' "${pkg}" "${dep}"
+  done
+fi
