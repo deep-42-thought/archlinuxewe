@@ -4,7 +4,7 @@
 
 pkgname=ldm
 pkgver=0.8
-pkgrel=1
+pkgrel=2
 pkgdesc="A lightweight device mounter"
 arch=('i686' 'pentium4' 'x86_64')
 url="https://github.com/LemonBoy/ldm"
@@ -32,4 +32,7 @@ package() {
     PATH=${PATH}:/usr/bin/core_perl make PREFIX=/usr DESTDIR="$pkgdir" install
 
     install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+    mv "$pkgdir/sbin"/* "$pkgdir/usr/bin/"
+    rmdir "$pkgdir/sbin"
 }
