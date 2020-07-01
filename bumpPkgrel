@@ -1,28 +1,51 @@
 #!/bin/bash
 
-if [ $# -eq 0 ]; then
+usage() {
   >&2 echo 'usage: bumpPkgrel [-n] [-p /tmp/provided] $pkg1 $pkg2 $pkg3 ...'
   >&2 echo '  -n:  do not commit'
   >&2 echo '  -p:  use this temporary file'
   exit 1
-fi
+}
 
-if [ "x$1" = 'x-n' ]; then
-  commit=false
-  commit_flag='-n'
-  shift
-else
-  commit=true
-  commit_flag=''
-fi
+eval set -- "$(
+  getopt -o np: \
+    -n "$(basename "$0")" \
+    -- "$@" \
+    || echo "usage"
+)"
 
-if [ "x$1" = 'x-p' ]; then
+commit=true
+commit_flag=''
+provided=''
+
+while true; do
+  case "$1" in
+    '-n')
+      commit=false
+      commit_flag='-n'
+    ;;
+    '-p')
+      shift
+      provided="$1"
+    ;;
+    '--')
+      shift
+      break
+    ;;
+    *)
+      >&2 printf 'FEHLER: Verstehe Option "%s" doch nicht! Ich beende.\n' "$1"
+      exit 1
+  esac
   shift
-  provided="$1"
-  shift
-else
+done
+
+if [ -z "${provided}" ]; then
   provided=$("${0%/*}/liste-verfuegbare-Versionen")
   trap 'rm -f "${provided}"' EXIT
+fi
+
+if [ $# -eq 0 ]; then
+  usage
 fi
 
 pin_dependency() {
