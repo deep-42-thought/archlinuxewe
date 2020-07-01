@@ -2,6 +2,8 @@
 
 if [ $# -eq 0 ]; then
   >&2 echo 'usage: bumpPkgrel [-n] [-p /tmp/provided] $pkg1 $pkg2 $pkg3 ...'
+  >&2 echo '  -n:  do not commit'
+  >&2 echo '  -p:  use this temporary file'
   exit 1
 fi
 
