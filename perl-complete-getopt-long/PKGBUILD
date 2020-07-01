@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-complete-getopt-long'
-pkgver=0.478
-pkgrel=2
+pkgver=0.479
+pkgrel=1
 pkgdesc='Complete command-line argument using Getopt::Long specification'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,7 +11,6 @@ options=('!emptydirs')
 optdepends=(
   'perl-unix-passwd-file')
 makedepends=(
-  'perl'
   'perl-complete-bash>=0.333'
   'perl-extutils-makemaker'
   'perl-file-chdir'
@@ -20,8 +19,6 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.32'
-  'perl<5.33'
   'perl-complete-env'
   'perl-complete-file>=0.440'
   'perl-complete-util>=0.608'
@@ -40,7 +37,7 @@ checkdepends=(
 url='https://metacpan.org/release/Complete-Getopt-Long'
 _distdir="Complete-Getopt-Long-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('8a9e4e2ad56ee35cbceb609b6c13e19cc250e085c92390aec847d9c321cb318d858fa6443410d126a4ac3d00935b156a83545e563cf60499bf8ba239a7b5d8f7')
+sha512sums=('c546c44f2d29d1903ab52014b8b0ba559acad38346b013e5afc110af117002608d6a2b6562e397c8837d9900bcae1b0cb095ec91e186d56f6239c478e4713ce8')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
