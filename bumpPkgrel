@@ -1,25 +1,30 @@
 #!/bin/bash
 
 usage() {
-  >&2 echo 'usage: bumpPkgrel [-n] [-p /tmp/provided] $pkg1 $pkg2 $pkg3 ...'
+  >&2 echo 'usage: bumpPkgrel [-a] [-n] [-p /tmp/provided] $pkg1 $pkg2 $pkg3 ...'
+  >&2 echo '  -a:  auto-detect packages'
   >&2 echo '  -n:  do not commit'
   >&2 echo '  -p:  use this temporary file'
   exit 1
 }
 
 eval set -- "$(
-  getopt -o np: \
+  getopt -o anp: \
     -n "$(basename "$0")" \
     -- "$@" \
     || echo "usage"
 )"
 
+auto_detect=false
 commit=true
 commit_flag=''
 provided=''
 
 while true; do
   case "$1" in
+    '-a')
+      auto_detect=true
+    ;;
     '-n')
       commit=false
       commit_flag='-n'
@@ -39,7 +44,7 @@ while true; do
   shift
 done
 
-if [ $# -eq 0 ]; then
+if [ $# -eq 0 ] && ! ${auto_detect}; then
   usage
 fi
 
@@ -69,10 +74,16 @@ pin_dependency() {
   '
 }
 
-if [ $# -ne 1 ]; then
+if [ $# -ne 1 ] || ${auto_detect}; then
 
-  printf '%s\n' "$@" \
-    | xargs -rn1 "$0" ${commit_flag} -p "${provided}"
+  {
+    printf '%s\n' "$@"
+    if ${auto_detect}; then
+      "${0%/*}/checkPinnedDependencies -m"
+    fi
+  } \
+  | sort -u \
+  | xargs -rn1 "$0" ${commit_flag} -p "${provided}"
 
 else
 
