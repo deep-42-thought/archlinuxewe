@@ -79,7 +79,7 @@ if [ $# -ne 1 ] || ${auto_detect}; then
   {
     printf '%s\n' "$@"
     if ${auto_detect}; then
-      "${0%/*}/checkPinnedDependencies" -m
+      "${0%/*}/checkPinnedDependencies" -m "${provided}"
     fi
   } \
   | sort -u \
