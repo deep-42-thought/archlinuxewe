@@ -2,24 +2,30 @@
 
 cd "$(dirname "$0")"
 
+machineReadable=false
+unset provided
+
+while [ $# -gt 0 ]; do
+
+  if [ "x$1" = 'x-m' ]; then
+    machineReadable=true
+  elif [ -f "$1" ]; then
+    provided="$1"
+  else
+    >&2 printf 'unknown option "%s"\n' "$1"
+  fi
+
+  shift
+
+done
+
+if [ -z "${provided}" ]; then
+  provided=$("./liste-verfuegbare-Versionen")
+  trap 'rm -f "${provided}"' EXIT
+fi
+
 join -1 1 -2 2 -v 2 <(
-  find /var/lib/pacman/sync \
-    -name '*.db' \
-    -exec bsdtar -Oxf {} \; \
-  | sed -n '
-    /^%FILENAME%/ {
-      N
-      s/^%FILENAME%\n\(\S\+\)-\([^-]\+-[^-]\+\)-[^-]\+$/\1=\2/
-      p
-      s/-[^-]\+$//
-      p
-      d
-    }
-    /^%PROVIDES%$/,/^$/ {
-      s/-64$//
-      /^[^%]/p
-    }
-  ' \
+  awk '{print $2 "=" $1}' <"${provided}" \
   | sort -u
 ) <(
   for pkgbuild in */PKGBUILD; do
@@ -42,7 +48,7 @@ join -1 1 -2 2 -v 2 <(
   done \
   | sort -k2,2
 ) \
-| if [ "x$1" = 'x-m' ]; then
+| if ${machineReadable}; then
   cut -d' ' -f2
 else
   while read -r dep pkg; do
