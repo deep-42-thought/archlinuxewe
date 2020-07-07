@@ -55,6 +55,11 @@ package_fpc-svn() {
   options=('staticlibs')
   conflicts=('fpc')
   provides=("fpc=${pkgver}")
+  local _pinned_dependencies
+  _pinned_dependencies=(
+    'glibc>=2.31'
+  )
+  depends+=("${_pinned_dependencies[@]}")
 
   cd "${srcdir}"/fpcbuild
 
@@ -99,7 +104,7 @@ package_fpc-src-svn() {
   pkgdesc='Sources for the Free Pascal Compiler (required by the Lazarus IDE)'
   options=('!strip')
   conflicts=('fpc-src')
-  provides=('fpc-src')
+  provides=("fpc-src=${pkgver}")
 
   install -dm755 "${pkgdir}"/usr/lib/fpc
 
