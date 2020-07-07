@@ -424,7 +424,13 @@ if ${aufRechenknecht}; then
                   grep -xF 'any' || \
                   printf '%s' "${singleArch}"
               )" \
-              "${pn}"
+              "${pn}" \
+            | if [ "${singleArch}" != 'any' ] \
+              && [ "${singleArch}" != 'x86_64' ]; then
+              sed '/^any:/d'
+            else
+              cat
+            fi
           done
         )
         archs[${#archs[@]}]="${singleArch}"
