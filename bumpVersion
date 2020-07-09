@@ -200,7 +200,9 @@ if [ "${paket}" != 'qgis-git' ]; then
   rm -rf "src" "pkg"
   sudo pacman -Sy
   makepkg -fcsr --noconfirm --asdeps || exit 1
-  namcap "$(makepkg --packagelist)" || exit 1
+  for pkg in $(makepkg --packagelist); do
+    namcap "${pkg}" || exit 1
+  done
 fi
 if [ -d '.git' ] || [ -f '.git' ]; then
   makepkg --printsrcinfo > .SRCINFO
