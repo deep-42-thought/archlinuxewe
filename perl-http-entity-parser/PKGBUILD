@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (6bbcb8b40c8afe2a83fed1572257a4566073bfc1f6a7654a37cb3996433b0913c4b5e3c13962b4c68b79bd9630ea763de84424b2eed485e3e0afc421ef1cde7f)
 
 pkgname='perl-http-entity-parser'
-pkgver=0.22
-pkgrel=2
+pkgver=0.23
+pkgrel=1
 pkgdesc='PSGI compliant HTTP Entity Parser'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,8 +14,6 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.32'
-  'perl<5.33'
   'perl-encode'
   'perl-file-temp'
   'perl-hash-multivalue'
@@ -25,14 +23,14 @@ depends=(
   'perl-stream-buffered'
   'perl-www-form-urlencoded>=0.23')
 provides=(
-  'perl-http-entity-parser-json=0.22'
-  'perl-http-entity-parser-multipart=0.22'
-  'perl-http-entity-parser-octetstream=0.22'
-  'perl-http-entity-parser-urlencoded=0.22')
+  'perl-http-entity-parser-json=0.23'
+  'perl-http-entity-parser-multipart=0.23'
+  'perl-http-entity-parser-octetstream=0.23'
+  'perl-http-entity-parser-urlencoded=0.23')
 url='https://metacpan.org/release/HTTP-Entity-Parser'
 _distdir="HTTP-Entity-Parser-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/K/KA/KAZEBURO/${_distdir}.tar.gz")
-sha512sums=('fc54b92af197ec4dbdb1069f5a7a8db0892483f80a3737f4914cb6d03dd0ec01b2b215bed96b6736474d2d484516071926774610ace475199cae44174cc2abd0')
+sha512sums=('7ae384ae91b5519b9953f7186a898c8821d600c6ff2d2c659003dc23307cd01a5a241d3470509bafde72db6e611a74a56bb48b1ddc9d8c0bd12662e660febd25')
 
 build() {
   cd "${srcdir}/${_distdir}"
