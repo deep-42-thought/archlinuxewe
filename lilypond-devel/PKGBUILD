@@ -3,7 +3,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=lilypond-devel
-pkgver=2.21.2
+pkgver=2.21.3
 pkgrel=1
 pkgdesc="An automated music engraving system (development version)"
 arch=('i686' 'pentium4' 'x86_64')
@@ -42,7 +42,7 @@ provides=("lilypond=$pkgver")
 conflicts=('lilypond' 'lilypond-git')
 source=("http://lilypond.org/downloads/sources/v${pkgver%.*}/lilypond-${pkgver}.tar.gz"
         'no_fontforge-versioncheck.patch')
-sha512sums=('eb0adfd6c4adeb31a328056400ff53cf08393ca4afa6740f2a452874b839764a6c68028e1820ca0488dcfdbec4a7e5f1b04cf6f82609b62640ab16f2b26d61e0'
+sha512sums=('d355d32340d5d53a42c0a112cd6283cb293b334e7d0da683c0be312e1d6abfb3804ee7d1e965dacd395b0dfc4b53c6ee17ae86095912cf708268757bf5396053'
             '343317fd0d88cae1ed35bba6038ed5d24a0664bd47acf27895e03f2e95466439d80bb780277236ef74bd929c29a16ae840d09c3d50dd2a994b035d0d63e015aa')
 
 prepare() {
