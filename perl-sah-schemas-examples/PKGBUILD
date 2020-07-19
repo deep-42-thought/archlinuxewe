@@ -2,33 +2,33 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-sah-schemas-examples'
-pkgver='0.005'
-pkgrel=5
+pkgver=0.006
+pkgrel=1
 pkgdesc='Various example Sah schemas'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.32'
-  'perl<5.33'
-  'perl-sah-schemas-int'
-)
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple'
-)
+  'perl-test-simple')
+depends=(
+  'perl-sah-schemas-int')
 checkdepends=(
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
 )
 url='https://metacpan.org/release/Sah-Schemas-Examples'
 _distdir="Sah-Schemas-Examples-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('24fefab5cb7a74aa673dcee955e9ca9dedf3c383ba70e0b355c81604dd2d3fd111ed066c60e8563c65e7b2b98fb0270ca3557234d8631f11a5fd5aa832488769')
+sha512sums=('1e7d05094ce51405b859f5d59357e8771c430772964f03c878e1b81bb3f08211f3a77cb442f26b00c528e39ed2050d7254d0922eb46b8c56f5f7796d3d72e73f')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
