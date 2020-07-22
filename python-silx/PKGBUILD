@@ -3,7 +3,7 @@
 # Upstream contact: silx at esrf dot fr
 pkgname=python-silx
 _pkgname=silx
-pkgver=0.13.0
+pkgver=0.13.1
 pkgrel=1
 pkgdesc="A collection of Python packages for data analysis at synchrotron radiation facilities."
 arch=('i686' 'pentium4' 'x86_64')
@@ -39,7 +39,7 @@ optdepends=('python-h5py: for HDF5 input/output'
             'python-pyopencl: for sift - OpenCL implementation'
             'opencl-driver: for sift - OpenCL implementation')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${_pkgname}/archive/v${pkgver}.tar.gz")
-sha512sums=('2ef9bd24298591206d3163d9a8d1d1a8a7162f8abe99a290d0f1f163b35889ecf42c6d5d21701cc69ccf1a12cb72ff7fa850879f31d938e1519c93ae63004b30')
+sha512sums=('5a9add4c5e7502ff5ec00a57bf256aee26e91d1597562caf9fb994cf6e7a1c384f1f88f6cb02bea245ffec14ce6d8fedbb083bf5ea84da0a515036f7c8f5d90e')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
