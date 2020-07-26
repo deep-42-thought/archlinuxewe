@@ -13,7 +13,7 @@
 pkgname=courier-mta-devel
 _pkgname=courier
 pkgver=1.0.13.20200518
-pkgrel=2
+pkgrel=3
 pkgdesc="IMAP(s)/POP3(s) and SMTP Server with ML-manager, webmail and webconfig"
 arch=(i686 pentium4 x86_64)
 license=('GPL2')
@@ -25,7 +25,7 @@ _pinned_dependencies=(
   'glibc>=2.31'
   'gnutls=3.6.14'
   'libcourier-unicode.so=4'
-  'libidn=1.35'
+  'libidn=1.36'
   'pcre=8.44'
 )
 depends=('courier-authlib>0.70.0' 'mime-types' 'ca-certificates' "${_pinned_dependencies[@]}")
