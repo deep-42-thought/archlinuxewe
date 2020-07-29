@@ -1,0 +1,6 @@
+post_upgrade() {
+  su http -s /bin/sh -c '
+    cd /var/lib/acme2certifier/tools
+    python db_update.py
+  '
+}

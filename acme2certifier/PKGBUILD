@@ -3,7 +3,7 @@
 pkgname=acme2certifier
 pkgver=0.11.r55.g7da6157
 _commit="${pkgver##*.g}"
-pkgrel=1
+pkgrel=2
 pkgdesc='experimental acme server written in python'
 arch=('any')
 url='https://github.com/grindsa/acme2certifier'
@@ -28,6 +28,7 @@ source=(
 sha512sums=('SKIP'
             '6700736f127297293067930e92b711c579d800c684b587ca2c5cbc2430dee241500932b57398d87a4dbf4111483bf0942814a06587bbe2a77958c9da18a18e63'
             '3ed87346bf0776f50e452b1928c8f24db5498a5af1010042e9680ca136242f49e78d30ebca5e4328f485d1c051ab51f859a1ae2f936e0c6eb5b1cde700b3b201')
+install="${pkgname}.install"
 
 pkgver() {
   for _trial in 'origin/devel' 'devel'; do
