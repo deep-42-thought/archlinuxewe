@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Contributor: Remi Gacogne <rgacogne at archlinux dot org>
 pkgname=dnsdist
-pkgver=1.4.9999_1.5.0_rc4
+pkgver=1.5.0
 _pkgver=${pkgver#*_}
 _pkgver=${_pkgver//_/-}
 pkgrel=1
@@ -11,7 +11,7 @@ url='https://dnsdist.org/'
 license=('GPL2')
 source=(https://downloads.powerdns.com/releases/${pkgname}-${_pkgver}.tar.bz2{,.asc}
         sysusers.conf)
-sha512sums=('f99a428dc17289f4525baf28c9f2a22f06602c46e381a1fc39441c9d21ed61c9a019ed46402a9a18305b65532253d09213bbf74c1a75490c66001d596be484bc'
+sha512sums=('df6f8caae001f152f0d264176c570778842979484d16e4199afe0e2591006392444245dd8ce23287cdcf9613e2c40a9e3564f5236e5f5a6fd67b89d6ea0d9ed4'
             'SKIP'
             'd55ccd612cbe08b353815027d30a3b0f0ec7bf6b0d74a0a634939be53ce6e6b41d23e54c2328946f00738c03e9f306ce4f2dabe5e4b11d9fb28d0abf49917893')
 validpgpkeys=('D6300CABCBF469BBE392E503A208ED4F8AF58446') # Remi Gacogne <remi.gacogne@powerdns.com>
