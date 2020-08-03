@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Contributor: Brian Galey <bkgaley@gmail.com>
 pkgname=readosm
-pkgver=1.1.0
-pkgrel=2
+pkgver=1.1.0a
+pkgrel=1
 pkgdesc='Library to extract valid data from within an Open Street Map input file'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://www.gaia-gis.it/fossil/readosm/index'
@@ -15,7 +15,7 @@ _pinned_dependencies=(
 depends=("${_pinned_dependencies[@]}")
 options=('!libtool')
 source=("http://www.gaia-gis.it/gaia-sins/$pkgname-sources/$pkgname-$pkgver.tar.gz")
-sha512sums=('d3581f564c4461c6a1a3d5fd7d18a262c884b2ac935530064bfaebd6c05d692fb92cc600fb40e87e03f7160ebf0eeeb05f51a0e257935d056b233fe28fc01a11')
+sha512sums=('4984b8a2bbdba9e79eca1414a076d402ffcd6756d8881eb2646d37679de5467fbc9324287b580e7f6f8fb8e5a01cbd44e94619abc95039d16e46665eb9d529d8')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
