@@ -24,7 +24,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.8
-pkgrel=3
+pkgrel=4
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -242,7 +242,7 @@ package_bareos-database-mysql() {
     'libmariadb.so=3'
   )
   _pinned_dependencies_nsoprov=(
-    'mariadb-libs=10.4.13'
+    'mariadb-libs=10.4.14'
   )
   for _a in x86_64 pentium4 i686 armv6h armv7h aarch64; do
     eval 'local _pinned_dependencies_'"${_a}"
