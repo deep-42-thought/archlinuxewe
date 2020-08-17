@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=update-all
-pkgver=0.7
+pkgver=0.7.1
 pkgrel=1
 pkgdesc="Simple script for installing updated packages"
 arch=('any')
@@ -8,6 +8,7 @@ url="https://git.eckner.net/Erich/${pkgname}"
 license=('GPL')
 groups=()
 depends=(
+  'archlinux-contrib'
   'inetutils'
   'pacman-contrib'
   'vim'
@@ -26,7 +27,7 @@ options=()
 source=(
     "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('89c864b7c55b8cd1cf5a935976855238ee844431a3c4801da2fc077e73b7bbaf849e3f58bfd207197508c19c67e728dc707e7fad00508e6cc9f6de91348ef13e')
+sha512sums=('d66797ab0da3c79c0548c26b3fbeea4459df319ec148939c3d9aa6eae196321bdbe0aba3964ef599902b68bf10aeb446837cf1c3da53ffd6f50f489905a2190a')
 
 build() {
 
