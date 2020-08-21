@@ -2,25 +2,22 @@
 # Generator : neuesPerlPaket (891ddb3256dcf7fddc2e9411937d2e79af92d49619de3f7b89622910f138c28ba93dfdb1f29ffc8e152e5942feb88e6f71f901570a155e3fdb4c7c6cca6f59c1)
 
 pkgname='perl-list-compare'
-pkgver='0.53'
-pkgrel=5
+pkgver=0.55
+pkgrel=1
 pkgdesc='Compare elements of two or more lists'
 arch=('any')
+makedepends=(
+  'perl-capture-tiny'
+  'perl-extutils-makemaker'
+  'perl-test-simple>=0.1')
 depends=(
-  'perl>=5.32'
-  'perl<5.33'
-)
+  'perl')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-io-captureoutput'
-  'perl-test-simple>=0.1'
-)
 url='https://metacpan.org/release/List-Compare'
 _distdir="List-Compare-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/J/JK/JKEENAN/${_distdir}.tar.gz")
-sha512sums=('b467e9395afa8297f5f59d745d22048373cfd60dc0c8ce56d0ad95e8f9fddcda487d99c906b9fb5ac1b28aa53873a7c9689347866c3aa907aecd31b4a127627a')
+sha512sums=('0f7e2325449298940f14b369b0c82c326c6e596123939285b8e7cce9cc36e8a78620eb4ff96594c55c26c1acecb46966d4d40eb5f591e76798614257c300d705')
 
 build() {
   cd "${srcdir}/${_distdir}"
