@@ -9,7 +9,7 @@
 pkgname=courier-authlib-devel
 _pkgname=${pkgname%-*}
 pkgver=0.70.0.20200518
-pkgrel=6
+pkgrel=7
 pkgdesc="Authentication library for the Courier mailserver(s)"
 arch=(i686 pentium4 x86_64)
 license=('GPL2')
@@ -17,14 +17,14 @@ url="https://courier-mta.org/authlib/"
 backup=('etc/authlib/authdaemonrc' 'etc/authlib/authldaprc' \
         'etc/authlib/authmysqlrc' 'etc/authlib/authpgsqlrc')
 _pinned_dependencies=(
-  'gcc-libs=10.1.0'
+  'gcc-libs=10.2.0'
   'gdbm=1.18.1'
   'glibc>=2.31'
   'libmariadb.so=3'
   'libtool=2.4.6+42+gb88cebd5'
   'pam=1.4.0'
-  'postgresql-libs=12.3'
-  'sqlite=3.32.3'
+  'postgresql-libs=12.4'
+  'sqlite=3.33.0'
 )
 depends=('openssl' 'perl' 'expect' 'courier-unicode>=2.1' "${_pinned_dependencies[@]}")
 makedepends=('pam' 'libldap' 'libmariadbclient' 'postgresql-libs>=8.3.0')
