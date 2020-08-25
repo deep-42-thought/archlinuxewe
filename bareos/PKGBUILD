@@ -24,7 +24,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.8
-pkgrel=6
+pkgrel=7
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -128,7 +128,7 @@ package_bareos-common() {
   pkgdesc="${pkgdesc} - Common files"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
     'jansson=2.13.1'
     'libacl.so=1'
@@ -181,7 +181,7 @@ package_bareos-bconsole() {
   pkgdesc="${pkgdesc} - Admin Tool (CLI)"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
     'jansson=2.13.1'
     'libreadline.so=8'
@@ -205,7 +205,7 @@ package_bareos-database-common() {
   pkgdesc="${pkgdesc} - Generic abstration libs and tools for sql catalog"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
   )
   depends=("bareos-common=$pkgver" 'libcap' 'lzo' 'zlib' 'openssl' 'bash' 'jansson' "${_pinned_dependencies[@]}")
@@ -235,7 +235,7 @@ package_bareos-database-mysql() {
   local _pinned_dependencies_soprov
   local _pinned_dependencies_nsoprov
   _pinned_dependencies_ibig=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
   )
   _pinned_dependencies_soprov=(
@@ -291,9 +291,9 @@ package_bareos-database-postgresql() {
   provides=("bareos-database=$pkgver")
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
-    'postgresql-libs=12.3'
+    'postgresql-libs=12.4'
   )
   depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
   install='bareos-database-postgresql.install'
@@ -330,9 +330,9 @@ package_bareos-database-sqlite3() {
   provides=("bareos-database=$pkgver")
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
-    'sqlite=3.32.3'
+    'sqlite=3.33.0'
   )
   depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
 
@@ -358,7 +358,7 @@ package_bareos-database-tools() {
   pkgdesc="${pkgdesc} - CLI tools with database dpendencies (dbcheck, bscan)"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
     'jansson=2.13.1'
     'openssl=1.1.1.g'
@@ -386,7 +386,7 @@ package_bareos-director() {
   pkgdesc="${pkgdesc} - Director daemon"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
     'jansson=2.13.1'
     'openssl=1.1.1.g'
@@ -493,7 +493,7 @@ package_bareos-storage-fifo() {
   pkgdesc="${pkgdesc} - FIFO support for storage daemon"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
   )
   depends=("bareos-storage=$pkgver" 'zlib' 'libcap' 'openssl' 'jansson' 'lzo' "${_pinned_dependencies[@]}")
@@ -518,7 +518,7 @@ package_bareos-tools() {
   pkgdesc="${pkgdesc} - CLI tools (bcopy, bextract, bls, bregeq, bwild)"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
   )
   depends=("bareos-common=$pkgver" "${_pinned_dependencies[@]}")
@@ -547,7 +547,7 @@ package_bareos-filedaemon() {
   pkgdesc="${pkgdesc} - File daemon"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
     'jansson=2.13.1'
     'zlib=1:1.2.11'
@@ -593,7 +593,7 @@ package_bareos-storage() {
   pkgdesc="${pkgdesc} - Storage daemon"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
     'zlib=1:1.2.11'
   )
@@ -643,7 +643,7 @@ package_bareos-storage-tape() {
   pkgdesc="${pkgdesc} - Tape support for storage daemon"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
   )
   depends=("bareos-common=$pkgver" "bareos-storage=$pkgver" 'zlib' 'libcap' 'bash' 'openssl' 'jansson' 'lzo' 'mtx' "${_pinned_dependencies[@]}")
@@ -688,7 +688,7 @@ package_bareos-director-python-plugin() {
   pkgdesc="${pkgdesc} - Python plugin for director daemon"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
     'python2=2.7.18'
   )
@@ -708,7 +708,7 @@ package_bareos-filedaemon-python-plugin() {
   pkgdesc="${pkgdesc} - Python plugin for file daemon"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
     'python2=2.7.18'
   )
@@ -730,7 +730,7 @@ package_bareos-storage-python-plugin() {
   pkgdesc="${pkgdesc} - Python plugin for storage daemon"
   local _pinned_dependencies
   _pinned_dependencies=(
-    'gcc-libs=10.1.0'
+    'gcc-libs=10.2.0'
     'glibc>=2.31'
     'python2=2.7.18'
   )
