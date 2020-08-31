@@ -20,7 +20,7 @@ pkgrel=1
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 url='http://www.freepascal.org/'
 license=('GPL' 'LGPL' 'custom')
-depends=('ncurses' 'zlib' 'expat')
+depends=('bash' 'ncurses' 'zlib' 'expat')
 # Trunk can only be built with stable version of FPC
 makedepends=('fpc' 'subversion')
 [[ $_build_docs -ne 0 ]] && makedepends+=('texlive-core' 'texlive-htmlxml'
