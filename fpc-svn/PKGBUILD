@@ -16,7 +16,7 @@ pkgname=('fpc-svn' 'fpc-src-svn')
 [[ $_build_docs -ne 0 ]] && pkgname+=('fpc-docs-svn')
 pkgver=3.3.1.r46738
 _pkgver=${pkgver%.r*}
-pkgrel=1
+pkgrel=2
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 url='http://www.freepascal.org/'
 license=('GPL' 'LGPL' 'custom')
@@ -110,7 +110,6 @@ package_fpc-src-svn() {
   options=('!strip')
   conflicts=('fpc-src')
   provides=("fpc-src=${pkgver}")
-  arch=('any')
 
   install -dm755 "${pkgdir}"/usr/lib/fpc
 
