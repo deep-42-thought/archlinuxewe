@@ -3,23 +3,24 @@
 
 pkgname='python-asteval'
 _pkgname="${pkgname#*-}"
-pkgver=0.9.18
-pkgrel=3
+pkgver=0.9.19
+pkgrel=1
 pkgdesc='Minimal Python AST Evaluator'
 arch=('any')
 url='https://newville.github.io/asteval/'
 license=('MIT')
-depends=(
-  'python>=3.8'
-  'python<3.9')
-makedepends=(
-  'python-setuptools')
 checkdepends=(
   'python-nose'
   'python-pytest')
+makedepends=(
+  'python-setuptools')
+depends=(
+
+  'python>=3.8'
+  'python<3.9')
 source=(
   "${_pkgname}-${pkgver}.tar.gz::https://github.com/newville/${_pkgname}/archive/${pkgver}.tar.gz")
-sha512sums=('f2b5b8235fe8e1ca9b071d4f0fd84e5e3f843c819d13211a3111a58724195ecf44e05270da94127239e51ecde28d851dc3e0eaa9005a63a576cfc531250f82b7')
+sha512sums=('5d5bd7cca7503f48c433b46996c5d23a7d13164bab8e26d3eb4bd721e7720fd43905dbe9a5eb19cb38fc8296aacf3fc7fa508ff80977ace2ed2eef16e5bbb977')
 
 build() {
   cd "$srcdir/${_pkgname}-$pkgver"
