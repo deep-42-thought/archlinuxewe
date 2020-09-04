@@ -929,8 +929,10 @@ then
           'bindfs\.org' \
           'dl\.suckless\.org' \
           'download\.osgeo\.org' \
+          'download\.qemu\.org' \
           'downloads\.powerdns\.com' \
           'ftp\.daper\.net' \
+          'ftp\.pcre\.org' \
           'isl\.gforge\.inria\.fr' \
           'www\.vanheusden\.com'\
           'people\.gnome\.org' \
@@ -956,6 +958,10 @@ then
           break
         fi
       done
+      pkgname="${pkgname%-static}"
+      if [ "${pkgname}" = 'qemu-user' ]; then
+        pkgname='qemu'
+      fi
       quVer="${src%/*}/"
       if printf '%s\n' "${pkgver}" \
       | grep -qx '[0-9.]\+_[0-9.]\+_rc[0-9]\+'; then
