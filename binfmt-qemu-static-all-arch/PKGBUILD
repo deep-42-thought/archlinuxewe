@@ -1,0 +1,36 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Michael Taboada <michael@2mb.solutions>
+
+pkgname=binfmt-qemu-static-all-arch
+pkgver=20200413
+pkgrel=1
+pkgdesc="Register qemu-static interpreters for various binary formats - all archetectures, intelligently removing the current archetecture"
+arch=('armv5' 'armv6h' 'armv7h' 'aarch64' 'i686' 'x86_64')
+url="http://www.freedesktop.org/software/systemd/man/binfmt.d.html"
+license=('GPL')
+optdepends=('qemu-user-static')
+provides=('binfmt-qemu-static')
+conflicts=('binfmt-qemu-static')
+source=("qemu-binfmt-conf-$pkgver.sh::https://raw.githubusercontent.com/qemu/qemu/master/scripts/qemu-binfmt-conf.sh")
+sha512sums=('01d6b5d9e571b78e1def3217ba47498b790f6d72eb55eab31a68184fa9f0e5661ac6014672d39d4e065a4d8678a44f0b31a70eb17ea397bddb8353fd392af8f5')
+
+build() {
+  mkdir build
+  chmod +x "qemu-binfmt-conf-$pkgver.sh"
+  HOST_ARCH="$CARCH" "./qemu-binfmt-conf-$pkgver.sh" --systemd ALL --exportdir "$srcdir/build" --qemu-path /usr/bin --qemu-suffix -static
+  cat build/* \
+  | sed 's/$/CF/' \
+  > qemu-static.conf
+}
+
+package() {
+  install -Dm 644 "$srcdir/qemu-static.conf" "$pkgdir/usr/lib/binfmt.d/qemu-static.conf"
+  case $CARCH in
+    arm* | aarch64) sed -i "/qemu-arm/d" "$pkgdir/usr/lib/binfmt.d/qemu-static.conf" ;&
+    aarch64) sed -i "/qemu-aarch64/d" "$pkgdir/usr/lib/binfmt.d/qemu-static.conf" ;;
+    i686 | x86_64) sed -i "/qemu-i386/d" "$pkgdir/usr/lib/binfmt.d/qemu-static.conf" ;  sed -i "/qemu-x86_64/d" "$pkgdir/usr/lib/binfmt.d/qemu-static.conf" ;;
+    *) sed -i "/$CARCH/d" "$pkgdir/usr/lib/binfmt.d/qemu-static.conf" ;;
+  esac
+}
+
+# vim:set ts=2 sw=2 et:
