@@ -1,0 +1,26 @@
+arch=('any')
+pkgname=pambase-no-systemd-home
+pkgver=20200721.1
+pkgrel=2
+
+source=("https://arch.eckner.net/archlinux/pool/packages/pambase-$pkgver-$pkgrel-any.pkg.tar.zst")
+md5sums=('2e7051c21147fb37db5b5ffb581e86d4')
+
+package() {
+  sed -i '
+    /pam_systemd_home\.so/d
+  ' "$srcdir/etc/pam.d/system-auth"
+  mv "$srcdir/etc" "$pkgdir/"
+
+  while read -r var eq value; do
+    [ "x$eq" = 'x=' ] || continue
+    case "$var" in
+      pkgdesc|url|license)
+        eval "$var"'="$value"'
+      ;;
+      backup)
+        backup+=("$value")
+      ;;
+    esac
+  done < "$srcdir/.PKGINFO"
+}
