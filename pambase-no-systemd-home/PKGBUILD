@@ -4,7 +4,8 @@ pkgver=20200721.1
 pkgrel=2
 
 source=("https://arch.eckner.net/archlinux/pool/packages/pambase-$pkgver-$pkgrel-any.pkg.tar.zst")
-md5sums=('2e7051c21147fb37db5b5ffb581e86d4')
+sha512sums=('2e7051c21147fb37db5b5ffb581e86d4')
+provides=("pambase=$pkgver-$pkgrel")
 
 package() {
   sed -i '
