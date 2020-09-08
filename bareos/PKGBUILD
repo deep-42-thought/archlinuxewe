@@ -234,6 +234,7 @@ package_bareos-database-mysql() {
   local _pinned_dependencies_ibig
   local _pinned_dependencies_soprov
   local _pinned_dependencies_nsoprov
+  [ "${CARCH}" != 'i486' ] || return 0
   _pinned_dependencies_ibig=(
     'gcc-libs=10.2.0'
     'glibc>=2.31'
@@ -249,7 +250,6 @@ package_bareos-database-mysql() {
     eval 'depends_'"${_a}"'=("${_pinned_dependencies[@]}" "${_pinned_dependencies_'"${_a}"'[@]}")'
   done
   depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver")
-  [ "${CARCH}" != 'i486' ] || return 0
   install=bareos-database-mysql.install
 
   install -Dm755 \
@@ -740,14 +740,17 @@ package_bareos-storage-python-plugin() {
 makedepends+=(
   $(
     for _pn in "${pkgname[@]}"; do
-      declare -f "package_${_pn}" \
-      | sed -n '
-        s/^\s*_pinned_dependencies=(//
-        T
-        s/);\?$//
-        T
-        p
-      ' \
+      (
+        eval "$(
+          declare -f "package_${_pn}" \
+          | sed '
+            s/^\s*_pinned_dependencies=(\(.*\));\?$/echo \1/
+            t
+            /\[ "${CARCH}" /!d
+            s/return/exit/
+          '
+        )"
+      ) \
       | tr ' ' '\n' \
       | tr -d '"'"'"
     done \
