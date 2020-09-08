@@ -740,7 +740,7 @@ package_bareos-storage-python-plugin() {
 makedepends+=(
   $(
     for _pn in "${pkgname[@]}"; do
-      eval 'declare -f package_'"${_pn}" \
+      declare -f "package_${_pn}" \
       | sed -n '
         s/^\s*_pinned_dependencies=(//
         T
