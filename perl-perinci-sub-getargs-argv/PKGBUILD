@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-sub-getargs-argv'
-pkgver=0.844
-pkgrel=2
+pkgver=0.845
+pkgrel=1
 pkgdesc='Get subroutine arguments from command line arguments (@ARGV)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,7 +11,6 @@ options=('!emptydirs')
 optdepends=(
   'perl-yaml-libyaml')
 makedepends=(
-  'perl'
   'perl-data-clean-json>=0.390'
   'perl-data-dmp>=0.240'
   'perl-data-sah'
@@ -23,14 +22,12 @@ makedepends=(
   'perl-test-needs'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.32'
-  'perl<5.33'
   'perl-data-clean-json>=0.11'
   'perl-data-sah-normalize'
   'perl-data-sah-resolve>=0.003'
   'perl-data-sah-util-type>=0.45'
   'perl-exporter>=5.57'
-  'perl-getopt-long>=2.5'
+  'perl-getopt-long>=2.50'
   'perl-getopt-long-negate-en>=0.060'
   'perl-getopt-long-util>=0.891'
   'perl-json-pp'
@@ -52,7 +49,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Sub-GetArgs-Argv'
 _distdir="Perinci-Sub-GetArgs-Argv-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('ffa0f4227af968cdaf668147e28dc2c95e875da38f65563c325c8aa4d8d958ef1cca01d2190d3f4880f89fd86644ee2fadb73a6f5794e864b31eeae96f7467fb')
+sha512sums=('3ea3498ad7ba06a96f4f5fbe8feafbc5b72d29f131c49658960704a3c27ff48c3ce224ffc9e71a3b92490a9d72d402fe23c60b1bf1541ee85279f690f4453dc1')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/get_args_from_argv.t"
