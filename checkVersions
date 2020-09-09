@@ -489,6 +489,21 @@ then
           latest_version
       )"
     elif echo "${src}" | \
+      grep -q "//raw\.githubusercontent\.com/qemu/qemu/"; then
+      sum=$(
+        curl -Ss "${src}" | \
+          sha512sum - | \
+          awk '{print $1}'
+      )
+      if printf '%s\n' "${sha512sums[@]}" | \
+        grep -qxF "${sum}"; then
+        remVer="${pkgver}"
+      else
+        remVer=$(
+          date +%Y%m%d
+        )
+      fi
+    elif echo "${src}" | \
       grep -q "//www\.mpich\.org/"
     then
       quVer="${src%/*/*}/"
