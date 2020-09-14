@@ -1005,7 +1005,8 @@ then
       grep -qF "$(
         printf '%s\n' \
           'https://www.kernel.org/pub/linux/utils/cryptsetup' \
-          'https://archive.apache.org/'
+          'https://archive.apache.org/' \
+          'http://ftp.gnome.org/pub/gnome/sources/glib/'
         )"; then
       fileName=$(
         printf '%s\n' "${src}" \
@@ -1017,7 +1018,7 @@ then
       for mainVer in $(
         curl_it -L "${src%/*/*}/" \
         | sed '
-          s@^.*<a href="\(\(v\|'"${fileName}"'-\)[0-9.]\+\)/">\1/</a>.*$@\1@
+          s@^.*<a href="\(\(v\|'"${fileName}"'-\)\?[0-9.]\+\)/">\1/</a>.*$@\1@
           t
           d
         ' \
