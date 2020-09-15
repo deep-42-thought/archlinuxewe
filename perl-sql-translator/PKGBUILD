@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
 
 pkgname='perl-sql-translator'
-pkgver=1.60
-pkgrel=3
+pkgver=1.62
+pkgrel=1
 pkgdesc='SQL DDL transformations and more'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -27,8 +27,6 @@ makedepends=(
   'perl-xml-writer>=0.500'
   'perl-yaml>=0.66')
 depends=(
-  'perl>=5.32'
-  'perl<5.33'
   'perl-carp-clan'
   'perl-dbi>=1.54'
   'perl-digest-sha'
@@ -41,7 +39,7 @@ depends=(
 url='https://metacpan.org/release/SQL-Translator'
 _distdir="SQL-Translator-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/I/IL/ILMARI/${_distdir}.tar.gz")
-sha512sums=('0306ee301fd006276c5eeb3a4fd67ee9929e936cfa588d5b55a1e8acdb133f55724f2dd878722f01a540ff3b7b4554a15e2402df62944be8a38a9cc37d581511')
+sha512sums=('80096bf42cff406b896d96fd4374cb69c4bbe6ce037d58bb520d5c8ac31a15454772217730fac4249960cd81ac02ff9b5419b8dc80fd0a0901802e525ff863c8')
 
 build() {
   cd "${srcdir}/${_distdir}"
