@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=python-pyepics
 _pkgname="${pkgname#*-}"
-pkgver=3.4.2
-pkgrel=3
+pkgver=3.4.3
+pkgrel=1
 pkgdesc='Python Interface to the Epics Channel Access protocol of the Epics control system'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://pypi.python.org/pypi/pyepics'
@@ -19,9 +19,9 @@ depends=(
   'python>=3.8'
   'python<3.9')
 source=(
-    "https://pypi.python.org/packages/d7/9e/c3e74b3f9b81d2a9beab467dad1fd156e0ab978a49cf787f36f398caeef4/${_pkgname}-${pkgver}.tar.gz"
+    "https://pypi.python.org/packages/8b/d4/a2c8736233d7c0bbfd29d92dacffe69b35af35f74ff049c628e7418ed70b/${_pkgname}-${pkgver}.tar.gz"
 )
-sha512sums=('7e1d27f893273155d43fa2c95040836ee75e2ac42f51495fba17bcc86045212a4946a302b11c187d0c011ee6f4088597c8125f5b8fd6902695527e22422ae603')
+sha512sums=('cfad6673003a266fa561185095690355890527849c380b245defac5877d2d0dbafd40340e32528f43ffa39dad0409ba414d1267af9f3122caaf43671cf13e4a0')
 
 build() {
   cd ${_pkgname}-${pkgver}
