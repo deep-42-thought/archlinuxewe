@@ -4,7 +4,7 @@
 pkgname=alpine
 pkgver=2.23.2.r32.90c9fe5
 _commit=${pkgver##*.}
-pkgrel=1
+pkgrel=2
 arch=("i686" "pentium4" "x86_64")
 pkgdesc="Apache licensed PINE mail user agent"
 url="http://alpine.freeiz.com"
@@ -14,7 +14,7 @@ _pinned_dependencies=(
   'krb5=1.18.2'
   'libcrypt.so=2'
   'libncursesw.so=6'
-  'openssl=1.1.1.g'
+  'openssl=1.1.1.h'
 )
 depends=("gettext" "${_pinned_dependencies[@]}")
 makedepends=('openssl' 'git')
