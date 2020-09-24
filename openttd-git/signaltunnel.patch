@@ -1,5 +1,5 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index a0b146c9bf6..80740463bc5 100644
+index c055f54a059..5d02d52d83f 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -1561,6 +1561,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES                         :Minimum company
@@ -23,7 +23,7 @@ index a0b146c9bf6..80740463bc5 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index a2d3a8516a3..345a4a99e4b 100644
+index 266fdad22fc..ba972f79004 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
 @@ -1713,6 +1713,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES                         :Мин. воз
@@ -285,7 +285,7 @@ index fdb2b0f862d..0cbc26d6437 100644
  	uint32 terraform_per_64k_frames;         ///< how many tile heights may, over a long period, be terraformed per 65536 frames?
  	uint16 terraform_frame_burst;            ///< how many tile heights may, over a short period, be terraformed?
 diff --git a/src/signal.cpp b/src/signal.cpp
-index 068ca6193bd..b9627483ac0 100644
+index 9b17e51dcb8..fd299eb6902 100644
 --- a/src/signal.cpp
 +++ b/src/signal.cpp
 @@ -195,6 +195,14 @@ static Vehicle *TrainOnTileEnum(Vehicle *v, void *)

@@ -443,7 +443,7 @@ index fab93c9802d..f345f5ee6d3 100644
  	for (row = 0; (uint)row < height; row++) {
  		for (col = 0; (uint)col < width; col++) {
 diff --git a/src/industry_cmd.cpp b/src/industry_cmd.cpp
-index bd1d28ef6c0..b32e9922fb0 100644
+index 443702993e3..223018bd2c7 100644
 --- a/src/industry_cmd.cpp
 +++ b/src/industry_cmd.cpp
 @@ -12,6 +12,7 @@
@@ -472,7 +472,7 @@ index bd1d28ef6c0..b32e9922fb0 100644
  					/* Start with a random layout */
  					size_t layout = RandomRange((uint32)num_layouts);
  					/* Check now each layout, starting with the random one */
-@@ -2154,7 +2155,7 @@ static Industry *PlaceIndustry(IndustryType type, IndustryAvailabilityCallType c
+@@ -2155,7 +2156,7 @@ static Industry *PlaceIndustry(IndustryType type, IndustryAvailabilityCallType c
  {
  	uint tries = try_hard ? 10000u : 2000u;
  	for (; tries > 0; tries--) {
@@ -627,10 +627,10 @@ index 5196ae47efe..a136f727010 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Клас на станцията: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Тип на станцията: {LTBLUE}{STRING}
 diff --git a/src/lang/catalan.txt b/src/lang/catalan.txt
-index f4012ca12e7..3d423b63d15 100644
+index d068164d7d7..d7743c291ff 100644
 --- a/src/lang/catalan.txt
 +++ b/src/lang/catalan.txt
-@@ -2609,7 +2609,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
+@@ -2626,7 +2626,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Propietari del rail: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoritat Local: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Cap
@@ -981,7 +981,7 @@ index 7e9d8e30563..6f05fa0083a 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Tipo stazione: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo stazione: {LTBLUE}{STRING}
 diff --git a/src/lang/korean.txt b/src/lang/korean.txt
-index 78becf4066b..9439b1588f0 100644
+index c2b99a85716..3ece1ade573 100644
 --- a/src/lang/korean.txt
 +++ b/src/lang/korean.txt
 @@ -2626,7 +2626,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}전찻
@@ -1270,7 +1270,7 @@ index 5571c32f5f0..7efa57540f8 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clase de estación: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estación: {LTBLUE}{STRING}
 diff --git a/src/lang/swedish.txt b/src/lang/swedish.txt
-index 909ce0e4abd..b6f066b6b4d 100644
+index 23f557ec070..a50b0a96688 100644
 --- a/src/lang/swedish.txt
 +++ b/src/lang/swedish.txt
 @@ -2625,7 +2625,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Spårvä
@@ -1335,10 +1335,10 @@ index 8193f2970e3..a9387934118 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}İstasyon sınıfı: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}İstasyon türü: {LTBLUE}{STRING}
 diff --git a/src/lang/ukrainian.txt b/src/lang/ukrainian.txt
-index caab8a01693..1963feb70d4 100644
+index 012a569f9aa..64736e421f3 100644
 --- a/src/lang/ukrainian.txt
 +++ b/src/lang/ukrainian.txt
-@@ -2746,7 +2746,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Влас
+@@ -2756,7 +2756,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Влас
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Власник залізниці: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Місцева влада: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Немає
@@ -1688,20 +1688,20 @@ index 00000000000..53eafdde639
 +
 +#endif /* LAYER_TYPE_H */
 diff --git a/src/main_gui.cpp b/src/main_gui.cpp
-index 5343e2ed11f..317b360b244 100644
+index 5877fb93872..7d3babb212b 100644
 --- a/src/main_gui.cpp
 +++ b/src/main_gui.cpp
-@@ -31,6 +31,9 @@
- #include "tilehighlight_func.h"
- #include "hotkeys.h"
+@@ -33,6 +33,9 @@
  #include "guitimer_func.h"
+ #include "error.h"
+ #include "news_gui.h"
 +#include "gfx_func.h"
 +#include "layer_gui.h"
 +#include "landscape.h"
  
  #include "saveload/saveload.h"
  
-@@ -102,7 +105,7 @@ bool HandlePlacePushButton(Window *w, int widget, CursorID cursor, HighLightStyl
+@@ -104,7 +107,7 @@ bool HandlePlacePushButton(Window *w, int widget, CursorID cursor, HighLightStyl
  	if (_settings_client.sound.click_beep) SndPlayFx(SND_15_BEEP);
  	w->SetDirty();
  
@@ -1710,7 +1710,7 @@ index 5343e2ed11f..317b360b244 100644
  		ResetObjectToPlace();
  		return false;
  	}
-@@ -197,6 +200,22 @@ void ZoomInOrOutToCursorWindow(bool in, Window *w)
+@@ -199,6 +202,22 @@ void ZoomInOrOutToCursorWindow(bool in, Window *w)
  	}
  }
  
@@ -1733,7 +1733,7 @@ index 5343e2ed11f..317b360b244 100644
  void FixTitleGameZoom()
  {
  	if (_game_mode != GM_MENU) return;
-@@ -444,7 +463,11 @@ struct MainWindow : Window
+@@ -456,7 +475,11 @@ struct MainWindow : Window
  	void OnMouseWheel(int wheel) override
  	{
  		if (_settings_client.gui.scrollwheel_scrolling != 2) {
@@ -2125,18 +2125,19 @@ index 51c56684a91..18412636713 100644
  
  static void Check_MAPS()
 diff --git a/src/saveload/saveload.h b/src/saveload/saveload.h
-index abd58ea04e1..2ee369b51fd 100644
+index abd58ea04e1..16b4fa72344 100644
 --- a/src/saveload/saveload.h
 +++ b/src/saveload/saveload.h
-@@ -304,6 +304,8 @@ enum SaveLoadVersion : uint16 {
+@@ -302,7 +302,8 @@ enum SaveLoadVersion : uint16 {
+ 	SLV_MULTITILE_DOCKS,                    ///< 216  PR#7380 Multiple docks per station.
+ 	SLV_TRADING_AGE,                        ///< 217  PR#7780 Configurable company trading age.
  	SLV_ENDING_YEAR,                        ///< 218  PR#7747 v1.10 Configurable ending year.
- 	SLV_REMOVE_TOWN_CARGO_CACHE,            ///< 219  PR#8258 Remove town cargo acceptance and production caches.
- 
+-	SLV_REMOVE_TOWN_CARGO_CACHE,            ///< 219  PR#8258 Remove town cargo acceptance and production caches.
 +	SLV_UNDERGROUND,                        ///< 219  Underground levels.
-+
++	SLV_REMOVE_TOWN_CARGO_CACHE,            ///< 220  PR#8258 Remove town cargo acceptance and production caches.
+ 
  	SL_MAX_VERSION,                         ///< Highest possible saveload version
  };
- 
 diff --git a/src/script/api/script_window.hpp.in b/src/script/api/script_window.hpp.in
 index a1dbb656705..b0c3656dc6d 100644
 --- a/src/script/api/script_window.hpp.in
