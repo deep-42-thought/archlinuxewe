@@ -8,8 +8,8 @@
 # Contributor: Holger Rauch < holger dot rauch at posteo dot de >
 
 pkgname=tea-qt
-pkgver=50.0.4
-pkgrel=4
+pkgver=50.1.0
+pkgrel=1
 pkgdesc="A Qt-based text editor for Linux and *BSD with an ultimate small size, providing hundreds of functions"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://semiletov.org/tea/"
@@ -27,7 +27,7 @@ _pinned_dependencies=(
 depends=('qt5-declarative' 'desktop-file-utils' "${_pinned_dependencies[@]}")
 makedepends=('cmake')
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/psemiletov/tea-qt/archive/${pkgver}.tar.gz")
-sha512sums=('0c45b6ae9005f625a494430a7510008bd52f351c2df2bbf160c004f05fd99dec3a9e6c989a7c8f1df8e9c9ede21036a2833835af910e8da9277bc10f47a28250')
+sha512sums=('456d4b33234624f682ce301a102e8e75970315ff7a4c9c5de5711b849a4141b15f0681e1600a2b8bc72884591246a1cc877feaee7a9509f993550d4ebb7fa453')
 provides=("tea=${pkgver}")
 conflicts=('tea')
 replaces=('tea')
