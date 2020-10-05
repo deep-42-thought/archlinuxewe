@@ -1,26 +1,22 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=python-wxmplot
 _pkgname="${pkgname#*-}"
-pkgver=0.9.41
-pkgrel=2
+pkgver=0.9.42
+pkgrel=1
 pkgdesc='A library for plotting in wxPython using matplotlib'
 arch=('any')
 url='https://pypi.python.org/pypi/wxmplot/0.9.18'
 license=('OSI Approved :: MIT License')
-depends=(
-  'python>=3.8'
-  'python<3.9'
-  'python-matplotlib>=2.0'
-  'python-numpy>=1.12'
-  'python-six>=1.10'
-  'python-wxpython>=4.0.3'
-)
 makedepends=(
   'python-setuptools')
+depends=(
+
+  'python>=3.8'
+  'python<3.9')
 source=(
-    "https://pypi.python.org/packages/d5/7e/01ce59d29ef9bd3e6d5f66af8883e4dccf24b63513210927d92ca31e1c55/${_pkgname}-${pkgver}.tar.gz"
+    "https://pypi.python.org/packages/76/48/6506f11d696c97fbb7693abb9d7b098b6c13b8ecf44ece64ba040aace5aa/${_pkgname}-${pkgver}.tar.gz"
 )
-sha512sums=('9c31353432308734f8f1aa9c411f4c192e4239bc4d85534561e258359da06fe50a52407eaa05ac85393f899498c41cb5eeee59b1beef43c2a39176acbcf5621a')
+sha512sums=('8c68f36f52d076ef9a25a386c58965832dddc7506466a46c36fe3ccf6b88467b27bf641df79eb392d4e6bc8b519b28062bde915f2772ad3098ed7a6b9502576e')
 
 build() {
   cd "${_pkgname}-${pkgver}"
