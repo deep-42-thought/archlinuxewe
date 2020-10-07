@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=python-hpilo
-pkgver=4.3
-pkgrel=3
+pkgver=4.4.1
+pkgrel=1
 pkgdesc='Accessing the HP iLO XML interface from python'
 arch=('any')
 url='http://seveas.github.io/python-hpilo/'
@@ -11,7 +11,7 @@ depends=(
   'python<3.9'
 )
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/seveas/${pkgname}/archive/${pkgver}.tar.gz")
-sha512sums=('c339825a42187c2b4e070c4a5a8c29282adfdc349120b09a927e2eadca16aa46d3f1cbb15a36b5d32959dd2ff61dce2d6755ac91040ded8bc05907575ed93700')
+sha512sums=('6f0bed77c9f1d68a6efd1fe1a6e78fd1c91b742c1b954a09b83c9afac2c793caa18e6c484175be3e1c1ec0449f77253bf3beea18cd454cfaebbeef63f5515b54')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
