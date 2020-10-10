@@ -3,7 +3,7 @@
 # init variables
 tmpDir="$(mktemp -d ~/tmp.archive.XXXXXX)"
 trap 'rm -rf --one-file-system "${tmpDir}"' EXIT
-pkgDirBase="/srv/arch-mirror/arch/arch"
+pkgDirBase="/srv/http/vhosts/eckner.net"
 pkgDir="${pkgDirBase}/archlinuxewe/os"
 pkgDir32="${pkgDirBase}/archlinux32/x86_64/releng"
 pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
@@ -245,7 +245,7 @@ fi
 
 # clean unsigned packages
 if ${cleanUnsigned} && ${aufRechenknecht}; then
-  ssh paule@127.0.0.1 "$(
+  ssh archlinuxewe@eckner.net "$(
     printf '
       rmPaket() {
         if [ "$(basename "$(pwd)")" != "any" ]; then
@@ -695,7 +695,8 @@ if ${aufRechenknecht}; then
         sort -u | \
         while read -r arch; do
           if [ "${paket}" = 'pacman-static' ] && \
-            [ "${arch}" = 'i686' ]; then
+            [ "${arch}" = 'i686' ] && \
+            false; then
             tar -OxJf "${paket_teile_und_archs[0]#*:}" usr/bin/pacman-static 2>/dev/null > /srv/arch-mirror/sources.archlinux32/sources/pacman-static
             gpg --detach-sign -u "${key}" --yes --no-armor /srv/arch-mirror/sources.archlinux32/sources/pacman-static
           fi
@@ -714,7 +715,7 @@ if ${aufRechenknecht}; then
             printf " %s-${vers}-${arch}.pkg.tar.zst"     "${paket_teile[@]}"
             printf " %s-${vers}-${arch}.pkg.tar.zst.sig" "${paket_teile[@]}"
           ) | \
-            ssh paule@127.0.0.1 "$(
+            ssh archlinuxewe@eckner.net "$(
 
               printf 'tmp_archive=$(mktemp)\n'
               printf 'cat > "${tmp_archive}"\n'
@@ -820,7 +821,7 @@ if ${aufRechenknecht}; then
 
 # check db
   if ${upload}; then
-    ssh paule@127.0.0.1 "$(
+    ssh archlinuxewe@eckner.net "$(
       printf '
         err=0
 
