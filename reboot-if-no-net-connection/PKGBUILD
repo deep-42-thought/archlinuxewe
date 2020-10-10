@@ -1,0 +1,27 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=reboot-if-no-net-connection
+pkgver=0.0
+pkgrel=1
+pkgdesc="Script to reboot if no net connection was found"
+arch=('any')
+url="https://git.eckner.net/Erich/${pkgname}"
+license=('GPL')
+depends=('iproute2')
+source=(
+    "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-v${pkgver}.tar.xz"
+)
+sha512sums=('b14b4f60a423dc415a5959380f0d55c4090e6cff1233432152e6460c188f74d8784600fd85de52d3c2df0bdbecff74f58cc0f2af022eebc6e6c8fc4c9de00ba8')
+
+build() {
+
+    cd ${pkgname}-v${pkgver}
+    make
+
+}
+
+package() {
+
+    cd ${pkgname}-v${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
