@@ -1,5 +1,5 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index c055f54a059..5d02d52d83f 100644
+index c055f54a0..5d02d52d8 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -1561,6 +1561,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES                         :Minimum company
@@ -23,7 +23,7 @@ index c055f54a059..5d02d52d83f 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index 266fdad22fc..ba972f79004 100644
+index 266fdad22..ba972f790 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
 @@ -1713,6 +1713,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES                         :Мин. воз
@@ -47,7 +47,7 @@ index 266fdad22fc..ba972f79004 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Стальной балочный ж/д мост
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Стальной консольный ж/д мост
 diff --git a/src/pathfinder/follow_track.hpp b/src/pathfinder/follow_track.hpp
-index 2cfe4d9e4a5..dbf225d785f 100644
+index 2cfe4d9e4..dbf225d78 100644
 --- a/src/pathfinder/follow_track.hpp
 +++ b/src/pathfinder/follow_track.hpp
 @@ -370,7 +370,7 @@ protected:
@@ -69,7 +69,7 @@ index 2cfe4d9e4a5..dbf225d785f 100644
  						return false;
  					}
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 162fe97799a..186c7b82282 100644
+index 162fe9779..186c7b822 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -1059,9 +1059,12 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
@@ -261,7 +261,7 @@ index 162fe97799a..186c7b82282 100644
  
  /**
 diff --git a/src/settings_gui.cpp b/src/settings_gui.cpp
-index a124d69894f..e66bb520292 100644
+index a124d6989..e66bb5202 100644
 --- a/src/settings_gui.cpp
 +++ b/src/settings_gui.cpp
 @@ -1551,6 +1551,7 @@ static SettingsContainer &GetSettingsTree()
@@ -273,7 +273,7 @@ index a124d69894f..e66bb520292 100644
  				construction->Add(new SettingEntry("gui.persistent_buildingtools"));
  				construction->Add(new SettingEntry("gui.quick_goto"));
 diff --git a/src/settings_type.h b/src/settings_type.h
-index fdb2b0f862d..0cbc26d6437 100644
+index fdb2b0f86..0cbc26d64 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
 @@ -317,6 +317,7 @@ struct ConstructionSettings {
@@ -285,7 +285,7 @@ index fdb2b0f862d..0cbc26d6437 100644
  	uint32 terraform_per_64k_frames;         ///< how many tile heights may, over a long period, be terraformed per 65536 frames?
  	uint16 terraform_frame_burst;            ///< how many tile heights may, over a short period, be terraformed?
 diff --git a/src/signal.cpp b/src/signal.cpp
-index 9b17e51dcb8..fd299eb6902 100644
+index 9b17e51dc..fd299eb69 100644
 --- a/src/signal.cpp
 +++ b/src/signal.cpp
 @@ -195,6 +195,14 @@ static Vehicle *TrainOnTileEnum(Vehicle *v, void *)
@@ -366,7 +366,7 @@ index 9b17e51dcb8..fd299eb6902 100644
  
  			case MP_RAILWAY:
 diff --git a/src/table/settings.ini b/src/table/settings.ini
-index c7dbd2128bc..6c08d708306 100644
+index c7dbd2128..6c08d7083 100644
 --- a/src/table/settings.ini
 +++ b/src/table/settings.ini
 @@ -541,6 +541,20 @@ str      = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH
@@ -391,7 +391,7 @@ index c7dbd2128bc..6c08d708306 100644
  [SDT_NULL]
  length   = 1
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index 5d02764b55f..1eddbf665ef 100644
+index 5d02764b5..1eddbf665 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
 @@ -1845,6 +1845,17 @@ void ReverseTrainDirection(Train *v)
@@ -663,7 +663,7 @@ index 5d02764b55f..1eddbf665ef 100644
  				/* Perform look-ahead on tunnel exit. */
  				if (v->IsFrontEngine()) {
 diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
-index 1a66d530f06..7b717fcb272 100644
+index 1a66d530f..7b717fcb2 100644
 --- a/src/tunnelbridge_cmd.cpp
 +++ b/src/tunnelbridge_cmd.cpp
 @@ -28,6 +28,7 @@
@@ -858,7 +858,7 @@ index 1a66d530f06..7b717fcb272 100644
  	ChangeTileOwner_TunnelBridge,    // change_tile_owner_proc
  	nullptr,                            // add_produced_cargo_proc
 diff --git a/src/tunnelbridge_map.h b/src/tunnelbridge_map.h
-index 62d3c14b2dd..fa029dcf4de 100644
+index 62d3c14b2..fa029dcf4 100644
 --- a/src/tunnelbridge_map.h
 +++ b/src/tunnelbridge_map.h
 @@ -119,4 +119,98 @@ static inline TrackBits GetTunnelBridgeReservationTrackBits(TileIndex t)
