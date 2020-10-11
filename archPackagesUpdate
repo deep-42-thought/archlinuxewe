@@ -358,6 +358,7 @@ if ${aufRechenknecht}; then
           if ${force}; then
             printf '%s\n' "${singleArch}"
           else
+# TODO: this needs to query the repo server
             if [ "${repo}" == 'releng' ]; then
               [ ! -e "${pkgDir32}/${pkgFile}" ] \
               && [ ! -e "${pkgDir32}/${pkgFile%.zst}.xz" ] \
