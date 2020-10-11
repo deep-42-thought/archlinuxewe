@@ -250,9 +250,9 @@ if ${cleanUnsigned} && ${aufRechenknecht}; then
       rmPaket() {
         if [ "$(basename "$(pwd)")" != "any" ]; then
           if [ "$(basename "$(pwd)")" == "releng" ]; then
-            repo-remove releng.db.tar.gz "${1%%-*-*-*.pkg.tar.*}"
+            repo-remove releng.db.tar.gz "${1%-*-*-*.pkg.tar.*}"
           else
-            repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "${1%%-*-*-*.pkg.tar.*}"' \
+            repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "${1%-*-*-*.pkg.tar.*}"' \
       "${checkDbSig}"
     printf '
           fi
