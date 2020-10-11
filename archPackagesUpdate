@@ -303,6 +303,43 @@ fi
 
 if ${aufRechenknecht}; then
 
+  if ${force}; then
+    available_packages=''
+  else
+    available_packages=$(
+      curl -Ss 'https://arch.eckner.net/os/' \
+      | sed '
+        s@^.*<a href="\([^/"]\+\)/">\1/</a>.*$@\1@
+        /^\.\.$/d
+        /^any$/d
+        t
+        d
+      ' \
+      | while read -r arch; do
+        curl -Ss 'https://arch.eckner.net/os/'"${arch}"'/archlinuxewe.db.tar.gz' \
+        | tar -Oxzf - \
+        | sed '
+          /^%FILENAME%$/ {
+            N
+            s@^%FILENAME%\n@archlinuxewe/'"${arch}"'/@
+            t
+          }
+          d
+        '
+      done
+      curl -Ss 'https://mirror.archlinux32.org/x86_64/releng/releng.db.tar.gz' \
+      | tar -Oxzf - \
+      | sed '
+        /^%FILENAME%$/ {
+          N
+          s@^%FILENAME%\n@releng/x86_64/@
+          t
+        }
+        d
+      '
+    )
+  fi
+
 # collect packages
   for paket in $( \
     echo */PKGBUILD | \
@@ -354,27 +391,9 @@ if ${aufRechenknecht}; then
             continue
 
           pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.zst"
-
-          if ${force}; then
+          if ! printf '%s\n' "${available_packages}" \
+          | grep -qxF "${repo}/${singleArch}/${pkgFile}"; then
             printf '%s\n' "${singleArch}"
-          else
-# TODO: this needs to query the repo server
-            if [ "${repo}" == 'releng' ]; then
-              [ ! -e "${pkgDir32}/${pkgFile}" ] \
-              && [ ! -e "${pkgDir32}/${pkgFile%.zst}.xz" ] \
-              && printf '%s\n' "${singleArch}"
-            fi
-            [ "${singleArch}" == "any" ] && \
-              for dir in ${pkgDir}/*; do
-                [ ! -d "${dir}" ] && continue
-                [ ! -e "${dir}/${pkgFile}" ] \
-                && [ ! -e "${dir}/${pkgFile%.zst}.xz" ] \
-                && printf '%s\n' "${singleArch}"
-              done
-    
-            [ ! -e "${pkgDir}/${singleArch}/${pkgFile}" ] \
-            && [ ! -e "${pkgDir}/${singleArch}/${pkgFile%.zst}.xz" ] \
-            && printf '%s\n' "${singleArch}"
           fi
 
         done
