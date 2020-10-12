@@ -3,7 +3,7 @@
 # Contributor: Trizen <echo dHJpemVueEBnbWFpbC5jb20K | base64 -d>
 
 pkgname=alsi
-pkgver=0.4.8
+pkgver=0.4.9
 pkgrel=1
 pkgdesc="ALSI: a configurable system information tool for Arch Linux. [Inspired by Archey]"
 url="https://github.com/trizen/${pkgname}"
@@ -17,7 +17,7 @@ optdepends=(
     'scrot: for taking screenshots.'
     )
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/trizen/${pkgname}/archive/${pkgver}.tar.gz")
-sha512sums=('7b361e5cbfbe8236eee117098b5953b520db96c4e9b31e8cf0d7410dd59ae9dd11de5ab8cc11156e62ef5eb179af272ea81b9b3122aba86ce815396105d934ae')
+sha512sums=('b3444e3189c3738a7989ca14309f26e5929b9d899a9ac7330b15769ac4c552e975c83ee35d9a046f1ada1cc039a2871a7afb531837e274d1452c40795ccf55ff')
 
 package() {
     cd "$pkgname-$pkgver"
