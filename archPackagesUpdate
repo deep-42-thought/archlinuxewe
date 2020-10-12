@@ -307,36 +307,40 @@ if ${aufRechenknecht}; then
     available_packages=''
   else
     available_packages=$(
-      curl -Ss 'https://arch.eckner.net/os/' \
-      | sed '
-        s@^.*<a href="\([^/"]\+\)/">\1/</a>.*$@\1@
-        /^\.\.$/d
-        /^any$/d
-        t
-        d
-      ' \
-      | while read -r arch; do
-        curl -Ss 'https://arch.eckner.net/os/'"${arch}"'/archlinuxewe.db.tar.gz' \
+      {
+        curl -Ss 'https://arch.eckner.net/os/' \
+        | sed '
+          s@^.*<a href="\([^/"]\+\)/">\1/</a>.*$@\1@
+          /^\.\.$/d
+          /^any$/d
+          t
+          d
+        ' \
+        | while read -r arch; do
+          curl -Ss 'https://arch.eckner.net/os/'"${arch}"'/archlinuxewe.db.tar.gz' \
+          | tar -Oxzf - \
+          | sed -n '
+            /^%FILENAME%$/ {
+              N
+              s@^%FILENAME%\n@archlinuxewe/'"${arch}"'/@
+              T
+              s@^\([^/]\+/\)[^/]\+\(/[^/]\+-any\.pkg\.tar\.zst\)$@\0\n\1any\2@
+              p
+            }
+          '
+        done
+        curl -Ss 'https://mirror.archlinux32.org/x86_64/releng/releng.db.tar.gz' \
         | tar -Oxzf - \
         | sed '
           /^%FILENAME%$/ {
             N
-            s@^%FILENAME%\n@archlinuxewe/'"${arch}"'/@
+            s@^%FILENAME%\n@releng/x86_64/@
             t
           }
           d
         '
-      done
-      curl -Ss 'https://mirror.archlinux32.org/x86_64/releng/releng.db.tar.gz' \
-      | tar -Oxzf - \
-      | sed '
-        /^%FILENAME%$/ {
-          N
-          s@^%FILENAME%\n@releng/x86_64/@
-          t
-        }
-        d
-      '
+      } \
+      | sort -u
     )
   fi
 
