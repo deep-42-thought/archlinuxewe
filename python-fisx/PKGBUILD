@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=python-fisx
 _pkgname="${pkgname#*-}"
-pkgver=1.1.8
-pkgrel=7
+pkgver=1.1.9
+pkgrel=1
 pkgdesc='Enhanced C++ port of the Physics routines used by PyMca'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://github.com/vasole/fisx'
@@ -11,18 +11,18 @@ _pinned_dependencies=(
   'gcc-libs=10.2.0'
   'glibc>=2.31'
 )
+makedepends=(
+  'cython>=0.17'
+  'python-numpy'
+  'python-setuptools')
 depends=(
-  "${_pinned_dependencies[@]}"
   'python>=3.8'
   'python<3.9'
   'python-numpy')
-makedepends=(
-  'python-setuptools'
-  'cython>=0.17')
 source=(
     "${_pkgname}-v${pkgver}.tar.gz::https://github.com/vasole/${_pkgname}/archive/v${pkgver}.tar.gz"
 )
-sha512sums=('c7facc5416b6ef7bdcad9f500c2d933a33fe72c078c5ee98a60c6875ef25c6ef6925804bc040ccdcd4ae41b9ec74218c4a673c332f4c98aa4d6f54b14047dfe0')
+sha512sums=('f90d4a46e4e1e920926a291b51bc8d28c59b7e5fa326655f7d5db712cbbc61642b47c0df65bbf0c36a7bed13796279af10dccac2fa4be3b4cda33f8e8af8c0bb')
 
 build() {
   cd "${_pkgname}-${pkgver}"
