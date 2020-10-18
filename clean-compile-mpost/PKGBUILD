@@ -1,0 +1,26 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=clean-compile-mpost
+pkgver=0.0
+pkgrel=1
+pkgdesc='Compile metapost in a clean temporary directory'
+arch=('any')
+url="https://git.eckner.net/Erich/${pkgname}"
+license=('GPL')
+source=(
+    "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
+)
+sha512sums=('8cfad209b63598284a5c6a62b07d118e55e90180936feb86b669a94306b0fa8a6890db495c454333e6ec8d92fa0d4803ddc1af7d53bf76b6321f64dbfdbacdc4')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
