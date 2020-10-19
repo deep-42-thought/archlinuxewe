@@ -4,7 +4,7 @@
 
 pkgname=topal
 pkgver=80
-pkgrel=7
+pkgrel=8
 pkgdesc='glue program that links GnuPG and Alpine'
 arch=('i686' 'pentium4' 'x86_64')
 url="https://zircon.org.uk/topal/rel-${pkgver}/"
@@ -14,7 +14,7 @@ _pinned_dependencies=(
   'glibc>=2.31'
   'readline=8.0.004'
 )
-depends=("${_pinned_dependencies[@]}")
+depends=("${_pinned_dependencies[@]}" procmail)
 optdepends=("alpine: for which topal was mainly written for"
             "re-alpine: fork of alpine for which topal was mainly written for"
             "gnupg: to encrypt, decrypt, sign and verify e-mail"
