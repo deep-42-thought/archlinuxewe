@@ -3,9 +3,8 @@
 # init variables
 tmpDir="$(mktemp -d ~/tmp.archive.XXXXXX)"
 trap 'rm -rf --one-file-system "${tmpDir}"' EXIT
-pkgDirBase="/srv/http/vhosts/eckner.net"
-pkgDir="${pkgDirBase}/archlinuxewe/os"
-pkgDir32="${pkgDirBase}/archlinux32/x86_64/releng"
+pkgDir='/srv/http/vhosts/eckner.net/archlinuxewe/os'
+pkgDir32='/srv/http/mirror/mirror.archlinux32.org/x86_64/releng'
 pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
 [ "$(hostname)" == "rechenknecht" ] && \
   [ "${pkgSrcDir}" == "${HOME}" ] && \
