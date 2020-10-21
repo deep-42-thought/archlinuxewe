@@ -324,7 +324,6 @@ if ${aufRechenknecht}; then
               N
               s@^%FILENAME%\n@archlinuxewe/'"${arch}"'/@
               T
-              s@^\([^/]\+/\)[^/]\+\(/[^/]\+-any\.pkg\.tar\.\(xz\|zst\)\)$@\0\n\1any\2@
               p
             }
           '
@@ -340,6 +339,9 @@ if ${aufRechenknecht}; then
           d
         '
       } \
+      | sed '
+        s@^\([^/]\+/\)[^/]\+\(/[^/]\+-any\.pkg\.tar\.\(xz\|zst\)\)$@\0\n\1any\2@
+      ' \
       | sort -u
     )
   fi
