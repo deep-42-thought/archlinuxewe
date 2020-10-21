@@ -4,7 +4,7 @@
 
 pkgname=topal
 pkgver=80
-pkgrel=8
+pkgrel=9
 pkgdesc='glue program that links GnuPG and Alpine'
 arch=('i686' 'pentium4' 'x86_64')
 url="https://zircon.org.uk/topal/rel-${pkgver}/"
@@ -12,7 +12,7 @@ license=("GPL3")
 makedepends=("gcc-ada" "make" "lynx")
 _pinned_dependencies=(
   'glibc>=2.31'
-  'readline=8.0.004'
+  'libreadline.so=8'
 )
 depends=("${_pinned_dependencies[@]}" procmail)
 optdepends=("alpine: for which topal was mainly written for"
