@@ -2,25 +2,23 @@
 # Generator : neuesPerlPaket (f491a18e07c10dc3afc2c601f6c928d4c12bffdefac18b868c0517faf8aae4d0e1a3637e244440eb73c0aa479b46161763c3bed0364a2edbed54625dd937ffcf)
 
 pkgname='perl-clone-pp'
-pkgver=1.07
-pkgrel=8
+pkgver=1.08
+pkgrel=1
 pkgdesc='Recursively copy Perl datatypes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=(
-  'perl>=5.32'
-  'perl<5.33'
-  'perl-exporter')
 makedepends=(
   'perl-carp'
   'perl-data-dumper'
   'perl-extutils-makemaker')
+depends=(
+  'perl-exporter')
 checkdepends=()
 url='https://metacpan.org/release/Clone-PP'
 _distdir="Clone-PP-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/N/NE/NEILB/${_distdir}.tar.gz")
-sha512sums=('28faae5dc42ff5ae850fe9f664dca8b52ff77823c5f157c62c52254fa4f1e217d3344f6e79a2ddad169f934e7be262dc79f32e885cb1d25db182050800ac805a')
+sha512sums=('912898b0617597429a08a6b2717aec75ee9c3f41e2c05512f434a9cb82dad3274b4dbbc4332725248d7c6071eec670e6977c05994cef090df6f591cdfe2f606c')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
