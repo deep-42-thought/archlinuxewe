@@ -5,12 +5,13 @@
 
 pkgname=t1utils
 pkgver=1.41
-pkgrel=3
+pkgrel=3.1
 pkgdesc="A collection of simple Type 1 font manipulation programs"
 arch=('x86_64')
 url="https://www.lcdf.org/~eddietwo/type/#t1utils"
 license=("custom")
-depends=('glibc')
+_pinned_dependies=('glibc')
+depends=("${_pinned_dependencies[@]}")
 source=("https://www.lcdf.org/~eddietwo/type/$pkgname-$pkgver.tar.gz"
         "memmem-decl.patch::https://github.com/kohler/t1utils/commit/3f1ddda424353f0f926dd28efa47b0ac61556ce8.patch"
         "LICENSE")
