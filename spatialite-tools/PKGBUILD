@@ -13,11 +13,11 @@ _pinned_dependencies=(
   'glibc>=2.31'
   'libreadline.so=8'
   'libreadosm.so=1'
-  'libspatialite=4.3.0.a'
+  'libspatialite=5.0.0'
   'libxml2=2.9.10'
   'sqlite=3.33.0'
 )
-depends=("${_pinned_dependencies[@]}")
+depends=("${_pinned_dependencies[@]}" librttopo)
 options=('!libtool')
 source=("http://www.gaia-gis.it/gaia-sins/$pkgname-sources/$pkgname-$pkgver.tar.gz")
 sha512sums=('a1497824df2c45ffa1ba6b4ec53794c2c4779b6357885ee6f1243f2bff137c3e4dd93b0a802239ced73f66be22faf0081b83bf0ad4effb8a04052712625865d1')
