@@ -8,7 +8,11 @@ pkgdesc="RT Topology Library"
 url="https://git.osgeo.org/gitea/rttopo/librttopo"
 arch=('x86_64' 'i686' 'pentium4')
 license=('GPLv2')
-depends=('geos' 'proj')
+_pinned_dependencies=(
+  'geos=3.8.0'
+  'glibc>=2.32'
+)
+depends=("${_pinned_dependencies[@]}" 'proj')
 makedepends=('cmake')
 source=("https://git.osgeo.org/gitea/rttopo/librttopo/archive/librttopo-${pkgver}.tar.gz")
 md5sums=('0952b78943047ca69a9e6cbef6146869')
