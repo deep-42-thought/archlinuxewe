@@ -10,7 +10,9 @@ pkgdesc="A collection of simple Type 1 font manipulation programs"
 arch=('x86_64')
 url="https://www.lcdf.org/~eddietwo/type/#t1utils"
 license=("custom")
-_pinned_dependies=('glibc')
+_pinned_dependencies=(
+  'glibc>=2.32'
+)
 depends=("${_pinned_dependencies[@]}")
 source=("https://www.lcdf.org/~eddietwo/type/$pkgname-$pkgver.tar.gz"
         "memmem-decl.patch::https://github.com/kohler/t1utils/commit/3f1ddda424353f0f926dd28efa47b0ac61556ce8.patch"
