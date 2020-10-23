@@ -10,7 +10,17 @@ pkgdesc="SQLite extension to support spatial data types and operations"
 arch=('x86_64' 'i686' 'pentium4')
 url="https://www.gaia-gis.it/fossil/libspatialite"
 license=('MPL' 'GPL' 'LGPL')
-depends=('geos' 'libfreexl' 'libxml2' 'proj' 'sqlite' 'minizip')
+_pinned_dependencies=(
+  'geos=3.8.0'
+  'glibc>=2.32'
+  'libfreexl=1.0.6'
+  'libxml2=2.9.10'
+  'minizip=1:1.2.11'
+  'proj=6.3.2'
+  'sqlite=3.33.0'
+  'zlib=1:1.2.11'
+)
+depends=("${_pinned_dependencies[@]}" 'minizip')
 source=(https://www.gaia-gis.it/gaia-sins/$pkgname-$pkgver.tar.gz)
 sha256sums=('7b7fd70243f5a0b175696d87c46dde0ace030eacc27f39241c24bac5dfac6dac')
 
