@@ -2,8 +2,8 @@
 # Contributor: Brian Galey <bkgaley at gmail dot com>
 # Contributor: Aldeano <aldea.diaguita at gmail dot com>
 pkgname=spatialite-tools
-pkgver=5.0.0
-pkgrel=2
+pkgver=4.3.0
+pkgrel=6
 pkgdesc='Set of CLI tools for spatialite'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://www.gaia-gis.it/fossil/spatialite-tools/index'
@@ -13,14 +13,14 @@ _pinned_dependencies=(
   'glibc>=2.31'
   'libreadline.so=8'
   'libreadosm.so=1'
-  'libspatialite=5.0.0'
+  'libspatialite=4.3.0.a'
   'libxml2=2.9.10'
   'sqlite=3.33.0'
 )
-depends=("${_pinned_dependencies[@]}" librttopo)
+depends=("${_pinned_dependencies[@]}")
 options=('!libtool')
 source=("http://www.gaia-gis.it/gaia-sins/$pkgname-sources/$pkgname-$pkgver.tar.gz")
-sha512sums=('a1497824df2c45ffa1ba6b4ec53794c2c4779b6357885ee6f1243f2bff137c3e4dd93b0a802239ced73f66be22faf0081b83bf0ad4effb8a04052712625865d1')
+sha256sums=('f739859bc04f38735591be2f75009b98a2359033675ae310dffc3114a17ccf89')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
