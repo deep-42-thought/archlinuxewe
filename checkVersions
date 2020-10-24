@@ -987,6 +987,19 @@ then
         ist_rc=false
         ver_match='[0-9._]\+[a-z]\?'
       fi
+      if [ "${pkgname}" = 'spatialite-tools' ]; then
+        ver_match="$(
+          tar -Oxzf /var/lib/pacman/sync/community.db --wildcards 'libspatialite-*-*/desc' \
+          | sed -n '
+            /^%VERSION%/ {
+              N
+              s/^%VERSION%\n\([0-9]\+\.\).*$/\1/
+              T
+              p
+            }
+          '
+        )${ver_match}"
+      fi
       remVer=$( \
         curl_it "${quVer}" | \
           tr '"<>' '\n\n\n' | \
