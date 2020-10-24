@@ -5,7 +5,7 @@ pkgname=pambase-no-systemd-home
 pkgver=20200721.1
 pkgrel=2.1
 
-source=("https://arch.eckner.net/archlinux/pool/packages/pambase-$pkgver-${pkgrel%.*}-any.pkg.tar.zst" system-auth.patch)
+source=("http://ftp.gwdg.de/pub/linux/archlinux/core/os/x86_64/pambase-$pkgver-${pkgrel%.*}-any.pkg.tar.zst" system-auth.patch)
 sha512sums=('44fcf1a087d76209a5299267d090a84a907a5afd300394b0e7b53961ec41091e3ef28309efcc0ee1c1fce306363eb38f5d4ec424c6a6955feb5c1a5a9c1bbfc9' SKIP)
 provides=("pambase=$pkgver-${pkgrel%.*}")
 conflicts=('pambase')
