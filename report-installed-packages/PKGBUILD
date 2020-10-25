@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=report-installed-packages
-pkgver=0.3
-pkgrel=2
+pkgver=0.4
+pkgrel=1
 pkgdesc="report about installed (and therefore presumably working) packages from testing"
 arch=('any')
 url="https://git.eckner.net/Erich/${pkgname}"
@@ -12,7 +12,6 @@ makedepends=()
 checkdepends=()
 optdepends=(
   'sendmailadvanced:  for sending email reports'
-  'inetutils:  for sending email reports'
 )
 provides=()
 conflicts=()
@@ -22,7 +21,7 @@ options=()
 source=(
     "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('28cf10710bef195b9106461d97f2510aafa533a340d5a721c7e5ad5c799d26516766765cb54c4a1bcc178ea73cbf0625de9b0b5410885b74d30695039a69f5b1')
+sha512sums=('241c24f50815d75c2ddcd28d5f0d6530239ffb2cb0aa2d5b32ad1aa72739cae99363787bbbbdcf4f112a6c084928df70d97aaec24a9ede4a2adf4b65dd5ffbc3')
 
 build() {
 
