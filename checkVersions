@@ -367,7 +367,7 @@ then
     elif [ "${pkgname}" = 'dropbox' ]
     then
       remVer=$(
-        curl_it 'https://www.dropboxforum.com/t5/Desktop-client-builds/bd-p/101003016' | \
+        curl_it 'https://www.dropboxforum.com/t5/Dropbox-desktop-client-builds/bd-p/101003016' | \
           tr '<>' '\n' | \
           sed '
             s/^\s*Stable Build \([0-9.-]\+\)\s*$/\1/
