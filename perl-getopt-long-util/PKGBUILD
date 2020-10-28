@@ -2,21 +2,18 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-getopt-long-util'
-pkgver=0.891
-pkgrel=2
+pkgver=0.892
+pkgrel=1
 pkgdesc='Utilities for Getopt::Long'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.32'
-  'perl<5.33'
   'perl-exporter>=5.57')
 url='https://metacpan.org/release/Getopt-Long-Util'
 checkdepends=(
@@ -25,7 +22,7 @@ checkdepends=(
 )
 _distdir="Getopt-Long-Util-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('fe72689186f75150c0697dd46529a3a77b61677bd45b822d6398976777d38486bc291c587c27d3742fdd186063f24967eaba192e1d6321933286069df2ba9e62')
+sha512sums=('d979f15fb19c77084f3a7e5b41900d0d6002d452d4b9c07ea229bb3e8a541a904018a34e3f899421f37447a83c53a59fde0ccf7c9421e2b664e0e89cc76f459b')
 
 build() {
   cd "${srcdir}/${_distdir}"
