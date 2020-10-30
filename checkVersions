@@ -395,9 +395,6 @@ then
           sed "s|^.*\spgplot\([0-9.]\+\)\.tar\.gz -> \S\+\$|\1|" | \
           latest_version
       )
-    elif [ "${pkgname}" == "wurzel-old" ]
-    then
-      remVer="0.1"
     elif echo "${src}" | \
       grep -q '^http://ftp.linux.org.uk/.*/netkit/'
     then
