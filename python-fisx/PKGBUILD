@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=python-fisx
 _pkgname="${pkgname#*-}"
-pkgver=1.1.9
+pkgver=1.2.0
 pkgrel=1
 pkgdesc='Enhanced C++ port of the Physics routines used by PyMca'
 arch=('i686' 'pentium4' 'x86_64')
@@ -22,7 +22,7 @@ depends=(
 source=(
     "${_pkgname}-v${pkgver}.tar.gz::https://github.com/vasole/${_pkgname}/archive/v${pkgver}.tar.gz"
 )
-sha512sums=('f90d4a46e4e1e920926a291b51bc8d28c59b7e5fa326655f7d5db712cbbc61642b47c0df65bbf0c36a7bed13796279af10dccac2fa4be3b4cda33f8e8af8c0bb')
+sha512sums=('f063437fe55cd78d06dd13df5083cf91199c18c4e3b3cf307e8ca6da07fe18a0c7753e741538d838da90932ca6c7f7977a048c4f153795777e954a336f8cce41')
 
 build() {
   cd "${_pkgname}-${pkgver}"
