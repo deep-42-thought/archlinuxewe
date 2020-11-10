@@ -2,8 +2,8 @@
 
 pkgname=python-pycifrw
 _pkgname='PyCifRW'
-pkgver=4.4.1
-pkgrel=6
+pkgver=4.4.2
+pkgrel=1
 pkgdesc='Python library for interacting with Crystallographic Information Framework (CIF) files.'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://bitbucket.org/jamesrhester/pycifrw/src/development/'
@@ -11,15 +11,15 @@ license=('custom')
 _pinned_dependencies=(
   'glibc>=2.31'
 )
-depends=(
-  "${_pinned_dependencies[@]}"
-  'python>=3.8'
-  'python<3.9')
 makedepends=(
   'python-setuptools')
+depends=(
 
-source=("https://pypi.python.org/packages/b3/09/7578e066d81ba978b6eefe2330cc80940939ed4be423e1c8ef49181540ca/PyCifRW-${pkgver}.tar.gz")
-sha512sums=('41cc26a7d6026bb927d531b27e1228d89fe713f7ab9360b8e06b563449ee7b53afc9260d09bb199f4390b12a9d31573f8fa6bae14804239d4075b5d8dce01f54')
+  'python>=3.8'
+  'python<3.9')
+
+source=("https://pypi.python.org/packages/36/92/ff9bab1b65aba9a80035b6d1c3b0c3e41c7aae64b30a3326d51836a3a66b/PyCifRW-${pkgver}.tar.gz")
+sha512sums=('9fb9be4fcc2ebe5fac8b1d0b11820a041a3d0a00cd8be1dd46402797c3a7401487658e21ea24bbeeca0171b9521829b20bf99b255217125a67248afa39b273b8')
 
 build() {
   cd ${_pkgname}-${pkgver}
