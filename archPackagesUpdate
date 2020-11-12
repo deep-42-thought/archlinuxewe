@@ -431,23 +431,6 @@ fi
 
 maxErr=0
 
-# update git sources
-find "${SRCDEST}" -mindepth 2 -maxdepth 2 \( \
-  -name 'HEAD' \
-  -o -name '.git' \
-\) | \
-  sed 's|/[^/]*$||' | \
-  while read -r repo; do
-    git -C "${repo}" fetch --all -p
-    git -C "${repo}" fetch origin master:master
-  done
-# update svn sources
-find "${SRCDEST}" -mindepth 2 -maxdepth 2 -name '.svn' | \
-  sed 's|/[^/]*$||' | \
-  while read -r repo; do
-    svn update "${repo}"
-  done
-
 # build packages
 for ((i=0; i<${#pakete[@]}; i++)); do
   paket="${pakete[${i}]}"
