@@ -6,7 +6,7 @@ trap 'rm -rf --one-file-system "${tmpDir}"' EXIT
 pkgDir='/srv/http/vhosts/eckner.net/archlinuxewe/os'
 pkgDir32='/mnt/mirror.archlinux32.org/x86_64/releng'
 pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
-[ "$(hostname)" == "rechenknecht" ] && \
+[ "$(uname -n)" == "rechenknecht" ] && \
   [ "${pkgSrcDir}" == "${HOME}" ] && \
     aufRechenknecht=true || \
     aufRechenknecht=false
@@ -590,7 +590,7 @@ if ${aufRechenknecht}; then
             printf '%s\n' \
               "From: plasmapaule@gmail.com" \
               "To: buildmaster@archlinux32.org" \
-              "Subject: $(hostname) - report about installed ${arch} packages" \
+              "Subject: $(uname -n) - report about installed ${arch} packages" \
               ""
             find . \
               -mindepth 1 \
