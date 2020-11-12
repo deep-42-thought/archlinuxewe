@@ -6,10 +6,6 @@ trap 'rm -rf --one-file-system "${tmpDir}"' EXIT
 pkgDir='/srv/http/vhosts/eckner.net/archlinuxewe/os'
 pkgDir32='/mnt/mirror.archlinux32.org/x86_64/releng'
 pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
-[ "$(uname -n)" == "rechenknecht" ] && \
-  [ "${pkgSrcDir}" == "${HOME}" ] && \
-    aufRechenknecht=true || \
-    aufRechenknecht=false
 export SRCDEST="${HOME}/packageSources"
 export PACKAGER='Erich Eckner <arch at eckner dot net>'
 key='5FDCA472AB93292BC678FD59255A76DB9A12601A'
@@ -27,13 +23,6 @@ rmAddPkgs=false
 log=''
 logFile='-'
 printOnly=false
-
-if ${aufRechenknecht}; then
-  submoduleDir="${pkgSrcDir}/submodules"
-  pkgSrcDir="${pkgSrcDir}/archPackages"
-else
-  submoduleDir='/dev/null'
-fi
 
 # print help screen
 usage()
@@ -236,14 +225,8 @@ done
 
 cd "${tmpDir}"
 
-# update $0
-if ${updateMe} && ${aufRechenknecht} && [ -e "$(basename "$0")" ] && ! diff -q "$(basename "$0")" "$0" &> /dev/null; then
-  cp "$(basename "$0")" "$0"
-  exec "$0" "${args[@]}"
-fi
-
 # clean unsigned packages
-if ${cleanUnsigned} && ${aufRechenknecht}; then
+if ${cleanUnsigned}; then
   ssh archlinuxewe@eckner.net "$(
     printf '
       rmPaket() {
@@ -300,654 +283,629 @@ if [ -f '.gitmodules' ]; then
   >&2 printf ' done.\n'
 fi
 
-if ${aufRechenknecht}; then
-
-  if ${force}; then
-    available_packages=''
-  else
-    available_packages=$(
-      {
-        curl -Ss 'https://arch.eckner.net/os/' \
-        | sed '
-          s@^.*<a href="\([^/"]\+\)/">\1/</a>.*$@\1@
-          /^\.\.$/d
-          /^any$/d
-          t
-          d
-        ' \
-        | while read -r arch; do
-          curl -Ss 'https://arch.eckner.net/os/'"${arch}"'/archlinuxewe.db.tar.gz' \
-          | tar -Oxzf - \
-          | sed -n '
-            /^%FILENAME%$/ {
-              N
-              s@^%FILENAME%\n@archlinuxewe/'"${arch}"'/@
-              T
-              p
-            }
-          '
-        done
-        curl -Ss 'https://mirror.archlinux32.org/x86_64/releng/releng.db.tar.gz' \
-        | tar -Oxzf - \
-        | sed '
-          /^%FILENAME%$/ {
-            N
-            s@^%FILENAME%\n@releng/x86_64/@
-            t
-          }
-          d
-        '
-      } \
-      | sed '
-        s@^\([^/]\+/\)[^/]\+\(/[^/]\+-any\.pkg\.tar\.\(xz\|zst\)\)$@\0\n\1any\2@
-      ' \
-      | sort -u
-    )
-  fi
-
-# collect packages
-  for paket in $( \
-    echo */PKGBUILD | \
-      sed "s|/PKGBUILD||g" \
-    ); do
-    [ -d "${paket}" ] || continue
-    [ ${#onlyPackages[@]} -eq 0 ] && consider=true || consider=false
-    for ((i=0; i<${#onlyPackages[@]}; i++)); do
-      [[ "${paket}" == "${onlyPackages[${i}]%:*}" ]] && consider=true
-    done
-    ${consider} || continue
-
-    unset epoch
-    unset pkgname
-    unset arch
-    . "${paket}/PKGBUILD"
-    if grep -q '#\s*repo:\s*releng\s*\(#.*\)\?$' "${paket}/PKGBUILD"; then
-      repo='releng'
-    else
-      repo='archlinuxewe'
-    fi
-
-    missing_archs=$(
-      for pkgnam in "${pkgname[@]}"; do
-
-        archs=$(
-          declare -f package_${pkgnam} | \
-            sed -n '
-              s/^\s*arch=(\(.\+\));$/\1/
-              T
-              s/["'"'"']//g
-              y/ /\n/
-              p
-            ' | \
-            grep -xF 'any' || \
-            printf '%s\n' "${arch[@]}"
-        )
-
-        for singleArch in ${archs}; do
-
-          [ "${singleArch}" == "x86_64" ] || \
-            [ "${singleArch}" == "pentium4" ] || \
-            [ "${singleArch}" == "i486" ] || \
-            [ "${singleArch}" == "i686" ] || \
-            [ "${singleArch}" == "armv6h" ] || \
-            [ "${singleArch}" == "armv7h" ] || \
-            [ "${singleArch}" == "aarch64" ] || \
-            [ "${singleArch}" == "any" ] || \
-            continue
-
-          pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.zst"
-          if ! printf '%s\n' "${available_packages}" \
-          | grep -qxF "${repo}/${singleArch}/${pkgFile}"; then
-            printf '%s\n' "${singleArch}"
-          fi
-
-        done
-
-      done | \
-        sort -u
-    )
-    if [ ${#onlyArchs[@]} -ne 0 ]; then
-      missing_archs=$(
-        printf '%s\n' "${missing_archs}" | \
-          grep -xF "$(printf '%s\n' "${onlyArchs[@]}")"
-      )
-    fi
-    if [ ${#onlyPackages[@]} -ne 0 ]; then
-      unset tmpOnlyArchs
-      for ((i=0; i<${#onlyPackages[@]}; i++)); do
-        [[ "${paket}" == "${onlyPackages[${i}]%:*}" ]] || continue
-        [ -z "${onlyPackages[${i}]%%*:*}" ] || continue
-        tmpOnlyArchs[${#tmpOnlyArchs[@]}]="${onlyPackages[${i}]##*:}"
-      done
-      if [ ${#tmpOnlyArchs[@]} -ne 0 ]; then
-        missing_archs=$(
-          printf '%s\n' "${missing_archs}" | \
-            grep -xF "$(printf '%s\n' "${tmpOnlyArchs[@]}")"
-        )
-      fi
-    fi
-
-    if [ -n "${missing_archs}" ]; then
-      for singleArch in ${missing_archs}; do
-        if ! printf '%s\n' "${arch[@]}" | \
-          grep -qxF "${singleArch}"; then
-          continue
-        fi
-        pakete[${#pakete[@]}]="${paket}"
-        pakete_teile_und_archs[${#pakete_teile_und_archs[@]}]=$(
-          for pn in "${pkgname[@]}"; do
-            printf '%s:%s\n' \
-              "$(
-                declare -f package_${pn} | \
-                  sed -n '
-                    s/^\s*arch=(\(.\+\));$/\1/
-                    T
-                    s/["'"'"']//g
-                    y/ /\n/
-                    p
-                  ' | \
-                  grep -xF 'any' || \
-                  printf '%s' "${singleArch}"
-              )" \
-              "${pn}" \
-            | if [ "${singleArch}" != 'any' ] \
-              && [ "${singleArch}" != 'x86_64' ]; then
-              sed '/^any:/d'
-            else
-              cat
-            fi
-          done
-        )
-        archs[${#archs[@]}]="${singleArch}"
-        verss[${#verss[@]}]="${epoch:+${epoch}:}${pkgver}-${pkgrel}"
-        if [ "${repo}" != 'archlinuxewe' ]; then
-          repos[${#repos[@]}]="${repo} archlinuxewe"
-        else
-          repos[${#repos[@]}]="${repo}"
-        fi
-      done
-    fi
-  done
-
-# only print packages to be built?
-  if ${printOnly}; then
-    printf '%d scheduled builds:\n' "${#pakete[@]}"
-    for ((i=0; i<${#pakete[@]}; i++)); do
-      echo " ${pakete[${i}]} ${verss[${i}]} ${archs[${i}]}"
-      printf '   %s\n' ${pakete_teile_und_archs[${i}]}
-    done
-    exit 0
-  fi
-
-  maxErr=0
-
-  # update git sources
-  find "${SRCDEST}" -mindepth 2 -maxdepth 2 \( \
-    -name 'HEAD' \
-    -o -name '.git' \
-  \) | \
-    sed 's|/[^/]*$||' | \
-    while read -r repo; do
-      git -C "${repo}" fetch --all -p
-      git -C "${repo}" fetch origin master:master
-    done
-  # update svn sources
-  find "${SRCDEST}" -mindepth 2 -maxdepth 2 -name '.svn' | \
-    sed 's|/[^/]*$||' | \
-    while read -r repo; do
-      svn update "${repo}"
-    done
-
-# build packages
-  for ((i=0; i<${#pakete[@]}; i++)); do
-    paket="${pakete[${i}]}"
-    paket_teile_und_archs=(${pakete_teile_und_archs[${i}]})
-    arch="${archs[${i}]}"
-    vers="${verss[${i}]}"
-    repo="${repos[${i}]}"
-
-    cd "${tmpDir}/${paket}"
-    rm -rf --one-file-system src pkg
-
-    if ! grep -qwF _patch_PKGBUILD PKGBUILD; then
-
-      # add PKGBUILD-patches to the PKGBUILD
-      if grep -q '^\s*pkgbase=' PKGBUILD; then
-        (
-          eval "$(
-            sed -n '/^\s*pkgname=(/,/)/ p' PKGBUILD
-          )"
-          printf 'package_%s\n' "${pkgname[@]}"
-        )
-      else
-        printf 'package\n'
-      fi \
-      | sponge \
-      | while read -r function; do
-        sed -i '
-          /^'"${function}"'() {$/,/^}$/ {
-            /^}$/ i _patch_PKGBUILD
-          }
-        ' PKGBUILD
-      done
-      {
-        echo '_patch_PKGBUILD() {'
-        ls -1 "${tmpDir}/"*".PKGBUILDpatch" \
-        | grep -vxF "$(
-          sed '
-            s,^# skip \(\S\+\)\(\s\|$\).*$,'"${tmpDir}"'/\1.PKGBUILDpatch,
-            t
-            d
-          ' PKGBUILD
-        )" \
-        | xargs -r cat
-        echo ':'
-        echo '}'
-      } \
-      >> PKGBUILD
-    fi
-
-    case "${arch}" in
-      'any'|'i486'|'i686'|'pentium4'|'x86_64')
-        if [ -n "${cleanChroot}" ]; then
-          build_mode='archbuild'
-        elif sed -n '
-          /^conflicts=(/ {
-            :a
-            /)/ ! {
-              N
-              $! ba
-            }
-            p
-          }
-        ' PKGBUILD \
-        | grep -qwF "$(
-          pacman -Qqg base-devel
-          pacman -Qi base \
-          | sed -n '
-            /^Depends On\s*:/,/^\S/ {
-              s/^Depends On\s*:/ /
-              /^\S/d
-              p
-            }
-          ' \
-          | tr ' ' '\n' \
-          | sort -u \
-          | grep -vxF ''
-        )"; then
-          build_mode='makechrootpkg'
-        else
-          build_mode='archbuild'
-        fi
-        if [ "${build_mode}" = 'archbuild' ]; then
-          archlinuxewe-${arch/any/x86_64}-build ${cleanChroot} -- -- ${log} ${checkMakepkg} --holdver
-        else
-          makechrootpkg -r "/var/lib/archbuild/archlinuxewe-${arch/any/x86_64}" -- ${log} ${checkMakepkg} --holdver -f
-        fi
-        err[${i}]=$?
-        if [ ${err[${i}]} -eq 0 ] && [ "${arch}" != 'x86_64' ] && [ "${arch}" != 'any' ]; then
-          {
-            printf '%s\n' \
-              "From: plasmapaule@gmail.com" \
-              "To: buildmaster@archlinux32.org" \
-              "Subject: $(uname -n) - report about installed ${arch} packages" \
-              ""
-            find . \
-              -mindepth 1 \
-              -maxdepth 1 \
-              -name '*.pkg.tar.zst' \
-              -exec bsdtar -Oxf {} .BUILDINFO \; \
-            | sed '
-              s@^installed = \(.*\)$@/var/cache/archbuild32/\1.pkg.tar.zst@
-              t
-              d
-            ' \
-            | xargs -r sha512sum \
-            2>/dev/null \
-            | sed '
-              s@\s\+.*/@ @
-              s/^/stabilize: /
-            '
-          } | \
-            sendmailadvanced -t
-        fi
-      ;;
-      'armv6h'|'armv7h'|'aarch64')
-        # armv6h & armv7h & aarch64 is built on the raspberry pis
-        PKGEXT=".pkg.tar.zst" SRCPKGDEST="${tmpDir}" makepkg --allsource -f
-        err[${i}]=$?
-        if [ ${err[${i}]} -eq 0 ]; then
-          arch_num=$(
-            printf '%s\n' "${arch}" \
-            | tr -d '[a-z]'
-          )
-          ssh eckner.net -p $((
-            (9375384 - 512375 * arch_num + 7625 * arch_num * arch_num) * 4 / 1653
-          )) "$(
-            printf 'set -e\n'
-            printf 'rm -rf --one-file-system build/*\n'
-            printf 'cd build\n'
-            printf 'tar -xzf -\n'
-            printf 'cd "%s"\n' "${paket}"
-            printf 'export %s="%s"\n' \
-              'SRCDEST' '${HOME}/packageSources' \
-              'PACKAGER' "${PACKAGER}"
-            printf 'archlinuxewe-%s-build %s -- -- -- %s >&2\n' \
-              "${arch}" \
-              "${cleanChroot}" \
-              "${log} ${checkMakepkg}"
-            printf 'tar -czf - *.pkg.tar'
-            [ -n "${log}" ] && \
-              printf ' *.pkg.tar-*.log'
-            printf '\n'
-          )" \
-          < "${tmpDir}/${paket}-${vers}.src.tar.gz" \
-          > "paket.tar.gz"
-          err[${i}]=$?
-          if [ ${err[${i}]} -eq 0 ]; then
-            tar -xzvf paket.tar.gz \
-            | sed '
-              s/^.*\.pkg\.tar$/\0 \0.zst/
-              t
-              s/^\(.*\.pkg\.tar\)\(-.*\.log\)$/\0 \1.zst\2/
-              t
-              s/^.*$/unknown file "\0" in packages tar cannot be compressed/
-              w /dev/stderr
-              d
-            ' \
-            | while read -r file cfile; do
-              zstd "${file}" -o "${cfile}"
-              rm "${file}"
-            done
-          fi
-        fi
-      ;;
-      *)
-        printf 'unbekannte Architektur "%s"\n' "${arch}"
-        err[${i}]=128
-      ;;
-    esac
-    for teil_und_arch in "${paket_teile_und_archs[@]}"; do
-      if [ ${err[${i}]} -ne 0 ]; then
-        break
-      fi
-      teil="${teil_und_arch#*:}"
-      teil_arch="${teil_und_arch%%:*}"
-      namcap "${tmpDir}/${paket}/${teil}-${vers}-${teil_arch}.pkg.tar.zst" > \
-        "${tmpDir}/namcap"
-      err[${i}]=$?
-      if [ -n "${log}" ]; then
-        cat "${tmpDir}/namcap" > \
-          "${tmpDir}/${paket}/${teil}-namcap-${arch}.log"
-      fi
-      if [ ${err[${i}]} -ne 0 ]; then
-        sed 's/^/namcap: /' "${tmpDir}/namcap"
-        break
-      fi
-      if grep "$(
-        {
-          printf '%s\\|' \
-            "E: ELF file (.*) found in an ['\"]any['\"] package"
-          if ! grep -qF " ${teil} ist absichtlich nicht any ohne ELF Dateien" PKGBUILD \
-          && ! grep -qF " ist alles absichtlich nicht any ohne ELF Dateien" PKGBUILD; then
-            printf '%s\\|' \
-              "W: No ELF files and not an ['\"]any['\"] package"
-          fi
-        } | \
-          sed 's@\\|$@@'
-        )" "${tmpDir}/namcap"; then
-        err[${i}]=64
-      fi
-    done
-    rm -f "${tmpDir}/namcap"
-    if ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ]; then
-      cleanUp
-      exit ${err[${i}]}
-    fi
-    [ ${err[${i}]} -gt ${maxErr} ] && maxErr=${err[${i}]}
-
-    for teil_und_arch in "${paket_teile_und_archs[@]}"; do
-      teil="${teil_und_arch#*:}"
-      teil_arch="${teil_und_arch%%:*}"
-      gpg --detach-sign -u "${key}" --no-armor ${teil}-${vers}-${teil_arch}.pkg.tar.zst
-    done
-
-    if ${upload} && [ ${err[${i}]} -eq 0 ]; then
-
-# upload package and update db
-      cd "${tmpDir}/${paket}"
-      printf '%s\n' "${paket_teile_und_archs[@]%%:*}" | \
-        sort -u | \
-        while read -r arch; do
-          if [ "${paket}" = 'pacman-static' ] && \
-            [ "${arch}" = 'i686' ] && \
-            false; then
-            tar -OxJf "${paket_teile_und_archs[0]#*:}" usr/bin/pacman-static 2>/dev/null > /srv/arch-mirror/sources.archlinux32/sources/pacman-static
-            gpg --detach-sign -u "${key}" --yes --no-armor /srv/arch-mirror/sources.archlinux32/sources/pacman-static
-          fi
-
-          paket_teile=(
-            $(
-              printf '%s\n' "${paket_teile_und_archs[@]}" | \
-                sed -n '
-                  s/^'"${arch}"'://
-                  T
-                  p
-                '
-            )
-          )
-          tar -cf - $(
-            printf " %s-${vers}-${arch}.pkg.tar.zst"     "${paket_teile[@]}"
-            printf " %s-${vers}-${arch}.pkg.tar.zst.sig" "${paket_teile[@]}"
-          ) | \
-            ssh archlinuxewe@eckner.net "$(
-
-              printf 'tmp_archive=$(mktemp)\n'
-              printf 'cat > "${tmp_archive}"\n'
-              printf 'trap "rm ${tmp_archive}" EXIT\n'
-
-              printf '
-                entferneAltePakete() {
-                  altePakete=$(
-                    ls -1 | \
-                      grep "^$1-[^-]\+-[^-]\+-$2\.pkg\.tar\.\(xz\|zst\)\$"
-                  )
-                  if [ -n "${altePakete}" ]; then
-                    if [ "$(basename "$(pwd)")" != "any" ]; then
-                      if [ "$(basename "$(pwd)")" == "releng" ]; then
-                        repo-remove releng.db.tar.gz "$1"
-                      else
-                        repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"' \
-                "${checkDbSig}"
-              printf '
-                      fi
-                    fi
-                    for altesPaket in ${altePakete}; do
-                      rm "${altesPaket}"
-                      if [ -e "${altesPaket}.sig" ] || [ -h "${altesPaket}.sig" ]; then
-                        rm "${altesPaket}.sig"
-                      fi
-                    done
-                  fi
-                }'
-
-              printf '
-                addPaket() {
-                  if [ "$(basename "$(pwd)")" == "releng" ]; then
-                    repo-add releng.db.tar.gz "$1"
-                  else
-                    repo-add %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
-                  fi
-                }' \
-                "${checkDbSig}"
-
-              for r in ${repo}; do
-                if [ "${r}" = 'releng' ]; then
-                  printf '
-                  cd "%s"' \
-                    "${pkgDir32}"
-                else
-                  printf '
-                  cd "%s/%s"' \
-                    "${pkgDir}" "${arch}"
-                fi
-                printf '
-                  for teil in %s; do' \
-                  "${paket_teile[*]}"
-                printf '
-                    entferneAltePakete "${teil}" "%s"' \
-                  "${arch}"
-                printf '
-                  done'
-  
-                printf '
-                  tar -xf "${tmp_archive}"
-                  for teil in %s; do' \
-                  "${paket_teile[*]}"
-  
-                if [ "${arch}" == "any" ] && [ "${r}" != 'releng' ]; then
-                  printf '
-                    for lArch in $(ls ..); do
-                      [ ! -d "../${lArch}" ] && continue
-                      [ "${lArch}" == "any" ] && continue
-                      cd "../${lArch}"
-  
-                      entferneAltePakete "${teil}" "any"'
-                  printf '
-                      ln -s "../any/${teil}-%s-%s.pkg.tar.zst" "${teil}-%s-%s.pkg.tar.zst"' \
-                    "${vers}" "${arch}" "${vers}" "${arch}"
-                  printf '
-                      if [ -e "%s/any/${teil}-%s-%s.pkg.tar.zst.sig" ]' \
-                    "${pkgDir}" "${vers}" "${arch}"
-                  printf '; then
-                        ln -s "../any/${teil}-%s-%s.pkg.tar.zst.sig" "${teil}-%s-%s.pkg.tar.zst.sig"' \
-                    "${vers}" "${arch}" "${vers}" "${arch}"
-                  printf '
-                      fi
-                      addPaket "${teil}-%s-%s.pkg.tar.zst"' \
-                    "${vers}" "${arch}"
-                  printf '
-                    done'
-                else
-                  printf '
-                    addPaket "${teil}-%s-%s.pkg.tar.zst"' \
-                    "${vers}" "${arch}"
-                fi
-                printf '
-                  done'
-              done
-              printf '
-                date +%%s > "%s/../lastupdate"' \
-                "${pkgDir}"
-            )"
-        done
-    fi
-  done
-
-# check db
-  if ${upload}; then
-    ssh archlinuxewe@eckner.net "$(
-      printf '
-        err=0
-
-        for arch in %s/* %s' \
-        "${pkgDir}" "${pkgDir32}"
-      printf '; do
-          [ ! -d "${arch}" ] && continue
-          [ "${arch##*/}" == "any" ] && continue
-
-          for paketFehler in $( \
-            (
-              if [ "$(basename "${arch}")" == 'releng' ]; then
-                tar -Oxzf "${arch}/releng.db.tar.gz"
-              else
-                tar -Oxzf "${arch}/archlinuxewe.db.tar.gz"
-              fi | \
-                grep -A1 "^%%FILENAME%%\$" | \
-                grep -v "^%%FILENAME%%\$" | \
-                grep -v -- "^--\$"
-              ls "${arch}" | \
-                grep "^.*\.pkg\.tar\.\(xz\|zst\)\$"
-            ) | \
-              sort | \
-              uniq -u
-          ); do
-
-            err=1
-            if [ -e "${arch}/${paketFehler}" ]; then
-              >&2 echo "FEHLER: Paket ${arch}/${paketFehler} ist nur im Verzeichnisbaum vorhanden."
-            else
-              >&2 echo "FEHLER: Paket ${arch}/${paketFehler} ist nur in der Datenbank vorhanden."
-            fi
-
-          done
-
-          for signaturWarnungen in $( \
-            ls "${arch}" | \
-              grep "^.*\.pkg\.tar\.\(xz\|zst\)\(\.sig\)\?\$" | \
-              sed "s|\.sig\$||" | \
-              sort | \
-              uniq -u
-          ); do
-
-            if [ -e "${arch}/${signaturWarnungen}" ]; then
-              >&2 echo "WARNUNG: Paket ${arch}/${signaturWarnungen} hat keine Signatur."
-            else
-              err=1
-              >&2 echo "FEHLER: Zur Signatur ${arch}/${signaturWarnungen}.sig gibt es kein Paket."
-            fi
-
-          done
-
-        done
-
-        exit ${err}'
-    )"
-  fi
-
-  cleanUp
-  exit ${maxErr}
-
-else
-
-  if ${checkSanity}; then
-
 # check packages
-    err=false
+if ${checkSanity}; then
 
-    namcap */PKGBUILD || err=true
+  err=false
 
-    for paket in *; do
-      [ -r "${paket}/PKGBUILD" ] || continue
+  namcap */PKGBUILD || err=true
 
-      if ! grep -q "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$" "${paket}/PKGBUILD" || \
-         grep "^# Maintainer\s*:" "${paket}/PKGBUILD" | \
-           grep -vq "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$"; then
-        >&2 echo "${paket}/PKGBUILD hat falsche(n) Maintainer"
-        if grep -qxF '[submodule "'"${paket}"'"]' '.gitmodules'; then
-          continue
-        fi
-        err=true
+  for paket in *; do
+    [ -r "${paket}/PKGBUILD" ] || continue
+
+    if ! grep -q "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$" "${paket}/PKGBUILD" || \
+      grep "^# Maintainer\s*:" "${paket}/PKGBUILD" | \
+        grep -vq "^# Maintainer\s*:\s\+Erich Eckner\s\+<arch at eckner dot net>\$"; then
+      >&2 echo "${paket}/PKGBUILD hat falsche(n) Maintainer"
+      if grep -qxF '[submodule "'"${paket}"'"]' '.gitmodules'; then
+        continue
       fi
-
-    done
-    if ${err}; then
-      exit 1
+      err=true
     fi
 
-  fi
-
-  cd "${pkgSrcDir}"
-  git push
-  err=$?
-  if [ ${err} -ne 0 ]; then
-    exit ${err}
-  fi
-
-  ssh -p 22222 makepkg@141.35.51.219 "~/archPackagesUpdate" "${args[@]}"
-  err=$?
-  if [ ${err} -ne 0 ]; then
-    exit ${err}
+  done
+  if ${err}; then
+    exit 1
   fi
 
 fi
+
+if ${force}; then
+  available_packages=''
+else
+  available_packages=$(
+    {
+      curl -Ss 'https://arch.eckner.net/os/' \
+      | sed '
+        s@^.*<a href="\([^/"]\+\)/">\1/</a>.*$@\1@
+        /^\.\.$/d
+        /^any$/d
+        t
+        d
+      ' \
+      | while read -r arch; do
+        curl -Ss 'https://arch.eckner.net/os/'"${arch}"'/archlinuxewe.db.tar.gz' \
+        | tar -Oxzf - \
+        | sed -n '
+          /^%FILENAME%$/ {
+            N
+            s@^%FILENAME%\n@archlinuxewe/'"${arch}"'/@
+            T
+            p
+          }
+        '
+      done
+      curl -Ss 'https://mirror.archlinux32.org/x86_64/releng/releng.db.tar.gz' \
+      | tar -Oxzf - \
+      | sed '
+        /^%FILENAME%$/ {
+          N
+          s@^%FILENAME%\n@releng/x86_64/@
+          t
+        }
+        d
+      '
+    } \
+    | sed '
+      s@^\([^/]\+/\)[^/]\+\(/[^/]\+-any\.pkg\.tar\.\(xz\|zst\)\)$@\0\n\1any\2@
+    ' \
+    | sort -u
+  )
+fi
+
+# collect packages
+for paket in $( \
+  echo */PKGBUILD | \
+    sed "s|/PKGBUILD||g" \
+  ); do
+  [ -d "${paket}" ] || continue
+  [ ${#onlyPackages[@]} -eq 0 ] && consider=true || consider=false
+  for ((i=0; i<${#onlyPackages[@]}; i++)); do
+    [[ "${paket}" == "${onlyPackages[${i}]%:*}" ]] && consider=true
+  done
+  ${consider} || continue
+
+  unset epoch
+  unset pkgname
+  unset arch
+  . "${paket}/PKGBUILD"
+  if grep -q '#\s*repo:\s*releng\s*\(#.*\)\?$' "${paket}/PKGBUILD"; then
+    repo='releng'
+  else
+    repo='archlinuxewe'
+  fi
+
+  missing_archs=$(
+    for pkgnam in "${pkgname[@]}"; do
+
+      archs=$(
+        declare -f package_${pkgnam} | \
+          sed -n '
+            s/^\s*arch=(\(.\+\));$/\1/
+            T
+            s/["'"'"']//g
+            y/ /\n/
+            p
+          ' | \
+          grep -xF 'any' || \
+          printf '%s\n' "${arch[@]}"
+      )
+
+      for singleArch in ${archs}; do
+
+        [ "${singleArch}" == "x86_64" ] || \
+          [ "${singleArch}" == "pentium4" ] || \
+          [ "${singleArch}" == "i486" ] || \
+          [ "${singleArch}" == "i686" ] || \
+          [ "${singleArch}" == "armv6h" ] || \
+          [ "${singleArch}" == "armv7h" ] || \
+          [ "${singleArch}" == "aarch64" ] || \
+          [ "${singleArch}" == "any" ] || \
+          continue
+
+        pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.zst"
+        if ! printf '%s\n' "${available_packages}" \
+        | grep -qxF "${repo}/${singleArch}/${pkgFile}"; then
+          printf '%s\n' "${singleArch}"
+        fi
+
+      done
+
+    done | \
+      sort -u
+  )
+  if [ ${#onlyArchs[@]} -ne 0 ]; then
+    missing_archs=$(
+      printf '%s\n' "${missing_archs}" | \
+        grep -xF "$(printf '%s\n' "${onlyArchs[@]}")"
+    )
+  fi
+  if [ ${#onlyPackages[@]} -ne 0 ]; then
+    unset tmpOnlyArchs
+    for ((i=0; i<${#onlyPackages[@]}; i++)); do
+      [[ "${paket}" == "${onlyPackages[${i}]%:*}" ]] || continue
+      [ -z "${onlyPackages[${i}]%%*:*}" ] || continue
+      tmpOnlyArchs[${#tmpOnlyArchs[@]}]="${onlyPackages[${i}]##*:}"
+    done
+    if [ ${#tmpOnlyArchs[@]} -ne 0 ]; then
+      missing_archs=$(
+        printf '%s\n' "${missing_archs}" | \
+          grep -xF "$(printf '%s\n' "${tmpOnlyArchs[@]}")"
+      )
+    fi
+  fi
+
+  if [ -n "${missing_archs}" ]; then
+    for singleArch in ${missing_archs}; do
+      if ! printf '%s\n' "${arch[@]}" | \
+        grep -qxF "${singleArch}"; then
+        continue
+      fi
+      pakete[${#pakete[@]}]="${paket}"
+      pakete_teile_und_archs[${#pakete_teile_und_archs[@]}]=$(
+        for pn in "${pkgname[@]}"; do
+          printf '%s:%s\n' \
+            "$(
+              declare -f package_${pn} | \
+                sed -n '
+                  s/^\s*arch=(\(.\+\));$/\1/
+                  T
+                  s/["'"'"']//g
+                  y/ /\n/
+                  p
+                ' | \
+                grep -xF 'any' || \
+                printf '%s' "${singleArch}"
+            )" \
+            "${pn}" \
+          | if [ "${singleArch}" != 'any' ] \
+            && [ "${singleArch}" != 'x86_64' ]; then
+            sed '/^any:/d'
+          else
+            cat
+          fi
+        done
+      )
+      archs[${#archs[@]}]="${singleArch}"
+      verss[${#verss[@]}]="${epoch:+${epoch}:}${pkgver}-${pkgrel}"
+      if [ "${repo}" != 'archlinuxewe' ]; then
+        repos[${#repos[@]}]="${repo} archlinuxewe"
+      else
+        repos[${#repos[@]}]="${repo}"
+      fi
+    done
+  fi
+done
+
+# only print packages to be built?
+if ${printOnly}; then
+  printf '%d scheduled builds:\n' "${#pakete[@]}"
+  for ((i=0; i<${#pakete[@]}; i++)); do
+    echo " ${pakete[${i}]} ${verss[${i}]} ${archs[${i}]}"
+    printf '   %s\n' ${pakete_teile_und_archs[${i}]}
+  done
+  exit 0
+fi
+
+maxErr=0
+
+# update git sources
+find "${SRCDEST}" -mindepth 2 -maxdepth 2 \( \
+  -name 'HEAD' \
+  -o -name '.git' \
+\) | \
+  sed 's|/[^/]*$||' | \
+  while read -r repo; do
+    git -C "${repo}" fetch --all -p
+    git -C "${repo}" fetch origin master:master
+  done
+# update svn sources
+find "${SRCDEST}" -mindepth 2 -maxdepth 2 -name '.svn' | \
+  sed 's|/[^/]*$||' | \
+  while read -r repo; do
+    svn update "${repo}"
+  done
+
+# build packages
+for ((i=0; i<${#pakete[@]}; i++)); do
+  paket="${pakete[${i}]}"
+  paket_teile_und_archs=(${pakete_teile_und_archs[${i}]})
+  arch="${archs[${i}]}"
+  vers="${verss[${i}]}"
+  repo="${repos[${i}]}"
+
+  cd "${tmpDir}/${paket}"
+  rm -rf --one-file-system src pkg
+
+  if ! grep -qwF _patch_PKGBUILD PKGBUILD; then
+
+    # add PKGBUILD-patches to the PKGBUILD
+    if grep -q '^\s*pkgbase=' PKGBUILD; then
+      (
+        eval "$(
+          sed -n '/^\s*pkgname=(/,/)/ p' PKGBUILD
+        )"
+        printf 'package_%s\n' "${pkgname[@]}"
+      )
+    else
+      printf 'package\n'
+    fi \
+    | sponge \
+    | while read -r function; do
+      sed -i '
+        /^'"${function}"'() {$/,/^}$/ {
+          /^}$/ i _patch_PKGBUILD
+        }
+      ' PKGBUILD
+    done
+    {
+      echo '_patch_PKGBUILD() {'
+      ls -1 "${tmpDir}/"*".PKGBUILDpatch" \
+      | grep -vxF "$(
+        sed '
+          s,^# skip \(\S\+\)\(\s\|$\).*$,'"${tmpDir}"'/\1.PKGBUILDpatch,
+          t
+          d
+        ' PKGBUILD
+      )" \
+      | xargs -r cat
+      echo ':'
+      echo '}'
+    } \
+    >> PKGBUILD
+  fi
+
+  case "${arch}" in
+    'any'|'i486'|'i686'|'pentium4'|'x86_64')
+      if [ -n "${cleanChroot}" ]; then
+        build_mode='archbuild'
+      elif sed -n '
+        /^conflicts=(/ {
+          :a
+          /)/ ! {
+            N
+            $! ba
+          }
+          p
+        }
+      ' PKGBUILD \
+      | grep -qwF "$(
+        pacman -Qqg base-devel
+        pacman -Qi base \
+        | sed -n '
+          /^Depends On\s*:/,/^\S/ {
+            s/^Depends On\s*:/ /
+            /^\S/d
+            p
+          }
+        ' \
+        | tr ' ' '\n' \
+        | sort -u \
+        | grep -vxF ''
+      )"; then
+        build_mode='makechrootpkg'
+      else
+        build_mode='archbuild'
+      fi
+      if [ "${build_mode}" = 'archbuild' ]; then
+        archlinuxewe-${arch/any/x86_64}-build ${cleanChroot} -- -- ${log} ${checkMakepkg} --holdver
+      else
+        makechrootpkg -r "/var/lib/archbuild/archlinuxewe-${arch/any/x86_64}" -- ${log} ${checkMakepkg} --holdver -f
+      fi
+      err[${i}]=$?
+      if [ ${err[${i}]} -eq 0 ] && [ "${arch}" != 'x86_64' ] && [ "${arch}" != 'any' ]; then
+        {
+          printf '%s\n' \
+            "From: plasmapaule@gmail.com" \
+            "To: buildmaster@archlinux32.org" \
+            "Subject: $(uname -n) - report about installed ${arch} packages" \
+            ""
+          find . \
+            -mindepth 1 \
+            -maxdepth 1 \
+            -name '*.pkg.tar.zst' \
+            -exec bsdtar -Oxf {} .BUILDINFO \; \
+          | sed '
+            s@^installed = \(.*\)$@/var/cache/archbuild32/\1.pkg.tar.zst@
+            t
+            d
+          ' \
+          | xargs -r sha512sum \
+          2>/dev/null \
+          | sed '
+            s@\s\+.*/@ @
+            s/^/stabilize: /
+          '
+        } | \
+          sendmailadvanced -t
+      fi
+    ;;
+    'armv6h'|'armv7h'|'aarch64')
+      # armv6h & armv7h & aarch64 is built on the raspberry pis
+      PKGEXT=".pkg.tar.zst" SRCPKGDEST="${tmpDir}" makepkg --allsource -f
+      err[${i}]=$?
+      if [ ${err[${i}]} -eq 0 ]; then
+        ssh makepkg@${arch}.builder "$(
+          printf 'set -e\n'
+          printf 'rm -rf --one-file-system build/*\n'
+          printf 'cd build\n'
+          printf 'tar -xzf -\n'
+          printf 'cd "%s"\n' "${paket}"
+          printf 'export %s="%s"\n' \
+            'SRCDEST' '${HOME}/packageSources' \
+            'PACKAGER' "${PACKAGER}"
+          printf 'archlinuxewe-%s-build %s -- -- -- %s >&2\n' \
+            "${arch}" \
+            "${cleanChroot}" \
+            "${log} ${checkMakepkg}"
+          printf 'tar -czf - *.pkg.tar'
+          [ -n "${log}" ] && \
+            printf ' *.pkg.tar-*.log'
+          printf '\n'
+        )" \
+        < "${tmpDir}/${paket}-${vers}.src.tar.gz" \
+        > "paket.tar.gz"
+        err[${i}]=$?
+        if [ ${err[${i}]} -eq 0 ]; then
+          tar -xzvf paket.tar.gz \
+          | sed '
+            s/^.*\.pkg\.tar$/\0 \0.zst/
+            t
+            s/^\(.*\.pkg\.tar\)\(-.*\.log\)$/\0 \1.zst\2/
+            t
+            s/^.*$/unknown file "\0" in packages tar cannot be compressed/
+            w /dev/stderr
+            d
+          ' \
+          | while read -r file cfile; do
+            zstd "${file}" -o "${cfile}"
+            rm "${file}"
+          done
+        fi
+      fi
+    ;;
+    *)
+      printf 'unbekannte Architektur "%s"\n' "${arch}"
+      err[${i}]=128
+    ;;
+  esac
+  for teil_und_arch in "${paket_teile_und_archs[@]}"; do
+    if [ ${err[${i}]} -ne 0 ]; then
+      break
+    fi
+    teil="${teil_und_arch#*:}"
+    teil_arch="${teil_und_arch%%:*}"
+    namcap "${tmpDir}/${paket}/${teil}-${vers}-${teil_arch}.pkg.tar.zst" > \
+      "${tmpDir}/namcap"
+    err[${i}]=$?
+    if [ -n "${log}" ]; then
+      cat "${tmpDir}/namcap" > \
+        "${tmpDir}/${paket}/${teil}-namcap-${arch}.log"
+    fi
+    if [ ${err[${i}]} -ne 0 ]; then
+      sed 's/^/namcap: /' "${tmpDir}/namcap"
+      break
+    fi
+    if grep "$(
+      {
+        printf '%s\\|' \
+          "E: ELF file (.*) found in an ['\"]any['\"] package"
+        if ! grep -qF " ${teil} ist absichtlich nicht any ohne ELF Dateien" PKGBUILD \
+        && ! grep -qF " ist alles absichtlich nicht any ohne ELF Dateien" PKGBUILD; then
+          printf '%s\\|' \
+            "W: No ELF files and not an ['\"]any['\"] package"
+        fi
+      } | \
+        sed 's@\\|$@@'
+      )" "${tmpDir}/namcap"; then
+      err[${i}]=64
+    fi
+  done
+  rm -f "${tmpDir}/namcap"
+  if ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ]; then
+    cleanUp
+    exit ${err[${i}]}
+  fi
+  [ ${err[${i}]} -gt ${maxErr} ] && maxErr=${err[${i}]}
+
+  for teil_und_arch in "${paket_teile_und_archs[@]}"; do
+    teil="${teil_und_arch#*:}"
+    teil_arch="${teil_und_arch%%:*}"
+    gpg --detach-sign -u "${key}" --no-armor ${teil}-${vers}-${teil_arch}.pkg.tar.zst
+  done
+
+  # upload package and update db
+  if ${upload} && [ ${err[${i}]} -eq 0 ]; then
+
+    cd "${tmpDir}/${paket}"
+    printf '%s\n' "${paket_teile_und_archs[@]%%:*}" | \
+      sort -u | \
+      while read -r arch; do
+        if [ "${paket}" = 'pacman-static' ] && \
+          [ "${arch}" = 'i686' ] && \
+          false; then
+          tar -OxJf "${paket_teile_und_archs[0]#*:}" usr/bin/pacman-static 2>/dev/null > /srv/arch-mirror/sources.archlinux32/sources/pacman-static
+          gpg --detach-sign -u "${key}" --yes --no-armor /srv/arch-mirror/sources.archlinux32/sources/pacman-static
+        fi
+
+        paket_teile=(
+          $(
+            printf '%s\n' "${paket_teile_und_archs[@]}" | \
+              sed -n '
+                s/^'"${arch}"'://
+                T
+                p
+              '
+          )
+        )
+        tar -cf - $(
+          printf " %s-${vers}-${arch}.pkg.tar.zst"     "${paket_teile[@]}"
+          printf " %s-${vers}-${arch}.pkg.tar.zst.sig" "${paket_teile[@]}"
+        ) | \
+          ssh archlinuxewe@eckner.net "$(
+
+            printf 'tmp_archive=$(mktemp)\n'
+            printf 'cat > "${tmp_archive}"\n'
+            printf 'trap "rm ${tmp_archive}" EXIT\n'
+
+            printf '
+              entferneAltePakete() {
+                altePakete=$(
+                  ls -1 | \
+                    grep "^$1-[^-]\+-[^-]\+-$2\.pkg\.tar\.\(xz\|zst\)\$"
+                )
+                if [ -n "${altePakete}" ]; then
+                  if [ "$(basename "$(pwd)")" != "any" ]; then
+                    if [ "$(basename "$(pwd)")" == "releng" ]; then
+                      repo-remove releng.db.tar.gz "$1"
+                    else
+                      repo-remove %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"' \
+              "${checkDbSig}"
+            printf '
+                    fi
+                  fi
+                  for altesPaket in ${altePakete}; do
+                    rm "${altesPaket}"
+                    if [ -e "${altesPaket}.sig" ] || [ -h "${altesPaket}.sig" ]; then
+                      rm "${altesPaket}.sig"
+                    fi
+                  done
+                fi
+              }'
+
+            printf '
+              addPaket() {
+                if [ "$(basename "$(pwd)")" == "releng" ]; then
+                  repo-add releng.db.tar.gz "$1"
+                else
+                  repo-add %s -s -k 0x3CFB0AD8F60030F8 archlinuxewe.db.tar.gz "$1"
+                fi
+              }' \
+              "${checkDbSig}"
+
+            for r in ${repo}; do
+              if [ "${r}" = 'releng' ]; then
+                printf '
+                cd "%s"' \
+                  "${pkgDir32}"
+              else
+                printf '
+                cd "%s/%s"' \
+                  "${pkgDir}" "${arch}"
+              fi
+              printf '
+                for teil in %s; do' \
+                "${paket_teile[*]}"
+              printf '
+                  entferneAltePakete "${teil}" "%s"' \
+                "${arch}"
+              printf '
+                done'
+
+              printf '
+                tar -xf "${tmp_archive}"
+                for teil in %s; do' \
+                "${paket_teile[*]}"
+
+              if [ "${arch}" == "any" ] && [ "${r}" != 'releng' ]; then
+                printf '
+                  for lArch in $(ls ..); do
+                    [ ! -d "../${lArch}" ] && continue
+                    [ "${lArch}" == "any" ] && continue
+                    cd "../${lArch}"
+
+                    entferneAltePakete "${teil}" "any"'
+                printf '
+                    ln -s "../any/${teil}-%s-%s.pkg.tar.zst" "${teil}-%s-%s.pkg.tar.zst"' \
+                  "${vers}" "${arch}" "${vers}" "${arch}"
+                printf '
+                    if [ -e "%s/any/${teil}-%s-%s.pkg.tar.zst.sig" ]' \
+                  "${pkgDir}" "${vers}" "${arch}"
+                printf '; then
+                      ln -s "../any/${teil}-%s-%s.pkg.tar.zst.sig" "${teil}-%s-%s.pkg.tar.zst.sig"' \
+                  "${vers}" "${arch}" "${vers}" "${arch}"
+                printf '
+                    fi
+                    addPaket "${teil}-%s-%s.pkg.tar.zst"' \
+                  "${vers}" "${arch}"
+                printf '
+                  done'
+              else
+                printf '
+                  addPaket "${teil}-%s-%s.pkg.tar.zst"' \
+                  "${vers}" "${arch}"
+              fi
+              printf '
+                done'
+            done
+            printf '
+              date +%%s > "%s/../lastupdate"' \
+              "${pkgDir}"
+          )"
+      done
+  fi
+done
+
+# check db
+if ${upload}; then
+  ssh archlinuxewe@eckner.net "$(
+    printf '
+      err=0
+
+      for arch in %s/* %s' \
+      "${pkgDir}" "${pkgDir32}"
+    printf '; do
+        [ ! -d "${arch}" ] && continue
+        [ "${arch##*/}" == "any" ] && continue
+
+        for paketFehler in $( \
+          (
+            if [ "$(basename "${arch}")" == 'releng' ]; then
+              tar -Oxzf "${arch}/releng.db.tar.gz"
+            else
+              tar -Oxzf "${arch}/archlinuxewe.db.tar.gz"
+            fi | \
+              grep -A1 "^%%FILENAME%%\$" | \
+              grep -v "^%%FILENAME%%\$" | \
+              grep -v -- "^--\$"
+            ls "${arch}" | \
+              grep "^.*\.pkg\.tar\.\(xz\|zst\)\$"
+          ) | \
+            sort | \
+            uniq -u
+        ); do
+
+          err=1
+          if [ -e "${arch}/${paketFehler}" ]; then
+            >&2 echo "FEHLER: Paket ${arch}/${paketFehler} ist nur im Verzeichnisbaum vorhanden."
+          else
+            >&2 echo "FEHLER: Paket ${arch}/${paketFehler} ist nur in der Datenbank vorhanden."
+          fi
+
+        done
+
+        for signaturWarnungen in $( \
+          ls "${arch}" | \
+            grep "^.*\.pkg\.tar\.\(xz\|zst\)\(\.sig\)\?\$" | \
+            sed "s|\.sig\$||" | \
+            sort | \
+            uniq -u
+        ); do
+
+          if [ -e "${arch}/${signaturWarnungen}" ]; then
+            >&2 echo "WARNUNG: Paket ${arch}/${signaturWarnungen} hat keine Signatur."
+          else
+            err=1
+            >&2 echo "FEHLER: Zur Signatur ${arch}/${signaturWarnungen}.sig gibt es kein Paket."
+          fi
+
+        done
+
+      done
+
+      exit ${err}'
+  )"
+fi
+
+cleanUp
+exit ${maxErr}
