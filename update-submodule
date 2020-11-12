@@ -13,6 +13,8 @@ fi
 
 if [ ! -f "${path}" ]; then
   >&2 echo 'update-submodule needs a commit'
+  >&2 printf '"%s" ' "$@"
+  >&2 printf '\n'
   exit 1
 fi
 
