@@ -9,7 +9,6 @@ pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
 export SRCDEST="${HOME}/packageSources"
 export PACKAGER='Erich Eckner <arch at eckner dot net>'
 key='5FDCA472AB93292BC678FD59255A76DB9A12601A'
-branch="HEAD"
 force=false
 upload=true
 updateMe=true
@@ -33,8 +32,6 @@ usage()
   >&2 echo 'Optionen:'
   >&2 echo '    --arch $arch:'
   >&2 echo '      only compile for $arch'
-  >&2 echo '    -b|--branch [commitish]:'
-  >&2 echo '      branch to check out - defaults to "HEAD"'
   >&2 echo '    -c|--cleanChroot:'
   >&2 echo '      clean chroot before building'
   >&2 echo '    --cleanUnsigned:'
@@ -83,9 +80,8 @@ cleanUp () {
 
 echo 'parse arguments ...'
 eval set -- "$(
-  getopt -o b:cfL:pr \
+  getopt -o cfL:pr \
     --long arch: \
-    --long branch: \
     --long cleanChroot \
     --long cleanUnsigned \
     --long force \
@@ -111,11 +107,6 @@ while true; do
       shift
       echo '"arch '"$1"'" erkannt'
       onlyArchs[${#onlyArchs[@]}]="$1"
-    ;;
-    -b|--branch)
-      shift
-      branch="$1"
-      echo '"branch '"${branch}"'" erkannt'
     ;;
     -c|--cleanChroot)
       echo '"cleanChroot" erkannt'
@@ -199,32 +190,6 @@ fi
 
 echo '... done'
 
-# extract git ${branch}
-git -C "${pkgSrcDir}" archive --format tar "${branch}" | \
-  tar -x -C "${tmpDir}" -f -
-git -C "${pkgSrcDir}" diff '6dc373759d940181bcb2a742f1f37548a7c1cacc' "${branch}" -- $(
-  sed '
-    s/^\[submodule "\([^"[:space:]]\+\)"\]$/\1/
-    t
-    d
-  ' "${tmpDir}/.gitmodules"
-) \
-| sed '
-  /^+++ b/ {
-    N
-    N
-    s#^+++ b/\(\S\+\)\n@@ -0,0 +1 @@\n+Subproject commit \([0-9a-f]\{40\}\)$#\1 \2#
-    t
-  }
-  d
-' \
-| while read -r module commit; do
-  rmdir "${tmpDir}/${module}"
-  echo "${commit}" >"${tmpDir}/${module}"
-done
-
-cd "${tmpDir}"
-
 # clean unsigned packages
 if ${cleanUnsigned}; then
   ssh archlinuxewe@eckner.net "$(
@@ -267,21 +232,6 @@ unset pakete_teile_und_archs
 unset archs
 unset verss
 unset repos
-
-if [ -f '.gitmodules' ]; then
-  >&2 printf 'updating submodules ...'
-  sed -n '
-    /^\s*path = /{
-      N
-      s/^\s*path = //
-      s/\n\s*url = / /
-      s,ssh://aur@aur.archlinux.org/,https://aur.archlinux.org/,
-      p
-    }
-  ' '.gitmodules' \
-  | parallel -j0 "${tmpDir}/update-submodule" "${pkgSrcDir}" "${submoduleDir}"
-  >&2 printf ' done.\n'
-fi
 
 # check packages
 if ${checkSanity}; then
