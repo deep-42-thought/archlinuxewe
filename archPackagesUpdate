@@ -11,7 +11,6 @@ export PACKAGER='Erich Eckner <arch at eckner dot net>'
 key='5FDCA472AB93292BC678FD59255A76DB9A12601A'
 force=false
 upload=true
-updateMe=true
 abortOnMakepkgError=true
 cleanChroot=''
 cleanUnsigned=false
@@ -48,8 +47,6 @@ usage()
   >&2 echo '      pass --nocheck to makepkg'
   >&2 echo '    --no-sanity-check:'
   >&2 echo '      skip check for sanity of packages'
-  >&2 echo '    --no-selfUpdate:'
-  >&2 echo '      do not update this script from git'
   >&2 echo '    --no-upload:'
   >&2 echo '      do not upload built packages from rechenknecht to jeti100'
   >&2 echo '    --only $package:'
@@ -90,7 +87,6 @@ eval set -- "$(
     --long no-abortOnMakepkgError \
     --long no-check \
     --long no-sanity-check \
-    --long no-selfUpdate \
     --long no-upload \
     --long only: \
     --long print-only \
@@ -142,10 +138,6 @@ while true; do
       echo '"no-sanity-check" erkannt'
       checkSanity=false
     ;;
-    --no-selfUpdate)
-      echo '"no-selfUpdate" erkannt'
-      updateMe=false
-    ;;
     --no-upload)
       echo '"no-upload" erkannt'
       upload=false
@@ -182,8 +174,8 @@ if [ ! $# -eq 0 ]; then
 fi
 
 if ! ${checkSanity}; then
-  if ${upload} || ${updateMe}; then
-    >&2 echo 'FEHLER: "--no-sanity-check" geht nur zusammen mit "--no-upload" und "--no-selfUpdate"! Ich beende.'
+  if ${upload}; then
+    >&2 echo 'FEHLER: "--no-sanity-check" geht nur zusammen mit "--no-upload"! Ich beende.'
     exit 1
   fi
 fi
