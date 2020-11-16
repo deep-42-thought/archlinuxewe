@@ -3,7 +3,7 @@
 
 pkgname='python-asteval'
 _pkgname="${pkgname#*-}"
-pkgver=0.9.20
+pkgver=0.9.21
 pkgrel=1
 pkgdesc='Minimal Python AST Evaluator'
 arch=('any')
@@ -19,7 +19,7 @@ depends=(
   'python<3.9')
 source=(
   "${_pkgname}-${pkgver}.tar.gz::https://github.com/newville/${_pkgname}/archive/${pkgver}.tar.gz")
-sha512sums=('a37d6eb5e1a952b11118fafea9c7f8bbf659a71bff2dfe6126ccc79116039e6ede94ed2b1e46ee152a3e3975c98e144960c5daedc59d82cef5dec56c51c4e258')
+sha512sums=('e96937e41093db65a1eec4f3427124bee980590bc57309c7892fbec18637742d9f7b673d465e4f40325beece8912f7b4afc66319f5fd6adafb85320ca8e54c09')
 
 build() {
   cd "$srcdir/${_pkgname}-$pkgver"
