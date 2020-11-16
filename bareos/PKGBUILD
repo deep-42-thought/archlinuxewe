@@ -24,7 +24,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.8
-pkgrel=9
+pkgrel=10
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -381,7 +381,7 @@ package_bareos-director() {
     'glibc>=2.31'
     'jansson=2.13.1'
     'openssl=1.1.1.h'
-    'pam=1.4.0'
+    'pam=1.5.0'
   )
   depends=("bareos-common=$pkgver" "bareos-database=$pkgver" "bareos-database-common=$pkgver" 'bash' "${_pinned_dependencies[@]}")
   install=bareos-director.install
