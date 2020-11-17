@@ -6,6 +6,7 @@ trap 'rm -rf --one-file-system "${tmpDir}"' EXIT
 pkgDir='/srv/http/vhosts/eckner.net/archlinuxewe/os'
 pkgDir32='/mnt/mirror.archlinux32.org/x86_64/releng'
 pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
+submoduleDir=$(readlink -e "${pkgSrcDir}/../submodules")
 export SRCDEST="${HOME}/packageSources"
 export PACKAGER='Erich Eckner <arch at eckner dot net>'
 key='5FDCA472AB93292BC678FD59255A76DB9A12601A'
