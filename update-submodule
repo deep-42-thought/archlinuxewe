@@ -1,0 +1,34 @@
+#!/bin/bash
+
+pkgSrcDir="$1"
+submoduleDir="$2"
+url="$3"
+path="${url%% *}"
+url="${url#${path} }"
+
+if [ -d "${path}" ] && [ -n "$(ls -A "${path}")" ]; then
+  git -C "${pkgSrcDir}" submodule update 2>/dev/null || true
+  exit
+fi
+
+if [ ! -f "${path}" ]; then
+  >&2 echo 'update-submodule needs a commit'
+  >&2 printf '"%s" ' "$@"
+  >&2 printf '\n'
+  exit 1
+fi
+
+commit=$(cat "${path}")
+rm "${path}"
+mkdir -p "${path}"
+if [ -d "${submoduleDir}" ]; then
+  upstream="${submoduleDir}/${path}"
+  if [ ! -d "${upstream}" ]; then
+    git clone -q "${url}" "${upstream}"
+  fi
+else
+  upstream="${pkgSrcDir}/${path}"
+fi
+git -C "${upstream}" pull -q --ff-only
+git -C "${upstream}" archive "${commit}" \
+| tar -C "${path}" -x

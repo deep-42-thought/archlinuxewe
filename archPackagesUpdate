@@ -1,12 +1,15 @@
 #!/bin/bash
 
 # init variables
+tmpDir="$(mktemp -d ~/tmp.archive.XXXXXX)"
+trap 'rm -rf --one-file-system "${tmpDir}"' EXIT
 pkgDir='/srv/http/vhosts/eckner.net/archlinuxewe/os'
 pkgDir32='/mnt/mirror.archlinux32.org/x86_64/releng'
 pkgSrcDir="$(dirname $(readlink -f -n "$0"))"
 export SRCDEST="${HOME}/packageSources"
 export PACKAGER='Erich Eckner <arch at eckner dot net>'
 key='5FDCA472AB93292BC678FD59255A76DB9A12601A'
+branch="HEAD"
 force=false
 upload=true
 abortOnMakepkgError=true
@@ -29,6 +32,8 @@ usage()
   >&2 echo 'Optionen:'
   >&2 echo '    --arch $arch:'
   >&2 echo '      only compile for $arch'
+  >&2 echo '    -b|--branch [commitish]:'
+  >&2 echo '      branch to check out - defaults to "HEAD"'
   >&2 echo '    -c|--cleanChroot:'
   >&2 echo '      clean chroot before building'
   >&2 echo '    --cleanUnsigned:'
@@ -60,7 +65,7 @@ cleanUp () {
   if [ -n "${log}" ]; then
     [ "a${logFile}" == 'a-' ] && logFile="/tmp/$(date '+%F-%H-%M-%S')"
     [[ "${logFile}" == *".tar.gz" ]] || logFile="${logFile}.tar.gz"
-    cd "${pkgSrcDir}"
+    cd "${tmpDir}"
     logFiles=$(
       for s in */*.log; do
         [ -r "${s}" ] && echo "${s}"
@@ -75,8 +80,9 @@ cleanUp () {
 
 echo 'parse arguments ...'
 eval set -- "$(
-  getopt -o cfL:pr \
+  getopt -o b:cfL:pr \
     --long arch: \
+    --long branch: \
     --long cleanChroot \
     --long cleanUnsigned \
     --long force \
@@ -101,6 +107,11 @@ while true; do
       shift
       echo '"arch '"$1"'" erkannt'
       onlyArchs[${#onlyArchs[@]}]="$1"
+    ;;
+    -b|--branch)
+      shift
+      branch="$1"
+      echo '"branch '"${branch}"'" erkannt'
     ;;
     -c|--cleanChroot)
       echo '"cleanChroot" erkannt'
@@ -180,6 +191,32 @@ fi
 
 echo '... done'
 
+# extract git ${branch}
+git -C "${pkgSrcDir}" archive --format tar "${branch}" | \
+  tar -x -C "${tmpDir}" -f -
+git -C "${pkgSrcDir}" diff '6dc373759d940181bcb2a742f1f37548a7c1cacc' "${branch}" -- $(
+  sed '
+    s/^\[submodule "\([^"[:space:]]\+\)"\]$/\1/
+    t
+    d
+  ' "${tmpDir}/.gitmodules"
+) \
+| sed '
+  /^+++ b/ {
+    N
+    N
+    s#^+++ b/\(\S\+\)\n@@ -0,0 +1 @@\n+Subproject commit \([0-9a-f]\{40\}\)$#\1 \2#
+    t
+  }
+  d
+' \
+| while read -r module commit; do
+  rmdir "${tmpDir}/${module}"
+  echo "${commit}" >"${tmpDir}/${module}"
+done
+
+cd "${tmpDir}"
+
 # clean unsigned packages
 if ${cleanUnsigned}; then
   ssh archlinuxewe@eckner.net "$(
@@ -222,6 +259,21 @@ unset pakete_teile_und_archs
 unset archs
 unset verss
 unset repos
+
+if [ -f '.gitmodules' ]; then
+  >&2 printf 'updating submodules ...'
+  sed -n '
+    /^\s*path = /{
+      N
+      s/^\s*path = //
+      s/\n\s*url = / /
+      s,ssh://aur@aur.archlinux.org/,https://aur.archlinux.org/,
+      p
+    }
+  ' '.gitmodules' \
+  | parallel -j0 "${tmpDir}/update-submodule" "${pkgSrcDir}" "${submoduleDir}"
+  >&2 printf ' done.\n'
+fi
 
 # check packages
 if ${checkSanity}; then
@@ -437,7 +489,7 @@ for ((i=0; i<${#pakete[@]}; i++)); do
   vers="${verss[${i}]}"
   repo="${repos[${i}]}"
 
-  cd "${pkgSrcDir}/${paket}"
+  cd "${tmpDir}/${paket}"
   rm -rf --one-file-system src pkg
 
   if ! grep -qwF _patch_PKGBUILD PKGBUILD; then
@@ -463,10 +515,10 @@ for ((i=0; i<${#pakete[@]}; i++)); do
     done
     {
       echo '_patch_PKGBUILD() {'
-      ls -1 "${pkgSrcDir}/"*".PKGBUILDpatch" \
+      ls -1 "${tmpDir}/"*".PKGBUILDpatch" \
       | grep -vxF "$(
         sed '
-          s,^# skip \(\S\+\)\(\s\|$\).*$,'"${pkgSrcDir}"'/\1.PKGBUILDpatch,
+          s,^# skip \(\S\+\)\(\s\|$\).*$,'"${tmpDir}"'/\1.PKGBUILDpatch,
           t
           d
         ' PKGBUILD
@@ -545,7 +597,7 @@ for ((i=0; i<${#pakete[@]}; i++)); do
     ;;
     'armv6h'|'armv7h'|'aarch64')
       # armv6h & armv7h & aarch64 is built on the raspberry pis
-      PKGEXT=".pkg.tar.zst" SRCPKGDEST="${pkgSrcDir}" makepkg --allsource -f
+      PKGEXT=".pkg.tar.zst" SRCPKGDEST="${tmpDir}" makepkg --allsource -f
       err[${i}]=$?
       if [ ${err[${i}]} -eq 0 ]; then
         ssh makepkg@${arch}.builder "$(
@@ -566,7 +618,7 @@ for ((i=0; i<${#pakete[@]}; i++)); do
             printf ' *.pkg.tar-*.log'
           printf '\n'
         )" \
-        < "${pkgSrcDir}/${paket}-${vers}.src.tar.gz" \
+        < "${tmpDir}/${paket}-${vers}.src.tar.gz" \
         > "paket.tar.gz"
         err[${i}]=$?
         if [ ${err[${i}]} -eq 0 ]; then
@@ -598,15 +650,15 @@ for ((i=0; i<${#pakete[@]}; i++)); do
     fi
     teil="${teil_und_arch#*:}"
     teil_arch="${teil_und_arch%%:*}"
-    namcap "${pkgSrcDir}/${paket}/${teil}-${vers}-${teil_arch}.pkg.tar.zst" > \
-      "${pkgSrcDir}/namcap"
+    namcap "${tmpDir}/${paket}/${teil}-${vers}-${teil_arch}.pkg.tar.zst" > \
+      "${tmpDir}/namcap"
     err[${i}]=$?
     if [ -n "${log}" ]; then
-      cat "${pkgSrcDir}/namcap" > \
-        "${pkgSrcDir}/${paket}/${teil}-namcap-${arch}.log"
+      cat "${tmpDir}/namcap" > \
+        "${tmpDir}/${paket}/${teil}-namcap-${arch}.log"
     fi
     if [ ${err[${i}]} -ne 0 ]; then
-      sed 's/^/namcap: /' "${pkgSrcDir}/namcap"
+      sed 's/^/namcap: /' "${tmpDir}/namcap"
       break
     fi
     if grep "$(
@@ -620,11 +672,11 @@ for ((i=0; i<${#pakete[@]}; i++)); do
         fi
       } | \
         sed 's@\\|$@@'
-      )" "${pkgSrcDir}/namcap"; then
+      )" "${tmpDir}/namcap"; then
       err[${i}]=64
     fi
   done
-  rm -f "${pkgSrcDir}/namcap"
+  rm -f "${tmpDir}/namcap"
   if ${abortOnMakepkgError} && [ ${err[${i}]} -ne 0 ]; then
     cleanUp
     exit ${err[${i}]}
@@ -640,7 +692,7 @@ for ((i=0; i<${#pakete[@]}; i++)); do
   # upload package and update db
   if ${upload} && [ ${err[${i}]} -eq 0 ]; then
 
-    cd "${pkgSrcDir}/${paket}"
+    cd "${tmpDir}/${paket}"
     printf '%s\n' "${paket_teile_und_archs[@]%%:*}" | \
       sort -u | \
       while read -r arch; do
