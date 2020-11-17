@@ -268,7 +268,7 @@ if [ -f '.gitmodules' ]; then
       N
       s/^\s*path = //
       s/\n\s*url = / /
-      s,ssh://aur@aur.archlinux.org/,https://aur.archlinux.org/,
+      s,gitolite@eckner.net/aur/,https://git.eckner.net/aur/,
       p
     }
   ' '.gitmodules' \
