@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=python-hpilo
-pkgver=4.4.1
+pkgver=4.4.2
 pkgrel=1
 pkgdesc='Accessing the HP iLO XML interface from python'
 arch=('any')
@@ -14,7 +14,7 @@ makedepends=(
   'python-setuptools'
 )
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/seveas/${pkgname}/archive/${pkgver}.tar.gz")
-sha512sums=('6f0bed77c9f1d68a6efd1fe1a6e78fd1c91b742c1b954a09b83c9afac2c793caa18e6c484175be3e1c1ec0449f77253bf3beea18cd454cfaebbeef63f5515b54')
+sha512sums=('404bdd71e89d89e08e125950b3c12621f8bdd5969d6695c8c2125272d7b661ae722a9995e0115fc55be7dc1b65e3f1abe417b530da6df81b5245fd77e73ce37f')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
