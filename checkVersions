@@ -196,9 +196,6 @@ then
       ${me} "${args[@]}" $(echo */PKGBUILD | tr " " "\n" | sed "s|/PKGBUILD||") | tee -a "${tmpFile}"
       err=$?
     else
-      if ! mountpoint -q /mnt/archlinux32; then
-        mount /mnt/archlinux32
-      fi
       /usr/src/archlinux32/devops/watch-versions | sed 's/$/ (arch32)/' | tee -a "${tmpFile}"
       ${me} "${args[@]}" $(echo *32/PKGBUILD | tr ' ' '\n' | sed 's|/PKGBUILD||') | tee -a "${tmpFile}"
       err=$?
@@ -234,15 +231,24 @@ then
       grep '^pkg\(base\|name\|ver\)=' $1/PKGBUILD
     )"
     remVer=$(
-      find '/mnt/archlinux32' -regextype sed \
-        -type f \
-        -regex '.*/'"${1%32}"'-[^-]\+-[^-]\+-any\.pkg\.tar\.\(xz\|zst\)' \
-        -printf '%f\n' | \
-        sed '
-          s/-[^-]\+-[^-]\+$//
-          s/^.*-//
-        ' | \
-        latest_version
+      for a in i486 i686 pentium4; do
+        for r in core extra community testing community-testing staging community-staging; do
+          curl -Ss 'https://mirror.archlinux32.org/'"${a}"'/'"${r}"'/'"${r}"'.db' \
+          | bsdtar -Oxf - \
+          | sed -n '
+            /^%FILENAME%/ {
+              N
+              s/^%FILENAME%\n//
+              /^'"${1%32}"'-[^-]\+-[^-]\+-any\.pkg\.tar\.\(xz\|zst\)$/ p
+            }
+          '
+        done
+      done \
+      | sed '
+        s/-[^-]\+-[^-]\+$//
+        s/^.*-//
+      ' \
+      | latest_version
     )
     srcKnown=true
     source=()
