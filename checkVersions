@@ -747,6 +747,8 @@ then
           fi | \
           if [ "${pkgname}" == "conky-irc" ]; then
             grep -v '\.999$'
+          elif [ "${pkgname}" == 'textmail' ]; then
+            grep -vx '[0-9]\{8\}'
           else
             cat
           fi | \
