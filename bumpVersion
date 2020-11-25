@@ -101,7 +101,10 @@ paket="${1%/}"
 
 cd "${myDir}"
 [ -r "${paket}/PKGBUILD" ] || exit 1
-vers="$(./checkVersions -m "${paket}" ${check_version_cache_option})"
+if ! vers="$(./checkVersions -m "${paket}" ${check_version_cache_option})"; then
+  >&2 echo 'checkVersion returned non-zero'
+  exit 1
+fi
 [ -n "${remVer}" ] && vers="$(echo "${vers}" | grep -v 'remVer')"
 eval ${vers}
 if [ "${remVer}" == "${pkgver}" ]; then
