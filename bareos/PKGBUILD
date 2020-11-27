@@ -30,13 +30,31 @@ groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
 url="http://www.bareos.org"
 license=('AGPL3')
-makedepends=(acl bash cmake gcc-libs glibc jansson libcap lsb-release lzo mtx openssl postgresql-libs python python2 readline sqlite3 zlib)
-makedepends_x86_64=(ceph libmariadbclient)
-makedepends_i686=(libmariadbclient)
-makedepends_pentium4=(libmariadbclient)
-makedepends_armv6h=(libmariadbclient)
-makedepends_armv7h=(libmariadbclient)
-makedepends_aarch64=(ceph libmariadbclient)
+_pinned_dependencies=(
+  'gcc-libs=10.2.0'
+  'glibc>=2.31'
+  'jansson=2.13.1'
+  'libacl.so=1'
+  'libcap.so=2'
+  'libreadline.so=8'
+  'lzo=2.10'
+  'openssl=1.1.1.h'
+  'pam=1.5.0'
+  'postgresql-libs=12.5'
+  'python2=2.7.18'
+  'sqlite=3.33.0'
+  'zlib=1:1.2.11'
+)
+_pinned_dependencies_libmariadbclient=(
+  'libmariadb.so=3'
+)
+makedepends=(bash cmake lsb-release mtx python "${_pinned_dependencies[@]}")
+makedepends_x86_64=(ceph "${_pinned_dependencies_libmariadbclient[@]}")
+makedepends_i686=("${_pinned_dependencies_libmariadbclient[@]}")
+makedepends_pentium4=("${_pinned_dependencies_libmariadbclient[@]}")
+makedepends_armv6h=("${_pinned_dependencies_libmariadbclient[@]}")
+makedepends_armv7h=("${_pinned_dependencies_libmariadbclient[@]}")
+makedepends_aarch64=(ceph "${_pinned_dependencies_libmariadbclient[@]}")
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/$pkgbase/$pkgbase/archive/Release/$pkgver.tar.gz"
 'nullify-os-specifics.patch'
 'check-if-bareos-backup-is-running')
