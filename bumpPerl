@@ -35,7 +35,9 @@ for pkgbuild in perl-*/PKGBUILD demeter/PKGBUILD; do
 )
     ' "${pkgbuild}"
   fi
-  git add "${pkgbuild}"
+  cd "${pkgbuild%/*}"
+  ../commit-package
+  cd ..
 
 done
 

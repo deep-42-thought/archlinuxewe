@@ -1,0 +1,32 @@
+#!/bin/bash
+
+unset commit_message
+if [ $# -eq 1 ]; then
+  commit_message="$1"
+elif [ $# -ne 0 ]; then
+  >&2 'usage: commit-package [commit-message]'
+  >&2 '  without a commit message, it will only be added for commit'
+  exit 1
+fi
+
+if [ -d '.git' ] || [ -f '.git' ]; then
+  makepkg --printsrcinfo > .SRCINFO
+  git commit 'PKGBUILD' '.SRCINFO' -m "${commit_message:-rebuild}"
+  for remote in $(
+    git remote
+  ); do
+    git push "${remote}" || exit 1
+  done
+  cd ..
+  if [ -n "${commit_message}" ]; then
+    git commit "${paket}" -m "${commit_message}"
+  else
+    git add "${paket}"
+  fi
+else
+  if [ -n "${commit_message}" ]; then
+    git commit 'PKGBUILD' -m "${commit_message}"
+  else
+    git add 'PKGBUILD'
+  fi
+fi

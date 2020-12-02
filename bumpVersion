@@ -207,18 +207,6 @@ if [ "${paket}" != 'qgis-git' ]; then
     namcap "${pkg}" || exit 1
   done
 fi
-if [ -d '.git' ] || [ -f '.git' ]; then
-  makepkg --printsrcinfo > .SRCINFO
-  git commit 'PKGBUILD' '.SRCINFO' -m "${paket} ${pkgver}-${pkgrel} -> ${remVer}-1"
-  for remote in $(
-    git remote
-  ); do
-    git push "${remote}" || exit 1
-  done
-  cd ..
-  git commit "${paket}" -m "${paket} ${pkgver}-${pkgrel} -> ${remVer}-1"
-else
-  git commit 'PKGBUILD' -m "${paket} ${pkgver}-${pkgrel} -> ${remVer}-1"
-fi
+../commit-package "${paket} ${pkgver}-${pkgrel} -> ${remVer}-1"
 
 >&2 echo '... done'

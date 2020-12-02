@@ -143,19 +143,7 @@ else
   < 'PKGBUILD' \
   | sponge 'PKGBUILD'
   if ${commit}; then
-    if [ -d '.git' ] || [ -f '.git' ]; then
-      makepkg --printsrcinfo > .SRCINFO
-      git commit 'PKGBUILD' '.SRCINFO' -m "${pkg}: rebuild"
-      for remote in $(
-        git remote
-      ); do
-        git push "${remote}" || exit 1
-      done
-      cd ..
-      git commit "${pkg}" -m "${pkg}: rebuild"
-    else
-      git commit 'PKGBUILD' -m "${pkg}: rebuild"
-    fi
+    ../commit-package "${pkg}: rebuild"
   fi
 
 fi
