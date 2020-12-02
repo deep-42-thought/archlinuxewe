@@ -2,7 +2,7 @@
 pkgname=python-fisx
 _pkgname="${pkgname#*-}"
 pkgver=1.2.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Enhanced C++ port of the Physics routines used by PyMca'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://github.com/vasole/fisx'
@@ -16,8 +16,8 @@ makedepends=(
   'python-numpy'
   'python-setuptools')
 depends=(
-  'python>=3.8'
-  'python<3.9'
+  'python>=3.9'
+  'python<3.10'
   'python-numpy')
 source=(
     "${_pkgname}-v${pkgver}.tar.gz::https://github.com/vasole/${_pkgname}/archive/v${pkgver}.tar.gz"

@@ -2,7 +2,7 @@
 pkgname=python-pyepics
 _pkgname="${pkgname#*-}"
 pkgver=3.4.3
-pkgrel=1
+pkgrel=2
 pkgdesc='Python Interface to the Epics Channel Access protocol of the Epics control system'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://pypi.python.org/pypi/pyepics'
@@ -16,8 +16,8 @@ makedepends=(
   'python-setuptools')
 depends=(
 
-  'python>=3.8'
-  'python<3.9')
+  'python>=3.9'
+  'python<3.10')
 source=(
     "https://pypi.python.org/packages/8b/d4/a2c8736233d7c0bbfd29d92dacffe69b35af35f74ff049c628e7418ed70b/${_pkgname}-${pkgver}.tar.gz"
 )

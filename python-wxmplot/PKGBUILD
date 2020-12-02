@@ -2,7 +2,7 @@
 pkgname=python-wxmplot
 _pkgname="${pkgname#*-}"
 pkgver=0.9.43
-pkgrel=1
+pkgrel=2
 pkgdesc='A library for plotting in wxPython using matplotlib'
 arch=('any')
 url='https://pypi.python.org/pypi/wxmplot/0.9.18'
@@ -11,8 +11,8 @@ makedepends=(
   'python-setuptools')
 depends=(
 
-  'python>=3.8'
-  'python<3.9')
+  'python>=3.9'
+  'python<3.10')
 source=(
     "https://pypi.python.org/packages/03/b0/4c9f32a3b249f3e55b0548999fdff787ce93ee9516a34e0ea8cb6fcb5bae/${_pkgname}-${pkgver}.tar.gz"
 )

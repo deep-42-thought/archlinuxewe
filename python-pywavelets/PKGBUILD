@@ -4,7 +4,7 @@
 pkgname=python-pywavelets
 _pkgname=pywt
 pkgver=1.1.1
-pkgrel=4
+pkgrel=5
 pkgdesc="Discrete Wavelet Transforms in Python"
 arch=('x86_64' 'i686' 'pentium4')
 url="https://github.com/PyWavelets/pywt"
@@ -14,8 +14,8 @@ _pinned_dependencies=(
 )
 depends=(
   "${_pinned_dependencies[@]}"
-  'python>=3.8'
-  'python<3.9'
+  'python>=3.9'
+  'python<3.10'
   'cython'
   'python-matplotlib'
   'python-nose'

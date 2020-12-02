@@ -5,14 +5,14 @@
 pkgname=pssh-git
 pkgver=2.3.4+1+g075734d
 _commit="${pkgver##*+g}"
-pkgrel=1
+pkgrel=2
 pkgdesc="Parallel versions of the openssh tools ssh, scp, rsync, nuke, slurp"
 arch=('any')
 url="http://code.google.com/p/parallel-ssh/"
 license=('BSD')
 depends=(
-  'python>=3.8'
-  'python<3.9'
+  'python>=3.9'
+  'python<3.10'
   'openssh'
 )
 makedepends=('git' 'python-setuptools')

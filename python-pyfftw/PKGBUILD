@@ -4,7 +4,7 @@
 _pkgname=pyFFTW
 pkgname='python-pyfftw'
 pkgver=0.12.0
-pkgrel=4
+pkgrel=5
 pkgdesc='A pythonic wrapper around FFTW.'
 url='http://hgomersall.github.io/pyFFTW/'
 _pinned_dependencies=(
@@ -20,8 +20,8 @@ depends=(
   "${_pinned_dependencies[@]}"
   'cython>=0.29'
   'fftw'
-  'python>=3.8'
-  'python<3.9'
+  'python>=3.9'
+  'python<3.10'
   'python-numpy>=1.10'
   'python-scipy>=0.16.0')
 makedepends=(

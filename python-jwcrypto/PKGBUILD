@@ -4,7 +4,7 @@
 pkgname=python-jwcrypto
 _pkgname=${pkgname#*-}
 pkgver=0.8.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Python implementation of JWK, JWS, JWE specifications"
 arch=("any")
 url="https://github.com/latchset/jwcrypto"
@@ -12,8 +12,8 @@ license=("LGPL3")
 makedepends=(
   'python-setuptools')
 depends=(
-  'python>=3.8'
-  'python<3.9'
+  'python>=3.9'
+  'python<3.10'
   'python-cryptography>=2.3')
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/latchset/$_pkgname/archive/v$pkgver.tar.gz")
 sha512sums=('784134d27ff7abd31e1069763969513ed45f81fd2c242b7ff7036413c35ef374d535eae0123f5561a8e4eb2630cee40056d1c66454288e1310c4cbedecaac210')
