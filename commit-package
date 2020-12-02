@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 unset commit_message
 if [ $# -eq 1 ]; then
   commit_message="$1"
@@ -10,13 +12,35 @@ elif [ $# -ne 0 ]; then
 fi
 
 if [ -d '.git' ] || [ -f '.git' ]; then
+  if ! git remote \
+    | grep -qxF aur \
+    || git remote \
+    | grep -qxF ecknernet; then
+    >&2 echo 'I cannot find the necessary remotes: aur and ecknernet'
+    exit 1
+  fi
+  if ! git branch --format='%(refname:lstrip=-1)' \
+    | grep -qxF master \
+    || git branch --format='%(refname:lstrip=-1)' \
+    | grep -qxF archlinuxewe; then
+    >&2 echo 'I cannot find the necessary branches: master and archlinuxewe'
+    exit 1
+  fi
+  if ! git merge-base --is-ancestor master archlinuxewe; then
+    >&2 echo 'master is not an ancestor of archlinuxewe'
+    exit 1
+  fi
+  git checkout archlinuxewe
   makepkg --printsrcinfo > .SRCINFO
   git commit 'PKGBUILD' '.SRCINFO' -m "${commit_message:-rebuild}"
-  for remote in $(
-    git remote
-  ); do
-    git push "${remote}" || exit 1
-  done
+  git checkout master
+  git diff archlinuxewe{^,} \
+  | git apply
+  git commit 'PKGBUILD' '.SRCINFO' -m "${commit_message:-rebuild}"
+  git push aur
+  git checkout archlinuxewe
+  git rebase aur
+  git push ecknernet
   cd ..
   if [ -n "${commit_message}" ]; then
     git commit "${paket}" -m "${commit_message}"
