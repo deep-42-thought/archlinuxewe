@@ -85,6 +85,25 @@ if [ $# -ne 1 ] || ${auto_detect}; then
   | sort -u \
   | xargs -rn1 "$0" ${commit_flag} -p "${provided}"
 
+  if ${auto_detect}; then
+    python_version=$(
+      sed '
+        s/^\(3\.[0-9]\+\)\(\.[0-9.]\+\)\? python$/\1/
+        t
+        d
+      ' "${provided}"
+    )
+    if cat "${0%/*}"/*/PKGBUILD \
+      | sed '
+        s/^\(.* \)\?\(["'"'"']\)\?\(python>=[0-9.]\+\)\2\( .*\)\?$/\3/
+        t
+        d
+      ' \
+      | grep -qvxF "python>=${python_version}"; then
+      "${0%/*}/bumpPython" 3
+    fi
+  fi
+
 else
 
   cd "$(dirname "$0")"
