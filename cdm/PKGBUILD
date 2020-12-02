@@ -11,7 +11,7 @@ license=('GPL')
 depends=('dialog' 'xorg-xinit' 'xorg-xdpyinfo' 'kbd')
 conflicts=('cdm-git')
 backup=('etc/cdmrc')
-source=("https://github.com/evertiro/cdm/archive/$pkgver.tar.gz")
+source=("$pkgname-$pkgver.tar.gz::https://github.com/evertiro/cdm/archive/$pkgver.tar.gz")
 sha512sums=('51591b953ec83c06a5a4407c6d6083ac11e7095c7fb22e491ed3d6626217462529d3dd3590c2a256273b3668c7246b13bfd1f2f682f5bd860ca8a34aaca0b6f5')
 
 package() {
