@@ -2,7 +2,9 @@
 pkgname='textmail'
 pkgver='1.0'
 pkgrel=1
-source=("https://github.com/raforg/$pkgname/archive/v$pkgver.tar.gz")
+pkgdesc='convert email attachments to text'
+url="https://github.com/raforg/$pkgname"
+source=("$pkgname-$pkgver.tar.gz::https://github.com/raforg/$pkgname/archive/v$pkgver.tar.gz")
 sha512sums=('008fe1d8783d9b0062f4a98f440798cf5304056057b85887a74e4a4bdee7e39e09b6490fbaa5cef04a8dd45feb614187f049d655d246c86713423aa198cd64cf')
 arch=('any')
 depends=('perl')
