@@ -3,12 +3,19 @@
 
 pkgname=python-jupyter_telemetry
 pkgver=0.1.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Configurable event-logging for Jupyter applications and extensions"
 url="https://github.com/jupyter/telemetry"
 arch=('any')
 license=('BSD')
-depends=('python-json-logger' 'python-jsonschema' 'python-ruamel-yaml' 'python-traitlets')
+depends=(
+  'python>=3.9'
+  'python<3.10'
+  'python-json-logger'
+  'python-jsonschema'
+  'python-ruamel-yaml'
+  'python-traitlets'
+)
 makedepends=('git' 'python-setuptools')
 checkdepends=('python-pytest')
 source=(
