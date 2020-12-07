@@ -2,14 +2,14 @@
 # Contributor: Mantas Mikulėnas <grawity@gmail.com>
 pkgname=pamtester
 pkgver=0.1.2
-pkgrel=8
+pkgrel=9
 pkgdesc="Tiny program to test the pluggable authentication modules (PAM) facility"
 arch=(i686 pentium4 x86_64)
 url="http://pamtester.sourceforge.net/"
 license=(custom)
 _pinned_dependencies=(
   'glibc>=2.31'
-  'pam=1.5.0'
+  'libpam.so=0'
 )
 depends=("${_pinned_dependencies[@]}")
 source=("http://sourceforge.net/projects/pamtester/files/pamtester/$pkgver/pamtester-$pkgver.tar.gz")
