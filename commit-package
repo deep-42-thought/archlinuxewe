@@ -14,14 +14,14 @@ fi
 if [ -d '.git' ] || [ -f '.git' ]; then
   if ! git remote \
     | grep -qxF aur \
-    || git remote \
+    || ! git remote \
     | grep -qxF ecknernet; then
     >&2 echo 'I cannot find the necessary remotes: aur and ecknernet'
     exit 1
   fi
   if ! git branch --format='%(refname:lstrip=-1)' \
     | grep -qxF master \
-    || git branch --format='%(refname:lstrip=-1)' \
+    || ! git branch --format='%(refname:lstrip=-1)' \
     | grep -qxF archlinuxewe; then
     >&2 echo 'I cannot find the necessary branches: master and archlinuxewe'
     exit 1
