@@ -45,6 +45,7 @@ if [ -d '.git' ] || [ -f '.git' ]; then
     exit 1
   fi
   git checkout archlinuxewe
+  git pull ecknernet --ff-only
   makepkg --printsrcinfo > .SRCINFO
   git commit 'PKGBUILD' '.SRCINFO' -m "${commit_message:-rebuild}"
   git checkout master
@@ -78,7 +79,7 @@ if [ -d '.git' ] || [ -f '.git' ]; then
   git push aur
   git checkout archlinuxewe
   git rebase master
-  git push ecknernet
+  git push ecknernet --force
   cd ..
   if [ -n "${commit_message}" ]; then
     git commit "${paket}" -m "${commit_message}"
