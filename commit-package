@@ -2,6 +2,20 @@
 
 set -e
 
+pdiff () {
+  local one="$1";
+  local two="$2";
+  local pipe="$3";
+  shift 3;
+  diff "$@" <(
+    cat "$one" \
+    | bash -c "$pipe"
+  ) <(
+    cat "$two" \
+    | bash -c "$pipe"
+  )
+}
+
 unset commit_message
 if [ $# -eq 1 ]; then
   commit_message="$1"
@@ -34,12 +48,36 @@ if [ -d '.git' ] || [ -f '.git' ]; then
   makepkg --printsrcinfo > .SRCINFO
   git commit 'PKGBUILD' '.SRCINFO' -m "${commit_message:-rebuild}"
   git checkout master
-  git diff archlinuxewe{^,} \
+  diff=$(
+    git diff archlinuxewe{^,} --name-status \
+    | cut -f2 \
+    | grep -vxF .SRCINFO \
+    | grep -vxF PKGBUILD \
+    | xargs -r git diff archlinuxewe{^,} --
+  )
+  if [ -n "${diff}" ]; then
+    printf '%s\n' "${diff}" \
+    | git apply
+  fi
+  pdiff <(
+    git archive archlinuxewe^ -- PKGBUILD
+  ) <(
+    git archive archlinuxewe -- PKGBUILD
+  ) '
+    tar -Ox \
+    | sed "
+      /^_pinned_dependencies=(/,/)/d
+    "
+  ' -u \
+  | sed '
+    s@^\(---\|+++\) /dev/fd/\S\+\s\+@\1 a/PKGBUILD @
+  ' \
   | git apply
+  makepkg --printsrcinfo > .SRCINFO
   git commit 'PKGBUILD' '.SRCINFO' -m "${commit_message:-rebuild}"
   git push aur
   git checkout archlinuxewe
-  git rebase aur
+  git rebase master
   git push ecknernet
   cd ..
   if [ -n "${commit_message}" ]; then
