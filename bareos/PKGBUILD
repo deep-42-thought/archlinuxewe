@@ -24,7 +24,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.8
-pkgrel=10
+pkgrel=11
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -42,7 +42,7 @@ _pinned_dependencies=(
   'pam=1.5.0'
   'postgresql-libs=12.5'
   'python2=2.7.18'
-  'sqlite=3.33.0'
+  'sqlite=3.34.0'
   'zlib=1:1.2.11'
 )
 _pinned_dependencies_libmariadbclient=(
@@ -341,7 +341,7 @@ package_bareos-database-sqlite3() {
   _pinned_dependencies=(
     'gcc-libs=10.2.0'
     'glibc>=2.31'
-    'sqlite=3.33.0'
+    'sqlite=3.34.0'
   )
   depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
 
