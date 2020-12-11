@@ -24,7 +24,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=19.2.8
-pkgrel=12
+pkgrel=13
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -40,7 +40,7 @@ _pinned_dependencies=(
   'libreadline.so=8'
   'lzo=2.10'
   'openssl=1.1.1.h'
-  'postgresql-libs=12.5'
+  'postgresql-libs=13.1'
   'python2=2.7.18'
   'sqlite=3.34.0'
   'zlib=1:1.2.11'
@@ -302,7 +302,7 @@ package_bareos-database-postgresql() {
   _pinned_dependencies=(
     'gcc-libs=10.2.0'
     'glibc>=2.31'
-    'postgresql-libs=12.5'
+    'postgresql-libs=13.1'
   )
   depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
   install='bareos-database-postgresql.install'
