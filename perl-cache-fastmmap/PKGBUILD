@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
 
 pkgname='perl-cache-fastmmap'
-pkgver=1.51
+pkgver=1.56
 pkgrel=1
 pkgdesc='Uses an mmap'"'"'ed file to act as a shared memory interprocess cache'
 arch=('x86_64' 'i686' 'pentium4')
@@ -11,15 +11,16 @@ options=('!emptydirs')
 _pinned_dependencies=(
   'glibc>=2.31'
 )
-makedepends=(
-  'perl-extutils-makemaker')
 depends=(
   'glibc>=2.31'
-  'perl-storable')
+  'perl-storable'
+  'perl-test-deep')
+makedepends=(
+  'perl-extutils-makemaker')
 url='https://metacpan.org/release/Cache-FastMmap'
 _distdir="Cache-FastMmap-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RO/ROBM/${_distdir}.tar.gz")
-sha512sums=('b3365089f0815b7aaf4265b1adab266de81202c00c7ac4540907776f6aa2ba7de513e3f1cdd79f7fc38dbd02422307dad7a5098167e73ec93767f3cc980767dd')
+sha512sums=('742b2657007ce944ab636494a03ce7bfb6ea52663d1e4d3b10928f534f4fa4c564831e50737e7d6b79903f49b434fcdd441e664fe8afe156cc0468c2319cd0fe')
 
 build() {
   cd "${srcdir}/${_distdir}"
