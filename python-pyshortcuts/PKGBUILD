@@ -2,8 +2,8 @@
 
 pkgname='python-pyshortcuts'
 _pkgname='pyshortcuts'
-pkgver=1.7.2
-pkgrel=2
+pkgver=1.8.0
+pkgrel=1
 pkgdesc='create desktop shortcuts to python scripts on Windows, Mac, or Linux'
 arch=('any')
 url='https://github.com/newville/pyshortcuts'
@@ -15,7 +15,7 @@ depends=(
   'python>=3.9'
   'python<3.10')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/newville/${_pkgname}/archive/${pkgver}.tar.gz")
-sha512sums=('4a4a1951faad374a6046b7b31dd94ae055042a806c33df9cc093d84a0f61563b152b40a4baf06a1e0c9e8d408a2ca8fdcd04b1a9138297995ee111b905eb9130')
+sha512sums=('7ee215408a5616f6b0c41620be6fc0af80cb0d8cc4b854eb596f4a80a851a074f38b8f6e8e442414ec41ccb1831b07dfa5272b1d06d4c747104a111fa84c6d07')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
