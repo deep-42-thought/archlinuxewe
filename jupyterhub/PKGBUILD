@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=jupyterhub
-pkgver=1.2.2
-pkgrel=2
+pkgver=1.3.0
+pkgrel=1
 pkgdesc="Multi-user server for Jupyter notebooks "
 url="http://jupyter.org/"
 arch=(any)
@@ -26,7 +26,7 @@ depends=(
 )
 makedepends=('bower' 'npm')
 source=("jupyterhub-${pkgver}.tar.gz::https://github.com/jupyterhub/jupyterhub/archive/${pkgver}.tar.gz")
-sha512sums=('b71e7d53f6d96e0ad70e34a2d74251e4f37636851c61eb258c191c007ac24ed06286c3e55d42f9adf358e984bc577f367f889ea9a36d6639ea72e4f95ced79db')
+sha512sums=('9bb365f30a6558d55a743a22f74f706454b967ac335df24e0fc4dc1af2ee6985488b56650e6947b911d30614b8791ac763079efcaab122b50b15b9f8a92a96b8')
 install=${pkgname}.install
 
 build() {
