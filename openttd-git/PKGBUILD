@@ -2,7 +2,7 @@
 pkgname=openttd-git
 pkgver=29778.7222bc581
 _commit=${pkgver#*.}
-pkgrel=1
+pkgrel=2
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686' 'pentium4')
 url="http://www.openttd.org"
@@ -43,12 +43,14 @@ backup=()
 options=()
 source=(
     "${pkgname}::git://github.com/OpenTTD/OpenTTD.git#commit=${_commit}"
+    "chunnel.patch"
     "signaltunnel.patch"
     "sloped-stations.patch"
     "underground.patch"
     'opntitle.dat'
 )
 sha512sums=('SKIP'
+            'a6cf640d876aa1e2d20ec9242a602bca8a3e2dfabe036b36bf71872d47ab06d668c24d175c54c5f6e54d3c135ebcbcf3c09b5d762fddceb15f2cc87baad9d76f'
             '497f395320edff647dd58c53abc451f706db9934fc847c95ecbbb33d519f67fe94ecd913e13bd7d770320370ea088b675e6583e8b59b69e2d3ee587a62ad2261'
             '11c87d30824bca5738e46c14422c622cdfe4d7e55a5b3a4fe5e77a0a14ceee742bfa8f6c0e8212e9b38c2a1d1db3a4f525c7a70a0b0ed03751dee2539d3da929'
             'f18a389800e5641ebc55d4322089d97a851125ae6d19ff944d3648b3b603128fe0fcb7ba2210cbd13ac8a0839003144299c217b994bdc0bc5e601fbff63308d2'
@@ -89,8 +91,8 @@ prepare() {
       s,"\${CMAKE_SOURCE_DIR}/\.git","/dev/does/not/exist",
     ' cmake/scripts/FindVersion.cmake
 
-#    for _p in "${srcdir}/"{signaltunnel,sloped-stations,underground}.patch; do
-    for _p in "${srcdir}/"{signaltunnel,underground}.patch; do
+#    for _p in "${srcdir}/"{signaltunnel,sloped-stations,underground,chunnel}.patch; do
+    for _p in "${srcdir}/"{signaltunnel,underground,chunnel}.patch; do
       >&2 echo "patching ${_p##*/} ..."
       patch -p1 -i "${_p}"
       >&2 echo "... ok"
