@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
 
 pkgname='perl-css-minifier-xs'
-pkgver='0.09'
-pkgrel=7
+pkgver=0.11
+pkgrel=1
 pkgdesc='XS based CSS minifier'
 arch=('x86_64' 'i686' 'pentium4')
 _pinned_dependencies=(
@@ -14,13 +14,13 @@ depends=(
   'perl<5.33'
   "${_pinned_dependencies[@]}"
 )
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-pathtools'
+  'perl-test-diaginc>=0.002'
+  'perl-test-simple>=0.96')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-makedepends=(
-  'perl-extutils-cbuilder'
-  'perl-module-build>=0.40'
-  'perl-test-simple'
-)
 checkdepends=(
   'perl-test-pod'
   'perl-test-pod-coverage'
@@ -28,7 +28,7 @@ checkdepends=(
 url='https://metacpan.org/release/CSS-Minifier-XS'
 _distdir="CSS-Minifier-XS-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/G/GT/GTERMARS/${_distdir}.tar.gz")
-sha512sums=('520e40fa4a6d70bd7692880f3bc5c813a8648dfe12946426dedf0874e180ccd98e703d67ed8b502a7b00489aa2404edce844d80b1eccc48f94156a0d5c36ad51')
+sha512sums=('deb3cb3b095c4f3266378b165b4879984dbfd3d251730d724e6343347866878884cab4bd16d1234489e8ac12d9dbcc2ed59f4cb7759a7775483f974efac89f99')
 
 build() {
   cd "${srcdir}/${_distdir}"
