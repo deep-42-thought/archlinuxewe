@@ -4,13 +4,13 @@
 
 pkgname=isl
 pkgver=0.23
-pkgrel=1
+pkgrel=2
 pkgdesc="Library for manipulating sets and relations of integer points bounded by linear constraints"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://isl.gforge.inria.fr/"
 _pinned_dependencies=(
   'glibc>=2.31'
-  'gmp=6.2.0'
+  'gmp=6.2.1'
 )
 depends=("${_pinned_dependencies[@]}")
 license=('MIT')
