@@ -52,7 +52,11 @@ fi
 
 . perlFunktionen
 
-seitenInhalt="$(curl -x socks5h://127.0.0.1:9050 -Ss "${url}")"
+seitenInhalt=$(
+  for socksHost in 127.0.0.1:9050 192.168.0.3:9050; do
+    curl -x "socks5h://${socksHost}" -Ss "${url}" && break
+  done
+)
 
 pkgver="$(
   echo "${seitenInhalt}" | \
@@ -82,7 +86,9 @@ dlUrlForPKGBUILD="$(
 mkdir "${pkgname}"
 cd "${pkgname}"
 
-curl -x socks5h://127.0.0.1:9050 -Ss -o "${dlUrl##*/}" "${dlUrl}"
+for socksHost in 127.0.0.1:9050 192.168.0.3:9050; do
+  curl -x "socks5h://${socksHost}" -Ss -o "${dlUrl##*/}" "${dlUrl}" && break
+done
 
 if echo "${dlUrl}" | \
   grep -q "/${cpanName}-v[0-9.]\+\.tar\.gz\$"; then
