@@ -2,7 +2,7 @@
 pkgname=ewemake
 _srcpkgname='Make'
 pkgver=1.2.3
-pkgrel=2
+pkgrel=3
 pkgdesc="somewhat more powerfull alternative to 'make'"
 arch=('x86_64' 'i686' 'pentium4')
 url="https://git.eckner.net/Erich/Make"
@@ -10,7 +10,7 @@ license=('GPL')
 groups=()
 _pinned_dependencies=(
   'glibc>=2.31'
-  'gmp=6.2.0'
+  'gmp=6.2.1'
 )
 depends=('bash' "${_pinned_dependencies[@]}")
 makedepends=('fpc' 'fpc-src-ewetools')
