@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-git
-pkgver=29698.e82333cf7
+pkgver=29778.7222bc581
 _commit=${pkgver#*.}
 pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
@@ -14,12 +14,12 @@ _pinned_dependencies=(
   'libfluidsynth.so=2'
   'libfontconfig.so=1'
   'libfreetype.so=6'
-  'libicui18n.so=67'
-  'libicuuc.so=67'
+  'libicui18n.so=68'
+  'libicuuc.so=68'
   'libpng=1.6.37'
   'libunwind=1.3.1'
   'lzo=2.10'
-  'sdl2=2.0.12'
+  'sdl2=2.0.14'
   'xz=5.2.5'
   'zlib=1:1.2.11'
 )
@@ -49,9 +49,9 @@ source=(
     'opntitle.dat'
 )
 sha512sums=('SKIP'
-            'd375484c308e4c14615dcff374bc4aaf014bc003d260466acef82b8dc6d58aef22a1b1719318744e9504accecdd2452f5bbd7f5deda1a07b3c5110ece9fd15fc'
-            '2ad18fe322438249199a0993e479e464ea44908b787baeb5400ed8ab99bf95a79b0777974a567b3ff7941f37ca25c1b4f970eccb305e62c4ca5d7c845562669f'
-            '401734ad2f1725c903df07dbcc8f6645a5ce753d14acbde8e0ac045f78db6e81075e64a36164f98fc8af0ed75a124c649e821cc89f479f290e780dfbb3a09a11'
+            '497f395320edff647dd58c53abc451f706db9934fc847c95ecbbb33d519f67fe94ecd913e13bd7d770320370ea088b675e6583e8b59b69e2d3ee587a62ad2261'
+            '11c87d30824bca5738e46c14422c622cdfe4d7e55a5b3a4fe5e77a0a14ceee742bfa8f6c0e8212e9b38c2a1d1db3a4f525c7a70a0b0ed03751dee2539d3da929'
+            'f18a389800e5641ebc55d4322089d97a851125ae6d19ff944d3648b3b603128fe0fcb7ba2210cbd13ac8a0839003144299c217b994bdc0bc5e601fbff63308d2'
             'a3fd5b230b7cdd67a1b6607887433c0cb85ba1dfd30cedfddf573a58b23ccce7c470a22cf7f65a29c173bba12976c5889482cef24f49c8c0a829883a71bcd87d')
 
 pkgver() {

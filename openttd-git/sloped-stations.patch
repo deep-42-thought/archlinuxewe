@@ -1,5 +1,5 @@
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 162fe97799..f3f65308dc 100644
+index a714415326..120daf052e 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -187,14 +187,6 @@ RailType AllocateRailType(RailTypeLabel label)
@@ -18,7 +18,7 @@ index 162fe97799..f3f65308dc 100644
   *     ---------
   *    |\       /|
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index b8aee88d60..da61c33526 100644
+index d0104cb99a..ac093c3dcc 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -37,6 +37,7 @@
@@ -94,7 +94,7 @@ index 969b141ba2..1af4275eb9 100644
 +
  #endif /* ROAD_TYPE_H */
 diff --git a/src/roadveh_cmd.cpp b/src/roadveh_cmd.cpp
-index 261af7042b..cde4a50a29 100644
+index 0e490fbc21..7b37f0266b 100644
 --- a/src/roadveh_cmd.cpp
 +++ b/src/roadveh_cmd.cpp
 @@ -1500,7 +1500,7 @@ again:
@@ -107,7 +107,7 @@ index 261af7042b..cde4a50a29 100644
  				}
  			}
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index 7bce21353d..bde1caa199 100644
+index 735edd06f6..019dfc9619 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -56,6 +56,7 @@
@@ -179,7 +179,7 @@ index 7bce21353d..bde1caa199 100644
  	if (ret.Failed()) return ret;
  	cost.AddCost(ret);
  
-@@ -2898,6 +2899,32 @@ static void DrawTile_Station(TileInfo *ti)
+@@ -2897,6 +2898,32 @@ static void DrawTile_Station(TileInfo *ti)
  		palette = PALETTE_TO_GREY;
  	}
  
@@ -212,7 +212,7 @@ index 7bce21353d..bde1caa199 100644
  	if (layout == nullptr && (t == nullptr || t->seq == nullptr)) t = GetStationTileLayout(GetStationType(ti->tile), gfx);
  
  	/* don't show foundation for docks */
-@@ -2964,10 +2991,10 @@ static void DrawTile_Station(TileInfo *ti)
+@@ -2963,10 +2990,10 @@ static void DrawTile_Station(TileInfo *ti)
  			}
  
  			OffsetGroundSprite(31, 1);
@@ -225,7 +225,7 @@ index 7bce21353d..bde1caa199 100644
  		}
  	}
  
-@@ -3023,14 +3050,64 @@ draw_default_foundation:
+@@ -3022,14 +3049,64 @@ draw_default_foundation:
  				DrawGroundSprite(overlay + overlay_offset, PALETTE_CRASH);
  			}
  		} else {
@@ -293,7 +293,7 @@ index 7bce21353d..bde1caa199 100644
  			}
  		}
  	}
-@@ -3124,6 +3201,16 @@ void StationPickerDrawSprite(int x, int y, StationType st, RailType railtype, Ro
+@@ -3123,6 +3200,16 @@ void StationPickerDrawSprite(int x, int y, StationType st, RailType railtype, Ro
  
  static int GetSlopePixelZ_Station(TileIndex tile, uint x, uint y)
  {
@@ -311,7 +311,7 @@ index 7bce21353d..bde1caa199 100644
  }
  
 diff --git a/src/table/sprites.h b/src/table/sprites.h
-index 5df55b8ae4..ce58194950 100644
+index 7d9f980ef1..26a64bf8a6 100644
 --- a/src/table/sprites.h
 +++ b/src/table/sprites.h
 @@ -258,7 +258,26 @@ static const SpriteID SPR_TRUCK_STOP_DT_Y_W = SPR_ROADSTOP_BASE + 4;
@@ -343,7 +343,7 @@ index 5df55b8ae4..ce58194950 100644
  /** Tramway sprites */
  static const SpriteID SPR_TRAMWAY_BASE                 = SPR_ROADSTOP_BASE + ROADSTOP_SPRITE_COUNT;
 diff --git a/src/table/station_land.h b/src/table/station_land.h
-index 6b4b2267ac..760da43e69 100644
+index 8429914f32..e2f8ef411c 100644
 --- a/src/table/station_land.h
 +++ b/src/table/station_land.h
 @@ -775,6 +775,62 @@ static const DrawTileSeqStruct _station_display_datas_waypoint_Y[] = {
