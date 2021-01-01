@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (2187f3ca33d7c791f08a9ab8c3893497ec9caa377e13a9f4565f67f0abb693a7e3c3edb2792f2bae0865f195eb47b422ea736d98c72a803ee24cecfcdfa2829f)
 
 pkgname='perl-javascript-minifier-xs'
-pkgver='0.11'
-pkgrel=7
+pkgver=0.13
+pkgrel=1
 pkgdesc='XS based JavaScript minifier'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -17,14 +17,14 @@ depends=(
   "${_pinned_dependencies[@]}"
 )
 makedepends=(
-  'perl-extutils-cbuilder'
-  'perl-module-build>=0.42'
-  'perl-test-simple'
-)
+  'perl-extutils-makemaker'
+  'perl-pathtools'
+  'perl-test-diaginc>=0.002'
+  'perl-test-simple>=0.96')
 url='https://metacpan.org/release/JavaScript-Minifier-XS'
 _distdir="JavaScript-Minifier-XS-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/G/GT/GTERMARS/${_distdir}.tar.gz")
-sha512sums=('736294c898d7806eae509b0d0c14cfcbb783ac335fe6c08bed9c00a52643b3e6d0ade124735d7de8d2203bf404448889e0e84b3097e316d0ef444f1603cbbdef')
+sha512sums=('5c46fe9301212066f40a592300adcb61faa9415b3e94ad75433e64c0e843ee74887e8cc1e5d4f245b6c99979052e5028d9102de2aea7e5d31a5054d8a8aeaa29')
 
 build() {
   cd "${srcdir}/${_distdir}"
