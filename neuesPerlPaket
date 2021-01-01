@@ -185,10 +185,10 @@ while ${needs_build}; do
   while ${needs_build}; do
     makepkg -fcrs --noconfirm --asdeps || break
     needs_build=false
-    namcap ${pkgname}-*.pkg.tar.xz | \
+    namcap ${pkgname}-*.pkg.tar.zst | \
       tee namcap.log
     if grep -q ' W: No ELF files and not an "any" package$' namcap.log; then
-      rm ${pkgname}-*.pkg.tar.xz
+      rm ${pkgname}-*.pkg.tar.zst
       needs_build=true
       sed -i "s/^arch=.*\$/arch=('any')/" PKGBUILD
     fi
@@ -231,7 +231,7 @@ while ${needs_build}; do
 
 done
 
-pacman -Qlp ${pkgname}-*.pkg.tar.xz
+pacman -Qlp ${pkgname}-*.pkg.tar.zst
 
 echo ''
 echo 'auch hier alles in Ordnung, oder?'
