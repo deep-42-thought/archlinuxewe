@@ -15,6 +15,7 @@ updpkgsums
 printf '%s\n' "${source[@]}" \
 | sed '
   s/\.patch$//
+  /-pre$/d
   t
   d
 ' \
