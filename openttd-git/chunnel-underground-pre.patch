@@ -1,0 +1,22 @@
+--- a/chunnel.pre.patch	2021-01-03 22:30:58.721115549 +0100
++++ b/chunnel.pre.patch	2021-01-03 22:30:58.721115549 +0100
+@@ -790,7 +790,7 @@
+  	Slope end_tileh;
+  	for (;;) {
+ @@ -672,13 +675,69 @@ CommandCost CmdBuildTunnel(TileIndex start_tile, DoCommandFlag flags, uint32 p1,
+- 		if (!IsValidTile(end_tile)) return_cmd_error(STR_ERROR_TUNNEL_THROUGH_MAP_BORDER);
++ 
+  		end_tileh = GetTileSlope(end_tile, &end_z);
+  
+ -		if (start_z == end_z) break;
+@@ -1015,9 +1015,9 @@
+  	if (v->type == VEH_EFFECT) {
+  		/* Check whether the vehicle shall be transparent/invisible due to GUI settings.
+ @@ -1139,7 +1147,7 @@ void ViewportAddVehicles(DrawPixelInfo *dpi)
+- 			const Vehicle *v = _vehicle_viewport_hash[x + y]; // already masked & 0xFFF
+  
+  			while (v != nullptr) {
++ 				if (LayerIndex(v->tile) == dpi->layer)
+ -				if (!(v->vehstatus & VS_HIDDEN) &&
+ +				if (v->IsDrawn() &&
+  						l <= v->coord.right &&
