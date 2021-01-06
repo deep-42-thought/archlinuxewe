@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=openttd-git
-pkgver=29779.8596b43b2
+pkgver=29816.62cdadb58
 _commit=${pkgver#*.}
-pkgrel=2
+pkgrel=1
 pkgdesc="A FOSS clone of Transport Tycoon Deluxe."
 arch=('x86_64' 'i686' 'pentium4')
 url="http://www.openttd.org"
@@ -43,21 +43,18 @@ backup=()
 options=()
 source=(
     "${pkgname}::git://github.com/OpenTTD/OpenTTD.git#commit=${_commit}"
-    "chunnel-signaltunnel-pre.patch"
-    "chunnel-underground-pre.patch"
-    "chunnel.patch"
+#    "chunnel-signaltunnel-pre.patch"
+#    "chunnel-underground-pre.patch"
+#    "chunnel.patch"
     "signaltunnel.patch"
     "sloped-stations.patch"
     "underground.patch"
     'opntitle.dat'
 )
 sha512sums=('SKIP'
-            '26fa515d2706455f0f713ef8aab80fb2a52f665b54ae354d3feab2c25e194f80187125a28429a25ad86b58a2e902862aeb1ebae74e36d974ec78f4304df94b61'
-            '09200144aa4dd5beaf12787d175aa47226205427721c05f681730474a95a2d2f8692be63df568c622f78edf81347dec249d0926203be3aa6dd902ff93f7aa047'
-            '74283b8adb001a010aa05a8cee33b620371544e2909317f4c7156852e4ea440cdf8793dbe8957d646734ee309fdb5924915e0d967d78d43329ea4fc211e7e8ef'
-            '497f395320edff647dd58c53abc451f706db9934fc847c95ecbbb33d519f67fe94ecd913e13bd7d770320370ea088b675e6583e8b59b69e2d3ee587a62ad2261'
-            '11c87d30824bca5738e46c14422c622cdfe4d7e55a5b3a4fe5e77a0a14ceee742bfa8f6c0e8212e9b38c2a1d1db3a4f525c7a70a0b0ed03751dee2539d3da929'
-            'f18a389800e5641ebc55d4322089d97a851125ae6d19ff944d3648b3b603128fe0fcb7ba2210cbd13ac8a0839003144299c217b994bdc0bc5e601fbff63308d2'
+            '29659bf030f7cc75ccf7009ccb10a0c0316ae7883a2359e5e6ed95caacc48d8d6eeb922b411c00be53293f508c4c847cd7e4568e2d9f9b4dbc3f3019002f61e1'
+            '9a2c5ae425dfed43d896c445f76a79b77d3d4134ff3d89a894c9ac7d13ca08fb4f7b94c33c4b83cf834a5f3026c466736f50841ccd40b9c8df4d7abafb655898'
+            'b3911b63a155b420e6a46bf7607bc4f412870c4fff3cee2754ab702f3c795a700599c7c22a88a7230856ed5eb4f104fde82b397ab7b542f140a16d991095a247'
             'a3fd5b230b7cdd67a1b6607887433c0cb85ba1dfd30cedfddf573a58b23ccce7c470a22cf7f65a29c173bba12976c5889482cef24f49c8c0a829883a71bcd87d')
 
 pkgver() {
@@ -73,9 +70,9 @@ pkgver() {
 prepare() {
 
     cd "${srcdir}"
-    cp chunnel.patch chunnel.pre.patch
-    patch -p1 -i "chunnel-signaltunnel-pre.patch"
-    patch -p1 -i "chunnel-underground-pre.patch"
+#    cp chunnel.patch chunnel.pre.patch
+#    patch -p1 -i "chunnel-signaltunnel-pre.patch"
+#    patch -p1 -i "chunnel-underground-pre.patch"
 
     cd "${srcdir}/${pkgname}"
     cp "${srcdir}/opntitle.dat" media/baseset/
@@ -100,8 +97,8 @@ prepare() {
       s,"\${CMAKE_SOURCE_DIR}/\.git","/dev/does/not/exist",
     ' cmake/scripts/FindVersion.cmake
 
-#    for _p in "${srcdir}/"{signaltunnel,sloped-stations,underground}.patch; do
-    for _p in "${srcdir}/"{signaltunnel,underground,chunnel.pre}.patch; do
+#    for _p in "${srcdir}/"{signaltunnel,sloped-stations,underground,chunnel.pre}.patch; do
+    for _p in "${srcdir}/"{signaltunnel,underground}.patch; do
       >&2 echo "patching ${_p##*/} ..."
       patch -p1 -i "${_p}"
       >&2 echo "... ok"

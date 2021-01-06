@@ -169,10 +169,10 @@ index 816146212f..5491936557 100644
  }
  
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index 1751e360f0..ce8baa7a4c 100644
+index 8d8a128717..765fc146a1 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
-@@ -2325,6 +2325,7 @@ STR_TRANSPARENT_BRIDGES_TOOLTIP                                 :{BLACK}Toggle t
+@@ -2321,6 +2321,7 @@ STR_TRANSPARENT_BRIDGES_TOOLTIP                                 :{BLACK}Toggle t
  STR_TRANSPARENT_STRUCTURES_TOOLTIP                              :{BLACK}Toggle transparency for structures like lighthouses and antennas. Ctrl+Click to lock
  STR_TRANSPARENT_CATENARY_TOOLTIP                                :{BLACK}Toggle transparency for catenary. Ctrl+Click to lock
  STR_TRANSPARENT_LOADING_TOOLTIP                                 :{BLACK}Toggle transparency for loading indicators. Ctrl+Click to lock
@@ -180,7 +180,7 @@ index 1751e360f0..ce8baa7a4c 100644
  STR_TRANSPARENT_INVISIBLE_TOOLTIP                               :{BLACK}Set objects invisible instead of transparent
  
  # Linkgraph legend window
-@@ -2724,7 +2725,9 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -2720,7 +2721,9 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -202,10 +202,10 @@ index 1751e360f0..ce8baa7a4c 100644
  # Object related errors
  STR_ERROR_TOO_MANY_OBJECTS                                      :{WHITE}... too many objects
 diff --git a/src/roadveh_cmd.cpp b/src/roadveh_cmd.cpp
-index 0e490fbc21..73c4648926 100644
+index 14fa8d79d8..604b51ea46 100644
 --- a/src/roadveh_cmd.cpp
 +++ b/src/roadveh_cmd.cpp
-@@ -1182,6 +1182,7 @@ bool IndividualRoadVehicleController(RoadVehicle *v, const RoadVehicle *prev)
+@@ -1178,6 +1178,7 @@ bool IndividualRoadVehicleController(RoadVehicle *v, const RoadVehicle *prev)
  		v->x_pos = gp.x;
  		v->y_pos = gp.y;
  		v->UpdatePosition();
@@ -213,7 +213,7 @@ index 0e490fbc21..73c4648926 100644
  		if ((v->vehstatus & VS_HIDDEN) == 0) v->Vehicle::UpdateViewport(true);
  		return true;
  	}
-@@ -1549,7 +1550,7 @@ again:
+@@ -1545,7 +1546,7 @@ again:
  	v->x_pos = x;
  	v->y_pos = y;
  	v->UpdatePosition();
@@ -425,7 +425,7 @@ index 85edb73128..1a902dd59c 100644
  					return_cmd_error(STR_ERROR_EXCAVATION_WOULD_DAMAGE);
  				}
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index 5d02764b55..cc0455f8f9 100644
+index ae9cb45de3..a9ca119ec3 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
 @@ -1563,6 +1563,7 @@ static void UpdateStatusAfterSwap(Train *v)
@@ -987,7 +987,7 @@ index 62d3c14b2d..37e00457e4 100644
  
  /**
 diff --git a/src/vehicle.cpp b/src/vehicle.cpp
-index e014944a9f..cb6239f597 100644
+index e358421186..da107682f0 100644
 --- a/src/vehicle.cpp
 +++ b/src/vehicle.cpp
 @@ -285,6 +285,14 @@ uint Vehicle::Crash(bool flooded)
@@ -1014,16 +1014,16 @@ index e014944a9f..cb6239f597 100644
  
  	if (v->type == VEH_EFFECT) {
  		/* Check whether the vehicle shall be transparent/invisible due to GUI settings.
-@@ -1139,7 +1147,7 @@ void ViewportAddVehicles(DrawPixelInfo *dpi)
- 			const Vehicle *v = _vehicle_viewport_hash[x + y]; // already masked & 0xFFF
+@@ -1155,7 +1163,7 @@ void ViewportAddVehicles(DrawPixelInfo *dpi)
  
  			while (v != nullptr) {
+ 
 -				if (!(v->vehstatus & VS_HIDDEN) &&
 +				if (v->IsDrawn() &&
  						l <= v->coord.right &&
  						t <= v->coord.bottom &&
  						r >= v->coord.left &&
-@@ -1174,7 +1182,7 @@ Vehicle *CheckClickOnVehicle(const Viewport *vp, int x, int y)
+@@ -1209,7 +1217,7 @@ Vehicle *CheckClickOnVehicle(const Viewport *vp, int x, int y)
  	y = ScaleByZoom(y, vp->zoom) + vp->virtual_top;
  
  	for (Vehicle *v : Vehicle::Iterate()) {
@@ -1033,10 +1033,10 @@ index e014944a9f..cb6239f597 100644
  				y >= v->coord.top && y <= v->coord.bottom) {
  
 diff --git a/src/vehicle_base.h b/src/vehicle_base.h
-index 019c94a29a..2378b84473 100644
+index 24facfb3e4..f3a964261c 100644
 --- a/src/vehicle_base.h
 +++ b/src/vehicle_base.h
-@@ -351,6 +351,12 @@ public:
+@@ -363,6 +363,12 @@ public:
  
  	uint GetConsistTotalCapacity() const;
  

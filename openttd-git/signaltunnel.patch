@@ -1,5 +1,5 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index 1751e360f0..0b7f53917b 100644
+index 8d8a128717..6fab1dd1cf 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -1575,6 +1575,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES                         :Minimum company
@@ -11,7 +11,7 @@ index 1751e360f0..0b7f53917b 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :When dragging, place signals every: {STRING2}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Set the distance at which signals will be built on a track up to the next obstacle (signal, junction), if signals are dragged
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} tile{P 0 "" s}
-@@ -2724,8 +2726,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -2720,8 +2722,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -69,10 +69,10 @@ index 2cfe4d9e4a..dbf225d785 100644
  						return false;
  					}
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index a714415326..fa76640f8d 100644
+index 34ad07d520..5e9719f4a1 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
-@@ -1059,9 +1059,12 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
+@@ -1055,9 +1055,12 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
  	if (sigtype > SIGTYPE_LAST) return CMD_ERROR;
  	if (cycle_start > cycle_stop || cycle_stop > SIGTYPE_LAST) return CMD_ERROR;
  
@@ -88,7 +88,7 @@ index a714415326..fa76640f8d 100644
  		return_cmd_error(STR_ERROR_THERE_IS_NO_RAILROAD_TRACK);
  	}
  	/* Protect against invalid signal copying */
-@@ -1070,6 +1073,53 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
+@@ -1066,6 +1069,53 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
  	CommandCost ret = CheckTileOwnership(tile);
  	if (ret.Failed()) return ret;
  
@@ -142,7 +142,7 @@ index a714415326..fa76640f8d 100644
  	/* See if this is a valid track combination for signals (no overlap) */
  	if (TracksOverlap(GetTrackBits(tile))) return_cmd_error(STR_ERROR_NO_SUITABLE_RAILROAD_TRACK);
  
-@@ -1079,7 +1129,6 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
+@@ -1075,7 +1125,6 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
  	/* you can not convert a signal if no signal is on track */
  	if (convert_signal && !HasSignalOnTrack(tile, track)) return_cmd_error(STR_ERROR_THERE_ARE_NO_SIGNALS);
  
@@ -150,7 +150,7 @@ index a714415326..fa76640f8d 100644
  	if (!HasSignalOnTrack(tile, track)) {
  		/* build new signals */
  		cost = CommandCost(EXPENSES_CONSTRUCTION, _price[PR_BUILD_SIGNALS]);
-@@ -1237,6 +1286,7 @@ static bool CheckSignalAutoFill(TileIndex &tile, Trackdir &trackdir, int &signal
+@@ -1233,6 +1282,7 @@ static bool CheckSignalAutoFill(TileIndex &tile, Trackdir &trackdir, int &signal
  			return true;
  
  		case MP_TUNNELBRIDGE: {
@@ -158,7 +158,7 @@ index a714415326..fa76640f8d 100644
  			TileIndex orig_tile = tile; // backup old value
  
  			if (GetTunnelBridgeTransportType(tile) != TRANSPORT_RAIL) return false;
-@@ -1348,7 +1398,8 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
+@@ -1344,7 +1394,8 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
  	bool had_success = false;
  	for (;;) {
  		/* only build/remove signals with the specified density */
@@ -168,7 +168,7 @@ index a714415326..fa76640f8d 100644
  			uint32 p1 = GB(TrackdirToTrack(trackdir), 0, 3);
  			SB(p1, 3, 1, mode);
  			SB(p1, 4, 1, semaphores);
-@@ -1384,13 +1435,20 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
+@@ -1380,13 +1431,20 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
  
  			/* Collect cost. */
  			if (!test_only) {
@@ -195,7 +195,7 @@ index a714415326..fa76640f8d 100644
  					/* The "No railway" error is the least important one. */
  					if (ret.GetErrorMessage() != STR_ERROR_THERE_IS_NO_RAILROAD_TRACK ||
  							last_error.GetErrorMessage() == INVALID_STRING_ID) {
-@@ -1461,22 +1519,48 @@ CommandCost CmdBuildSignalTrack(TileIndex tile, DoCommandFlag flags, uint32 p1,
+@@ -1457,22 +1515,48 @@ CommandCost CmdBuildSignalTrack(TileIndex tile, DoCommandFlag flags, uint32 p1,
  CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32 p2, const char *text)
  {
  	Track track = Extract<Track, 0, 3>(p1);
@@ -251,7 +251,7 @@ index a714415326..fa76640f8d 100644
  		Train *v = nullptr;
  		if (HasReservedTracks(tile, TrackToTrackBits(track))) {
  			v = GetTrainForReservation(tile, track);
-@@ -1512,7 +1596,7 @@ CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1
+@@ -1508,7 +1592,7 @@ CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1
  		MarkTileDirtyByTile(tile);
  	}
  
@@ -366,7 +366,7 @@ index d6795e3b5c..6a7eca6b64 100644
  
  			case MP_RAILWAY:
 diff --git a/src/table/settings.ini b/src/table/settings.ini
-index b75dd0ff28..2a594b6fa6 100644
+index 517f2fb44d..6ee429b9e1 100644
 --- a/src/table/settings.ini
 +++ b/src/table/settings.ini
 @@ -541,6 +541,20 @@ str      = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH
@@ -391,7 +391,7 @@ index b75dd0ff28..2a594b6fa6 100644
  [SDT_NULL]
  length   = 1
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index 5d02764b55..1eddbf665e 100644
+index ae9cb45de3..1d3c30c49d 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
 @@ -1845,6 +1845,17 @@ void ReverseTrainDirection(Train *v)
