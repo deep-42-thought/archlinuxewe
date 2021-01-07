@@ -4,7 +4,8 @@
 tmpDir="$(mktemp -d ~/tmp.archive.XXXXXX)"
 trap 'rm -rf --one-file-system "${tmpDir}"' EXIT
 pkgDir='/srv/http/vhosts/eckner.net/archlinuxewe/os'
-pkgDir32='/mnt/mirror.archlinux32.org/x86_64/releng'
+pkgDir32Mount='/mnt/mirror.archlinux32.org'
+pkgDir32="${pkgDir32Mount}/x86_64/releng"
 pkgSrcDir=$(dirname $(readlink -f -n "$0"))
 submoduleDir=$(readlink -e "${pkgSrcDir}/../submodules")
 export SRCDEST="${HOME}/packageSources"
@@ -238,6 +239,9 @@ if ${cleanUnsigned}; then
       }'
 
     printf '
+      mount "%s"' "${pkgDir32Mount}"
+
+    printf '
       for arch in %s/* %s; do' \
       "${pkgDir}" "${pkgDir32}"
     printf '
@@ -252,6 +256,8 @@ if ${cleanUnsigned}; then
       done
       date +%%s > %s/../lastupdate' \
       "${pkgDir}"
+    printf '
+      fusermount3 -u "%s"' "${pkgDir32Mount}"
   )"
 fi
 
@@ -721,8 +727,11 @@ for ((i=0; i<${#pakete[@]}; i++)); do
           ssh archlinuxewe@eckner.net "$(
 
             printf 'tmp_archive=$(mktemp)\n'
+            printf 'mount "%s"\n' \
+              "${pkgDir32Mount}"
             printf 'cat > "${tmp_archive}"\n'
-            printf 'trap "rm ${tmp_archive}" EXIT\n'
+            printf 'trap "rm ${tmp_archive}; fusermount3 -u %s" EXIT\n' \
+              "${pkgDir32Mount}"
 
             printf '
               entferneAltePakete() {
@@ -828,6 +837,10 @@ if ${upload}; then
     printf '
       err=0
 
+      mount "%s"' \
+      "${pkgDir32Mount}"
+    printf '
+
       for arch in %s/* %s' \
       "${pkgDir}" "${pkgDir32}"
     printf '; do
@@ -878,6 +891,10 @@ if ${upload}; then
         done
 
       done
+
+      fusermount3 -u "%s"' \
+      "${pkgDir32Mount}"
+    printf '
 
       exit ${err}'
   )"
