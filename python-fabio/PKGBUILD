@@ -3,26 +3,26 @@
 # Upstream contact: silx at esrf dot fr
 pkgname=python-fabio
 _pkgname=fabio
-pkgver=0.10.2
-pkgrel=5
+pkgver=0.11.0
+pkgrel=1
 pkgdesc="I/O library for images produced by 2D X-ray detectors."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.silx.org"
 license=('MIT' 'LGPL' 'Apache')
-makedepends=(
-  'cython'
-  'python-setuptools')
 _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
   "${_pinned_dependencies[@]}"
-  'python>=3.9'
   'python<3.10'
+  'python>=3.9'
   'python-numpy')
+makedepends=(
+  'cython'
+  'python-setuptools')
 optdepends=('python-pyqt4: for the fabio_viewer program')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${_pkgname}/archive/v${pkgver}.tar.gz")
-sha512sums=('6566096d6724a013a6184a86c45c29b7055258e63b976f449061400cdb7f79757b1eaa804a02b346ce9badab01a1b3b8f6d4bc0a4ff3e18a3f5e85c6c1b4acb9')
+sha512sums=('70e4e45000046cdd13438ea3be3c92d438f4946ea118b3c4339efdb8456cfcc1ac3a64c7724f20a299a2739a9191a2fc0b009c3681e052a5fcf16b5cd5d7dc86')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
