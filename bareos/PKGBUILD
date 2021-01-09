@@ -23,8 +23,8 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-filedaemon-python-plugin"
          "${pkgbase}-storage-python-plugin")
 
-pkgver=19.2.9
-pkgrel=2
+pkgver=20.0.0
+pkgrel=1
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -56,15 +56,15 @@ makedepends_armv6h=("${_pinned_dependencies_libmariadbclient[@]}")
 makedepends_armv7h=("${_pinned_dependencies_libmariadbclient[@]}")
 makedepends_aarch64=(ceph "${_pinned_dependencies_libmariadbclient[@]}")
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/$pkgbase/$pkgbase/archive/Release/$pkgver.tar.gz"
-'nullify-os-specifics.patch'
+'xattr.patch'
 'check-if-bareos-backup-is-running')
-sha512sums=('b480a9a8dd459b8af3ab353bc5de2f8d1498d5754416972990add8cc6c8ea40462f6bde01ae92ca23f91c96d8ac2e6daf1dae085de80f021d52c5c87dc9a103e'
-            '724ca4e04ff4dfb3e56890a06ffb777cac8e1aeafb6142a347fa542aedcdf6604b280f2d55da3c3d7bbcf996cdd0f6184ca324e9195f3f4db090b17337f1df3a'
+sha512sums=('14961ed5db7d169e1e529eded47299129cd92fe29974bd457863756cdee47aa0731fe65ece8439e71a7c474b483c2cfc1a95dd6d8419bf9ae3d3690db52bc3cf'
+            'e2e1af7110b8b99897e00bdd9ec599c662b298a2861bf4cd8945ca718585c13255fc9849e1b9f0d050e43e46fa42d6c0fbb7dd5cadc8b72b1c3445d79612e290'
             '0235763891f368c13931f0fc43e3ae2d7ec796b7ef35896b6b9c048345d539308abe4a9bafda4e95221a89231d2f373ac3cfc2098d572d4068a1c068d27452f6')
 
 prepare() {
-  cd "${srcdir}/${pkgbase}-Release-${pkgver}"
-  patch -p1 -i "${srcdir}/nullify-os-specifics.patch"
+  cd $pkgbase-Release-$pkgver
+  patch -p1 -i ../xattr.patch
 }
 
 build() {
@@ -705,8 +705,6 @@ package_bareos-director-python-plugin() {
 
   install -Dm755 \
     "$srcdir/install/usr/lib/bareos/plugins/python-dir.so" \
-    "$srcdir/install/usr/lib/bareos/plugins/bareos-dir.py.template" \
-    "$srcdir/install/usr/lib/bareos/plugins/bareos_dir_consts.py" \
     "$srcdir/install/usr/lib/bareos/plugins/BareosDirWrapper.py" \
     "$srcdir/install/usr/lib/bareos/plugins/BareosDirPluginBaseclass.py" \
     "$srcdir/install/usr/lib/bareos/plugins/bareos-dir-class-plugin.py" \
@@ -725,13 +723,10 @@ package_bareos-filedaemon-python-plugin() {
 
   install -Dm755 \
     "$srcdir/install/usr/lib/bareos/plugins/python-fd.so" \
-    "$srcdir/install/usr/lib/bareos/plugins/bareos-fd.py.template" \
     "$srcdir/install/usr/lib/bareos/plugins/bareos-fd-local-fileset.py" \
-    "$srcdir/install/usr/lib/bareos/plugins/bareos-fd-mock-test.py" \
     "$srcdir/install/usr/lib/bareos/plugins/BareosFdPluginBaseclass.py" \
     "$srcdir/install/usr/lib/bareos/plugins/BareosFdPluginLocalFileset.py" \
     "$srcdir/install/usr/lib/bareos/plugins/BareosFdWrapper.py" \
-    "$srcdir/install/usr/lib/bareos/plugins/bareos_fd_consts.py" \
     -t "$pkgdir/usr/lib/bareos/plugins"
 }
 
@@ -747,8 +742,6 @@ package_bareos-storage-python-plugin() {
 
   install -Dm755 \
     "$srcdir/install/usr/lib/bareos/plugins/python-sd.so" \
-    "$srcdir/install/usr/lib/bareos/plugins/bareos-sd.py.template" \
-    "$srcdir/install/usr/lib/bareos/plugins/bareos_sd_consts.py" \
     "$srcdir/install/usr/lib/bareos/plugins/BareosSdPluginBaseclass.py" \
     "$srcdir/install/usr/lib/bareos/plugins/BareosSdWrapper.py" \
     "$srcdir/install/usr/lib/bareos/plugins/bareos-sd-class-plugin.py" \
