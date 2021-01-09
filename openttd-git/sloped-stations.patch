@@ -1,5 +1,5 @@
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 34ad07d520..3cbca75711 100644
+index 133f596437..8fc733ddcc 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -187,14 +187,6 @@ RailType AllocateRailType(RailTypeLabel label)
@@ -18,7 +18,7 @@ index 34ad07d520..3cbca75711 100644
   *     ---------
   *    |\       /|
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index 79048b9b59..748fe525e1 100644
+index c94beb0b16..2906a47ced 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -37,6 +37,7 @@
@@ -38,7 +38,7 @@ index 79048b9b59..748fe525e1 100644
  /**
   * Is it allowed to remove the given road bits from the given tile?
   * @param tile      the tile to remove the road from
-@@ -1295,7 +1294,7 @@ struct DrawRoadTileStruct {
+@@ -1296,7 +1295,7 @@ struct DrawRoadTileStruct {
   * @param bits The RoadBits part
   * @return The resulting Foundation
   */
@@ -47,7 +47,7 @@ index 79048b9b59..748fe525e1 100644
  {
  	/* Flat land and land without a road doesn't require a foundation */
  	if (tileh == SLOPE_FLAT || bits == ROAD_NONE) return FOUNDATION_NONE;
-@@ -1317,13 +1316,6 @@ static Foundation GetRoadFoundation(Slope tileh, RoadBits bits)
+@@ -1318,13 +1317,6 @@ static Foundation GetRoadFoundation(Slope tileh, RoadBits bits)
  	return (bits == ROAD_X ? FOUNDATION_INCLINED_X : FOUNDATION_INCLINED_Y);
  }
  
@@ -94,7 +94,7 @@ index 969b141ba2..1af4275eb9 100644
 +
  #endif /* ROAD_TYPE_H */
 diff --git a/src/roadveh_cmd.cpp b/src/roadveh_cmd.cpp
-index 14fa8d79d8..106aa9a7d4 100644
+index 17c9c39e96..f546c13d7d 100644
 --- a/src/roadveh_cmd.cpp
 +++ b/src/roadveh_cmd.cpp
 @@ -1496,7 +1496,7 @@ again:
@@ -107,7 +107,7 @@ index 14fa8d79d8..106aa9a7d4 100644
  				}
  			}
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index 735edd06f6..019dfc9619 100644
+index 7bd124f065..84c7d12a79 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -56,6 +56,7 @@
@@ -179,7 +179,7 @@ index 735edd06f6..019dfc9619 100644
  	if (ret.Failed()) return ret;
  	cost.AddCost(ret);
  
-@@ -2897,6 +2898,32 @@ static void DrawTile_Station(TileInfo *ti)
+@@ -2899,6 +2900,32 @@ static void DrawTile_Station(TileInfo *ti)
  		palette = PALETTE_TO_GREY;
  	}
  
@@ -212,7 +212,7 @@ index 735edd06f6..019dfc9619 100644
  	if (layout == nullptr && (t == nullptr || t->seq == nullptr)) t = GetStationTileLayout(GetStationType(ti->tile), gfx);
  
  	/* don't show foundation for docks */
-@@ -2963,10 +2990,10 @@ static void DrawTile_Station(TileInfo *ti)
+@@ -2965,10 +2992,10 @@ static void DrawTile_Station(TileInfo *ti)
  			}
  
  			OffsetGroundSprite(31, 1);
@@ -225,7 +225,7 @@ index 735edd06f6..019dfc9619 100644
  		}
  	}
  
-@@ -3022,14 +3049,64 @@ draw_default_foundation:
+@@ -3024,14 +3051,64 @@ draw_default_foundation:
  				DrawGroundSprite(overlay + overlay_offset, PALETTE_CRASH);
  			}
  		} else {
@@ -293,7 +293,7 @@ index 735edd06f6..019dfc9619 100644
  			}
  		}
  	}
-@@ -3123,6 +3200,16 @@ void StationPickerDrawSprite(int x, int y, StationType st, RailType railtype, Ro
+@@ -3125,6 +3202,16 @@ void StationPickerDrawSprite(int x, int y, StationType st, RailType railtype, Ro
  
  static int GetSlopePixelZ_Station(TileIndex tile, uint x, uint y)
  {
