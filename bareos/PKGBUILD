@@ -24,7 +24,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin")
 
 pkgver=20.0.0
-pkgrel=1
+pkgrel=2
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -125,6 +125,7 @@ build() {
   # Currently upstream systemd file does not automatically create run directory
   for _daemon in 'dir' 'fd' 'sd'; do
     sed -i '
+      /^StandardOutput=syslog$/d
       /\[Service\]/a RuntimeDirectory=bareos/'"${_daemon}"'
       s@^\(WorkingDirectory=\).*$@\1/run/bareos/'"${_daemon}"'@
       s@^\(PIDFile=\).*/\([^/]\+\)$@\1/run/bareos/'"${_daemon}"'/\2@
