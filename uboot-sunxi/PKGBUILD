@@ -31,7 +31,7 @@ _boards=(
 )
 pkgname=("${_boards[@]%% *}")
 pkgdesc='U-Boot for several architectures'
-pkgver=2020.10
+pkgver=2021.01
 pkgrel=1
 arch=('armv7h')
 url="http://git.denx.de/u-boot.git/"
@@ -41,7 +41,7 @@ backup=(boot/boot.txt boot/boot.scr)
 source=("ftp://ftp.denx.de/pub/u-boot/u-boot-${pkgver}.tar.bz2"
         'boot.txt'
         'mkscr')
-sha512sums=('fd26534f2d72ffc3167919c32067c550636f6a4ee5fead6937e2583ba4ff6165e88b8b50fbbddde7354a8c42701433d0cb2ce982e43c014db60b08415288baf9'
+sha512sums=('40dd4d9ef87a1829158658c433d46a047a39c0d8c314ad8d133f7240343ee3a75b060f009dd2efe598cfb8a766773f6cd773ea7f7745ee88e52a771c77eb1c6e'
             'f2978ea8acc39fccd0269eb74248e622d1e5daf0b30a2c48ac1d618deda3b4733e949d21bff5dbd2e5b6c39f0df60480c55e3ee1bf8e64df2c8157a51f2fbb49'
             '7046ab4d88efbba636be049be2f660e18c05e48d161d39437c1580b12795ba4d9197ad57ac4572398f80a38d4777507b57228abf4cc41f0081d196ece27ea9d0')
 
