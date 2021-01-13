@@ -18,7 +18,31 @@ pdiff () {
 
 unset commit_message
 if [ $# -eq 1 ]; then
-  commit_message="$1"
+  if [ "x$1" = 'x-a' ]; then
+    commit_message=$(
+      unset pkgname pkgbase epoch pkgver pkgrel
+      eval "$(
+        git archive HEAD -- PKGBUILD \
+        | tar -Ox \
+        | grep '^\(pkgname\|pkgbase\|epoch\|pkgver\|pkgrel\)='
+      )"
+      printf '%s: %s%s-%s -> ' \
+        "${pkgbase}${pkgbase:-${pkgname}}" \
+        "${epoch:+${epoch}:}" \
+        "${pkgver}" \
+        "${pkgrel}"
+      unset epoch pkgver pkgrel
+      eval "$(
+        grep '^\(epoch\|pkgver\|pkgrel\)=' PKGBUILD
+      )"
+      printf '%s%s-%s' \
+        "${epoch:+${epoch}:}" \
+        "${pkgver}" \
+        "${pkgrel}"
+    )
+  else
+    commit_message="$1"
+  fi
 elif [ $# -ne 0 ]; then
   >&2 'usage: commit-package [commit-message]'
   >&2 '  without a commit message, it will only be added for commit'
