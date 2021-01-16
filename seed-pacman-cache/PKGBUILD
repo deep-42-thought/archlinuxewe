@@ -1,0 +1,27 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=seed-pacman-cache
+pkgver=0.1.1
+pkgrel=1
+pkgdesc='Simple script for regularly filling the pacman cache'
+arch=('any')
+url="https://git.eckner.net/Erich/${pkgname}"
+license=('GPL')
+depends=('moreutils')
+source=(
+    "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
+)
+sha512sums=('3e7beacf3a1916af2e51c7c3f1feba86bbe90e4b2883c5f4b82db2c194f4a4784ff2def0d9c35dca20c7a000ba0c604e239e6512397e318012ec3dac388b6bae')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
