@@ -3,7 +3,7 @@
 # Contributor: Francois Boulogne <fboulogne at april dot org>
 
 pkgname=python-tifffile
-pkgver=2021.1.11
+pkgver=2021.1.14
 _pyname=${pkgname#python-}
 pkgrel=1
 pkgdesc="Read and write image data from and to TIFF files"
@@ -17,7 +17,7 @@ optdepends=('python-matplotlib>=3.1: required only for plotting'
             'python-lxml: required only for validating and printing XML')
 #checkdepends=('python-pytest')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/cgohlke/$_pyname/archive/v$pkgver.tar.gz")
-sha512sums=('342029eb10a1f52f33ceb312369f15e335f48399816a0869c937a0a8fc0a8703a8b57380f3215e7a38483f3c5553e3aa45b9179056440242d9b66be19eec1e7b')
+sha512sums=('ff45e1340f7923c8c68ec1764be0d09f23f1c6347fec0f8ded787848f79e5aaf1406b9541f8f02c059f8cf39f8e2107d14d4299c340c877f1027465f21b46649')
 
 build() {
     cd ${srcdir}/${_pyname}-${pkgver}
