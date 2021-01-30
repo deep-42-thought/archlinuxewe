@@ -1,0 +1,29 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=raspi-lights-out
+pkgver=0.0
+pkgrel=1
+pkgdesc='simple skripts for lights-out like management from a raspi'
+arch=('any')
+url="https://git.eckner.net/Erich/${pkgname}"
+license=('GPL')
+backup=('etc/lights-out.conf' 'srv/http/lights-out/password')
+source=(
+    "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
+)
+sha512sums=('e623aa295c01348b843e084abcc00bedc894a97fd64f568138b5a9f3c0ce613a28990d7c72886a854f530286613f8b9f9a1db0f483b031d0bec9992074eef9da')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
+
+package() {
+
+    depends=('php' 'wiringpi')
+
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
