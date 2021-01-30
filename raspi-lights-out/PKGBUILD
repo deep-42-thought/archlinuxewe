@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=raspi-lights-out
-pkgver=0.0
+pkgver=0.1
 pkgrel=1
 pkgdesc='simple skripts for lights-out like management from a raspi'
 arch=('any')
@@ -10,7 +10,7 @@ backup=('etc/lights-out.conf' 'srv/http/lights-out/password')
 source=(
     "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('e623aa295c01348b843e084abcc00bedc894a97fd64f568138b5a9f3c0ce613a28990d7c72886a854f530286613f8b9f9a1db0f483b031d0bec9992074eef9da')
+sha512sums=('bc9fee338071aaf560d6d2b127bfff0960c04d30b72257b5d6ce9e8742cace44dc75891f13c1af8bba37e55b5aa132e8d3db5f232554b7aa339779145fc4996f')
 
 build() {
 
