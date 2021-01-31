@@ -29,6 +29,9 @@ ladePkgbuild() {
   makepkg -f --verifysource
 
   . PKGBUILD
+  if grep -qF _pinned_dependencies PKGBUILD; then
+    depends+=('"${_pinned_dependencies[@]}"')
+  fi
 }
 
 versteheRequirements() {
@@ -51,31 +54,26 @@ versteheRequirements() {
 
   meta="$(
     {
-      tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/setup.py" | \
-        sed -n "$(
-          for wasAusgeben in "${!metaRegexe[@]}"; do
-            printf '/^\\s*%s = \[/{\n' \
-              "${metaRegexe["${wasAusgeben}"]}"
-            printf '  :%s\n' \
-              "${wasAusgeben}"
-            printf '  $! N\n'
-            printf '  s/^\(\\s*\\S\\+\\s*=\\s*\\[[^]#]*\\)\\(#.*\\)\\?\\n/\\1 /\n'
-            printf '  t %s\n' \
-              "${wasAusgeben}"
-            printf '  s/\\s//g\n'
-            printf '  s/^%s=\[//\n' \
-              "${metaRegexe["${wasAusgeben}"]}"
-            printf '  s/\]$//\n'
-            printf '  s/\\s*%%[^"'"'"']*["'"'"']//g\n'
-            printf '  s/,/\\n/g\n'
-            printf '  s/["'"'"']//g\n'
-            printf '  s/^/%s:/\n' \
-              "${wasAusgeben}"
-            printf '  P\n'
-            printf '  D\n'
-            printf '}\n'
-          done
-        )"
+      {
+        printf '%s = []\n' \
+          "${metaRegexe[@]}"
+        tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/setup.py" \
+        | sed -n "$(
+          printf '/^\\s*%s = \[/,/^\s*$/ p\n' \
+            "${metaRegexe[@]}"
+        )" \
+        | sed '
+          s/^\s*\(\S\+_requires = \[\)$/\1/
+          s/ % [^[:space:],]\+\([],]\)$/ % ""\1/
+        '
+        for to_print in "${!metaRegexe[@]}"; do
+          printf 'for item in %s:\n' \
+            "${metaRegexe["${to_print}"]}"
+          printf '    print("%s:%%s" %% item)\n' \
+            "${to_print}"
+        done
+      } \
+      | python
       {
         tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/requirements.txt"
         tar -tzf "${archiv}" | \
@@ -90,7 +88,7 @@ versteheRequirements() {
           /^$/d
           /^numpydoc\s*\([<>=].*\)\?$/d
           s,^https\?:.*/mysql-connector-python-[^/]*$,mysql-connector,
-          s/^/_depends:/
+          s/^/depends:/
         '
     } | \
       tr '[:upper:]' '[:lower:]' | \
