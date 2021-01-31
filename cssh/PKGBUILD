@@ -15,7 +15,7 @@ _pinned_dependencies=(
 )
 depends=("${_pinned_dependencies[@]}")
 makedepends=('git' 'cmake' 'gengetopt')
-source=("cssh::git://git.andreasbaumann.cc/cssh.git#commit=${_commit}")
+source=("cssh::git+https://git.andreasbaumann.cc/cgit/cssh#commit=${_commit}")
 sha512sums=('SKIP')
 
 pkgver() {
