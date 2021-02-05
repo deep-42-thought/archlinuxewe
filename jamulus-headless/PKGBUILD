@@ -11,7 +11,12 @@ arch=('x86_64')
 url='http://llcon.sourceforge.net/'
 install=jamulus.install
 license=('GPL2')
-depends=('glibc' 'gcc-libs' 'qt5-base')
+_pinned_dependencies=(
+  'gcc-libs=10.2.0'
+  'glibc>=2.32'
+  'qt5-base=5.15.2'
+)
+depends=("${_pinned_dependencies[@]}")
 provides=('jamulus')
 source=("jamulus-${pkgver}.tar.gz::https://github.com/corrados/jamulus/archive/r${pkgver//./_}.tar.gz"
         "jamulus.service")
