@@ -1,0 +1,34 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Jose Riha <jose1711 gmail com>
+# Contributor: Jujudusud <jujudusud gmail com>
+
+pkgname=jamulus-headless
+_pkgname=Jamulus
+pkgver=3.6.2
+pkgrel=1
+pkgdesc="Internet jam session software (headless server)"
+arch=('x86_64')
+url='http://llcon.sourceforge.net/'
+install=jamulus.install
+license=('GPL2')
+depends=('glibc' 'gcc-libs' 'qt5-base')
+provides=('jamulus')
+source=("jamulus-${pkgver}.tar.gz::https://github.com/corrados/jamulus/archive/r${pkgver//./_}.tar.gz"
+        "jamulus.service")
+
+build() {
+  cd "${srcdir}/jamulus-r${pkgver//./_}"
+  qmake "CONFIG+=nosound headless" Jamulus.pro
+  make clean
+  make
+}
+
+package() {
+  cd "${srcdir}/jamulus-r${pkgver//./_}"
+  install -Dm755 Jamulus "${pkgdir}/usr/bin/Jamulus-headless"
+  install -vDm 644 {ChangeLog,README.md} -t "${pkgdir}/usr/share/doc/${pkgname}"
+  install -Dm644 $srcdir/jamulus.service $pkgdir/usr/lib/systemd/system/jamulus.service
+}
+
+sha512sums=('a5c270a5dc69eb101909ffc57247afcf6d254987ce7453a456defbc8266450ab433441e00ebe0ab856e46a50f6fc4b5caf4ed5b2912edc3fa216e00302b9ba45'
+            'f59901ad1fc9f3108beb0f70cbb4b5f9e49d3148727a5869cdf3ba878a88cae069a09135b7d976d4d5060a64f038d7720eba45058f96ee003b47383cc2ecdf3a')
