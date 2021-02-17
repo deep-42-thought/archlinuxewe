@@ -1,0 +1,19 @@
+#!/bin/bash
+
+srcDir="${HOME}/packageSources"
+
+[ -d "${srcDir}" ] || exit 0
+
+find "${srcDir}" \
+  -mindepth 2 \
+  -maxdepth 2 \
+  -name HEAD \
+  -printf '%h\n' \
+| parallel -j 0 -l 1 git -C {} fetch --all -p
+
+find "${srcDir}" \
+  -mindepth 2 \
+  -maxdepth 2 \
+  -type d \
+  -name .svn \
+  -execdir svn update \;
