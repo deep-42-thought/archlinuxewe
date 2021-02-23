@@ -9,7 +9,7 @@
 pkgname=courier-authlib-devel
 _pkgname=${pkgname%-*}
 pkgver=0.71.0.20201104
-pkgrel=9
+pkgrel=10
 pkgdesc="Authentication library for the Courier mailserver(s)"
 arch=(i686 pentium4 x86_64)
 license=('GPL2')
@@ -18,9 +18,9 @@ backup=('etc/authlib/authdaemonrc' 'etc/authlib/authldaprc' \
         'etc/authlib/authmysqlrc' 'etc/authlib/authpgsqlrc')
 _pinned_dependencies=(
   'gcc-libs=10.2.0'
-  'gdbm=1.19'
   'glibc>=2.31'
   'libcrypt.so=2'
+  'libgdbm.so=6'
   'libmariadb.so=3'
   'libpam.so=0'
   'libpq.so=5'
