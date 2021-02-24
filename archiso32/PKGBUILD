@@ -1,59 +1,48 @@
-# $Id$
 # Maintainer: Erich Eckner <arch at eckner dot net>
-# Contributor: Gerardo Exequiel Pozzi <djgera@archlinux.org>
-# Contributor: Pierre Schmitz <pierre@archlinux.de>
 
 # repo: releng
 
 _target_arch=$(printf '%s' i 6 8 6)
 
 pkgname=archiso32
-pkgver=44.4
-pkgrel=1
-pkgdesc='Tools for creating Arch Linux live and install iso images - for '"${_target_arch}"
-arch=('any')
-license=('GPL')
-url='https://git.archlinux32.org/archlinux32/archiso32'
-depends=('archiso-cross' 'make' 'arch-install-scripts' 'squashfs-tools' 'libisoburn' 'dosfstools' 'lynx' 'pacman-mirrorlist32' 'archlinux32-keyring')
-source=(
-  "https://sources.archlinux32.org/sources/${pkgname}-${_target_arch}-v${pkgver}.tar.gz"{,.sig}
-)
-sha512sums=('4290fa9b6dd524d12111edcf19f66ee4db63c3cc9e5ff9419e25ddd115df12b06dbf31c9c0dc9d410c2e5cd259edb5f470be3463a25ae85094a7a05e0c98890a'
-            'SKIP')
-validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
+_pkgbase=archiso
 
-build() {
-  mkdir "${srcdir}/pkg"
-  make -C "${srcdir}/${pkgname}-${_target_arch}-v${pkgver}" DESTDIR="${srcdir}/pkg" install
-}
+pkgver=51
+pkgrel=1
+pkgdesc='Tools for creating Arch Linux 32 live and install iso images'
+arch=('any')
+license=('GPL3')
+url='https://gitlab.archlinux.org/archlinux/archiso'
+depends=('archiso' 'pacman-mirrorlist32' 'archlinux32-keyring')
+source=(
+  "git+https://gitlab.archlinux.org/archlinux/archiso.git#tag=v${pkgver}?signed"
+)
+sha512sums=('SKIP')
+validpgpkeys=('C7E7849466FE2358343588377258734B41C31549') # David Runge <dvzrv@archlinux.org>
 
 package() {
 
+  cd "${_pkgbase}"
+  mkdir "${srcdir}/pkg"
+  make DESTDIR="${srcdir}/pkg" install
   mkdir -p "${pkgdir}/usr/share/archiso/configs"
   mv "${srcdir}/pkg/usr/share/archiso/configs/releng" "${pkgdir}/usr/share/archiso/configs/releng32"
 
-  rm \
-    "${srcdir}/pkg/usr/share/doc/archiso/README.altbootmethods" \
-    "${srcdir}/pkg/usr/share/doc/archiso/README.transfer"
+  # borrowed from archlinux32/packages32/extra/archiso
+  cd "${pkgdir}/usr/share/archiso/configs/releng32"
+  mv packages.x86_64 packages.i686
+  sed -i '
+    s@archlinux@archlinux32@g
+    s@ARCH_@ARCH32_@g
+  ' profiledef.sh
+  find airootfs -type f -exec \
+  sed -i '
+    s@\bx86_64\b@i686@g
+    s@Arch Linux@\0 32@g
+    s@pacman-key --populate archlinux@\032@g
+  ' {} +
 
-  (
-    pacman -Qql archiso-cross \
-    | grep -v '/$'
-    cd "${srcdir}/pkg"
-    find * -not -type d \
-    | sed 's,^,/,'
-  ) \
-  | sort \
-  | uniq -d \
-  | while read -r f; do
-    diff -u --color "${f}" "${srcdir}/pkg${f}" || return $?
-    rm "${srcdir}/pkg${f}"
-  done
-
-  if find "${srcdir}/pkg" -not -type d \
-    | grep -F ''; then
-    >&2 echo '^residual files found'
-    return 4
-  fi
-
+  sed -i '
+    s@\bmirrorlist\b@\032@
+  ' pacman.conf
 }
