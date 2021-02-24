@@ -13,6 +13,7 @@ pkgdesc='Tools for creating Arch Linux 32 live and install iso images'
 arch=('any')
 license=('GPL3')
 url='https://gitlab.archlinux.org/archlinux/archiso'
+makedepends=(git)
 depends=('archiso' 'pacman-mirrorlist32' 'archlinux32-keyring')
 source=(
   "git+https://gitlab.archlinux.org/archlinux/archiso.git#tag=v${pkgver}?signed"
