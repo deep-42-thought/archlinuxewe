@@ -39,6 +39,7 @@ package() {
     s@archlinux@archlinux32@g
     s@ARCH_@ARCH32_@g
     s@\bx86_64\b@i686@g
+    /^bootmodes=/ s@\(\s\+'"'"'uefi-x64\.systemd-boot\.\S\+'"'"'\)\+@@
   ' profiledef.sh
   find airootfs -type f -exec \
   sed -i '
