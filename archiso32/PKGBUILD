@@ -8,7 +8,7 @@ pkgname=archiso32
 _pkgbase=archiso
 
 pkgver=51
-pkgrel=1
+pkgrel=2
 pkgdesc='Tools for creating Arch Linux 32 live and install iso images'
 arch=('any')
 license=('GPL3')
@@ -33,8 +33,12 @@ package() {
   cd "${pkgdir}/usr/share/archiso/configs/releng32"
   mv packages.x86_64 packages.i686
   sed -i '
+    /^edk2-shell$/d
+  ' packages.i686
+  sed -i '
     s@archlinux@archlinux32@g
     s@ARCH_@ARCH32_@g
+    s@\bx86_64\b@i686@g
   ' profiledef.sh
   find airootfs -type f -exec \
   sed -i '
