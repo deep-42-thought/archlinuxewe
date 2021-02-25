@@ -422,7 +422,7 @@ then
           git -C /usr/src/archlinux32/archiso32 tag
         } | \
           sed -n '
-            s/^\(i686-\|dual-\)v//
+            s/^v//
             T
             p
           ' | \
