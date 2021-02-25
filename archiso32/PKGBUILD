@@ -41,12 +41,12 @@ package() {
     s@\bx86_64\b@i686@g
     /^bootmodes=/ s@\(\s\+'"'"'uefi-x64\.systemd-boot\.\S\+'"'"'\)\+@@
   ' profiledef.sh
-  find airootfs -type f -exec \
-  sed -i '
-    s@\bx86_64\b@i686@g
-    s@Arch Linux@\0 32@g
-    s@pacman-key --populate archlinux@\032@g
-  ' {} +
+  find airootfs efiboot syslinux -type f -exec \
+    sed -i '
+      s@\bx86_64\b@i686@g
+      s@Arch Linux@\0 32@g
+      s@pacman-key --populate archlinux@\032@g
+    ' {} +
 
   sed -i '
     s@\bmirrorlist\b@\032@
