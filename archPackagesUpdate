@@ -24,6 +24,7 @@ rmAddPkgs=false
 log=''
 logFile='-'
 printOnly=false
+myArch=$(uname -m)
 
 # print help screen
 usage()
@@ -538,7 +539,7 @@ for ((i=0; i<${#pakete[@]}; i++)); do
   fi
 
   case "${arch}" in
-    'any'|'i486'|'i686'|'pentium4'|'x86_64')
+    'any'|'i486'|'i686'|'pentium4'|'x86_64'|"${myArch}")
       if [ -n "${cleanChroot}" ]; then
         build_mode='archbuild'
       elif sed -n '
@@ -570,12 +571,12 @@ for ((i=0; i<${#pakete[@]}; i++)); do
         build_mode='archbuild'
       fi
       if [ "${build_mode}" = 'archbuild' ]; then
-        archlinuxewe-${arch/any/x86_64}-build ${cleanChroot} -- -- ${log} ${checkMakepkg} --holdver
+        archlinuxewe-${arch/any/${myArch}}-build ${cleanChroot} -- -- ${log} ${checkMakepkg} --holdver
       else
-        makechrootpkg -r "/var/lib/archbuild/archlinuxewe-${arch/any/x86_64}" -- ${log} ${checkMakepkg} --holdver -f
+        makechrootpkg -r "/var/lib/archbuild/archlinuxewe-${arch/any/${myArch}}" -- ${log} ${checkMakepkg} --holdver -f
       fi
       err[${i}]=$?
-      if [ ${err[${i}]} -eq 0 ] && [ "${arch}" != 'x86_64' ] && [ "${arch}" != 'any' ]; then
+      if [ ${err[${i}]} -eq 0 ] && [ "${arch}" != "${myArch}" ] && [ "${arch}" != 'any' ]; then
         {
           printf '%s\n' \
             "From: plasmapaule@gmail.com" \
