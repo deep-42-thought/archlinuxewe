@@ -25,6 +25,7 @@ log=''
 logFile='-'
 printOnly=false
 myArch=$(uname -m)
+myArch="${myArch%l}h"
 
 # print help screen
 usage()
