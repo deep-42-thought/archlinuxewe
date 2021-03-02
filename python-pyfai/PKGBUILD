@@ -3,8 +3,8 @@
 # Upstream contact: silx at esrf dot fr
 pkgname=python-pyfai
 _pkgname=pyFAI
-pkgver=0.19.0
-pkgrel=11
+pkgver=0.20.0
+pkgrel=1
 pkgdesc="Fast Azimuthal Integration in Python."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.silx.org"
@@ -15,38 +15,33 @@ _pinned_dependencies=(
 )
 depends=(
   "${_pinned_dependencies[@]}"
-  'python>=3.9'
-  'python<3.10'
-  'python-bash_kernel'
   'cython'
-  'python-fabio'
+  'python<3.10'
+  'python>=3.9'
+  'python-bash_kernel'
+  'python-fabio>=0.5'
   'python-h5py'
+#  'python-hdf5plugin'
   'python-ipympl'
   'python-matplotlib'
+#  'python-nbsphinx'
   'python-numexpr'
   'python-numpy'
   'python-opengl'
   'python-pyqt5'
   'python-scipy'
-  'python-silx')
+  'python-setuptools'
+  'python-silx>=0.10'
+#  'python-transformations'
+  'python-wheel')
 makedepends=(
   'python-setuptools')
-checkdepends=(
-  'python-pyopencl'
-  'xorg-server-xvfb'
-)
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${_pkgname}/archive/v${pkgver}.tar.gz")
-sha512sums=('32960083e23977de860aad58b502814b8d2bf2045207c4065d4db7ac89e832fce7bb3e41a2110b62a903db40460e5490d0f25f0d79968b0005f8122539591639')
+sha512sums=('fcc1821bb60ef01fa3811b6cf9834621378a0b67a513504c3246044a1208bd1122913a3e51965304baa3c5b157202b09eeb19b8d920aad0f6f6a5064eb8e9977')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
   python setup.py build
-}
-
-check() {
-  return
-  cd "${srcdir}/${_pkgname}-${pkgver}"
-  xvfb-run python setup.py test
 }
 
 package() {
