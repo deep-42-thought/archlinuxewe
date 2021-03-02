@@ -6,10 +6,10 @@
 # Contributor: Partha Chowdhury <kira.laucas@gmail.com>
 
 pkgname=conky-irc
-pkgver=1.11.6
+pkgver=1.12.1
 provides=("conky=${pkgver}")
 conflicts=('conky')
-pkgrel=11
+pkgrel=1
 pkgdesc='Lightweight system monitor for X - with irc-client enabled'
 url='https://github.com/brndnmtthws/conky'
 license=('BSD' 'GPL')
@@ -38,7 +38,7 @@ depends=('glib2' "${_pinned_dependencies[@]}")
 optdepends=('mounted')
 source=("${pkgname%-irc}-${pkgver}.tar.gz::https://github.com/brndnmtthws/conky/archive/v${pkgver}.tar.gz"
         'MAX_SP.patch')
-sha512sums=('f7bffcef33680d61d0171ba50b29ddda011c1c1989fc847cd4b5b60d46bed4772294eec34fd27c4d642a9c03e3cedaa31855ffc0f3b60791f4bed14ffdf7490a'
+sha512sums=('897c6b83528809aa2e33e15b9ad6644d8cf36f4cff93f014811754f982c13180001b972b2b145b607de8d865c2af9a425ab50246065f537e14be75da5631593a'
             '1ea39f88b5f2620fc0c4485cc16645dbad91f97be17b4b13a732205dde6265d621c7f2bc92be33b65f9db2815312beb42b516ddebbba90cfe947104e1a410a52')
 
 # options=('!strip' 'debug')
