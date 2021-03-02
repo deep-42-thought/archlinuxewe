@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-sah-resolve'
-pkgver='0.007'
-pkgrel=5
+pkgver=0.008
+pkgrel=1
 pkgdesc='Resolve Sah schema'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,28 +13,32 @@ depends=(
   'perl<5.33'
   'perl-data-modemerge'
   'perl-data-sah-normalize'
-  'perl-exporter'
-)
+  'perl-exporter>=5.57')
 makedepends=(
-  'perl'
+  'perl-data-dmp>=0.240'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
   'perl-sah-schemas-examples'
   'perl-sah-schemas-int'
+  'perl-test-deep'
   'perl-test-exception'
   'perl-test-needs'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
+  'perl-test-perl-critic'
   'perl-test-pod'
   'perl-test-pod-coverage'
 )
 url='https://metacpan.org/release/Data-Sah-Resolve'
 _distdir="Data-Sah-Resolve-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('3a01dcc4e57612b04e36d38155ab63fb12cad0bf32ce668350e00168f53b1d901ca138d3c82d6e653d8906d37bd9068ede57ac94d4b5bef13a5c24646d7b547b')
+sha512sums=('4da447991e5df03ad96b2431d539b480a37bad2e9cce4bc9691d37f0cffd47c25288ebb20bac2f98c11dfa48d1e42fcd329b72ca7702e5bc7453e96b3401f53a')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
