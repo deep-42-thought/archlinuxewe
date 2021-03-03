@@ -24,8 +24,9 @@ rmAddPkgs=false
 log=''
 logFile='-'
 printOnly=false
-myArch=$(uname -m)
-myArch="${myArch%l}h"
+myArch=$(
+  pacman-conf Architecture
+)
 
 # print help screen
 usage()
