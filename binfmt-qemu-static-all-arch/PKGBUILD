@@ -4,7 +4,7 @@
 # ist alles absichtlich nicht any ohne ELF Dateien
 
 pkgname=binfmt-qemu-static-all-arch
-pkgver=20210225
+pkgver=20210321
 pkgrel=1
 pkgdesc="Register qemu-static interpreters for various binary formats - all archetectures, intelligently removing the current archetecture"
 arch=('armv5' 'armv6h' 'armv7h' 'aarch64' 'i686' 'x86_64')
@@ -14,7 +14,7 @@ optdepends=('qemu-user-static')
 provides=('binfmt-qemu-static')
 conflicts=('binfmt-qemu-static')
 source=("qemu-binfmt-conf-$pkgver.sh::https://raw.githubusercontent.com/qemu/qemu/master/scripts/qemu-binfmt-conf.sh")
-sha512sums=('cafd74c0a71d813afeb1882b5dad91a486a8acbbd0f5c5dabb726f6923264dcae8b80af605bc7ee04064c2f2893c3617d0cb7a36e74076866213e735fb3ec80b')
+sha512sums=('9aed53ecd1d2fa659b72dc31dac377372242087822bc922e08a65fecbb48faaec00b1736e7d4d7ad95836e273b1235a7967e1c9fd4503ea025da883843486fb3')
 
 build() {
   mkdir build
