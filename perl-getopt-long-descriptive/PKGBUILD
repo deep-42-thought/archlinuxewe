@@ -2,32 +2,30 @@
 # Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
 
 pkgname='perl-getopt-long-descriptive'
-pkgver=0.105
-pkgrel=2
+pkgver=0.109
+pkgrel=1
 pkgdesc='Getopt::Long, but simpler and more powerful'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+depends=(
+  'perl-carp'
+  'perl-getopt-long>=2.33'
+  'perl-params-validate>=0.97'
+  'perl-scalar-list-utils'
+  'perl-sub-exporter>=0.972')
 makedepends=(
   'perl-cpan-meta-check>=0.011'
   'perl-cpan-meta-requirements'
-  'perl-extutils-makemaker'
+  'perl-extutils-makemaker>=6.78'
   'perl-pathtools'
   'perl-test-fatal'
   'perl-test-simple>=0.96'
   'perl-test-warnings>=0.005')
-depends=(
-  'perl>=5.32'
-  'perl<5.33'
-  'perl-carp'
-  'perl-getopt-long>=2.3.3'
-  'perl-params-validate>=0.97'
-  'perl-scalar-list-utils'
-  'perl-sub-exporter>=0.972')
 url='https://metacpan.org/release/Getopt-Long-Descriptive'
 _distdir="Getopt-Long-Descriptive-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
-sha512sums=('e7528ac509bc7fb49ee59a8ed8dec0c9a619a8f34c207e7a9185829666248797211a56576721b7fc8cdd44ae55d2d45f048958b79a6228ee76d91c3a52685236')
+sha512sums=('9bd3af84119264c9e7e72b470f54782fe0a9e37e6071052a7b43af9529087841f77f06f81a70e4cab05380558216893b0902aabefcfbc970916f65614666969a')
 
 build() {
   cd "${srcdir}/${_distdir}"
