@@ -44,8 +44,8 @@ if [ $# -eq 1 ]; then
     commit_message="$1"
   fi
 elif [ $# -ne 0 ]; then
-  >&2 'usage: commit-package [commit-message]'
-  >&2 '  without a commit message, it will only be added for commit'
+  >&2 echo 'usage: commit-package [commit-message]'
+  >&2 echo '  without a commit message, it will only be added for commit'
   exit 1
 fi
 
