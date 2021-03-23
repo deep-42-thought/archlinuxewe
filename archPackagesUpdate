@@ -188,8 +188,8 @@ if [ ! $# -eq 0 ]; then
 fi
 
 if ! ${checkSanity}; then
-  if ${upload}; then
-    >&2 echo 'FEHLER: "--no-sanity-check" geht nur zusammen mit "--no-upload"! Ich beende.'
+  if ${upload} && ! ${printOnly}; then
+    >&2 echo 'FEHLER: "--no-sanity-check" geht nur zusammen mit "--no-upload" oder "--print-only"! Ich beende.'
     exit 1
   fi
 fi
