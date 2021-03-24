@@ -101,6 +101,7 @@ if [ -d '.git' ] || [ -f '.git' ]; then
   makepkg --printsrcinfo > .SRCINFO
   git commit 'PKGBUILD' '.SRCINFO' -m "${commit_message:-rebuild}"
   git push aur
+  git push ecknernet
   git checkout archlinuxewe
   git rebase master
   git push ecknernet --force
