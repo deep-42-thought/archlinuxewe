@@ -104,6 +104,7 @@ if [ -d '.git' ] || [ -f '.git' ]; then
   git checkout archlinuxewe
   git rebase master
   git push ecknernet --force
+  paket=$(basename "$(pwd)")
   cd ..
   if [ -n "${commit_message}" ]; then
     git commit "${paket}" -m "${commit_message}"
