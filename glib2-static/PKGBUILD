@@ -2,7 +2,7 @@
 # Contributor: nightuser <nightuser.android@gmail.com>
 
 pkgname=glib2-static
-pkgver=2.67.0
+pkgver=2.68.0
 pkgrel=1
 pkgdesc="Low level core library: Static library"
 url="https://wiki.gnome.org/Projects/GLib"
@@ -13,7 +13,7 @@ makedepends=(gettext zlib libffi shared-mime-info python libelf git util-linux m
 checkdepends=(desktop-file-utils)
 options=('!docs' '!libtool' '!emptydirs' '!strip' 'staticlibs')
 source=("http://ftp.gnome.org/pub/gnome/sources/glib/${pkgver%.*}/glib-$pkgver.tar.xz")
-sha512sums=('82d562bc80885c7e516e38f17a8830596b32b1e1a4b58454ca589be79e6ab27e0a2fe0a108cb02da21981c75474abed0263c0aa38c71ead45a68db675a1d2f80')
+sha512sums=('dce0660476d67d7736c00861f4c3c267723f39032f582d1b2c17660a4939eeccd97e975da61b5be49e6f54612c6d5ce592aa7bdeacf4ecc75f3b38358da94a1d')
 
 build() {
   CFLAGS+=' -Wno-unused-result'
