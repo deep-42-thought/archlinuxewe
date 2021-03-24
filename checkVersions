@@ -312,7 +312,7 @@ then
       remVer=$(
         curl_it 'https://github.com/bareos/bareos/releases' \
           | sed '
-            s,^.* href="/bareos/bareos/archive/Release/\([0-9.]\+\)\.tar\.gz"\( [^>]*\)\?>.*$,\1,
+            s,^.* href="/bareos/bareos/archive/refs/tags/Release/\([0-9.]\+\)\.tar\.gz"\( [^>]*\)\?>.*$,\1,
             t
             d
           ' \
