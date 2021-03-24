@@ -730,18 +730,31 @@ then
           tr '[[:upper:]]' '[[:lower:]]'
       )
       if [ "${pkgname}" == 'boulder' ]; then
-        extra_chars='-'
+        us_chars='-'
+        dot_chars=''
+      elif [ "${pkgname}" == 'jamulus-headless' ]; then
+        us_chars=''
+        dot_chars='_'
       else
-        extra_chars=''
+        us_chars=''
+        dot_chars=''
       fi
       remVer=$( \
         curl_it "${quVer}" | \
-          tr "\"" "\n" | \
+          tr '"' '\n' | \
           tr '[[:upper:]]' '[[:lower:]]' | \
-          grep "^${quNam}\(v\|release\(%2f\|-\)\|\)[${extra_chars}0-9.]\+\$" | \
-          sed "s@^${quNam}\(v\|release\(%2f\|-\)\|\)@@" | \
-          if [ -n "${extra_chars}" ]; then
-            tr "${extra_chars}" '_'
+          sed '
+            s@^'"${quNam}"'\([rv]\|release\(%2f\|-\)\|\)\(['"${dot_chars}${us_chars}"'_0-9.]\+\)$@\3@
+            t
+            d
+          ' | \
+          if [ -n "${dot_chars}" ]; then
+            tr "${dot_chars}" '.'
+          else
+            cat
+          fi | \
+          if [ -n "${us_chars}" ]; then
+            tr "${us_chars}" '_'
           else
             cat
           fi | \
