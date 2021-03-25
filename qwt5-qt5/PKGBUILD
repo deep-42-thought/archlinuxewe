@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Contributor: Mirko Scholz
 pkgname=qwt5-qt5
-_commit=eeacc4497738de159ca6f352d0c8ada353831b53
-pkgver=5.2.3.1
+pkgver=5.2.3.23.eeacc44
+_commit="${pkgver##*.}"
 pkgrel=2
 pkgdesc='Qwt library (version 5.2.3) updated to work with Qt5.'
 arch=('i686' 'pentium4' 'x86_64')
@@ -10,11 +10,21 @@ license=('custom')
 depends=('qt5-base' 'qt5-svg')
 url='https://github.com/gbm19/qwt5-qt5'
 source=(
-"qwt5-qt5-${pkgver}.zip::https://github.com/gbm19/qwt5-qt5/archive/${_commit}.zip"
+"git+https://github.com/gbm19/qwt5-qt5#commit=${_commit}"
 "qwtconfig-archlinux.pri"
 )
-sha512sums=('1e8114efd4cd58d2b27034930b6f8541ae3ed59541b0a2c45e9ecbc3a1b38b2c9ceb3ff60b87e36fc8e9ed808d35244ec26a5d9a6f7706791a12c93bc4755506'
+sha512sums=('SKIP'
             'a7dd5c600b41ff817464a1db3613790b51b62e46f9db861be1be0d3c30c1d3af93f636df520e9ee6d8c47ddc32a9e2b8e1091a0c1f1c0ea76e6fd4587165086c')
+
+pkgver() {
+	printf '5.2.3.%s.%s\n' \
+	  "$(
+	    git -C "${pkgname}" rev-list --count HEAD
+	  )" \
+	  "$(
+	    git -C "${pkgname}" rev-parse --short HEAD
+	  )"
+}
 
 prepare() {
 	install -Dm644 "qwtconfig-archlinux.pri" "${srcdir}/qwt5-qt5-${_commit}/qwtconfig.pri"
