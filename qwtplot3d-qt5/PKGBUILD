@@ -5,15 +5,16 @@
 # Contributor: damir <damir@archlinux.org>
 
 pkgname=qwtplot3d-qt5
+_pkgname="${pkgname%-*}"
 pkgver=0.2.7
 pkgrel=3
 pkgdesc="Qt/OpenGL-based C++ programming library containing 3d-widgets"
 arch=('i686' 'pentium4' 'x86_64')
 license=('custom:zlib')
-url="http://qwtplot3d.sourceforge.net/"
+url="http://${_pkgname}.sourceforge.net/"
 depends=('qt5-base')
 makedepends=('mesa' 'glu')
-source=("https://downloads.sourceforge.net/sourceforge/qwtplot3d/qwtplot3d-$pkgver.tgz"
+source=("https://downloads.sourceforge.net/sourceforge/${_pkgname}/${_pkgname}-$pkgver.tgz"
         qwtplot3d-gcc44.patch 
         qwtplot3d-qt-4.8.0.patch
         qwtplot3d-qt5.patch)
@@ -23,21 +24,21 @@ sha512sums=('88e6d270695931775f3c1c0e718118e31118dbfe9f5f582834de09ab515fdf9e8a0
             '7cd4def315f238acb61f8416c06012c16967985bda8762fd6aff512b1690ae3d2c29fb5fc35c61bd1c95df99344f245fd1cff12542a87dfa9baaf7a80c58f67b')
 
 prepare() {
-    cd qwtplot3d
+    cd "${_pkgname}"
     patch -p1 -i "${srcdir}"/qwtplot3d-gcc44.patch
     patch -p1 -i "${srcdir}"/qwtplot3d-qt-4.8.0.patch
     patch -p1 -i "${srcdir}"/qwtplot3d-qt5.patch
 }
 
 build() {
-    cd qwtplot3d
+    cd "${_pkgname}"
     # build qwt:
     qmake-qt5 qwtplot3d.pro "CONFIG+=staticlib"
     make
 }
 
 package() {
-    cd qwtplot3d
+    cd "${_pkgname}"
 
     # install qwtplot3d: (by hand, because the Makefile do not provide a "install:")
     install -d "${pkgdir}"/usr/{include/qt/qwtplot3d-qt5,lib}
