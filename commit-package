@@ -73,6 +73,7 @@ if [ -d '.git' ] || [ -f '.git' ]; then
   makepkg --printsrcinfo > .SRCINFO
   git commit 'PKGBUILD' '.SRCINFO' -m "${commit_message:-rebuild}"
   git checkout master
+  git pull --ff-only
   diff=$(
     git diff archlinuxewe{^,} --name-status \
     | cut -f2 \
