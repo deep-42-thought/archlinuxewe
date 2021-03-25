@@ -834,7 +834,7 @@ then
           cat
         fi \
         | cut -d' ' -f1
-      ); do \
+      ); do
         remVer=$( \
           extract_sourceforge_file_list "${quVer}${ver}/" \
           | sed '
