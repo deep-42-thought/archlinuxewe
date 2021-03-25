@@ -402,21 +402,21 @@ then
           latest_version
       )
     elif echo "${src}" | \
-      grep -q '^http://ftp.linux.org.uk/.*/netkit/'
+      grep -q '^http://ftp\.linux\.org\.uk/.*/netkit/'
     then
       quVer="${src%/*}/"
-      remVer="$(
+      remVer=$(
         curl_it "${quVer}" | \
           tr '<>' '\n' | \
           grep "^${pkgname#netkit-}-[0-9.-]\+\.tar\.gz\$" | \
           sed "s|^${pkgname#netkit-}-\([0-9.-]\+\)\.tar\.gz\$|\1|" | \
           latest_version
-      )"
+      )
     elif [ "${pkgname}" == "archiso32" ] || [ "${pkgname}" == 'archiso-dual' ]
     then
       git -C /usr/src/archlinux/archiso fetch upstream
       git -C /usr/src/archlinux32/archiso32 fetch origin
-      remVer="$(
+      remVer=$(
         {
           git -C /usr/src/archlinux/archiso tag
           git -C /usr/src/archlinux32/archiso32 tag
@@ -427,12 +427,12 @@ then
             p
           ' | \
           latest_version
-      )"
+      )
     elif [ "${pkgname}" == 'devtools32' ]
     then
       git -C /usr/src/archlinux/devtools fetch upstream
       git -C /usr/src/archlinux32/devtools32 fetch origin
-      remVer="$(
+      remVer=$(
         (
           git -C /usr/src/archlinux/devtools archive --format=tar upstream/master -- Makefile | \
             tar -Ox | \
@@ -445,7 +445,7 @@ then
             '
         ) | \
           latest_version
-      )"
+      )
     elif [ "${pkgname}" == 'pacman-mirrorlist32' ]
     then
       git -C "/usr/src/archlinux32/packages" fetch origin >/dev/null 2>&1
