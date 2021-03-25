@@ -7,6 +7,7 @@
 
 pkgname=scidavis
 pkgver=1.26
+_commit=${pkgver}
 pkgrel=9
 pkgdesc="Application for Scientific Data Analysis and Visualization, fork of QtiPlot"
 arch=('i686' 'pentium4' 'x86_64')
@@ -29,7 +30,7 @@ _pinned_dependencies=(
   'zlib=1:1.2.11'
 )
 depends=('mesa' 'python-qtpy' 'shared-mime-info' "${_pinned_dependencies[@]}")
-source=("http://prdownloads.sourceforge.net/sourceforge/scidavis/${pkgname}-${pkgver}.tar.gz")
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/highperformancecoder/scidavis/archive/${_commit}.tar.gz")
 sha512sums=('5f2ca9853a1f4b777520655caf07910e279e804a11569eef8ceee4d29e217f1b93d069d2d290ee9e0867fbeddbdd36969a2de43a9fad6ef5789abdae08f2a2cd')
 install="${pkgname}.install"
 
