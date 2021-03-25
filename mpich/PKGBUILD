@@ -3,8 +3,8 @@
 # Contributor: George Eleftheriou <eleftg>
 
 pkgname=mpich
-pkgver=3.4a2
-pkgrel=2
+pkgver=3.4.1
+pkgrel=1
 pkgdesc="An improved implementation of the Message Passing Interface."
 url="https://mpich.org"
 arch=('i686' 'pentium4' 'x86_64')
@@ -23,8 +23,8 @@ optdepends=("java-environment")
 install="${pkgname}.install"
 source=("https://www.mpich.org/static/downloads/${pkgver}/${pkgname}-${pkgver}.tar.gz"
 	"mpich.profile")
-sha256sums=('ca9b9a6d4d858f3f94d2ea1ed0b851fccbc6f2976eb08dfc3379be8c6278aa12'
-            'b9716439a544511bf88618edeb40c3eb80f1b5d0d9369c30d750251feed02284')
+sha512sums=('61aa161b14bd501320e45e0598ea4f125a704383e4998bf1773ba8b1ce06fb73204bad8f7a5fc147b1cef97e6420cdb150856f6ab03db4dddfe87f02edd3b8d2'
+            '4825e4522fc22d45f10b3761295aa38b3dd978830abf0f258e0df571c9d5b526cdafa661f7662d575801945d62f0812cba86c5acf3eb502cdf5df4412e74409c')
 options=('!libtool')
 
 build() {
