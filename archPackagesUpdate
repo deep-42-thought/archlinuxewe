@@ -278,9 +278,12 @@ if [ -f '.gitmodules' ]; then
   sed -n '
     /^\s*path = /{
       N
+      s, gitolite@eckner\.net:aur/, https://git.eckner.net/aur/,
+      Tkein_aur
+      s/\.git$//
+      :kein_aur
       s/^\s*path = //
       s/\n\s*url = / /
-      s,gitolite@eckner.net:aur/,https://git.eckner.net/aur/,
       p
     }
   ' '.gitmodules' \
