@@ -7,10 +7,7 @@ pkgDir='/srv/http/vhosts/eckner.net/archlinuxewe/os'
 pkgDir32Mount='/mnt/mirror.archlinux32.org'
 pkgDir32="${pkgDir32Mount}/x86_64/releng"
 pkgSrcDir=$(dirname $(readlink -f -n "$0"))
-if ! submoduleDir=$(readlink -e "${pkgSrcDir}/../submodules"); then
-  >&2 echo 'Submodule directory not found.'
-  exit 1
-fi
+submoduleDir=$(readlink -f -n "${pkgSrcDir}/../submodules")
 export SRCDEST="${HOME}/packageSources"
 export PACKAGER='Erich Eckner <arch at eckner dot net>'
 key='5FDCA472AB93292BC678FD59255A76DB9A12601A'
