@@ -581,31 +581,35 @@ for ((i=0; i<${#pakete[@]}; i++)); do
         makechrootpkg -r "/var/lib/archbuild/archlinuxewe-${arch/any/${myArch}}" -- ${log} ${checkMakepkg} --holdver -f
       fi
       err[${i}]=$?
-      if [ ${err[${i}]} -eq 0 ] && [ "${arch}" != "${myArch}" ] && [ "${arch}" != 'any' ]; then
-        {
-          printf '%s\n' \
-            "From: plasmapaule@gmail.com" \
-            "To: buildmaster@archlinux32.org" \
-            "Subject: $(uname -n) - report about installed ${arch} packages" \
-            ""
-          find . \
-            -mindepth 1 \
-            -maxdepth 1 \
-            -name '*.pkg.tar.zst' \
-            -exec bsdtar -Oxf {} .BUILDINFO \; \
-          | sed '
-            s@^installed = \(.*\)$@/var/cache/archbuild32/\1.pkg.tar.zst@
-            t
-            d
-          ' \
-          | xargs -r sha512sum \
-          2>/dev/null \
-          | sed '
-            s@\s\+.*/@ @
-            s/^/stabilize: /
-          '
-        } | \
-          sendmailadvanced -t
+      if [ ${err[${i}]} -eq 0 ]; then
+        if [ "${arch}" = 'i486' ] \
+        || [ "${arch}" = 'i686' ] \
+        || [ "${arch}" = 'pentium4' ]; then
+          {
+            printf '%s\n' \
+              "From: plasmapaule@gmail.com" \
+              "To: buildmaster@archlinux32.org" \
+              "Subject: $(uname -n) - report about installed ${arch} packages" \
+              ""
+            find . \
+              -mindepth 1 \
+              -maxdepth 1 \
+              -name '*.pkg.tar.zst' \
+              -exec bsdtar -Oxf {} .BUILDINFO \; \
+            | sed '
+              s@^installed = \(.*\)$@/var/cache/archbuild32/\1.pkg.tar.zst@
+              t
+              d
+            ' \
+            | xargs -r sha512sum \
+            2>/dev/null \
+            | sed '
+              s@\s\+.*/@ @
+              s/^/stabilize: /
+            '
+          } | \
+            sendmailadvanced -t
+        fi
       fi
     ;;
     'armv6h'|'armv7h'|'aarch64')
