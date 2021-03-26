@@ -436,7 +436,7 @@ for paket in $( \
       missing_archs=$(
         printf '%s\n' "${missing_archs}" | \
           grep -xF "$(printf '%s\n' "${tmpOnlyArchs[@]}")"
-      )
+      ) 2>/dev/null
     fi
   fi
 
