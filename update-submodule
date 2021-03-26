@@ -29,6 +29,6 @@ if [ -d "${submoduleDir}" ]; then
 else
   upstream="${pkgSrcDir}/${path}"
 fi
-git -C "${upstream}" pull -q --ff-only
+git -C "${upstream}" pull -q --rebase
 git -C "${upstream}" archive "${commit}" \
 | tar -C "${path}" -x
