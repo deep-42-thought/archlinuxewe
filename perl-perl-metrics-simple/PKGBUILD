@@ -2,19 +2,19 @@
 # Generator : neuesPerlPaket (531f4ea05761761b97731706ac717c0b6492abe73967627888b9913e5b55c57b4ee55f1d39b2cbcfadfaa2e5c1487c41151b50bcc321d3ac2202a96e10461201)
 
 pkgname='perl-perl-metrics-simple'
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc='Count packages, subs, lines, etc. of many files.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 provides=(
-  'perl-perl-metrics-simple-analysis=1.0.0'
-  'perl-perl-metrics-simple-analysis-file=1.0.0'
-  'perl-perl-metrics-simple-output=1.0.0'
-  'perl-perl-metrics-simple-output-html=1.0.0'
-  'perl-perl-metrics-simple-output-json=1.0.0'
-  'perl-perl-metrics-simple-output-plaintext=1.0.0')
+  'perl-perl-metrics-simple-analysis=1.0.1'
+  'perl-perl-metrics-simple-analysis-file=1.0.1'
+  'perl-perl-metrics-simple-output=1.0.1'
+  'perl-perl-metrics-simple-output-html=1.0.1'
+  'perl-perl-metrics-simple-output-json=1.0.1'
+  'perl-perl-metrics-simple-output-plaintext=1.0.1')
 depends=(
   'perl-carp'
   'perl-data-dumper'
@@ -35,7 +35,7 @@ optdepends=(
 url='https://metacpan.org/release/Perl-Metrics-Simple'
 _distdir="Perl-Metrics-Simple-v${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/M/MA/MATISSE/${_distdir}.tar.gz")
-sha512sums=('9653ab3b507fab703ef2f7b4b2200dcc78638dd23c76f860a1a784c9b2358d91d415d42cf5ef5ef155398f73ece475c2f92445b78971d33442fcc449821024b0')
+sha512sums=('e448faf77081352480253a17a67cd95f3d7b8af1f9ea7233347e2294db0d779551823c75becbbfbba510490b0dd7d0c014c84f79aac49aec59ef684593fb1151')
 
 build() {
   cd "${srcdir}/${_distdir}"
