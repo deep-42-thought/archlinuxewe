@@ -12,7 +12,7 @@ _pinned_dependencies=(
   'openssl=1.1.1.k'
 )
 depends=("${_pinned_dependencies[@]}")
-makedepends=('python2')
+makedepends=('python')
 optdepends=('tk: for using fetchmailconf'
             'python2: for using fetchmailconf')
 options=('!makeflags')
@@ -25,22 +25,22 @@ sha512sums=('b42c23c184af68ac41e222cdb19536bf03de3da6a4357e065d203444e32c1c46a7f
             '49c2843ddb06f587611f838bc9dab3fe04af991d70c27f8ffdd6351d8d6401683a356a03401e232a53e44ee43f6d85aa520f233f256974d07972913145fdf0f5')
 
 prepare() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  cd ${pkgname}-${pkgver}
   patch -Np1 -i ../disable-sslv3.patch
 }
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  sed -i 's|/usr/bin/env python|/usr/bin/env python2|' fetchmailconf.py
-  PYTHON=python2 ./configure --prefix=/usr --with-ssl=/usr
+  cd ${pkgname}-${pkgver}
+  ./configure --prefix=/usr --with-ssl=/usr
   make
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  install -D -m644 fetchmail.tmpfiles "${pkgdir}"/usr/lib/tmpfiles.d/fetchmail.conf
+  install -D -m644 fetchmail.sysusers "${pkgdir}"/usr/lib/sysusers.d/fetchmail.conf
+  install -D -m644 fetchmail.service "${pkgdir}"/usr/lib/systemd/system/fetchmail.service
+
+  cd ${pkgname}-${pkgver}
   make DESTDIR="${pkgdir}" install
   install -d -o 90 -g nobody "${pkgdir}/var/lib/fetchmail"
-  install -D -m644 ${srcdir}/fetchmail.tmpfiles ${pkgdir}/usr/lib/tmpfiles.d/fetchmail.conf
-  install -D -m644 ${srcdir}/fetchmail.sysusers ${pkgdir}/usr/lib/sysusers.d/fetchmail.conf
-  install -D -m644 ${srcdir}/fetchmail.service ${pkgdir}/usr/lib/systemd/system/fetchmail.service
 }
