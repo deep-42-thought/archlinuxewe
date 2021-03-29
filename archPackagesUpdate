@@ -677,6 +677,8 @@ for ((i=0; i<${#pakete[@]}; i++)); do
     fi
     if [ ${err[${i}]} -ne 0 ]; then
       sed 's/^/namcap: /' "${tmpDir}/namcap"
+      find "${tmpDir}/${paket}" \
+      | sed 's/^/files:  /'
       break
     fi
     if grep "$(
