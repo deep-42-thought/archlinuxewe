@@ -1,19 +1,43 @@
 #!/bin/bash
 
-srcDir="${HOME}/packageSources"
+if [ $# -eq 0 ]; then
 
-[ -d "${srcDir}" ] || exit 0
+  srcDir=$(
+    readlink -e "${HOME}/packageSources"
+  )
 
-find "${srcDir}" \
-  -mindepth 2 \
-  -maxdepth 2 \
-  -name HEAD \
-  -printf '%h\n' \
-| parallel -j 0 -l 1 git -C {} fetch --all -p
+  [ -d "${srcDir}" ] || exit 0
 
-find "${srcDir}" \
-  -mindepth 2 \
-  -maxdepth 2 \
-  -type d \
-  -name .svn \
-  -execdir svn update \;
+  find "${srcDir}" \
+    -type d \
+    -exec sh -c 'test -f "{}/HEAD"' \; \
+    -printf 'git: %p\n' \
+    -prune , \
+    -type d \
+    -exec sh -c 'test -d "{}/.svn"' \; \
+    -printf 'svn: %p\n' \
+    -prune \
+  | parallel -j 0 -l 1 "$0"
+
+elif [ $# -eq 1 ]; then
+
+  case "${1%%: *}" in
+    'git')
+      git -C "${1#*: }" fetch --all -p
+    ;;
+    'svn')
+      cd "${1#*: }"
+      svn update
+    ;;
+    *)
+      >&2 printf '%s: unknown VCS "%s"\n' "$0" "${1%%: *}"
+      exit 1
+    ;;
+  esac
+
+else
+
+  >&2 printf '%s: too many arguments\n' "$0"
+  exit 1
+
+fi
