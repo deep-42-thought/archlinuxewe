@@ -409,8 +409,8 @@ for paket in $( \
           continue
 
         pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.zst"
-        if ! printf '%s\n' "${available_packages}" \
-        | grep -qxF "${repo}/${singleArch}/${pkgFile}" 2>/dev/null; then
+        if ! printf '%s\n' "${available_packages}" 2>/dev/null \
+        | grep -qxF "${repo}/${singleArch}/${pkgFile}"; then
           printf '%s\n' "${singleArch}"
         fi
 
@@ -434,9 +434,9 @@ for paket in $( \
     done
     if [ ${#tmpOnlyArchs[@]} -ne 0 ]; then
       missing_archs=$(
-        printf '%s\n' "${missing_archs}" | \
+        printf '%s\n' "${missing_archs}" 2>/dev/null | \
           grep -xF "$(printf '%s\n' "${tmpOnlyArchs[@]}")"
-      ) 2>/dev/null
+      )
     fi
   fi
 
