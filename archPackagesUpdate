@@ -410,7 +410,7 @@ for paket in $( \
 
         pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.zst"
         if ! printf '%s\n' "${available_packages}" \
-        | grep -qxF "${repo}/${singleArch}/${pkgFile}"; then
+        | grep -qxF "${repo}/${singleArch}/${pkgFile}" 2>/dev/null; then
           printf '%s\n' "${singleArch}"
         fi
 
