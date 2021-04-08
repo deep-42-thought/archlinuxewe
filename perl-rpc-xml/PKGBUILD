@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (568f5d2df596725567f1a6081bf01d21ef231fbfd3571a4132eb004ebb50cfaada248486250b351491d5fd615f2c1d7f07d339c6e6ad8bb59146399a117bec0c)
 
 pkgname='perl-rpc-xml'
-pkgver='0.80'
-pkgrel=3
+pkgver='0.81'
+pkgrel=1
 pkgdesc='Data, client and server classes for XML-RPC'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -31,7 +31,7 @@ makedepends=(
 url='https://metacpan.org/release/RPC-XML'
 _distdir="RPC-XML-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RJ/RJRAY/${_distdir}.tar.gz")
-sha512sums=('a91586ea903b3e633f85ca8d9048181a7c3aedcff6788c7ae5fb4971e8552c421c86f30254517c25caa35f1991146dcceb34301bb49002e4ec75a2ee9c195992')
+sha512sums=('052a7ca4900c12d32ce9863ec276939d83702225e8a80d92f5b25539640a11a5661663c69b023b25b77f449db04b4df733ca966655230c07afa1e22a1598f004')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/40_server.t"
