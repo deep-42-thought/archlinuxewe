@@ -4,7 +4,7 @@
 
 pkgname=python-tifffile
 pkgver=2021.3.31
-_pyname=${pkgname#python-}
+_pkgname=${pkgname#python-}
 pkgrel=1
 pkgdesc="Read and write image data from and to TIFF files"
 arch=('any')
@@ -16,23 +16,23 @@ optdepends=('python-matplotlib>=3.1: required only for plotting'
             'python-imagecodecs>=2020.2.18: required only for encoding or decoding LZW, JPEG, etc'
             'python-lxml: required only for validating and printing XML')
 #checkdepends=('python-pytest')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/cgohlke/$_pyname/archive/v$pkgver.tar.gz")
+source=("$_pkgname-$pkgver.tar.gz::https://github.com/cgohlke/$_pkgname/archive/v$pkgver.tar.gz")
 sha512sums=('bd0c90c554bd5f03159fa3d6e51ec79e3a52220a2bd1bdcd79753af7d4f550006122d7140c4d895b3b247a5d30aeb7b3a7942409e53f8308df8bcc2ff3de078d')
 
 build() {
-    cd ${srcdir}/${_pyname}-${pkgver}
+    cd ${srcdir}/${_pkgname}-${pkgver}
 
     python setup.py build
 }
 
 #check() {
-#    cd ${srcdir}/${_pyname}-${pkgver}
+#    cd ${srcdir}/${_pkgname}-${pkgver}
 #
 #    PYTHONPATH="build/lib" pytest
 #}
 
 package() {
-    cd ${srcdir}/${_pyname}-${pkgver}
+    cd ${srcdir}/${_pkgname}-${pkgver}
 
     install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
     install -Dm644 README.rst -t "${pkgdir}/usr/share/doc/${pkgname}"
