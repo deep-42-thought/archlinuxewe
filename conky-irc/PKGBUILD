@@ -9,7 +9,7 @@ pkgname=conky-irc
 pkgver=1.12.1
 provides=("conky=${pkgver}")
 conflicts=('conky')
-pkgrel=1
+pkgrel=2
 pkgdesc='Lightweight system monitor for X - with irc-client enabled'
 url='https://github.com/brndnmtthws/conky'
 license=('BSD' 'GPL')
@@ -31,7 +31,7 @@ _pinned_dependencies=(
   'libxft=2.3.3'
   'libxinerama=1.1.4'
   'libxml2=2.9.10'
-  'lua=5.4.2'
+  'lua=5.4.3'
   'wireless_tools=30.pre9'
 )
 depends=('glib2' "${_pinned_dependencies[@]}")
