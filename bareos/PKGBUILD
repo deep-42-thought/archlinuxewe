@@ -21,10 +21,11 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-tape"
          "${pkgbase}-director-python-plugin"
          "${pkgbase}-filedaemon-python-plugin"
-         "${pkgbase}-storage-python-plugin")
+         "${pkgbase}-storage-python-plugin"
+         "${pkgbase}-webui")
 
 pkgver=20.0.1
-pkgrel=6
+pkgrel=7
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -747,6 +748,36 @@ package_bareos-storage-python-plugin() {
     "$srcdir/install/usr/lib/bareos/plugins/BareosSdWrapper.py" \
     "$srcdir/install/usr/lib/bareos/plugins/bareos-sd-class-plugin.py" \
     -t "$pkgdir/usr/lib/bareos/plugins"
+}
+
+package_bareos-webui() {
+  pkgdesc="${pkgdesc} - Webui (Bareos web administration)"
+  depends=('php' 'php-fpm' 'jansson')
+  optdepend=('nginx' 'apache')
+  backup=('etc/bareos-webui/directors.ini'
+          'etc/bareos-webui/configuration.ini'
+          'etc/bareos/bareos-dir.d/console/admin.conf.example'
+          'etc/bareos/bareos-dir.d/profile/webui-admin.conf')
+
+  install -dm755 \
+    "$pkgdir/etc" \
+    "$pkgdir/usr/share/webapps"
+  mv \
+    "$srcdir/install/usr/local/share/bareos-webui" \
+    "$pkgdir/usr/share/webapps/"
+  mv \
+    "$srcdir/install/etc/bareos-webui" \
+    "$pkgdir/etc/"
+
+  install -Dm644 \
+    "$srcdir/install/etc/httpd/conf.d/bareos-webui.conf" \
+    -t "$pkgdir/etc/httpd/conf.d/extra"
+  install -Dm644 \
+    "$srcdir/install/etc/bareos/bareos-dir.d/console/admin.conf.example" \
+    -t "$pkgdir/etc/bareos/bareos-dir.d/console"
+  install -Dm644 \
+    "$srcdir/install/etc/bareos/bareos-dir.d/profile/webui-admin.conf" \
+    -t "$pkgdir/etc/bareos/bareos-dir.d/profile"
 }
 
 makedepends+=(
