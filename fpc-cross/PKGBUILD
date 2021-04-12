@@ -9,7 +9,7 @@
 
 pkgbase=fpc-cross
 pkgname=(fpc-cross-common fpc-win32 fpc-win64)
-pkgver=3.0.4
+pkgver=3.2.0
 pkgrel=1
 pkgdesc='Free Pascal Compiler, Turbo Pascal 7.0 and Delphi compatible - cross compiler'
 arch=('i686' 'pentium4' 'x86_64')
@@ -19,7 +19,7 @@ depends=('ncurses' 'zlib' 'expat' 'binutils' 'make')
 makedepends=("fpc=${pkgver}")
 options=(zipman staticlibs)
 source=(ftp://ftp.freepascal.org/pub/fpc/dist/$pkgver/source/fpcbuild-$pkgver.tar.gz)
-sha256sums=('f66514e6f2c2e4e1bccccb4d554c24b77682ed61c87811ae5dd210f421855e76')
+sha512sums=('a584f0bc908b380cb3da6bc624ba5de7de803a79dfec33c03f10b468939d4f0d5d7d9ad85ce65e49babd7437e8dba920cb62ac694a4449fc9151ef8ce8e68252')
 
 prepare() {
   cp -a "$srcdir/fpcbuild-$pkgver" "$srcdir/fpcbuild-$pkgver-win64"
