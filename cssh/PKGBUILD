@@ -21,7 +21,7 @@ sha512sums=('SKIP')
 pkgver() {
   cd "${srcdir}/${pkgname}"
   _rev=$(
-    git rev-parse --short master
+    git rev-parse --short "${_commit}"
   )
   _rev_count=$(
     git rev-list "${_rev}" --count

@@ -19,10 +19,10 @@ sha512sums=('SKIP'
 pkgver() {
 	printf '5.2.3.%s.%s\n' \
 	  "$(
-	    git -C "${pkgname}" rev-list --count HEAD
+	    git -C "${pkgname}" rev-list --count "${_commit}"
 	  )" \
 	  "$(
-	    git -C "${pkgname}" rev-parse --short HEAD
+	    git -C "${pkgname}" rev-parse --short "${_commit}"
 	  )"
 }
 

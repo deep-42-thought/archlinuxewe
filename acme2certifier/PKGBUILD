@@ -31,12 +31,6 @@ sha512sums=('SKIP'
 install="${pkgname}.install"
 
 pkgver() {
-  for _trial in 'origin/devel' 'devel'; do
-    _commit=$(
-      git -C "${pkgname}" rev-parse "${_trial}" 2>/dev/null
-    ) && break
-  done
-
   _line_revision="${_commit}"
   while true; do
     _version_line=$(

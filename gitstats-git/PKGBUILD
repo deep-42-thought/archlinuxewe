@@ -2,20 +2,25 @@
 # Contributor: Timo Schmiade <the_isz@gmx.de>
 pkgname=gitstats-git
 pkgver=294.55c5c28
+_commit="${_pkgver##*.}"
 pkgrel=1
 pkgdesc="A statistics generator for git repositories."
 arch=("any")
 url="http://gitstats.sourceforge.net"
 license=('GPL3')
 depends=('git' 'python2' 'gnuplot')
-source=("git+https://github.com/hoxu/gitstats.git")
+source=("git+https://github.com/hoxu/gitstats.git#commit=${_commit}")
 md5sums=("SKIP")
 
 pkgver() {
   cd gitstats
   printf '%s.%s\n' \
-    "$(git rev-list --count master)" \
-    "$(git rev-parse --short master)"
+    "$(
+      git rev-list --count "${_commit}"
+    )" \
+    "$(
+      git rev-parse --short "${_commit}"
+    )"
 }
 
 package() {

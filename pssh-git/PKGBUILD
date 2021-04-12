@@ -23,7 +23,7 @@ sha512sums=('SKIP')
 
 pkgver() {
   cd "${srcdir}/pssh"
-  git describe --long --tags ${_commit} | \
+  git describe --long --tags "${_commit}" | \
     sed '
       s/^v//
       y/-/+/

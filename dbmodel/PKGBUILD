@@ -31,9 +31,8 @@ sha512sums=('SKIP')
 
 pkgver(){
   cd "${pkgname}"
-  git fetch --all >/dev/null 2>&1
-  _commit=$(
-    git rev-parse master
+  _rev=$(
+    git rev-parse --short "${_commit}"
   )
   printf '%s.r%s.%s\n' \
     "$(

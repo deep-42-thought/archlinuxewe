@@ -31,7 +31,7 @@ sha512sums=('SKIP'
 pkgver() {
   cd "${srcdir}/knock"
   _rev=$(
-    git rev-parse --short master
+    git rev-parse --short "${_commit}"
   )
   _pkgver=$(
     git archive "${_rev}" -- src/knockd.c \
