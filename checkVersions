@@ -672,6 +672,26 @@ then
           sed "s|^${quNam}-v\?\([0-9.-]*\)\.${quEnd}\$|\1|" | \
           latest_version 'perl'
       )
+    elif echo "${src}" \
+    | grep -q '^ftp://ftp.freepascal.org/'; then
+      quVer="${src%/*/*/*}/"
+      remVer=$(
+        curl_it "${quVer}" \
+        | awk 'substr($1,1,1) == "d" {print $9}' \
+        | sort -Vr \
+        | while read -r ver; do
+          curl_it "${quVer}/${ver}/source/" \
+          | awk '{print $9}' \
+          | sed '
+            s@^fpcbuild-\([0-9.]\+\)\.tar\.gz$@\1@
+            t
+            d
+          ' \
+          | latest_version \
+          | grep -F '' \
+          && break
+        done
+      )
     elif echo "${src}" | \
       grep -q "ftp://"
     then
