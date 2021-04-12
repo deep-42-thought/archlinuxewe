@@ -752,6 +752,9 @@ package_bareos-storage-python-plugin() {
 
 package_bareos-webui() {
   pkgdesc="${pkgdesc} - Webui (Bareos web administration)"
+  local _pinned_dependencies
+  _pinned_dependencies=(
+  )
   depends=('php' 'php-fpm' 'jansson')
   optdepend=('nginx' 'apache')
   backup=('etc/bareos-webui/directors.ini'
