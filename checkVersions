@@ -27,7 +27,7 @@ curl_it() {
   cache_file="${curl_cache}/${cache_file}"
   if ${use_cache} && \
     [ -s "${cache_file}" ] && \
-    [ $(stat -c%Y "${cache_file}") -gt $(($(date +%s)-300)) ] &&
+    [ "0$(stat -c%Y "${cache_file}")" -gt "$(($(date +%s)-300))" ] &&
     ! grep -qiF 'access denied' "${cache_file}"; then
     cat "${cache_file}"
     return
