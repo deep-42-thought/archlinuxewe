@@ -14,7 +14,7 @@ _build_docs=1
 pkgbase='fpc-svn'
 pkgname=('fpc-svn' 'fpc-src-svn')
 [[ $_build_docs -ne 0 ]] && pkgname+=('fpc-docs-svn')
-pkgver=3.3.1.r49195
+pkgver=3.3.1.r49232
 _pkgver="${pkgver%.r*}"
 _revision="${pkgver##*.r}"
 pkgrel=1
@@ -26,7 +26,7 @@ depends=('bash' 'ncurses' 'zlib' 'expat')
 makedepends=('fpc' 'subversion')
 [[ $_build_docs -ne 0 ]] && makedepends+=('texlive-core' 'texlive-htmlxml'
                                           'texlive-latexextra' 'ghostscript')
-source=('fpcbuild::svn+http://svn.freepascal.org/svn/fpcbuild/trunk#revision=${_revision}')
+source=('fpcbuild::svn+http://svn.freepascal.org/svn/fpcbuild/trunk#revision='"${_revision}")
 sha512sums=('SKIP')
 
 pkgver() {
