@@ -3,21 +3,18 @@
 # Generator  : CPANPLUS::Dist::Arch 1.30
 
 pkgname='perl-sub-exporter-formethods'
-pkgver='0.100052'
-pkgrel=9
+pkgver=0.100054
+pkgrel=1
 pkgdesc="helper routines for using Sub::Exporter to build methods"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.32'
-  'perl<5.33'
   'perl-scalar-list-utils'
-  'perl-sub-exporter>=0.978'
-  'perl-sub-name')
+  'perl-sub-exporter>=0.978')
 makedepends=(
   'perl-carp'
-  'perl-extutils-makemaker'
+  'perl-extutils-makemaker>=6.78'
   'perl-lib'
   'perl-namespace-autoclean'
   'perl-pathtools'
@@ -25,7 +22,7 @@ makedepends=(
 url='https://metacpan.org/release/Sub-Exporter-ForMethods'
 _distdir="Sub-Exporter-ForMethods-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
-sha512sums=('75dc9d150f0d0fe33f727363582f99f1ca5c4b76e789e33e640f648588c23531516a99affd9097bc38e175e099dac817d307406dd2380f422aae401f3b5405ca')
+sha512sums=('bed6109790e72040c3546bd2c523ab1ab53df1e3a12ebe109cd53cf8db6ddf458d874a1a49d6008326bf4835cd5af2f0229fbe184ca0402f5261f8d25a267dd9')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
