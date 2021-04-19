@@ -1091,18 +1091,20 @@ then
         fi
       done
     elif echo "${src}" | \
-      grep -q "http://www\.mkgmap\.org\.uk/download"
+      grep -q "https://www\.mkgmap\.org\.uk/download"
     then
       remUrl=$(
         echo "${src}" | \
           sed 's|-r[0-9]\+\.zip$|.html|'
       )
       remVer=r$(
-        curl_it "${remUrl}" | \
-          grep '"text: current()\.version"' | \
-          tr '<>' '\n' |
-          grep '^[0-9]\+$' | \
-          latest_version
+        curl_it "${remUrl}" \
+        | sed '
+          s@^.*"text: current()\.version">\([0-9]\+\)<.*$@\1@
+          t
+          d
+        ' \
+        | latest_version
       )
     elif echo "${src}" | \
       grep -qF '//www.roguetemple.com/'
