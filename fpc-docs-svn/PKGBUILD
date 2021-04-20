@@ -1,0 +1,46 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: L <alaviss 0 at gmail dot com>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Valeriy Lyasotskiy <onestep@ukr.net>
+# Contributor: Jan Willemson <janwil@hot.ee>
+# Contributor: Hugo Ideler <hugoideler@dse.nl>
+# Contributor: BlackIkeEagle <ike DOT devolder AT gmail DOT com>
+# Original PKGBUILD: Andre Naumann <anaumann@SPARCed.org>
+# See http://bbs.archlinux.org/viewtopic.php?t=9318&highlight=fpc
+
+pkgname='fpc-docs-svn'
+pkgver=3.3.1.r1852
+_pkgver="${pkgver%.r*}"
+_revision="${pkgver##*.r}"
+pkgrel=1
+arch=('any')
+url='http://www.freepascal.org/'
+license=('GPL' 'LGPL' 'custom')
+pkgdesc='Documentation for the Free Pascal Compiler'
+options=('!strip')
+makedepends=('subversion'
+  'texlive-core' 'texlive-htmlxml'
+  'texlive-latexextra' 'ghostscript' 'fpc-src-svn')
+source=('fpcdocs::svn+http://svn.freepascal.org/svn/fpcdocs/trunk#revision='"${_revision}")
+sha512sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}"/fpcdocs
+  _src_ver=$(pacman -Q fpc-src-svn)
+  _src_ver="${_src_ver##* }"
+  _src_ver="${_src_ver%.r*}"
+  printf '%s.r%s' \
+    "${_src_ver}" \
+    $(svnversion | tr -d [A-z])
+}
+
+build() {
+  cd "${srcdir}"/fpcdocs
+  cp -r /usr/lib/fpc/src ../fpcsrc
+  make -j1 FPCSRCDIR="${srcdir}"/fpcsrc html
+}
+
+package() {
+  cd "${srcdir}"/fpcdocs
+  make PREFIX="${pkgdir}"/usr htmlinstall
+}
