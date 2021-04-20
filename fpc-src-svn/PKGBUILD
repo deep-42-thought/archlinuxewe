@@ -1,0 +1,47 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: L <alaviss 0 at gmail dot com>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Valeriy Lyasotskiy <onestep@ukr.net>
+# Contributor: Jan Willemson <janwil@hot.ee>
+# Contributor: Hugo Ideler <hugoideler@dse.nl>
+# Contributor: BlackIkeEagle <ike DOT devolder AT gmail DOT com>
+# Original PKGBUILD: Andre Naumann <anaumann@SPARCed.org>
+# See http://bbs.archlinux.org/viewtopic.php?t=9318&highlight=fpc
+
+pkgname='fpc-src-svn'
+pkgver=3.3.1.r49238
+_pkgver="${pkgver%.r*}"
+_revision="${pkgver##*.r}"
+pkgrel=1
+arch=('any')
+url='http://www.freepascal.org/'
+license=('GPL' 'LGPL' 'custom')
+depends=()
+pkgdesc='Sources for the Free Pascal Compiler (required by the Lazarus IDE)'
+options=('!strip')
+conflicts=('fpc-src')
+provides=("fpc-src=${pkgver}")
+
+source=('38680_refined_htypechk.pas-2.patch'
+'fpcsrc::svn+http://svn.freepascal.org/svn/fpc/trunk#revision='"${_revision}")
+sha512sums=('583e26eca23d4fde9b6dc163c8e97cd5f271ca98e38560e0da0b79d30652a876f5c66e4b7c2ea32b429f34855b1cdc48987f4fd7bb7cf63eeafcbb6a08ee9693'
+            'SKIP')
+
+pkgver() {
+  cd "${srcdir}"/fpcsrc
+  printf '%s.r%s' \
+    $(grep -m 1 'version' Makefile.fpc | cut -d '=' -f 2) \
+    $(svnversion | tr -d [A-z])
+}
+
+prepare() {
+  cd "${srcdir}"/fpcsrc
+  patch -p0 -i "${srcdir}/38680_refined_htypechk.pas-2.patch"
+}
+
+package() {
+
+  install -dm755 "${pkgdir}"/usr/lib/fpc/src
+
+  mv "${srcdir}"/fpcsrc/* "${pkgdir}"/usr/lib/fpc/src/
+}
