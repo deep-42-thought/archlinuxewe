@@ -17,7 +17,7 @@ pkgname=('fpc-svn' 'fpc-src-svn')
 pkgver=3.3.1.r49233
 _pkgver="${pkgver%.r*}"
 _revision="${pkgver##*.r}"
-pkgrel=1
+pkgrel=2
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 url='http://www.freepascal.org/'
 license=('GPL' 'LGPL' 'custom')
@@ -26,14 +26,21 @@ depends=('bash' 'ncurses' 'zlib' 'expat')
 makedepends=('fpc' 'subversion')
 [[ $_build_docs -ne 0 ]] && makedepends+=('texlive-core' 'texlive-htmlxml'
                                           'texlive-latexextra' 'ghostscript')
-source=('fpcbuild::svn+http://svn.freepascal.org/svn/fpcbuild/trunk#revision='"${_revision}")
-sha512sums=('SKIP')
+source=('38680_refined_htypechk.pas-2.patch'
+'fpcbuild::svn+http://svn.freepascal.org/svn/fpcbuild/trunk#revision='"${_revision}")
+sha512sums=('583e26eca23d4fde9b6dc163c8e97cd5f271ca98e38560e0da0b79d30652a876f5c66e4b7c2ea32b429f34855b1cdc48987f4fd7bb7cf63eeafcbb6a08ee9693'
+            'SKIP')
 
 pkgver() {
   cd "${srcdir}"/fpcbuild/fpcsrc
   printf '%s.r%s' \
     $(grep -m 1 'version' Makefile.fpc | cut -d '=' -f 2) \
     $(svnversion | tr -d [A-z])
+}
+
+prepare() {
+  cd "${srcdir}"/fpcbuild/fpcsrc
+  patch -p0 -i "${srcdir}/38680_refined_htypechk.pas-2.patch"
 }
 
 build() {
