@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=python-pymca
 _pkgname="${pkgname#*-}"
-pkgver=5.6.3
-pkgrel=2
+pkgver=5.6.5
+pkgrel=1
 pkgdesc='Stand-alone application and Python tools for interactive and/or batch processing analysis of X-Ray Fluorescence Spectra'
 arch=('i686' 'pentium4' 'x86_64')
 url='http://pymca.sourceforge.net/index.html'
@@ -10,20 +10,26 @@ license=('MIT License')
 _pinned_dependencies=(
   'glibc>=2.31'
 )
-makedepends=(
-  'python-numpy'
-  'python-setuptools')
 depends=(
-  'python>=3.9'
   'python<3.10'
-  'python-numpy')
+  'python>=3.9'
+  'python-fisx>=1.1.5'
+  'python-h5py'
+  'python-matplotlib>1.0'
+  'python-numpy>=1.8'
+#  'python-pyopengl'
+#  'python-pyqt4'
+  'python-pyqt5'
+  'python-qtconsole')
+makedepends=(
+  'python-setuptools')
 optdepends=(
   'python-pyqt5: gui'
   'python-matplotlib: gui')
 source=(
     "${_pkgname}-v${pkgver}.tar.gz::https://github.com/vasole/${_pkgname}/archive/v${pkgver}.tar.gz"
 )
-sha512sums=('01cf64518601f63ad8f3f4a519058ebfc8c1dc70865c7a0a874451ef89583b239446656e3e8419836379e02ec7661e05af31f851797cf694dac4183b65ec6636')
+sha512sums=('632552a3d7781a96f30e0c53a598579cadd06231302b9c13308e0b9883cc74cef5246b88db76d0043cf7dd2b89dcad7940c8cb44478c46d52bf5ac3c6bdc9aa9')
 
 build() {
   cd ${_pkgname}-${pkgver}
