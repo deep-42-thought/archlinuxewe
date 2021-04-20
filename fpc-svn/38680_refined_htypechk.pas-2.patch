@@ -1,0 +1,195 @@
+Index: compiler/htypechk.pas
+===================================================================
+--- compiler/htypechk.pas	(리비전 49131)
++++ compiler/htypechk.pas	(작업 사본)
+@@ -2892,11 +2892,15 @@
+         obj_to   : tobjectdef;
+         def_from,
+         def_to   : tdef;
++        tempn,
+         currpt,
+         pt       : tcallparanode;
++        eqtemp,
+         eq,
+         mineq    : tequaltype;
++        nconvtyp,
+         convtype : tconverttype;
++        npd,
+         pdtemp,
+         pdoper   : tprocdef;
+         releasecurrpt : boolean;
+@@ -3001,7 +3005,10 @@
+                   is_integer(def_to) and
+                   is_in_limit(def_from,def_to) then
+                  begin
+-                   eq:=te_equal;
++                   if torddef(def_from).ordtype=torddef(def_to).ordtype then
++                     eq:=te_exact
++                     else
++                       eq:=te_equal;
+                    hp^.ordinal_distance:=hp^.ordinal_distance+
+                      abs(bestreal(torddef(def_from).low)-bestreal(torddef(def_to).low));
+                    rth:=bestreal(torddef(def_to).high);
+@@ -3023,7 +3030,10 @@
+                   is_real_or_cextended(def_from) and
+                   is_real_or_cextended(def_to) then
+                  begin
+-                   eq:=te_equal;
++                   if tfloatdef(def_from).floattype=tfloatdef(def_to).floattype then
++                     eq:=te_exact
++                     else
++                       eq:=te_equal;
+                    if is_extended(def_to) then
+                      rth:=4
+                    else
+@@ -3130,6 +3140,30 @@
+                       para_allowed(eq,currpt,def_to);
+                   end;
+                end;
++              { to specialize pointer }
++              if (eq<te_exact) and
++                 is_pointer(def_from) and is_pointer(def_to) and
++                 (tstoreddef(tpointerdef(def_to).pointeddef).is_specialization) then
++                 begin
++                   eqtemp:=compare_defs_ext(tpointerdef(def_from).pointeddef,tpointerdef(def_to).pointeddef,nothingn,nconvtyp,npd,[cdo_equal_check]);
++                   if eqtemp<>te_exact then
++                       { void pointer }
++                       if currpt.left.nodetype=addrn then
++                       begin
++                         tempn:=tcallparanode(currpt.left);
++                         while assigned(tempn) do
++                         begin
++                           if tempn.nodetype in [loadn,derefn] then
++                           begin
++                             eqtemp:=compare_defs_ext(tempn.resultdef,tpointerdef(def_to).pointeddef,nothingn,nconvtyp,npd,[cdo_equal_check]);
++                             break;
++                           end;
++                           tempn:=tcallparanode(tempn.left);
++                         end;
++                       end;
++                   if eqtemp=te_exact then
++                     eq:=te_exact;
++                 end;
+ 
+               { univ parameters match if the size matches (don't override the
+                 comparison result if it was ok, since a match based on the
+@@ -3145,7 +3179,6 @@
+                 procvar is choosen. See tb0471 (PFV) }
+               if (pt<>currpt) and (eq=te_exact) then
+                 eq:=te_equal;
+-
+               { increase correct counter }
+               case eq of
+                 te_exact :
+@@ -3291,53 +3324,53 @@
+            res:=(bestpd^.coper_count-currpd^.coper_count);
+            if (res=0) then
+             begin
+-             { less cl6 parameters? }
+-             res:=(bestpd^.cl6_count-currpd^.cl6_count);
+-             if (res=0) then
+-              begin
+-                { less cl5 parameters? }
+-                res:=(bestpd^.cl5_count-currpd^.cl5_count);
+-                if (res=0) then
+-                 begin
+-                  { less cl4 parameters? }
+-                  res:=(bestpd^.cl4_count-currpd^.cl4_count);
++              { more exact parameters? }
++              res:=(currpd^.exact_count-bestpd^.exact_count);
++              if (res=0) then
++               begin
++               { less cl6 parameters? }
++               res:=(bestpd^.cl6_count-currpd^.cl6_count);
++               if (res=0) then
++                begin
++                  { less cl5 parameters? }
++                  res:=(bestpd^.cl5_count-currpd^.cl5_count);
+                   if (res=0) then
+                    begin
+-                    { less cl3 parameters? }
+-                    res:=(bestpd^.cl3_count-currpd^.cl3_count);
++                    { less cl4 parameters? }
++                    res:=(bestpd^.cl4_count-currpd^.cl4_count);
+                     if (res=0) then
+                      begin
+-                       { less cl2 parameters? }
+-                       res:=(bestpd^.cl2_count-currpd^.cl2_count);
+-                       if (res=0) then
+-                        begin
+-                          { less cl1 parameters? }
+-                          res:=(bestpd^.cl1_count-currpd^.cl1_count);
+-                          if (res=0) then
+-                           begin
+-                             { more exact parameters? }
+-                             res:=(currpd^.exact_count-bestpd^.exact_count);
+-                             if (res=0) then
+-                              begin
+-                                { less equal parameters? }
+-                                res:=(bestpd^.equal_count-currpd^.equal_count);
+-                                if (res=0) then
+-                                 begin
+-                                   { smaller ordinal distance? }
+-                                   if (currpd^.ordinal_distance<bestpd^.ordinal_distance) then
+-                                    res:=1
+-                                   else
+-                                    if (currpd^.ordinal_distance>bestpd^.ordinal_distance) then
+-                                     res:=-1
+-                                   else
+-                                    res:=0;
+-                                 end;
+-                              end;
+-                           end;
+-                        end;
++                      { less cl3 parameters? }
++                      res:=(bestpd^.cl3_count-currpd^.cl3_count);
++                      if (res=0) then
++                       begin
++                         { less cl2 parameters? }
++                         res:=(bestpd^.cl2_count-currpd^.cl2_count);
++                         if (res=0) then
++                          begin
++                            { less cl1 parameters? }
++                            res:=(bestpd^.cl1_count-currpd^.cl1_count);
++                            if (res=0) then
++                             begin
++                              { less equal parameters? }
++                              res:=(bestpd^.equal_count-currpd^.equal_count);
++                              if (res=0) then
++                               begin
++                                 { smaller ordinal distance? }
++                                 if (currpd^.ordinal_distance<bestpd^.ordinal_distance) then
++                                  res:=1
++                                 else
++                                  if (currpd^.ordinal_distance>bestpd^.ordinal_distance) then
++                                   res:=-1
++                                 else
++                                  res:=0;
++                               end;
++                             end;
++                          end;
++                       end;
+                      end;
+                    end;
+-                 end;
++                end;
+               end;
+             end;
+          end;
+@@ -3608,7 +3641,7 @@
+           cpoptions:=cpoptions+[cpo_rtlproc];
+ 
+         compare_by_old_sortout_check := 0; // can't decide, bestpd probably wasn't sorted out in unpatched
+-        if (compare_paras(pd^.data.paras,bestpd^.data.paras,cp_value_equal_const,cpoptions)>=te_equal) and
++        if (compare_paras(pd^.data.paras,bestpd^.data.paras,cp_value_equal_const,cpoptions)>te_equal) and
+           (not(po_objc in bestpd^.data.procoptions) or (bestpd^.data.messageinf.str^=pd^.data.messageinf.str^)) then
+           compare_by_old_sortout_check := 1; // bestpd was sorted out before patch
+      end;
+@@ -3643,7 +3676,6 @@
+         end;
+       end;
+ 
+-
+     function tcallcandidates.choose_best(var bestpd:tabstractprocdef; singlevariant: boolean):integer;
+       var
+         pd: tprocdef;
