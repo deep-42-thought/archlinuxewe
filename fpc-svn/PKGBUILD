@@ -8,55 +8,44 @@
 # Original PKGBUILD: Andre Naumann <anaumann@SPARCed.org>
 # See http://bbs.archlinux.org/viewtopic.php?t=9318&highlight=fpc
 
-# Build docs
-_build_docs=1
-
-pkgbase='fpc-svn'
-pkgname=('fpc-svn' 'fpc-src-svn')
-[[ $_build_docs -ne 0 ]] && pkgname+=('fpc-docs-svn')
-pkgver=3.3.1.r49233
+pkgname='fpc-svn'
+pkgver=3.3.1.r49238
 _pkgver="${pkgver%.r*}"
 _revision="${pkgver##*.r}"
-pkgrel=2
+pkgrel=1
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 url='http://www.freepascal.org/'
 license=('GPL' 'LGPL' 'custom')
 depends=('bash' 'ncurses' 'zlib' 'expat')
 # Trunk can only be built with stable version of FPC
-makedepends=('fpc' 'subversion')
-[[ $_build_docs -ne 0 ]] && makedepends+=('texlive-core' 'texlive-htmlxml'
-                                          'texlive-latexextra' 'ghostscript')
-source=('38680_refined_htypechk.pas-2.patch'
-'fpcbuild::svn+http://svn.freepascal.org/svn/fpcbuild/trunk#revision='"${_revision}")
-sha512sums=('583e26eca23d4fde9b6dc163c8e97cd5f271ca98e38560e0da0b79d30652a876f5c66e4b7c2ea32b429f34855b1cdc48987f4fd7bb7cf63eeafcbb6a08ee9693'
-            'SKIP')
+makedepends=('fpc' 'subversion' 'fpc-src-svn')
+source=()
+sha512sums=()
 
 pkgver() {
-  cd "${srcdir}"/fpcbuild/fpcsrc
-  printf '%s.r%s' \
-    $(grep -m 1 'version' Makefile.fpc | cut -d '=' -f 2) \
-    $(svnversion | tr -d [A-z])
+  pacman -Q fpc-src-svn \
+  | sed '
+    s@^.* @@
+    s@-.*$@@
+  '
 }
 
 prepare() {
-  cd "${srcdir}"/fpcbuild/fpcsrc
-  patch -p0 -i "${srcdir}/38680_refined_htypechk.pas-2.patch"
+  cd "${srcdir}"
+  mkdir -p "fpcbuild/.makepkg"
+  svn checkout -r HEAD --ignore-externals --config-dir "fpcbuild/.makepkg" "http://svn.freepascal.org/svn/fpcbuild/trunk" "fpcbuild"
 }
 
 build() {
   cd "${srcdir}"/fpcbuild
+  cp -r /usr/lib/fpc/src fpcsrc
   pushd fpcsrc/compiler
   fpcmake -Tall
   popd
   make NOGDB=1 OPT=' -dRelease' build
-
-  if [[ $_build_docs -ne 0 ]]; then
-    cd fpcdocs
-    make -j1 FPCSRCDIR="${srcdir}"/fpcbuild/fpcsrc html
-  fi
 }
 
-package_fpc-svn() {
+package() {
   pkgdesc="The Free Pascal Compiler is a Turbo Pascal 7.0 and Delphi compatible \
     Pascal Compiler. It comes with fully TP 7.0 compatible run-time library."
   backup=('etc/fpc.cfg')
@@ -106,24 +95,4 @@ package_fpc-svn() {
   mv "${pkgdir}"/usr/man "${pkgdir}"/usr/share/
 
   find "${pkgdir}"/etc -type f -exec sed -i "s|${pkgdir}||g" {} \;
-}
-
-package_fpc-src-svn() {
-  pkgdesc='Sources for the Free Pascal Compiler (required by the Lazarus IDE)'
-  options=('!strip')
-  conflicts=('fpc-src')
-  provides=("fpc-src=${pkgver}")
-
-  install -dm755 "${pkgdir}"/usr/lib/fpc
-
-  svn export -r HEAD "${srcdir}"/fpcbuild/fpcsrc "${pkgdir}"/usr/lib/fpc/src
-}
-
-package_fpc-docs-svn() {
-  pkgdesc='Documentation for the Free Pascal Compiler'
-  options=('!strip')
-  arch=('any')
-
-  cd "${srcdir}"/fpcbuild/fpcdocs
-  make PREFIX="${pkgdir}"/usr htmlinstall
 }
