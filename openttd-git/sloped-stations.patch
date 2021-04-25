@@ -1,5 +1,5 @@
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index a5e985c022..f2dadb12d1 100644
+index 888b98e94..f7fece1d2 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -187,14 +187,6 @@ RailType AllocateRailType(RailTypeLabel label)
@@ -18,7 +18,7 @@ index a5e985c022..f2dadb12d1 100644
   *     ---------
   *    |\       /|
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index 830f9dd4fc..44a6c60202 100644
+index 830f9dd4f..44a6c6020 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -37,6 +37,7 @@
@@ -62,7 +62,7 @@ index 830f9dd4fc..44a6c60202 100644
   * Get the sprite offset within a spritegroup.
   * @param slope Slope
 diff --git a/src/road_cmd.h b/src/road_cmd.h
-index 753ebd21d4..87dee9722f 100644
+index 753ebd21d..87dee9722 100644
 --- a/src/road_cmd.h
 +++ b/src/road_cmd.h
 @@ -12,8 +12,11 @@
@@ -78,7 +78,7 @@ index 753ebd21d4..87dee9722f 100644
 +
  #endif /* ROAD_CMD_H */
 diff --git a/src/road_type.h b/src/road_type.h
-index 969b141ba2..1af4275eb9 100644
+index 969b141ba..1af4275eb 100644
 --- a/src/road_type.h
 +++ b/src/road_type.h
 @@ -68,4 +68,11 @@ enum RoadBits {
@@ -94,7 +94,7 @@ index 969b141ba2..1af4275eb9 100644
 +
  #endif /* ROAD_TYPE_H */
 diff --git a/src/roadveh_cmd.cpp b/src/roadveh_cmd.cpp
-index 1a4e4e0852..38e2bd925f 100644
+index 1a4e4e085..38e2bd925 100644
 --- a/src/roadveh_cmd.cpp
 +++ b/src/roadveh_cmd.cpp
 @@ -1505,7 +1505,7 @@ again:
@@ -107,7 +107,7 @@ index 1a4e4e0852..38e2bd925f 100644
  				}
  			}
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index 7266ad6187..b2e807fbaf 100644
+index 7266ad618..b2e807fba 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -56,6 +56,7 @@
@@ -311,10 +311,10 @@ index 7266ad6187..b2e807fbaf 100644
  }
  
 diff --git a/src/table/sprites.h b/src/table/sprites.h
-index 9071e61dc6..560f58c4c7 100644
+index b7bb91020..732a2dae7 100644
 --- a/src/table/sprites.h
 +++ b/src/table/sprites.h
-@@ -260,7 +260,26 @@ static const SpriteID SPR_TRUCK_STOP_DT_Y_W = SPR_ROADSTOP_BASE + 4;
+@@ -266,7 +266,26 @@ static const SpriteID SPR_TRUCK_STOP_DT_Y_W = SPR_ROADSTOP_BASE + 4;
  static const SpriteID SPR_TRUCK_STOP_DT_Y_E = SPR_ROADSTOP_BASE + 5;
  static const SpriteID SPR_TRUCK_STOP_DT_X_W = SPR_ROADSTOP_BASE + 6;
  static const SpriteID SPR_TRUCK_STOP_DT_X_E = SPR_ROADSTOP_BASE + 7;
@@ -343,7 +343,7 @@ index 9071e61dc6..560f58c4c7 100644
  /** Tramway sprites */
  static const SpriteID SPR_TRAMWAY_BASE                 = SPR_ROADSTOP_BASE + ROADSTOP_SPRITE_COUNT;
 diff --git a/src/table/station_land.h b/src/table/station_land.h
-index 8429914f32..e2f8ef411c 100644
+index 8429914f3..e2f8ef411 100644
 --- a/src/table/station_land.h
 +++ b/src/table/station_land.h
 @@ -775,6 +775,62 @@ static const DrawTileSeqStruct _station_display_datas_waypoint_Y[] = {
@@ -432,7 +432,7 @@ index 8429914f32..e2f8ef411c 100644
  
  static const DrawTileSprites _station_display_datas_oilrig[] = {
 diff --git a/src/track_type.h b/src/track_type.h
-index 70278c58d9..0c64b99780 100644
+index 70278c58d..0c64b9978 100644
 --- a/src/track_type.h
 +++ b/src/track_type.h
 @@ -120,4 +120,11 @@ DECLARE_ENUM_AS_BIT_SET(TrackdirBits)
