@@ -23,7 +23,17 @@ source=()
 sha512sums=()
 
 pkgver() {
-  pacman -Q fpc-src-svn \
+  {
+    pacman -Q fpc-src-svn 2>/dev/null \
+    || {
+      pacman -Ss fpc-src-svn \
+      | sed '
+        s@^\S\+/\(fpc-src-svn\s\+\)@\1@
+        t
+        d
+      '
+    }
+  } \
   | sed '
     s@^.* @@
     s@-.*$@@

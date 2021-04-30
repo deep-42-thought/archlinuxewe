@@ -26,7 +26,15 @@ sha512sums=('SKIP')
 
 pkgver() {
   cd "${srcdir}"/fpcdocs
-  _src_ver=$(pacman -Q fpc-src-svn)
+  _src_ver=$(pacman -Q fpc-src-svn 2>/dev/null) \
+  || _src_ver=$(
+    pacman -Ss fpc-src-svn \
+    | sed '
+      s@^\S\+/\(fpc-src-svn\s\+\)@\1@
+      t
+      d
+    '
+  )
   _src_ver="${_src_ver##* }"
   _src_ver="${_src_ver%.r*}"
   printf '%s.r%s' \
