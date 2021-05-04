@@ -1191,7 +1191,11 @@ then
 
   if [ -z "${source[*]}${source_i686[*]}${source_x86_64[*]}" ]; then
     srcKnown=true
-    remVer="${pkgver}"
+    if declare -f pkgver >/dev/null; then
+      remVer=$(pkgver)
+    else
+      remVer="${pkgver}"
+    fi
   fi
 
   if ! ${srcKnown}
