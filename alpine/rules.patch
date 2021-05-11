@@ -1,8 +1,8 @@
 diff --git a/alpine/adrbkcmd.c b/alpine/adrbkcmd.c
-index 66b1191..23d25a3 100644
+index 94d9077..5c8a02a 100644
 --- a/alpine/adrbkcmd.c
 +++ b/alpine/adrbkcmd.c
-@@ -4128,6 +4128,8 @@ ab_compose_internal(BuildTo bldto, int allow_role)
+@@ -4129,6 +4129,8 @@ ab_compose_internal(BuildTo bldto, int allow_role)
  	 * won't do anything, but will cause compose_mail to think there's
  	 * already a role so that it won't try to confirm the default.
  	 */
@@ -11,7 +11,7 @@ index 66b1191..23d25a3 100644
  	if(role)
  	  role = copy_action(role);
  	else{
-@@ -4135,6 +4137,7 @@ ab_compose_internal(BuildTo bldto, int allow_role)
+@@ -4136,6 +4138,7 @@ ab_compose_internal(BuildTo bldto, int allow_role)
  	    memset((void *)role, 0, sizeof(*role));
  	    role->nick = cpystr("Default Role");
  	}
@@ -20,10 +20,10 @@ index 66b1191..23d25a3 100644
  
      compose_mail(addr, fcc, role, NULL, NULL);
 diff --git a/alpine/alpine.c b/alpine/alpine.c
-index e0c1f40..99a8a23 100644
+index cb75260..b707692 100644
 --- a/alpine/alpine.c
 +++ b/alpine/alpine.c
-@@ -497,6 +497,7 @@ main(int argc, char **argv)
+@@ -506,6 +506,7 @@ main(int argc, char **argv)
      /* Set up optional for user-defined display filtering */
      pine_state->tools.display_filter	     = dfilter;
      pine_state->tools.display_filter_trigger = dfilter_trigger;
@@ -31,7 +31,7 @@ index e0c1f40..99a8a23 100644
  
  #ifdef _WINDOWS
      if(ps_global->install_flag){
-@@ -3245,6 +3246,9 @@ goodnight_gracey(struct pine *pine_state, int exit_val)
+@@ -3273,6 +3274,9 @@ goodnight_gracey(struct pine *pine_state, int exit_val)
      extern KBESC_T *kbesc;
  
      dprint((2, "goodnight_gracey:\n"));    
@@ -42,10 +42,10 @@ index e0c1f40..99a8a23 100644
      /* We want to do this here before we close up the streams */
      trim_remote_adrbks();
 diff --git a/alpine/confscroll.c b/alpine/confscroll.c
-index 2fe034b..2b69445 100644
+index 50f578f..4c0e47e 100644
 --- a/alpine/confscroll.c
 +++ b/alpine/confscroll.c
-@@ -51,6 +51,7 @@ static char rcsid[] = "$Id: confscroll.c 1169 2008-08-27 06:42:06Z hubert@u.wash
+@@ -52,6 +52,7 @@ static char rcsid[] = "$Id: confscroll.c 1169 2008-08-27 06:42:06Z hubert@u.wash
  #include "../pith/tempfile.h"
  #include "../pith/pattern.h"
  #include "../pith/charconv/utf8.h"
@@ -53,7 +53,7 @@ index 2fe034b..2b69445 100644
  
  
  #define	CONFIG_SCREEN_HELP_TITLE	_("HELP FOR SETUP CONFIGURATION")
-@@ -2442,6 +2443,9 @@ delete:
+@@ -2462,6 +2463,9 @@ delete:
  	 * Now go and set the current_val based on user_val changes
  	 * above.  Turn off command line settings...
  	 */
@@ -63,7 +63,7 @@ index 2fe034b..2b69445 100644
  	set_current_val((*cl)->var, TRUE, FALSE);
  	fix_side_effects(ps, (*cl)->var, 0);
  
-@@ -5206,6 +5210,30 @@ fix_side_effects(struct pine *ps, struct variable *var, int revert)
+@@ -5226,6 +5230,30 @@ fix_side_effects(struct pine *ps, struct variable *var, int revert)
  	    var == &ps->vars[V_ABOOK_FORMATS]){
  	addrbook_reset();
      }
@@ -95,7 +95,7 @@ index 2fe034b..2b69445 100644
  	reset_index_format();
  	clear_index_cache(ps->mail_stream, 0);
 diff --git a/alpine/dispfilt.c b/alpine/dispfilt.c
-index 16ade44..41927ae 100644
+index ec20825..acf5fbe 100644
 --- a/alpine/dispfilt.c
 +++ b/alpine/dispfilt.c
 @@ -461,3 +461,63 @@ df_valid_test(struct mail_bodystruct *body, char *test)
@@ -163,7 +163,7 @@ index 16ade44..41927ae 100644
 +    return(status);
 +}
 diff --git a/alpine/dispfilt.h b/alpine/dispfilt.h
-index c61a7a8..833ff6f 100644
+index b8f37b8..9d7908b 100644
 --- a/alpine/dispfilt.h
 +++ b/alpine/dispfilt.h
 @@ -25,7 +25,7 @@ char	*dfilter_trigger(BODY *, char *, size_t);
@@ -176,7 +176,7 @@ index c61a7a8..833ff6f 100644
  
  #endif /* PINE_DISPFILT_INCLUDED */
 diff --git a/alpine/folder.c b/alpine/folder.c
-index c48536f..46803f5 100644
+index c39b80a..c82d0ee 100644
 --- a/alpine/folder.c
 +++ b/alpine/folder.c
 @@ -248,7 +248,7 @@ folder_screen(struct pine *ps)
@@ -197,7 +197,7 @@ index c48536f..46803f5 100644
  
  
 diff --git a/alpine/mailcmd.c b/alpine/mailcmd.c
-index 204c314..943f074 100644
+index 6285e6e..6fe9019 100644
 --- a/alpine/mailcmd.c
 +++ b/alpine/mailcmd.c
 @@ -73,6 +73,7 @@ static char rcsid[] = "$Id: mailcmd.c 1266 2009-07-14 18:39:12Z hubert@u.washing
@@ -208,7 +208,7 @@ index 204c314..943f074 100644
  #ifdef _WINDOWS
  #include "../pico/osdep/mswin.h"
  #endif
-@@ -2708,6 +2709,9 @@ role_compose(struct pine *state)
+@@ -2710,6 +2711,9 @@ role_compose(struct pine *state)
  		role->nick = cpystr("Default Role");
  	    }
  
@@ -218,13 +218,13 @@ index 204c314..943f074 100644
  	    state->redrawer = NULL;
  	    switch(action){
  	      case 'c':
-@@ -2758,12 +2762,12 @@ save_prompt(struct pine *state, CONTEXT_S **cntxt, char *nfldr, size_t len_nfldr
+@@ -2760,12 +2764,12 @@ save_prompt(struct pine *state, CONTEXT_S **cntxt, char *nfldr, size_t len_nfldr
  	    char *nmsgs, ENVELOPE *env, long int rawmsgno, char *section,
  	    SaveDel *dela, SavePreserveOrder *prea)
  {
 -    int		      rc, ku = -1, n, flags, last_rc = 0, saveable_count = 0, done = 0;
 +    int		      rc, ku = -1, n = 0, flags, last_rc = 0, saveable_count = 0, done = 0;
-     int		      delindex, preindex, r;
+     int		      delindex = 0, preindex = 0, r;
      char	      prompt[6*MAX_SCREEN_COLS+1], *p, expanded[MAILTMPLEN];
      char              *buf = tmp_20k_buf;
      char              shortbuf[200];
@@ -233,7 +233,7 @@ index 204c314..943f074 100644
      HelpType	      help;
      SaveDel           del = DontAsk;
      SavePreserveOrder pre = DontAskPreserve;
-@@ -2771,6 +2775,7 @@ save_prompt(struct pine *state, CONTEXT_S **cntxt, char *nfldr, size_t len_nfldr
+@@ -2773,6 +2777,7 @@ save_prompt(struct pine *state, CONTEXT_S **cntxt, char *nfldr, size_t len_nfldr
      static HISTORY_S *history = NULL;
      CONTEXT_S	     *tc;
      ESCKEY_S	      ekey[10];
@@ -241,7 +241,7 @@ index 204c314..943f074 100644
  
      if(!cntxt)
        alpine_panic("no context ptr in save_prompt");
-@@ -2780,6 +2785,15 @@ save_prompt(struct pine *state, CONTEXT_S **cntxt, char *nfldr, size_t len_nfldr
+@@ -2782,6 +2787,15 @@ save_prompt(struct pine *state, CONTEXT_S **cntxt, char *nfldr, size_t len_nfldr
      if(!(folder = save_get_default(state, env, rawmsgno, section, cntxt)))
        return(0);		/* message expunged! */
  
@@ -258,7 +258,7 @@ index 204c314..943f074 100644
      for(tc = state->context_list; tc; tc = tc->next)
        if(!NEWS_TEST(tc))
 diff --git a/alpine/mailindx.c b/alpine/mailindx.c
-index c5862c6..0e83c90 100644
+index 1dbb1b4..e9bdd5f 100644
 --- a/alpine/mailindx.c
 +++ b/alpine/mailindx.c
 @@ -229,6 +229,8 @@ mail_index_screen(struct pine *state)
@@ -286,7 +286,7 @@ index c5862c6..0e83c90 100644
  
  
 diff --git a/alpine/mailview.c b/alpine/mailview.c
-index c151a1e..45d90e9 100644
+index 11ca4af..0e19490 100644
 --- a/alpine/mailview.c
 +++ b/alpine/mailview.c
 @@ -244,6 +244,8 @@ mail_view_screen(struct pine *ps)
@@ -308,7 +308,7 @@ index c151a1e..45d90e9 100644
        cancel_busy_cue(-1);
  
 diff --git a/alpine/osdep/termin.gen.c b/alpine/osdep/termin.gen.c
-index dfea78f..9af7674 100644
+index b8d01b1..033ce9a 100644
 --- a/alpine/osdep/termin.gen.c
 +++ b/alpine/osdep/termin.gen.c
 @@ -33,6 +33,8 @@ static char rcsid[] = "$Id: termin.gen.c 1025 2008-04-08 22:59:38Z hubert@u.wash
@@ -372,7 +372,7 @@ index dfea78f..9af7674 100644
      if(ucs != NO_OP_COMMAND && ucs != NO_OP_IDLE && ucs != KEY_RESIZE)
        zero_new_mail_count();
  
-@@ -1158,6 +1196,7 @@ process_config_input(UCS *ch)
+@@ -1160,6 +1198,7 @@ process_config_input(UCS *ch)
  	if(ps_global->initial_cmds && !*ps_global->initial_cmds && ps_global->free_initial_cmds){
  	    fs_give((void **) &ps_global->free_initial_cmds);
  	    ps_global->initial_cmds = NULL;
@@ -381,7 +381,7 @@ index dfea78f..9af7674 100644
  
  	return(ret);
 diff --git a/alpine/reply.c b/alpine/reply.c
-index 89c0d9b..0e0a3e2 100644
+index 42f5131..42aab88 100644
 --- a/alpine/reply.c
 +++ b/alpine/reply.c
 @@ -62,7 +62,8 @@ The evolution continues...
@@ -524,7 +524,7 @@ index 89c0d9b..0e0a3e2 100644
      if(fcc)
        fs_give((void **) &fcc);
  
-@@ -1598,9 +1670,14 @@ forward(struct pine *ps, ACTION_S *role_arg)
+@@ -1594,9 +1666,14 @@ forward(struct pine *ps, ACTION_S *role_arg)
  	}
      }
  
@@ -538,9 +538,9 @@ index 89c0d9b..0e0a3e2 100644
 +      ps_global->role = cpystr(role->nick);
 +    }
  
-     if(role && role->template){
- 	char *filtered;
-@@ -1832,6 +1909,7 @@ forward(struct pine *ps, ACTION_S *role_arg)
+     outgoing->message_id  = generate_message_id(role);
+ 
+@@ -1830,6 +1907,7 @@ forward(struct pine *ps, ACTION_S *role_arg)
  #if	defined(DOS) && !defined(_WINDOWS)
      free((void *)reserve);
  #endif
@@ -549,10 +549,10 @@ index 89c0d9b..0e0a3e2 100644
  	      role, NULL, &reply, redraft_pos,
  	      NULL, NULL, 0);
 diff --git a/alpine/roleconf.c b/alpine/roleconf.c
-index a226f47..0d00b79 100644
+index 0ee3ec8..378baa8 100644
 --- a/alpine/roleconf.c
 +++ b/alpine/roleconf.c
-@@ -7706,6 +7706,11 @@ role_text_tool_inick(struct pine *ps, int cmd, CONF_S **cl, unsigned int flags)
+@@ -7707,6 +7707,11 @@ role_text_tool_inick(struct pine *ps, int cmd, CONF_S **cl, unsigned int flags)
  	    if(apval)
  	      *apval = (role && role->nick) ? cpystr(role->nick) : NULL;
  
@@ -565,7 +565,7 @@ index a226f47..0d00b79 100644
  	      fs_give((void **)&((*cl)->value));
  
 diff --git a/alpine/send.c b/alpine/send.c
-index 41dff03..af7d2a1 100644
+index 6209d64..eadc963 100644
 --- a/alpine/send.c
 +++ b/alpine/send.c
 @@ -63,7 +63,7 @@ static char rcsid[] = "$Id: send.c 1142 2008-08-13 17:22:21Z hubert@u.washington
@@ -577,7 +577,7 @@ index 41dff03..af7d2a1 100644
  
  typedef struct body_particulars {
      unsigned short     type, encoding, had_csp;
-@@ -240,6 +240,11 @@ alt_compose_screen(struct pine *pine_state)
+@@ -236,6 +236,11 @@ alt_compose_screen(struct pine *pine_state)
  	role->nick = cpystr("Default Role");
      }
  
@@ -589,7 +589,7 @@ index 41dff03..af7d2a1 100644
      pine_state->redrawer = NULL;
      compose_mail(NULL, NULL, role, NULL, NULL);
      free_action(&role);
-@@ -449,8 +454,12 @@ compose_mail(char *given_to, char *fcc_arg, ACTION_S *role_arg,
+@@ -445,8 +450,12 @@ compose_mail(char *given_to, char *fcc_arg, ACTION_S *role_arg,
  
  	      ps_global->next_screen = prev_screen;
  	      ps_global->redrawer = redraw;
@@ -603,7 +603,7 @@ index 41dff03..af7d2a1 100644
  	    }
  	    break;
  	  
-@@ -645,9 +654,14 @@ compose_mail(char *given_to, char *fcc_arg, ACTION_S *role_arg,
+@@ -639,9 +648,14 @@ compose_mail(char *given_to, char *fcc_arg, ACTION_S *role_arg,
  	    }
  	}
  
@@ -617,9 +617,9 @@ index 41dff03..af7d2a1 100644
 +	  ps_global->role = cpystr(role->nick);
 +	}
  
+         outgoing->message_id = generate_message_id(role);
  	/*
- 	 * The type of storage object allocated below is vitally
-@@ -2477,6 +2491,26 @@ pine_send(ENVELOPE *outgoing, struct mail_bodystruct **body,
+@@ -2481,6 +2495,26 @@ pine_send(ENVELOPE *outgoing, struct mail_bodystruct **body,
  		    removing_trailing_white_space(pf->textbuf);
  		    (void)removing_double_quotes(pf->textbuf);
  		    build_address(pf->textbuf, &addr, NULL, NULL, NULL);
@@ -647,7 +647,7 @@ index 41dff03..af7d2a1 100644
  					 ps_global->maildomain);
  		    fs_give((void **)&addr);
 diff --git a/pith/Makefile.am b/pith/Makefile.am
-index 09d8f99..de2ea57 100644
+index 748b9ec..ccbc3ed 100644
 --- a/pith/Makefile.am
 +++ b/pith/Makefile.am
 @@ -26,7 +26,7 @@ libpith_a_SOURCES = ablookup.c abdlc.c addrbook.c addrstring.c adrbklib.c bldadd
@@ -660,10 +660,10 @@ index 09d8f99..de2ea57 100644
  	thread.c adjtime.c url.c util.c helptext.c smkeys.c smime.c
  
 diff --git a/pith/Makefile.in b/pith/Makefile.in
-index 64b9a46..ea51bc9 100644
+index ee87d63..8952f4d 100644
 --- a/pith/Makefile.in
 +++ b/pith/Makefile.in
-@@ -134,7 +134,7 @@ am_libpith_a_OBJECTS = ablookup.$(OBJEXT) abdlc.$(OBJEXT) \
+@@ -142,7 +142,7 @@ am_libpith_a_OBJECTS = ablookup.$(OBJEXT) abdlc.$(OBJEXT) \
  	mimedesc.$(OBJEXT) mimetype.$(OBJEXT) msgno.$(OBJEXT) \
  	newmail.$(OBJEXT) news.$(OBJEXT) pattern.$(OBJEXT) \
  	pipe.$(OBJEXT) readfile.$(OBJEXT) remote.$(OBJEXT) \
@@ -672,7 +672,7 @@ index 64b9a46..ea51bc9 100644
  	search.$(OBJEXT) sequence.$(OBJEXT) send.$(OBJEXT) \
  	sort.$(OBJEXT) state.$(OBJEXT) status.$(OBJEXT) \
  	store.$(OBJEXT) stream.$(OBJEXT) string.$(OBJEXT) \
-@@ -437,7 +437,7 @@ libpith_a_SOURCES = ablookup.c abdlc.c addrbook.c addrstring.c adrbklib.c bldadd
+@@ -441,7 +441,7 @@ libpith_a_SOURCES = ablookup.c abdlc.c addrbook.c addrstring.c adrbklib.c bldadd
  	filter.c flag.c folder.c handle.c help.c helpindx.c hist.c icache.c ical.c imap.c init.c \
  	keyword.c ldap.c list.c mailcap.c mailcmd.c mailindx.c maillist.c mailview.c \
  	margin.c mimedesc.c mimetype.c msgno.c newmail.c news.c pattern.c pipe.c \
@@ -681,7 +681,7 @@ index 64b9a46..ea51bc9 100644
  	state.c status.c store.c stream.c string.c strlst.c takeaddr.c tempfile.c text.c \
  	thread.c adjtime.c url.c util.c helptext.c smkeys.c smime.c
  
-@@ -580,6 +580,7 @@ distclean-compile:
+@@ -575,6 +575,7 @@ distclean-compile:
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thread.Po@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/url.Po@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
@@ -690,7 +690,7 @@ index 64b9a46..ea51bc9 100644
  .c.o:
  @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
 diff --git a/pith/adrbklib.c b/pith/adrbklib.c
-index fe054d9..09e093c 100644
+index c743ae8..8c39247 100644
 --- a/pith/adrbklib.c
 +++ b/pith/adrbklib.c
 @@ -5138,8 +5138,14 @@ init_addrbooks(OpenStatus want_status, int reset_to_top, int open_if_only_one, i
@@ -711,7 +711,7 @@ index fe054d9..09e093c 100644
  	    if(pab->type & GLOBAL && pab->access != NoAccess)
  	      pab->access = ReadOnly;
 diff --git a/pith/conf.c b/pith/conf.c
-index cea59de..59e6744 100644
+index 8de5427..69708ac 100644
 --- a/pith/conf.c
 +++ b/pith/conf.c
 @@ -29,6 +29,7 @@ static char rcsid[] = "$Id: conf.c 1266 2009-07-14 18:39:12Z hubert@u.washington
@@ -759,7 +759,7 @@ index cea59de..59e6744 100644
  CONF_TXT_T cf_text_speller[] =		"Specifies the program invoked by ^T in the Composer.";
  
  #ifdef _WINDOWS
-@@ -555,6 +586,34 @@ static struct variable variables[] = {
+@@ -567,6 +598,34 @@ static struct variable variables[] = {
  	NULL,			cf_text_thread_exp_char},
  {"threading-lastreply-character",	0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0,
  	"Threading Last Reply Character",	cf_text_thread_lastreply_char},
@@ -794,7 +794,7 @@ index cea59de..59e6744 100644
  #ifndef	_WINDOWS
  {"display-character-set",		0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0,
  	NULL,			cf_text_disp_char_set},
-@@ -2653,6 +2712,7 @@ init_vars(struct pine *ps, void (*cmds_f) (struct pine *, char **))
+@@ -2740,6 +2799,7 @@ init_vars(struct pine *ps, void (*cmds_f) (struct pine *, char **))
        if(cmds_f)
          (*cmds_f)(ps, VAR_INIT_CMD_LIST);
  
@@ -802,7 +802,7 @@ index cea59de..59e6744 100644
  #ifdef	_WINDOWS
      mswin_set_quit_confirm (F_OFF(F_QUIT_WO_CONFIRM, ps_global));
  #endif	/* _WINDOWS */
-@@ -3099,6 +3159,8 @@ feature_list(int index)
+@@ -3188,6 +3248,8 @@ feature_list(int index)
  	 F_FORCE_LOW_SPEED, h_config_force_low_speed, PREF_OS_LWSD, 0},
  	{"auto-move-read-msgs", "Auto Move Read Messages",
  	 F_AUTO_READ_MSGS, h_config_auto_read_msgs, PREF_MISC, 0},
@@ -811,7 +811,7 @@ index cea59de..59e6744 100644
  	{"auto-unselect-after-apply", NULL,
  	 F_AUTO_UNSELECT, h_config_auto_unselect, PREF_MISC, 0},
  	{"auto-unzoom-after-apply", NULL,
-@@ -7725,6 +7787,34 @@ config_help(int var, int feature)
+@@ -7879,6 +7941,34 @@ config_help(int var, int feature)
  	return(h_config_ab_sort_rule);
        case V_FLD_SORT_RULE :
  	return(h_config_fld_sort_rule);
@@ -847,10 +847,10 @@ index cea59de..59e6744 100644
  	return(h_config_post_char_set);
        case V_UNK_CHAR_SET :
 diff --git a/pith/conf.h b/pith/conf.h
-index a2e5a8a..cf66627 100644
+index 739b015..a4a7fd7 100644
 --- a/pith/conf.h
 +++ b/pith/conf.h
-@@ -148,6 +148,46 @@
+@@ -159,6 +159,46 @@
  #define GLO_AB_SORT_RULE	     vars[V_AB_SORT_RULE].global_val.p
  #define VAR_FLD_SORT_RULE	     vars[V_FLD_SORT_RULE].current_val.p
  #define GLO_FLD_SORT_RULE	     vars[V_FLD_SORT_RULE].global_val.p
@@ -898,7 +898,7 @@ index a2e5a8a..cf66627 100644
  #define VAR_CHAR_SET		     vars[V_CHAR_SET].current_val.p
  #define GLO_CHAR_SET		     vars[V_CHAR_SET].global_val.p
 diff --git a/pith/conftype.h b/pith/conftype.h
-index 42573ce..cff46b3 100644
+index 5f2dd50..96b54e3 100644
 --- a/pith/conftype.h
 +++ b/pith/conftype.h
 @@ -70,6 +70,20 @@ typedef	enum {    V_PERSONAL_NAME = 0
@@ -922,7 +922,7 @@ index 42573ce..cff46b3 100644
  #ifndef	_WINDOWS
  		, V_CHAR_SET
  		, V_OLD_CHAR_SET
-@@ -334,6 +348,7 @@ typedef enum {
+@@ -342,6 +356,7 @@ typedef enum {
  	F_FULL_AUTO_EXPUNGE,
  	F_EXPUNGE_MANUALLY,
  	F_AUTO_READ_MSGS,
@@ -931,7 +931,7 @@ index 42573ce..cff46b3 100644
  	F_READ_IN_NEWSRC_ORDER,
  	F_SELECT_WO_CONFIRM,
 diff --git a/pith/detoken.c b/pith/detoken.c
-index 01f2d51..43687e5 100644
+index cb4fc5f..bc902e3 100644
 --- a/pith/detoken.c
 +++ b/pith/detoken.c
 @@ -25,7 +25,7 @@ static char rcsid[] = "$Id: detoken.c 769 2007-10-24 00:15:40Z hubert@u.washingt
@@ -996,7 +996,7 @@ index 01f2d51..43687e5 100644
  					subbuf, sizeof(subbuf)-1);
  
 diff --git a/pith/indxtype.h b/pith/indxtype.h
-index 33ef5d9..c34ea39 100644
+index cf435b8..3ba65c5 100644
 --- a/pith/indxtype.h
 +++ b/pith/indxtype.h
 @@ -84,6 +84,11 @@ typedef enum {iNothing, iStatus, iFStatus, iIStatus, iSIStatus,
@@ -1048,7 +1048,7 @@ index 33ef5d9..c34ea39 100644
  #define DEFAULT_REPLY_INTRO "default"
  
 diff --git a/pith/mailcmd.c b/pith/mailcmd.c
-index 9a852c9..b1ab110 100644
+index 2c2b07d..185633a 100644
 --- a/pith/mailcmd.c
 +++ b/pith/mailcmd.c
 @@ -39,6 +39,7 @@ static char rcsid[] = "$Id: mailcmd.c 1142 2008-08-13 17:22:21Z hubert@u.washing
@@ -1259,7 +1259,7 @@ index 9a852c9..b1ab110 100644
  
  	for(; f && *archive; archive++){
  	    char *p;
-@@ -2761,3 +2658,295 @@ get_uname(char *mailbox, char *target, int len)
+@@ -2760,3 +2657,295 @@ get_uname(char *mailbox, char *target, int len)
  
      return(*target ? target : NULL);
  }
@@ -1556,7 +1556,7 @@ index 9a852c9..b1ab110 100644
 +  }
 +}
 diff --git a/pith/mailcmd.h b/pith/mailcmd.h
-index 0e00895..a7aa268 100644
+index 7e0d344..4cc744b 100644
 --- a/pith/mailcmd.h
 +++ b/pith/mailcmd.h
 @@ -42,6 +42,8 @@
@@ -1583,7 +1583,7 @@ index 0e00895..a7aa268 100644
  long	   zoom_index(struct pine *, MAILSTREAM *, MSGNO_S *, int);
  int	   unzoom_index(struct pine *, MAILSTREAM *, MSGNO_S *);
 diff --git a/pith/mailindx.c b/pith/mailindx.c
-index 4c64996..6f11327 100644
+index 87cab26..48ac2ea 100644
 --- a/pith/mailindx.c
 +++ b/pith/mailindx.c
 @@ -41,6 +41,7 @@ static char rcsid[] = "$Id: mailindx.c 1266 2009-07-14 18:39:12Z hubert@u.washin
@@ -1913,7 +1913,7 @@ index 4c64996..6f11327 100644
      if(shorten)
         shorten_subject(origsubj);
  
-@@ -5935,6 +5998,9 @@ subj_str(INDEXDATA_S *idata, char *str, size_t strsize, SubjKW kwtype, int openi
+@@ -5933,6 +5996,9 @@ subj_str(INDEXDATA_S *idata, char *str, size_t strsize, SubjKW kwtype, int openi
  
      if(free_subj)
        fs_give((void **) &free_subj);
@@ -1923,7 +1923,7 @@ index 4c64996..6f11327 100644
  }
  
  
-@@ -6303,16 +6369,33 @@ from_str(IndexColType ctype, INDEXDATA_S *idata, char *str, size_t strsize, ICE_
+@@ -6301,16 +6367,33 @@ from_str(IndexColType ctype, INDEXDATA_S *idata, char *str, size_t strsize, ICE_
  				 ? "To"
  				 : (addr = fetch_cc(idata))
  				 ? "Cc"
@@ -1963,7 +1963,7 @@ index 4c64996..6f11327 100644
  			break;
  		    }
  
-@@ -6325,7 +6408,15 @@ from_str(IndexColType ctype, INDEXDATA_S *idata, char *str, size_t strsize, ICE_
+@@ -6323,7 +6406,15 @@ from_str(IndexColType ctype, INDEXDATA_S *idata, char *str, size_t strsize, ICE_
  	      break;
  
  	  case iFrom:
@@ -1980,7 +1980,7 @@ index 4c64996..6f11327 100644
  	    break;
  
  	  case iAddress:
-@@ -6623,3 +6714,64 @@ set_print_format(IELEM_S *ielem, int width, int leftadj)
+@@ -6621,3 +6712,64 @@ set_print_format(IELEM_S *ielem, int width, int leftadj)
  	}
      }
  }
@@ -2046,7 +2046,7 @@ index 4c64996..6f11327 100644
 + return rule_result;
 +}
 diff --git a/pith/mailindx.h b/pith/mailindx.h
-index 355faec..248ef94 100644
+index a9b25e6..6cb267d 100644
 --- a/pith/mailindx.h
 +++ b/pith/mailindx.h
 @@ -30,6 +30,9 @@ extern void		(*setup_header_widths)(MAILSTREAM *);
@@ -2060,7 +2060,7 @@ index 355faec..248ef94 100644
  void	       adjust_cur_to_visible(MAILSTREAM *, MSGNO_S *);
  unsigned long  line_hash(char *);
 diff --git a/pith/makefile.wnt b/pith/makefile.wnt
-index 267ab76..0d1d2d2 100644
+index 6c1973f..ffbfeb6 100644
 --- a/pith/makefile.wnt
 +++ b/pith/makefile.wnt
 @@ -46,7 +46,7 @@ HFILES=	../include/system.h ../include/general.h \
@@ -2086,10 +2086,10 @@ index 267ab76..0d1d2d2 100644
  all:		libpith.lib
  
 diff --git a/pith/pine.hlp b/pith/pine.hlp
-index 41d7521..874b5bf 100644
+index d973a0e..dbe36ca 100644
 --- a/pith/pine.hlp
 +++ b/pith/pine.hlp
-@@ -4214,6 +4214,7 @@ There are also additional details on
+@@ -4672,6 +4672,7 @@ There are also additional details on
  <li><a href="h_config_alt_reply_menu">FEATURE: <!--#echo var="FEAT_alternate-reply-menu"--></a>
  <li><a href="h_config_force_low_speed">FEATURE: <!--#echo var="FEAT_assume-slow-link"--></a>
  <li><a href="h_config_auto_read_msgs">FEATURE: <!--#echo var="FEAT_auto-move-read-msgs"--></a>
@@ -2097,7 +2097,7 @@ index 41d7521..874b5bf 100644
  <li><a href="h_config_auto_open_unread">FEATURE: <!--#echo var="FEAT_auto-open-next-unread"--></a>
  <li><a href="h_config_auto_unselect">FEATURE: <!--#echo var="FEAT_auto-unselect-after-apply"--></a>
  <li><a href="h_config_auto_unzoom">FEATURE: <!--#echo var="FEAT_auto-unzoom-after-apply"--></a>
-@@ -19408,6 +19409,7 @@ This set of special tokens may be used in the
+@@ -20004,6 +20005,7 @@ This set of special tokens may be used in the
  <A HREF="h_config_index_format">&quot;<!--#echo var="VAR_index-format"-->&quot;</A> option,
  in the <A HREF="h_config_reply_intro">&quot;<!--#echo var="VAR_reply-leadin"-->&quot;</A> option,
  in signature files,
@@ -2105,7 +2105,7 @@ index 41d7521..874b5bf 100644
  in template files used in
  <A HREF="h_rules_roles">&quot;roles&quot;</A>, and in the folder name
  that is the target of a Filter Rule.
-@@ -19420,7 +19422,7 @@ and in the target of Filter Rules.
+@@ -20016,7 +20018,7 @@ and in the target of Filter Rules.
  <P>
  <P>
  
@@ -2114,7 +2114,7 @@ index 41d7521..874b5bf 100644
  
  <DL>
  <DT>SUBJECT</DT>
-@@ -19454,6 +19456,22 @@ email address, never the personal name.
+@@ -20050,6 +20052,22 @@ email address, never the personal name.
  For example, &quot;mailbox@domain&quot;.
  </DD>
  
@@ -2137,7 +2137,7 @@ index 41d7521..874b5bf 100644
  <DT>MAILBOX</DT>
  <DD>
  This is the same as the &quot;ADDRESS&quot; except that the 
-@@ -19501,6 +19519,15 @@ are unavailable) of the persons specified in the
+@@ -20097,6 +20115,15 @@ are unavailable) of the persons specified in the
  message's &quot;Cc:&quot; header field.
  </DD>
  
@@ -2153,7 +2153,7 @@ index 41d7521..874b5bf 100644
  <DT>RECIPS</DT>
  <DD>
  This token represents the personal names (or email addresses if the names
-@@ -19509,6 +19536,14 @@ message's &quot;To:&quot; header field and
+@@ -20105,6 +20132,14 @@ message's &quot;To:&quot; header field and
  the message's &quot;Cc:&quot; header field.
  </DD>
  
@@ -2168,7 +2168,7 @@ index 41d7521..874b5bf 100644
  <DT>NEWSANDRECIPS</DT>
  <DD>
  This token represents the newsgroups from the
-@@ -20632,6 +20667,110 @@ This is an end of line marker.
+@@ -21228,6 +21263,110 @@ This is an end of line marker.
  </DD>
  </DL>
  
@@ -2279,7 +2279,7 @@ index 41d7521..874b5bf 100644
  <P>
  <H1><EM>Token Available Only for Templates and Signatures</EM></H1>
  
-@@ -23856,6 +23995,897 @@ character sets Alpine knows about by using the &quot;T&quot; ToCharsets command.
+@@ -24584,6 +24723,897 @@ character sets Alpine knows about by using the &quot;T&quot; ToCharsets command.
  &lt;End of help on this topic&gt;
  </BODY>
  </HTML>
@@ -3177,7 +3177,7 @@ index 41d7521..874b5bf 100644
  ====== h_config_char_set =====
  <HTML>
  <HEAD>
-@@ -27421,6 +28451,76 @@ MESSAGE TEXT screen.
+@@ -28199,6 +29229,76 @@ MESSAGE TEXT screen.
  
  </DL>
  
@@ -3254,7 +3254,7 @@ index 41d7521..874b5bf 100644
  <P>
  <UL>   
  <LI><A HREF="h_finding_help">Finding more information and requesting help</A>
-@@ -31117,6 +32217,29 @@ them as deleted in the INBOX.  Messages in the INBOX marked with an
+@@ -31928,6 +33028,29 @@ them as deleted in the INBOX.  Messages in the INBOX marked with an
  &lt;End of help on this topic&gt;
  </BODY>
  </HTML>
@@ -3285,7 +3285,7 @@ index 41d7521..874b5bf 100644
  <HTML>
  <HEAD>
 diff --git a/pith/reply.c b/pith/reply.c
-index ccd4531..9da0022 100644
+index 636afa4..666d3e1 100644
 --- a/pith/reply.c
 +++ b/pith/reply.c
 @@ -47,6 +47,8 @@ static char rcsid[] = "$Id: reply.c 1074 2008-06-04 00:08:43Z hubert@u.washingto
@@ -3360,7 +3360,7 @@ index ccd4531..9da0022 100644
  }
  
  
-@@ -1485,6 +1525,10 @@ get_addr_data(ENVELOPE *env, IndexColType type, char *buf, size_t maxlen)
+@@ -1486,6 +1526,10 @@ get_addr_data(ENVELOPE *env, IndexColType type, char *buf, size_t maxlen)
      buf[0] = '\0';
  
      switch(type){
@@ -3371,7 +3371,7 @@ index ccd4531..9da0022 100644
        case iFrom:
  	addr = env ? env->from : NULL;
  	break;
-@@ -1897,21 +1941,193 @@ get_reply_data(ENVELOPE *env, ACTION_S *role, IndexColType type, char *buf, size
+@@ -1898,21 +1942,193 @@ get_reply_data(ENVELOPE *env, ACTION_S *role, IndexColType type, char *buf, size
  
  	break;
  
@@ -3569,7 +3569,7 @@ index ccd4531..9da0022 100644
  
        case iNewLine:
  	if(maxlen >= strlen(NEWLINE)){
-@@ -1940,6 +2156,11 @@ get_reply_data(ENVELOPE *env, ACTION_S *role, IndexColType type, char *buf, size
+@@ -1941,6 +2157,11 @@ get_reply_data(ENVELOPE *env, ACTION_S *role, IndexColType type, char *buf, size
  
  	break;
  
@@ -3581,7 +3581,7 @@ index ccd4531..9da0022 100644
        case iNews:
        case iCurNews:
  	get_news_data(env, type, buf, maxlen);
-@@ -1989,6 +2210,14 @@ get_reply_data(ENVELOPE *env, ACTION_S *role, IndexColType type, char *buf, size
+@@ -1990,6 +2211,14 @@ get_reply_data(ENVELOPE *env, ACTION_S *role, IndexColType type, char *buf, size
  
  	break;
  
@@ -3596,7 +3596,7 @@ index ccd4531..9da0022 100644
        case iSubject:
        case iShortSubject:
  	if(env && env->subject){
-@@ -2051,7 +2280,18 @@ reply_delimiter(ENVELOPE *env, ACTION_S *role, gf_io_t pc)
+@@ -2052,7 +2281,18 @@ reply_delimiter(ENVELOPE *env, ACTION_S *role, gf_io_t pc)
      if(!env)
        return;
  
@@ -3616,7 +3616,7 @@ index ccd4531..9da0022 100644
      buf[MAX_DELIM] = '\0';
      /* preserve exact default behavior from before */
      if(!strcmp(buf, DEFAULT_REPLY_INTRO)){
-@@ -2310,6 +2550,7 @@ forward_subject(ENVELOPE *env, int flags)
+@@ -2311,6 +2551,7 @@ forward_subject(ENVELOPE *env, int flags)
  {
      size_t l;
      char  *p, buftmp[MAILTMPLEN];
@@ -3624,7 +3624,7 @@ index ccd4531..9da0022 100644
      
      if(!env)
        return(NULL);
-@@ -2317,9 +2558,19 @@ forward_subject(ENVELOPE *env, int flags)
+@@ -2318,9 +2559,19 @@ forward_subject(ENVELOPE *env, int flags)
      dprint((9, "checking subject: \"%s\"\n",
  	       env->subject ? env->subject : "NULL"));
  
@@ -5318,10 +5318,10 @@ index 0000000..8e7ddd9
 +
 +#endif	/* PITH_RULESTYPE_INCLUDED */
 diff --git a/pith/save.c b/pith/save.c
-index 77aa0fb..106241f 100644
+index 5f2c14d..850be45 100644
 --- a/pith/save.c
 +++ b/pith/save.c
-@@ -954,7 +954,7 @@ save(struct pine *state, MAILSTREAM *stream, CONTEXT_S *context, char *folder,
+@@ -955,7 +955,7 @@ save(struct pine *state, MAILSTREAM *stream, CONTEXT_S *context, char *folder,
  	      *date = '\0';
  
  	    rv = save_fetch_append(stream, mn_m2raw(msgmap, i),
@@ -5331,7 +5331,7 @@ index 77aa0fb..106241f 100644
  
  	    if(flags)
 diff --git a/pith/send.c b/pith/send.c
-index 48d9344..27fb54e 100644
+index 1ce74fd..55350e9 100644
 --- a/pith/send.c
 +++ b/pith/send.c
 @@ -44,6 +44,7 @@ static char rcsid[] = "$Id: send.c 1204 2009-02-02 19:54:23Z hubert@u.washington
@@ -5342,7 +5342,7 @@ index 48d9344..27fb54e 100644
  
  #include "../c-client/smtp.h"
  #include "../c-client/nntp.h"
-@@ -1734,9 +1735,9 @@ call_mailer(METAENV *header, struct mail_bodystruct *body, char **alt_smtp_serve
+@@ -1685,9 +1686,9 @@ call_mailer(METAENV *header, struct mail_bodystruct *body, char **alt_smtp_serve
      char         error_buf[200], *error_mess = NULL, *postcmd;
      ADDRESS     *a;
      ENVELOPE	*fake_env = NULL;
@@ -5354,7 +5354,7 @@ index 48d9344..27fb54e 100644
      BODY	*bp = NULL;
      PINEFIELD	*pf;
      BODY	*origBody = body;
-@@ -1891,20 +1892,49 @@ call_mailer(METAENV *header, struct mail_bodystruct *body, char **alt_smtp_serve
+@@ -1842,20 +1843,49 @@ call_mailer(METAENV *header, struct mail_bodystruct *body, char **alt_smtp_serve
       * OK, who posts what?  We tried an mta_handoff above, but there
       * was either none specified or we decided not to use it.  So,
       * if there's an smtp-server defined anywhere, 
@@ -5417,7 +5417,7 @@ index 48d9344..27fb54e 100644
      else if((postcmd = smtp_command(ps_global->c_client_error, sizeof(ps_global->c_client_error))) != NULL){
  	char *cmdlist[2];
 diff --git a/pith/sort.c b/pith/sort.c
-index 0de2824..b53680c 100644
+index 8ac6aa2..6727361 100644
 --- a/pith/sort.c
 +++ b/pith/sort.c
 @@ -30,7 +30,7 @@ static char rcsid[] = "$Id: sort.c 1142 2008-08-13 17:22:21Z hubert@u.washington
@@ -5498,7 +5498,7 @@ index 0de2824..b53680c 100644
 +   return EndofList;
 +}
 diff --git a/pith/sort.h b/pith/sort.h
-index af65825..d72f606 100644
+index 7ea5932..8d4cb5e 100644
 --- a/pith/sort.h
 +++ b/pith/sort.h
 @@ -45,6 +45,6 @@ char	*sort_name(SortOrder);
@@ -5510,7 +5510,7 @@ index af65825..d72f606 100644
  
  #endif /* PITH_SORT_INCLUDED */
 diff --git a/pith/state.c b/pith/state.c
-index 837ed6f..22f0466 100644
+index 2918116..dd79768 100644
 --- a/pith/state.c
 +++ b/pith/state.c
 @@ -35,6 +35,7 @@ static char rcsid[] = "$Id: state.c 1074 2008-06-04 00:08:43Z hubert@u.washingto
@@ -5521,9 +5521,9 @@ index 837ed6f..22f0466 100644
  
  /*
   * Globals referenced throughout pine...
-@@ -243,6 +244,9 @@ free_pine_struct(struct pine **pps)
-     if((*pps)->msgmap)
-       msgno_give(&(*pps)->msgmap);
+@@ -252,6 +253,9 @@ free_pine_struct(struct pine **pps)
+     if((*pps)->id)
+       free_id(&(*pps)->id);
      
 +    if((*pps)->rule_list)
 +	free_parsed_rule_list(&(*pps)->rule_list);
@@ -5532,7 +5532,7 @@ index 837ed6f..22f0466 100644
  
      fs_give((void **) pps);
 diff --git a/pith/state.h b/pith/state.h
-index cae43d4..e3c0264 100644
+index 9c6e66d..a3fd87e 100644
 --- a/pith/state.h
 +++ b/pith/state.h
 @@ -33,7 +33,7 @@
@@ -5544,7 +5544,7 @@ index cae43d4..e3c0264 100644
  
  /*
   * Printing control structure
-@@ -105,6 +105,11 @@ struct pine {
+@@ -112,6 +112,11 @@ struct pine {
      MAILSTREAM  *mail_stream;		/* ptr to current folder stream */
      MSGNO_S	*msgmap;		/* ptr to current message map   */
  
@@ -5556,7 +5556,7 @@ index cae43d4..e3c0264 100644
      unsigned     read_predicted:1;
  
      char         cur_folder[MAXPATH+1];
-@@ -352,6 +357,7 @@ struct pine {
+@@ -360,6 +365,7 @@ struct pine {
      struct {
          char	*(*display_filter)(char *, STORE_S *, gf_io_t, FILTLIST_S *);
          char	*(*display_filter_trigger)(BODY *, char *, size_t);
@@ -5564,7 +5564,7 @@ index cae43d4..e3c0264 100644
      } tools;
  
      KEYWORD_S   *keywords;
-@@ -362,6 +368,9 @@ struct pine {
+@@ -370,6 +376,9 @@ struct pine {
      char	 last_error[500];
      INIT_ERR_S  *init_errs;
  
@@ -5575,7 +5575,7 @@ index cae43d4..e3c0264 100644
  
  #ifdef SMIME
 diff --git a/pith/string.c b/pith/string.c
-index 8707485..bd5a80f 100644
+index d2d0d75..a349c3f 100644
 --- a/pith/string.c
 +++ b/pith/string.c
 @@ -20,6 +20,7 @@ static char rcsid[] = "$Id: string.c 910 2008-01-14 22:28:38Z hubert@u.washingto
@@ -5655,12 +5655,12 @@ index 8707485..bd5a80f 100644
 +}
 +
 diff --git a/pith/string.h b/pith/string.h
-index 4263249..206b485 100644
+index 36440ea..d4c433e 100644
 --- a/pith/string.h
 +++ b/pith/string.h
 @@ -87,6 +87,7 @@ struct date {
  
- /* exported protoypes */
+ /* exported prototypes */
  char	   *rplstr(char *, size_t, int, char *);
 +void	    collspaces(char *);
  void	    sqzspaces(char *);
