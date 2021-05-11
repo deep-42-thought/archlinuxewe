@@ -1,17 +1,17 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Contributor: Remi Gacogne <rgacogne at archlinux dot org>
 pkgname=dnsdist
-pkgver=1.5.1
+pkgver=1.6.0
 _pkgver=${pkgver#*_}
 _pkgver=${_pkgver//_/-}
-pkgrel=14
+pkgrel=1
 pkgdesc='Highly DNS-, DoS- and abuse-aware loadbalancer'
 arch=('x86_64')
 url='https://dnsdist.org/'
 license=('GPL2')
 source=(https://downloads.powerdns.com/releases/${pkgname}-${_pkgver}.tar.bz2{,.asc}
         sysusers.conf)
-sha512sums=('68fe5f55fd081ed80a620933af9f8310be0e21c86ba449a9c557975b5c83f4b64e3002e6032dc002582d081e70e1ec2ff080c5d8389fd46a9896bdafd5a41f9f'
+sha512sums=('f6a1676c431d5622af075bc184c9f82b4ea0bb40ec84797a8fe835804f91bc0a93a745495f193bb52f3a5204ec0e98ed41bc206c997d1f5b13e872bb31747b0f'
             'SKIP'
             'd55ccd612cbe08b353815027d30a3b0f0ec7bf6b0d74a0a634939be53ce6e6b41d23e54c2328946f00738c03e9f306ce4f2dabe5e4b11d9fb28d0abf49917893')
 validpgpkeys=('D6300CABCBF469BBE392E503A208ED4F8AF58446') # Remi Gacogne <remi.gacogne@powerdns.com>
@@ -24,7 +24,7 @@ _pinned_dependencies=(
   'libcap.so=2'
   'libcdb.so=1'
   'libedit.so=0'
-  'libprotobuf.so=26'
+  'libprotobuf.so=27'
   'libsodium=1.0.18'
   'libsystemd.so=0'
   'lmdb=0.9.29'
