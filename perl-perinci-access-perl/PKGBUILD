@@ -2,46 +2,43 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-access-perl'
-pkgver=0.893
-pkgrel=2
+pkgver=0.894
+pkgrel=1
 pkgdesc='Access Perl module, functions, variables through Riap'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-makedepends=(
-  'perl'
-  'perl-extutils-makemaker'
-  'perl-file-slurper'
-  'perl-file-temp'
-  'perl-io'
-  'perl-lib'
-  'perl-monkey-patch-action>=0.060'
-  'perl-pathtools'
-  'perl-perinci-examples>=0.819'
-  'perl-test-exception'
-  'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.32'
-  'perl<5.33'
   'perl-class-inspector'
   'perl-experimental'
-  'perl-log-ger>=0.037'
+  'perl-log-ger>=0.038'
   'perl-module-list'
   'perl-module-path-more>=0.32'
   'perl-package-util-lite'
   'perl-parent'
   'perl-perinci-access-base>=0.31'
-  'perl-perinci-object>=0.310'
+  'perl-perinci-object>=0.311'
   'perl-perinci-sub-complete>=0.935'
-  'perl-perinci-sub-getargs-argv>=0.842'
+  'perl-perinci-sub-getargs-argv>=0.845'
   'perl-perinci-sub-normalize>=0.19'
-  'perl-perinci-sub-util>=0.46'
+  'perl-perinci-sub-util>=0.470'
   'perl-perinci-sub-wrapper>=0.83'
-  'perl-progress-any>=0.214'
+  'perl-progress-any>=0.219'
   'perl-scalar-list-utils>=1.45'
   'perl-tie-cache'
   'perl-uri'
   'perl-uuid-random')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-file-slurper'
+  'perl-file-temp>=0.2307'
+  'perl-io'
+  'perl-lib'
+  'perl-monkey-patch-action>=0.060'
+  'perl-pathtools'
+  'perl-perinci-examples>=0.821'
+  'perl-test-exception'
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-perl-critic'
@@ -51,7 +48,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Access-Perl'
 _distdir="Perinci-Access-Perl-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('1c91f3c6da598b475654da5886d0e4ef525508851baef5587fe78656cc4828b0cfc2bc39a705a4ec1cd46d5df346a591ce76e0fd01a47d4a9780c8c3505a0d6b')
+sha512sums=('0bb789d2962f9299695936289371be71de285f74a29b2470d5668df3448448cbb56f58b7dea491386aba975f1ae4c8dd353a4eafcc373b9aa337374c65737f2a')
 
 prepare() {
   cd "${srcdir}/${_distdir}"
