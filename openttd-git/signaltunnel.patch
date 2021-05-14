@@ -1,5 +1,5 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index 46a8492c9..451ecdbea 100644
+index f0ac1df38..7d496cda5 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -1612,6 +1612,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES                         :Minimum company
@@ -11,7 +11,7 @@ index 46a8492c9..451ecdbea 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :When dragging, place signals every: {STRING2}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Set the distance at which signals will be built on a track up to the next obstacle (signal, junction), if signals are dragged
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} tile{P 0 "" s}
-@@ -2771,8 +2773,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -2772,8 +2774,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -23,7 +23,7 @@ index 46a8492c9..451ecdbea 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index de8c4f84c..16811d40f 100644
+index 49828c53e..b3e52744f 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
 @@ -1763,6 +1763,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES                         :Мин. воз
@@ -35,7 +35,7 @@ index de8c4f84c..16811d40f 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :При перетаскивании ставить сигналы каждые: {STRING}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Настройка периодичности расстановки сигналов методом перетаскивания. Сигналы будут устанавливаться до первого встреченного препятствия (пересечения или другого сигнала).
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} клет{P ку ки ок}
-@@ -2909,8 +2911,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
+@@ -2947,8 +2949,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Железнодорожный туннель
@@ -47,10 +47,10 @@ index de8c4f84c..16811d40f 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Стальной балочный ж/д мост
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Стальной консольный ж/д мост
 diff --git a/src/pathfinder/follow_track.hpp b/src/pathfinder/follow_track.hpp
-index 9b95578fd..a70efd8fc 100644
+index 7e5e0e39b..c175eadb9 100644
 --- a/src/pathfinder/follow_track.hpp
 +++ b/src/pathfinder/follow_track.hpp
-@@ -355,7 +355,7 @@ protected:
+@@ -351,7 +351,7 @@ protected:
  			if (IsTunnel(m_new_tile)) {
  				if (!m_is_tunnel) {
  					DiagDirection tunnel_enterdir = GetTunnelBridgeDirection(m_new_tile);
@@ -59,7 +59,7 @@ index 9b95578fd..a70efd8fc 100644
  						m_err = EC_NO_WAY;
  						return false;
  					}
-@@ -363,7 +363,7 @@ protected:
+@@ -359,7 +359,7 @@ protected:
  			} else { // IsBridge(m_new_tile)
  				if (!m_is_bridge) {
  					DiagDirection ramp_enderdir = GetTunnelBridgeDirection(m_new_tile);
@@ -261,10 +261,10 @@ index 888b98e94..27e2de9a4 100644
  
  /**
 diff --git a/src/settings_gui.cpp b/src/settings_gui.cpp
-index f5872c648..0dfb27a52 100644
+index 664cfbd21..620fe8db1 100644
 --- a/src/settings_gui.cpp
 +++ b/src/settings_gui.cpp
-@@ -1644,6 +1644,7 @@ static SettingsContainer &GetSettingsTree()
+@@ -1636,6 +1636,7 @@ static SettingsContainer &GetSettingsTree()
  			SettingsPage *construction = interface->Add(new SettingsPage(STR_CONFIG_SETTING_INTERFACE_CONSTRUCTION));
  			{
  				construction->Add(new SettingEntry("gui.link_terraform_toolbar"));
@@ -273,10 +273,10 @@ index f5872c648..0dfb27a52 100644
  				construction->Add(new SettingEntry("gui.persistent_buildingtools"));
  				construction->Add(new SettingEntry("gui.quick_goto"));
 diff --git a/src/settings_type.h b/src/settings_type.h
-index bb078205b..466840f26 100644
+index bba95ad96..74372827b 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
-@@ -332,6 +332,7 @@ struct ConstructionSettings {
+@@ -331,6 +331,7 @@ struct ConstructionSettings {
  	bool   freeform_edges;                   ///< allow terraforming the tiles at the map edges
  	uint8  extra_tree_placement;             ///< (dis)allow building extra trees in-game
  	uint8  command_pause_level;              ///< level/amount of commands that can't be executed while paused
@@ -366,7 +366,7 @@ index d6795e3b5..6a7eca6b6 100644
  
  			case MP_RAILWAY:
 diff --git a/src/table/settings.ini b/src/table/settings.ini
-index 391a5b427..233785fe3 100644
+index 66dc55e9b..1a767ea5b 100644
 --- a/src/table/settings.ini
 +++ b/src/table/settings.ini
 @@ -562,6 +562,20 @@ str      = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH
@@ -663,7 +663,7 @@ index 169fb9d71..5615f076b 100644
  				/* Perform look-ahead on tunnel exit. */
  				if (v->IsFrontEngine()) {
 diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
-index 2f76dbcef..820f2d0ca 100644
+index dd8d731ee..76af1e07e 100644
 --- a/src/tunnelbridge_cmd.cpp
 +++ b/src/tunnelbridge_cmd.cpp
 @@ -28,6 +28,7 @@
