@@ -9,14 +9,14 @@ pkgname=conky-irc
 pkgver=1.12.2
 provides=("conky=${pkgver}")
 conflicts=('conky')
-pkgrel=1
+pkgrel=2
 pkgdesc='Lightweight system monitor for X - with irc-client enabled'
 url='https://github.com/brndnmtthws/conky'
 license=('BSD' 'GPL')
 arch=('i686' 'pentium4' 'x86_64')
 makedepends=('cmake' 'docbook2x' 'docbook-xml' 'man-db' 'git')
 _pinned_dependencies=(
-  'gcc-libs=10.2.0'
+  'gcc-libs=11.1.0'
   'glibc>=2.31'
   'imlib2=1.7.1'
   'libcurl.so=4'
