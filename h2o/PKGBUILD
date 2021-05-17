@@ -16,7 +16,7 @@ _pinned_dependencies=(
   'zlib=1:1.2.11'
 )
 depends=('libuv' 'libyaml' 'wslay' "${_pinned_dependencies[@]}")
-makedepends=('cmake' 'libtool' 'make' 'pkg-config' 'ruby')
+makedepends=('cmake' 'libtool' 'make' 'pkg-config' 'ruby2.7')
 url="https://github.com/h2o/h2o"
 license=('MIT')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/h2o/$pkgname/archive/v$pkgver.tar.gz"
@@ -26,6 +26,11 @@ sha512sums=('f2f28905c01782a0432c9dfdb2f21054e0a4741ac4c5f26802d4b439d0172840aa2
 backup=('etc/h2o.conf')
 provides=('h2o' 'libh2o')
 conflicts=('libh2o')
+
+prepare() {
+  export PATH="$srcdir:$PATH"
+  ln -s /usr/bin/ruby-2.7 "$srcdir/ruby"
+}
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
