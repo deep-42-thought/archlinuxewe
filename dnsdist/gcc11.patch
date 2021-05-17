@@ -1,0 +1,10 @@
+--- dnsdist-1.6.0/lock.hh	2021-05-17 23:30:36.284654809 +0200
++++ dnsdist-1.6.0/lock.hh	2021-05-17 23:29:56.689998795 +0200
+@@ -21,6 +21,7 @@
+  */
+ #pragma once
+ #include <shared_mutex>
++#include <mutex>
+ 
+ class ReadWriteLock
+ {
