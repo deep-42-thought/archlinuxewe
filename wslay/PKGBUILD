@@ -17,8 +17,14 @@ makedepends=('autoconf' 'automake' 'git' 'libtool' 'make' 'pkg-config' 'python-s
 checkdepends=('cunit' 'nettle')
 url="https://github.com/tatsuhiro-t/wslay"
 license=('MIT')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/tatsuhiro-t/$pkgname/archive/release-$pkgver.tar.gz")
-sha512sums=('b42c66c738a3f33bc7de30e8975f4fb2dc60a8baef44be8d254110c8915e14cdaa4cbdd6b29184a66061fe387ec0948e896cb174a1dd8c85a97b5feedfde162e')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/tatsuhiro-t/$pkgname/archive/release-$pkgver.tar.gz" 'sphinx.patch')
+sha512sums=('b42c66c738a3f33bc7de30e8975f4fb2dc60a8baef44be8d254110c8915e14cdaa4cbdd6b29184a66061fe387ec0948e896cb174a1dd8c85a97b5feedfde162e'
+            '84eb978c28d29c6e9cc9bb4b2fe2ff6380d8c981724c4452d3b08de44ae65e5e73eb37f815833a3d5ebbee1fc4a8e7d0f1bc3119777146580d7306c72791a286')
+
+prepare() {
+  cd "$srcdir/$pkgname-release-$pkgver"
+  patch -p1 -i "$srcdir/sphinx.patch"
+}
 
 build() {
   cd "$srcdir/$pkgname-release-$pkgver"
