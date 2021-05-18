@@ -1016,9 +1016,14 @@ then
         fi
       done
       pkgname="${pkgname%-static}"
-      if [ "${pkgname}" = 'qemu-user' ]; then
-        pkgname='qemu'
-      fi
+      case "${pkgname}" in
+        'qemu-user')
+          pkgname='qemu'
+        ;;
+        'netkit-bsd-finger')
+          pkgname='bsd-finger'
+        ;;
+      esac
       quVer="${src%/*}/"
       if printf '%s\n' "${pkgver}" \
       | grep -qx '[0-9.]\+_[0-9.]\+_rc[0-9]\+'; then
