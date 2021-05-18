@@ -1,0 +1,39 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: "Amhairghin" Oscar Garcia Amor (https://ogarcia.me)
+# Contributor: Simon Gomizelj <simongmzlj(at)gmail(dot)com>
+# Contributor: Kyle Manna <kyle(at)kylemanna(dot)com>
+
+pkgname=slack-desktop
+pkgver=4.15.0
+pkgrel=1
+pkgdesc="Slack Desktop (Beta) for Linux"
+arch=('x86_64')
+url="https://slack.com/downloads"
+license=('custom')
+depends=('alsa-lib' 'gtk3' 'libsecret' 'libxss' 'libxtst' 'nss' 'xdg-utils')
+optdepends=('libappindicator-gtk3: Systray indicator support'
+            'org.freedesktop.secrets: Keyring password store support')
+source_x86_64=("https://downloads.slack-edge.com/linux_releases/${pkgname}-${pkgver}-amd64.deb")
+source=("${pkgname}.patch")
+sha256sums=('d351d8ff3eee0006d1c66e3efec60a78ae8cc10fd8c3042e8d899125a1c4bf47')
+sha256sums_x86_64=('31aa7cdcff637c642cfeb2786d4cbcc076f226048080c91d76c38e48283ef7f7')
+
+package() {
+    cd "${pkgdir}"
+    bsdtar -xJf "${srcdir}/data.tar.xz"
+
+    # Fix hardcoded icon path in .desktop file
+    patch -p1 -i "${srcdir}/${pkgname}.patch"
+
+    # Remove all unnecessary stuff
+    rm -rf --one-file-system \
+      "etc" \
+      "usr/lib/slack/src" \
+      "usr/share/lintian" \
+      "usr/share/doc"
+
+    # Move license
+    install -dm755 "usr/share/licenses/${pkgname}"
+    mv "usr/lib/slack/LICENSE" "usr/share/licenses/${pkgname}"
+    ln -s "/usr/share/licenses/${pkgname}/LICENSE" "usr/lib/slack/LICENSE"
+}
