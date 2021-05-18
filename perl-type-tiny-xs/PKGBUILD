@@ -15,7 +15,7 @@ makedepends=(
   'perl-extutils-makemaker>=6.17'
   'perl-test-simple>=0.92')
 depends=(
-  'glibc>=2.31')
+  "${_pinned_dependencies[@]}")
 provides=(
   'perl-type-tiny-xs-util=0.022')
 checkdepends=(
