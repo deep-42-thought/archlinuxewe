@@ -1787,7 +1787,7 @@ index 47b89983e..0be65724f 100644
  	} else {
  		return CircularTileSearch(tile, size / 2, 0, 0, proc, user_data);
 diff --git a/src/map_func.h b/src/map_func.h
-index b02ba5777..f0c3edc41 100644
+index b02ba5777..5ee5360c5 100644
 --- a/src/map_func.h
 +++ b/src/map_func.h
 @@ -41,7 +41,7 @@ extern Tile *_m;
@@ -1799,7 +1799,7 @@ index b02ba5777..f0c3edc41 100644
  
  /**
   * Logarithm of the map size along the X side.
-@@ -113,6 +113,64 @@ static inline uint MapMaxY()
+@@ -113,6 +113,65 @@ static inline uint MapMaxY()
  	return MapSizeY() - 1;
  }
  
@@ -1841,13 +1841,14 @@ index b02ba5777..f0c3edc41 100644
 +	return LayerSizeY() - 1;
 +}
 +
++extern uint _layer_count;
++
 +/**
 + * Get the layer counts
 + * @return the number of layers
 + */
 +static inline uint LayerCount()
 +{
-+	extern uint _layer_count;
 +	return _layer_count;
 +}
 +
@@ -1864,7 +1865,7 @@ index b02ba5777..f0c3edc41 100644
  /**
   * Scales the given value by the map size, where the given value is
   * for a 256 by 256 map.
-@@ -123,7 +181,7 @@ static inline uint ScaleByMapSize(uint n)
+@@ -123,7 +182,7 @@ static inline uint ScaleByMapSize(uint n)
  {
  	/* Subtract 12 from shift in order to prevent integer overflow
  	 * for large values of n. It's safe since the min mapsize is 64x64. */
@@ -2082,7 +2083,7 @@ index 82e944f6e..99f9f9e5e 100644
  }
  
 diff --git a/src/saveload/map_sl.cpp b/src/saveload/map_sl.cpp
-index 51c56684a..184126367 100644
+index 51c56684a..d84c06eda 100644
 --- a/src/saveload/map_sl.cpp
 +++ b/src/saveload/map_sl.cpp
 @@ -9,6 +9,7 @@
@@ -2093,12 +2094,7 @@ index 51c56684a..184126367 100644
  #include "../core/bitmath_func.hpp"
  #include "../fios.h"
  #include <array>
-@@ -19,10 +20,12 @@
- 
- static uint32 _map_dim_x;
- static uint32 _map_dim_y;
-+static uint32 _layer_count;
- 
+@@ -23,6 +24,7 @@ static uint32 _map_dim_y;
  static const SaveLoadGlobVarList _map_dimensions[] = {
  	SLEG_CONDVAR(_map_dim_x, SLE_UINT32, SLV_6, SL_MAX_VERSION),
  	SLEG_CONDVAR(_map_dim_y, SLE_UINT32, SLV_6, SL_MAX_VERSION),
@@ -2106,7 +2102,7 @@ index 51c56684a..184126367 100644
  	    SLEG_END()
  };
  
-@@ -30,13 +33,16 @@ static void Save_MAPS()
+@@ -30,13 +32,16 @@ static void Save_MAPS()
  {
  	_map_dim_x = MapSizeX();
  	_map_dim_y = MapSizeY();
