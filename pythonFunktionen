@@ -18,8 +18,7 @@ versionsUniq() {
 ladePkgbuild() {
   paket="$1"
 
-  if [[ "${paket}" != "python-"* ]]
-  then
+  if [ -n "${paket%%python-*}" ]; then
     return 1
   fi
 
@@ -28,7 +27,12 @@ ladePkgbuild() {
 
   makepkg -f --verifysource
 
-  . PKGBUILD
+  . <(
+    sed '
+      /^\s*_pinned_dependencies\S*=(.*)/ d
+      /^\s*_pinned_dependencies\S*=(/,/)/ d
+    ' PKGBUILD
+  )
   if grep -qF _pinned_dependencies PKGBUILD; then
     depends+=('"${_pinned_dependencies[@]}"')
   fi
@@ -59,7 +63,8 @@ versteheRequirements() {
           "${metaRegexe[@]}"
         tar -Oxzf "${archiv}" "${_pkgname}-${pkgver}/setup.py" \
         | sed -n "$(
-          printf '/^\\s*%s = \[/,/^\s*$/ p\n' \
+          printf '/=/ s/^\\s\\+//\n'
+          printf '/^%s = \[/,/^\s*$/ p\n' \
             "${metaRegexe[@]}"
         )" \
         | sed '
@@ -90,6 +95,8 @@ versteheRequirements() {
           s,^https\?:.*/mysql-connector-python-[^/]*$,mysql-connector,
           s/^/depends:/
         '
+      ! grep -qwF _pinned_dependencies PKGBUILD \
+      || printf 'depends:"${_pinned_dependencies[@]}"\n'
     } | \
       tr '[:upper:]' '[:lower:]' | \
       sort -u
@@ -105,7 +112,7 @@ versteheRequirements() {
           p
         ' | \
         sed '
-          /^cython\($\|[<>=]\)\|^python-/! s/^/python-/
+          /^cython\($\|[<>=]\)\|^python-\|^"\?\$/! s/^/python-/
           /[^<>]=/ s/=/>=/
         '
     )

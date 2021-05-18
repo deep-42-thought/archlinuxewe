@@ -72,7 +72,12 @@ if ${err}; then
       if [ -n "${metaYml["${wasAusgeben}"]}" ]; then
         echo "${wasAusgeben}=("
         echo "${metaYml["${wasAusgeben}"]})" | \
-          sed "s|^\s*||; s|\s*\$||; s|^\(.*[^)]\)\()\?\)\$|  '\1'\2|"
+          sed '
+            s|^\s*||
+            s|\s*$||
+            s|^\([^"].*[^)]\)\()\?\)$|'"'"'\1'"'"'\2|
+            s|^["'"'"']|  \0|
+          '
       fi
     done | \
       sed ':begin;
