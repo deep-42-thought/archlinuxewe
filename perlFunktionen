@@ -49,7 +49,15 @@ ladePkgbuild() {
 
   makepkg -f --verifysource
 
-  . PKGBUILD
+  . <(
+    sed '
+      /^\s*_pinned_dependencies\S*=(.*)/ d
+      /^\s*_pinned_dependencies\S*=(/,/)/ d
+    ' PKGBUILD
+  )
+  if grep -qF _pinned_dependencies PKGBUILD; then
+    depends+=('"${_pinned_dependencies[@]}"')
+  fi
 }
 
 versteheMetaYml() {
@@ -89,6 +97,8 @@ versteheMetaYml() {
         sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)\.\([[:digit:]]\{3\}\)\([[:digit:]]\+\)'\?\(\s\|\$\)@\1\2.\3.\4\5@" | \
         sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)[._]0*\([1-9][[:digit:]]*\)[._]0*\([1-9][[:digit:]]*\)'\?\(\s\|\$\)@\1\2.\3.\4\5@" | \
         sed "s@\(\sperl:\s\+\)'\?\([[:digit:]]\+\)[._]0*\([1-9][[:digit:]]*\)[._]0\+'\?\(\s\|\$\)@\1\2.\3.0\4@"
+      ! grep -qwF _pinned_dependencies PKGBUILD \
+      || printf 'depends:"${_pinned_dependencies[@]}"\n'
     )"
 
     echo -n "... fertig, "
