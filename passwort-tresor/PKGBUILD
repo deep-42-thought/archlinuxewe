@@ -1,25 +1,17 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=passwort-tresor
-pkgver=0.6.1
+pkgver=0.7
 pkgrel=1
 pkgdesc="Wrapper for gpg to store passwords (and other text)"
 arch=('any')
 url="https://git.eckner.net/Erich/${pkgname}"
 license=('GPL')
-groups=()
-depends=('gnupg')
+depends=('pass')
 makedepends=('help2man')
-checkdepends=()
-optdepends=()
-provides=()
-conflicts=()
-replaces=()
-backup=('etc/passwort-tresor.konf')
-options=()
 source=(
     "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('1b95e0b3bb252692eeb3354f1b6c2124f3cce5683b5c6a58778fafdfe86c2220d39af72e372acbe46abba2d97d147afac6b54754e3c14d9815fba9909036c0da')
+sha512sums=('c20edd79bc590317f6d9697d45a56e001f7336f2edf3f2aaf186da26a784e15c35bc96c9bd1f134837dd1103eb15adf3080953daf3d9dd56e6da844a87e5f4ad')
 
 build() {
 
