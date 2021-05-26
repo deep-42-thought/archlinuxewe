@@ -3,7 +3,6 @@
 
 pkgname=mtx-svn
 pkgver=r200
-_distdir="mtx-code-${pkgver}-trunk-mtx"
 pkgrel=8
 pkgdesc="Tools used to view information about, and to control, Media Changer devices such as Tape and DVD/CD libraries."
 arch=('armv6h' 'armv7h' 'aarch64' 'i486' 'i686' 'pentium4' 'x86_64')
@@ -24,23 +23,23 @@ depends=("${_pinned_dependencies[@]}")
 depends_armv6h=("${_pinned_dependencies_armv6h[@]}")
 depends_armv7h=("${_pinned_dependencies_armv7h[@]}")
 makedepends=('subversion')
-source=("https://sourceforge.net/code-snapshots/svn/m/mt/mtx/code/${_distdir}.zip")
-sha512sums=('cd7e1f1f003acf95e1bb55936180ba6da47d146ce6bd5f87c2ba5ca02779a4e187d1a1e903c36bc6725e6d29e14574cf427933127621d3f441c95fdeb29f9f2f')
+source=("mtx-svn::svn+https://svn.code.sf.net/p/mtx/code/trunk#revision=${pkgver#r}")
+sha512sums=('SKIP')
 
 prepare() {
   sed -i '
     s@ | armv\*-\*@ | aarch64-*\0@
-  ' "${srcdir}/${_distdir}/config.sub"
+  ' "${srcdir}/mtx-svn/mtx/config.sub"
 }
 
 build() {
-  cd "${srcdir}/${_distdir}"
+  cd "${srcdir}/mtx-svn/mtx"
   ./configure --prefix=/usr
   make
 }
 
 package() {
-  cd "${srcdir}/${_distdir}"
+  cd "${srcdir}/mtx-svn/mtx"
   make prefix="$pkgdir/usr" sbindir="$pkgdir/usr/bin" mandir="$pkgdir/usr/share/man" install
 }
 
