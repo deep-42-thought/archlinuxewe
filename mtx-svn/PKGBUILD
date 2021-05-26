@@ -26,6 +26,12 @@ makedepends=('subversion')
 source=("mtx-svn::svn+https://svn.code.sf.net/p/mtx/code/trunk#revision=${pkgver#r}")
 sha512sums=('SKIP')
 
+pkgver() {
+  cd "${srcdir}"/mtx-svn
+  printf 'r%s' \
+    $(svnversion | tr -d [A-z])
+}
+
 prepare() {
   sed -i '
     s@ | armv\*-\*@ | aarch64-*\0@
