@@ -1200,6 +1200,16 @@ then
           d
         '
       )
+    elif echo "${src}" \
+    | grep -q '//downloads\.slack-edge\.com/'; then
+      remVer=$(
+        curl_it 'https://slack.com/intl/en-de/downloads/linux' \
+        | sed '
+          s@^.*>Version \([0-9.]\+\)</span>.*$@\1@
+          t
+          d
+        '
+      )
     else
       continue
     fi
