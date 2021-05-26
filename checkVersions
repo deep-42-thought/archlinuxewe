@@ -1188,6 +1188,8 @@ then
         | sort -V \
         | tail -n1
       )
+    elif [ "${pkgname}" = 'bind-next' ]; then
+      remVer="${pkgver}"
     else
       continue
     fi
