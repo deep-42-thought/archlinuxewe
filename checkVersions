@@ -1190,6 +1190,16 @@ then
       )
     elif [ "${pkgname}" = 'bind-next' ]; then
       remVer="${pkgver}"
+    elif echo "${src}" \
+    | grep -q '//zoom\.us/client/'; then
+      remVer=$(
+        curl_it 'https://zoom.us/download' --user-agent 'Mozilla/5.0 (X11; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0' \
+        | sed '
+          s@^.*<span class="linux-ver-text"[^>]*>Version \([0-9.]\+\) (\([0-9.]\+\))</span>.*$@\1.\2@
+          t
+          d
+        '
+      )
     else
       continue
     fi
