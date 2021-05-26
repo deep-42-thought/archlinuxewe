@@ -1,28 +1,30 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='python-xraydb'
-pkgver=4.4.6
+pkgver=4.4.7
 pkgrel=1
 arch=('any')
 url='https://github.com/xraypy/XrayDB'
 license=('Unlicense')
 pkgdesc='X-ray Reference Data in SQLite library, including a Python interface'
-source=("$pkgname-$pkgver.tar.gz::https://github.com/xraypy/XrayDB/archive/$pkgver.tar.gz")
-sha512sums=('55a928344a38841d71434439859ef426ba6efb8b7fd99b2153c7568e63805c0ed2a174f834aeb9e45e782b3663c5b824018d07ec23ad00cdc7f0e585c524b022')
+_pkgname="XrayDB"
+source=("$_pkgname-$pkgver.tar.gz::https://github.com/xraypy/XrayDB/archive/$pkgver.tar.gz")
+sha512sums=('c05f7bd86d22195b92167bad9cd298d4882350fea470823034e66c13a30d992c730d5de0f9f4b94b6764ed78531748f0c86b3b45574ee8dc02a1b5518672f78d')
 depends=(
-  'python>=3.9'
   'python<3.10'
-)
+  'python>=3.9'
+  'python-numpy>=1.10'
+  'python-scipy>=0.17'
+  'python-sqlalchemy')
 makedepends=(
-  'python-setuptools'
-)
+  'python-setuptools')
 
 build() {
-  cd "XrayDB-$pkgver/python"
+  cd "${srcdir}/${_pkgname}-${pkgver}/python"
   python setup.py build
 }
 
 package() {
-  cd "XrayDB-$pkgver/python"
+  cd "${srcdir}/${_pkgname}-${pkgver}/python"
   python setup.py install --root="$pkgdir"
 }
