@@ -1,5 +1,5 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index f0ac1df38..7d496cda5 100644
+index db74c230b..824e4679e 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -1612,6 +1612,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES                         :Minimum company
@@ -23,7 +23,7 @@ index f0ac1df38..7d496cda5 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index 49828c53e..b3e52744f 100644
+index b9b5bc5fb..fb8860467 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
 @@ -1763,6 +1763,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES                         :Мин. воз
@@ -69,7 +69,7 @@ index 7e5e0e39b..c175eadb9 100644
  						return false;
  					}
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 888b98e94..27e2de9a4 100644
+index 72ae0724c..293d6ffd9 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -1069,9 +1069,12 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
@@ -158,17 +158,16 @@ index 888b98e94..27e2de9a4 100644
  			TileIndex orig_tile = tile; // backup old value
  
  			if (GetTunnelBridgeTransportType(tile) != TRANSPORT_RAIL) return false;
-@@ -1358,7 +1408,8 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
+@@ -1358,7 +1408,7 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
  	bool had_success = false;
  	for (;;) {
  		/* only build/remove signals with the specified density */
 -		if (remove || minimise_gaps || signal_ctr % signal_density == 0) {
-+
 +		if (remove || minimise_gaps || signal_ctr % signal_density == 0 || IsTileType(tile, MP_TUNNELBRIDGE)) {
- 			uint32 p1 = GB(TrackdirToTrack(trackdir), 0, 3);
- 			SB(p1, 3, 1, mode);
- 			SB(p1, 4, 1, semaphores);
-@@ -1394,13 +1445,20 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
+ 			uint32 param1 = GB(TrackdirToTrack(trackdir), 0, 3);
+ 			SB(param1, 3, 1, mode);
+ 			SB(param1, 4, 1, semaphores);
+@@ -1394,13 +1444,20 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
  
  			/* Collect cost. */
  			if (!test_only) {
@@ -195,7 +194,7 @@ index 888b98e94..27e2de9a4 100644
  					/* The "No railway" error is the least important one. */
  					if (ret.GetErrorMessage() != STR_ERROR_THERE_IS_NO_RAILROAD_TRACK ||
  							last_error.GetErrorMessage() == INVALID_STRING_ID) {
-@@ -1471,22 +1529,48 @@ CommandCost CmdBuildSignalTrack(TileIndex tile, DoCommandFlag flags, uint32 p1,
+@@ -1471,22 +1528,48 @@ CommandCost CmdBuildSignalTrack(TileIndex tile, DoCommandFlag flags, uint32 p1,
  CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32 p2, const char *text)
  {
  	Track track = Extract<Track, 0, 3>(p1);
@@ -251,7 +250,7 @@ index 888b98e94..27e2de9a4 100644
  		Train *v = nullptr;
  		if (HasReservedTracks(tile, TrackToTrackBits(track))) {
  			v = GetTrainForReservation(tile, track);
-@@ -1522,7 +1606,7 @@ CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1
+@@ -1522,7 +1605,7 @@ CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1
  		MarkTileDirtyByTile(tile);
  	}
  
@@ -261,10 +260,10 @@ index 888b98e94..27e2de9a4 100644
  
  /**
 diff --git a/src/settings_gui.cpp b/src/settings_gui.cpp
-index 664cfbd21..620fe8db1 100644
+index 559c39587..1af5bd6ec 100644
 --- a/src/settings_gui.cpp
 +++ b/src/settings_gui.cpp
-@@ -1636,6 +1636,7 @@ static SettingsContainer &GetSettingsTree()
+@@ -1622,6 +1622,7 @@ static SettingsContainer &GetSettingsTree()
  			SettingsPage *construction = interface->Add(new SettingsPage(STR_CONFIG_SETTING_INTERFACE_CONSTRUCTION));
  			{
  				construction->Add(new SettingEntry("gui.link_terraform_toolbar"));
@@ -273,7 +272,7 @@ index 664cfbd21..620fe8db1 100644
  				construction->Add(new SettingEntry("gui.persistent_buildingtools"));
  				construction->Add(new SettingEntry("gui.quick_goto"));
 diff --git a/src/settings_type.h b/src/settings_type.h
-index bba95ad96..74372827b 100644
+index 39a73b3ed..4888ba754 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
 @@ -331,6 +331,7 @@ struct ConstructionSettings {
@@ -366,10 +365,10 @@ index d6795e3b5..6a7eca6b6 100644
  
  			case MP_RAILWAY:
 diff --git a/src/table/settings.ini b/src/table/settings.ini
-index 66dc55e9b..1a767ea5b 100644
+index 4f105b5f6..00782dbaf 100644
 --- a/src/table/settings.ini
 +++ b/src/table/settings.ini
-@@ -562,6 +562,20 @@ str      = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH
+@@ -561,6 +561,20 @@ str      = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH
  strhelp  = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH_HELPTEXT
  strval   = STR_CONFIG_SETTING_TILE_LENGTH
  
@@ -391,7 +390,7 @@ index 66dc55e9b..1a767ea5b 100644
  [SDT_NULL]
  length   = 1
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index 169fb9d71..5615f076b 100644
+index 0a3a5db9e..4d2b4924a 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
 @@ -1859,6 +1859,17 @@ void ReverseTrainDirection(Train *v)
