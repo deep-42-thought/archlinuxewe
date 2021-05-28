@@ -8,7 +8,7 @@ _pkgver=9.16.16
 pkgname=bind-next
 _pkgnam=${pkgname%-*}
 pkgver=${_pkgver//-/.}
-pkgrel=2
+pkgrel=3
 pkgdesc='A complete, highly portable implementation of the DNS protocol'
 url='https://www.isc.org/software/bind/'
 license=('MPL2')
@@ -19,8 +19,10 @@ conflicts=($_pkgname)
 makedepends=('libcap' 'libxml2' 'zlib' 'krb5' 'e2fsprogs' 'openssl' 'readline'
   'libidn2' 'dnssec-anchors' 'python' 'json-c' 'python-ply' 'lmdb' 'zlib' 'icu'
   'xz' 'libmaxminddb' 'libnsl' 'libuv' 'python-sphinx')
-_pinned_dependencies=(
+_pinned_dependencies_i486=(
   'gcc-libs=11.1.0'
+)
+_pinned_dependencies=(
   'glibc>=2.33'
   'libcap.so=2'
   'libcom_err.so=2'
@@ -37,6 +39,7 @@ _pinned_dependencies=(
   'openssl=1.1.1.k'
   'zlib=1:1.2.11'
 )
+depends_i486=("${_pinned_dependencies_i486[@]}")
 depends=('bash' 'dnssec-anchors' 'e2fsprogs' 'glibc' 'icu' 'libedit' 'json-c'
   'krb5' 'libcap' 'libidn2' 'libmaxminddb' 'libnsl' 'libuv' 'libxml2' 'lmdb'
   'openssl' 'python' 'python-ply' 'readline' 'xz' 'zlib' "${_pinned_dependencies[@]}")
