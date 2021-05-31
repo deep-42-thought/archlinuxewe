@@ -3,7 +3,7 @@
 
 pkgname='perl-sah-schemas-rinci'
 pkgver=1.1.94.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Sah schemas for Rinci'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,6 +14,8 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   'perl-data-sah-normalize')
 checkdepends=(
   'perl-pod-coverage-trustpod'

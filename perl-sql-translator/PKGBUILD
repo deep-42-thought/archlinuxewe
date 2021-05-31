@@ -3,7 +3,7 @@
 
 pkgname='perl-sql-translator'
 pkgver=1.62
-pkgrel=1
+pkgrel=2
 pkgdesc='SQL DDL transformations and more'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -27,6 +27,8 @@ makedepends=(
   'perl-xml-writer>=0.500'
   'perl-yaml>=0.66')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   'perl-carp-clan'
   'perl-dbi>=1.54'
   'perl-digest-sha'

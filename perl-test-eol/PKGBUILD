@@ -3,7 +3,7 @@
 
 pkgname='perl-test-eol'
 pkgver=2.02
-pkgrel=1
+pkgrel=2
 pkgdesc='Check the correct line endings in your project'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -14,6 +14,8 @@ makedepends=(
   'perl-pathtools'
   'perl-test-simple>=0.88')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   'perl-pathtools'
   'perl-test-simple')
 url='https://metacpan.org/release/Test-EOL'

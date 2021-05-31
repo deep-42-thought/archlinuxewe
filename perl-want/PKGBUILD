@@ -4,15 +4,15 @@
 
 pkgname='perl-want'
 pkgver='0.29'
-pkgrel=9
+pkgrel=10
 pkgdesc="A generalisation of wantarray"
 arch=('x86_64' 'i686' 'pentium4')
 _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
-  'perl>=5.32'
-  'perl<5.33'
+  'perl>=5.34'
+  'perl<5.35'
   "${_pinned_dependencies[@]}"
 )
 license=('PerlArtistic' 'GPL')

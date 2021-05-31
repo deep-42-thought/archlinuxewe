@@ -3,7 +3,7 @@
 
 pkgname='perl-modern-perl'
 pkgver=1.20200211
-pkgrel=2
+pkgrel=3
 pkgdesc='enable all of the features of Modern Perl with one import'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,8 +12,8 @@ makedepends=(
   'perl-extutils-makemaker'
   'perl-test-simple>=0.98')
 depends=(
-  'perl>=5.32'
-  'perl<5.33'
+  'perl>=5.34'
+  'perl<5.35'
   'perl-io')
 url='https://metacpan.org/release/Modern-Perl'
 _distdir="Modern-Perl-${pkgver}"

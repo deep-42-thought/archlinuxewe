@@ -3,7 +3,7 @@
 
 pkgname='perl-net-ssh2'
 pkgver=0.72
-pkgrel=1
+pkgrel=2
 pkgdesc='Support for the SSH 2 protocol via libssh2.'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -21,6 +21,8 @@ provides=(
   'perl-net-ssh2-publickey=0.72'
   'perl-net-ssh2-sftp=0.72')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   "${_pinned_dependencies[@]}")
 makedepends=(
   'perl-extutils-makemaker>=6.59')

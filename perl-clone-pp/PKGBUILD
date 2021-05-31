@@ -3,7 +3,7 @@
 
 pkgname='perl-clone-pp'
 pkgver=1.08
-pkgrel=1
+pkgrel=2
 pkgdesc='Recursively copy Perl datatypes'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,6 +13,8 @@ makedepends=(
   'perl-data-dumper'
   'perl-extutils-makemaker')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   'perl-exporter')
 checkdepends=()
 url='https://metacpan.org/release/Clone-PP'

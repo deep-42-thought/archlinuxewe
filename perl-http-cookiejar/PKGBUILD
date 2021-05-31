@@ -3,7 +3,7 @@
 
 pkgname='perl-http-cookiejar'
 pkgver=0.010
-pkgrel=1
+pkgrel=2
 pkgdesc='A minimalist HTTP user agent cookie jar'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -19,6 +19,8 @@ makedepends=(
   'perl-test-simple>=0.96'
   'perl-uri')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   'perl-carp'
   'perl-http-date'
   'perl-parent'

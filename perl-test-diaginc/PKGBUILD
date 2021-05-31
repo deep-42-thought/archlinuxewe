@@ -3,12 +3,14 @@
 
 pkgname='perl-test-diaginc'
 pkgver='0.008'
-pkgrel='1'
+pkgrel=2
 pkgdesc='List modules and versions loaded if tests fail'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   'perl-pathtools'
 )
 makedepends=(

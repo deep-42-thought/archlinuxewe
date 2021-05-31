@@ -3,7 +3,7 @@
 
 pkgname='perl-test-compile'
 pkgver=2.4.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Check whether Perl files compile correctly.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -13,6 +13,8 @@ optdepends=(
 makedepends=(
   'perl-module-build>=0.38')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   'perl-exporter>=5.68'
   'perl-parent>=0.225'
   'perl-universal-require'

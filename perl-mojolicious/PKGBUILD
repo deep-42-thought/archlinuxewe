@@ -2,7 +2,7 @@
 
 pkgname='perl-mojolicious'
 pkgver=9.18
-pkgrel=1
+pkgrel=2
 pkgdesc='Web development toolkit'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -10,6 +10,8 @@ options=('!emptydirs')
 makedepends=(
   'perl-extutils-makemaker')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   'perl-io-socket-ip>=0.37'
   'perl-scalar-list-utils>=1.41')
 checkdepends=(

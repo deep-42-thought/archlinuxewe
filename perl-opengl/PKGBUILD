@@ -3,7 +3,7 @@
 
 pkgname='perl-opengl'
 pkgver='0.70'
-pkgrel=19
+pkgrel=20
 pkgdesc='Perl bindings to the OpenGL API, GLU, and GLUT/FreeGLUT'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -16,8 +16,8 @@ _pinned_dependencies=(
   'libx11=1.7.1'
 )
 depends=(
-  'perl>=5.32'
-  'perl<5.33'
+  'perl>=5.34'
+  'perl<5.35'
   "${_pinned_dependencies[@]}"
   'freeglut>=2.8.1'
   'glu>=9.0.0'
