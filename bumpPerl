@@ -13,9 +13,12 @@ perlMajor="${perlMinor%%.*}"
 perlMinor="${perlMinor#${perlMajor}.}"
 perlMinor="${perlMinor%%.*}"
 
+provided=$('./liste-verfuegbare-Versionen')
+trap 'rm -f "${provided}"' EXIT
+
 for pkgbuild in perl-*/PKGBUILD demeter/PKGBUILD; do
 
-  ./bumpPkgrel -n "${pkgbuild%/PKGBUILD}"
+  ./bumpPkgrel -n -p "${provided}" "${pkgbuild%/PKGBUILD}"
   sed -i '
     /^depends=(/{
       :a
