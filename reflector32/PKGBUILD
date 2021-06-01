@@ -3,7 +3,7 @@
 # repo: releng
 pkgname=reflector32
 pkgver=2021.4
-pkgrel=1
+pkgrel=2
 pkgdesc='A Python 3 module and script to retrieve and filter the latest Pacman mirror list for Archlinux32.'
 arch=(any)
 license=(GPL)
@@ -20,7 +20,19 @@ validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A' '38ACA6A026D25CDD227D24
 
 prepare() {
   cd "$srcdir/$pkgname-$pkgver"
-  sed -i 's/\b[Rr]eflector\b/\032/g' setup.py reflector Reflector.py
+  sed -i '
+    s/\b[Rr]eflector\b/\032/g
+  ' \
+    setup.py \
+    reflector \
+    Reflector.py
+  sed -i '
+    s/\b[Rr]eflector\b/\032/g
+    s/\bmirrorlist\b/\032/g
+    s@/etc/xdg/reflector32/reflector32@/etc/xdg/reflector/reflector32@
+  ' \
+    reflector.service \
+    reflector.conf
   mv reflector{,32}
   mv Reflector{,32}.py
 }
