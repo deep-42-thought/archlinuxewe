@@ -1,0 +1,20 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Hans-Nikolai Viessmann <hans AT viess DOT mn>
+pkgname=reflector32-nomirrorlist
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Use reflector-generated mirrorlist32 by default"
+arch=('any')
+url="https://aur.archlinux.org/packages/reflector-nomirrorlist/"
+license=('unknown')
+depends=('pacman' 'reflector32')
+provides=('pacman-mirrorlist32')
+conflicts=('pacman-mirrorlist32')
+install="${pkgname}.install"
+backup=('etc/pacman.d/mirrorlist32')
+source=()
+
+package() {
+    # we do nothing, everything is in .install
+    :
+}
