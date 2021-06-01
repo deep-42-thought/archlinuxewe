@@ -16,7 +16,7 @@ perlMinor="${perlMinor%%.*}"
 provided=$('./liste-verfuegbare-Versionen')
 trap 'rm -f "${provided}"' EXIT
 
-for pkgbuild in perl-*/PKGBUILD demeter/PKGBUILD; do
+for pkgbuild in perl-*/PKGBUILD demeter/PKGBUILD spamassassin-courier/PKGBUILD; do
 
   ./bumpPkgrel -n -p "${provided}" "${pkgbuild%/PKGBUILD}"
   sed -i '
