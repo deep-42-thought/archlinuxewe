@@ -176,7 +176,7 @@ index 403631312..61704487e 100644
  		IncreaseGeneratingWorldProgress(GWP_ROUGH_ROCKY);
  		if (IsTileType(tile, MP_CLEAR) && !IsClearGround(tile, CLEAR_DESERT)) {
 diff --git a/src/console_cmds.cpp b/src/console_cmds.cpp
-index 39a52f0b5..839730f5d 100644
+index 3c5ca5d24..c1995ed29 100644
 --- a/src/console_cmds.cpp
 +++ b/src/console_cmds.cpp
 @@ -26,6 +26,7 @@
@@ -233,7 +233,7 @@ index cc245b38f..66a088595 100644
  				v->age = 0;
  			}
 diff --git a/src/genworld.cpp b/src/genworld.cpp
-index dc722ac00..4d90d674a 100644
+index 5ed83d5aa..757a9dcf1 100644
 --- a/src/genworld.cpp
 +++ b/src/genworld.cpp
 @@ -321,7 +321,7 @@ void GenerateWorld(GenWorldMode mode, uint size_x, uint size_y, bool reset_setti
@@ -246,7 +246,7 @@ index dc722ac00..4d90d674a 100644
  
  	_GenerateWorld();
 diff --git a/src/genworld_gui.cpp b/src/genworld_gui.cpp
-index 69ae9576a..2f65b30a8 100644
+index ab5a781ef..43f5c2a0c 100644
 --- a/src/genworld_gui.cpp
 +++ b/src/genworld_gui.cpp
 @@ -16,6 +16,8 @@
@@ -421,7 +421,7 @@ index a6bf3cf6d..a7c157ada 100644
  };
  
 diff --git a/src/heightmap.cpp b/src/heightmap.cpp
-index 458b0c910..2b01a309a 100644
+index 0c726371c..a073c7cf4 100644
 --- a/src/heightmap.cpp
 +++ b/src/heightmap.cpp
 @@ -14,6 +14,7 @@
@@ -432,7 +432,7 @@ index 458b0c910..2b01a309a 100644
  #include "gfx_func.h"
  #include "fios.h"
  #include "fileio_func.h"
-@@ -395,6 +396,9 @@ void FixSlopes()
+@@ -429,6 +430,9 @@ void FixSlopes()
  	width   = MapSizeX();
  	height  = MapSizeY();
  
@@ -443,7 +443,7 @@ index 458b0c910..2b01a309a 100644
  	for (row = 0; (uint)row < height; row++) {
  		for (col = 0; (uint)col < width; col++) {
 diff --git a/src/industry_cmd.cpp b/src/industry_cmd.cpp
-index 5bd2a3dc2..78a0c7638 100644
+index 8be44488d..fd0e91401 100644
 --- a/src/industry_cmd.cpp
 +++ b/src/industry_cmd.cpp
 @@ -12,6 +12,7 @@
@@ -472,7 +472,7 @@ index 5bd2a3dc2..78a0c7638 100644
  					/* Start with a random layout */
  					size_t layout = RandomRange((uint32)num_layouts);
  					/* Check now each layout, starting with the random one */
-@@ -2230,7 +2231,7 @@ static Industry *PlaceIndustry(IndustryType type, IndustryAvailabilityCallType c
+@@ -2229,7 +2230,7 @@ static Industry *PlaceIndustry(IndustryType type, IndustryAvailabilityCallType c
  {
  	uint tries = try_hard ? 10000u : 2000u;
  	for (; tries > 0; tries--) {
@@ -482,7 +482,7 @@ index 5bd2a3dc2..78a0c7638 100644
  	}
  	return nullptr;
 diff --git a/src/landscape.cpp b/src/landscape.cpp
-index 6ea3af75b..1aca569b3 100644
+index f13d1835f..6ed0c6569 100644
 --- a/src/landscape.cpp
 +++ b/src/landscape.cpp
 @@ -34,6 +34,7 @@
@@ -601,10 +601,10 @@ index 4d6856f6a..16d5c5dce 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Кляса станцыі: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Тып станцыi: {LTBLUE}{STRING}
 diff --git a/src/lang/brazilian_portuguese.txt b/src/lang/brazilian_portuguese.txt
-index 386701dc1..3c19ea920 100644
+index 4dd815985..33df02362 100644
 --- a/src/lang/brazilian_portuguese.txt
 +++ b/src/lang/brazilian_portuguese.txt
-@@ -2690,7 +2690,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Dono da
+@@ -2691,7 +2691,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Dono da
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Dono da linha ferroviária: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Prefeitura: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nenhum
@@ -679,7 +679,7 @@ index f2b498718..c40d7e135 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklasse: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstype: {LTBLUE}{STRING}
 diff --git a/src/lang/dutch.txt b/src/lang/dutch.txt
-index 9798a9782..32d6c51aa 100644
+index a15687630..6aa1150f6 100644
 --- a/src/lang/dutch.txt
 +++ b/src/lang/dutch.txt
 @@ -2689,7 +2689,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eigenaar
@@ -692,7 +692,7 @@ index 9798a9782..32d6c51aa 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklasse: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstype: {LTBLUE}{STRING}
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index db74c230b..89f772d2a 100644
+index 4a92eba89..c60581a14 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -470,6 +470,18 @@ STR_LANDSCAPING_MENU_PLANT_TREES                                :Plant trees
@@ -714,7 +714,7 @@ index db74c230b..89f772d2a 100644
  ############ range for music menu starts
  STR_TOOLBAR_SOUND_MUSIC                                         :Sound/music
  ############ range ends here
-@@ -2689,7 +2701,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
+@@ -2690,7 +2702,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Railway owner: {LTBLUE}{STRING1}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Local authority: {LTBLUE}{STRING1}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :None
@@ -723,7 +723,7 @@ index db74c230b..89f772d2a 100644
  STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Built: {LTBLUE}{DATE_LONG}
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Station class: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Station type: {LTBLUE}{STRING}
-@@ -5238,3 +5250,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
+@@ -5239,3 +5251,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
  STR_SHIP                                                        :{BLACK}{SHIP}
  
  STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
@@ -825,10 +825,10 @@ index 4508d9723..21edb69bd 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Støð klassi: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Støð slag: {LTBLUE}{STRING}
 diff --git a/src/lang/finnish.txt b/src/lang/finnish.txt
-index f18298b80..08ec72516 100644
+index ee4acaf91..f411950b0 100644
 --- a/src/lang/finnish.txt
 +++ b/src/lang/finnish.txt
-@@ -2689,7 +2689,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Raitioti
+@@ -2690,7 +2690,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Raitioti
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Rautatien omistaja: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Kunta: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ei mitään
@@ -981,10 +981,10 @@ index d1d635ae4..fb0511d50 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Tipo stazione: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo stazione: {LTBLUE}{STRING}
 diff --git a/src/lang/korean.txt b/src/lang/korean.txt
-index c34def59a..f324db0a6 100644
+index 9e429e77b..97e10ed54 100644
 --- a/src/lang/korean.txt
 +++ b/src/lang/korean.txt
-@@ -2690,7 +2690,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}전찻
+@@ -2691,7 +2691,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}전찻
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}철도 소유주: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}지역 당국: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :없음
@@ -1059,7 +1059,7 @@ index 96c438231..3759bc901 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Kelas stesen: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Jenis stesen: {LTBLUE}{STRING}
 diff --git a/src/lang/norwegian_bokmal.txt b/src/lang/norwegian_bokmal.txt
-index 5b675a667..fd710906f 100644
+index 34a55d0c8..7ab2327b4 100644
 --- a/src/lang/norwegian_bokmal.txt
 +++ b/src/lang/norwegian_bokmal.txt
 @@ -2693,7 +2693,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eier av
@@ -1111,10 +1111,10 @@ index 2bf694bc0..bca1d5a7e 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Rodzaj stacji: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Typ stacji: {LTBLUE}{STRING}
 diff --git a/src/lang/portuguese.txt b/src/lang/portuguese.txt
-index 4bf74f6f3..84cd90e3f 100644
+index b716c0471..461e14cf3 100644
 --- a/src/lang/portuguese.txt
 +++ b/src/lang/portuguese.txt
-@@ -2690,7 +2690,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Dono da
+@@ -2691,7 +2691,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Dono da
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Dono da linha férrea: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoridade local: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nenhum
@@ -1137,7 +1137,7 @@ index 87cfb6c7c..0365e8541 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clasa staţiei: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tip staţie: {LTBLUE}{STRING}
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index b9b5bc5fb..d212b3872 100644
+index 1752a0cf8..554e8948d 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
 @@ -596,6 +596,18 @@ STR_LANDSCAPING_MENU_PLANT_TREES                                :Высадка
@@ -1159,7 +1159,7 @@ index b9b5bc5fb..d212b3872 100644
  ############ range for music menu starts
  STR_TOOLBAR_SOUND_MUSIC                                         :Звук/музыка
  ############ range ends here
-@@ -2864,7 +2876,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Влад
+@@ -2865,7 +2877,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Влад
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Владелец ж/д пути: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Администрация: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Нет
@@ -1168,7 +1168,7 @@ index b9b5bc5fb..d212b3872 100644
  STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Построено: {LTBLUE}{DATE_LONG}
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Класс станции: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Тип станции: {LTBLUE}{STRING}
-@@ -5462,3 +5474,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
+@@ -5463,3 +5475,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
  STR_SHIP                                                        :{BLACK}{SHIP}
  
  STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
@@ -1283,10 +1283,10 @@ index 310fa82d5..ff53e9ea3 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clase de estación: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estación: {LTBLUE}{STRING}
 diff --git a/src/lang/swedish.txt b/src/lang/swedish.txt
-index 03ea486cb..cc0b8ef09 100644
+index 98ac033fa..b7432b371 100644
 --- a/src/lang/swedish.txt
 +++ b/src/lang/swedish.txt
-@@ -2689,7 +2689,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Spårvä
+@@ -2690,7 +2690,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Spårvä
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Järnvägens ägare: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokala myndigheter: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ingen
@@ -1688,7 +1688,7 @@ index 000000000..53eafdde6
 +
 +#endif /* LAYER_TYPE_H */
 diff --git a/src/main_gui.cpp b/src/main_gui.cpp
-index 1e8cfcbfa..83bd31191 100644
+index 559040f37..e60dc35de 100644
 --- a/src/main_gui.cpp
 +++ b/src/main_gui.cpp
 @@ -33,6 +33,9 @@
@@ -1896,7 +1896,7 @@ index c46a1c11d..afbbc7506 100644
  	_pause_mode = PM_UNPAUSED;
  	_game_speed = 100;
 diff --git a/src/misc_gui.cpp b/src/misc_gui.cpp
-index 3094d0ead..0677fe47b 100644
+index 6ba65c703..545987789 100644
 --- a/src/misc_gui.cpp
 +++ b/src/misc_gui.cpp
 @@ -218,10 +218,11 @@ public:
@@ -1915,7 +1915,7 @@ index 3094d0ead..0677fe47b 100644
  		line_nr++;
  
 diff --git a/src/object_cmd.cpp b/src/object_cmd.cpp
-index c11409d4b..c0bc2b5dd 100644
+index 556e5af5c..3054369e7 100644
 --- a/src/object_cmd.cpp
 +++ b/src/object_cmd.cpp
 @@ -705,7 +705,7 @@ static bool TryBuildLightHouse()
@@ -1931,8 +1931,8 @@ index c11409d4b..c0bc2b5dd 100644
  
  				default:
  					uint8 view = RandomRange(spec->views);
--					if (CmdBuildObject(RandomTile(), DC_EXEC | DC_AUTO | DC_NO_TEST_TOWN_RATING | DC_NO_MODIFY_TOWN_RATING, i, view, nullptr).Succeeded()) amount--;
-+					if (CmdBuildObject(TopTile(RandomTile()), DC_EXEC | DC_AUTO | DC_NO_TEST_TOWN_RATING | DC_NO_MODIFY_TOWN_RATING, i, view, nullptr).Succeeded()) amount--;
+-					if (CmdBuildObject(RandomTile(), DC_EXEC | DC_AUTO | DC_NO_TEST_TOWN_RATING | DC_NO_MODIFY_TOWN_RATING, i, view, {}).Succeeded()) amount--;
++					if (CmdBuildObject(TopTile(RandomTile()), DC_EXEC | DC_AUTO | DC_NO_TEST_TOWN_RATING | DC_NO_MODIFY_TOWN_RATING, i, view, {}).Succeeded()) amount--;
  					break;
  			}
  		}
@@ -1950,7 +1950,7 @@ index a0bbb0109..553acf76f 100644
  		CursorID rail_swne;  ///< Cursor for building rail in X direction
  		CursorID rail_ew;    ///< Cursor for building rail in E-W direction
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 72ae0724c..9a7d88fd5 100644
+index 59c1d27ab..eb13ec84d 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -541,12 +541,12 @@ CommandCost CmdBuildSingleRail(TileIndex tile, DoCommandFlag flags, uint32 p1, u
@@ -2052,7 +2052,7 @@ index 72ae0724c..9a7d88fd5 100644
  		}
  
 diff --git a/src/road_cmd.cpp b/src/road_cmd.cpp
-index 82e944f6e..99f9f9e5e 100644
+index 70a014434..649c4a56a 100644
 --- a/src/road_cmd.cpp
 +++ b/src/road_cmd.cpp
 @@ -402,7 +402,7 @@ static CommandCost RemoveRoad(TileIndex tile, DoCommandFlag flags, RoadBits piec
@@ -2083,7 +2083,7 @@ index 82e944f6e..99f9f9e5e 100644
  }
  
 diff --git a/src/saveload/map_sl.cpp b/src/saveload/map_sl.cpp
-index 51c56684a..d84c06eda 100644
+index d08fc6389..37e2cc48d 100644
 --- a/src/saveload/map_sl.cpp
 +++ b/src/saveload/map_sl.cpp
 @@ -9,6 +9,7 @@
@@ -2094,15 +2094,14 @@ index 51c56684a..d84c06eda 100644
  #include "../core/bitmath_func.hpp"
  #include "../fios.h"
  #include <array>
-@@ -23,6 +24,7 @@ static uint32 _map_dim_y;
- static const SaveLoadGlobVarList _map_dimensions[] = {
+@@ -23,19 +24,23 @@ static uint32 _map_dim_y;
+ static const SaveLoad _map_dimensions[] = {
  	SLEG_CONDVAR(_map_dim_x, SLE_UINT32, SLV_6, SL_MAX_VERSION),
  	SLEG_CONDVAR(_map_dim_y, SLE_UINT32, SLV_6, SL_MAX_VERSION),
 +	SLEG_CONDVAR(_layer_count, SLE_UINT32, SLV_UNDERGROUND, SL_MAX_VERSION),
- 	    SLEG_END()
  };
  
-@@ -30,13 +32,16 @@ static void Save_MAPS()
+ static void Save_MAPS()
  {
  	_map_dim_x = MapSizeX();
  	_map_dim_y = MapSizeY();
@@ -2121,10 +2120,10 @@ index 51c56684a..d84c06eda 100644
  
  static void Check_MAPS()
 diff --git a/src/saveload/saveload.h b/src/saveload/saveload.h
-index d28b81692..9c73b0c55 100644
+index 1c763a93f..86b21f991 100644
 --- a/src/saveload/saveload.h
 +++ b/src/saveload/saveload.h
-@@ -303,6 +303,7 @@ enum SaveLoadVersion : uint16 {
+@@ -304,6 +304,7 @@ enum SaveLoadVersion : uint16 {
  	SLV_MULTITILE_DOCKS,                    ///< 216  PR#7380 Multiple docks per station.
  	SLV_TRADING_AGE,                        ///< 217  PR#7780 Configurable company trading age.
  	SLV_ENDING_YEAR,                        ///< 218  PR#7747 v1.10  Configurable ending year.
@@ -2145,10 +2144,10 @@ index a1dbb6567..b0c3656dc 100644
  #include "../../widgets/viewport_widget.h"
  #include "../../widgets/waypoint_widget.h"
 diff --git a/src/settings.cpp b/src/settings.cpp
-index af06d3bef..0c9bc26c2 100644
+index 619d762d2..78c801d91 100644
 --- a/src/settings.cpp
 +++ b/src/settings.cpp
-@@ -31,6 +31,7 @@
+@@ -32,6 +32,7 @@
  #include "command_func.h"
  #include "console_func.h"
  #include "pathfinder/pathfinder_type.h"
@@ -2157,10 +2156,10 @@ index af06d3bef..0c9bc26c2 100644
  #include "train.h"
  #include "news_func.h"
 diff --git a/src/settings_type.h b/src/settings_type.h
-index 39a73b3ed..d0432dfd1 100644
+index 802368384..23fff3ecb 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
-@@ -160,6 +160,8 @@ struct GUISettings {
+@@ -163,6 +163,8 @@ struct GUISettings {
  	uint16 refresh_rate;                     ///< How often we refresh the screen (time between draw-ticks).
  	uint16 fast_forward_speed_limit;         ///< Game speed to use when fast-forward is enabled.
  
@@ -2169,7 +2168,7 @@ index 39a73b3ed..d0432dfd1 100644
  	uint16 console_backlog_timeout;          ///< the minimum amount of time items should be in the console backlog before they will be removed in ~3 seconds granularity.
  	uint16 console_backlog_length;           ///< the minimum amount of items in the console backlog before items will be removed.
  
-@@ -292,6 +294,7 @@ struct GameCreationSettings {
+@@ -295,6 +297,7 @@ struct GameCreationSettings {
  	Year   ending_year;                      ///< scoring end date
  	uint8  map_x;                            ///< X size of map
  	uint8  map_y;                            ///< Y size of map
@@ -2178,7 +2177,7 @@ index 39a73b3ed..d0432dfd1 100644
  	byte   oil_refinery_limit;               ///< distance oil refineries allowed from map edge
  	byte   snow_line_height;                 ///< the configured snow line height (deduced from "snow_coverage")
 diff --git a/src/station.cpp b/src/station.cpp
-index 892677312..0a0358be3 100644
+index 877f53d4e..14ac504a8 100644
 --- a/src/station.cpp
 +++ b/src/station.cpp
 @@ -11,6 +11,7 @@
@@ -2274,7 +2273,7 @@ index 892677312..0a0358be3 100644
  	bool empty = this->AfterRemoveTile(st, ta.tile);
  	if (ta.w != 1 || ta.h != 1) empty = empty || this->AfterRemoveTile(st, TILE_ADDXY(ta.tile, ta.w - 1, ta.h - 1));
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index d9529da11..7a63b761e 100644
+index 52c7bc756..ad39ef0c9 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -11,6 +11,7 @@
@@ -2419,7 +2418,7 @@ index d9529da11..7a63b761e 100644
  		if (keep_rail || IsStationTileBlocked(tile)) {
  			/* Don't refund the 'steel' of the track when we keep the
 @@ -1662,7 +1670,7 @@ CommandCost RemoveFromRailBaseStation(TileArea ta, std::vector<T *> &affected_st
- CommandCost CmdRemoveFromRailStation(TileIndex start, DoCommandFlag flags, uint32 p1, uint32 p2, const char *text)
+ CommandCost CmdRemoveFromRailStation(TileIndex start, DoCommandFlag flags, uint32 p1, uint32 p2, const std::string &text)
  {
  	TileIndex end = p1 == 0 ? start : p1;
 -	if (start >= MapSize() || end >= MapSize()) return CMD_ERROR;
@@ -2482,7 +2481,7 @@ index d9529da11..7a63b761e 100644
  	AirportTileTableIterator iter(as->table[layout], tile);
  	CommandCost cost = CheckFlatLandAirport(iter, flags);
 diff --git a/src/station_gui.cpp b/src/station_gui.cpp
-index ab0eb5d1a..2455d4255 100644
+index ffd4f14a7..9adca328b 100644
 --- a/src/station_gui.cpp
 +++ b/src/station_gui.cpp
 @@ -19,6 +19,7 @@
@@ -2493,7 +2492,7 @@ index ab0eb5d1a..2455d4255 100644
  #include "viewport_func.h"
  #include "widgets/dropdown_func.h"
  #include "station_base.h"
-@@ -2214,20 +2215,27 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
+@@ -2215,20 +2216,27 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
  	_deleted_stations_nearby.clear();
  
  	/* Check the inside, to return, if we sit on another station */
@@ -2526,7 +2525,7 @@ index ab0eb5d1a..2455d4255 100644
  					AddNearbyStation<T>(st->xy, &ctx);
  				}
  			}
-@@ -2240,8 +2248,11 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
+@@ -2241,8 +2249,11 @@ static const T *FindStationsNearby(TileArea ta, bool distant_join)
  	if (distant_join && std::min(ta.w, ta.h) >= _settings_game.station.station_spread) return nullptr;
  	uint max_dist = distant_join ? _settings_game.station.station_spread - std::min(ta.w, ta.h) : 1;
  
@@ -2540,11 +2539,11 @@ index ab0eb5d1a..2455d4255 100644
  
  	return nullptr;
  }
-diff --git a/src/table/settings.ini b/src/table/settings.ini
-index 4f105b5f6..8cb3d782a 100644
---- a/src/table/settings.ini
-+++ b/src/table/settings.ini
-@@ -1981,6 +1981,15 @@ min      = 500
+diff --git a/src/table/settings/settings.ini b/src/table/settings/settings.ini
+index 9281ed662..8d5ec6a07 100644
+--- a/src/table/settings/settings.ini
++++ b/src/table/settings/settings.ini
+@@ -1829,6 +1829,15 @@ min      = 500
  max      = 1000000
  cat      = SC_EXPERT
  
@@ -2558,11 +2557,11 @@ index 4f105b5f6..8cb3d782a 100644
 +max      = MAX_LAYER_COUNT_BITS
 +
  [SDT_BOOL]
- base     = GameSettings
  var      = pf.yapf.rail_firstred_twoway_eol
-@@ -3335,6 +3344,15 @@ strhelp  = STR_CONFIG_SETTING_GRAPH_LINE_THICKNESS_HELPTEXT
+ from     = SLV_28
+@@ -3138,6 +3147,15 @@ strhelp  = STR_CONFIG_SETTING_GRAPH_LINE_THICKNESS_HELPTEXT
  strval   = STR_JUST_COMMA
- proc     = RedrawScreen
+ post_cb  = [](auto) { MarkWholeScreenDirty(); }
  
 +[SDTC_VAR]
 +var      = gui.layer_view_type
@@ -2577,7 +2576,7 @@ index 4f105b5f6..8cb3d782a 100644
  var      = gui.show_newgrf_name
  flags    = SLF_NOT_IN_SAVE | SLF_NO_NETWORK_SYNC
 diff --git a/src/terraform_cmd.cpp b/src/terraform_cmd.cpp
-index a23e02ab9..6e8f18d33 100644
+index f23ba78c6..369e09b70 100644
 --- a/src/terraform_cmd.cpp
 +++ b/src/terraform_cmd.cpp
 @@ -8,6 +8,7 @@
@@ -2600,7 +2599,7 @@ index a23e02ab9..6e8f18d33 100644
  				if (IsBridgeAbove(t)) {
  					int bridge_height = GetBridgeHeight(GetSouthernBridgeEnd(t));
 diff --git a/src/tgp.cpp b/src/tgp.cpp
-index e23b2643d..81477e271 100644
+index 2c0c47910..b2b105b4e 100644
 --- a/src/tgp.cpp
 +++ b/src/tgp.cpp
 @@ -12,6 +12,7 @@
@@ -2634,7 +2633,7 @@ index e23b2643d..81477e271 100644
  
  	/* Allocate memory block for height map row pointers */
  	_height_map.total_size = (_height_map.size_x + 1) * (_height_map.size_y + 1);
-@@ -1019,8 +1025,8 @@ void GenerateTerrainPerlin()
+@@ -1017,8 +1023,8 @@ void GenerateTerrainPerlin()
  
  	/* First make sure the tiles at the north border are void tiles if needed. */
  	if (_settings_game.construction.freeform_edges) {
@@ -2889,7 +2888,7 @@ index 4cbd13dbf..711a32f8c 100644
  		SPR_IMG_MESSAGES,        // WID_TN_MESSAGES
  		SPR_IMG_QUERY,           // WID_TN_HELP
 diff --git a/src/town_cmd.cpp b/src/town_cmd.cpp
-index 177b507e4..5c5e73f53 100644
+index d397825af..a4979687a 100644
 --- a/src/town_cmd.cpp
 +++ b/src/town_cmd.cpp
 @@ -12,6 +12,7 @@
@@ -2900,7 +2899,7 @@ index 177b507e4..5c5e73f53 100644
  #include "viewport_func.h"
  #include "viewport_kdtree.h"
  #include "cmd_helper.h"
-@@ -2155,7 +2156,7 @@ static Town *CreateRandomTown(uint attempts, uint32 townnameparts, TownSize size
+@@ -2159,7 +2160,7 @@ static Town *CreateRandomTown(uint attempts, uint32 townnameparts, TownSize size
  
  	do {
  		/* Generate a tile index not too close from the edge */
@@ -2909,7 +2908,7 @@ index 177b507e4..5c5e73f53 100644
  
  		/* if we tried to place the town on water, slide it over onto
  		 * the nearest likely-looking spot */
-@@ -2332,6 +2333,9 @@ static inline bool CanBuildHouseHere(TileIndex tile, bool noslope)
+@@ -2334,6 +2335,9 @@ static inline bool CanBuildHouseHere(TileIndex tile, bool noslope)
  	Slope slope = GetTileSlope(tile);
  	if ((noslope && slope != SLOPE_FLAT) || IsSteepSlope(slope)) return false;
  
@@ -2919,7 +2918,7 @@ index 177b507e4..5c5e73f53 100644
  	/* at least one RoadTypes allow building the house here? */
  	if (!RoadTypesAllowHouseHere(tile)) return false;
  
-@@ -2767,6 +2771,8 @@ CommandCost CmdRenameTown(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32
+@@ -2769,6 +2773,8 @@ CommandCost CmdRenameTown(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32
  		InvalidateWindowData(WC_TOWN_DIRECTORY, 0, TDIWD_FORCE_RESORT);
  		ClearAllStationCachedNames();
  		ClearAllIndustryCachedNames();
@@ -2929,7 +2928,7 @@ index 177b507e4..5c5e73f53 100644
  	}
  	return CommandCost();
 diff --git a/src/tree_cmd.cpp b/src/tree_cmd.cpp
-index baf149f5f..3ccacc13a 100644
+index e2460f3b0..ab75589fb 100644
 --- a/src/tree_cmd.cpp
 +++ b/src/tree_cmd.cpp
 @@ -11,6 +11,7 @@
@@ -3007,7 +3006,7 @@ index baf149f5f..3ccacc13a 100644
  		PlantTreesOnTile(tile, tree, 0, 0);
  	}
 diff --git a/src/tunnelbridge_cmd.cpp b/src/tunnelbridge_cmd.cpp
-index dd8d731ee..022ddbca9 100644
+index 5181dfdca..98aaf2771 100644
 --- a/src/tunnelbridge_cmd.cpp
 +++ b/src/tunnelbridge_cmd.cpp
 @@ -13,6 +13,7 @@
@@ -3044,7 +3043,7 @@ index dd8d731ee..022ddbca9 100644
  		if (start_z == end_z) break;
 diff --git a/src/underground_gui.cpp b/src/underground_gui.cpp
 new file mode 100644
-index 000000000..406bd8cb7
+index 000000000..be4ebe4e5
 --- /dev/null
 +++ b/src/underground_gui.cpp
 @@ -0,0 +1,321 @@
@@ -3261,7 +3260,7 @@ index 000000000..406bd8cb7
 +
 +	virtual void OnPlaceObjectAbort()
 +	{
-+		DeleteWindowById(WC_BUILD_OBJECT, 0);
++		CloseWindowById(WC_BUILD_OBJECT, 0);
 +		this->RaiseButtons();
 +	}
 +
@@ -3357,7 +3356,7 @@ index 000000000..406bd8cb7
 +	}
 +
 +	/* Delete the terraform toolbar to place it again. */
-+	DeleteWindowById(WC_UNDERGROUND, 0, true);
++	CloseWindowById(WC_UNDERGROUND, 0, true);
 +	w = AllocateWindowDescFront<UndergroundToolbarWindow>(&_underground_desc, 0);
 +	/* Align the terraform toolbar under the main toolbar. */
 +	w->top -= w->height;
@@ -3395,7 +3394,7 @@ index 000000000..81b119545
 +
 +#endif /* UNDERGROUND_GUI_H */
 diff --git a/src/vehicle.cpp b/src/vehicle.cpp
-index 90accdd80..71808582b 100644
+index 0f40e33da..3e2e11d6f 100644
 --- a/src/vehicle.cpp
 +++ b/src/vehicle.cpp
 @@ -13,6 +13,7 @@
@@ -3406,7 +3405,7 @@ index 90accdd80..71808582b 100644
  #include "viewport_func.h"
  #include "news_func.h"
  #include "command_func.h"
-@@ -1146,6 +1147,7 @@ void ViewportAddVehicles(DrawPixelInfo *dpi)
+@@ -1144,6 +1145,7 @@ void ViewportAddVehicles(DrawPixelInfo *dpi)
  
  			while (v != nullptr) {
  
@@ -3415,7 +3414,7 @@ index 90accdd80..71808582b 100644
  					l <= v->coord.right + xb &&
  					t <= v->coord.bottom + yb &&
 diff --git a/src/viewport.cpp b/src/viewport.cpp
-index 7217cbc45..4f4594ae0 100644
+index f9310dac8..29c093842 100644
 --- a/src/viewport.cpp
 +++ b/src/viewport.cpp
 @@ -62,6 +62,8 @@
@@ -3520,7 +3519,7 @@ index 5047f04f3..3c02f9ab8 100644
  	}
  
 diff --git a/src/water_cmd.cpp b/src/water_cmd.cpp
-index dfbed6012..43290d7b1 100644
+index dbb4999a7..e82445518 100644
 --- a/src/water_cmd.cpp
 +++ b/src/water_cmd.cpp
 @@ -10,6 +10,7 @@
