@@ -1,14 +1,6 @@
---- a/etc/pam.d/system-auth	2020-09-14 08:25:11.975622583 +0200
-+++ b/etc/pam.d/system-auth	2020-09-14 08:25:11.980977471 +0200
-@@ -4,7 +4,6 @@
- # Optionally use requisite above if you do not want to prompt for the password
- # on locked accounts.
- auth       [success=2 default=ignore]  pam_unix.so          try_first_pass nullok
---auth      [success=1 default=ignore]  pam_systemd_home.so
- auth       [default=die]               pam_faillock.so      authfail
- auth       optional                    pam_permit.so
- auth       required                    pam_env.so
-@@ -12,12 +11,10 @@
+--- a/etc/pam.d/system-auth	2021-06-17 18:57:25.959996395 +0200
++++ b/etc/pam.d/system-auth	2021-06-17 18:58:31.533329725 +0200
+@@ -11,12 +11,10 @@
  # If you drop the above call to pam_faillock.so the lock will be done also
  # on non-consecutive authentication failures.
  
@@ -18,6 +10,6 @@
  account    required                    pam_time.so
  
 --password  [success=1 default=ignore]  pam_systemd_home.so
- password   required                    pam_unix.so          try_first_pass nullok shadow
+ password   required                    pam_unix.so          try_first_pass nullok shadow sha512
  password   optional                    pam_permit.so
  
