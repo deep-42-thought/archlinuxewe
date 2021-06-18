@@ -11,25 +11,25 @@
  /** @file */
 --- a/core/src/droplet/libdroplet/include/droplet/cdmi/crcmodel.h	2020-12-16 08:46:16.000000000 +0100
 +++ b/core/src/droplet/libdroplet/include/droplet/cdmi/crcmodel.h	2021-01-09 21:50:10.506666487 +0100
-@@ -78,7 +78,6 @@
+@@ -79,7 +79,6 @@
  #ifndef DONE_STYLE
  
- typedef unsigned long   ulong;
--typedef unsigned        bool;
- typedef unsigned char * p_ubyte_;
+ typedef unsigned long ulong;
+-typedef unsigned bool;
+ typedef unsigned char* p_ubyte_;
  
- #ifndef TRUE
-@@ -106,8 +106,8 @@
-    int   cm_width;   /* Parameter: Width in bits [8,32].       */
-    ulong cm_poly;    /* Parameter: The algorithm's polynomial. */
-    ulong cm_init;    /* Parameter: Initial register value.     */
--   bool  cm_refin;   /* Parameter: Reflect input bytes?        */
--   bool  cm_refot;   /* Parameter: Reflect output CRC?         */
-+   _Bool cm_refin;   /* Parameter: Reflect input bytes?        */
-+   _Bool cm_refot;   /* Parameter: Reflect output CRC?         */
-    ulong cm_xorot;   /* Parameter: XOR this to output CRC.     */
+ #  ifndef TRUE
+@@ -107,8 +107,8 @@
+   int cm_width;   /* Parameter: Width in bits [8,32].       */
+   ulong cm_poly;  /* Parameter: The algorithm's polynomial. */
+   ulong cm_init;  /* Parameter: Initial register value.     */
+-  bool cm_refin;  /* Parameter: Reflect input bytes?        */
+-  bool cm_refot;  /* Parameter: Reflect output CRC?         */
++  _Bool cm_refin; /* Parameter: Reflect input bytes?        */
++  _Bool cm_refot; /* Parameter: Reflect output CRC?         */
+   ulong cm_xorot; /* Parameter: XOR this to output CRC.     */
  
-    ulong cm_reg;     /* Context: Context during execution.     */
+   ulong cm_reg; /* Context: Context during execution.     */
 --- a/core/src/droplet/libdroplet/src/backend/posix/reqbuilder.c	2020-12-16 08:46:16.000000000 +0100
 +++ b/core/src/droplet/libdroplet/src/backend/posix/reqbuilder.c	2021-01-09 22:27:57.346666239 +0100
 @@ -39,7 +39,7 @@
