@@ -171,9 +171,15 @@ versteheMetaYml() {
       } | \
         versionsUniq
     )
-    if [ -z "${metaYml["${wasAusgeben}"]}" ] && \
-      [ "${wasAusgeben}" == "depends" ]; then
-      metaYml["${wasAusgeben}"]="perl"
+    if [ "${wasAusgeben}" == "depends" ]; then
+      metaYml["${wasAusgeben}"]=$(
+        {
+          printf '%s\n' "${metaYml["${wasAusgeben}"]}"
+          printf 'perl>=%s\n' "${perlver}"
+          printf 'perl<%s.%s\n' "${perlver%%.*}" "$((${perlver#*.}+1))"
+        } \
+        | sort -u
+      )
     fi
     if [ "${wasAusgeben}" == "makedepends" ]; then
       metaYml["${wasAusgeben}"]=$(
@@ -226,6 +232,15 @@ declare -A metaSubst
 declare -A metaStripVersion
 declare -A metaYml
 declare -A pkgBuild
+
+perlver=$(
+  perl --version \
+  | sed '
+    s@^This is perl \([0-9]\+\), version \([0-9]\+\), subversion .*$@\1.\2@
+    t
+    d
+  '
+)
 
 metaRegexe["depends"]="requires"
 metaSubst["depends"]=true
