@@ -24,7 +24,7 @@ if [ $# -eq 1 ]; then
       eval "$(
         git archive HEAD -- PKGBUILD \
         | tar -Ox \
-        | grep '^\(pkgname\|pkgbase\|epoch\|pkgver\|pkgrel\)='
+        | grep '^\(pkgname\|pkgbase\|epoch\|pkgver\|pkgrel\)=[^(]\+$'
       )"
       printf '%s: %s%s-%s -> ' \
         "${pkgbase}${pkgbase:-${pkgname}}" \
