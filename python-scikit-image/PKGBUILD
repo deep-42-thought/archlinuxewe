@@ -4,8 +4,8 @@
 
 pkgname='python-scikit-image'
 _pkgname="${pkgname#*-}"
-pkgver=0.18.1
-pkgrel=2
+pkgver=0.18.2
+pkgrel=1
 pkgdesc="Image processing routines for SciPy"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://scikit-image.org/"
@@ -16,16 +16,15 @@ _pinned_dependencies=(
 )
 depends=(
   "${_pinned_dependencies[@]}"
-  'python>=3.9'
+  'cython>=0.29.13'
   'python<3.10'
-  'python-imageio>=2.3.0'
-  'python-matplotlib>=2.0.0'
-  'python-networkx>=2.0'
-  'python-numpy>=1.15.1'
-  'python-pillow>=4.3.0'
-  'python-pywavelets>=1.1.1'
-  'python-scipy>=1.0.1'
-  'python-tifffile>=2019.7.26')
+  'python>=3.9'
+  'python-cloudpickle>=0.2.1'
+  'python-dask>=0.15.0'
+  'python-pandas>=0.23.0'
+  'python-scikit-learn'
+  'python-seaborn>=0.7.1'
+  'python-wheel')
 makedepends=(
   'cython>=0.23')
 optdepends=(
@@ -35,7 +34,7 @@ optdepends=(
 )
 options=('!emptydirs')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/${_pkgname}/${_pkgname}/archive/v${pkgver}.tar.gz")
-sha512sums=('a13aa5e6943dd8e537ae1c7d7d5ef1607dda9c6eabceae06df3d985ee8dc8abfbc5a05bad952568a94d677b9198d871f9154fa801fd61134fc5cdd007e79d035')
+sha512sums=('a8b46d1b3042099e9bf88d8779b5b140325c531257e516d85dfb0ad967cd57bc505ad1b42badbc324539fcec25af54dcea87ebe1a0e14fb2eacd62c38ad18726')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
