@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=perl-config-ini
-pkgver=0.026
+pkgver=0.027
 pkgrel=1
 pkgdesc="Perl extension for config ini's"
 arch=('any')
@@ -11,7 +11,7 @@ depends=(
   'perl>=5.34'
   'perl<5.35'
   'perl-carp'
-  'perl-mixin-linewise>=0.105')
+  'perl-mixin-linewise>=0.110')
 makedepends=(
   'perl-extutils-makemaker>=6.78'
   'perl-io'
@@ -23,7 +23,7 @@ backup=()
 options=()
 _distdir="Config-INI-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
-sha512sums=('5c362d1465064240bb11146226e6606e40a28f94bdc34f68e955a0ba66a8ef53d288d9d51974f8dad0b3a53701f80b927eeedfee8c048bec44d6b628f6260c08')
+sha512sums=('c0a7d363550cac186b639555e63ac27d613cb2e63d57786aabe63dd65bcb0e2043c3bf80f820bfd975d7111d14567af466e82ed35f9cc2294bfe78ef2a519516')
 
 build() {
 
