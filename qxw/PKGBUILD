@@ -2,7 +2,7 @@
 # Contributor: aksr <aksr at t-com dot me>
 pkgname=qxw
 pkgver=20200708
-pkgrel=3
+pkgrel=4
 epoch=
 pkgdesc="A program to help you create and publish crosswords."
 arch=('i686' 'pentium4' 'x86_64')
@@ -25,7 +25,7 @@ _pinned_dependencies=(
   'libpango-1.0.so=0'
   'libpangocairo-1.0.so=0'
   'libpangoft2-1.0.so=0'
-  'pcre=8.44'
+  'pcre=8.45'
 )
 depends=('gtk2' "${_pinned_dependencies[@]}")
 source=(https://www.quinapalus.com/$pkgname-$pkgver.tar.gz
