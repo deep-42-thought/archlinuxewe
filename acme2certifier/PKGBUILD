@@ -1,9 +1,9 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=acme2certifier
-pkgver=0.16.r5.g1e4f174
+pkgver=0.17
 _commit="${pkgver##*.g}"
-pkgrel=2
+pkgrel=1
 pkgdesc='experimental acme server written in python'
 arch=('any')
 url='https://github.com/grindsa/acme2certifier'
@@ -32,36 +32,11 @@ sha512sums=('SKIP'
 install="${pkgname}.install"
 
 pkgver() {
-  _line_revision="${_commit}"
-  while true; do
-    _version_line=$(
-      git -C "${pkgname}" archive "${_line_revision}" -- acme/version.py \
-      | tar -Ox \
-      | grep -n '^__version__\s*='
-    )
-    _line="${_version_line%%:*}"
-    _line_revision=$(
-      git -C "${pkgname}" blame -L"${_line},${_line}" "${_line_revision}" -- acme/version.py \
-      | awk '{print $1}'
-    )
-    if ! git -C "${pkgname}" archive "${_line_revision}^" -- acme/version.py \
-    | tar -Ox \
-    | grep -qxF "${_version_line#*:}"; then
-      break
-    fi
-    _line_revision="${_line_revision}^"
-  done
-  _version="${_version_line%\'*}"
-  _version="${_version##*\'}"
-  _version="${_version%-*}"
-  printf '%s.r%s.g%s' \
-    "${_version}" \
-    "$(
-      git -C "${pkgname}" rev-list --count "${_commit}" ^"${_line_revision}"
-    )" \
-    "$(
-      git -C "${pkgname}" rev-parse --short "${_commit}"
-    )"
+  git -C "${pkgname}" describe --tags "${_commit}" \
+  | sed '
+    s/-/.r/
+    s/-/./
+  '
 }
 
 #build() {
@@ -85,7 +60,7 @@ package() {
     examples/nginx/acme2certifier.ini \
     "${pkgdir}/etc/uwsgi/acme2certifier.ini"
   install -dm755 -o http -g http "${pkgdir}/var/lib/${pkgname}"
-  mv acme examples tools "${pkgdir}/var/lib/${pkgname}/"
+  mv acme_srv examples tools "${pkgdir}/var/lib/${pkgname}/"
   install -dm755 -o http -g http "${pkgdir}/var/lib/${pkgname}/acme/ca"
   install -Dm644 -t "${pkgdir}/var/lib/${pkgname}/examples/" "${srcdir}/ssl.conf"
   chown -R http:http "${pkgdir}/var/lib/${pkgname}"
