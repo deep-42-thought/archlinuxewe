@@ -1,5 +1,5 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index 206cc212f..12a137ddf 100644
+index 2e84d4b3a..187cd23ff 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -1616,6 +1616,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES                         :Minimum company
@@ -11,7 +11,7 @@ index 206cc212f..12a137ddf 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :When dragging, place signals every: {STRING2}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Set the distance at which signals will be built on a track up to the next obstacle (signal, junction), if signals are dragged
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} tile{P 0 "" s}
-@@ -2777,8 +2779,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -2790,8 +2792,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -23,7 +23,7 @@ index 206cc212f..12a137ddf 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index f2356d685..bc8a147fc 100644
+index fa367b113..94c5b1076 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
 @@ -1767,6 +1767,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES                         :Мин. воз
@@ -35,7 +35,7 @@ index f2356d685..bc8a147fc 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :При перетаскивании ставить сигналы каждые: {STRING}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Настройка периодичности расстановки сигналов методом перетаскивания. Сигналы будут устанавливаться до первого встреченного препятствия (пересечения или другого сигнала).
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} клет{P ку ки ок}
-@@ -2952,8 +2954,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
+@@ -2953,8 +2955,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Железнодорожный туннель
@@ -47,10 +47,10 @@ index f2356d685..bc8a147fc 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Стальной балочный ж/д мост
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Стальной консольный ж/д мост
 diff --git a/src/pathfinder/follow_track.hpp b/src/pathfinder/follow_track.hpp
-index 7e5e0e39b..c175eadb9 100644
+index a9a51da68..5558c0226 100644
 --- a/src/pathfinder/follow_track.hpp
 +++ b/src/pathfinder/follow_track.hpp
-@@ -351,7 +351,7 @@ protected:
+@@ -350,7 +350,7 @@ protected:
  			if (IsTunnel(m_new_tile)) {
  				if (!m_is_tunnel) {
  					DiagDirection tunnel_enterdir = GetTunnelBridgeDirection(m_new_tile);
@@ -59,7 +59,7 @@ index 7e5e0e39b..c175eadb9 100644
  						m_err = EC_NO_WAY;
  						return false;
  					}
-@@ -359,7 +359,7 @@ protected:
+@@ -358,7 +358,7 @@ protected:
  			} else { // IsBridge(m_new_tile)
  				if (!m_is_bridge) {
  					DiagDirection ramp_enderdir = GetTunnelBridgeDirection(m_new_tile);
@@ -260,10 +260,10 @@ index 59c1d27ab..ee7d0423d 100644
  
  /**
 diff --git a/src/settings_gui.cpp b/src/settings_gui.cpp
-index b17b343c7..74d36653c 100644
+index a63448aef..3cf10dfd2 100644
 --- a/src/settings_gui.cpp
 +++ b/src/settings_gui.cpp
-@@ -1623,6 +1623,7 @@ static SettingsContainer &GetSettingsTree()
+@@ -1622,6 +1622,7 @@ static SettingsContainer &GetSettingsTree()
  			SettingsPage *construction = interface->Add(new SettingsPage(STR_CONFIG_SETTING_INTERFACE_CONSTRUCTION));
  			{
  				construction->Add(new SettingEntry("gui.link_terraform_toolbar"));
@@ -272,7 +272,7 @@ index b17b343c7..74d36653c 100644
  				construction->Add(new SettingEntry("gui.persistent_buildingtools"));
  				construction->Add(new SettingEntry("gui.quick_goto"));
 diff --git a/src/settings_type.h b/src/settings_type.h
-index 05efc11e5..b78a535c2 100644
+index 3377bdede..9352fffd6 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
 @@ -335,6 +335,7 @@ struct ConstructionSettings {
@@ -284,7 +284,7 @@ index 05efc11e5..b78a535c2 100644
  	uint32 terraform_per_64k_frames;         ///< how many tile heights may, over a long period, be terraformed per 65536 frames?
  	uint16 terraform_frame_burst;            ///< how many tile heights may, over a short period, be terraformed?
 diff --git a/src/signal.cpp b/src/signal.cpp
-index 4a7e7913e..205263464 100644
+index 329b1b05d..e058edf5e 100644
 --- a/src/signal.cpp
 +++ b/src/signal.cpp
 @@ -195,6 +195,14 @@ static Vehicle *TrainOnTileEnum(Vehicle *v, void *)
@@ -302,7 +302,7 @@ index 4a7e7913e..205263464 100644
  
  /**
   * Perform some operations before adding data into Todo set
-@@ -374,17 +382,39 @@ static SigFlags ExploreSegment(Owner owner)
+@@ -372,17 +380,39 @@ static SigFlags ExploreSegment(Owner owner)
  				if (GetTunnelBridgeTransportType(tile) != TRANSPORT_RAIL) continue;
  				DiagDirection dir = GetTunnelBridgeDirection(tile);
  
@@ -353,7 +353,7 @@ index 4a7e7913e..205263464 100644
  				}
  				}
  				break;
-@@ -492,7 +522,9 @@ static SigSegState UpdateSignalsInBuffer(Owner owner)
+@@ -490,7 +520,9 @@ static SigSegState UpdateSignalsInBuffer(Owner owner)
  				assert(GetTunnelBridgeTransportType(tile) == TRANSPORT_RAIL);
  				assert(dir == INVALID_DIAGDIR || dir == ReverseDiagDir(GetTunnelBridgeDirection(tile)));
  				_tbdset.Add(tile, INVALID_DIAGDIR);  // we can safely start from wormhole centre
@@ -364,13 +364,13 @@ index 4a7e7913e..205263464 100644
  				break;
  
  			case MP_RAILWAY:
-diff --git a/src/table/settings/settings.ini b/src/table/settings/settings.ini
-index 7c5cac886..27deaa7c0 100644
---- a/src/table/settings/settings.ini
-+++ b/src/table/settings/settings.ini
-@@ -539,6 +539,20 @@ str      = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH
- strhelp  = STR_CONFIG_SETTING_MAX_TUNNEL_LENGTH_HELPTEXT
- strval   = STR_CONFIG_SETTING_TILE_LENGTH
+diff --git a/src/table/settings/game_settings.ini b/src/table/settings/game_settings.ini
+index d51fbbf02..d19680aa2 100644
+--- a/src/table/settings/game_settings.ini
++++ b/src/table/settings/game_settings.ini
+@@ -406,6 +406,20 @@ min      = 5
+ max      = 800
+ to       = SLV_120
  
 +[SDT_VAR]
 +base     = GameSettings
@@ -386,11 +386,11 @@ index 7c5cac886..27deaa7c0 100644
 +from     = SL_MIN_VERSION
 +cat      = SC_BASIC
 +
- # construction.longbridges
- [SDT_NULL]
- length   = 1
+ ## These were once in the "gui" section, but they really are related to orders.
+ 
+ [SDTC_BOOL]
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index 47895122b..9120f924c 100644
+index 17e298c33..d2c307c29 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
 @@ -1859,6 +1859,17 @@ void ReverseTrainDirection(Train *v)
