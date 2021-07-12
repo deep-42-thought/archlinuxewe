@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-dump-oneline'
-pkgver='0.07'
-pkgrel=7
+pkgver=0.080
+pkgrel=1
 pkgdesc='Dump data structures as single-line strings'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,15 +11,12 @@ options=('!emptydirs')
 depends=(
   'perl>=5.34'
   'perl<5.35'
-  'perl-data-dmp>=0.09'
-)
+  'perl-data-dmp>=0.241')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -30,7 +27,7 @@ checkdepends=(
 url='https://metacpan.org/release/Data-Dump-OneLine'
 _distdir="Data-Dump-OneLine-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('53216092cfa872f420bd55009923f2175bb60bcabe4545e02bd6ce0a216ea0cca6dbe46efe90ac8868a0410768da18bbf94871c29b6abc049da445bb4821037a')
+sha512sums=('22f00d357c5008f0cd1537ee0ca2d9f53d9e9c006c033c1f84d849722dc7ec8e1bb24186bb2aea3d314a5a371662105d47dbf199ec85cf474aa2c5259a7c45c4')
 
 build() {
   cd "${srcdir}/${_distdir}"
