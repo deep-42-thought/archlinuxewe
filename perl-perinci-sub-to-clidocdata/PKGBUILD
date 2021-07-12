@@ -2,34 +2,33 @@
 # Generator : neuesPerlPaket (6d6eb887751f0274ce913321f40e306c692f5baa957799c6668772e8771f1b10c566613dde872a04de2cb279fd80591fac591849b34aeed27f7fa5f9120faf43)
 
 pkgname='perl-perinci-sub-to-clidocdata'
-pkgver=0.294
-pkgrel=3
+pkgver=0.298
+pkgrel=1
 pkgdesc='From Rinci function metadata, generate structure convenient for producing CLI documentation (help/usage/POD)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-makedepends=(
-  'perl'
-  'perl-extutils-makemaker'
-  'perl-io'
-  'perl-pathtools'
-  'perl-test-simple')
 depends=(
   'perl>=5.34'
   'perl<5.35'
   'perl-exporter>=5.57'
   'perl-getopt-long-negate-en>=0.060'
-  'perl-getopt-long-util>=0.891'
-  'perl-perinci-object>=0.310'
+  'perl-getopt-long-util>=0.893'
+  'perl-perinci-object>=0.311'
   'perl-perinci-sub-convertargs-argv'
-  'perl-perinci-sub-getargs-argv>=0.842'
+  'perl-perinci-sub-getargs-argv>=0.845'
   'perl-perinci-sub-normalize>=0.19'
-  'perl-perinci-sub-util>=0.46'
+  'perl-perinci-sub-util>=0.470'
   'perl-string-shellquote')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-simple')
 url='https://metacpan.org/release/Perinci-Sub-To-CLIDocData'
 _distdir="Perinci-Sub-To-CLIDocData-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('71808ae3c0cab5e1564162e412de7920cd407a00c1b35400a7f7fbdf58666c642728010419003371ef9ac08b7b59d8f02c83b0760948f3f8ee564aa0df59596e')
+sha512sums=('6374367c30457cb67792a39b37e5620f93fbbd10c117c7444f75ddf6840c133a21d3553a4cadc4aafd918ea60037734408d2054a9ee4e87d7b5dfed49cfe683b')
 
 build() {
   cd "${srcdir}/${_distdir}"
