@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (538017202d4cf1d88e3f2bf03b88f00ce1ec9fd20540f8cc4fda04669fe37b2f1d3521b2645446b7c8dcb253e57a934ea1d00f3217819e89699afa281d6f02e7)
 
 pkgname='perl-pod-eventual'
-pkgver='0.094001'
-pkgrel=10
+pkgver=0.094002
+pkgrel=1
 pkgdesc='read a POD document as a series of trivial events'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,13 +12,16 @@ depends=(
   'perl>=5.34'
   'perl<5.35'
   'perl-carp'
-  'perl-mixin-linewise>=0.102'
-)
-makedepends=('perl-test-deep' 'perl-test-simple>=0.96' 'perl-extutils-makemaker>=6.30')
+  'perl-mixin-linewise>=0.102')
+makedepends=(
+  'perl-extutils-makemaker>=6.78'
+  'perl-pathtools'
+  'perl-test-deep'
+  'perl-test-simple>=0.96')
 url='https://metacpan.org/release/Pod-Eventual'
 _distdir="Pod-Eventual-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
-sha512sums=('f892653f6895381b3f493b44e8c295d02bf78e70e64c23b9c8602e6692517790524cd5996bb6d84aed7b4e8da60eebe99330a53e5f26f75e4ab017d6e8d317e6')
+sha512sums=('4442a079faaf2f1eeae66639a247a3f1b55eecc1d1bf680dd4429bed6fcfc75824d3ecdf28b32a40780881bab9ebef6712291bcbf955b0f97e82340d407be2a4')
 
 build(){
   cd "${srcdir}/${_distdir}"
