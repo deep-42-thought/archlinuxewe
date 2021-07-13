@@ -3,7 +3,7 @@
 
 pkgname=avogadroapp
 pkgver=1.94.0
-pkgrel=5
+pkgrel=6
 pkgdesc="An advanced molecular editor designed for cross-platform use in computational chemistry, molecular modeling, bioinformatics, materials science, and related areas."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.openchemistry.org/projects/avogadro2/"
@@ -13,7 +13,7 @@ _pinned_dependencies=(
   'gcc-libs=11.1.0'
   'glibc>=2.31'
   'molequeue=0.9.0'
-  'qt5-base=5.15.2+kde+r207'
+  'qt5-base=5.15.2+kde+r209'
 )
 depends=('hdf5' 'vtk' 'qt5-x11extras' "${_pinned_dependencies[@]}")
 optdepends=('openbabel: Open Babel plugin actions')
