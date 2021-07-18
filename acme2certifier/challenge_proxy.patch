@@ -194,7 +194,7 @@ index d7b6b0c..34f70e6 100644
                  response_got = req.splitlines()[0]
                  response_expected = '{0}.{1}'.format(token, jwk_thumbprint)
 diff --git a/acme_srv/helper.py b/acme_srv/helper.py
-index 19c7d26..b6eac5a 100644
+index 19c7d26..4de810e 100644
 --- a/acme_srv/helper.py
 +++ b/acme_srv/helper.py
 @@ -15,13 +15,14 @@ import textwrap
@@ -228,7 +228,7 @@ index 19c7d26..b6eac5a 100644
 +
 +    proxy = None
 +    for regex in sorted(proxy_server_list_new.keys(), reverse=True):
-+        if regex is not '*':
++        if regex != '*':
 +            if regex.startswith('*.'):
 +                regex_compiled = re.compile(regex.replace('*.', ''))
 +            else:
