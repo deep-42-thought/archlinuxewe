@@ -64,7 +64,7 @@ package() {
     "${pkgdir}/etc/uwsgi/acme2certifier.ini"
   install -dm755 -o http -g http "${pkgdir}/var/lib/${pkgname}"
   mv acme_srv examples tools "${pkgdir}/var/lib/${pkgname}/"
-  install -dm755 -o http -g http "${pkgdir}/var/lib/${pkgname}/acme/ca"
+  install -dm755 -o http -g http "${pkgdir}/var/lib/${pkgname}/acme_srv/ca"
   install -Dm644 -t "${pkgdir}/var/lib/${pkgname}/examples/" "${srcdir}/ssl.conf"
   chown -R http:http "${pkgdir}/var/lib/${pkgname}"
   install -Dm644 -t "${pkgdir}/usr/share/doc/${pkgname}" docs/*
