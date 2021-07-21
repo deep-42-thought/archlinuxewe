@@ -176,7 +176,7 @@ index 403631312..61704487e 100644
  		IncreaseGeneratingWorldProgress(GWP_ROUGH_ROCKY);
  		if (IsTileType(tile, MP_CLEAR) && !IsClearGround(tile, CLEAR_DESERT)) {
 diff --git a/src/console_cmds.cpp b/src/console_cmds.cpp
-index 9d03f3deb..6d86b4ec4 100644
+index fd7f09e3c..7d50bf0f8 100644
 --- a/src/console_cmds.cpp
 +++ b/src/console_cmds.cpp
 @@ -26,6 +26,7 @@
@@ -187,7 +187,7 @@ index 9d03f3deb..6d86b4ec4 100644
  #include "viewport_func.h"
  #include "window_func.h"
  #include "date_func.h"
-@@ -1074,6 +1075,7 @@ DEF_CONSOLE_CMD(ConRestart)
+@@ -1075,6 +1076,7 @@ DEF_CONSOLE_CMD(ConRestart)
  	}
  
  	/* Don't copy the _newgame pointers to the real pointers, so call SwitchToMode directly */
@@ -549,10 +549,10 @@ index f13d1835f..6ed0c6569 100644
  			if (FlowRiver(t, t)) break;
  		}
 diff --git a/src/lang/afrikaans.txt b/src/lang/afrikaans.txt
-index cb3052a1b..f9151abb9 100644
+index 621735ed6..29049f531 100644
 --- a/src/lang/afrikaans.txt
 +++ b/src/lang/afrikaans.txt
-@@ -2543,7 +2543,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tremweg
+@@ -2550,7 +2550,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tremweg
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Spoorweg eienaar: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Plaaslike raad: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Geen
@@ -562,10 +562,10 @@ index cb3052a1b..f9151abb9 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stasie klas: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stasie tiepe: {LTBLUE}{STRING}
 diff --git a/src/lang/arabic_egypt.txt b/src/lang/arabic_egypt.txt
-index ea1634a0a..d693ef0d8 100644
+index 825aa40d2..9e708d631 100644
 --- a/src/lang/arabic_egypt.txt
 +++ b/src/lang/arabic_egypt.txt
-@@ -2222,7 +2222,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}مالك
+@@ -2229,7 +2229,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}مالك
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}مالك سكة الحديد: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}السلطة المحلية: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :فارغ
@@ -575,10 +575,10 @@ index ea1634a0a..d693ef0d8 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK} فئة المحطة: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}نوع المحطة: {LTBLUE}{STRING}
 diff --git a/src/lang/basque.txt b/src/lang/basque.txt
-index fc3e35f1a..9c0accdb2 100644
+index bfdce1804..c6c585502 100644
 --- a/src/lang/basque.txt
 +++ b/src/lang/basque.txt
-@@ -2406,7 +2406,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tranbia
+@@ -2413,7 +2413,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tranbia
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Trenbidearen jabea: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Udaletxea {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ezer ez
@@ -588,10 +588,10 @@ index fc3e35f1a..9c0accdb2 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Geltoki mota: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Geltoki mota: {LTBLUE}{STRING}
 diff --git a/src/lang/belarusian.txt b/src/lang/belarusian.txt
-index 8ec4fbd9c..5fbdb8294 100644
+index ddbd1852c..7707fd1c4 100644
 --- a/src/lang/belarusian.txt
 +++ b/src/lang/belarusian.txt
-@@ -2869,7 +2869,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Улад
+@@ -2876,7 +2876,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Улад
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Уладальнiк чыгункi: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Мясцовая адміністрацыя: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Няма
@@ -601,10 +601,10 @@ index 8ec4fbd9c..5fbdb8294 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Кляса станцыі: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Тып станцыi: {LTBLUE}{STRING}
 diff --git a/src/lang/brazilian_portuguese.txt b/src/lang/brazilian_portuguese.txt
-index 74f9276fb..6c4ee3ed3 100644
+index 13055315b..dfa5f1143 100644
 --- a/src/lang/brazilian_portuguese.txt
 +++ b/src/lang/brazilian_portuguese.txt
-@@ -2696,7 +2696,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Dono da
+@@ -2717,7 +2717,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Dono da
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Dono da linha ferroviária: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Prefeitura: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nenhum
@@ -614,10 +614,10 @@ index 74f9276fb..6c4ee3ed3 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Classe de Estação: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de Estação: {LTBLUE}{STRING}
 diff --git a/src/lang/bulgarian.txt b/src/lang/bulgarian.txt
-index 1fad584e6..57038382e 100644
+index 75d91f36e..6123ae393 100644
 --- a/src/lang/bulgarian.txt
 +++ b/src/lang/bulgarian.txt
-@@ -2456,7 +2456,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Собс
+@@ -2463,7 +2463,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Собс
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Собственик на железопътната линия: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Община: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Нищо
@@ -627,10 +627,10 @@ index 1fad584e6..57038382e 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Клас на станцията: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Тип на станцията: {LTBLUE}{STRING}
 diff --git a/src/lang/catalan.txt b/src/lang/catalan.txt
-index 8e2e5b8e4..03441f78c 100644
+index c9efbcbc5..4fb6458d9 100644
 --- a/src/lang/catalan.txt
 +++ b/src/lang/catalan.txt
-@@ -2696,7 +2696,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
+@@ -2705,7 +2705,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Propietari del rail: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoritat local: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Cap
@@ -640,10 +640,10 @@ index 8e2e5b8e4..03441f78c 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Classe d'estació: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipus d'estació: {LTBLUE}{STRING}
 diff --git a/src/lang/croatian.txt b/src/lang/croatian.txt
-index 0e9dec538..c2504ef06 100644
+index 133f4e947..284732d05 100644
 --- a/src/lang/croatian.txt
 +++ b/src/lang/croatian.txt
-@@ -2648,7 +2648,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Vlasnik
+@@ -2655,7 +2655,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Vlasnik
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Vlasnik željeznice: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Područna nadležnost: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nijedan/Nitko/Ništa
@@ -653,10 +653,10 @@ index 0e9dec538..c2504ef06 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Klasa postaje: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Vrsta postaje: {LTBLUE}{STRING}
 diff --git a/src/lang/czech.txt b/src/lang/czech.txt
-index f88eb3f0b..c0513f718 100644
+index 05ef9cbb9..5b7e55175 100644
 --- a/src/lang/czech.txt
 +++ b/src/lang/czech.txt
-@@ -2730,7 +2730,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Majitel
+@@ -2748,7 +2748,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Majitel
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Majitel tratě: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Místní správa: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nic
@@ -666,10 +666,10 @@ index f88eb3f0b..c0513f718 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Třída stanice: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Druh stanice: {LTBLUE}{STRING}
 diff --git a/src/lang/danish.txt b/src/lang/danish.txt
-index a3cad4ff5..b71cfe823 100644
+index ffd56f01c..65b8021b9 100644
 --- a/src/lang/danish.txt
 +++ b/src/lang/danish.txt
-@@ -2557,7 +2557,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Ejer af
+@@ -2564,7 +2564,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Ejer af
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Ejer af jernbane: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokal myndighed: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ingen
@@ -679,10 +679,10 @@ index a3cad4ff5..b71cfe823 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklasse: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstype: {LTBLUE}{STRING}
 diff --git a/src/lang/dutch.txt b/src/lang/dutch.txt
-index 2b7d3068d..ad082dba1 100644
+index d43f07801..410880cad 100644
 --- a/src/lang/dutch.txt
 +++ b/src/lang/dutch.txt
-@@ -2695,7 +2695,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eigenaar
+@@ -2715,7 +2715,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eigenaar
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Eigenaar van spoorweg: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Gemeente: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Geen
@@ -692,7 +692,7 @@ index 2b7d3068d..ad082dba1 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklasse: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstype: {LTBLUE}{STRING}
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index 2e84d4b3a..c0720a1d7 100644
+index 44d226cbf..9594b51e1 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -470,6 +470,18 @@ STR_LANDSCAPING_MENU_PLANT_TREES                                :Plant trees
@@ -714,7 +714,7 @@ index 2e84d4b3a..c0720a1d7 100644
  ############ range for music menu starts
  STR_TOOLBAR_SOUND_MUSIC                                         :Sound/music
  ############ range ends here
-@@ -2707,7 +2719,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
+@@ -2728,7 +2740,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Railway owner: {LTBLUE}{STRING1}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Local authority: {LTBLUE}{STRING1}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :None
@@ -723,7 +723,7 @@ index 2e84d4b3a..c0720a1d7 100644
  STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Built: {LTBLUE}{DATE_LONG}
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Station class: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Station type: {LTBLUE}{STRING}
-@@ -5256,3 +5268,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
+@@ -5277,3 +5289,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
  STR_SHIP                                                        :{BLACK}{SHIP}
  
  STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
@@ -760,10 +760,10 @@ index 2e84d4b3a..c0720a1d7 100644
 +
 +#	end underground string
 diff --git a/src/lang/english_AU.txt b/src/lang/english_AU.txt
-index e2faa0e81..5edd54869 100644
+index d74b1df30..4ee722699 100644
 --- a/src/lang/english_AU.txt
 +++ b/src/lang/english_AU.txt
-@@ -2467,7 +2467,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
+@@ -2474,7 +2474,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Railway owner: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Local authority: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :None
@@ -773,10 +773,10 @@ index e2faa0e81..5edd54869 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Station class: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Station type: {LTBLUE}{STRING}
 diff --git a/src/lang/english_US.txt b/src/lang/english_US.txt
-index 2833bdace..9ffcab666 100644
+index 171f5ceb5..00e860338 100644
 --- a/src/lang/english_US.txt
 +++ b/src/lang/english_US.txt
-@@ -2695,7 +2695,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Streetca
+@@ -2713,7 +2713,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Streetca
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Railroad owner: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Local authority: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :None
@@ -786,10 +786,10 @@ index 2833bdace..9ffcab666 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Station class: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Station type: {LTBLUE}{STRING}
 diff --git a/src/lang/esperanto.txt b/src/lang/esperanto.txt
-index 0505e59c3..e6e7d2ea5 100644
+index 252cf552b..dd1fe39e7 100644
 --- a/src/lang/esperanto.txt
 +++ b/src/lang/esperanto.txt
-@@ -2104,7 +2104,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Posedant
+@@ -2111,7 +2111,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Posedant
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Posedanto de fervojo: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokaj estroj: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Neniu
@@ -799,10 +799,10 @@ index 0505e59c3..e6e7d2ea5 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stacioklaso: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Staciotipo: {LTBLUE}{STRING}
 diff --git a/src/lang/estonian.txt b/src/lang/estonian.txt
-index e36ed2a9b..27211e71e 100644
+index 94e5bb93c..5025dc048 100644
 --- a/src/lang/estonian.txt
 +++ b/src/lang/estonian.txt
-@@ -2742,7 +2742,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Trammite
+@@ -2749,7 +2749,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Trammite
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Raudtee omanik: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Kohalik omavalitsus: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :puudub
@@ -812,10 +812,10 @@ index e36ed2a9b..27211e71e 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Jaama järk: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Jaama liik: {LTBLUE}{STRING}
 diff --git a/src/lang/faroese.txt b/src/lang/faroese.txt
-index 678326311..344280588 100644
+index 2da804c44..78e8ae9f0 100644
 --- a/src/lang/faroese.txt
 +++ b/src/lang/faroese.txt
-@@ -2240,7 +2240,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Sporvogn
+@@ -2247,7 +2247,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Sporvogn
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Jarnbreyta eigari: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Mynduleikar á staðnum: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Eingin
@@ -825,10 +825,10 @@ index 678326311..344280588 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Støð klassi: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Støð slag: {LTBLUE}{STRING}
 diff --git a/src/lang/finnish.txt b/src/lang/finnish.txt
-index 5c85f8678..20a7ca807 100644
+index 5b2e8b694..d4263ed2a 100644
 --- a/src/lang/finnish.txt
 +++ b/src/lang/finnish.txt
-@@ -2695,7 +2695,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Raitioti
+@@ -2714,7 +2714,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Raitioti
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Rautatien omistaja: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Kunta: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ei mitään
@@ -838,10 +838,10 @@ index 5c85f8678..20a7ca807 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Aseman luokka: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Aseman tyyppi: {LTBLUE}{STRING}
 diff --git a/src/lang/french.txt b/src/lang/french.txt
-index 105c4c560..186987acb 100644
+index 9f709086c..2b4fade99 100644
 --- a/src/lang/french.txt
 +++ b/src/lang/french.txt
-@@ -2695,7 +2695,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Proprié
+@@ -2717,7 +2717,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Proprié
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Propriétaire des rails{NBSP}: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Municipalité{NBSP}: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Aucune
@@ -851,10 +851,10 @@ index 105c4c560..186987acb 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Type de station{NBSP}: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Type de station{NBSP}: {LTBLUE}{STRING}
 diff --git a/src/lang/gaelic.txt b/src/lang/gaelic.txt
-index 2fa9fb0ec..c0cd7f015 100644
+index c4402c96c..d2db41f4c 100644
 --- a/src/lang/gaelic.txt
 +++ b/src/lang/gaelic.txt
-@@ -2723,7 +2723,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Seilbhea
+@@ -2730,7 +2730,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Seilbhea
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Seilbheadair na rathaid-iarainn: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Ùghdarras ionadail: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Chan eil gin
@@ -864,10 +864,10 @@ index 2fa9fb0ec..c0cd7f015 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Seòrsa an stèisein: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Seòrsa an stèisein: {LTBLUE}{STRING}
 diff --git a/src/lang/galician.txt b/src/lang/galician.txt
-index 35d97a069..07c287de2 100644
+index 4c50913f3..4b47d54a4 100644
 --- a/src/lang/galician.txt
 +++ b/src/lang/galician.txt
-@@ -2544,7 +2544,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
+@@ -2551,7 +2551,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Propietario da vía ferroviaria: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoridade local: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ningunha
@@ -877,10 +877,10 @@ index 35d97a069..07c287de2 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clase de estación: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estación: {LTBLUE}{STRING}
 diff --git a/src/lang/german.txt b/src/lang/german.txt
-index 718dbe07e..51abcf1ba 100644
+index d2df13117..dddc436a3 100644
 --- a/src/lang/german.txt
 +++ b/src/lang/german.txt
-@@ -2696,7 +2696,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Straßen
+@@ -2715,7 +2715,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Straßen
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Gleiseigentümer: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Gehört zur Gemeinde: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Keine
@@ -890,10 +890,10 @@ index 718dbe07e..51abcf1ba 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklasse: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstyp: {LTBLUE}{STRING}
 diff --git a/src/lang/greek.txt b/src/lang/greek.txt
-index f28c2b20b..976a26bd7 100644
+index a38205df2..e5c0d61c5 100644
 --- a/src/lang/greek.txt
 +++ b/src/lang/greek.txt
-@@ -2673,7 +2673,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Ιδιο
+@@ -2680,7 +2680,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Ιδιο
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Ιδιοκτήτης του σιδηροδρόμου: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Τοπική αρχή: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Καμιά
@@ -903,10 +903,10 @@ index f28c2b20b..976a26bd7 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Κατηγορία σταθμού: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Τύπος σταθμού: {LTBLUE}{STRING}
 diff --git a/src/lang/hebrew.txt b/src/lang/hebrew.txt
-index 5882c1490..4f8fbfb74 100644
+index 8bc76c9e8..c4bc6f8dc 100644
 --- a/src/lang/hebrew.txt
 +++ b/src/lang/hebrew.txt
-@@ -2516,7 +2516,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}:בעל
+@@ -2523,7 +2523,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}:בעל
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}בעלי מסילת הרכבת: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{LTBLUE}{STRING}{BLACK} :רשות מקומית
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :אין
@@ -916,10 +916,10 @@ index 5882c1490..4f8fbfb74 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}{LTBLUE}{STRING}: אופי התחנה
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK} {LTBLUE}{STRING}: סוג התחנה
 diff --git a/src/lang/hungarian.txt b/src/lang/hungarian.txt
-index f5d41f3dc..3607964ff 100644
+index 163085433..3cc44644f 100644
 --- a/src/lang/hungarian.txt
 +++ b/src/lang/hungarian.txt
-@@ -2748,7 +2748,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}A villam
+@@ -2754,7 +2754,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}A villam
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}A vasúti pálya tulajdonosa: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Helyi önkormányzat: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nincs
@@ -929,10 +929,10 @@ index f5d41f3dc..3607964ff 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Állomás osztálya: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Állomás típusa: {LTBLUE}{STRING}
 diff --git a/src/lang/icelandic.txt b/src/lang/icelandic.txt
-index 9e2bc79cf..27109042b 100644
+index 46c8c44f1..b5e9e2fa1 100644
 --- a/src/lang/icelandic.txt
 +++ b/src/lang/icelandic.txt
-@@ -2348,7 +2348,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eigandi
+@@ -2355,7 +2355,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eigandi
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Eigandi járnbrautarspors: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Bæjaryfirvöld: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Enginn
@@ -942,10 +942,10 @@ index 9e2bc79cf..27109042b 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Tegund stöðvar: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tegund stöðvar: {LTBLUE}{STRING}
 diff --git a/src/lang/indonesian.txt b/src/lang/indonesian.txt
-index a6e167c03..08b99c213 100644
+index e38e8eb5c..3ac8a8ad3 100644
 --- a/src/lang/indonesian.txt
 +++ b/src/lang/indonesian.txt
-@@ -2684,7 +2684,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Pemilik
+@@ -2690,7 +2690,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Pemilik
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Pemilik Rel Kereta: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Pemkot setempat: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Kosong
@@ -955,10 +955,10 @@ index a6e167c03..08b99c213 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Kelas Stasiun: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipe Stasiun: {LTBLUE}{STRING}
 diff --git a/src/lang/irish.txt b/src/lang/irish.txt
-index 665bdf8fc..44fae08e3 100644
+index 9d31feafe..cd0e563ed 100644
 --- a/src/lang/irish.txt
 +++ b/src/lang/irish.txt
-@@ -2490,7 +2490,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Úinéir
+@@ -2497,7 +2497,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Úinéir
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Úinéir an iarnróid: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Údarás áitiúil: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ceann ar bith
@@ -968,10 +968,10 @@ index 665bdf8fc..44fae08e3 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Aicme an stáisiúin: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Cineál stáisiúin: {LTBLUE}{STRING}
 diff --git a/src/lang/italian.txt b/src/lang/italian.txt
-index 5c1dd682d..ec5eded3a 100644
+index ab78589e4..fd50ddbda 100644
 --- a/src/lang/italian.txt
 +++ b/src/lang/italian.txt
-@@ -2665,7 +2665,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propriet
+@@ -2672,7 +2672,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propriet
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Proprietario ferrovia: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autorità locale: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nessuna
@@ -981,10 +981,10 @@ index 5c1dd682d..ec5eded3a 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Tipo stazione: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo stazione: {LTBLUE}{STRING}
 diff --git a/src/lang/korean.txt b/src/lang/korean.txt
-index 60faed06a..37e490821 100644
+index 3932893bb..ed12097b5 100644
 --- a/src/lang/korean.txt
 +++ b/src/lang/korean.txt
-@@ -2696,7 +2696,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}전찻
+@@ -2717,7 +2717,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}전찻
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}철도 소유주: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}지역 당국: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :없음
@@ -994,10 +994,10 @@ index 60faed06a..37e490821 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}역 분류: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}역 종류: {LTBLUE}{STRING}
 diff --git a/src/lang/latin.txt b/src/lang/latin.txt
-index 7985a6b4e..364ea41a5 100644
+index a9cfafa31..79268c1c7 100644
 --- a/src/lang/latin.txt
 +++ b/src/lang/latin.txt
-@@ -2724,7 +2724,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Possesso
+@@ -2731,7 +2731,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Possesso
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Possessor ferriviae: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Auctoritas vicinalis: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nulla
@@ -1007,10 +1007,10 @@ index 7985a6b4e..364ea41a5 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Classis stationis: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Typus stationis: {LTBLUE}{STRING}
 diff --git a/src/lang/latvian.txt b/src/lang/latvian.txt
-index 2b5bf6ed4..a52a2fd84 100644
+index db3b1e262..cc398a49d 100644
 --- a/src/lang/latvian.txt
 +++ b/src/lang/latvian.txt
-@@ -2610,7 +2610,7 @@ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Dzelzce
+@@ -2617,7 +2617,7 @@ STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Dzelzce
  STR_LAND_AREA_INFORMATION_RAIL_OWNER.kas                        :{BLACK}Dzelzceļa īpašniece: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Pašvaldība: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Neviena
@@ -1020,10 +1020,10 @@ index 2b5bf6ed4..a52a2fd84 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stacijas klase: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stacijas tips: {LTBLUE}{STRING}
 diff --git a/src/lang/lithuanian.txt b/src/lang/lithuanian.txt
-index f4225ae5e..45de3e434 100644
+index 6b6b9040a..8413e5d90 100644
 --- a/src/lang/lithuanian.txt
 +++ b/src/lang/lithuanian.txt
-@@ -2856,7 +2856,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramvaja
+@@ -2863,7 +2863,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramvaja
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Geležinkelio savininkas: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Vietos valdžia: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nėra
@@ -1033,10 +1033,10 @@ index f4225ae5e..45de3e434 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stotelės rūšis: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stotelės tipas: {LTBLUE}{STRING}
 diff --git a/src/lang/luxembourgish.txt b/src/lang/luxembourgish.txt
-index 9009431cf..34ff4ae77 100644
+index ba2fbd623..59f324e7f 100644
 --- a/src/lang/luxembourgish.txt
 +++ b/src/lang/luxembourgish.txt
-@@ -2637,7 +2637,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramschi
+@@ -2644,7 +2644,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramschi
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Schinnebesëtzer: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Gemeng: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Keng
@@ -1046,10 +1046,10 @@ index 9009431cf..34ff4ae77 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Statiounsklass: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Statiounstyp: {LTBLUE}{STRING}
 diff --git a/src/lang/malay.txt b/src/lang/malay.txt
-index 729c88fc4..ed7d97818 100644
+index 7dc822dc1..8b3e2ae42 100644
 --- a/src/lang/malay.txt
 +++ b/src/lang/malay.txt
-@@ -2243,7 +2243,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Pemilik
+@@ -2250,7 +2250,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Pemilik
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Pemilik landasan keretapi: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Pihak berkuasa: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Tiada
@@ -1059,10 +1059,10 @@ index 729c88fc4..ed7d97818 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Kelas stesen: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Jenis stesen: {LTBLUE}{STRING}
 diff --git a/src/lang/norwegian_bokmal.txt b/src/lang/norwegian_bokmal.txt
-index 796d75ecc..6e2500b3d 100644
+index 56730eb4b..e75e35629 100644
 --- a/src/lang/norwegian_bokmal.txt
 +++ b/src/lang/norwegian_bokmal.txt
-@@ -2699,7 +2699,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eier av
+@@ -2705,7 +2705,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Eier av
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Eier av jernbanespor: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Bystyret: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ingen
@@ -1072,10 +1072,10 @@ index 796d75ecc..6e2500b3d 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stasjonstype: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stasjonstype: {LTBLUE}{STRING}
 diff --git a/src/lang/norwegian_nynorsk.txt b/src/lang/norwegian_nynorsk.txt
-index 17c7ffbb0..03dde4b1b 100644
+index ed3c41148..c37319916 100644
 --- a/src/lang/norwegian_nynorsk.txt
 +++ b/src/lang/norwegian_nynorsk.txt
-@@ -2414,7 +2414,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Trikkesp
+@@ -2421,7 +2421,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Trikkesp
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Jernbaneskjene-eigar: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Bystyret: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ingen
@@ -1085,10 +1085,10 @@ index 17c7ffbb0..03dde4b1b 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stasjonsklasse: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stasjontype: {LTBLUE}{STRING}
 diff --git a/src/lang/persian.txt b/src/lang/persian.txt
-index be0d60a54..13c7ec16e 100644
+index d9380d080..2bdc34822 100644
 --- a/src/lang/persian.txt
 +++ b/src/lang/persian.txt
-@@ -2203,7 +2203,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}مالک
+@@ -2210,7 +2210,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}مالک
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}مالک ریل راه آهن: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}فرماندار محلی: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :هیچکدام
@@ -1098,10 +1098,10 @@ index be0d60a54..13c7ec16e 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}کلاس ایستگاه: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}نوع ایستگاه: {LTBLUE}{STRING}
 diff --git a/src/lang/polish.txt b/src/lang/polish.txt
-index 98e0c3036..0a600bc94 100644
+index 072c01e9d..f9d967faf 100644
 --- a/src/lang/polish.txt
 +++ b/src/lang/polish.txt
-@@ -3023,7 +3023,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Właści
+@@ -3030,7 +3030,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Właści
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Właściciel linii kolejowej: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokalne władze: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Brak
@@ -1111,10 +1111,10 @@ index 98e0c3036..0a600bc94 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Rodzaj stacji: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Typ stacji: {LTBLUE}{STRING}
 diff --git a/src/lang/portuguese.txt b/src/lang/portuguese.txt
-index 4975058db..f0feb1876 100644
+index 3dbf66002..1f0c7fb8c 100644
 --- a/src/lang/portuguese.txt
 +++ b/src/lang/portuguese.txt
-@@ -2696,7 +2696,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Dono da
+@@ -2717,7 +2717,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Dono da
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Dono da linha férrea: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoridade local: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nenhum
@@ -1124,10 +1124,10 @@ index 4975058db..f0feb1876 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Tipo de estação: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estação: {LTBLUE}{STRING}
 diff --git a/src/lang/romanian.txt b/src/lang/romanian.txt
-index 6e6f5a68b..c9967d740 100644
+index 60a1a4133..a5fd26717 100644
 --- a/src/lang/romanian.txt
 +++ b/src/lang/romanian.txt
-@@ -2570,7 +2570,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propriet
+@@ -2604,7 +2604,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propriet
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Proprietar al căii ferate: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoritatea locală: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nici una
@@ -1137,7 +1137,7 @@ index 6e6f5a68b..c9967d740 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clasa staţiei: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tip staţie: {LTBLUE}{STRING}
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index fa367b113..b07a3c2cb 100644
+index 64a4abe5a..07cba01aa 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
 @@ -596,6 +596,18 @@ STR_LANDSCAPING_MENU_PLANT_TREES                                :Высадка
@@ -1159,7 +1159,7 @@ index fa367b113..b07a3c2cb 100644
  ############ range for music menu starts
  STR_TOOLBAR_SOUND_MUSIC                                         :Звук/музыка
  ############ range ends here
-@@ -2870,7 +2882,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Влад
+@@ -2891,7 +2903,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Влад
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Владелец ж/д пути: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Администрация: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Нет
@@ -1168,7 +1168,7 @@ index fa367b113..b07a3c2cb 100644
  STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Построено: {LTBLUE}{DATE_LONG}
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Класс станции: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Тип станции: {LTBLUE}{STRING}
-@@ -5468,3 +5480,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
+@@ -5489,3 +5501,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
  STR_SHIP                                                        :{BLACK}{SHIP}
  
  STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
@@ -1205,10 +1205,10 @@ index fa367b113..b07a3c2cb 100644
 +
 +#	end underground string
 diff --git a/src/lang/serbian.txt b/src/lang/serbian.txt
-index a4ff5b0c3..7066c1496 100644
+index 70de9a382..6bdf3cb15 100644
 --- a/src/lang/serbian.txt
 +++ b/src/lang/serbian.txt
-@@ -2832,7 +2832,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Vlasnik
+@@ -2839,7 +2839,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Vlasnik
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Vlasnik železničke pruge: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokalna vlast: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Nema
@@ -1218,10 +1218,10 @@ index a4ff5b0c3..7066c1496 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Klasa stanice: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Vrsta stanice: {LTBLUE}{STRING}
 diff --git a/src/lang/simplified_chinese.txt b/src/lang/simplified_chinese.txt
-index 38d289112..59a36a9fc 100644
+index 0322eb153..f2788ff80 100644
 --- a/src/lang/simplified_chinese.txt
 +++ b/src/lang/simplified_chinese.txt
-@@ -2642,7 +2642,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}有轨
+@@ -2649,7 +2649,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}有轨
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}铁路归属：{LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}地方政府：{LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :没有
@@ -1231,10 +1231,10 @@ index 38d289112..59a36a9fc 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}车站分类: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}车站类型: {LTBLUE}{STRING}
 diff --git a/src/lang/slovak.txt b/src/lang/slovak.txt
-index 473bf3564..96b1e81a3 100644
+index 149cd93c9..fcd4e6386 100644
 --- a/src/lang/slovak.txt
 +++ b/src/lang/slovak.txt
-@@ -2752,7 +2752,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Vlastní
+@@ -2758,7 +2758,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Vlastní
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Vlastník železnice: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Miestna správa: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Neznáme
@@ -1244,10 +1244,10 @@ index 473bf3564..96b1e81a3 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Trieda stanice: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Typ stanice: {LTBLUE}{STRING}
 diff --git a/src/lang/slovenian.txt b/src/lang/slovenian.txt
-index 1931220d7..2ae6af345 100644
+index aedf5fe30..406613c11 100644
 --- a/src/lang/slovenian.txt
 +++ b/src/lang/slovenian.txt
-@@ -2646,7 +2646,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Lastnik
+@@ -2653,7 +2653,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Lastnik
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Lastnik železnice: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokalna oblast: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Brez
@@ -1257,10 +1257,10 @@ index 1931220d7..2ae6af345 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Razred postaje: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Vrsta postaje: {LTBLUE}{STRING}
 diff --git a/src/lang/spanish.txt b/src/lang/spanish.txt
-index d688ffa9c..e9a3ebdca 100644
+index f22e14c8a..44597eb77 100644
 --- a/src/lang/spanish.txt
 +++ b/src/lang/spanish.txt
-@@ -2695,7 +2695,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
+@@ -2701,7 +2701,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Propietario del ferrocarril: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Autoridad local: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ninguna
@@ -1270,10 +1270,10 @@ index d688ffa9c..e9a3ebdca 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clase de estación: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estación: {LTBLUE}{STRING}
 diff --git a/src/lang/spanish_MX.txt b/src/lang/spanish_MX.txt
-index a490db27b..90f1c41a1 100644
+index c6e6062b7..c30b31489 100644
 --- a/src/lang/spanish_MX.txt
 +++ b/src/lang/spanish_MX.txt
-@@ -2696,7 +2696,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
+@@ -2716,7 +2716,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Propieta
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Propietario del ferrocarril: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Ayuntamiento: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ninguno
@@ -1283,10 +1283,10 @@ index a490db27b..90f1c41a1 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Clase de estación: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Tipo de estación: {LTBLUE}{STRING}
 diff --git a/src/lang/swedish.txt b/src/lang/swedish.txt
-index 7aa63245c..d0f99ed31 100644
+index 788def89e..bbffd7241 100644
 --- a/src/lang/swedish.txt
 +++ b/src/lang/swedish.txt
-@@ -2695,7 +2695,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Spårvä
+@@ -2715,7 +2715,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Spårvä
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Järnvägens ägare: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Lokala myndigheter: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Ingen
@@ -1296,10 +1296,10 @@ index 7aa63245c..d0f99ed31 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklass: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstyp: {LTBLUE}{STRING}
 diff --git a/src/lang/tamil.txt b/src/lang/tamil.txt
-index bef67c06c..eedb9537c 100644
+index 12a65efe5..be735bfec 100644
 --- a/src/lang/tamil.txt
 +++ b/src/lang/tamil.txt
-@@ -2315,7 +2315,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}ட்
+@@ -2323,7 +2323,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}ட்
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}இரயில்வே உரிமையாளர்: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}நகராட்சி: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :ஒன்றுமில்லை
@@ -1309,10 +1309,10 @@ index bef67c06c..eedb9537c 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}நிலையத்தின் பிரிவு: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}நிலையத்தின் வகை: {LTBLUE}{STRING}
 diff --git a/src/lang/thai.txt b/src/lang/thai.txt
-index 72772f529..2dd5a9bdc 100644
+index fb2407a60..6759191cc 100644
 --- a/src/lang/thai.txt
 +++ b/src/lang/thai.txt
-@@ -2441,7 +2441,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}ผู
+@@ -2448,7 +2448,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}ผู
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}ผู้ครอบครองทางรถไฟ: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}ขึ้นตรงกับผู้ดูแลในท้องถิ่น: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :ไม่มี
@@ -1322,10 +1322,10 @@ index 72772f529..2dd5a9bdc 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}ประเภทของสถานี: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}รูปแบบของสถานี: {LTBLUE}{STRING}
 diff --git a/src/lang/traditional_chinese.txt b/src/lang/traditional_chinese.txt
-index 90f18e8ba..9955ed25b 100644
+index 774bf6910..84045a58b 100644
 --- a/src/lang/traditional_chinese.txt
 +++ b/src/lang/traditional_chinese.txt
-@@ -2514,7 +2514,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}電車
+@@ -2521,7 +2521,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}電車
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}鐵路所有者：{LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}地方政府：{LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :無
@@ -1335,10 +1335,10 @@ index 90f18e8ba..9955ed25b 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}車站風格：{LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}車站種類：{LTBLUE}{STRING}
 diff --git a/src/lang/turkish.txt b/src/lang/turkish.txt
-index d047e8ea6..8c1c6b0fb 100644
+index a71994cde..cc0f187c4 100644
 --- a/src/lang/turkish.txt
 +++ b/src/lang/turkish.txt
-@@ -2685,7 +2685,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramvay
+@@ -2691,7 +2691,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramvay
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Demiryolu sahibi: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Belediyesi: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Hiçbiri
@@ -1348,10 +1348,10 @@ index d047e8ea6..8c1c6b0fb 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}İstasyon sınıfı: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}İstasyon türü: {LTBLUE}{STRING}
 diff --git a/src/lang/ukrainian.txt b/src/lang/ukrainian.txt
-index 4ea3356a4..4267176af 100644
+index 24258e9c6..976c7fd85 100644
 --- a/src/lang/ukrainian.txt
 +++ b/src/lang/ukrainian.txt
-@@ -2768,7 +2768,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Влас
+@@ -2775,7 +2775,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Влас
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Власник залізниці: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Місцева влада: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Немає
@@ -1361,10 +1361,10 @@ index 4ea3356a4..4267176af 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Клас станції: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Тип станції: {LTBLUE}{STRING}
 diff --git a/src/lang/vietnamese.txt b/src/lang/vietnamese.txt
-index 12785f410..18f84a9fe 100644
+index ae3777471..c5f0ecb61 100644
 --- a/src/lang/vietnamese.txt
 +++ b/src/lang/vietnamese.txt
-@@ -2642,7 +2642,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Chủ đ
+@@ -2701,7 +2701,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Chủ đ
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Chủ đường ray: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Thuộc về địa phương: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Không
@@ -1374,10 +1374,10 @@ index 12785f410..18f84a9fe 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Loại ga,bến: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Kiểu ga,bến: {LTBLUE}{STRING}
 diff --git a/src/lang/welsh.txt b/src/lang/welsh.txt
-index 695c08f65..2d01154aa 100644
+index 8618eddcd..440f87c89 100644
 --- a/src/lang/welsh.txt
 +++ b/src/lang/welsh.txt
-@@ -2498,7 +2498,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Perchenn
+@@ -2505,7 +2505,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Perchenn
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Perchennog rheilffordd: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Awdurdod Lleol: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :Dim
@@ -2122,10 +2122,10 @@ index 07a36d6a3..b86328de8 100644
  
  	void LoadCheck(size_t) const override
 diff --git a/src/saveload/saveload.h b/src/saveload/saveload.h
-index d79bc1416..e4d28b2de 100644
+index 3047cbfd8..e6ad88f3e 100644
 --- a/src/saveload/saveload.h
 +++ b/src/saveload/saveload.h
-@@ -306,6 +306,7 @@ enum SaveLoadVersion : uint16 {
+@@ -307,6 +307,7 @@ enum SaveLoadVersion : uint16 {
  	SLV_MULTITILE_DOCKS,                    ///< 216  PR#7380 Multiple docks per station.
  	SLV_TRADING_AGE,                        ///< 217  PR#7780 Configurable company trading age.
  	SLV_ENDING_YEAR,                        ///< 218  PR#7747 v1.10  Configurable ending year.
@@ -2146,22 +2146,22 @@ index a1dbb6567..b0c3656dc 100644
  #include "../../widgets/viewport_widget.h"
  #include "../../widgets/waypoint_widget.h"
 diff --git a/src/settings_table.cpp b/src/settings_table.cpp
-index 045d8e56c..77d548469 100644
+index 27fb4ef08..03a90e8bd 100644
 --- a/src/settings_table.cpp
 +++ b/src/settings_table.cpp
-@@ -16,6 +16,7 @@
- #include "network/network.h"
+@@ -17,6 +17,7 @@
  #include "network/network_func.h"
+ #include "network/core/config.h"
  #include "pathfinder/pathfinder_type.h"
 +#include "layer_type.h"
  #include "genworld.h"
  #include "train.h"
  #include "news_func.h"
 diff --git a/src/settings_type.h b/src/settings_type.h
-index 3377bdede..bbf20c28a 100644
+index ababe718b..1af85f574 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
-@@ -164,6 +164,8 @@ struct GUISettings {
+@@ -171,6 +171,8 @@ struct GUISettings {
  	uint16 refresh_rate;                     ///< How often we refresh the screen (time between draw-ticks).
  	uint16 fast_forward_speed_limit;         ///< Game speed to use when fast-forward is enabled.
  
@@ -2170,7 +2170,7 @@ index 3377bdede..bbf20c28a 100644
  	uint16 console_backlog_timeout;          ///< the minimum amount of time items should be in the console backlog before they will be removed in ~3 seconds granularity.
  	uint16 console_backlog_length;           ///< the minimum amount of items in the console backlog before items will be removed.
  
-@@ -296,6 +298,7 @@ struct GameCreationSettings {
+@@ -307,6 +309,7 @@ struct GameCreationSettings {
  	Year   ending_year;                      ///< scoring end date
  	uint8  map_x;                            ///< X size of map
  	uint8  map_y;                            ///< Y size of map
@@ -3632,7 +3632,7 @@ index 000000000..522c9db8b
 +
 +#endif /* WIDGETS_UNDERGROUND_WIDGET_H */
 diff --git a/src/window_type.h b/src/window_type.h
-index 2b486fbdf..c782e7d0d 100644
+index 00aaaf1fd..d73078413 100644
 --- a/src/window_type.h
 +++ b/src/window_type.h
 @@ -441,6 +441,12 @@ enum WindowClass {
