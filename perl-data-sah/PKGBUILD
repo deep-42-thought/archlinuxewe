@@ -2,40 +2,22 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-sah'
-pkgver=0.908
-pkgrel=3
+pkgver=0.909
+pkgrel=1
 pkgdesc='Fast and featureful data structure validation'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-optdepends=(
-  'perl-datetime'
-  'perl-datetime-duration'
-  'perl-scalar-util-numeric'
-  'perl-time-moment'
-  'perl-time-piece')
-makedepends=(
-  'perl'
-  'perl-extutils-makemaker'
-  'perl-io'
-  'perl-lib-filter>=0.03'
-  'perl-pathtools'
-  'perl-sah>=0.9.42'
-  'perl-scalar-list-utils>=1.45'
-  'perl-test-exception'
-  'perl-test-nowarnings'
-  'perl-test-simple>=0.98'
-  'perl-test-warn'
-  'perl-time-duration-parse-ashash')
 depends=(
   'perl>=5.34'
   'perl<5.35'
-  'perl-data-dmp>=0.240'
+  'perl-data-cmp>=0.002'
+  'perl-data-dmp>=0.241'
   'perl-data-dump'
   'perl-data-sah-coerce>=0.048'
-  'perl-data-sah-filter>=0.003'
-  'perl-data-sah-normalize>=0.03'
-  'perl-data-sah-resolve>=0.003'
+  'perl-data-sah-filter>=0.006'
+  'perl-data-sah-normalize>=0.051'
+  'perl-data-sah-resolve>=0.010'
   'perl-exporter>=5.57'
   'perl-file-chdir'
   'perl-file-sharedir'
@@ -44,7 +26,7 @@ depends=(
   'perl-json'
   'perl-language-expr>=0.29'
   'perl-lingua-en-numbers-ordinate>=1.02'
-  'perl-log-ger>=0.037'
+  'perl-log-ger>=0.038'
   'perl-mo'
   'perl-module-installed-tiny>=0.004'
   'perl-parent'
@@ -56,6 +38,23 @@ depends=(
   'perl-text-sprintfn'
   'perl-tie-ixhash'
   'perl-time-hires')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-lib-filter>=0.03'
+  'perl-pathtools'
+  'perl-sah>=0.9.42'
+  'perl-scalar-list-utils>=1.45'
+  'perl-test-exception'
+  'perl-test-nowarnings'
+  'perl-test-warn'
+  'perl-time-duration-parse-ashash')
+optdepends=(
+  'perl-datetime'
+  'perl-datetime-duration'
+  'perl-scalar-util-numeric'
+  'perl-time-moment'
+  'perl-time-piece')
 checkdepends=(
   'perl-datetime'
   'perl-pod-coverage-trustpod'
@@ -67,7 +66,7 @@ checkdepends=(
 url='https://metacpan.org/release/Data-Sah'
 _distdir="Data-Sah-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('90fbb6f376e07a7a22bbd59fbcd828ae3e240640de7900ccf5221963e598d3543c8b61456bdc199cb83596bd442c296ef3346f0fe7035f67d08bb5b57a132c33')
+sha512sums=('e413ecdcd9ce118b2f7d6db2cd4f59a918eae5d7df7909df34542f63d9d9cc755954059ed1eaddc38313f6d4e94266bdb545345a3cbfa7d9263327de1c9395e0')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
