@@ -997,6 +997,7 @@ then
           'software\.is\.never\.null' \
           'sources\.archlinux\(32\)\?\.org' \
           'webhome\.phy\.duke\.edu' \
+          'www\.charlesproxy\.com' \
           'www\.dragonsdawn\.net' \
           'www\.gaia-gis\.it' \
           'www\.hashcash\.org' \
@@ -1022,6 +1023,9 @@ then
         ;;
         'netkit-bsd-finger')
           pkgname='bsd-finger'
+        ;;
+        'charles')
+          pkgname='charles-proxy'
         ;;
       esac
       quVer="${src%/*}/"
@@ -1050,7 +1054,7 @@ then
         curl_it "${quVer}" | \
           tr '"<>' '\n\n\n' | \
           sed '
-            s@^'"${pkgname#python2-}"'\(-src\)\?-\?v\?\('"${ver_match}"'\)\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)$@\2@
+            s@^'"${pkgname#python2-}"'\(-src\)\?[-_]\?v\?\('"${ver_match}"'\)\(_amd64\.deb\|\.t\(ar\(\.[gx]z\|\.bz2\)\?\|gz\)\)$@\2@
             t
             d
           ' | \
