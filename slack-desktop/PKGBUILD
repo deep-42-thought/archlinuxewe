@@ -4,8 +4,8 @@
 # Contributor: Kyle Manna <kyle(at)kylemanna(dot)com>
 
 pkgname=slack-desktop
-pkgver=4.17.0
-pkgrel=6
+pkgver=4.18.0
+pkgrel=1
 pkgdesc="Slack Desktop (Beta) for Linux"
 arch=('x86_64')
 url="https://slack.com/downloads"
@@ -48,7 +48,7 @@ optdepends=('libappindicator-gtk3: Systray indicator support'
 source_x86_64=("https://downloads.slack-edge.com/linux_releases/${pkgname}-${pkgver}-amd64.deb")
 source=("${pkgname}.patch")
 sha512sums=('fd7e9681887639a2a9117c6bf537c25918f02985588366aaf3cd5b2e07b842d773aaf27354b7c149df1cc003e645b77bd36ec753992d50e02f5eb87e59009264')
-sha512sums_x86_64=('95be9b9023644befa3289bef8c99d4466fed6be9c7fffe52c0acc546d316fdd9ee87079a30e641b9ede413a07762eed59872519b44b41a1afca3663d6fea4eb8')
+sha512sums_x86_64=('e826116d45aafb7885a8af0682f3dc69df66799929878f18232d6cf4b26165a23b0f12cf9ab43d08432629c9c6a15b31f002c8297e311c9f085af699404d901f')
 
 package() {
     cd "${pkgdir}"
