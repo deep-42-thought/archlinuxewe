@@ -2,17 +2,34 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-sub-getargs-argv'
-pkgver=0.845
-pkgrel=2
+pkgver=0.846
+pkgrel=1
 pkgdesc='Get subroutine arguments from command line arguments (@ARGV)'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-optdepends=(
-  'perl-yaml-libyaml')
+depends=(
+  'perl>=5.34'
+  'perl<5.35'
+  'perl-data-clean-json>=0.11'
+  'perl-data-sah-normalize>=0.051'
+  'perl-data-sah-resolve>=0.010'
+  'perl-data-sah-util-type>=0.45'
+  'perl-exporter>=5.57'
+  'perl-getopt-long>=2.50'
+  'perl-getopt-long-negate-en>=0.060'
+  'perl-getopt-long-util>=0.893'
+  'perl-json-pp'
+  'perl-lingua-en-pluraltosingular'
+  'perl-mime-base64'
+  'perl-perinci-sub-getargs-array>=0.170'
+  'perl-perinci-sub-normalize>=0.19'
+  'perl-perinci-sub-util>=0.470'
+  'perl-scalar-list-utils>=1.45'
+  'perl-yaml-old')
 makedepends=(
   'perl-data-clean-json>=0.390'
-  'perl-data-dmp>=0.240'
+  'perl-data-dmp>=0.241'
   'perl-data-sah'
   'perl-extutils-makemaker'
   'perl-function-fallback-coreorpp'
@@ -21,25 +38,8 @@ makedepends=(
   'perl-test-deep'
   'perl-test-needs'
   'perl-test-simple>=0.98')
-depends=(
-  'perl>=5.34'
-  'perl<5.35'
-  'perl-data-clean-json>=0.11'
-  'perl-data-sah-normalize'
-  'perl-data-sah-resolve>=0.003'
-  'perl-data-sah-util-type>=0.45'
-  'perl-exporter>=5.57'
-  'perl-getopt-long>=2.50'
-  'perl-getopt-long-negate-en>=0.060'
-  'perl-getopt-long-util>=0.891'
-  'perl-json-pp'
-  'perl-lingua-en-pluraltosingular'
-  'perl-mime-base64'
-  'perl-perinci-sub-getargs-array>=0.170'
-  'perl-perinci-sub-normalize>=0.19'
-  'perl-perinci-sub-util>=0.46'
-  'perl-scalar-list-utils>=1.45'
-  'perl-yaml-old')
+optdepends=(
+  'perl-yaml-libyaml')
 checkdepends=(
   'perl-data-sah-coercebundle-to_array-from_str-comma_sep'
   'perl-data-sah-coercerule-array-str_comma_sep'
@@ -51,7 +51,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Sub-GetArgs-Argv'
 _distdir="Perinci-Sub-GetArgs-Argv-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('3ea3498ad7ba06a96f4f5fbe8feafbc5b72d29f131c49658960704a3c27ff48c3ce224ffc9e71a3b92490a9d72d402fe23c60b1bf1541ee85279f690f4453dc1')
+sha512sums=('bd688d218059fb23ecec6337efec0efb50061a0823e5b4fca0742d80733b984c15514e7721fdf8e80141b80efe65ef1b0ca6e47cfb507e333851d26908af57d5')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/get_args_from_argv.t"
@@ -79,8 +79,6 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
-
-  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
