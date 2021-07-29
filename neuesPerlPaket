@@ -14,8 +14,7 @@ then
 fi
 
 cpanName="$(echo "$1" | sed 's|::|-|g')"
-#url="https://metacpan.org/pod/$1"
-url="https://metacpan.org/release/${cpanName}"
+url="https://metacpan.org/dist/${cpanName}"
 pkgname="perl-${cpanName,,}"
 
 me="$(readlink -f "$0")"
