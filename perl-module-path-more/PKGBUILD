@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-module-path-more'
-pkgver='0.33'
-pkgrel=7
+pkgver=0.340
+pkgrel=1
 pkgdesc='Get path to locally installed Perl module'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,17 +11,14 @@ options=('!emptydirs')
 depends=(
   'perl>=5.34'
   'perl<5.35'
-  'perl-exporter'
-  'perl-pathtools'
-)
+  'perl-exporter>=5.57'
+  'perl-pathtools')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
-  'perl-file-temp'
+  'perl-file-temp>=0.2307'
   'perl-io'
   'perl-test-exception'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -32,7 +29,7 @@ checkdepends=(
 url='https://metacpan.org/release/Module-Path-More'
 _distdir="Module-Path-More-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('56130766c469df74893829cee77051ac4d49d8380ba28c09e76495c58e6dbd6217bd4abe9fcea4e3149ad4934d6995673c96f27139c2c43326c243529f7c51e3')
+sha512sums=('f4278899433f99bed468d38cf57fdc84c326853dbd335756ac6964c5cabeb6e79e06377053df9638b0f6fc71d8f66bcb55810710a997460820fc9c8cf01b38bf')
 
 build() {
   cd "${srcdir}/${_distdir}"
@@ -56,9 +53,6 @@ build() {
 
 check() {
   cd "${srcdir}/${_distdir}"
-
-  export AUTHOR_TESTING=1
-  export RELEASE_TESTING=1
 
   # If using Makefile.PL
   if [ -r Makefile.PL ]; then
