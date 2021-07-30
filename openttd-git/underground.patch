@@ -2082,6 +2082,18 @@ index 70a014434..649c4a56a 100644
  	return cost;
  }
  
+diff --git a/src/saveload/compat/map_sl_compat.h b/src/saveload/compat/map_sl_compat.h
+index 84cfb2865..87ff25630 100644
+--- a/src/saveload/compat/map_sl_compat.h
++++ b/src/saveload/compat/map_sl_compat.h
+@@ -16,6 +16,7 @@
+ const SaveLoadCompat _map_sl_compat[] = {
+ 	SLC_VAR("dim_x"),
+ 	SLC_VAR("dim_y"),
++	SLC_VAR("layer_count"),
+ };
+ 
+ #endif /* SAVELOAD_COMPAT_MAP_H */
 diff --git a/src/saveload/map_sl.cpp b/src/saveload/map_sl.cpp
 index 07a36d6a3..b86328de8 100644
 --- a/src/saveload/map_sl.cpp
