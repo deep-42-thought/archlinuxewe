@@ -341,6 +341,18 @@ then
           p
         ' "${pkgname}/PKGBUILD"
       )"
+    elif [ "${pkgname}" = 'otf-grundschrift' ]; then
+      if curl_it 'https://fontlibrary.org/en/font/grundschrift' \
+        | sed '
+          s@^.*<a href="/assets/downloads/grundschrift/\([0-9a-f]\{32\}\)/grundschrift\.zip" .*$@\1@
+          t
+          d
+        ' \
+        | grep -qxF "${md5sums[0]}"; then
+        remVer="${pkgver}"
+      else
+        remVer="${pkgver%.*}.$((${pkgver##*.}+1))"
+      fi
     elif echo "${src}" | \
       grep -qF '/ssacli-'; then
       centosVer=$(
