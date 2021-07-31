@@ -152,6 +152,19 @@ sha512sums=(\
     /^sha512sums=/,/)$/ d
   '
   auto_summen=false
+elif [ "${paket}" = 'otf-grundschrift' ]; then
+  md5sum=$(
+    curl -LSs 'https://fontlibrary.org/en/font/grundschrift' \
+    | sed '
+      s@^.*<a href="/assets/downloads/grundschrift/\([0-9a-f]\{32\}\)/grundschrift\.zip" .*$@\1@
+      t
+      d
+    '
+  )
+  sed_extra='
+    s@^\s*md5sums=(\S\+).*$@md5sums=('"'${md5sum}'"')@
+'
+  auto_summen=false
 fi
 
 sed -i 's|^\(\s*\)pkgver=.*$|\1pkgver='"${remVer}"'|;
