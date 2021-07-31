@@ -8,12 +8,12 @@ pkgdesc="Block letter oriented font used in german schools for teaching individu
 arch=('any')
 url="https://fontlibrary.org/en/font/grundschrift"
 license=('CCPL:by')
-source=("https://fontlibrary.org/assets/downloads/grundschrift/993f56b0c71f38ffca0d804ec48f4587/grundschrift.zip")
-sha512sumsums=("993f56b0c71f38ffca0d804ec48f4587")
+md5sums=('993f56b0c71f38ffca0d804ec48f4587')
+sha512sums=('7229f041ffcbfaeb3587c7ce2b14268747e3d9ae6638d1fa5c3e70a62778e38eb73b7ec80e9d3e431c0eeceaf163745b4d323153068e14d47bd2efadfb66cb8b')
+source=("${_pkgname}-${pkgver}.zip::https://fontlibrary.org/assets/downloads/grundschrift/${md5sums[0]}/${_pkgname}.zip")
 
 package() {
   cd "$srcdir/$_pkgname"
   install -d $pkgdir/usr/share/fonts/OTF
   install -Dm644 ./* $pkgdir/usr/share/fonts/OTF
 }
-sha256sums=('c89932d23e61c4027dc1a2c0385372ca51f22e5a7bfea0d7bdb214ecc1531108')
