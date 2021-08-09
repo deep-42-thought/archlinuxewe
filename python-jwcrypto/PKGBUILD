@@ -3,7 +3,7 @@
 
 pkgname=python-jwcrypto
 _pkgname=${pkgname#*-}
-pkgver=0.9.1
+pkgver=1.0.0
 pkgrel=1
 pkgdesc="Python implementation of JWK, JWS, JWE specifications"
 arch=("any")
@@ -16,7 +16,7 @@ depends=(
 makedepends=(
   'python-setuptools')
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/latchset/$_pkgname/archive/v$pkgver.tar.gz")
-sha512sums=('245221d5e570918c1db9abdad72a0b03fb3fbdbb4db46ece441cbd75d43246b1b35bfd75e20718b8fa125bcaa85088cd776a7c204dd68e51e63818ae438848eb')
+sha512sums=('12d270219d289041098f875f5b2b0773ffbf9044996a6189b827cafbf3e5dccfc103915275b1a11dce2d50e3510510eea476b024d19cf97fd7c66c25de5b3dbf')
 
 build() {
     cd "${srcdir}/${_pkgname}-${pkgver}"
