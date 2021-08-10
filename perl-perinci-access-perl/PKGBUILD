@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-access-perl'
-pkgver=0.894
-pkgrel=2
+pkgver=0.897
+pkgrel=1
 pkgdesc='Access Perl module, functions, variables through Riap'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -22,7 +22,7 @@ depends=(
   'perl-perinci-object>=0.311'
   'perl-perinci-sub-complete>=0.935'
   'perl-perinci-sub-getargs-argv>=0.845'
-  'perl-perinci-sub-normalize>=0.19'
+  'perl-perinci-sub-normalize>=0.201'
   'perl-perinci-sub-util>=0.470'
   'perl-perinci-sub-wrapper>=0.83'
   'perl-progress-any>=0.219'
@@ -31,6 +31,7 @@ depends=(
   'perl-uri'
   'perl-uuid-random')
 makedepends=(
+  'perl-data-sah>=0.910'
   'perl-extutils-makemaker'
   'perl-file-slurper'
   'perl-file-temp>=0.2307'
@@ -50,7 +51,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Access-Perl'
 _distdir="Perinci-Access-Perl-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('0bb789d2962f9299695936289371be71de285f74a29b2470d5668df3448448cbb56f58b7dea491386aba975f1ae4c8dd353a4eafcc373b9aa337374c65737f2a')
+sha512sums=('1e56e7d30585405ce4b979b5fd8aa4b53ac78752eba26babdf3ea61c37ee72eb3a32a8acab622947276885a168d5fc859dbfde9bf037536d50de7c75c537c2e6')
 
 prepare() {
   cd "${srcdir}/${_distdir}"
