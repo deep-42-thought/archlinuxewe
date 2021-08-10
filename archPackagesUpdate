@@ -354,7 +354,10 @@ else
     | sed '
       s@^\([^/]\+/\)[^/]\+\(/[^/]\+-any\.pkg\.tar\.\(xz\|zst\)\)$@\0\n\1any\2@
     ' \
-    | sort -u
+    | sed '
+      s@^\(\S\+\)-\([^-]\+-[^-]\+\)-\([^-]\+\)$@\2 \1-\3@
+    ' \
+    | sort -k2,2 -u
   )
 fi
 
@@ -408,11 +411,21 @@ for paket in $( \
           [ "${singleArch}" == "any" ] || \
           continue
 
-        pkgFile="${pkgnam}-${epoch:+${epoch}:}${pkgver}-${pkgrel}-${singleArch}.pkg.tar.zst"
-        if ! printf '%s\n' "${available_packages}" 2>/dev/null \
-        | grep -qxF "${repo}/${singleArch}/${pkgFile}"; then
-          printf '%s\n' "${singleArch}"
+        pkgFile_a="${epoch:+${epoch}:}${pkgver}-${pkgrel}"
+        pkgFile_b="${repo}/${singleArch}/{pkgnam}-${singleArch}.pkg.tar.zst"
+        if printf '%s\n' \
+            "${available_packages}" \
+          | cut -d' ' -f2 \
+          | grep -qxF "${pkgFile_b}" \
+          && printf '%s\n' \
+            "${available_packages}" \
+            "${pkgFile_a} ${pkgFile_b}" \
+          | sort -k2,2 -k1V,1 \
+          | uniq -df1 \
+          | grep -qxF "${pkgFile_a} ${pkgFile_b}"; then
+          continue
         fi
+        printf '%s\n' "${singleArch}"
 
       done
 
