@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-sub-normalize'
-pkgver=0.200
-pkgrel=6
+pkgver=0.202
+pkgrel=1
 pkgdesc='Normalize Rinci function metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,9 +11,9 @@ options=('!emptydirs')
 depends=(
   'perl>=5.34'
   'perl<5.35'
-  'perl-data-sah-normalize'
+  'perl-data-sah-normalize>=0.051'
   'perl-exporter>=5.57'
-  'perl-sah-schemas-rinci>=1.1.82')
+  'perl-sah-schemas-rinci>=1.1.96.0')
 makedepends=(
   'perl-extutils-makemaker'
   'perl-io'
@@ -28,7 +28,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Sub-Normalize'
 _distdir="Perinci-Sub-Normalize-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('36596bea7e06240a9d271b316e88db344182453f637925ac363fd79ecf6cbf525455ebae41b0b436bac4b0b79fdcf31911032088beda70ac9206563d4252384b')
+sha512sums=('0add6350ad4644b08793d1178c8d26be8186d857126b98b4a4e9b023b7c41ea0fe21278afca840b2080971814d6be33aa8b30fa875b04505976bff36be9b3a9c')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
