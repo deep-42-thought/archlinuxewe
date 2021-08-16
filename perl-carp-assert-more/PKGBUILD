@@ -2,29 +2,28 @@
 # Generator : neuesPerlPaket (900e236c34f5f70361b2c0eed5444de99193a45a6e5d0c97dc30ac9769d87f1aa77dfcc5a79ef0dea0df9d666b25059c0bc95a7ce51f80bc58ce97da48008bc9)
 
 pkgname='perl-carp-assert-more'
-pkgver=1.26
-pkgrel=2
+pkgver=2.0.1
+pkgrel=1
 pkgdesc='convenience wrappers around Carp::Assert'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-makedepends=(
-  'perl-extutils-makemaker')
 depends=(
   'perl>=5.34'
   'perl<5.35'
   'perl-carp'
-  'perl-carp-assert'
   'perl-scalar-list-utils'
   'perl-test-exception'
   'perl-test-simple>=0.18')
+makedepends=(
+  'perl-extutils-makemaker')
 checkdepends=(
   'perl-test-pod'
   'perl-test-pod-coverage')
 url='https://metacpan.org/release/Carp-Assert-More'
 _distdir="Carp-Assert-More-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/${_distdir}.tar.gz")
-sha512sums=('ef2a6adc62706dc15f45eb54968eeb216afd2864386f26ffac3a78750290b34e08b52149938b02b7f252252ddd85a676d6a94572d49ca0ca743beace24bc5c36')
+sha512sums=('584b838cd32b342b27f6e8281e2cb3439cd0077e121e16a482e32c5c3f28a07ed38b476d412d19c7ad7a85fb4079943806c258db6fc9ef4377d285494765e253')
 
 build() {
   cd "${srcdir}/${_distdir}"
