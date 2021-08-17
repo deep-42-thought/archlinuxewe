@@ -2,28 +2,34 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-data-modemerge'
-pkgver='0.35'
-pkgrel=6
+pkgver=0.360
+pkgrel=1
 pkgdesc='Merge two nested data structures, with merging modes and options'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+provides=(
+  'perl-data-modemerge-config=0.360'
+  'perl-data-modemerge-mode-add=0.360'
+  'perl-data-modemerge-mode-base=0.360'
+  'perl-data-modemerge-mode-concat=0.360'
+  'perl-data-modemerge-mode-delete=0.360'
+  'perl-data-modemerge-mode-keep=0.360'
+  'perl-data-modemerge-mode-normal=0.360'
+  'perl-data-modemerge-mode-subtract=0.360')
 depends=(
   'perl>=5.34'
   'perl<5.35'
-  'perl-data-dmp'
-  'perl-exporter'
-  'perl-mo'
-)
+  'perl-data-dmp>=0.241'
+  'perl-exporter>=5.57'
+  'perl-mo')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-lib'
   'perl-pathtools'
   'perl-test-exception'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -32,7 +38,11 @@ checkdepends=(
 url='https://metacpan.org/release/Data-ModeMerge'
 _distdir="Data-ModeMerge-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('3f6601f888515aeb0338498bcb3e20464416313d10639dfbcf786ce2e1f8c10ce7e3c94accb7add37ee75fcb33269612c9dfd19c27d10c8bc2ad9ce3d40e2f6a')
+sha512sums=('5d1784344543e30549bd483ff5c3696e06ecf1388d11ad0c11ca1028e879468eaf7f2568a9ed101c0535b883fed43d105a30db5d9223fb4aab2380d00040d4ec')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
