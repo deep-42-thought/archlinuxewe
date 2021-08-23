@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=acme2certifier
-pkgver=0.17.1.r2.gb353ffa
+pkgver=0.18.r4.gbfcacfd
 _commit="${pkgver##*.g}"
 pkgrel=1
 pkgdesc='experimental acme server written in python'
@@ -25,12 +25,10 @@ source=(
   "${pkgname}::git+https://github.com/grindsa/${pkgname}.git#commit=${_commit}"
   'systemd.patch'
   'ssl.conf'
-  'challenge_proxy.patch'
 )
 sha512sums=('SKIP'
             '6700736f127297293067930e92b711c579d800c684b587ca2c5cbc2430dee241500932b57398d87a4dbf4111483bf0942814a06587bbe2a77958c9da18a18e63'
-            '3ed87346bf0776f50e452b1928c8f24db5498a5af1010042e9680ca136242f49e78d30ebca5e4328f485d1c051ab51f859a1ae2f936e0c6eb5b1cde700b3b201'
-            'c02708668c573e142cf9ea2399a929c3acb63debf49cbf36158a730d60b82282830de3c028f251df4ffb756b62a01aa624d87f39b390096803f23a11c84b6cc9')
+            '3ed87346bf0776f50e452b1928c8f24db5498a5af1010042e9680ca136242f49e78d30ebca5e4328f485d1c051ab51f859a1ae2f936e0c6eb5b1cde700b3b201')
 install="${pkgname}.install"
 
 pkgver() {
@@ -48,7 +46,6 @@ pkgver() {
 
 prepare() {
   cd "${srcdir}/${pkgname}"
-  patch -p1 -i "${srcdir}/challenge_proxy.patch"
   patch -p1 -i "${srcdir}/systemd.patch"
 }
 
