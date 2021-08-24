@@ -4,7 +4,7 @@ pkgname=dnsdist
 pkgver=1.6.0
 _pkgver=${pkgver#*_}
 _pkgver=${_pkgver//_/-}
-pkgrel=5
+pkgrel=6
 pkgdesc='Highly DNS-, DoS- and abuse-aware loadbalancer'
 arch=('x86_64')
 url='https://dnsdist.org/'
@@ -31,7 +31,7 @@ _pinned_dependencies=(
   'lmdb=0.9.29'
   'luajit=2.0.5'
   'net-snmp=5.9.1'
-  'openssl=1.1.1.k'
+  'openssl=1.1.1.l'
   're2=1:20210801'
 )
 depends=('h2o' "${_pinned_dependencies[@]}")
