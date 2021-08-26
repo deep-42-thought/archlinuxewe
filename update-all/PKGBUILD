@@ -1,6 +1,6 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=update-all
-pkgver=0.8.3
+pkgver=0.8.4
 pkgrel=1
 pkgdesc="Simple script for installing updated packages"
 arch=('any')
@@ -15,8 +15,9 @@ depends=(
 makedepends=()
 checkdepends=()
 optdepends=(
-  'check-kernel:   check if reboot is necessary after update'
-  'shutdownasap:   allow for less-interuptive reboot'
+  'check-kernel:            check if reboot is necessary after update'
+  'shutdownasap:            allow for less-interuptive reboot'
+  'simple-package-report:   allow for telemetry data upload'
 )
 provides=()
 conflicts=()
@@ -26,7 +27,7 @@ options=()
 source=(
     "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('4aee5b0de568f9a2e07ed808b7307a63ec1f4bd6c4f0c03eaa42dc1b3b88afd31e47e7547e84b7b3ed8c957b90cb918fc4af855c3afbbbd052913a51d3aa0a5f')
+sha512sums=('89df153adaa8769b120f8648074e07bb7d3650c38abf617f6ec3fa6fee0a36d7aee392b1e0db59f4e3c7b35587a500916ba0f41ae91413667bce95a407a900c6')
 
 build() {
 
