@@ -1,0 +1,26 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=simple-package-report
+pkgver=0.0
+pkgrel=1
+pkgdesc="Simple script for uploading telemetry data"
+arch=('any')
+url="https://git.eckner.net/Erich/${pkgname}"
+license=('GPL')
+source=(
+    "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
+)
+sha512sums=('51649b9135b0df210f7a6d473b7e6e9b2d6265bc7c69a2f3b40b665621f8cab082a1ebcc2c3d5194dcc0a232a9c02332fb956764a609855d2554bf5aa3b3a486')
+
+build() {
+
+    cd ${pkgname}-${pkgver}
+    make
+
+}
+
+package() {
+
+    cd ${pkgname}-${pkgver}
+    make DESTDIR=${pkgdir} install
+
+}
