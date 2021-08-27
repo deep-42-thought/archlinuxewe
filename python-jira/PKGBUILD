@@ -1,0 +1,36 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=python-jira
+_pkgname="${pkgname#*-}"
+pkgver=3.0.1
+pkgrel=1
+pkgdesc="Python library to work with Jira APIs"
+arch=(any)
+url="https://github.com/pycontribs/jira"
+license=('BSD')
+depends=(
+  'python>=3.9'
+  'python<3.10'
+  'python-defusedxml'
+  'python-keyring'
+  'python-requests'
+  'python-requests-oauthlib'
+  'python-requests-toolbelt'
+)
+makedepends=(
+  'python-setuptools'
+)
+source=("https://github.com/pycontribs/jira/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('feb5f77431728aee7c99bca65f00c9f39682720369c7f24c0cf932049a72ec5f')
+
+prepare() {
+  cd "${srcdir}/jira-${pkgver}"
+  sed -i '
+    s@\(setuptools.setup(\)use_scm_version=True)@\1version='"'${pkgver}'"')@
+  ' setup.py
+}
+
+package() {
+  cd "${srcdir}/jira-${pkgver}"
+  python setup.py install --root="$pkgdir" --optimize=1
+  install -Dm 644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+}
