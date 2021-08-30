@@ -7,7 +7,7 @@ _target_arch=$(printf '%s' i 6 8 6)
 pkgname=archiso32
 _pkgbase=archiso
 
-pkgver=57
+pkgver=58
 pkgrel=1
 pkgdesc='Tools for creating Arch Linux 32 live and install iso images'
 arch=('any')
@@ -25,7 +25,7 @@ package() {
 
   cd "${_pkgbase}"
   mkdir "${srcdir}/pkg"
-  make DESTDIR="${srcdir}/pkg" install
+  make DESTDIR="${srcdir}/pkg" PREFIX='/usr' install
   mkdir -p "${pkgdir}/usr/share/archiso/configs"
   mv "${srcdir}/pkg/usr/share/archiso/configs/releng" "${pkgdir}/usr/share/archiso/configs/releng32"
 
