@@ -1,0 +1,73 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (0c476839304014b3b390c98c3d10da7c9e9b90f6f2116cff2a40fd771cd232410b62e0bd8a40e44de6f8aec20cbe5938f6784a3f1c1c01b6a48894948722fb91)
+
+pkgname='perl-file-treecreate'
+pkgver='0.0.1'
+pkgrel='1'
+pkgdesc='recursively create a directory tree.'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-autodie'
+  'perl-carp'
+  'perl-pathtools'
+)
+makedepends=(
+  'perl-file-path'
+  'perl-io'
+  'perl-module-build>=0.28'
+  'perl-pathtools'
+  'perl-test-simple>=0.88'
+)
+url='https://metacpan.org/dist/File-TreeCreate'
+_distdir="File-TreeCreate-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
+sha512sums=('736c850db328b74d4ef4ea52e01e76d8e6473243b4676c59549904dc8c7ee486601d7512b3347f67f6e6ee3a7639a38edbe74198ec3526c6b94e1f2227ce524b')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
