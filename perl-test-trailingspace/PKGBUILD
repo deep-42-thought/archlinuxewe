@@ -1,27 +1,25 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='perl-test-trailingspace'
-pkgver=0.0600
-pkgrel=3
+pkgver=0.0601
+pkgrel=1
 pkgdesc="test for trailing space in source files."
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-makedepends=(
-  'perl'
-  'perl-extutils-makemaker'
-  'perl-file-path'
-  'perl-io'
-  'perl-lib'
-  'perl-module-build>=0.28'
-  'perl-pathtools'
-  'perl-test-simple>=0.88')
 depends=(
   'perl>=5.34'
   'perl<5.35'
   'perl-autodie'
   'perl-file-find-object-rule>=0.0301'
   'perl-test-simple>=0.88')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-file-path'
+  'perl-file-treecreate'
+  'perl-io'
+  'perl-module-build>=0.28'
+  'perl-pathtools')
 checkdepends=(
   'perl-cpan-changes'
   'perl-pod-coverage-trustpod'
@@ -32,7 +30,7 @@ checkdepends=(
 url='http://search.cpan.org/~shlomif/Test-TrailingSpace-0.0205/'
 _distdir="Test-TrailingSpace-${pkgver}"
 source=("http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/${_distdir}.tar.gz")
-sha512sums=('936db3b15d031b4fc97dfc4372ad87bf5d08e772a0a8478c58ad3815d821ff3db4c10cb4c7ded928218d3dda3de6576fefcb0e57941d6549ac8bd18d77b5728a')
+sha512sums=('71a207be6d3d0791ca3f7784cda053a1de33969a531805afea3d2ce4985eb745afa5ab8cc9aa8642e236eb516dafe5962c3a433c2b53910d0b272e94efb5586b')
 
 build() {
   ( export PERL_MM_USE_DEFAULT=1 PERL5LIB=""                 \
