@@ -7,9 +7,16 @@ else
   update=true
 fi
 
+if [ "x$1" = "x-f" ]; then
+  force=true
+  shift
+else
+  force=false
+fi
+
 if [ $# -ne 1 ]
 then
-  >&2 echo "Verwendung: neuesPerlPaket [-n] cpan-Name"
+  >&2 echo "Verwendung: neuesPerlPaket [-f|-n] cpan-Name"
   exit 1
 fi
 
@@ -32,7 +39,8 @@ then
   exit 1
 fi
 
-if ls /var/lib/pacman/sync/*.db | \
+if ! ${force} && \
+  ls /var/lib/pacman/sync/*.db | \
   grep -v "/\(archlinuxewe\|quarry\)\.db\$" | \
   xargs -rn1 tar -Oxz --wildcards "*/desc" -f | \
   sed '
