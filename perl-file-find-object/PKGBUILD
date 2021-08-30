@@ -2,22 +2,20 @@
 # Contributor: Piotr Rogoża <piotr dot r dot public at gmail dot com>
 
 pkgname=perl-file-find-object
-pkgver=0.3.5
-pkgrel=3
+pkgver=0.3.6
+pkgrel=1
 _author="S/SH/SHLOMIF"
 _distdir="File-Find-Object-${pkgver}"
 pkgdesc="File::Find::Object - An object oriented File::Find replacement"
 arch=('any')
 url="http://search.cpan.org/dist/File-Find-Object/"
 license=('GPL' 'PerlArtistic')
-makedepends=(
-  'perl'
-  'perl-extutils-makemaker'
-  'perl-file-path'
-  'perl-io'
-  'perl-lib'
-  'perl-module-build>=0.28'
-  'perl-test-simple>=0.88')
+provides=(
+  'perl-file-find-object-base=0.3.6'
+  'perl-file-find-object-deeppath=0.3.6'
+  'perl-file-find-object-pathcomp=0.3.6'
+  'perl-file-find-object-result=0.3.6'
+  'perl-file-find-object-toppath=0.3.6')
 depends=(
   'perl>=5.34'
   'perl<5.35'
@@ -26,12 +24,14 @@ depends=(
   'perl-parent'
   'perl-pathtools'
   'perl-scalar-list-utils')
-provides=(
-  'perl-file-find-object-base=0.3.5'
-  'perl-file-find-object-deeppath=0.3.5'
-  'perl-file-find-object-pathcomp=0.3.5'
-  'perl-file-find-object-result=0.3.5'
-  'perl-file-find-object-toppath=0.3.5')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-file-path'
+  'perl-file-treecreate'
+  'perl-io'
+  'perl-lib'
+  'perl-module-build>=0.28'
+  'perl-test-simple>=0.88')
 checkdepends=(
   'perl'
   'perl-cpan-changes'
@@ -44,7 +44,7 @@ checkdepends=(
 )
 options=(!emptydirs)
 source=("http://search.cpan.org/CPAN/authors/id/$_author/${_distdir}.tar.gz")
-sha512sums=('0260f9b82cc742078f272544cf1e5bd021aefc234833e84f655a94b6e43dab2d6ce900490ab60fc4fb1977beed89003dabd90deffffd12d45c5987e6d4fa6f9d')
+sha512sums=('62aec37a3f23b05396cf9786bd884383a621a214b2d7b1c7689c281391c81bb26ad5648f62942b6a08398930f9d74f3e526cd3139ca3d907c364475b207d6822')
 
 build(){
   cd "$srcdir/${_distdir}"
