@@ -2,36 +2,35 @@
 # Generator : neuesPerlPaket (568f5d2df596725567f1a6081bf01d21ef231fbfd3571a4132eb004ebb50cfaada248486250b351491d5fd615f2c1d7f07d339c6e6ad8bb59146399a117bec0c)
 
 pkgname='perl-rpc-xml'
-pkgver='0.81'
-pkgrel=2
+pkgver=0.82
+pkgrel=1
 pkgdesc='Data, client and server classes for XML-RPC'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-optdepends=(
-  'perl-compress-raw-zlib>=2.063'
-  'perl-datetime>=0.70'
-  'perl-datetime-format-iso8601>=0.07'
-  'perl-xml-libxml>=1.85'
-)
 depends=(
   'perl>=5.34'
   'perl<5.35'
-  'perl-constant>=1.03'
-  'perl-libwww>=5.834'
-  'perl-module-load>=0.24'
-  'perl-pathtools>=0.8'
-  'perl-scalar-list-utils>=1.33'
-  'perl-test-simple>=0.94'
-  'perl-xml-parser>=2.31'
-)
+  'perl-carp'
+  'perl-http-daemon>=6.12'
+  'perl-http-message>=6.26'
+  'perl-libwww>=6.51'
+  'perl-module-load>=0.36'
+  'perl-scalar-list-utils>=1.55'
+  'perl-socket'
+  'perl-xml-parser>=2.46')
 makedepends=(
-  'perl-extutils-makemaker'
-)
+  'perl-extutils-makemaker>=7.56'
+  'perl-io-socket-ip'
+  'perl-test-simple>=1.302183')
+optdepends=(
+  'perl-datetime'
+  'perl-datetime-format-iso8601'
+  'perl-xml-libxml')
 url='https://metacpan.org/release/RPC-XML'
 _distdir="RPC-XML-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RJ/RJRAY/${_distdir}.tar.gz")
-sha512sums=('052a7ca4900c12d32ce9863ec276939d83702225e8a80d92f5b25539640a11a5661663c69b023b25b77f449db04b4df733ca966655230c07afa1e22a1598f004')
+sha512sums=('e5d1092a2807c2bd423502dd2ed53a72c57384b67bb4709e86a64a6fe37ce8af580998e62fcfa6a48d66d5308d9dc270c74e4293617b9f23a654e379cde4025f')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/40_server.t"
