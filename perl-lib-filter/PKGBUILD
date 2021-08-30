@@ -2,28 +2,29 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-lib-filter'
-pkgver='0.27'
-pkgrel=6
+pkgver=0.281
+pkgrel=1
 pkgdesc='Allow/disallow loading modules'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+provides=(
+  'perl-lib-allow=0.281'
+  'perl-lib-coreplus=0.281'
+  'perl-lib-disallow=0.281')
 depends=(
   'perl>=5.34'
   'perl<5.35'
-  'perl-module-corelist'
-)
+  'perl-module-corelist')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
-  'perl-file-temp'
+  'perl-file-temp>=0.2307'
   'perl-io'
   'perl-lib'
-  'perl-module-path-more'
+  'perl-module-path-more>=0.32'
   'perl-pathtools'
   'perl-test-needs'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -32,7 +33,11 @@ checkdepends=(
 url='https://metacpan.org/release/lib-filter'
 _distdir="lib-filter-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('4b3074d44415d8289c75388acdcfd7ef68971ae4b0562b669f423c79ea3d4fdcc797a96812e3730372f3cb56576c7967c8040bc92fc3328f7e98e6c047c40a40')
+sha512sums=('40b96affec5a6bc8462a154515386d8d5e62cbb59cdc57fd4d44261981f409ce2d7f133676bb2f9f48ed75369c28c5396d97d0678542a3d8039810923f04fbf1')
+
+prepare() {
+  rm "${srcdir}/${_distdir}/t/author-critic.t"
+}
 
 build() {
   cd "${srcdir}/${_distdir}"
