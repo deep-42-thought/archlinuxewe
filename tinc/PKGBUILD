@@ -6,7 +6,8 @@
 # Contributor: Dominik George <nik@naturalnet.de>
 
 pkgname=tinc
-pkgver=1.0.36
+pkgver=1.0.36.1pre18
+_pkgver=1.1pre18
 pkgrel=10
 
 pkgdesc="VPN (Virtual Private Network) daemon"
@@ -24,20 +25,14 @@ depends=(
   "${_pinned_dependencies[@]}"
 )
 
-source=(https://www.tinc-vpn.org/packages/tinc-$pkgver.tar.gz{,.sig} graph.patch)
+source=(https://www.tinc-vpn.org/packages/tinc-$_pkgver.tar.gz{,.sig})
 
-sha512sums=('23af9162f7ae700bad01e1f59f23f32d1b183b185ec35f4a69a987c52c53cfebfa9e852203b399f035988078e9131e5d59b018554a52a30044f34df6e64b5289'
-            'SKIP'
-            '3c506343a0a76ec6ac275be6270717934518c93e83ed9a004548591220a44db6847e9b2d2595677f758995bdaca83aeb2c1f22108084a76d66034afb21f34dc1')
+sha512sums=('d8b03c78fd579df58d4c8a03f5d2241d2c95edb660ce9aa34441f6e75df09e3fff7524215c7c4b3622311e80f5bb452a6ac1205f3fd13424d56135f70b973183'
+            'SKIP')
 validpgpkeys=('D62BDD168EFBE48BC60E8E234A6084B9C0D71F4A')
 
-prepare() {
-  cd tinc-$pkgver
-  patch -p1 -i ../graph.patch
-}
-
 build() {
-  cd tinc-$pkgver
+  cd tinc-$_pkgver
 
   ./configure \
     --prefix=/usr \
@@ -49,7 +44,7 @@ build() {
 }
 
 package() {
-  cd tinc-$pkgver
+  cd tinc-$_pkgver
 
   make DESTDIR="$pkgdir/" install
   install -dm755 "$pkgdir"/usr/share/tinc/examples
