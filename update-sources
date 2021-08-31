@@ -8,6 +8,12 @@ if [ $# -eq 0 ]; then
 
   [ -d "${srcDir}" ] || exit 0
 
+  lockFile="${srcDir}/.lock"
+  if [ -s "${lockFile}" ] && kill -0 "$(cat "${lockFile}")"; then
+    exit
+  fi
+  echo $$ >"${lockFile}"
+
   find "${srcDir}" \
     -type d \
     -exec sh -c 'test -f "{}/HEAD"' \; \
@@ -18,6 +24,8 @@ if [ $# -eq 0 ]; then
     -printf 'svn: %p\n' \
     -prune \
   | parallel -j 0 -l 1 "$0"
+
+  rm -f "${lockFile}"
 
 elif [ $# -eq 1 ]; then
 
