@@ -31,11 +31,13 @@ elif [ $# -eq 1 ]; then
 
   case "${1%%: *}" in
     'git')
-      git -C "${1#*: }" fetch --all -p
+      git -C "${1#*: }" fetch --all -p \
+      || rm -rf --one-file-system "${1#*: }"
     ;;
     'svn')
       cd "${1#*: }"
-      svn update
+      svn update \
+      || rm -rf --one-file-system "${1#*: }"
     ;;
     *)
       >&2 printf '%s: unknown VCS "%s"\n' "$0" "${1%%: *}"
