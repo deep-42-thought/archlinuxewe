@@ -385,7 +385,6 @@ for paket in $( \
 
   missing_archs=$(
     for pkgnam in "${pkgname[@]}"; do
-
       archs=$(
         declare -f package_${pkgnam} | \
           sed -n '
@@ -412,7 +411,7 @@ for paket in $( \
           continue
 
         pkgFile_a="${epoch:+${epoch}:}${pkgver}-${pkgrel}"
-        pkgFile_b="${repo}/${singleArch}/{pkgnam}-${singleArch}.pkg.tar.zst"
+        pkgFile_b="${repo}/${singleArch}/${pkgnam}-${singleArch}.pkg.tar.zst"
         if printf '%s\n' \
             "${available_packages}" \
           | cut -d' ' -f2 \
