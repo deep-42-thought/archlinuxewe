@@ -692,7 +692,7 @@ index 4e3eb3228..9feb9ba4c 100644
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Stationsklasse: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Stationstype: {LTBLUE}{STRING}
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index d76f9caee..adfe9c588 100644
+index b6578ac8d..e790a3185 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -473,6 +473,19 @@ STR_AIRCRAFT_MENU_AIRPORT_CONSTRUCTION                          :Airport constru
@@ -715,7 +715,7 @@ index d76f9caee..adfe9c588 100644
  
  # Music menu
  ###length 1
-@@ -2916,7 +2929,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
+@@ -2911,7 +2924,7 @@ STR_LAND_AREA_INFORMATION_TRAM_OWNER                            :{BLACK}Tramway
  STR_LAND_AREA_INFORMATION_RAIL_OWNER                            :{BLACK}Railway owner: {LTBLUE}{STRING1}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY                       :{BLACK}Local authority: {LTBLUE}{STRING1}
  STR_LAND_AREA_INFORMATION_LOCAL_AUTHORITY_NONE                  :None
@@ -724,7 +724,7 @@ index d76f9caee..adfe9c588 100644
  STR_LAND_AREA_INFORMATION_BUILD_DATE                            :{BLACK}Built: {LTBLUE}{DATE_LONG}
  STR_LAND_AREA_INFORMATION_STATION_CLASS                         :{BLACK}Station class: {LTBLUE}{STRING}
  STR_LAND_AREA_INFORMATION_STATION_TYPE                          :{BLACK}Station type: {LTBLUE}{STRING}
-@@ -5545,3 +5558,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
+@@ -5540,3 +5553,35 @@ STR_PLANE                                                       :{BLACK}{PLANE}
  STR_SHIP                                                        :{BLACK}{SHIP}
  
  STR_TOOLBAR_RAILTYPE_VELOCITY                                   :{STRING} ({VELOCITY})
@@ -2159,7 +2159,7 @@ index a1dbb6567..b0c3656dc 100644
  #include "../../widgets/viewport_widget.h"
  #include "../../widgets/waypoint_widget.h"
 diff --git a/src/settings_table.cpp b/src/settings_table.cpp
-index 27fb4ef08..03a90e8bd 100644
+index 4b94a8be7..bf6493391 100644
 --- a/src/settings_table.cpp
 +++ b/src/settings_table.cpp
 @@ -17,6 +17,7 @@
@@ -2171,7 +2171,7 @@ index 27fb4ef08..03a90e8bd 100644
  #include "train.h"
  #include "news_func.h"
 diff --git a/src/settings_type.h b/src/settings_type.h
-index dd49d3982..408ad79c2 100644
+index 3c2f2be7b..b30fcb07b 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
 @@ -171,6 +171,8 @@ struct GUISettings {
@@ -2572,10 +2572,10 @@ index d51fbbf02..7aea638d2 100644
 +min      = MIN_LAYER_COUNT_BITS
 +max      = MAX_LAYER_COUNT_BITS
 diff --git a/src/table/settings/gui_settings.ini b/src/table/settings/gui_settings.ini
-index f08c84981..5b0dc123e 100644
+index 277586f91..4c7916197 100644
 --- a/src/table/settings/gui_settings.ini
 +++ b/src/table/settings/gui_settings.ini
-@@ -857,3 +857,11 @@ min      = 1
+@@ -848,3 +848,11 @@ min      = 1
  max      = 65535
  cat      = SC_EXPERT
  

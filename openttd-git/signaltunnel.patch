@@ -1,5 +1,5 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index d76f9caee..6b582ac49 100644
+index b6578ac8d..52d242cd2 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
 @@ -1805,6 +1805,9 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES_HELPTEXT                :Set the minimum
@@ -12,7 +12,7 @@ index d76f9caee..6b582ac49 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :When dragging, place signals every: {STRING2}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Set the distance at which signals will be built on a track up to the next obstacle (signal, junction), if signals are dragged
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} tile{P 0 "" s}
-@@ -2999,8 +3002,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -2994,8 +2997,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -261,7 +261,7 @@ index 59c1d27ab..ee7d0423d 100644
  
  /**
 diff --git a/src/settings_gui.cpp b/src/settings_gui.cpp
-index 04deb93eb..af3276608 100644
+index ae894cd50..c190bc29d 100644
 --- a/src/settings_gui.cpp
 +++ b/src/settings_gui.cpp
 @@ -1622,6 +1622,7 @@ static SettingsContainer &GetSettingsTree()
@@ -269,11 +269,11 @@ index 04deb93eb..af3276608 100644
  			{
  				construction->Add(new SettingEntry("gui.link_terraform_toolbar"));
 +				construction->Add(new SettingEntry("construction.simulated_wormhole_signals"));
- 				construction->Add(new SettingEntry("gui.enable_signal_gui"));
  				construction->Add(new SettingEntry("gui.persistent_buildingtools"));
  				construction->Add(new SettingEntry("gui.quick_goto"));
+ 				construction->Add(new SettingEntry("gui.default_rail_type"));
 diff --git a/src/settings_type.h b/src/settings_type.h
-index dd49d3982..dc90ced1c 100644
+index 3c2f2be7b..de1e85825 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
 @@ -344,6 +344,7 @@ struct ConstructionSettings {
