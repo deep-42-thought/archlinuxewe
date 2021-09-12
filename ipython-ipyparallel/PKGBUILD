@@ -1,104 +1,31 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgbase=ipython-ipyparallel
-pkgname=('ipython-ipyparallel' 'ipython2-ipyparallel' 'ipython-ipyparallel-common')
+pkgname=('ipython-ipyparallel')
 pkgver=6.3.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Interactive Parallel Computing in Python"
 url="https://github.com/ipython/ipyparallel"
 arch=(any)
 license=('BSD')
-_deppy2=(
-  'python2>=2.7'
-  'python2<2.8'
-)
-_deppy=(
+depends=(
   'python>=3.9'
   'python<3.10'
-)
-_depends=(
   'ipython'
 )
-_makedepends=(
-  'python-setuptools'
-)
 makedepends=(
-  "${_deppy[@]}"
-  "${_deppy2[@]}"
-  "${_makedepends[@]}"
-  "${_makedepends[@]/python/python2}"
-  "${_depends[@]}"
-  "${_depends[@]/python/python2}"
+  'python-setuptools'
 )
 source=("${pkgname}-${pkgver}.tar.gz::https://github.com/ipython/ipyparallel/archive/${pkgver}.tar.gz")
 sha512sums=('072262273d8d24f54d8c8339a4e2702bcb507fc78ca766b89156571f8011c4806a7c3231777bb06a02bc1f6506bf4b8c7b51de3b766bf98b60863fc79ffd0dd0')
 
-_common_files=(
-  'etc/'
-  'usr/share/'
-)
-
-prepare() {
-  cp -r "${srcdir}/ipyparallel-$pkgver" "${srcdir}/ipyparallel-$pkgver-py2"
-}
-
 build() {
   cd "${srcdir}/ipyparallel-$pkgver"
   python setup.py build
-  
-  cd "${srcdir}/ipyparallel-$pkgver-py2"
-  python2 setup.py build
 } 
 
-_package_ipython-ipyparallel() {
+package_ipython-ipyparallel() {
   cd "${srcdir}/ipyparallel-$pkgver"
   python setup.py install --root="${pkgdir}"
   mv "${pkgdir}/usr/etc" "${pkgdir}/"
-}
-
-package_ipython-ipyparallel() {
-  depends=(
-    "${_deppy[@]}"
-    "${_depends[@]}"
-    'ipython-ipyparallel-common'
-  )
-
-  _package_ipython-ipyparallel
-  for f in "${_common_files[@]}"; do
-    rm -r --one-file-system "${pkgdir}/${f}"
-  done
-}
-
-_package_ipython2-ipyparallel() {
-  cd "${srcdir}/ipyparallel-$pkgver-py2"
-  python2 setup.py install --root="${pkgdir}"
-  mv "${pkgdir}"/usr/bin/ipcluster "${pkgdir}"/usr/bin/ipcluster2
-  mv "${pkgdir}"/usr/bin/ipcontroller "${pkgdir}"/usr/bin/ipcontroller2
-  mv "${pkgdir}"/usr/bin/ipengine "${pkgdir}"/usr/bin/ipengine2
-  mv "${pkgdir}/usr/etc" "${pkgdir}/"
-}
-
-package_ipython2-ipyparallel() {
-  depends=(
-    "${_deppy2[@]}"
-    "${_depends[@]/python/python2}"
-    'ipython-ipyparallel-common'
-  )
-
-  _package_ipython2-ipyparallel
-  for f in "${_common_files[@]}"; do
-    rm -r --one-file-system "${pkgdir}/${f}"
-  done
-}
-
-package_ipython-ipyparallel-common() {
-  mkdir -p "${srcdir}/pkg" "${srcdir}/pkg2"
-  pkgdir="${srcdir}/pkg" _package_ipython-ipyparallel
-  pkgdir="${srcdir}/pkg2" _package_ipython2-ipyparallel
-
-  for f in "${_common_files[@]}"; do
-    diff -r "${srcdir}/pkg"{,2}"/${f}"
-    mkdir -p "${pkgdir}/${f}"
-    cp -ra "${srcdir}/pkg/${f}" "${pkgdir}/${f}"
-  done
 }
