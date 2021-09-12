@@ -2,30 +2,27 @@
 # Generator : neuesPerlPaket (d3b8f856efc23c99656b994aa72658ac963819754afaf13b4ff51112b3b57c06d21420dc7b9785686dc52d8001593e3bd56268af1bc970e123ce908790bf7852)
 
 pkgname='perl-data-sah-coercebundle-to_array-from_str-comma_sep'
-pkgver='0.012'
-pkgrel=3
+pkgver=0.013
+pkgrel=1
 pkgdesc='Coerce array from a comma-separated items in a string'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+depends=(
+  'perl>=5.34'
+  'perl<5.35'
+  'perl-string-js')
 makedepends=(
-  'perl'
   'perl-data-sah-coerce>=0.048'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-nodejs-util>=0.007'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
-depends=(
-  'perl>=5.34'
-  'perl<5.35'
-  'perl-string-js'
-)
+  'perl-test-simple>=0.98')
 url='https://metacpan.org/release/Data-Sah-CoerceBundle-To_array-From_str-comma_sep'
 _distdir="Data-Sah-CoerceBundle-To_array-From_str-comma_sep-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('ae18e92b4e7815bc9f8feeb5deddc106ebac80dec8299d308c85df987012f790f431defc8cb3a483bdfc111533a88b62d0cc9fcebcd81f42793954b3df23d3a2')
+sha512sums=('d4059a506a8b46b476c6fd3402a21426e25166f584e1480e5b1fb6dc2f103f671174da1580c0e2f89ccdb9aa8e439dfc48792099197658a0c2bc46e19a55e05f')
 
 build() {
   cd "${srcdir}/${_distdir}"
