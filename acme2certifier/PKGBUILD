@@ -3,7 +3,7 @@
 pkgname=acme2certifier
 pkgver=0.18.r4.gbfcacfd
 _commit="${pkgver##*.g}"
-pkgrel=1
+pkgrel=2
 pkgdesc='experimental acme server written in python'
 arch=('any')
 url='https://github.com/grindsa/acme2certifier'
@@ -16,6 +16,7 @@ depends=(
   'python-dateutil'
   'python-requests'
   'python-deprecated'
+  'python-socks'
 )
 makedepends=(
   'git'
