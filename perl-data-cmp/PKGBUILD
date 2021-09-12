@@ -2,26 +2,26 @@
 # Generator : neuesPerlPaket (0c476839304014b3b390c98c3d10da7c9e9b90f6f2116cff2a40fd771cd232410b62e0bd8a40e44de6f8aec20cbe5938f6784a3f1c1c01b6a48894948722fb91)
 
 pkgname='perl-data-cmp'
-pkgver='0.007'
-pkgrel='1'
+pkgver=0.010
+pkgrel=1
 pkgdesc='Compare two data structures, return -1/0/1 like cmp'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   'perl-exporter>=5.57'
-  'perl-scalar-list-utils'
-)
+  'perl-scalar-list-utils')
 makedepends=(
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 url='https://metacpan.org/dist/Data-Cmp'
 _distdir="Data-Cmp-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('6943bd814e28ac674d6afd11fdc9b6b49b6b9beee54a235b26050fb242a1cf01495e9815160e74e38629b52fcfe0d1088c49a3f18fa7304774d0e68ee0b5ed10')
+sha512sums=('f684cf5d251fba5898e0eb33fec64eb29782c17defc6bce9100eee21224a8eb7aef27e5efd8093ee43370e911eaef45512e79aa8c66149e01d9e37cfd02dda2a')
 
 build() {
   cd "${srcdir}/${_distdir}"
