@@ -752,7 +752,7 @@ then
       quVer=$(
         echo "${src#*::}" | \
           sed '
-            s|/archive/\(Release/\)\?[^/]*$|/releases|
+            s@/archive/\(Release/\|refs/tags/\)\?[^/]*$@/releases@
             s|/download/[^/]*/[^/]*$||
             s|http:|https:|
           '
@@ -764,19 +764,26 @@ then
       if [ "${pkgname}" == 'boulder' ]; then
         us_chars='-'
         dot_chars=''
+        ex_chars=''
       elif [ "${pkgname}" == 'jamulus-headless' ]; then
         us_chars=''
         dot_chars='_'
+        ex_chars=''
+      elif [ "${pkgname}" == 'hyperrogue' ]; then
+        us_chars=''
+        dot_chars=''
+        ex_chars='[a-z]*'
       else
         us_chars=''
         dot_chars=''
+        ex_chars=''
       fi
       remVer=$( \
         curl_it "${quVer}" | \
           tr '"' '\n' | \
           tr '[[:upper:]]' '[[:lower:]]' | \
           sed '
-            s@^'"${quNam}"'\([rv]\|release\(%2f\|-\)\|\)\(['"${dot_chars}${us_chars}"'_0-9.]\+\)$@\3@
+            s@^'"${quNam}"'\([rv]\|release\(%2f\|-\)\|\)\(['"${dot_chars}${us_chars}"'_0-9.]\+'"${ex_chars}"'\)$@\3@
             t
             d
           ' | \
@@ -1128,18 +1135,6 @@ then
           d
         ' \
         | latest_version
-      )
-    elif echo "${src}" | \
-      grep -qF '//www.roguetemple.com/'
-    then
-      remVer=$(
-        curl_it "${src%/*}/download.php" | \
-          sed -n '
-            s,^.*<a href="hyperrogue\([0-9]\+\)\([0-9]\)\([a-z]\?\)-src.tgz">[^<>]\+ source code</a>.*$,\1.\2.\3,
-            T
-            s,\.$,,
-            p
-          '
       )
     elif echo "${src}" | \
       grep -q '//www\.apache\.org/dist/spamassassin/source/'
