@@ -20,7 +20,7 @@ makedepends=(
   'python-pip'
   'python-setuptools'
 )
-source=("https://github.com/pycontribs/jira/archive/refs/tags/$pkgver.tar.gz")
+source=("$_pkgname-$pkgver.tar.gz::https://github.com/pycontribs/jira/archive/refs/tags/$pkgver.tar.gz")
 sha256sums=('feb5f77431728aee7c99bca65f00c9f39682720369c7f24c0cf932049a72ec5f')
 
 prepare() {
