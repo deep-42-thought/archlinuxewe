@@ -2,8 +2,8 @@
 # Contributor: Massimiliano Torromeo <massimiliano.torromeo@gmail.com>
 
 pkgname=ssacli
-pkgver=4.17_6.0
-pkgrel=3
+pkgver=5.10_44.0
+pkgrel=1
 pkgdesc="HP Command Line Smart Storage Administrator"
 arch=(x86_64)
 url="https://downloads.linux.hpe.com/SDR/downloads/mcp"
@@ -19,7 +19,7 @@ license=("CUSTOM")
 source_x86_64=("https://downloads.linux.hpe.com/SDR/repo/mcp/centos/8/${CARCH}/current/$pkgname-${pkgver//_/-}.${CARCH}.rpm")
 source=('ssacli.conf')
 sha512sums=('32cf56d9d40bb537273d27ad73afe1af30c283cd13bd4bc57df96ebd6538e8f8d55d352895e40e33a35c16c245da46071707fcf3d676387d72f20a22e9ecf50d')
-sha512sums_x86_64=('b7430c9ebbb5f234a6ffc14cf295899af04f9130ff1ebac9671a4cbf378fd164de0834aed6b9a001977e07720f52869e8f7ec4fa2adaa300e5764dd3d353b1c5')
+sha512sums_x86_64=('9d8ab77ae528d5a13c295f751083228ff5fc9b20544070de243f1d5e070c6d42ea143e2ba58e3e25461838818a37bfb5715391fd75bed5334e49f42cfc4c30f6')
 
 package() {
   mv usr/{sbin,bin}
