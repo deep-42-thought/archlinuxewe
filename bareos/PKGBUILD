@@ -25,7 +25,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-webui")
 
 pkgver=20.0.3
-pkgrel=1
+pkgrel=2
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -34,7 +34,7 @@ license=('AGPL3')
 _pinned_dependencies=(
   'gcc-libs=11.1.0'
   'glibc>=2.31'
-  'jansson=2.13.1'
+  'jansson=2.14'
   'libacl.so=1'
   'libcap.so=2'
   'libpam.so=0'
@@ -150,7 +150,7 @@ package_bareos-common() {
   _pinned_dependencies=(
     'gcc-libs=11.1.0'
     'glibc>=2.31'
-    'jansson=2.13.1'
+    'jansson=2.14'
     'libacl.so=1'
     'libcap.so=2'
     'lzo=2.10'
@@ -203,7 +203,7 @@ package_bareos-bconsole() {
   _pinned_dependencies=(
     'gcc-libs=11.1.0'
     'glibc>=2.31'
-    'jansson=2.13.1'
+    'jansson=2.14'
     'libreadline.so=8'
   )
   depends=("bareos-common=$pkgver" "${_pinned_dependencies[@]}")
@@ -371,7 +371,7 @@ package_bareos-database-tools() {
   _pinned_dependencies=(
     'gcc-libs=11.1.0'
     'glibc>=2.31'
-    'jansson=2.13.1'
+    'jansson=2.14'
     'openssl=1.1.1.l'
   )
   depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
@@ -399,7 +399,7 @@ package_bareos-director() {
   _pinned_dependencies=(
     'gcc-libs=11.1.0'
     'glibc>=2.31'
-    'jansson=2.13.1'
+    'jansson=2.14'
     'libpam.so=0'
     'openssl=1.1.1.l'
   )
@@ -560,7 +560,7 @@ package_bareos-filedaemon() {
   _pinned_dependencies=(
     'gcc-libs=11.1.0'
     'glibc>=2.31'
-    'jansson=2.13.1'
+    'jansson=2.14'
     'zlib=1:1.2.11'
   )
   depends=("bareos-common=$pkgver" "${_pinned_dependencies[@]}")
