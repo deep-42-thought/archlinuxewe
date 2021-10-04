@@ -107,7 +107,7 @@ index 86c2de78e..9c9265028 100644
  				}
  			}
 diff --git a/src/station_cmd.cpp b/src/station_cmd.cpp
-index fa11c05d5..9403d1226 100644
+index 1a188252c..9304f5efc 100644
 --- a/src/station_cmd.cpp
 +++ b/src/station_cmd.cpp
 @@ -56,6 +56,7 @@
@@ -179,7 +179,7 @@ index fa11c05d5..9403d1226 100644
  	if (ret.Failed()) return ret;
  	cost.AddCost(ret);
  
-@@ -2898,6 +2899,32 @@ static void DrawTile_Station(TileInfo *ti)
+@@ -2895,6 +2896,32 @@ static void DrawTile_Station(TileInfo *ti)
  		palette = PALETTE_TO_GREY;
  	}
  
@@ -212,7 +212,7 @@ index fa11c05d5..9403d1226 100644
  	if (layout == nullptr && (t == nullptr || t->seq == nullptr)) t = GetStationTileLayout(GetStationType(ti->tile), gfx);
  
  	/* don't show foundation for docks */
-@@ -2964,10 +2991,10 @@ static void DrawTile_Station(TileInfo *ti)
+@@ -2961,10 +2988,10 @@ static void DrawTile_Station(TileInfo *ti)
  			}
  
  			OffsetGroundSprite(31, 1);
@@ -225,7 +225,7 @@ index fa11c05d5..9403d1226 100644
  		}
  	}
  
-@@ -3022,14 +3049,64 @@ draw_default_foundation:
+@@ -3019,14 +3046,64 @@ draw_default_foundation:
  				DrawGroundSprite(overlay + overlay_offset, PALETTE_CRASH);
  			}
  		} else {
@@ -293,7 +293,7 @@ index fa11c05d5..9403d1226 100644
  			}
  		}
  	}
-@@ -3123,6 +3200,16 @@ void StationPickerDrawSprite(int x, int y, StationType st, RailType railtype, Ro
+@@ -3120,6 +3197,16 @@ void StationPickerDrawSprite(int x, int y, StationType st, RailType railtype, Ro
  
  static int GetSlopePixelZ_Station(TileIndex tile, uint x, uint y)
  {

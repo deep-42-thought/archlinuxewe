@@ -1,8 +1,8 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index 6162906a9..01cd58752 100644
+index ea8908a5e..3147199ee 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
-@@ -1805,6 +1805,9 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES_HELPTEXT                :Set the minimum
+@@ -1809,6 +1809,9 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES_HELPTEXT                :Set the minimum
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE                         :Percentage of leg profit to pay in feeder systems: {STRING2}
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE_HELPTEXT                :Percentage of income given to the intermediate legs in feeder systems, giving more control over the income
  
@@ -12,7 +12,7 @@ index 6162906a9..01cd58752 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :When dragging, place signals every: {STRING2}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Set the distance at which signals will be built on a track up to the next obstacle (signal, junction), if signals are dragged
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} tile{P 0 "" s}
-@@ -2994,8 +2997,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -3000,8 +3003,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -24,10 +24,10 @@ index 6162906a9..01cd58752 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index 0780f845c..a79a0c0c3 100644
+index ec02604ed..1ae270602 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
-@@ -1956,6 +1956,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES_HELPTEXT                :Минимал
+@@ -1960,6 +1960,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES_HELPTEXT                :Минимал
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE                         :Процент дохода, начисляемый при частичной перевозке: {STRING}
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE_HELPTEXT                :Процент прибыли, начисляемый транспорту за частичную перевозку груза.
  
@@ -36,7 +36,7 @@ index 0780f845c..a79a0c0c3 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :При перетаскивании ставить сигналы каждые: {STRING}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Настройка периодичности расстановки сигналов методом перетаскивания. Сигналы будут устанавливаться до первого встреченного препятствия (пересечения или другого сигнала).
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} клет{P ку ки ок}
-@@ -3169,8 +3171,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
+@@ -3175,8 +3177,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Железнодорожный туннель
@@ -366,7 +366,7 @@ index 329b1b05d..e058edf5e 100644
  
  			case MP_RAILWAY:
 diff --git a/src/table/settings/game_settings.ini b/src/table/settings/game_settings.ini
-index d51fbbf02..d19680aa2 100644
+index 79fac7513..503863c96 100644
 --- a/src/table/settings/game_settings.ini
 +++ b/src/table/settings/game_settings.ini
 @@ -406,6 +406,20 @@ min      = 5
@@ -391,10 +391,10 @@ index d51fbbf02..d19680aa2 100644
  
  [SDTC_BOOL]
 diff --git a/src/train_cmd.cpp b/src/train_cmd.cpp
-index f926be637..5aff1e18d 100644
+index f5eb32d7f..5b9830b02 100644
 --- a/src/train_cmd.cpp
 +++ b/src/train_cmd.cpp
-@@ -1867,6 +1867,17 @@ void ReverseTrainDirection(Train *v)
+@@ -1876,6 +1876,17 @@ void ReverseTrainDirection(Train *v)
  		return;
  	}
  
@@ -412,7 +412,7 @@ index f926be637..5aff1e18d 100644
  	/* VehicleExitDir does not always produce the desired dir for depots and
  	 * tunnels/bridges that is needed for UpdateSignalsOnSegment. */
  	DiagDirection dir = VehicleExitDir(v->direction, v->track);
-@@ -2201,6 +2212,42 @@ static bool CheckTrainStayInDepot(Train *v)
+@@ -2210,6 +2221,42 @@ static bool CheckTrainStayInDepot(Train *v)
  	return false;
  }
  
@@ -455,7 +455,7 @@ index f926be637..5aff1e18d 100644
  /**
   * Clear the reservation of \a tile that was just left by a wagon on \a track_dir.
   * @param v %Train owning the reservation.
-@@ -2216,7 +2263,8 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
+@@ -2225,7 +2272,8 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
  		if (GetTunnelBridgeDirection(tile) == ReverseDiagDir(dir)) {
  			TileIndex end = GetOtherTunnelBridgeEnd(tile);
  
@@ -465,7 +465,7 @@ index f926be637..5aff1e18d 100644
  				/* Free the reservation only if no other train is on the tiles. */
  				SetTunnelBridgeReservation(tile, false);
  				SetTunnelBridgeReservation(end, false);
-@@ -2230,6 +2278,7 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
+@@ -2239,6 +2287,7 @@ static void ClearPathReservation(const Train *v, TileIndex tile, Trackdir track_
  					}
  				}
  			}
@@ -473,7 +473,7 @@ index f926be637..5aff1e18d 100644
  		}
  	} else if (IsRailStationTile(tile)) {
  		TileIndex new_tile = TileAddByDiagDir(tile, dir);
-@@ -3096,6 +3145,99 @@ static Vehicle *CheckTrainAtSignal(Vehicle *v, void *data)
+@@ -3105,6 +3154,99 @@ static Vehicle *CheckTrainAtSignal(Vehicle *v, void *data)
  	return t;
  }
  
@@ -573,7 +573,7 @@ index f926be637..5aff1e18d 100644
  /**
   * Move a vehicle chain one movement stop forwards.
   * @param v First vehicle to move.
-@@ -3281,6 +3423,23 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
+@@ -3290,6 +3432,23 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
  					goto invalid_rail;
  				}
  
@@ -597,7 +597,7 @@ index f926be637..5aff1e18d 100644
  				if (!HasBit(r, VETS_ENTERED_WORMHOLE)) {
  					Track track = FindFirstTrack(chosen_track);
  					Trackdir tdir = TrackDirectionToTrackdir(track, chosen_dir);
-@@ -3333,6 +3492,64 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
+@@ -3342,6 +3501,64 @@ bool TrainController(Train *v, Vehicle *nomove, bool reverse)
  				}
  			}
  		} else {
