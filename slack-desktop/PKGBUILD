@@ -4,8 +4,8 @@
 # Contributor: Kyle Manna <kyle(at)kylemanna(dot)com>
 
 pkgname=slack-desktop
-pkgver=4.19.2
-pkgrel=5
+pkgver=4.20.0
+pkgrel=1
 pkgdesc="Slack Desktop (Beta) for Linux"
 arch=('x86_64')
 url="https://slack.com/downloads"
@@ -45,10 +45,10 @@ _pinned_dependencies=(
 depends=('alsa-lib' 'gtk3' 'libsecret' 'libxss' 'libxtst' 'nss' 'xdg-utils' "${_pinned_dependencies[@]}")
 optdepends=('libappindicator-gtk3: Systray indicator support'
             'org.freedesktop.secrets: Keyring password store support')
-source_x86_64=("https://downloads.slack-edge.com/linux_releases/${pkgname}-${pkgver}-amd64.deb")
+source_x86_64=("https://downloads.slack-edge.com/releases/linux/${pkgver}/prod/x64/${pkgname}-${pkgver}-amd64.deb")
 source=("${pkgname}.patch")
-sha512sums=('fd7e9681887639a2a9117c6bf537c25918f02985588366aaf3cd5b2e07b842d773aaf27354b7c149df1cc003e645b77bd36ec753992d50e02f5eb87e59009264')
-sha512sums_x86_64=('414e0738ebee8f328447a4926cfd788d4123059c37c33b927b70bbb136c4aaefb01f886dbcc21b25b2c0d76c12547af4677ef099fd77d54f557ec46b1422f35c')
+sha256sums=('d351d8ff3eee0006d1c66e3efec60a78ae8cc10fd8c3042e8d899125a1c4bf47')
+sha256sums_x86_64=('b08207389246837536ea769425d458411c08dc6802ffaae9249092e387461ce5')
 
 package() {
     cd "${pkgdir}"
