@@ -2,25 +2,24 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-module-installed-tiny'
-pkgver=0.004
-pkgrel=3
+pkgver=0.005
+pkgrel=1
 pkgdesc='Check if a module is installed, with as little code as possible'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+depends=(
+  'perl>=5.34'
+  'perl<5.35'
+  'perl-exporter>=5.57')
 makedepends=(
   'perl-extutils-makemaker'
-  'perl-file-temp'
+  'perl-file-temp>=0.2307'
   'perl-io'
   'perl-lib'
   'perl-pathtools'
   'perl-test-needs'
   'perl-test-simple>=0.98')
-depends=(
-  'perl>=5.34'
-  'perl<5.35'
-  'perl'
-  'perl-exporter>=5.57')
 checkdepends=(
   'perl-ipc-system-options'
   'perl-pod-coverage-trustpod'
@@ -31,7 +30,7 @@ checkdepends=(
 url='https://metacpan.org/release/Module-Installed-Tiny'
 _distdir="Module-Installed-Tiny-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('bea0caebb708994290978c882e2fbf476e3f8b8557d3496ac480dfdc53c2a4a2d09fa4c87b56688c8f81e2255fa17f4d91d9f11d8fb72d97ffe77bb02138bbda')
+sha512sums=('4ed58fa67cf54a7100690e22a3ca18c2a419630eb88469bfa710ff9b13a8d863d297934ed32fdc926a30f4071a0746510e2ca17d32fed20d72b51c17a2f71113')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
