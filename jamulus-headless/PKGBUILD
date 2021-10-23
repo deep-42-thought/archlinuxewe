@@ -4,8 +4,8 @@
 
 pkgname=jamulus-headless
 _pkgname=Jamulus
-pkgver=3.8.0
-pkgrel=19
+pkgver=3.8.1
+pkgrel=1
 pkgdesc="Internet jam session software (headless server)"
 arch=('i686' 'pentium4' 'x86_64')
 url='http://llcon.sourceforge.net/'
@@ -35,5 +35,5 @@ package() {
   install -Dm644 $srcdir/jamulus.service $pkgdir/usr/lib/systemd/system/jamulus.service
 }
 
-sha512sums=('8c1f804cb6e8377119377cf09592dd1faab8d32598abd3ff06898d45c7a9cd2e53bce552fcb95ecfe12b944de140b1e18ea2abf0d29921daa77ed54fc2a8a141'
+sha512sums=('fef0637427498634f8570073be45c9145e22f9a20ebbd4c2c3776dcb460151efdd634140fed7b4769c3cd9386a33e29950624135ea96cb528faa06a769f1978d'
             'f59901ad1fc9f3108beb0f70cbb4b5f9e49d3148727a5869cdf3ba878a88cae069a09135b7d976d4d5060a64f038d7720eba45058f96ee003b47383cc2ecdf3a')
