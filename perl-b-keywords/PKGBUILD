@@ -2,16 +2,16 @@
 # Generator : neuesPerlPaket (81044437a0458748ba63ce98e280fb950cfc5fd9f6a8e92edb2cd237a9a993a3dd847afaa0873f9e70622698c95b48c06c84512f1e0c154825fe84c9c758d8fa)
 
 pkgname='perl-b-keywords'
-pkgver=1.22
-pkgrel=2
+pkgver=1.23
+pkgrel=1
 pkgdesc='Lists of reserved barewords and symbol names'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+
   'perl>=5.34'
-  'perl<5.35'
-  'perl')
+  'perl<5.35')
 makedepends=(
   'perl-extutils-makemaker')
 checkdepends=(
@@ -25,7 +25,7 @@ checkdepends=(
 url='https://metacpan.org/release/B-Keywords'
 _distdir="B-Keywords-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RU/RURBAN/${_distdir}.tar.gz")
-sha512sums=('9dd44cafe4502edb519d885d74688183275550c3ad4da61387e805cf7a4789434ebda8f1f71104515c688e0e0358ca38399a1d1bd2ba066c7e1e3de76ae68bb2')
+sha512sums=('75a9b9b5d3aa3ebc876450a2fccd8cd4456e97588f6136e24cea1cd848dc28e6c2addb2adf27f7bbca87e12a3df353458c7cb51e82dde93d52c6857ddfa0f1d3')
 
 build() {
   cd "${srcdir}/${_distdir}"
