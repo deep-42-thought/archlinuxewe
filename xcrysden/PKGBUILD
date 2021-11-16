@@ -4,7 +4,7 @@
 
 pkgname=xcrysden
 pkgver=1.6.2
-pkgrel=17
+pkgrel=18
 epoch=
 pkgdesc="crystalline and molecular structure visualisation program"
 arch=('i686' 'pentium4' 'x86_64')
@@ -20,8 +20,8 @@ _pinned_dependencies=(
   'libglvnd=1.3.4'
   'libx11=1.7.2'
   'libxmu=1.1.3'
-  'tcl=8.6.11'
-  'tk=8.6.11.1'
+  'tcl=8.6.12'
+  'tk=8.6.12'
 )
 depends=('tk-togl' 'gl2ps' 'bwidget' 'imagemagick' 'gcc-fortran' "${_pinned_dependencies[@]}")
 replaces=('xcrysden-bin')
