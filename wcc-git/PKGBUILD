@@ -1,0 +1,45 @@
+# Mantainer: Erich Eckner <arch at eckner dot net>
+# Contributor: epitron <chris@ill-logic.com>
+
+pkgname=wcc-git
+_pkgname=wcc
+pkgver=0.0.2.r11.g1bc7a5f
+pkgrel=1
+pkgdesc="The Witchcraft Compiler Collection"
+arch=('i486' 'i686' 'pentium4' 'x86_64')
+license=('MIT')
+depends=(capstone glibc binutils zlib libelf readline gsl)
+makedepends=(git make)
+provides=(wcc=${pkgver%.r*.g*})
+conflicts=(wcc)
+url=https://github.com/endrazine/wcc
+source=("git+https://github.com/endrazine/wcc.git" 'stropts.h.diff')
+sha512sums=('SKIP'
+            'fe45efd0c639ee0e52f67b9daa3bcb815c5a793d757e8d819ad6ab06b1c42966f2a49673f415a771de2f318527551378b86c6ed7c5d8ca381d4c4049cfb6d6ae')
+
+pkgver() {
+  cd "$_pkgname"
+  git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g;s/^v//'
+}
+
+prepare() {
+  cd "$_pkgname"
+  patch -p1 -i "${srcdir}/stropts.h.diff"
+  git submodule init
+  git submodule update
+}
+
+build() {
+  cd "$_pkgname"
+  make
+}
+
+package() {
+  cd "$_pkgname"
+  install -d "${pkgdir}/usr/bin"
+  make DESTDIR="${pkgdir}/" install
+
+  # install manpages
+  install -d "${pkgdir}/usr/share/man/man1/"
+  install -pm 644 doc/manpages/* $pkgdir/usr/share/man/man1
+}
