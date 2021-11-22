@@ -8,7 +8,13 @@ pkgrel=1
 pkgdesc="The Witchcraft Compiler Collection"
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 license=('MIT')
-depends=(capstone glibc binutils zlib libelf readline gsl)
+_pinned_dependencies=(
+  'glibc>=2.33'
+  'libcapstone.so=4'
+  'libelf=0.186'
+  'zlib=1:1.2.11'
+)
+depends=(binutils readline gsl "${_pinned_dependencies[@]}")
 makedepends=(git make)
 provides=(wcc=${pkgver%.r*.g*})
 conflicts=(wcc)
