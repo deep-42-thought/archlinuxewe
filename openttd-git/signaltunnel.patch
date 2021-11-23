@@ -1,8 +1,8 @@
 diff --git a/src/lang/english.txt b/src/lang/english.txt
-index ea8908a5e..3147199ee 100644
+index becf8d35c..8645b5cd1 100644
 --- a/src/lang/english.txt
 +++ b/src/lang/english.txt
-@@ -1809,6 +1809,9 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES_HELPTEXT                :Set the minimum
+@@ -1812,6 +1812,9 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES_HELPTEXT                :Set the minimum
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE                         :Percentage of leg profit to pay in feeder systems: {STRING2}
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE_HELPTEXT                :Percentage of income given to the intermediate legs in feeder systems, giving more control over the income
  
@@ -12,7 +12,7 @@ index ea8908a5e..3147199ee 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :When dragging, place signals every: {STRING2}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Set the distance at which signals will be built on a track up to the next obstacle (signal, junction), if signals are dragged
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} tile{P 0 "" s}
-@@ -3000,8 +3003,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
+@@ -3005,8 +3008,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Ship depot
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Railway tunnel
@@ -24,10 +24,10 @@ index ea8908a5e..3147199ee 100644
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_GIRDER_STEEL                    :Steel girder rail bridge
  STR_LAI_BRIDGE_DESCRIPTION_RAIL_CANTILEVER_STEEL                :Steel cantilever rail bridge
 diff --git a/src/lang/russian.txt b/src/lang/russian.txt
-index ec02604ed..1ae270602 100644
+index 534be43c1..658e41ca2 100644
 --- a/src/lang/russian.txt
 +++ b/src/lang/russian.txt
-@@ -1960,6 +1960,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES_HELPTEXT                :Минимал
+@@ -1963,6 +1963,8 @@ STR_CONFIG_SETTING_MIN_YEARS_FOR_SHARES_HELPTEXT                :Минимал
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE                         :Процент дохода, начисляемый при частичной перевозке: {STRING}
  STR_CONFIG_SETTING_FEEDER_PAYMENT_SHARE_HELPTEXT                :Процент прибыли, начисляемый транспорту за частичную перевозку груза.
  
@@ -36,7 +36,7 @@ index ec02604ed..1ae270602 100644
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY                         :При перетаскивании ставить сигналы каждые: {STRING}
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_HELPTEXT                :Настройка периодичности расстановки сигналов методом перетаскивания. Сигналы будут устанавливаться до первого встреченного препятствия (пересечения или другого сигнала).
  STR_CONFIG_SETTING_DRAG_SIGNALS_DENSITY_VALUE                   :{COMMA} клет{P ку ки ок}
-@@ -3175,8 +3177,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
+@@ -3180,8 +3182,10 @@ STR_LAI_WATER_DESCRIPTION_SHIP_DEPOT                            :Верфь
  # Industries come directly from their industry names
  
  STR_LAI_TUNNEL_DESCRIPTION_RAILROAD                             :Железнодорожный туннель
@@ -70,7 +70,7 @@ index a9a51da68..5558c0226 100644
  						return false;
  					}
 diff --git a/src/rail_cmd.cpp b/src/rail_cmd.cpp
-index 59c1d27ab..ee7d0423d 100644
+index 4c34f1ca8..e71f562ac 100644
 --- a/src/rail_cmd.cpp
 +++ b/src/rail_cmd.cpp
 @@ -1069,9 +1069,12 @@ CommandCost CmdBuildSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1,
@@ -151,51 +151,15 @@ index 59c1d27ab..ee7d0423d 100644
  	if (!HasSignalOnTrack(tile, track)) {
  		/* build new signals */
  		cost = CommandCost(EXPENSES_CONSTRUCTION, _price[PR_BUILD_SIGNALS]);
-@@ -1247,6 +1296,7 @@ static bool CheckSignalAutoFill(TileIndex &tile, Trackdir &trackdir, int &signal
- 			return true;
+@@ -1243,6 +1292,7 @@ static bool AdvanceSignalAutoFill(TileIndex &tile, Trackdir &trackdir, bool remo
+ 			break;
  
  		case MP_TUNNELBRIDGE: {
 +			if (!remove && HasWormholeSignals(tile)) return false;
- 			TileIndex orig_tile = tile; // backup old value
- 
  			if (GetTunnelBridgeTransportType(tile) != TRANSPORT_RAIL) return false;
-@@ -1358,7 +1408,7 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
- 	bool had_success = false;
- 	for (;;) {
- 		/* only build/remove signals with the specified density */
--		if (remove || minimise_gaps || signal_ctr % signal_density == 0) {
-+		if (remove || minimise_gaps || signal_ctr % signal_density == 0 || IsTileType(tile, MP_TUNNELBRIDGE)) {
- 			uint32 param1 = GB(TrackdirToTrack(trackdir), 0, 3);
- 			SB(param1, 3, 1, mode);
- 			SB(param1, 4, 1, semaphores);
-@@ -1394,13 +1444,20 @@ static CommandCost CmdSignalTrackHelper(TileIndex tile, DoCommandFlag flags, uin
- 
- 			/* Collect cost. */
- 			if (!test_only) {
--				/* Be user-friendly and try placing signals as much as possible */
--				if (ret.Succeeded()) {
--					had_success = true;
--					total_cost.AddCost(ret);
--					last_used_ctr = last_suitable_ctr;
--					last_suitable_tile = INVALID_TILE;
-+			/* Be user-friendly and try placing signals as much as possible */
-+			if (ret.Succeeded()) {
-+				had_success = true;
-+				if (IsTileType(tile, MP_TUNNELBRIDGE)) {
-+					if ((!autofill && GetTunnelBridgeDirection(tile) == TrackdirToExitdir(trackdir)) ||
-+							(autofill && GetTunnelBridgeDirection(tile) != TrackdirToExitdir(trackdir))) {
-+						total_cost.AddCost(ret);
-+					}
- 				} else {
-+					total_cost.AddCost(ret);
-+				}
-+				last_used_ctr = last_suitable_ctr;
-+				last_suitable_tile = INVALID_TILE;
-+			} else {
- 					/* The "No railway" error is the least important one. */
- 					if (ret.GetErrorMessage() != STR_ERROR_THERE_IS_NO_RAILROAD_TRACK ||
- 							last_error.GetErrorMessage() == INVALID_STRING_ID) {
-@@ -1471,22 +1528,48 @@ CommandCost CmdBuildSignalTrack(TileIndex tile, DoCommandFlag flags, uint32 p1,
+ 			if (GetTunnelBridgeDirection(tile) != TrackdirToExitdir(trackdir)) return false;
+ 			break;
+@@ -1501,22 +1551,48 @@ CommandCost CmdBuildSignalTrack(TileIndex tile, DoCommandFlag flags, uint32 p1,
  CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1, uint32 p2, const std::string &text)
  {
  	Track track = Extract<Track, 0, 3>(p1);
@@ -251,7 +215,7 @@ index 59c1d27ab..ee7d0423d 100644
  		Train *v = nullptr;
  		if (HasReservedTracks(tile, TrackToTrackBits(track))) {
  			v = GetTrainForReservation(tile, track);
-@@ -1522,7 +1605,7 @@ CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1
+@@ -1552,7 +1628,7 @@ CommandCost CmdRemoveSingleSignal(TileIndex tile, DoCommandFlag flags, uint32 p1
  		MarkTileDirtyByTile(tile);
  	}
  
@@ -261,10 +225,10 @@ index 59c1d27ab..ee7d0423d 100644
  
  /**
 diff --git a/src/settings_gui.cpp b/src/settings_gui.cpp
-index ae894cd50..c190bc29d 100644
+index f99ef8f3e..a913884da 100644
 --- a/src/settings_gui.cpp
 +++ b/src/settings_gui.cpp
-@@ -1622,6 +1622,7 @@ static SettingsContainer &GetSettingsTree()
+@@ -1625,6 +1625,7 @@ static SettingsContainer &GetSettingsTree()
  			SettingsPage *construction = interface->Add(new SettingsPage(STR_CONFIG_SETTING_INTERFACE_CONSTRUCTION));
  			{
  				construction->Add(new SettingEntry("gui.link_terraform_toolbar"));
@@ -273,10 +237,10 @@ index ae894cd50..c190bc29d 100644
  				construction->Add(new SettingEntry("gui.quick_goto"));
  				construction->Add(new SettingEntry("gui.default_rail_type"));
 diff --git a/src/settings_type.h b/src/settings_type.h
-index 3c2f2be7b..de1e85825 100644
+index 9da2655d6..d37f5e18d 100644
 --- a/src/settings_type.h
 +++ b/src/settings_type.h
-@@ -344,6 +344,7 @@ struct ConstructionSettings {
+@@ -345,6 +345,7 @@ struct ConstructionSettings {
  	bool   freeform_edges;                   ///< allow terraforming the tiles at the map edges
  	uint8  extra_tree_placement;             ///< (dis)allow building extra trees in-game
  	uint8  command_pause_level;              ///< level/amount of commands that can't be executed while paused
