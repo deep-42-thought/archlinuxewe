@@ -10,6 +10,11 @@ license=('GPL')
 # install="libptytty.pc.in"
 source=(http://dist.schmorp.de/libptytty/$pkgname-$pkgver.tar.gz)
 makedepends=('cmake')
+_pinned_dependencies=(
+  'gcc-libs=11.1.0'
+  'glibc>=2.33'
+)
+depends=("${_pinned_dependencies[@]}")
 sha1sums=('ed0605e23615559139ed8526e1bfaebaf9a95c43')
 _dir="$pkgname-$pkgver"
 
