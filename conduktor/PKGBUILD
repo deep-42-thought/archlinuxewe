@@ -2,7 +2,7 @@
 # Contributor: Lucas Declercq <lucas dot declercq at mailbox dot org>
 
 pkgname="conduktor"
-pkgver=2.19.0
+pkgver=2.19.2
 pkgrel=1
 pkgdesc="A Kafka Desktop Client"
 url="https://www.conduktor.io"
@@ -12,8 +12,8 @@ depends=("bash")
 optdepends=("java-runtime>=11: at least Java 11")
 source=("https://github.com/conduktor/builds/releases/download/v${pkgver}/Conduktor-linux-${pkgver}.zip"
         "conduktor.desktop")
-sha256sums=('01901d4416f7d6abf90ffc9ad75a1605d083fec3dad1bbf10836d9f508d6cbc5'
-            'a231b74a710988b04eda2e50917745da755ff04fe5a0898fe534351af9aa04c1')
+sha512sums=('d88ea18550f199697041f160630219bef48514294f51c9233f261e0ab6b7eb0e708e1120af402830d728e1774e9574c248e72a23f5fb5a1651a8344b8ee17a5d'
+            '343679f6d5bb2dbfa7d573e68e703c1c99af58200388e0199b67305b3e7e54a29a6fb230dced51411e33570fc47729449b22fc60e600c4a6216017dc06eb6a06')
 options=("!strip")
 
 package(){
