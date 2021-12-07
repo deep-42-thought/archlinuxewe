@@ -1,0 +1,86 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (8d5949ef974a6c50e1fb6b6745da5ffeba5c722dbfa7d843cc9c543dd678e0eaa964db305fab2c7d2d12b70f301caf01810a4903d0a9f23fc5a9625a9797f655)
+
+pkgname='perl-data-sah-defaultvalue'
+pkgver='0.001'
+pkgrel='1'
+pkgdesc='Default-value rules for Data::Sah'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+provides=(
+  'perl-data-sah-defaultvaluecommon=0.001'
+  'perl-data-sah-defaultvaluejs=0.001'
+  'perl-data-sah-value-js-math-random=0.001'
+  'perl-data-sah-value-js-str-repeat=0.001'
+  'perl-data-sah-value-perl-math-random=0.001'
+  'perl-data-sah-value-perl-str-repeat=0.001'
+)
+depends=(
+  'perl-data-dmp>=0.241'
+  'perl-exporter>=5.57'
+  'perl-file-temp>=0.2307'
+  'perl-ipc-system-options>=0.339'
+  'perl-json-maybexs'
+  'perl-log-ger>=0.038'
+  'perl-nodejs-util>=0.007'
+)
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-exception'
+  'perl-test-needs'
+  'perl-test-simple>=0.98'
+)
+url='https://metacpan.org/dist/Data-Sah-DefaultValue'
+_distdir="Data-Sah-DefaultValue-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
+sha512sums=('f507a18ffe6527f4ed03c7ea284b7162a9feade6a2b94215e6275d845028041687d2210eab34da0c026a42295100a792398856fb7e457c7b37e9311b7815c5fc')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
