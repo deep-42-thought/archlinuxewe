@@ -5,13 +5,13 @@ cd $(dirname "${me}")
 
 usage() {
   >&2 echo 'usage:'
-  >&2 echo '  bumpPython 2'
+  >&2 echo '  bumpPython 2 [$version]'
   >&2 echo 'or:'
-  >&2 echo '  bumpPython 3'
+  >&2 echo '  bumpPython 3 [$version]'
   exit 1
 }
 
-if [ $# -ne 1 ]; then
+if [ $# -ne 1 ] && [ $# -ne 2 ]; then
   usage
 fi
 
@@ -21,17 +21,25 @@ case "$1" in
     pkgbuilds=(
       $(grep -l 'python>=2' */PKGBUILD)
     )
-    pyver=$(
-      python2 --version 2>&1
-    )
+    if [ $# -eq 1 ]; then
+      pyver=$(
+        python2 --version 2>&1
+      )
+    else
+      pyver="$2"
+    fi
   ;;
   '3')
     pkgbuilds=(
       $(grep -l 'python>=3' */PKGBUILD)
     )
-    pyver=$(
-      python --version 2>&1
-    )
+    if [ $# -eq 1 ]; then
+      pyver=$(
+        python --version 2>&1
+      )
+    else
+      pyver="$2"
+    fi
   ;;
   *)
     usage

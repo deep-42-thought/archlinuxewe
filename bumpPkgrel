@@ -100,7 +100,7 @@ if [ $# -ne 1 ] || ${auto_detect}; then
         d
       ' \
       | grep -qvxF "python>=${python_version}"; then
-      "${0%/*}/bumpPython" 3
+      "${0%/*}/bumpPython" 3 "${python_version}"
     fi
   fi
 
