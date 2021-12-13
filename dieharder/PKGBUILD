@@ -3,12 +3,12 @@
 
 pkgname=dieharder
 pkgver=3.31.1
-pkgrel=6
+pkgrel=7
 pkgdesc="A Random Number Test Suite"
 arch=('i686' 'pentium4' 'x86_64')
 _pinned_dependencies=(
   'glibc>=2.31'
-  'gsl=2.7'
+  'gsl=2.7.1'
 )
 depends=("${_pinned_dependencies[@]}")
 url="http://www.phy.duke.edu/~rgb/General/dieharder.php"
