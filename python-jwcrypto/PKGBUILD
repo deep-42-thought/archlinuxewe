@@ -4,15 +4,15 @@
 pkgname=python-jwcrypto
 _pkgname=${pkgname#*-}
 pkgver=1.1.0
-pkgrel=59
+pkgrel=60
 pkgdesc="Python implementation of JWK, JWS, JWE specifications"
 arch=("any")
 url="https://github.com/latchset/jwcrypto"
 license=("LGPL3")
 depends=(
 
-  'python<3.10'
-  'python>=3.9')
+  'python<3.11'
+  'python>=3.10')
 makedepends=(
   'python-setuptools')
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/latchset/$_pkgname/archive/v$pkgver.tar.gz")

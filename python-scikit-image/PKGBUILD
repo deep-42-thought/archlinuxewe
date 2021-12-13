@@ -5,7 +5,7 @@
 pkgname='python-scikit-image'
 _pkgname="${pkgname#*-}"
 pkgver=0.18.3
-pkgrel=59
+pkgrel=60
 pkgdesc="Image processing routines for SciPy"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://scikit-image.org/"
@@ -17,8 +17,8 @@ _pinned_dependencies=(
 depends=(
   "${_pinned_dependencies[@]}"
   'cython>=0.29.13'
-  'python<3.10'
-  'python>=3.9'
+  'python<3.11'
+  'python>=3.10'
   'python-cloudpickle>=0.2.1'
   'python-dask>=0.15.0'
   'python-pandas>=0.23.0'

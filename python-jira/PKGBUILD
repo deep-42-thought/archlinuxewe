@@ -2,15 +2,15 @@
 pkgname=python-jira
 _pkgname="${pkgname#*-}"
 pkgver=3.1.1
-pkgrel=59
+pkgrel=60
 pkgdesc="Python library to work with Jira APIs"
 arch=(any)
 url="https://github.com/pycontribs/jira"
 license=('BSD')
 depends=(
 
-  'python<3.10'
-  'python>=3.9')
+  'python<3.11'
+  'python>=3.10')
 makedepends=(
   'python-setuptools')
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/pycontribs/jira/archive/refs/tags/$pkgver.tar.gz")

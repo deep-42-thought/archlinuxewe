@@ -4,7 +4,7 @@
 pkgname=python-pyfai
 _pkgname=pyFAI
 pkgver=0.20.0
-pkgrel=60
+pkgrel=61
 pkgdesc="Fast Azimuthal Integration in Python."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.silx.org"
@@ -16,8 +16,8 @@ _pinned_dependencies=(
 depends=(
   "${_pinned_dependencies[@]}"
   'cython'
-  'python<3.10'
-  'python>=3.9'
+  'python<3.11'
+  'python>=3.10'
   'python-bash_kernel'
   'python-fabio>=0.5'
   'python-h5py'

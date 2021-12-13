@@ -3,7 +3,7 @@
 pkgname=python-pycifrw
 _pkgname='PyCifRW'
 pkgver=4.4.3
-pkgrel=59
+pkgrel=60
 pkgdesc='Python library for interacting with Crystallographic Information Framework (CIF) files.'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://bitbucket.org/jamesrhester/pycifrw/src/development/'
@@ -13,8 +13,8 @@ _pinned_dependencies=(
 )
 depends=(
   "${_pinned_dependencies[@]}"
-  'python<3.10'
-  'python>=3.9')
+  'python<3.11'
+  'python>=3.10')
 makedepends=(
   'python-setuptools')
 

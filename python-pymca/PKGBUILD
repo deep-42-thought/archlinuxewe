@@ -2,7 +2,7 @@
 pkgname=python-pymca
 _pkgname="${pkgname#*-}"
 pkgver=5.6.7
-pkgrel=59
+pkgrel=60
 pkgdesc='Stand-alone application and Python tools for interactive and/or batch processing analysis of X-Ray Fluorescence Spectra'
 arch=('i686' 'pentium4' 'x86_64')
 url='http://pymca.sourceforge.net/index.html'
@@ -12,8 +12,8 @@ _pinned_dependencies=(
 )
 depends=(
   "${_pinned_dependencies[@]}"
-  'python<3.10'
-  'python>=3.9'
+  'python<3.11'
+  'python>=3.10'
   'python-fisx>=1.1.5'
   'python-h5py'
   'python-matplotlib>1.0'
