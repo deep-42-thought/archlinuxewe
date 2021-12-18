@@ -421,7 +421,8 @@ for paket in $( \
             "${pkgFile_a} ${pkgFile_b}" \
           | sort -k2,2 -k1V,1 \
           | uniq -df1 \
-          | grep -qxF "${pkgFile_a} ${pkgFile_b}"; then
+          | grep -qxF "${pkgFile_a} ${pkgFile_b}" \
+          && ! ${force}; then
           continue
         fi
         printf '%s\n' "${singleArch}"
