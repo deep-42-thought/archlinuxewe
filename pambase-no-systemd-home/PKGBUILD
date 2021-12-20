@@ -2,11 +2,11 @@
 
 arch=('any')
 pkgname=pambase-no-systemd-home
-pkgver=20211111
+pkgver=20211210
 pkgrel=1
 
 source=("http://ftp.gwdg.de/pub/linux/archlinux/core/os/x86_64/pambase-$pkgver-${pkgrel%.*}-any.pkg.tar.zst" system-auth.patch)
-sha512sums=('5a6b06ae559383e4d9fe114ce4ea0ef6b0af74649072f60035f3d848a9591e84b0420bf9d424334f890695a51d316faa2db46720f5f1e9549c1e935b8bfb98f6'
+sha512sums=('e9640c59e0e6468c37f1335a8f88041a94aeb8f64be7ee5b434cac5043439767ad789073ca298d693e8ed08bb3151c04ef4360b1d59c9bb4917df2bb27033393'
             '1577816a179dd7c5e460cf673022a5cc7bb3ffadcbbb6b00e2452587e39a8b184692e4517c4d43018a6e28d185397a2adcf0aed3744f773d77e41e37871875f8')
 provides=("pambase=$pkgver-${pkgrel%.*}")
 conflicts=('pambase')
