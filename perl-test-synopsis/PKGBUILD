@@ -2,18 +2,12 @@
 # Generator : neuesPerlPaket (1defbcf32afb33ec54a2b45a3b72b4d049f690f6dbc08511ad48f4db6f85a4ecd583a13fcec1172e0d3c1ca342a483beb851ba887d67450c25231cc0aafdf66b)
 
 pkgname='perl-test-synopsis'
-pkgver=0.16
-pkgrel=4
+pkgver=0.17
+pkgrel=1
 pkgdesc='Test your SYNOPSIS code'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-makedepends=(
-  'perl>=5.8.1'
-  'perl-extutils-makemaker'
-  'perl-io'
-  'perl-pathtools'
-  'perl-test-simple>=0.34')
 depends=(
   'perl>=5.34'
   'perl<5.35'
@@ -21,10 +15,15 @@ depends=(
   'perl-parent'
   'perl-pod-simple>=3.09'
   'perl-test-simple')
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-io'
+  'perl-pathtools'
+  'perl-test-simple>=0.34')
 url='https://metacpan.org/release/Test-Synopsis'
 _distdir="Test-Synopsis-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/Z/ZO/ZOFFIX/${_distdir}.tar.gz")
-sha512sums=('eacd83013ce6ebf2ccebc3d32bf5415b03b934191e6e13713608262c18cc2dc338d78013e0045f9584413a959d70b0484b21045b03d72d1e2bd022a6809c956c')
+sha512sums=('2ddd25cab88c11794f50d974900e2a1c2af2b903226dcaf774de5ba37035f46276eaad6c5d5ed64f896aacd24ccc02b423ec6a59dc1f2e04f21a55a25f28df0b')
 
 build() {
   cd "${srcdir}/${_distdir}"
