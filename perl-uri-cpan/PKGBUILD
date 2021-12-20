@@ -2,29 +2,27 @@
 # Generator : neuesPerlPaket (d3b8f856efc23c99656b994aa72658ac963819754afaf13b4ff51112b3b57c06d21420dc7b9785686dc52d8001593e3bd56268af1bc970e123ce908790bf7852)
 
 pkgname='perl-uri-cpan'
-pkgver='1.007'
-pkgrel=2
+pkgver=1.008
+pkgrel=1
 pkgdesc='URLs that refer to things on the CPAN'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-makedepends=(
-  'perl-extutils-makemaker'
-  'perl-pathtools'
-  'perl-test-simple>=0.96'
-  'perl-uri'
-)
 depends=(
   'perl>=5.34'
   'perl<5.35'
   'perl-carp'
   'perl-cpan-distnameinfo'
   'perl-parent'
-)
+  'perl-uri')
+makedepends=(
+  'perl-extutils-makemaker>=6.78'
+  'perl-pathtools'
+  'perl-test-simple>=0.96')
 url='https://metacpan.org/release/URI-cpan'
 _distdir="URI-cpan-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/R/RJ/RJBS/${_distdir}.tar.gz")
-sha512sums=('1c7a900a0f319dc7e2c4d1a3adeb3e55459df4563251f54f8ea6cd6f00911189a2f724fd9b90b5dbdf9933d393ce148568653d5bae4362d67b643024dc371342')
+sha512sums=('07918c561b30d8a193df265c14467cb3bb5484686e52296462a8d031b19d490a9d5e3b18e2856a8ecbe1f0841e1c56466a81b214e252cadd17740bcef50f6056')
 
 build() {
   cd "${srcdir}/${_distdir}"
