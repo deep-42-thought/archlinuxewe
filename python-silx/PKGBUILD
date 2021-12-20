@@ -3,8 +3,8 @@
 # Upstream contact: silx at esrf dot fr
 pkgname=python-silx
 _pkgname=silx
-pkgver=0.15.2
-pkgrel=60
+pkgver=1.0.0
+pkgrel=1
 pkgdesc="A collection of Python packages for data analysis at synchrotron radiation facilities."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.silx.org"
@@ -16,8 +16,8 @@ _pinned_dependencies=(
 depends=(
   "${_pinned_dependencies[@]}"
   'cython>=0.21.1'
-  'python<3.11'
   'python>=3.10'
+  'python<3.11'
   'python-dateutil'
   'python-fabio>=0.9'
   'python-h5py'
@@ -31,8 +31,10 @@ depends=(
   'python-pyqt5'
   'python-qtconsole'
   'python-scipy'
-  'python-setuptools'
-  'python-six')
+  'python-setuptools')
+checkdepends=(
+  'python-pytest'
+  'python-pytest-xvfb')
 makedepends=(
   'python-setuptools')
 optdepends=('python-h5py: for HDF5 input/output'
@@ -41,7 +43,7 @@ optdepends=('python-h5py: for HDF5 input/output'
             'python-pyopencl: for sift - OpenCL implementation'
             'opencl-driver: for sift - OpenCL implementation')
 source=("${_pkgname}-${pkgver}.tar.gz::https://github.com/silx-kit/${_pkgname}/archive/v${pkgver}.tar.gz")
-sha512sums=('81fd0be63a5a7981840953e0a434460fa4af6d061ea076f0ef0135b212a24a52bc3569b247bb9872f780522d080831e35714895ffdf23211297bf3d3069ed488')
+sha512sums=('608eb0c1b3dd22514038cbdc82841e8b25fab75c4401582d47fea7c6fe87c6970ff1b98381479c75f8567a7b1150b6cecc0b5a0745b23265ad0e7215fa5449d7')
 
 build() {
   cd "${srcdir}/${_pkgname}-${pkgver}"
