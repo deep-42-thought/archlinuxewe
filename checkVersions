@@ -1056,6 +1056,10 @@ then
       | grep -qx '[0-9.]\+_[0-9.]\+_rc[0-9]\+'; then
         ist_rc=true
         ver_match='[0-9._]\+[a-z]\?\(-rc[0-9]\+\)\?'
+      elif printf '%s\n' "${pkgver}" \
+      | grep -qx '[0-9.]\+_[0-9.]\+pre[0-9]\+'; then
+        ist_rc=true
+        ver_match='[0-9.]\+\(\.[0-9]\+pre[0-9]\+\)\?'
       else
         ist_rc=false
         ver_match='[0-9._]\+[a-z]\?'
@@ -1084,6 +1088,7 @@ then
           tr '_' '.' | \
           sed '
             s/^\(\S\+\)-\(rc[0-9]\+\)$/'"${pkgver%%_*}"'_\1_\2/
+            s/^\(\S\+pre\S\+\)$/'"${pkgver%_*pre*}"'_\0/
           ' | \
           latest_version
       )
