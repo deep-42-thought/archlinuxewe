@@ -32,7 +32,6 @@ _pinned_dependencies=(
   'glibc>=2.31'
   'jansson=2.14'
   'libacl.so=1'
-  'libcap.so=2'
   'libpam.so=0'
   'libpq.so=5'
   'libreadline.so=8'
@@ -143,7 +142,6 @@ package_bareos-common() {
     'glibc>=2.31'
     'jansson=2.14'
     'libacl.so=1'
-    'libcap.so=2'
     'lzo=2.10'
     'openssl=1.1.1.m'
     'zlib=1:1.2.11'
@@ -420,7 +418,7 @@ package_bareos-storage-fifo() {
     'gcc-libs=11.1.0'
     'glibc>=2.31'
   )
-  depends=("bareos-storage=$pkgver" 'zlib' 'libcap' 'openssl' 'jansson' 'lzo' "${_pinned_dependencies[@]}")
+  depends=("bareos-storage=$pkgver" 'libcap' 'openssl' 'jansson' 'lzo' "${_pinned_dependencies[@]}")
   install=bareos-storage-fifo.install
   install -Dm755 \
     "$srcdir/install/usr/lib/bareos/backends/libbareossd-fifo.so" \
@@ -519,9 +517,8 @@ package_bareos-storage() {
   _pinned_dependencies=(
     'gcc-libs=11.1.0'
     'glibc>=2.31'
-    'zlib=1:1.2.11'
   )
-  depends=("bareos-common=$pkgver" 'zlib' 'lzo' 'jansson' 'openssl' 'libcap' "${_pinned_dependencies[@]}")
+  depends=("bareos-common=$pkgver" 'lzo' 'jansson' 'openssl' 'libcap' "${_pinned_dependencies[@]}")
   install=bareos-storage.install
 
   install -Dm755 \
@@ -570,7 +567,7 @@ package_bareos-storage-tape() {
     'gcc-libs=11.1.0'
     'glibc>=2.31'
   )
-  depends=("bareos-common=$pkgver" "bareos-storage=$pkgver" 'zlib' 'libcap' 'bash' 'openssl' 'jansson' 'lzo' 'mtx' "${_pinned_dependencies[@]}")
+  depends=("bareos-common=$pkgver" "bareos-storage=$pkgver" 'libcap' 'bash' 'openssl' 'jansson' 'lzo' 'mtx' "${_pinned_dependencies[@]}")
   install=bareos-storage-tape.install
   backup=(
     'etc/bareos/mtx-changer.conf'
