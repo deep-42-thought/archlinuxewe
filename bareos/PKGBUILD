@@ -3,14 +3,10 @@
 
 pkgbase='bareos'
 
-# bareos-database-mysql ist absichtlich nicht any ohne ELF Dateien
-
 pkgname=("${pkgbase}-common"
          "${pkgbase}-bconsole"
          "${pkgbase}-database-common"
-         "${pkgbase}-database-mysql"
          "${pkgbase}-database-postgresql"
-         "${pkgbase}-database-sqlite3"
          "${pkgbase}-database-tools"
 #         "${pkgbase}-devel"
          "${pkgbase}-director"
@@ -24,8 +20,8 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin"
          "${pkgbase}-webui")
 
-pkgver=20.0.4
-pkgrel=3
+pkgver=21.0.0
+pkgrel=1
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -43,7 +39,6 @@ _pinned_dependencies=(
   'lzo=2.10'
   'openssl=1.1.1.m'
   'python2=2.7.18'
-  'sqlite=3.37.0'
   'zlib=1:1.2.11'
 )
 _pinned_dependencies_libmariadbclient=(
@@ -59,7 +54,7 @@ makedepends_aarch64=(ceph "${_pinned_dependencies_libmariadbclient[@]}")
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/$pkgbase/$pkgbase/archive/Release/$pkgver.tar.gz"
 'xattr.patch'
 'check-if-bareos-backup-is-running')
-sha512sums=('37edb550b44d883adba2f699e828156714e61b8ac068c4b3c699b3cb05e0ccedd3175d30a9cb193e56be102d64166dc8201a7a5772c9d4a875489496be65741f'
+sha512sums=('0a57bccca0589f3ce8a5664afbeb1eb1b17ec7142722e2d0bb2a0bbd9007688725b39c6db59646c180ce096e55451c09934e6479a2b4deeb4d3ee738ab2c32cd'
             'c535f89866816669208d56e21ffb13f70aa962e578847bc7bcc76a3e8ad54b252c8e09b745b500064d6f02cb5497cb81b62dd1c156d2e907c393aaa091aa5f0e'
             '0235763891f368c13931f0fc43e3ae2d7ec796b7ef35896b6b9c048345d539308abe4a9bafda4e95221a89231d2f373ac3cfc2098d572d4068a1c068d27452f6')
 
@@ -72,8 +67,6 @@ build() {
   cd $pkgbase-Release-$pkgver
   mkdir build
   cd build
-
-  [ "${CARCH}" = 'i486' ] && mysql=no || mysql=yes
 
   cmake .. \
     -Dprefix=/usr \
@@ -89,10 +82,8 @@ build() {
     -Ddynamic-storage-backends=yes \
     -Dpython=yes \
     -Dopenssl=yes \
-    -Dmysql=${mysql} \
     -Ddisable-rpath=yes \
     -Dpostgresql=yes \
-    -Dsqlite3=yes \
     -Dndmp=no \
     -Dhostname='XXX_REPLACE_WITH_LOCAL_HOSTNAME_XXX' \
     -Ddir-password="XXX_REPLACE_WITH_DIRECTOR_PASSWORD_XXX" \
@@ -248,55 +239,6 @@ package_bareos-database-common() {
     -t "$pkgdir/usr/lib/bareos/scripts/ddl"
 }
 
-package_bareos-database-mysql() {
-  pkgdesc="${pkgdesc} - Libs and tools for mysql catalog"
-  provides=("bareos-database=$pkgver")
-  local _pinned_dependencies_ibig
-  local _pinned_dependencies_soprov
-  local _pinned_dependencies_nsoprov
-  [ "${CARCH}" != 'i486' ] || return 0
-  _pinned_dependencies_ibig=(
-    'gcc-libs=11.1.0'
-    'glibc>=2.31'
-  )
-  _pinned_dependencies=(
-    'libmariadb.so=3'
-  )
-  for _a in x86_64 pentium4 i686 armv6h armv7h aarch64; do
-    eval 'local _pinned_dependencies_'"${_a}"
-    eval '_pinned_dependencies_'"${_a}"'=("${_pinned_dependencies_ibig[@]}")'
-  done
-  for _a in x86_64 pentium4 i686 armv6h armv7h aarch64; do
-    eval 'depends_'"${_a}"'=("${_pinned_dependencies[@]}" "${_pinned_dependencies_'"${_a}"'[@]}")'
-  done
-  depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver")
-  install=bareos-database-mysql.install
-
-  install -Dm755 \
-    "$srcdir/install/usr/lib/bareos/backends/libbareoscats-mysql.so" \
-    -t "$pkgdir/usr/lib/bareos/backends"
-  
-  install -Dm644 \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/drops/mysql.sql" \
-    -t "$pkgdir/usr/lib/bareos/scripts/ddl/drops"
-  install -Dm644 \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/grants/mysql.sql" \
-    -t "$pkgdir/usr/lib/bareos/scripts/ddl/grants"
-  install -Dm644 \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/creates/mysql.sql" \
-    -t "$pkgdir/usr/lib/bareos/scripts/ddl/creates"
-  install -Dm644 \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/mysql.10_11.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/mysql.11_12.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/mysql.12_14.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/mysql.14_2001.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/mysql.2001_2002.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/mysql.2002_2003.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/mysql.2003_2004.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/mysql.2004_2171.sql" \
-    -t "$pkgdir/usr/lib/bareos/scripts/ddl/updates"
-}
-
 package_bareos-database-postgresql() {
   pkgdesc="${pkgdesc} - Libs and tools for postgresql catalog"
   provides=("bareos-database=$pkgver")
@@ -333,35 +275,6 @@ package_bareos-database-postgresql() {
     "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.2003_2004.sql" \
     "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.2004_2171.sql" \
     "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.bee.1017_2004.sql" \
-    -t "$pkgdir/usr/lib/bareos/scripts/ddl/updates"
-}
-
-package_bareos-database-sqlite3() {
-  pkgdesc="${pkgdesc} - Libs and tools for sqlite3 catalog"
-  provides=("bareos-database=$pkgver")
-  local _pinned_dependencies
-  _pinned_dependencies=(
-    'gcc-libs=11.1.0'
-    'glibc>=2.31'
-    'sqlite=3.37.0'
-  )
-  depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
-
-  install -Dm755 \
-    "$srcdir/install/usr/lib/bareos/backends/libbareoscats-sqlite3.so" \
-    -t "$pkgdir/usr/lib/bareos/backends"
-  install -Dm644 \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/creates/sqlite3.sql" \
-    -t "$pkgdir/usr/lib/bareos/scripts/ddl/creates"
-  install -Dm644 \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/sqlite3.10_11.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/sqlite3.11_12.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/sqlite3.12_14.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/sqlite3.14_2001.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/sqlite3.2001_2002.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/sqlite3.2002_2003.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/sqlite3.2003_2004.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/sqlite3.2004_2171.sql" \
     -t "$pkgdir/usr/lib/bareos/scripts/ddl/updates"
 }
 
