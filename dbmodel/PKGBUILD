@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=dbmodel
 pkgver=0.3.r138.c78245d
-pkgrel=60
+pkgrel=61
 _pkgver=${pkgver%.*.*}
 _commit=${pkgver##*.}
 pkgdesc='visualize a database'
@@ -13,7 +13,7 @@ _pinned_dependencies=(
   'gcc-libs=11.1.0'
   'glibc>=2.31'
   'qt5-base=5.15.2+kde+r275'
-  'qt5-svg=5.15.2+kde+r14'
+  'qt5-svg=5.15.2+kde+r15'
 )
 depends=('qt5-tools' "${_pinned_dependencies[@]}")
 makedepends=('git')
