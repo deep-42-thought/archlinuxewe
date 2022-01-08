@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=even-more-utils
-pkgver=0.1
+pkgver=0.2
 pkgrel=1
 pkgdesc='utilities which are even missing from moreutils'
 arch=('any')
@@ -10,7 +10,7 @@ license=('GPL')
 source=(
     "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
 )
-sha512sums=('8f7d7e554c1884617004e833d57965a21ce10121e7820acb1fe66cec646f6d4bfd1c8b94a753b99581c33f2f68cc8f67e218631c5328dbc6181b3b62ea76d27a')
+sha512sums=('17b1e2abeb0640f3ad8edca53d52991a2fbdb0f700a96bd7533f1370a7a2be5c44cd5528c86fcd447ea070b3062dc12fbeab7ae08b15da9a050d3ed4e6fa7a5e')
 
 build() {
   cd "${pkgname}-${pkgver}"
