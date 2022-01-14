@@ -31,9 +31,12 @@ sha512sums_x86_64=('ca21345400bcaceadad6327345f5364e858059cfcbc1759f05d7df7701fe
 package_dotnet-host-bin() {
   pkgdesc='A generic driver for the .NET Core Command Line Interface (binary)'
   provides=("dotnet-host" "dotnet-host=${_runtimever}")
+  _pinned_dependencies=(
+    'gcc-libs=11.1.0'
+    'glibc>=2.33'
+  )
   depends=(
-    'gcc-libs'
-    'glibc'
+    "${_pinned_dependencies[@]}"
   )
   conflicts=('dotnet-host')
 
@@ -47,15 +50,18 @@ package_dotnet-host-bin() {
 
 package_dotnet-runtime-bin() {
   pkgdesc='The .NET Core runtime (binary)'
+  _pinned_dependencies=(
+    'gcc-libs=11.1.0'
+    'glibc>=2.33'
+    'zlib=1:1.2.11'
+  )
   depends=(
   	"dotnet-host>=${_runtimever}"
-    'gcc-libs'
-    'glibc'
     'icu'
     'libgssapi_krb5.so'
     'libunwind'
-    'zlib'
     'openssl'
+    "${_pinned_dependencies[@]}"
   )
   optdepends=('lttng-ust: CoreCLR tracing')
   provides=("dotnet-runtime=${_runtimever}" "dotnet-runtime-6.0")
@@ -68,7 +74,10 @@ package_dotnet-runtime-bin() {
 
 package_aspnet-runtime-bin() {
   pkgdesc='The ASP.NET Core runtime (binary)'
-  depends=('dotnet-runtime-bin')
+  arch=(any)
+  _pinned_dependencies=(
+  )
+  depends=('dotnet-runtime-bin' "${_pinned_dependencies[@]}")
   provides=("aspnet-runtime=${_runtimever}" "aspnet-runtime-6.0")
   conflicts=("aspnet-runtime=${_runtimever}" "aspnet-runtime-6.0")
 
@@ -79,12 +88,15 @@ package_aspnet-runtime-bin() {
 
 package_dotnet-sdk-bin() {
   pkgdesc='The .NET Core SDK (binary)'
+  _pinned_dependencies=(
+    'gcc-libs=11.1.0'
+    'glibc>=2.33'
+  )
   depends=(
-    'glibc'
-    'gcc-libs'
     'dotnet-runtime-bin'
     'dotnet-targeting-pack-bin'
-    'netstandard-targeting-pack-bin')
+    'netstandard-targeting-pack-bin'
+    "${_pinned_dependencies[@]}")
   optdepends=('aspnet-targeting-pack-bin: Build ASP.NET Core applications')
   provides=("dotnet-sdk-bin" "dotnet-sdk=${pkgver}" "dotnet-sdk-6.0")
   conflicts=("dotnet-sdk-bin" "dotnet-sdk=${pkgver}" "dotnet-sdk-6.0")
@@ -98,6 +110,10 @@ package_netstandard-targeting-pack-bin() {
   pkgdesc='The .NET Standard targeting pack (binary)'
   provides=('netstandard-targeting-pack-2.1' 'netstandard-targeting-pack')
   conflicts=('netstandard-targeting-pack-2.1' 'netstandard-targeting-pack')
+  arch=(any)
+  _pinned_dependencies=(
+  )
+  depends=("${_pinned_dependencies[@]}")
 
   install -dm 755 "${pkgdir}"/usr/share/{dotnet,dotnet/packs,licenses}
   cp -dr --no-preserve='ownership' packs/NETStandard.Library.Ref "${pkgdir}"/usr/share/dotnet/packs/
@@ -106,7 +122,12 @@ package_netstandard-targeting-pack-bin() {
 
 package_dotnet-targeting-pack-bin() {
   pkgdesc='The .NET Core targeting pack (binary)'
-  depends=(netstandard-targeting-pack-bin)
+  _pinned_dependencies=(
+    'gcc-libs=11.1.0'
+    'glibc>=2.33'
+    'zlib=1:1.2.11'
+  )
+  depends=(netstandard-targeting-pack-bin "${_pinned_dependencies[@]}")
   provides=(dotnet-targeting-pack=${_runtimever} dotnet-targeting-pack-6.0)
   conflicts=(dotnet-targeting-pack=${_runtimever} dotnet-targeting-pack-6.0)
 
@@ -121,7 +142,10 @@ package_dotnet-targeting-pack-bin() {
 
 package_aspnet-targeting-pack-bin() {
   pkgdesc='The ASP.NET Core targeting pack (binary)'
-  depends=(dotnet-targeting-pack-bin)
+  arch=(any)
+  _pinned_dependencies=(
+  )
+  depends=(dotnet-targeting-pack-bin "${_pinned_dependencies[@]}")
   provides=(aspnet-targeting-pack=${_runtimever} aspnet-targeting-pack-6.0)
   conflicts=(aspnet-targeting-pack=${_runtimever} aspnet-targeting-pack-6.0)
 
