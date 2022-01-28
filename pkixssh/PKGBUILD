@@ -7,7 +7,13 @@ arch=('armv6h' 'armv7h' 'aarch64' 'i486' 'i686' 'pentium4' 'x86_64')
 url='https://roumenpetrov.info/secsh/index.html'
 license=('BSD')
 groups=()
-depends=(openssl zlib ldns)
+_pinned_dependencies=(
+  'glibc>=2.33'
+  'libcrypt.so=2'
+  'openssl=1.1.1.m'
+  'zlib=1:1.2.11'
+)
+depends=(openssl zlib ldns "${_pinned_dependencies[@]}")
 makedepends=()
 backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config')
 source=(

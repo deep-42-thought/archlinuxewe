@@ -1,0 +1,34 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Contributor: Phillip Smith <pkgbuild@phs.id.au>
+# http://github.com/fukawi2/aur-packages
+
+pkgname=sshfp
+pkgver=1.2.2
+pkgrel=1
+pkgdesc="Generates DNS SSHFP-type records from SSH public keys from public keys from a known_hosts file or from scanning the host's sshd daemon."
+arch=('any')
+license=('GPL')
+depends=('python2' 'python2-dnspython')
+url="https://github.com/xelerance/sshfp"
+source=("$pkgname-$pkgver.tar.gz::https://github.com/xelerance/$pkgname/archive/${pkgver}.tar.gz")
+md5sums=('3cedcc3463e72196ee2028543d03ebfc')
+
+build() {
+  cd "$srcdir"/$pkgname-$pkgver/
+
+  # use python2 instead of python
+  sed -e 's|python |python2 |g' \
+      -i "$srcdir"/$pkgname-$pkgver/Makefile
+}
+
+package() {
+  cd "$srcdir"/$pkgname-$pkgver/
+
+  make DESTDIR="$pkgdir" install
+
+  sed -e 's|^#!/usr/bin/python$|#!/usr/bin/python2|g' \
+      -i "$pkgdir"/usr/bin/sshfp \
+      -i "$pkgdir"/usr/bin/dane
+}
+
+# vim:set ts=2 sw=2 et:
