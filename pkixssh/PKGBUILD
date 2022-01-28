@@ -1,0 +1,39 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+pkgname=pkixssh
+pkgver=13.2.3
+pkgrel=1
+pkgdesc='secure shell with X.509 v3 certificate support'
+arch=('armv6h' 'armv7h' 'aarch64' 'i486' 'i686' 'pentium4' 'x86_64')
+url='https://roumenpetrov.info/secsh/index.html'
+license=('BSD')
+groups=()
+depends=(openssl zlib ldns)
+makedepends=()
+backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config')
+source=(
+  "https://roumenpetrov.info/secsh/src/${pkgname}-${pkgver}.tar."{xz,sig}
+)
+sha512sums=('e42892e95b5664bf20fa2f95030096c56a23eaca597e1af4d5dced7b08724169957dadeae3cc1b244945ba27540186733cba720713bd6b389656d400d808367c'
+            'SKIP')
+validpgpkeys=('2224039FFEFDA430C20F81ADB3257B101AC77A5E')
+
+build() {
+
+    cd "${pkgname}-${pkgver}"
+    ./configure \
+      --prefix=/usr \
+      --bindir=/usr/bin \
+      --sbindir=/usr/bin \
+      --libexecdir=/usr/bin \
+      --sysconfdir=/etc/ssh
+    make
+
+}
+
+package() {
+
+    cd "${pkgname}-${pkgver}"
+    make DESTDIR="${pkgdir}" install
+    rmdir "${pkgdir}/var"{/empty,/run,}
+
+}
