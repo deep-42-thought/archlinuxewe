@@ -3,7 +3,7 @@
 pkgname=cssh
 pkgver=0.r113.7763db3
 _commit=${pkgver##*.}
-pkgrel=1
+pkgrel=2
 arch=('i686' 'pentium4' 'x86_64')
 pkgdesc='Parallel ssh client written in C'
 url='https://github.com/andreasbaumann/cssh'
@@ -11,7 +11,7 @@ license=('GPL2')
 _pinned_dependencies=(
   'glibc>=2.31'
   'libncursesw.so=6'
-  'libssh.so=4'
+  'libssh.so=libssh.so'
 )
 depends=("${_pinned_dependencies[@]}")
 makedepends=('git' 'cmake' 'gengetopt')
