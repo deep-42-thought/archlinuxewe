@@ -21,7 +21,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-webui")
 
 pkgver=21.0.0
-pkgrel=1
+pkgrel=2
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -264,15 +264,7 @@ package_bareos-database-postgresql() {
     "$srcdir/install/usr/lib/bareos/scripts/ddl/creates/postgresql.sql" \
     -t "$pkgdir/usr/lib/bareos/scripts/ddl/creates"
   install -Dm644 \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.10_11.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.11_12.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.12_14.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.14_2001.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.2001_2002.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.2002_2003.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.2003_2004.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.2004_2171.sql" \
-    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/postgresql.bee.1017_2004.sql" \
+    "$srcdir/install/usr/lib/bareos/scripts/ddl/updates/"*".sql" \
     -t "$pkgdir/usr/lib/bareos/scripts/ddl/updates"
 }
 
