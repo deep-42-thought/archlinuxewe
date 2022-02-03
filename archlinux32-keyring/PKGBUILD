@@ -15,7 +15,8 @@ replaces=('archlinux32-keyring-transition')
 source=("https://sources.archlinux32.org/sources/${pkgname}-v${pkgver}.tar.gz"{,.sig})
 sha512sums=('33c264e80148cfe889fd85a4104ececa2987ae210274e85bf9b1a32e4018b18b04a14d6235497844c45120750177a4941ad85b4931945b999498fda1e5178986'
             'SKIP')
-validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A')
+validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A'
+              '33CA3597B0D161AAE4173F65C17F1214114574A4') # obtain from https://archlinux32.org/keys.php
 
 package() {
     cd "${srcdir}/${pkgname}-v${pkgver}"
