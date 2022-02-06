@@ -6,8 +6,8 @@
 # skip pin-dependencies -- we do not build, so "recompiling" will do nothing
 
 pkgname=dropbox
-pkgver=136.4.4345
-pkgrel=26
+pkgver=141.4.3299
+pkgrel=1
 pkgdesc="A free service that lets you bring your photos, docs, and videos anywhere and share them easily."
 arch=("i686" "pentium4" "x86_64")
 url="https://www.dropbox.com"
@@ -63,9 +63,9 @@ sha512sums=('b1a2ca11479c9f243c0368d79b36ef87910311af2dd126a3291438083544ed10a64
             '73db250803f4af26eca0730749b93cb23e3fd55e3645b3d8dbdb7b1959c4732674a456fe6ff2e65940caf82c6d197c00ae1ac805c4e88a1aadfd8a2a1160f2c7'
             'edb11b5a07b6a1512a5345d8ce476562fbfd9ec5642f36315a0969a2583f0e6ce371d39d25063af3734f9527ad53abdc29278c046abc2921222777af6f693a4f'
             '2d9e37272f401a65a6e1ffe3f6bcf2034cb09cc6c282145272c0e3e27f3f3518f7df488adb6368ee48f04ae89bfb0d4e77a9e4411d93d315c41366592b3abbac')
-sha512sums_i686=('13657702abd5384f0f48043f441485258a66af2fef015b74de788903ba85bcfe47ce9f5118e06f0ec050e75536eb9312a33be40de267545476377613f14daa3f')
-sha512sums_pentium4=('13657702abd5384f0f48043f441485258a66af2fef015b74de788903ba85bcfe47ce9f5118e06f0ec050e75536eb9312a33be40de267545476377613f14daa3f')
-sha512sums_x86_64=('948d71577686cb8949d9b7d73713930ad8a2629de34166aa2b81b9dc302fd20afc7bb7a62e9d3f1d65b7e4329e2a6f986052492ee303f3e1339eef1fb7f378fa')
+sha512sums_i686=('2c9277fa73a5930b2abf113b4f52f205b7dd2cc5b6eb4d46487fb3a70019b77d0fdef7afd24aa9563f527d2b48094d2da865e122523a79f30cbdf0c2c3f87205')
+sha512sums_pentium4=('2c9277fa73a5930b2abf113b4f52f205b7dd2cc5b6eb4d46487fb3a70019b77d0fdef7afd24aa9563f527d2b48094d2da865e122523a79f30cbdf0c2c3f87205')
+sha512sums_x86_64=('16dd3c717c7cd578b7a7af53cb3f432ce849b5ee7bd13ba86ff919e59c35b8b5ee8e70784995cdfdf49b877d0c3d9ca5638974ee3cbe863e332978c5fad905bf')
                                                 
 package() {
 	if [ "${CARCH}" = 'i686' ] || [ "${CARCH}" = 'pentium4' ]; then
