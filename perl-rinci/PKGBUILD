@@ -2,25 +2,25 @@
 # Generator : neuesPerlPaket (6d6eb887751f0274ce913321f40e306c692f5baa957799c6668772e8771f1b10c566613dde872a04de2cb279fd80591fac591849b34aeed27f7fa5f9120faf43)
 
 pkgname='perl-rinci'
-pkgver=1.1.98
-pkgrel=2
+pkgver=1.1.99
+pkgrel=1
 pkgdesc='Language-neutral metadata for your code'
 arch=('any')
+depends=(
+
+  'perl>=5.34'
+  'perl<5.35')
 makedepends=(
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
   'perl-test-simple')
-depends=(
-  'perl>=5.34'
-  'perl<5.35'
-  'perl')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 url='https://metacpan.org/release/Rinci'
 _distdir="Rinci-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('c19f4be738a28ea4157ec665d5ebdb18e5b83b2fbd6e4eb268629bc596d429c9227975d157171ae65bf10a997ce5506007c3fc8708e4d84ececa92592dd25494')
+sha512sums=('9ba0018f1380de93d49aa2033bd11808821c89f1af88a03b5d6bb467d9314a5a9b87d991c7c8991ae9d8a819f239ab1d36ccd98c324edd696d5dca978f57e77e')
 
 build() {
   cd "${srcdir}/${_distdir}"
