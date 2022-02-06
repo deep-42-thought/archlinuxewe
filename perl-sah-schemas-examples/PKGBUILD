@@ -2,7 +2,7 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-sah-schemas-examples'
-pkgver=0.007
+pkgver=0.009
 pkgrel=1
 pkgdesc='Various example Sah schemas'
 arch=('any')
@@ -26,7 +26,7 @@ checkdepends=(
 url='https://metacpan.org/release/Sah-Schemas-Examples'
 _distdir="Sah-Schemas-Examples-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('3ea387e42f94b8f10dcaaf3a24c7780923134630e65a63b117c20a0e54e1546ee9d25713d430683547a95ef4bbd3dd5dd071a1385b2dd76270b55abe073b8310')
+sha512sums=('9cb9b3130b4d5a03d7ec23a73f29dd186f327165b45bfeca2b4b7bdc36c830edc2bc088977f45fcc1e7f3f86cc3819e53d7c2b5911bd6a460ed4dd06e69bce5d')
 
 prepare() {
   rm "${srcdir}/${_distdir}/t/author-critic.t"
