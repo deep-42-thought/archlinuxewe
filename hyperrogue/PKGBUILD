@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 # Contributor: Kyle Keen <keenerd@gmail.com>
 pkgname=hyperrogue
-pkgver=12.0j
-pkgrel=4
+pkgver=12.0k
+pkgrel=1
 pkgdesc="You are a lone outsider in a strange, non-Euclidean hyperbolic world.  Optional music."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.roguetemple.com/z/hyper.php"
@@ -18,7 +18,7 @@ depends=('sdl_ttf' 'sdl_mixer' 'mesa' 'ttf-dejavu' "${_pinned_dependencies[@]}")
 makedepends=('glu')
 
 source=("https://github.com/zenorogue/hyperrogue/archive/refs/tags/v${pkgver}.tar.gz")
-sha512sums=('38c1a669679dee5faed2ec5dc05c793df4a3599a7d51e6c79042da4bb4801ba29578f0b7e08fff6c22fbfde37a03e5eb151812354f687993e4caa9cde1ed0171')
+sha512sums=('3da63009009a3b9a6b2314ecff2d969c6b73d2fd0915e13c8e121bf6f836c5160ad8cbaca3cbdc5b8c0eec93ca9e84edfa34b839a2d38f47e360cb612a68d863')
 
 prepare() {
     cd "$srcdir/$pkgname-${pkgver}"
