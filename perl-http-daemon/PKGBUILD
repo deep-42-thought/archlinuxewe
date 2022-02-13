@@ -2,36 +2,35 @@
 # Generator : neuesPerlPaket (8d5949ef974a6c50e1fb6b6745da5ffeba5c722dbfa7d843cc9c543dd678e0eaa964db305fab2c7d2d12b70f301caf01810a4903d0a9f23fc5a9625a9797f655)
 
 pkgname='perl-http-daemon'
-pkgver='6.12'
-pkgrel='1'
+pkgver=6.13
+pkgrel=1
 pkgdesc='A simple http server class'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   'perl-carp'
   'perl-http-date>=6'
   'perl-http-message>=6'
-  'perl-io-socket-ip>=0.25'
+  'perl-io-socket-ip>=0.32'
   'perl-lwp-mediatypes>=6'
-  'perl-socket'
-)
+  'perl-socket')
 makedepends=(
   'perl-extutils-makemaker'
   'perl-http-tiny>=0.042'
-  'perl-io-socket-ip>=0.25'
   'perl-module-build-tiny>=0.034'
   'perl-module-metadata'
   'perl-pathtools'
   'perl-test'
   'perl-test-needs'
   'perl-test-simple>=0.98'
-  'perl-uri'
-)
+  'perl-uri')
 url='https://metacpan.org/dist/HTTP-Daemon'
 _distdir="HTTP-Daemon-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/O/OA/OALDERS/${_distdir}.tar.gz")
-sha512sums=('83a8b868162dfa1be66d4267e99af1111d28122c793e89d905243c175617c22ceb66f88b6ea54c29e7b131c26668776ab24cf671c4cc6c1c8810505e0f072596')
+sha512sums=('8f13d2aab9d6372a7c9af78aa114de487b6f5b99892adf6cc4d47901dd2c31efdd0b68c34995d42b30de35a130be9babb44789ce7725402460926f964b59fc17')
 
 build() {
   cd "${srcdir}/${_distdir}"
