@@ -12,7 +12,7 @@ pkgname=(
 pkgver=5.0.13.sdk404
 _runtimever=5.0.13
 _sdkver=5.0.404
-pkgrel=1
+pkgrel=2
 arch=('x86_64' 'armv7h' 'aarch64')
 url='https://www.microsoft.com/net/core'
 license=('MIT')
@@ -27,7 +27,7 @@ sha512sums_x86_64=('6f9b83b2b661ce3b033a04d4c50ff3a435efa288de1a48f58be1150e64c5
 package_dotnet-runtime-5.0-bin() {
   pkgdesc='The .NET Core runtime version 5.0 (binary)'
   _pinned_dependencies=(
-    'gcc-libs=11.1.0'
+    'gcc-libs=11.2.0'
     'glibc>=2.33'
     'libgssapi_krb5.so=2'
     'zlib=1:1.2.11'
@@ -51,7 +51,8 @@ package_dotnet-runtime-5.0-bin() {
 
 package_aspnet-runtime-5.0-bin() {
   pkgdesc='The ASP.NET Core runtime version 5.0 (binary)'
-  _pinned_dependencies=()
+  _pinned_dependencies=(
+  )
   depends=('dotnet-runtime-5.0-bin' "${_pinned_dependencies[@]}")
   provides=("aspnet-runtime=${_runtimever}" "aspnet-runtime-5.0")
   conflicts=("aspnet-runtime=${_runtimever}" "aspnet-runtime-5.0")
@@ -65,7 +66,7 @@ package_aspnet-runtime-5.0-bin() {
 package_dotnet-sdk-5.0-bin() {
   pkgdesc='The .NET Core SDK version 5.0 (binary)'
   _pinned_dependencies=(
-    'gcc-libs=11.1.0'
+    'gcc-libs=11.2.0'
     'glibc>=2.33'
   )
   depends=(
@@ -86,7 +87,7 @@ package_dotnet-sdk-5.0-bin() {
 package_dotnet-targeting-pack-5.0-bin() {
   pkgdesc='The .NET Core targeting pack version 5.0 (binary)'
   _pinned_dependencies=(
-    'gcc-libs=11.1.0'
+    'gcc-libs=11.2.0'
     'glibc>=2.33'
     'libgssapi_krb5.so=2'
     'zlib=1:1.2.11'
@@ -107,7 +108,8 @@ package_dotnet-targeting-pack-5.0-bin() {
 package_aspnet-targeting-pack-5.0-bin() {
   pkgdesc='The ASP.NET Core targeting pack version 5.0 (binary)'
   arch=(any)
-  _pinned_dependencies=()
+  _pinned_dependencies=(
+  )
   depends=(dotnet-targeting-pack-5.0-bin "${_pinned_dependencies[@]}")
   provides=(aspnet-targeting-pack=${_runtimever} aspnet-targeting-pack-5.0)
   conflicts=(aspnet-targeting-pack=${_runtimever} aspnet-targeting-pack-5.0)
