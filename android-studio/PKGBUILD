@@ -17,8 +17,32 @@ pkgdesc="The official Android IDE (Stable branch)"
 arch=('i686' 'pentium4' 'x86_64')
 url="https://developer.android.com/"
 license=('APACHE')
-makedepends=()
-depends=('alsa-lib' 'freetype2' 'libxrender' 'libxtst' 'which')
+_pinned_dependencies=(
+  'gcc-libs=11.2.0'
+  'glibc>=2.35'
+  'libasound.so=2'
+  'libbz2.so=1.0'
+  'libcrypt.so=2'
+  'libffi.so=8'
+  'libfreetype.so=6'
+  'libgdbm_compat.so=4'
+  'libgdbm.so=6'
+  'libgio-2.0.so=0'
+  'libglib-2.0.so=0'
+  'libgobject-2.0.so=0'
+  'libreadline.so=8'
+  'libx11=1.7.3.1'
+  'libxext=1.3.4'
+  'libxi=1.8'
+  'libxml2.so=2'
+  'libxrender=0.9.10'
+  'libxtst=1.2.3'
+  'ncurses=6.3'
+  'openssl=1.1.1.m'
+  'sqlite=3.37.2'
+  'zlib=1:1.2.11'
+)
+depends=('alsa-lib' 'which' "${_pinned_dependencies[@]}")
 optdepends=('gtk2: GTK+ look and feel'
             'libgl: emulator support'
             'ncurses5-compat-libs: native debugger support')
