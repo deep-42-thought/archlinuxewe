@@ -2,8 +2,8 @@
 # Contributor: Xyne <ac xunilhcra enyx, backwards>
 # repo: releng
 pkgname=reflector32
-pkgver=2021.4
-pkgrel=2
+pkgver=2021.11
+pkgrel=1
 pkgdesc='A Python 3 module and script to retrieve and filter the latest Pacman mirror list for Archlinux32.'
 arch=(any)
 license=(GPL)
@@ -14,9 +14,9 @@ backup=(etc/xdg/reflector/reflector32.conf)
 source=(
   "https://sources.archlinux32.org/sources/reflector32-${pkgver}.tar.gz"{,.sig}
 )
-sha512sums=('aebf2c041a9be356da872fbae45c1913dd2ac8cae029112d2d2984d3e3ff06a416ab52af86474d5f5f0f3c82a793fa115ff8650b8231837e9f2cd67f338e267c'
+sha512sums=('9186c66152d20e6c52b7a2f2cd8fb9e5c122f23ec70afc358bfa01dd196a94cb4ae96a7fc8974524ef632e6d591d7889e1128e1c7e0f300562b1372ca61716ed'
             'SKIP')
-validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A' '38ACA6A026D25CDD227D24832F6399DCD2212195')
+validpgpkeys=('DE9F7688CACF04FEB81A6C590AEEC90755DA7B5A' '38ACA6A026D25CDD227D24832F6399DCD2212195' '16194A82231E9EF823562181C8E8F5A0AF9BA7E7')
 
 prepare() {
   cd "$srcdir/$pkgname-$pkgver"
