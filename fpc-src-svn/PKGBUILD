@@ -9,7 +9,7 @@
 # See http://bbs.archlinux.org/viewtopic.php?t=9318&highlight=fpc
 
 pkgname='fpc-src-svn'
-pkgver=3.3.1.r10652
+pkgver=3.3.1.r10652.6f749cf4
 _pkgver="${pkgver%.r*}"
 _commit="${pkgver##*.}"
 pkgrel=1
@@ -36,12 +36,17 @@ pkgver() {
     | sort -V \
     | tail -n1
   )
-  revision=$(
-    git rev-list --count "${_commit/HEAD/main}" "^${last_version}"
+  _commit=$(
+    git rev-parse "${_commit}" \
+    | cut -c1-8
   )
-  printf '%s.r%s' \
-    ${last_version} \
-    ${revision}
+  revision=$(
+    git rev-list --count "${_commit}" "^${last_version}"
+  )
+  printf '%s.r%s.%s' \
+    "${last_version}" \
+    "${revision}" \
+    "${_commit}"
 }
 
 prepare() {
