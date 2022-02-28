@@ -9,9 +9,9 @@
 # See http://bbs.archlinux.org/viewtopic.php?t=9318&highlight=fpc
 
 pkgname='fpc-src-svn'
-pkgver=3.3.1.r49634
+pkgver=3.3.1.r10652
 _pkgver="${pkgver%.r*}"
-_revision="${pkgver##*.r}"
+_commit="${pkgver##*.}"
 pkgrel=1
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 url='http://www.freepascal.org/'
@@ -24,23 +24,32 @@ conflicts=('fpc-src')
 provides=("fpc-src=${pkgver}")
 
 source=('38680_refined_htypechk.pas-2.patch'
-'fpcsrc::svn+http://svn.freepascal.org/svn/fpc/trunk#revision='"${_revision}")
+'git+https://gitlab.com/freepascal.org/fpc/source.git#commit='"${_commit}")
 sha512sums=('583e26eca23d4fde9b6dc163c8e97cd5f271ca98e38560e0da0b79d30652a876f5c66e4b7c2ea32b429f34855b1cdc48987f4fd7bb7cf63eeafcbb6a08ee9693'
             'SKIP')
 
 pkgver() {
-  cd "${srcdir}"/fpcsrc
+  cd "${srcdir}"/source
+  last_version=$(
+    git tag \
+    | grep '^[0-9.]\+$' \
+    | sort -V \
+    | tail -n1
+  )
+  revision=$(
+    git rev-list --count "${_commit/HEAD/main}" "^${last_version}"
+  )
   printf '%s.r%s' \
-    $(grep -m 1 'version' Makefile.fpc | cut -d '=' -f 2) \
-    $(svnversion | tr -d [A-z])
+    ${last_version} \
+    ${revision}
 }
 
 prepare() {
-  cd "${srcdir}"/fpcsrc
+  cd "${srcdir}"/source
   patch -p0 -i "${srcdir}/38680_refined_htypechk.pas-2.patch"
 }
 
 package() {
   install -dm755 "${pkgdir}"/usr/lib/fpc/src
-  mv "${srcdir}"/fpcsrc/* "${pkgdir}"/usr/lib/fpc/src/
+  mv "${srcdir}"/source/* "${pkgdir}"/usr/lib/fpc/src/
 }
