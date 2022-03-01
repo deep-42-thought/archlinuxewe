@@ -9,9 +9,9 @@
 # See http://bbs.archlinux.org/viewtopic.php?t=9318&highlight=fpc
 
 pkgname='fpc-docs-svn'
-pkgver=3.3.1.r1871
+pkgver=2.6.0.r1075.30816b44
 _pkgver="${pkgver%.r*}"
-_revision="${pkgver##*.r}"
+_commit="${pkgver##*.}"
 pkgrel=1
 arch=('any')
 url='http://www.freepascal.org/'
@@ -21,34 +21,42 @@ options=('!strip')
 makedepends=('subversion'
   'texlive-core' 'texlive-htmlxml'
   'texlive-latexextra' 'ghostscript' 'fpc-src-svn' 'fpc-svn')
-source=('fpcdocs::svn+http://svn.freepascal.org/svn/fpcdocs/trunk#revision='"${_revision}")
+source=('git+https://gitlab.com/freepascal.org/fpc/documentation.git#commit='"${_commit}")
 sha512sums=('SKIP')
 
 pkgver() {
-  cd "${srcdir}"/fpcdocs
-  _src_ver=$(pacman -Q fpc-src-svn 2>/dev/null) \
-  || _src_ver=$(
-    pacman -Ss fpc-src-svn \
+  cd "${srcdir}"/documentation
+  last_version=$(
+    git tag \
     | sed '
-      s@^\S\+/\(fpc-src-svn\s\+\)@\1@
+      s@^release_\([0-9_]\+\)$@\1@
       t
       d
-    '
+    ' \
+    | tr '_' '.' \
+    | sort -V \
+    | tail -n1
   )
-  _src_ver="${_src_ver##* }"
-  _src_ver="${_src_ver%.r*}"
-  printf '%s.r%s' \
-    "${_src_ver}" \
-    $(svnversion | tr -d [A-z])
+  _commit=$(
+    git rev-parse "${_commit}" \
+    | cut -c1-8
+  )
+  revision=$(
+    git rev-list --count "${_commit}" "^release_${last_version//./_}"
+  )
+   printf '%s.r%s.%s' \
+    "${last_version}" \
+    "${revision}" \
+    "${_commit}"
 }
 
 build() {
-  cd "${srcdir}"/fpcdocs
+  cd "${srcdir}"/documentation
   cp -r /usr/lib/fpc/src ../fpcsrc
   make -j1 FPCSRCDIR="${srcdir}"/fpcsrc html
 }
 
 package() {
-  cd "${srcdir}"/fpcdocs
+  cd "${srcdir}"/documentation
   make PREFIX="${pkgdir}"/usr htmlinstall
 }
