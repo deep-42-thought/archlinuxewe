@@ -3,8 +3,8 @@
 # Contributor: Ivelin Velkov <ivelin dot velkov at gmail dot com>
 
 pkgname=teams-for-linux
-pkgver=1.0.23
-pkgrel=2
+pkgver=1.0.24
+pkgrel=1
 pkgdesc="Unofficial Microsoft Teams client for Linux using Electron."
 arch=("aarch64" "armv7h" "i686" "x86_64")
 url="https://github.com/IsmaelMartinez/${pkgname}"
@@ -46,10 +46,8 @@ source=(
   "${pkgname}-${pkgver}.tar.gz::https://github.com/IsmaelMartinez/${pkgname}/archive/v${pkgver}.tar.gz"
   "${pkgname}.desktop"
 )
-sha256sums=(
-  "2626c58e0e1a69be9f29bb1c542f013fa75d4ebd0e409c44a6a59be707dd78ed"
-  "f33ab4997c329567bbe172fe77ee6cbced5c5d4354e12ef52a89dd702422fded"
-)
+sha512sums=('c501256f411414f8c32e96f267eceafbb7b671f594f4509fddf9d321d0f59a0052477d53d8399955158ed7d7dd28499e04e3034147b0acccb0573b2d54e2b413'
+            '3e80d0aaefe42644265bd379f2279912c9358b2ce5c5efcd9aa7c4c67a07841da77c0fabac87eb7837f3cd7f0e620ce322c8791ff61bd3729c343108bd5d5d61')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
