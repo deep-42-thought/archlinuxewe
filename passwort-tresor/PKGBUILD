@@ -1,12 +1,12 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=passwort-tresor
 pkgver=0.7.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Wrapper for gpg to store passwords (and other text)"
 arch=('any')
 url="https://git.eckner.net/Erich/${pkgname}"
 license=('GPL')
-depends=('pass')
+depends=('pass' 'xclip')
 makedepends=('help2man')
 source=(
     "https://git.eckner.net/Erich/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.xz"
