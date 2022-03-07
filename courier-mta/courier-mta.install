@@ -3,7 +3,7 @@ post_install() {
   systemd-tmpfiles --create /usr/lib/tmpfiles.d/courier-mta.conf
 
   # perform all the tasks required of a standard Courier install
-  echo <<<EOF
+  cat <<EOF
 To finish the installation, run:
 $ /usr/lib/courier/sysconftool /etc/courier/*.dist
 $ makealiases
@@ -20,7 +20,7 @@ pre_upgrade() {
 }
 
 post_upgrade() {
-  echo <<<EOF
+  cat <<EOF
 Please run
 $ /usr/lib/courier/sysconftool /etc/courier/*.dist
 EOF
