@@ -2,14 +2,14 @@
 
 pkgname=fetchmail
 pkgver=6.4.27
-pkgrel=3
+pkgrel=4
 pkgdesc="A remote-mail retrieval utility"
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 url="http://www.fetchmail.info"
 license=('GPL')
 _pinned_dependencies=(
   'glibc>=2.31'
-  'openssl=1.1.1.m'
+  'openssl=1.1.1.n'
 )
 depends=("${_pinned_dependencies[@]}")
 makedepends=('python')
