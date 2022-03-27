@@ -12,11 +12,17 @@
 
 pkgname=android-studio
 pkgver=2021.1.1.21
-pkgrel=6
+pkgrel=7
 pkgdesc="The official Android IDE (Stable branch)"
 arch=('i686' 'pentium4' 'x86_64')
 url="https://developer.android.com/"
 license=('APACHE')
+_pinned_dependencies_i686=(
+  'libnet=1:1.1.6'
+)
+_pinned_dependencies_pentium4=(
+  'libnet=1:1.1.6'
+)
 _pinned_dependencies=(
   'gcc-libs=11.2.0'
   'glibc>=2.35'
@@ -43,6 +49,8 @@ _pinned_dependencies=(
   'zlib=1:1.2.11'
 )
 depends=('alsa-lib' 'which' "${_pinned_dependencies[@]}")
+depends_i686=("${_pinned_dependencies_i686[@]}")
+depends_pentium4=("${_pinned_dependencies_pentium4[@]}")
 optdepends=('gtk2: GTK+ look and feel'
             'libgl: emulator support'
             'ncurses5-compat-libs: native debugger support')
