@@ -83,6 +83,20 @@ cleanUp () {
   fi
 }
 
+send_build_status() {
+  if [ $1 -eq 0 ]; then
+    curl -Ss "https://arch.eckner.net/buildreport.php?arch=$2&paket=$3&result=success"
+  else
+    if [ -n "$4" ]; then
+      zcat "$4"
+    else
+      tar -cf - *.log
+    fi \
+    | xz \
+    | curl -Ss -T - "https://arch.eckner.net/buildreport.php?arch=$2&paket=$3&result=error"
+  fi
+}
+
 echo 'parse arguments ...'
 eval set -- "$(
   getopt -o b:cfL:pr \
@@ -593,6 +607,7 @@ for ((i=0; i<${#pakete[@]}; i++)); do
       else
         makechrootpkg -r "/var/lib/archbuild/archlinuxewe-${arch/any/${myArch}}" -- ${log} ${checkMakepkg} --holdver -f
       fi
+      send_build_status "$?" "${arch}" "${paket}"
       find . -mindepth 1 -maxdepth 1 -type f -name '*.pkg.tar' -exec zstd --rm {} \;
       err[${i}]=$?
       if [ ${err[${i}]} -eq 0 ]; then
@@ -640,10 +655,14 @@ for ((i=0; i<${#pakete[@]}; i++)); do
           printf 'export %s="%s"\n' \
             'SRCDEST' '${HOME}/packageSources' \
             'PACKAGER' "${PACKAGER}"
-          printf 'archlinuxewe-%s-build %s -- -- -- %s >&2\n' \
+          printf 'archlinuxewe-%s-build %s -- -- -- %s >&2 || {\n' \
             "${arch}" \
             "${cleanChroot}" \
             "${log} ${checkMakepkg}"
+          printf 'err=$?\n'
+          printf 'tar -czf - *.log\n'
+          printf 'exit ${err}\n'
+          printf '}\n'
           printf 'tar -czf - *.pkg.tar'
           [ -n "${log}" ] && \
             printf ' *.pkg.tar-*.log'
@@ -652,6 +671,7 @@ for ((i=0; i<${#pakete[@]}; i++)); do
         < "${tmpDir}/${paket}-${vers}.src.tar.gz" \
         > "paket.tar.gz"
         err[${i}]=$?
+        send_build_status "${err[${i}]}" "${arch}" "${paket}" "paket.tar.gz"
         if [ ${err[${i}]} -eq 0 ]; then
           tar -xzvf paket.tar.gz \
           | sed '
