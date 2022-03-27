@@ -85,7 +85,7 @@ cleanUp () {
 
 send_build_status() {
   if [ $1 -eq 0 ]; then
-    curl -Ss "https://arch.eckner.net/buildreport.php?arch=$2&paket=$3&result=success"
+    curl -X DELETE -Ss "https://arch.eckner.net/buildreport.php?arch=$2&paket=$3&result=success"
   else
     if [ -n "$4" ]; then
       zcat "$4"
