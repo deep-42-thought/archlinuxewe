@@ -20,8 +20,8 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-storage-python-plugin"
          "${pkgbase}-webui")
 
-pkgver=21.0.0
-pkgrel=7
+pkgver=21.1.2
+pkgrel=1
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -53,7 +53,7 @@ makedepends_aarch64=(ceph "${_pinned_dependencies_libmariadbclient[@]}")
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/$pkgbase/$pkgbase/archive/Release/$pkgver.tar.gz"
 'xattr.patch'
 'check-if-bareos-backup-is-running')
-sha512sums=('0a57bccca0589f3ce8a5664afbeb1eb1b17ec7142722e2d0bb2a0bbd9007688725b39c6db59646c180ce096e55451c09934e6479a2b4deeb4d3ee738ab2c32cd'
+sha512sums=('acdc787ff828add93c81b2b7d293dec90f2aa22aa3aee3002662bd30e88dc0dc58b753bb63ca7c111fac6c7eeea888938236c1169f92ed6cec27941036c7b6b1'
             'c535f89866816669208d56e21ffb13f70aa962e578847bc7bcc76a3e8ad54b252c8e09b745b500064d6f02cb5497cb81b62dd1c156d2e907c393aaa091aa5f0e'
             '0235763891f368c13931f0fc43e3ae2d7ec796b7ef35896b6b9c048345d539308abe4a9bafda4e95221a89231d2f373ac3cfc2098d572d4068a1c068d27452f6')
 
