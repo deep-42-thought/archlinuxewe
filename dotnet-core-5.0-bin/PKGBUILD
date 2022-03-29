@@ -12,7 +12,7 @@ pkgname=(
 pkgver=5.0.13.sdk404
 _runtimever=5.0.13
 _sdkver=5.0.404
-pkgrel=2
+pkgrel=3
 arch=('x86_64' 'armv7h' 'aarch64')
 url='https://www.microsoft.com/net/core'
 license=('MIT')
@@ -30,7 +30,7 @@ package_dotnet-runtime-5.0-bin() {
     'gcc-libs=11.2.0'
     'glibc>=2.33'
     'libgssapi_krb5.so=2'
-    'zlib=1:1.2.11'
+    'zlib=1:1.2.12'
   )
   depends=("dotnet-host>=${_runtimever}"
            'icu' 
@@ -90,7 +90,7 @@ package_dotnet-targeting-pack-5.0-bin() {
     'gcc-libs=11.2.0'
     'glibc>=2.33'
     'libgssapi_krb5.so=2'
-    'zlib=1:1.2.11'
+    'zlib=1:1.2.12'
   )
   depends=(netstandard-targeting-pack-bin "${_pinned_dependencies[@]}")
   provides=(dotnet-targeting-pack=${_runtimever} dotnet-targeting-pack-5.0)
