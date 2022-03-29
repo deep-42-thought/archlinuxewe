@@ -2,7 +2,7 @@
 # Contributor: Brian Galey <bkgaley@gmail.com>
 pkgname=readosm
 pkgver=1.1.0a
-pkgrel=2
+pkgrel=3
 pkgdesc='Library to extract valid data from within an Open Street Map input file'
 arch=('i686' 'pentium4' 'x86_64')
 url='https://www.gaia-gis.it/fossil/readosm/index'
@@ -10,7 +10,7 @@ license=('MPL')
 _pinned_dependencies=(
   'glibc>=2.31'
   'libexpat.so=1'
-  'zlib=1:1.2.11'
+  'zlib=1:1.2.12'
 )
 depends=("${_pinned_dependencies[@]}")
 options=('!libtool')
