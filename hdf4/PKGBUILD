@@ -5,7 +5,7 @@
 # Contributor: David Scholl <djscholl at gmail dot com>
 pkgname=hdf4
 pkgver=2.15
-pkgrel=8
+pkgrel=9
 pkgdesc="General purpose library and file format for storing scientific data."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.hdfgroup.org/hdf4.html"
@@ -15,7 +15,7 @@ _pinned_dependencies=(
   'libaec=1.0.6'
   'libjpeg.so=8'
   'libtirpc=1.3.2'
-  'zlib=1:1.2.11'
+  'zlib=1:1.2.12'
 )
 depends=('java-environment' "${_pinned_dependencies[@]}")
 makedepends=('gcc-libs' 'gcc-fortran' 'flex' 'bison')
