@@ -5,7 +5,7 @@ pkgname=zoom
 pkgver=5.9.6.2225
 _build=${pkgver#*.*.*.}
 _pkgver=${pkgver%.${_build}}
-pkgrel=2
+pkgrel=3
 pkgdesc="Video Conferencing and Web Conferencing Service"
 arch=('x86_64')
 license=('custom')
@@ -47,7 +47,7 @@ _pinned_dependencies=(
   'wayland=1.20.0'
   'xcb-util-image=0.4.0'
   'xcb-util-keysyms=0.4.0'
-  'zlib=1:1.2.11'
+  'zlib=1:1.2.12'
 )
 depends=('fontconfig' 'glib2' 'libpulse' 'libsm' 'ttf-font' 'libx11' 'libxtst' 'libxcb'
 	'libxcomposite' 'libxfixes' 'libxi' 'libxcursor' 'libxkbcommon-x11' 'libxrandr'
