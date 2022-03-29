@@ -6,7 +6,7 @@ pkgname=moc-nosort
 pkgver=2.5.2
 provides=("moc=${pkgver}")
 conflicts=('moc')
-pkgrel=24
+pkgrel=25
 epoch=1
 pkgdesc="An ncurses console audio player designed to be powerful and easy to use"
 arch=('i686' 'pentium4' 'x86_64')
@@ -37,7 +37,7 @@ _pinned_dependencies=(
   'speex=1.2.0'
   'taglib=1.12'
   'wavpack=5.4.0'
-  'zlib=1:1.2.11'
+  'zlib=1:1.2.12'
 )
 depends=("${_pinned_dependencies[@]}")
 makedepends=('speex' 'ffmpeg' 'taglib' 'libmpcdec' 'wavpack' 'libmodplug' 'faad2')
