@@ -21,7 +21,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-webui")
 
 pkgver=21.0.0
-pkgrel=6
+pkgrel=7
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -38,7 +38,7 @@ _pinned_dependencies=(
   'lzo=2.10'
   'openssl=1.1.1.n'
   'python2=2.7.18'
-  'zlib=1:1.2.11'
+  'zlib=1:1.2.12'
 )
 _pinned_dependencies_libmariadbclient=(
   'libmariadb.so=3'
@@ -144,7 +144,7 @@ package_bareos-common() {
     'libacl.so=1'
     'lzo=2.10'
     'openssl=1.1.1.n'
-    'zlib=1:1.2.11'
+    'zlib=1:1.2.12'
   )
   depends=('bash' "${_pinned_dependencies[@]}")
   install=bareos-common.install
@@ -464,7 +464,7 @@ package_bareos-filedaemon() {
     'gcc-libs=11.2.0'
     'glibc>=2.31'
     'jansson=2.14'
-    'zlib=1:1.2.11'
+    'zlib=1:1.2.12'
   )
   depends=("bareos-common=$pkgver" "${_pinned_dependencies[@]}")
   groups+=('bareos-client')
