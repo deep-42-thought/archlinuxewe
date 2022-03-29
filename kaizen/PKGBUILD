@@ -6,7 +6,7 @@
 pkgname=kaizen
 pkgdesc="Kaizen ElasticSearch GUI"
 pkgver=5.715.100
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 url='https://www.elastic-kaizen.com/'
 license=('custom')
@@ -18,7 +18,7 @@ _pinned_dependencies=(
   'libgmodule-2.0.so=0'
   'libgobject-2.0.so=0'
   'libgthread-2.0.so=0'
-  'zlib=1:1.2.11'
+  'zlib=1:1.2.12'
 )
 depends=("${_pinned_dependencies[@]}")
 _pkgsrc="${pkgname}-${pkgver}-linux-x64.zip"
