@@ -14,7 +14,7 @@ pkgname=(
 pkgver=6.0.1.sdk101
 _runtimever=6.0.1
 _sdkver=6.0.101
-pkgrel=5
+pkgrel=6
 arch=('x86_64' 'armv7h' 'aarch64')
 url='https://www.microsoft.com/net/core'
 license=('MIT')
@@ -53,7 +53,7 @@ package_dotnet-runtime-bin() {
   _pinned_dependencies=(
     'gcc-libs=11.2.0'
     'glibc>=2.33'
-    'zlib=1:1.2.11'
+    'zlib=1:1.2.12'
   )
   depends=(
   	"dotnet-host>=${_runtimever}"
@@ -125,7 +125,7 @@ package_dotnet-targeting-pack-bin() {
   _pinned_dependencies=(
     'gcc-libs=11.2.0'
     'glibc>=2.33'
-    'zlib=1:1.2.11'
+    'zlib=1:1.2.12'
   )
   depends=(netstandard-targeting-pack-bin "${_pinned_dependencies[@]}")
   provides=(dotnet-targeting-pack=${_runtimever} dotnet-targeting-pack-6.0)
