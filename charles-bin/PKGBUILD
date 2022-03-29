@@ -2,7 +2,7 @@
 # Contributor: Nico <d3sox at protonmail dot com>
 pkgname=charles-bin
 pkgver=4.6.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Web debugging proxy application (Built using the deb package)"
 arch=('x86_64')
 url="https://www.charlesproxy.com"
@@ -12,7 +12,7 @@ conflicts=('charles')
 provides=('charles')
 _pinned_dependencies=(
   'glibc>=2.33'
-  'zlib=1:1.2.11'
+  'zlib=1:1.2.12'
 )
 depends=('hicolor-icon-theme' "${_pinned_dependencies[@]}")
 source=(https://www.charlesproxy.com/packages/apt/pool/main/c/charles-proxy/charles-proxy_${pkgver}_amd64.deb)
