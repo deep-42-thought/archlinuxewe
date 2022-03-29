@@ -2,7 +2,7 @@
 # Contributor: Kyle Keen <keenerd@gmail.com>
 pkgname=hyperrogue
 pkgver=12.0k
-pkgrel=2
+pkgrel=3
 pkgdesc="You are a lone outsider in a strange, non-Euclidean hyperbolic world.  Optional music."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.roguetemple.com/z/hyper.php"
@@ -12,7 +12,7 @@ _pinned_dependencies=(
   'glibc>=2.31'
   'libglvnd=1.4.0'
   'sdl_gfx=2.0.26'
-  'zlib=1:1.2.11'
+  'zlib=1:1.2.12'
 )
 depends=('sdl_ttf' 'sdl_mixer' 'mesa' 'ttf-dejavu' "${_pinned_dependencies[@]}")
 makedepends=('glu')
