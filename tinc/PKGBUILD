@@ -8,7 +8,7 @@
 pkgname=tinc
 pkgver=1.0.36_1.1pre18
 _pkgver=${pkgver#*_}
-pkgrel=4
+pkgrel=5
 
 pkgdesc="VPN (Virtual Private Network) daemon"
 url="https://www.tinc-vpn.org/"
@@ -22,7 +22,7 @@ _pinned_dependencies=(
   'libreadline.so=8'
   'lzo=2.10'
   'openssl=1.1.1.n'
-  'zlib=1:1.2.11'
+  'zlib=1:1.2.12'
 )
 depends=(
   "${_pinned_dependencies[@]}"
