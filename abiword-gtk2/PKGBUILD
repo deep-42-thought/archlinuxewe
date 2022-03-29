@@ -5,7 +5,7 @@
 pkgname=abiword-gtk2
 _pkgname=abiword
 pkgver=3.0.5
-pkgrel=14
+pkgrel=15
 pkgdesc='Fully-featured word processor, GTk2, No plugins, Lite version'
 arch=('i686' 'pentium4' 'x86_64')
 license=('GPL')
@@ -35,7 +35,7 @@ _pinned_dependencies=(
   'libx11=1.7.3.1'
   'libxml2.so=2'
   'libxslt.so=1'
-  'zlib=1:1.2.11'
+  'zlib=1:1.2.12'
 )
 depends=('wv' 'enchant' 'desktop-file-utils' "${_pinned_dependencies[@]}")
 makedepends=('pkgconfig' 'boost' 'autoconf-archive')
