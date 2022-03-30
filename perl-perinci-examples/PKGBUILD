@@ -2,21 +2,43 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-examples'
-pkgver=0.821
-pkgrel=2
+pkgver=0.822
+pkgrel=1
 pkgdesc='Various examples of Rinci metadata'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
+provides=(
+  'perl-perinci-examples-argsas=0.822'
+  'perl-perinci-examples-cli=0.822'
+  'perl-perinci-examples-cmdlineresmeta=0.822'
+  'perl-perinci-examples-cmdlinesrc=0.822'
+  'perl-perinci-examples-coercion=0.822'
+  'perl-perinci-examples-completion=0.822'
+  'perl-perinci-examples-csv=0.822'
+  'perl-perinci-examples-filepartial=0.822'
+  'perl-perinci-examples-filestream=0.822'
+  'perl-perinci-examples-nometa=0.822'
+  'perl-perinci-examples-resultnaked=0.822'
+  'perl-perinci-examples-rimetadb-excludedpackage=0.822'
+  'perl-perinci-examples-rimetadb-includedpackage=0.822'
+  'perl-perinci-examples-stream=0.822'
+  'perl-perinci-examples-submeta=0.822'
+  'perl-perinci-examples-table=0.822'
+  'perl-perinci-examples-tiny=0.822'
+  'perl-perinci-examples-tiny-args=0.822'
+  'perl-perinci-examples-tiny-result=0.822'
+  'perl-perinci-examples-tx=0.822'
+  'perl-perinci-examples-version=0.822')
 depends=(
   'perl>=5.34'
   'perl<5.35'
   'perl-experimental'
-  'perl-log-ger>=0.037'
+  'perl-log-ger>=0.038'
   'perl-perinci-object>=0.311'
   'perl-perinci-sub-property-arg-cmdline'
   'perl-perinci-sub-util>=0.470'
-  'perl-scalar-list-utils>=1.45'
+  'perl-scalar-list-utils>=1.54'
   'perl-scalar-util-numeric')
 makedepends=(
   'perl-extutils-makemaker'
@@ -34,7 +56,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Examples'
 _distdir="Perinci-Examples-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('6aff3ffb164f1fabd875b7b024a31d2d34460f28897afb7be08e47ed86d3a6c5074b9d3b9d8f1abfea7a719218ea9426fbd07bfe8b55c5d7c13db2d3f95d58f9')
+sha512sums=('bed8af566e6eeed5f4cb15606d458b3e3c5f6fee184bab2d231db8882f29119822e85fc8c385e75c1dceb2028003b4da343fa728e0fe96324d0a70a46daabd1f')
 
 prepare() {
   cd "${srcdir}/${_distdir}"
