@@ -8,15 +8,20 @@
 pkgname=tinc
 pkgver=1.0.36_1.1pre18
 _pkgver=${pkgver#*_}
-pkgrel=5
+pkgrel=6
 
 pkgdesc="VPN (Virtual Private Network) daemon"
 url="https://www.tinc-vpn.org/"
 arch=('armv6h' 'armv7h' 'aarch64' 'i486' 'i686' 'pentium4' 'x86_64')
 license=('GPL')
 
+_pinned_dependencies_i486=(
+  'gcc-libs=11.2.0')
+_pinned_dependencies_i686=(
+  'gcc-libs=11.2.0')
+_pinned_dependencies_pentium4=(
+  'gcc-libs=11.2.0')
 _pinned_dependencies=(
-  'gcc-libs=11.2.0'
   'glibc>=2.31'
   'libncursesw.so=6'
   'libreadline.so=8'
@@ -24,9 +29,14 @@ _pinned_dependencies=(
   'openssl=1.1.1.n'
   'zlib=1:1.2.12'
 )
+depends_i486=(
+  "${_pinned_dependencies_i486[@]}")
+depends_i686=(
+  "${_pinned_dependencies_i686[@]}")
+depends_pentium4=(
+  "${_pinned_dependencies_pentium4[@]}")
 depends=(
-  "${_pinned_dependencies[@]}"
-)
+  "${_pinned_dependencies[@]}")
 
 source=(https://www.tinc-vpn.org/packages/tinc-$_pkgver.tar.gz{,.sig})
 
