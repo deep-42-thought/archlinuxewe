@@ -3,8 +3,8 @@
 # Contributor: Jingbei Li <i@jingbei.li>
 pkgname=python-pywavelets
 _pkgname=pywt
-pkgver=1.2.0
-pkgrel=60
+pkgver=1.3.0
+pkgrel=1
 pkgdesc="Discrete Wavelet Transforms in Python"
 arch=('x86_64' 'i686' 'pentium4')
 url="https://github.com/PyWavelets/pywt"
@@ -17,7 +17,7 @@ depends=(
   'cython'
   'python<3.11'
   'python>=3.10'
-  'python-docutils<0.18'
+  'python-docutils<1:0.18'
   'python-matplotlib'
   'python-numpy'
   'python-pytest'
@@ -26,7 +26,7 @@ makedepends=(
   'cython>=0.20.2'
   'python-setuptools')
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/PyWavelets/pywt/archive/v$pkgver.tar.gz")
-sha512sums=('a999f7b316a434948ab06f33ab7aeea621b7e33bfc0907ea396da40482f896aa8688627873741cf3abf01f098b21515cffad42b4e966a431347cb5f013e78752')
+sha512sums=('0a70ae2319ddd709a1fcd8d236d315ac7cfb68fbab69fc56cb51558038d5305787c1336496c942feaa66c9580b34a9bcb5aca91cdef20d8c4e22950ef60115cd')
 
 build() {
   cd "$srcdir/$_pkgname-$pkgver"
