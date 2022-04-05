@@ -4,19 +4,21 @@
 
 pkgname=lilypond-devel
 pkgver=2.23.7
-pkgrel=1
+pkgrel=2
 pkgdesc="An automated music engraving system (development version)"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://lilypond.org/"
 license=('GPL')
 _pinned_dependencies=(
+  'gc=8.2.0'
   'gcc-libs=11.2.0'
   'glibc>=2.31'
-  'guile1.8=1.8.8'
+  'guile=2.2.7'
   'libfontconfig.so=1'
   'libfreetype.so=6'
   'libglib-2.0.so=0'
   'libgobject-2.0.so=0'
+  'libharfbuzz.so=libharfbuzz.so'
   'libpango-1.0.so=0'
   'libpangoft2-1.0.so=0'
 )
