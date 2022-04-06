@@ -5,7 +5,7 @@
 # Contributor: David Scholl <djscholl at gmail dot com>
 pkgname=hdf4
 pkgver=2.15
-pkgrel=9
+pkgrel=10
 pkgdesc="General purpose library and file format for storing scientific data."
 arch=('i686' 'pentium4' 'x86_64')
 url="http://www.hdfgroup.org/hdf4.html"
@@ -17,7 +17,15 @@ _pinned_dependencies=(
   'libtirpc=1.3.2'
   'zlib=1:1.2.12'
 )
+_pinned_dependencies_i686=(
+  'gcc-libs=11.2.0'
+)
+_pinned_dependencies_pentium4=(
+  'gcc-libs=11.2.0'
+)
 depends=('java-environment' "${_pinned_dependencies[@]}")
+depends_i686=("${_pinned_dependencies_i686[@]}")
+depends_pentium4=("${_pinned_dependencies_pentium4[@]}")
 makedepends=('gcc-libs' 'gcc-fortran' 'flex' 'bison')
 conflicts=('netcdf')
 source=("https://support.hdfgroup.org/ftp/HDF/releases/HDF4.${pkgver}/src/hdf-4.${pkgver}.tar.bz2")
