@@ -9,7 +9,12 @@ pkgdesc="Command-line tools for Azure."
 arch=('x86_64')
 url="https://github.com/Azure/azure-cli"
 license=('MIT')
-depends=("python")
+_pinned_dependencies=(
+  'gcc-libs=11.2.0'
+  'glibc>=2.35'
+  'python=3.10.4'
+)
+depends=("${_pinned_dependencies[@]}")
 conflicts=("python-azure-cli")
 source=("install-${pkgver}.py::https://azurecliprod.blob.core.windows.net/install.py"
         "install.response"
