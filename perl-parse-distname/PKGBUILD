@@ -1,0 +1,72 @@
+# Maintainer: Erich Eckner <arch at eckner dot net>
+# Generator : neuesPerlPaket (8d5949ef974a6c50e1fb6b6745da5ffeba5c722dbfa7d843cc9c543dd678e0eaa964db305fab2c7d2d12b70f301caf01810a4903d0a9f23fc5a9625a9797f655)
+
+pkgname='perl-parse-distname'
+pkgver='0.05'
+pkgrel='1'
+pkgdesc='parse a distribution name'
+arch=('any')
+license=('PerlArtistic' 'GPL')
+options=('!emptydirs')
+depends=(
+  'perl-exporter>=5.57'
+)
+makedepends=(
+  'perl-extutils-makemaker'
+  'perl-extutils-makemaker-cpanfile>=0.08'
+  'perl-json-pp'
+  'perl-test-differences'
+  'perl-test-simple>=0.88'
+  'perl-test-useallmodules>=0.17'
+)
+url='https://metacpan.org/dist/Parse-Distname'
+_distdir="Parse-Distname-${pkgver}"
+source=("https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/${_distdir}.tar.gz")
+sha512sums=('57896ecf281a321bee0c9ab8b297cb651dae779eb5948ff09bb15e56918049b11902063cf11560ad781f9768f977e0db85a0c59b2e5975cbc5140faf9e5cb498')
+
+build() {
+  cd "${srcdir}/${_distdir}"
+
+  # Setting these env variables overwrites any command-line-options we don't want...
+  export PERL_MM_USE_DEFAULT=1 PERL_AUTOINSTALL=--skipdeps \
+    PERL_MM_OPT="INSTALLDIRS=vendor DESTDIR='${pkgdir}'" \
+    PERL_MB_OPT="--installdirs vendor --destdir '${pkgdir}'" \
+    MODULEBUILDRC=/dev/null
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    perl Makefile.PL
+    make
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build.PL
+    perl Build
+  fi
+}
+
+check() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make test
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build test
+  fi
+}
+
+package() {
+  cd "${srcdir}/${_distdir}"
+
+  # If using Makefile.PL
+  if [ -r Makefile.PL ]; then
+    make install
+  # If using Build.PL
+  elif [ -r Build.PL ]; then
+    perl Build install
+  fi
+
+  # remove perllocal.pod and .packlist
+  find "${pkgdir}" -name .packlist -o -name perllocal.pod -delete
+}
