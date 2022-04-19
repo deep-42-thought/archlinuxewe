@@ -1,20 +1,20 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=python-jira
 _pkgname="${pkgname#*-}"
-pkgver=3.1.1
-pkgrel=60
+pkgver=3.2.0
+pkgrel=1
 pkgdesc="Python library to work with Jira APIs"
 arch=(any)
 url="https://github.com/pycontribs/jira"
 license=('BSD')
 depends=(
-  'python<3.11'
-  'python>=3.10')
+  'python>=3.10'
+  'python<3.11')
 makedepends=(
   'python-pip'
   'python-setuptools')
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/pycontribs/jira/archive/refs/tags/$pkgver.tar.gz")
-sha512sums=('de58631094dbbaf36fa328918f1dcd992684baa8efa8eb9de5ee0d27d2ca784fbc42333aa12f6f627f5543062a23e58ceae4d0decf1eca60c6d96c385481f2e3')
+sha512sums=('16609a51c442a99fadd45e7d871cd0a0bd4f592c1a477b8cff64d53319eb0b270f1952080108de5f84e81d1b1edf75192bb66e78509ac8c7079d3e12360c19d6')
 
 prepare() {
   cd "${srcdir}/jira-${pkgver}"
