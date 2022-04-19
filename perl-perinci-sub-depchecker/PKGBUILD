@@ -2,8 +2,8 @@
 # Generator : neuesPerlPaket (97841193a0046800a1ed3cebc0718afe92066b6f1190519a623e66830c355902620a8d956439b9825c773ea4af1a5a3ff917dc0d9a50bafb588ca09da5980c74)
 
 pkgname='perl-perinci-sub-depchecker'
-pkgver='0.11'
-pkgrel=7
+pkgver=0.121
+pkgrel=1
 pkgdesc='Check dependencies from '"'"'deps'"'"' property'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -12,15 +12,16 @@ depends=(
   'perl>=5.34'
   'perl<5.35'
   'perl-experimental'
+  'perl-exporter>=5.57'
   'perl-file-which'
-)
+  'perl-ipc-system-options>=0.339'
+  'perl-log-ger>=0.038'
+  'perl-version-util>=0.731')
 makedepends=(
-  'perl'
   'perl-extutils-makemaker'
   'perl-io'
   'perl-pathtools'
-  'perl-test-simple>=0.98'
-)
+  'perl-test-simple>=0.98')
 checkdepends=(
   'perl-pod-coverage-trustpod'
   'perl-test-pod'
@@ -31,7 +32,7 @@ checkdepends=(
 url='https://metacpan.org/release/Perinci-Sub-DepChecker'
 _distdir="Perinci-Sub-DepChecker-${pkgver}"
 source=("https://cpan.metacpan.org/authors/id/P/PE/PERLANCAR/${_distdir}.tar.gz")
-sha512sums=('f88b919a98e2b84c80c7563af07dfd87e96bbc5201fbd682df33694b7f6d51c2dfebf19b9cb60400a4b6fce969a09005d07405eea642235e37642eefd6a5df9f')
+sha512sums=('dd9909abc9d32254c3a39c763ef79bcd9412b9c189af53561efe8352cf7f4c9c5149da0d9ec2c6acb676bfe6f2617e54ad6d5946c60e0c29f61c8fe5e3410bd1')
 
 build() {
   cd "${srcdir}/${_distdir}"
