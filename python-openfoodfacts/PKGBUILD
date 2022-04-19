@@ -1,26 +1,24 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname='python-openfoodfacts'
-pkgver=0.1.2
-pkgrel=60
+pkgver=0.1.3
+pkgrel=1
 arch=('any')
 url='https://github.com/openfoodfacts/openfoodfacts-python'
 license=('MIT')
 pkgdesc='Open Food Facts client for your Python applications and scripts'
 _pkgname="${pkgname#*-}"
 source=("$_pkgname-$pkgver.tar.gz::https://github.com/openfoodfacts/openfoodfacts-python/archive/refs/tags/v$pkgver.tar.gz")
-sha512sums=('64ceb1f6ed391e712bf34131caec78555a832fa2b291bd7e782e6b68fea6c778498f0c43b19de1852522bd2c27fafc07ef7cc0bc8c4a4905174c4f22c5ae06d3')
+sha512sums=('8b7e274ec435cd8d8839591ffbb078a3a0a8c8a7d57db9bfce1fe9360f9b4a5095a7f8373208ccbf4738e7e54b51f48a0791fdc2906b8539594ea6e1d05eca7f')
 depends=(
-  'python<3.11'
   'python>=3.10'
-  'python-requests>=2.20.0')
+  'python<3.11')
 makedepends=(
   'python-setuptools')
 checkdepends=(
   'python-pip'
   'python-requests-mock>=1.8.0'
   'python-wheel')
-
 build() {
   cd "${srcdir}/${_pkgname}-python-${pkgver}"
   python setup.py build
