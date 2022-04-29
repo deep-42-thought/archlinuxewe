@@ -8,8 +8,8 @@
 
 pkgname=courier-authlib-devel
 _pkgname=${pkgname%-*}
-pkgver=0.71.3.20210522
-pkgrel=12
+pkgver=0.71.4.20220416
+pkgrel=1
 pkgdesc="Authentication library for the Courier mailserver(s)"
 arch=(i686 pentium4 x86_64)
 license=('GPL2')
@@ -42,7 +42,7 @@ install=${_pkgname}.install
 source=(https://downloads.sourceforge.net/project/courier/authlib-devel/${pkgver##*.}/${_pkgname}-${pkgver}.tar.bz2
 	authdaemond.service
 	courier-sysusers.conf)
-sha512sums=('0639334c0cafb9c37e96146231b89555593b4cd8d5fd64e6dfd715d53ec060281a6eddc0b7e78f2039b4a87c0d47c5fd220722f6a92afb4df16e26d46ed2ca8a'
+sha512sums=('f77219181e91383e336d615d81e82cf444c5bd1e0ecefa108736a57840d84665a37e6b8a68fb01220331c86e8083e148034138cdf72b945917db19f835a9925c'
             '7855fadbef9e6845868d720f9637cc6fe97814b9d994641a351e48536e1985323f095c708f30abe0f3a0c1cb8e25a746da1bb5b2baf9f63d0498d01df39f843b'
             'c8c7dfd245ca7c6bf9174bb170bb45ff548eaa4c0b4049e3def12cf15f83d98347a0d3e0174dd7aae86c412117eee98f51428e8d3c8df61ccdcb5e929ab939a3')
 
