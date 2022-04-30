@@ -4,14 +4,14 @@
 pkgname=wcc-git
 _pkgname=wcc
 pkgver=0.0.2.r11.g1bc7a5f
-pkgrel=2
+pkgrel=3
 pkgdesc="The Witchcraft Compiler Collection"
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 license=('MIT')
 _pinned_dependencies=(
   'glibc>=2.33'
   'libcapstone.so=4'
-  'libelf=0.186'
+  'libelf=0.187'
   'zlib=1:1.2.12'
 )
 depends=(binutils readline gsl "${_pinned_dependencies[@]}")
