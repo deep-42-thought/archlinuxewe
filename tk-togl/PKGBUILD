@@ -2,7 +2,7 @@
 # Contributor: Mirko Scholz <srtlg>
 pkgname=tk-togl
 pkgver=2.0
-pkgrel=18
+pkgrel=19
 pkgdesc="A Tcl/Tk widget for OpenGL rendering."
 arch=('i686' 'pentium4' 'x86_64')
 url="https://sourceforge.net/projects/togl/"
@@ -10,7 +10,7 @@ license=('BSD')
 _pinned_dependencies=(
   'glibc>=2.31'
   'libglvnd=1.4.0'
-  'libx11=1.7.5'
+  'libx11=1.8'
   'libxmu=1.1.3'
 )
 depends=(tk tcl "${_pinned_dependencies[@]}")
