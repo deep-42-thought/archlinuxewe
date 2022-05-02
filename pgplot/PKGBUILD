@@ -5,7 +5,7 @@
 
 pkgname=pgplot
 pkgver=5.2.2
-pkgrel=24
+pkgrel=25
 pkgdesc="Fortran- or C-callable, device-independent graphics package for making simple scientific graphs."
 url="http://www.astro.caltech.edu/~tjp/pgplot/"
 license=('custom')
@@ -15,7 +15,7 @@ makedepends=('gcc-fortran')
 _pinned_dependencies=(
   'glibc>=2.31'
   'libpng=1.6.37'
-  'libx11=1.7.5'
+  'libx11=1.8'
   'zlib=1:1.2.12'
 )
 depends=("${_pinned_dependencies[@]}")
