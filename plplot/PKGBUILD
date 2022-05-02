@@ -5,7 +5,7 @@
 # Contributor: Eric Belanger <eric@archlinux.org>
 pkgname=plplot
 pkgver=5.15.0
-pkgrel=21
+pkgrel=22
 pkgdesc="A cross-platform software package for creating scientific plots"
 arch=('i686' 'pentium4' 'x86_64')
 url="http://plplot.sourceforge.net/"
@@ -14,7 +14,7 @@ _pinned_dependencies=(
   'gcc-libs=11.2.0'
   'glibc>=2.31'
   'libtool=2.4.7'
-  'libx11=1.7.5'
+  'libx11=1.8'
   'tcl=8.6.12'
 )
 depends=('tk' "${_pinned_dependencies[@]}")
