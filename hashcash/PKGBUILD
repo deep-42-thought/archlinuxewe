@@ -4,14 +4,14 @@
 
 pkgname=hashcash
 pkgver=1.22
-pkgrel=20
+pkgrel=21
 pkgdesc="a denial-of-service counter measure tool for email/spam."
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 url="http://www.hashcash.org"
 license=('GPL')
 _pinned_dependencies=(
   'glibc>=2.31'
-  'openssl=1.1.1.n'
+  'openssl=1.1.1.o'
 )
 depends=(
   "${_pinned_dependencies[@]}"
