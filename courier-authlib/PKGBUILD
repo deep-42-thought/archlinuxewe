@@ -8,7 +8,7 @@
 
 pkgname=courier-authlib
 pkgver=0.71.4
-pkgrel=2
+pkgrel=3
 pkgdesc="Authentication library for the Courier mailserver(s)"
 arch=(i686 pentium4 x86_64)
 license=('GPL2')
@@ -25,7 +25,7 @@ _pinned_dependencies=(
   'libpam.so=0'
   'libpq.so=5'
   'libtool=2.4.7'
-  'sqlite=3.38.3'
+  'sqlite=3.38.4'
 )
 depends=('openssl' 'perl' 'expect' 'courier-unicode>=2.1' "${_pinned_dependencies[@]}")
 makedepends=('libldap')
