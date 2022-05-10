@@ -8,7 +8,7 @@ _pkgver=9.16.16
 pkgname=bind-next
 _pkgnam=${pkgname%-*}
 pkgver=${_pkgver//-/.}
-pkgrel=16
+pkgrel=17
 pkgdesc='A complete, highly portable implementation of the DNS protocol'
 url='https://www.isc.org/software/bind/'
 license=('MPL2')
@@ -20,7 +20,7 @@ makedepends=('libcap' 'libxml2' 'zlib' 'krb5' 'e2fsprogs' 'openssl' 'readline'
   'libidn2' 'dnssec-anchors' 'python' 'json-c' 'python-ply' 'lmdb' 'zlib' 'icu'
   'xz' 'libmaxminddb' 'libnsl' 'libuv' 'python-sphinx')
 _pinned_dependencies_i486=(
-  'gcc-libs=11.2.0'
+  'gcc-libs=12.1.0'
 )
 _pinned_dependencies=(
   'glibc>=2.33'
