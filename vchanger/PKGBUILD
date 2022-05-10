@@ -2,7 +2,7 @@
 
 pkgname=vchanger
 pkgver=1.0.3
-pkgrel=7
+pkgrel=8
 pkgdesc='disk-based virtual autochanger device for use with Bacula(TM) and bareos'
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 url='https://sourceforge.net/projects/vchanger/'
@@ -10,7 +10,7 @@ license=('GPL')
 source=("${pkgname}-${pkgver}.tar.gz::https://sourceforge.net/projects/$pkgname/files/$pkgname/$pkgver/$pkgname-$pkgver.tar.gz")
 sha512sums=('866367a30d578bd49c502918b0cd6b7fc5b3d79fdd9985c4e5684decfac635cbc99b90b0ff4fef1fa5380a476714fe595c82f92710bbfc48a697470c0d25c8b0')
 _pinned_dependencies=(
-  'gcc-libs=11.2.0'
+  'gcc-libs=12.1.0'
   'glibc>=2.31'
   'libudev.so=1'
 )
