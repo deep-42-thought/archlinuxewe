@@ -3,7 +3,7 @@
 
 pkgname=mtx-svn
 pkgver=r200
-pkgrel=9
+pkgrel=10
 pkgdesc="Tools used to view information about, and to control, Media Changer devices such as Tape and DVD/CD libraries."
 arch=('armv6h' 'armv7h' 'aarch64' 'i486' 'i686' 'pentium4' 'x86_64')
 url="https://sourceforge.net/projects/mtx/"
@@ -14,10 +14,10 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 _pinned_dependencies_armv6h=(
-  'gcc-libs=11.2.0'
+  'gcc-libs=12.1.0'
 )
 _pinned_dependencies_armv7h=(
-  'gcc-libs=11.2.0'
+  'gcc-libs=12.1.0'
 )
 depends=("${_pinned_dependencies[@]}")
 depends_armv6h=("${_pinned_dependencies_armv6h[@]}")
