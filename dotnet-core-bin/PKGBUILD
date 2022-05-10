@@ -14,7 +14,7 @@ pkgname=(
 pkgver=6.0.1.sdk101
 _runtimever=6.0.1
 _sdkver=6.0.101
-pkgrel=6
+pkgrel=7
 arch=('x86_64' 'armv7h' 'aarch64')
 url='https://www.microsoft.com/net/core'
 license=('MIT')
@@ -32,7 +32,7 @@ package_dotnet-host-bin() {
   pkgdesc='A generic driver for the .NET Core Command Line Interface (binary)'
   provides=("dotnet-host" "dotnet-host=${_runtimever}")
   _pinned_dependencies=(
-    'gcc-libs=11.2.0'
+    'gcc-libs=12.1.0'
     'glibc>=2.33'
   )
   depends=(
@@ -51,7 +51,7 @@ package_dotnet-host-bin() {
 package_dotnet-runtime-bin() {
   pkgdesc='The .NET Core runtime (binary)'
   _pinned_dependencies=(
-    'gcc-libs=11.2.0'
+    'gcc-libs=12.1.0'
     'glibc>=2.33'
     'zlib=1:1.2.12'
   )
@@ -89,7 +89,7 @@ package_aspnet-runtime-bin() {
 package_dotnet-sdk-bin() {
   pkgdesc='The .NET Core SDK (binary)'
   _pinned_dependencies=(
-    'gcc-libs=11.2.0'
+    'gcc-libs=12.1.0'
     'glibc>=2.33'
   )
   depends=(
@@ -123,7 +123,7 @@ package_netstandard-targeting-pack-bin() {
 package_dotnet-targeting-pack-bin() {
   pkgdesc='The .NET Core targeting pack (binary)'
   _pinned_dependencies=(
-    'gcc-libs=11.2.0'
+    'gcc-libs=12.1.0'
     'glibc>=2.33'
     'zlib=1:1.2.12'
   )
