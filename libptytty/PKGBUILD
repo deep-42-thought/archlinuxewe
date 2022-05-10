@@ -2,7 +2,7 @@
 # Contributor: mrdotx <klassiker@gmx.de>
 pkgname=libptytty
 pkgver=2.0
-pkgrel=2
+pkgrel=3
 pkgdesc='OS independent and secure pty/tty and utmp/wtmp/lastlog handling'
 arch=('i686' 'pentium4' 'x86_64')
 url='http://software.schmorp.de/pkg/libptytty.html'
@@ -11,7 +11,7 @@ license=('GPL')
 source=(http://dist.schmorp.de/libptytty/$pkgname-$pkgver.tar.gz)
 makedepends=('cmake')
 _pinned_dependencies=(
-  'gcc-libs=11.2.0'
+  'gcc-libs=12.1.0'
   'glibc>=2.33'
 )
 depends=("${_pinned_dependencies[@]}")
