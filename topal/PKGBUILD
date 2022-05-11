@@ -3,16 +3,14 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=topal
-pkgver=80
-pkgrel=9
+pkgver=81
+pkgrel=1
 pkgdesc='glue program that links GnuPG and Alpine'
 arch=('i686' 'pentium4' 'x86_64')
 url="https://zircon.org.uk/topal/rel-${pkgver}/"
 license=("GPL3")
 makedepends=("gcc-ada" "make" "lynx")
 _pinned_dependencies=(
-  'glibc>=2.31'
-  'libreadline.so=8'
 )
 depends=("${_pinned_dependencies[@]}" procmail)
 optdepends=("alpine: for which topal was mainly written for"
@@ -25,8 +23,8 @@ optdepends=("alpine: for which topal was mainly written for"
 install="${pkgname}.install"
 options=("!makeflags")
 source=("https://zircon.org.uk/topal/rel-${pkgver}/topal-package-${pkgver}.tgz"{,.asc})
-sha512sums=('06c6bb9f504e5df5ffb2c8c776dd95071c90087bcc8353664d979ea4acd8d7563a8ca0b32cbe85f64c23419f479134d48bc795eb6db6bd716877ab414a37a030'
-'SKIP')
+sha512sums=('732cebaf541ff388b20e07fbf22b28586da10ccf4f115bc66feb32a8f89d3a9922dc55a019d9a28bc700ccf4f90d02582e50560d050325bf790d7eb8c9ba2365'
+            'SKIP')
 validpgpkeys=('D312B4FF825FCA97472A558F9623D47747DC67A1') # Phil Brooke
 
 build() {
