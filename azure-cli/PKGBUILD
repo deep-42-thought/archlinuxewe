@@ -3,8 +3,9 @@
 # https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux
 
 pkgname=azure-cli
-pkgver=2.35.0
-pkgrel=2
+_pkgname="${pkgname}"
+pkgver=2.36.0
+pkgrel=1
 pkgdesc="Command-line tools for Azure."
 arch=('x86_64')
 url="https://github.com/Azure/azure-cli"
@@ -15,33 +16,20 @@ _pinned_dependencies=(
   'python=3.10.4'
 )
 depends=("${_pinned_dependencies[@]}")
-conflicts=("python-azure-cli")
-source=("install-${pkgver}.py::https://azurecliprod.blob.core.windows.net/install.py"
-        "install.response"
+source=("https://pypi.python.org/packages/cf/07/da0a0f237083176db6abec0419e4ce96168b50c65c2f6d61618aad8e36f5/${pkgname}-${pkgver}.tar.gz"
         "az")
-sha256sums=('7869d3c46992852525b8f9e4c63e34edd2d29cafed9e16fd94d5356665eefdfd'
-            '7c05e9915a52fb72fa8d1c498b173c42457d669351313eaddccf43f86ed0e0ec'
+sha256sums=('1896dc334ea481b6fbd43f2ab04e3f7603f89143b8d1d41d455d1c828bbc0dd1'
             '990f70efec828c1e1f3f57748fc6e40f9705f2223dc96683e8e29d118daac116')
 options=(!strip)
 
-prepare() {
-  rm -rf "$srcdir/azure-cli"
-  grep -v -E '^===>|^$' install.response | python "$srcdir/install-${pkgver}.py"
-  find "$srcdir/azure-cli/bin" -type f -print0 | xargs -0 sed -i -e "s|$srcdir|/opt|g"
-}
-
-pkgver() {
-  # Make sure we have a writable $HOME/.azure directory to run az
-  HOME=$srcdir "$srcdir/bin/az" --version 2> /dev/null | head -1 | tr -c -d 0-9.
+build() {
+  cd "${_pkgname}-${pkgver}"
+  python setup.py build
 }
 
 package() {
-  mkdir "$pkgdir/opt"
-  cp -r azure-cli "$pkgdir/opt"
+  cd "${_pkgname}-${pkgver}"
+  python setup.py install --skip-build --root="${pkgdir}" --prefix=/usr
 
-  mkdir -p "$pkgdir/usr/bin"
   install -Dm755 az "$pkgdir/usr/bin"
-
-  install -Dm644 "$pkgdir/opt/azure-cli/az.completion" \
-    "$pkgdir/etc/bash_completion.d/azure-cli"
 }
