@@ -21,7 +21,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-webui")
 
 pkgver=21.1.2
-pkgrel=4
+pkgrel=5
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -51,17 +51,17 @@ makedepends_armv6h=("${_pinned_dependencies_libmariadbclient[@]}")
 makedepends_armv7h=("${_pinned_dependencies_libmariadbclient[@]}")
 makedepends_aarch64=(ceph "${_pinned_dependencies_libmariadbclient[@]}")
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/$pkgbase/$pkgbase/archive/Release/$pkgver.tar.gz"
-'delete-bugs.patch'
+'ce3339d28623b8bb771e5e0aa139168df5963c4b.patch'
 'xattr.patch'
 'check-if-bareos-backup-is-running')
 sha512sums=('acdc787ff828add93c81b2b7d293dec90f2aa22aa3aee3002662bd30e88dc0dc58b753bb63ca7c111fac6c7eeea888938236c1169f92ed6cec27941036c7b6b1'
-            'ee87bd6ae51586882c72ac1bc6088231c95dbd82ccc447d67cd4d97847f5da771f01bf0878681292234a77218786c34644b3ed958b8d6a5c17af2ec168d1b457'
+            '9c5b3ff610d50d0aef5de8ca0f2ed49bb72817a5a044013b87762139b048382b9a0949129ecf1788443363ef1dd4e70e773c985490dda1fae12212a4170da5aa'
             'c535f89866816669208d56e21ffb13f70aa962e578847bc7bcc76a3e8ad54b252c8e09b745b500064d6f02cb5497cb81b62dd1c156d2e907c393aaa091aa5f0e'
             '0235763891f368c13931f0fc43e3ae2d7ec796b7ef35896b6b9c048345d539308abe4a9bafda4e95221a89231d2f373ac3cfc2098d572d4068a1c068d27452f6')
 
 prepare() {
   cd $pkgbase-Release-$pkgver
-  patch -p1 -i ../delete-bugs.patch
+  patch -p1 -i ../ce3339d28623b8bb771e5e0aa139168df5963c4b.patch
   patch -p1 -i ../xattr.patch
 }
 
