@@ -4,7 +4,7 @@
 
 pkgname=albert
 pkgver=0.17.2
-pkgrel=29
+pkgrel=30
 pkgdesc="A sophisticated standalone keyboard launcher"
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 url="https://github.com/albertlauncher"
@@ -15,11 +15,11 @@ _pinned_dependencies=(
   'libx11=1.8'
   'muparser=2.3.3'
   'python=3.10.4'
-  'qt5-base=5.15.3+kde+r145'
-  'qt5-charts=5.15.3+kde+r0'
-  'qt5-declarative=5.15.3+kde+r20'
-  'qt5-svg=5.15.3+kde+r12'
-  'qt5-x11extras=5.15.3+kde+r0'
+  'qt5-base=5.15.4+kde+r135'
+  'qt5-charts=5.15.4+kde+r0'
+  'qt5-declarative=5.15.4+kde+r17'
+  'qt5-svg=5.15.4+kde+r10'
+  'qt5-x11extras=5.15.4+kde+r0'
 )
 depends=('qt5-graphicaleffects' 'qt5-quickcontrols' "${_pinned_dependencies[@]}")
 makedepends=('cmake' 'git' 'muparser' 'python' 'qt5-declarative' 'virtualbox' 'virtualbox-sdk')
