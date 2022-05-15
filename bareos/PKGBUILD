@@ -51,14 +51,17 @@ makedepends_armv6h=("${_pinned_dependencies_libmariadbclient[@]}")
 makedepends_armv7h=("${_pinned_dependencies_libmariadbclient[@]}")
 makedepends_aarch64=(ceph "${_pinned_dependencies_libmariadbclient[@]}")
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/$pkgbase/$pkgbase/archive/Release/$pkgver.tar.gz"
+'delete-bugs.patch'
 'xattr.patch'
 'check-if-bareos-backup-is-running')
 sha512sums=('acdc787ff828add93c81b2b7d293dec90f2aa22aa3aee3002662bd30e88dc0dc58b753bb63ca7c111fac6c7eeea888938236c1169f92ed6cec27941036c7b6b1'
+            'ee87bd6ae51586882c72ac1bc6088231c95dbd82ccc447d67cd4d97847f5da771f01bf0878681292234a77218786c34644b3ed958b8d6a5c17af2ec168d1b457'
             'c535f89866816669208d56e21ffb13f70aa962e578847bc7bcc76a3e8ad54b252c8e09b745b500064d6f02cb5497cb81b62dd1c156d2e907c393aaa091aa5f0e'
             '0235763891f368c13931f0fc43e3ae2d7ec796b7ef35896b6b9c048345d539308abe4a9bafda4e95221a89231d2f373ac3cfc2098d572d4068a1c068d27452f6')
 
 prepare() {
   cd $pkgbase-Release-$pkgver
+  patch -p1 -i ../delete-bugs.patch
   patch -p1 -i ../xattr.patch
 }
 
