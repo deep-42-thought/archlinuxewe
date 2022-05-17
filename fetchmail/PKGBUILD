@@ -1,8 +1,8 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 
 pkgname=fetchmail
-pkgver=6.4.29
-pkgrel=2
+pkgver=6.4.30
+pkgrel=1
 pkgdesc="A remote-mail retrieval utility"
 arch=('i486' 'i686' 'pentium4' 'x86_64')
 url="http://www.fetchmail.info"
@@ -18,7 +18,7 @@ optdepends=('tk: for using fetchmailconf'
 options=('!makeflags')
 source=("https://sourceforge.net/projects/fetchmail/files/branch_${pkgver%.*}/${pkgname}-${pkgver}.tar.xz"
         'disable-sslv3.patch' 'fetchmail.tmpfiles' 'fetchmail.sysusers' 'fetchmail.service')
-sha512sums=('3fd2e34c1c45186c1261f5732cb5f907003bf9b9b3272d36a6ec43f5c64c4edf00724f71a0dc5629658a87653bf7b8cd2e19fd7ec4f9336e381caebcc0f80088'
+sha512sums=('0ec540c4102267e6e72fefa5e76aa76f45d25a0e68ec40f1fd834719f2a4b5f3f78c587b050fc33d97dd8fc6f674950949e5c23f960ebcd3046d5cc2e06db1d0'
             '1425f3655c8fe7c6ca32b6fc876fd7f0ecfb24a86f63d9ee123fe710ebbdd8fbf5b5ef0f1831cd9702de56cc707a2361a427cf2ed840b63a39beda71a18dfba3'
             'f6e3eb409a1d88bcfb02012491fdbbf859803dbee45998879525fd35a2377bae95504da8aafcb24bcc2e695e15c96f6ec6f7e6521d28012370a4ec5e2a25a351'
             'c1169c54b70be53e3093d65a2d0f1e251fadf24a8008484583d79dd3cedea13782137c0db5f9052b2d02fdbd6bd0fdcb78c6403fe39926ac636b45a44d452b29'
