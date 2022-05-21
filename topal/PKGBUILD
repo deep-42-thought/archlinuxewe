@@ -11,6 +11,8 @@ url="https://zircon.org.uk/topal/rel-${pkgver}/"
 license=("GPL3")
 makedepends=("gcc-ada" "make" "lynx")
 _pinned_dependencies=(
+  'glibc>=2.35'
+  'libreadline.so=8'
 )
 depends=("${_pinned_dependencies[@]}" procmail)
 optdepends=("alpine: for which topal was mainly written for"
