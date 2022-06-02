@@ -4,7 +4,7 @@
 
 pkgname=teams-for-linux
 pkgver=1.0.24
-pkgrel=31
+pkgrel=32
 pkgdesc="Unofficial Microsoft Teams client for Linux using Electron."
 arch=("aarch64" "armv7h" "i686" "x86_64")
 url="https://github.com/IsmaelMartinez/${pkgname}"
@@ -36,8 +36,8 @@ _pinned_dependencies=(
   'libxkbcommon.so=0'
   'libxrandr=1.5.2'
   'mesa=22.1.0'
-  'nspr=4.33'
-  'nss=3.78'
+  'nspr=4.34'
+  'nss=3.79'
 )
 depends=("gtk3" "libxss" "${_pinned_dependencies[@]}")
 makedepends=('nodejs-lts-fermium' "node-gyp" "python2" "yarn")
