@@ -4,7 +4,7 @@
 
 pkgname='perl-moose'
 pkgver=2.2201
-pkgrel=1
+pkgrel=2
 pkgdesc="A postmodern object system for Perl 5"
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -450,9 +450,9 @@ provides=(
   'perl-oose=2.2201'
   'perl-test-moose=2.2201')
 depends=(
-  "${_pinned_dependencies[@]}"
   'perl>=5.34'
   'perl<5.35'
+  "${_pinned_dependencies[@]}"
   'perl-carp>=1.22'
   'perl-class-load>=0.09'
   'perl-class-load-xs>=0.01'

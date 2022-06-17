@@ -3,12 +3,14 @@
 
 pkgname='perl-file-treecreate'
 pkgver='0.0.1'
-pkgrel='1'
+pkgrel=2
 pkgdesc='recursively create a directory tree.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
+  'perl>=5.34'
+  'perl<5.35'
   'perl-autodie'
   'perl-carp'
   'perl-pathtools'
