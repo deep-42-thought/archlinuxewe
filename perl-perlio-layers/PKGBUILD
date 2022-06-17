@@ -2,7 +2,7 @@
 pkgname=perl-perlio-layers
 _pkgname='PerlIO-Layers'
 pkgver=0.012
-pkgrel=5
+pkgrel=6
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Querying your filehandle's capabilities"
 arch=('x86_64' 'i686' 'pentium4')
@@ -16,8 +16,8 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   "${_pinned_dependencies[@]}"
   'perl-carp'
   'perl-exporter>=5.57'

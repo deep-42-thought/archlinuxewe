@@ -5,7 +5,7 @@ pkgname=perl-wx
 pkgver=0.9932
 _author=M/MD/MDOOTSON
 _perlmod=Wx
-pkgrel=15
+pkgrel=16
 _distdir="${_perlmod}-${pkgver}"
 pkgdesc="Wx - interface to the wxWidgets GUI toolkit"
 arch=('i686' 'pentium4' 'x86_64')
@@ -18,8 +18,8 @@ _pinned_dependencies=(
   'wxgtk-common=3.0.5.1'
 )
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   "${_pinned_dependencies[@]}"
   'perl-alien-wxwidgets>=0.25')
 makedepends=(

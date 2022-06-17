@@ -3,7 +3,7 @@
 
 pkgname='perl-convert-bencode_xs'
 pkgver='0.06'
-pkgrel=11
+pkgrel=12
 pkgdesc='Faster conversions to/from Bencode format'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -12,8 +12,8 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   "${_pinned_dependencies[@]}"
   'perl-test-simple')
 checkdepends=('perl-convert-bencode')

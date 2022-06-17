@@ -3,7 +3,7 @@
 
 pkgname='perl-time-moment'
 pkgver=0.44
-pkgrel=8
+pkgrel=9
 pkgdesc='Represents a date and time of day with an offset from UTC'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -12,8 +12,8 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   "${_pinned_dependencies[@]}"
   'perl-carp'
   'perl-time-hires'

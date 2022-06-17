@@ -4,15 +4,15 @@
 pkgname=perl-syntax-highlight-perl
 _perlmod=Syntax-Highlight-Perl
 pkgver=1.0
-pkgrel=13
+pkgrel=14
 _distdir="${_perlmod}-${pkgver}"
 pkgdesc="Syntax-Highlight-Perl perl module (highlighting of Perl Syntactical Structures)"
 arch=("any")
 url="http://search.cpan.org/~johnsca/Syntax-Highlight-Perl/"
 license=("GPL" "Artistic")
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
 )
 source=(http://search.cpan.org/CPAN/authors/id/J/JO/JOHNSCA/${_distdir}.tar.gz)
 sha512sums=('be1959493fb563137095e0b151fa56fe2192d1c4bf52e2ef32d6d2310b821a905e675a443e4cfb83da7d0dfa4cc267ac087d49d0ee807a07413cf839621ebe8b')

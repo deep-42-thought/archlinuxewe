@@ -3,7 +3,7 @@
 
 pkgname='perl-selenium-remote-driver'
 pkgver='1.20'
-pkgrel=20
+pkgrel=21
 pkgdesc='Perl Client for Selenium Remote Driver'
 arch=('x86_64' 'i686' 'pentium4')
 license=('PerlArtistic' 'GPL')
@@ -28,8 +28,8 @@ _pinned_dependencies=(
   'libpangoft2-1.0.so=0'
 )
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   "${_pinned_dependencies[@]}"
   'perl-archive-zip'
   'perl-base'

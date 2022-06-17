@@ -2,15 +2,15 @@
 
 pkgname='perl-starlink-ast'
 pkgver='1.05'
-pkgrel=11
+pkgrel=12
 pkgdesc='Interface to the Starlink AST library'
 arch=('i686' 'pentium4' 'x86_64')
 _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   "${_pinned_dependencies[@]}"
 )
 license=('PerlArtistic' 'GPL')

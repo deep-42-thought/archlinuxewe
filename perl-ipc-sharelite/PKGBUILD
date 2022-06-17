@@ -2,7 +2,7 @@
 
 pkgname='perl-ipc-sharelite'
 pkgver='0.17'
-pkgrel=11
+pkgrel=12
 pkgdesc='Lightweight interface to shared memory'
 arch=('i686' 'pentium4' 'x86_64')
 license=('PerlArtistic' 'GPL')
@@ -11,8 +11,8 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   "${_pinned_dependencies[@]}"
   'perl-pathtools'
   'perl-test-simple')

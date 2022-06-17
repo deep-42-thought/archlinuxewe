@@ -2,7 +2,7 @@
 pkgname=perl-file-map
 _pkgname='File-Map'
 pkgver=0.67
-pkgrel=4
+pkgrel=5
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="Memory mapping made simple and safe."
 arch=('x86_64' 'i686' 'pentium4')
@@ -20,8 +20,8 @@ makedepends=(
   'perl-test-warnings>=0.005'
   'perl-time-hires')
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   "${_pinned_dependencies[@]}"
   'perl-carp'
   'perl-perlio-layers'

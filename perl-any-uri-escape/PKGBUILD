@@ -2,14 +2,14 @@
 
 pkgname='perl-any-uri-escape'
 pkgver='0.01'
-pkgrel=10
+pkgrel=11
 pkgdesc='Load URI::Escape::XS preferentially over URI::Escape'
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   'perl-uri-escape')
 makedepends=(
   'perl-extutils-makemaker')

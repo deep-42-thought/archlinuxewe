@@ -4,7 +4,7 @@
 # Contributor: Manolis Tzanidakis
 pkgname=spamassassin-courier
 pkgver=3.4.6
-pkgrel=10
+pkgrel=11
 pkgdesc="A mail filter to identify spam - patched for courier-mta."
 arch=('i686' 'pentium4' 'x86_64')
 license=('APACHE' 'GPL2')
@@ -15,8 +15,8 @@ _pinned_dependencies=(
   'zlib=1:1.2.12'
 )
 depends=("${_pinned_dependencies[@]}" 're2c' 'perl-net-dns' 'perl-io-socket-ssl'
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
          'perl-libwww' 'perl-mail-spf' 'perl-http-message' 'perl-net-http'
          'perl-io-socket-inet6' 'perl-mail-dkim' 'perl-crypt-ssleay')
 makedepends=('razor' 'perl-dbi')

@@ -2,7 +2,7 @@
 
 pkgname='perl-astro-fits-cfitsio'
 pkgver=1.15
-pkgrel=5
+pkgrel=6
 pkgdesc='Perl extension for using the cfitsio library'
 arch=('i686' 'pentium4' 'x86_64')
 license=('PerlArtistic' 'GPL')
@@ -14,8 +14,8 @@ _pinned_dependencies=(
 makedepends=(
   'perl-extutils-makemaker')
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   "${_pinned_dependencies[@]}"
 )
 url='https://metacpan.org/pod/Astro::FITS::CFITSIO'

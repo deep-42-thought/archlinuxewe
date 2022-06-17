@@ -6,7 +6,7 @@
 
 pkgname=perl-module-refresh
 pkgver=0.17
-pkgrel=10
+pkgrel=11
 _distdir="Module-Refresh-${pkgver}"
 pkgdesc="Perl module to refresh %INC files when updated on disk"
 arch=("any")
@@ -14,8 +14,8 @@ license=("GPL" "PerlArtistic")
 url="http://search.cpan.org/dist/Module-Refresh"
 options=(!emptydirs)
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   'perl>=5.8.1')
 makedepends=(
   'perl-extutils-makemaker>=6.42'

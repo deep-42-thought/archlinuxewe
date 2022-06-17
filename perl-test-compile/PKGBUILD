@@ -3,7 +3,7 @@
 
 pkgname='perl-test-compile'
 pkgver=3.0.1
-pkgrel=2
+pkgrel=3
 pkgdesc='Check whether Perl files compile correctly.'
 arch=('any')
 license=('PerlArtistic' 'GPL')
@@ -11,8 +11,8 @@ options=('!emptydirs')
 provides=(
   'perl-test-compile-internal=3.0.1')
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   'perl-exporter>=5.68'
   'perl-parent>=0.225'
   'perl-version')

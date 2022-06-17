@@ -4,7 +4,7 @@
 
 pkgname='perl-devel-cover'
 pkgver=1.36
-pkgrel=5
+pkgrel=6
 pkgdesc='Code coverage metrics for Perl'
 arch=('i686' 'pentium4' 'x86_64')
 license=('PerlArtistic' 'GPL')
@@ -33,8 +33,8 @@ _pinned_dependencies=(
   'glibc>=2.31'
 )
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   "${_pinned_dependencies[@]}"
   'perl-b-debug'
   'perl-digest-md5'

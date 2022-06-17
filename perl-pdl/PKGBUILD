@@ -2,7 +2,7 @@
 pkgname=perl-pdl
 _pkgname='PDL'
 pkgver=2.019
-pkgrel=18
+pkgrel=19
 _distdir="${_pkgname}-${pkgver}"
 pkgdesc="the Perl Data Language"
 arch=('x86_64' 'i686' 'pentium4')
@@ -13,8 +13,8 @@ _pinned_dependencies=(
   'libglvnd=1.4.0'
 )
 depends=(
-  'perl>=5.34'
-  'perl<5.35'
+  'perl>=5.36'
+  'perl<5.37'
   "${_pinned_dependencies[@]}"
   'hdf4'
   'perl-astro-fits-header'
