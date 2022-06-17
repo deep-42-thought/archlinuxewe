@@ -4,10 +4,14 @@ me="$(readlink -f $0)"
 cd $(dirname "${me}")
 
 perlMinor=$(
-  pacman -Q perl | \
-    sed '
-      s/^\S\+ //
-    '
+  bsdtar -tf /var/lib/pacman/sync/core.db \
+  | sed -n '
+    s@^perl-@@
+    T
+    s@-[0-9]\+/desc$@@
+    T
+    /^[0-9.]\+$/p
+  '
 )
 perlMajor="${perlMinor%%.*}"
 perlMinor="${perlMinor#${perlMajor}.}"
