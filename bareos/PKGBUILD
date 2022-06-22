@@ -21,7 +21,7 @@ pkgname=("${pkgbase}-common"
          "${pkgbase}-webui")
 
 pkgver=21.1.2
-pkgrel=5
+pkgrel=6
 arch=(x86_64 i486 i686 pentium4 armv6h armv7h aarch64)
 groups=('bareos')
 pkgdesc="Bareos - Backup Archiving REcovery Open Sourced"
@@ -36,7 +36,7 @@ _pinned_dependencies=(
   'libpq.so=5'
   'libreadline.so=8'
   'lzo=2.10'
-  'openssl=1.1.1.o'
+  'openssl=1.1.1.p'
   'python2=2.7.18'
   'zlib=1:1.2.12'
 )
@@ -146,7 +146,7 @@ package_bareos-common() {
     'jansson=2.14'
     'libacl.so=1'
     'lzo=2.10'
-    'openssl=1.1.1.o'
+    'openssl=1.1.1.p'
     'zlib=1:1.2.12'
   )
   depends=('bash' "${_pinned_dependencies[@]}")
@@ -278,7 +278,7 @@ package_bareos-database-tools() {
     'gcc-libs=12.1.0'
     'glibc>=2.31'
     'jansson=2.14'
-    'openssl=1.1.1.o'
+    'openssl=1.1.1.p'
   )
   depends=("bareos-common=$pkgver" "bareos-database-common=$pkgver" "${_pinned_dependencies[@]}")
 
@@ -307,7 +307,7 @@ package_bareos-director() {
     'glibc>=2.31'
     'jansson=2.14'
     'libpam.so=0'
-    'openssl=1.1.1.o'
+    'openssl=1.1.1.p'
   )
   depends=("bareos-common=$pkgver" "bareos-database=$pkgver" "bareos-database-common=$pkgver" 'bash' "${_pinned_dependencies[@]}")
   install=bareos-director.install
