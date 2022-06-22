@@ -1,7 +1,7 @@
 # Maintainer: Erich Eckner <arch at eckner dot net>
 pkgname=pkixssh
 pkgver=13.2.3
-pkgrel=6
+pkgrel=7
 pkgdesc='secure shell with X.509 v3 certificate support'
 arch=('armv6h' 'armv7h' 'aarch64' 'i486' 'i686' 'pentium4' 'x86_64')
 url='https://roumenpetrov.info/secsh/index.html'
@@ -10,7 +10,7 @@ groups=()
 _pinned_dependencies=(
   'glibc>=2.33'
   'libcrypt.so=2'
-  'openssl=1.1.1.o'
+  'openssl=1.1.1.p'
   'zlib=1:1.2.12'
 )
 depends=(openssl zlib ldns "${_pinned_dependencies[@]}")
